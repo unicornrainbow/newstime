@@ -1,6 +1,13 @@
-<h1>Notes</h1>
+<style>
+  .note {
+    border-bottom: 1px solid #efefef;
+    padding: 2pt;
+    margin: 1em auto;
+    width: 600pt;
+  }
+</style>
 <% @notes.each do |note| %>
   <div class="note">
-    Note
+    <%= raw(note[:html]) %>
   </div>
 <% end %>
