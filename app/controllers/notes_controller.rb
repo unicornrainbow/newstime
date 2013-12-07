@@ -1,7 +1,8 @@
 class NotesController < ApplicationController
 
   def index
-    date = Date.parse('2013/12/7')
+    date = Date.today - params[:days_ago].to_i.days
+    #date = Date.parse('2013/12/7')
 
     # Normalize date
     today_path = "#{NOTES_ROOT}/entries/#{date.strftime("%Y/%m/%d")}"
