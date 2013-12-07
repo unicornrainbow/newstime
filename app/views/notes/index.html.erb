@@ -13,6 +13,7 @@
 </style>
 <% @notes.each do |note| %>
   <div class="note">
+    <h2><%= note[:name] %></h2>
     <%= raw(note[:html]) %>
   </div>
 <% end %>
