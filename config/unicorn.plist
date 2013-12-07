@@ -4,15 +4,16 @@
 <plist version="1.0">
   <dict>
     <key>Label</key>
-    <string>notebox_web_unicorn</string>
+    <string>unicorn.noteboxweb</string>
+    <key>RunAtLoad</key>
+    <true/>
     <key>ProgramArguments</key>
     <array>
-      <string>sh</string>
+      <string>zsh</string>
       <string>-c</string>
-      <string>/Users/blakefrost/projects/notebox_web/script/start_unicorn</string>
+      <string>/Users/blake/projects/notebox_web/script/start_unicorn</string>
     </array>
-    <key>KeepAlive</key><true/>
-    <key>StandardErrorPath</key><string>/var/log/unicorn/unicorn.stderr.log</string>
-    <key>LaunchOnlyOnce</key><true/>
+    <key>WorkingDirectory</key>
+    <string>/Users/blake/projects/notebox_web</string>
   </dict>
 </plist>
