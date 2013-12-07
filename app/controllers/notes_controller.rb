@@ -1,5 +1,9 @@
 class NotesController < ApplicationController
 
+  # Parameters
+  #
+  #   days_ago - Interger value of number of days to go back.
+
   def index
     date = Date.today - params[:days_ago].to_i.days
     #date = Date.parse('2013/12/7')
