@@ -16,7 +16,7 @@
 </style>
 <% @notes.each do |note| %>
   <div class="note">
-    <h2><%= note[:path] %></h2>
+    <h2><%= note[:date_time] %></h2>
     <%= raw(note[:html]) %>
   </div>
 <% end %>

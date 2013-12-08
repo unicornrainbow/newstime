@@ -15,22 +15,31 @@ class NotesController < ApplicationController
     @notes = todays_entries.map { |full_path|
       root_path = "/Users/blake/.notes/entries/"
       path = full_path.match(/#{root_path}(.*)/).try(:captures).first
+      created_at = parse_created_at(path)
 
       markdown = File.read(full_path)
       {
         path: path,
         markdown: markdown,
-        html: $markdown.render(markdown)
+        html: $markdown.render(markdown),
+        date_time: created_at
       }
     }
     @notes.reverse!
   end
 
   def show
-
     date = Date.today - params[:days_ago].to_i.days
 
+  end
 
+private
+
+  def parse_created_at(path)
+    # Parse created at
+    #2013/23/23/23:23:23.txt'
+    date, time = path.match(/(\d{2,4}\/\d{1,2}\/\d{1,2})\/(\d{1,2}\:\d{1,2}\:\d{1,2})/).try(:captures)
+    Time.parse("#{date} #{time}") # Might need some conrrection for timezone.
   end
 
 end
