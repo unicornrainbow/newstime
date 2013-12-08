@@ -17,7 +17,7 @@ class EntriesController < ApplicationController
       created_at = parse_created_at("#{path}.#{ext}")
 
       markdown = File.read(full_path)
-      {
+      attributes = {
         path: path,
         markdown: markdown,
         html: $markdown.render(markdown),
@@ -26,6 +26,7 @@ class EntriesController < ApplicationController
         formatted_time: created_at.strftime('%I:%M %p'),
         formatted_date_time: created_at.strftime('%A, %B %e, %Y, %l:%M %p')
       }
+      OpenStruct.new(attributes)
     }
     @notes.reverse!
   end
@@ -37,7 +38,7 @@ class EntriesController < ApplicationController
 
     created_at = parse_created_at(path)
     markdown = File.read(full_path + '.txt')
-    @entry = {
+    attributes = {
       path: path,
       markdown: markdown,
       html: $markdown.render(markdown),
@@ -46,6 +47,7 @@ class EntriesController < ApplicationController
       formatted_time: created_at.strftime('%I:%M %p'),
       formatted_date_time: created_at.strftime('%A, %B %e, %Y, %l:%M %p')
     }
+    @entry = OpenStruct.new(attributes)
     respond_to do |format|
       format.html
       format.text { render text: markdown }

@@ -1,23 +1,15 @@
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700,300' rel='stylesheet' type='text/css'>
-<style>
-  body {
-    font-family: 'Open Sans';
-  }
-  .note {
-    border-bottom: 1px solid #efefef;
-    padding: 2pt;
-    margin: 1em auto;
-    width: 600pt;
-  }
-  .note img {
-    max-width: 500px;
-    border-radius: 4px;
-  }
-</style>
-<% @notes.each do |note| %>
-  <div class="note">
-    <h2><a href="entries/<%= note[:path] %>"><%= note[:formatted_date_time] %></a></h2>
-    <%= raw(note[:html]) %>
-    <em><%= time_ago_in_words(note[:created_at]) %> ago</em>
-  </div>
-<% end %>
+<%= stylesheet_link_tag 'entries' %>
+<div class="container">
+  <% @notes.each do |note| %>
+    <div class="entry">
+      <h2>
+        <a href="entries/<%= note[:path] %>"><%= note[:formatted_date_time] %></a>
+        <a href="/entries/edit/<%= note.path %>" class="edit">edit</a>
+      </h2>
+      <div class="entry-body">
+        <%= raw(note[:html]) %>
+      </div>
+      <p><em><%= time_ago_in_words(note[:created_at]) %> ago</em></p>
+    </div>
+  <% end %>
+</div>

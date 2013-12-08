@@ -1,0 +1,39 @@
+body {
+  padding-top: 40px;
+}
+.entry {
+  border-bottom: 1px solid #efefef;
+  padding: 2pt;
+  margin: 1em 0;
+  width: 600pt;
+}
+.entry img {
+  max-width: 500px;
+  border-radius: 4px;
+}
+
+.entry .edit {
+  font-size: 12px;
+  opacity: .5;
+  font-weight: normal;
+}
+
+.entry .edit:hover {
+  opacity: 1;
+}
+
+.entry-body {
+  h2 {
+    font-size: 1.7em; /* Need to shrink the headlines a little for visual
+                         balance (Would be great if they were stepped down
+                         some how */
+  }
+}
+
+textarea {
+  width: 589pt;
+  height: 400px; /* Set up auto height */
+  border-width: 1px;
+  box-shadow: none !important; /* disable bootstrap form glow */
+  border-radius: 0 !important;
+}
