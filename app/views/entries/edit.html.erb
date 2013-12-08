@@ -1,10 +1,22 @@
+<script src="/assets/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+
 <div class="container">
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700,300' rel='stylesheet' type='text/css'>
   <%= stylesheet_link_tag 'entries' %>
   <div class="entry clearfix">
     <%= form_tag "/entries/#{@entry.path}", role: "form" do %>
       <h2><%= @entry.formatted_date_time %></h2>
       <textarea name="markdown"><%= @entry.markdown %></textarea>
+      <div id="editor"></div>
+      <script>
+        var editor = ace.edit("editor");
+        editor.setKeyboardHandler("ace/keyboard/vim");
+
+        var textarea = $('textarea[name="markdown"]').hide();
+        editor.getSession().setValue(textarea.val());
+        editor.getSession().on('change', function(){
+          textarea.val(editor.getSession().getValue());
+        });
+      </script>
       <br>
       <br>
       <a href="javascript:history.back();">Cancel</a>

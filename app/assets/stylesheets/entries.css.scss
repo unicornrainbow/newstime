@@ -26,14 +26,7 @@ body {
   opacity: 1;
 }
 
-textarea {
+#editor {
   width: 595pt;
   height: 400px; /* Set up auto height */
-  border-width: 1px;
-}
-
-#editor {
-  position: absolute;
-  width: 500px;
-  height: 400px;
 }
