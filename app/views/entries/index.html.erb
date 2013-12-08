@@ -3,10 +3,10 @@
 <div class="container">
   <% @notes.each do |note| %>
     <div class="entry entry-list">
-      <h2>
+      <h4>
         <a href="entries/<%= note[:path] %>"><%= note[:formatted_date_time] %></a>
         <a href="/entries/edit/<%= note.path %>" class="edit">edit</a>
-      </h2>
+      </h4>
       <div class="entry-body">
         <%= raw(note[:html]) %>
       </div>
