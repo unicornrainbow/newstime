@@ -16,7 +16,8 @@
 </style>
 <% @notes.each do |note| %>
   <div class="note">
-    <h2><%= note[:date_time] %></h2>
+    <h2><%= note[:formatted_date_time] %></h2>
     <%= raw(note[:html]) %>
+    <em><%= time_ago_in_words(note[:created_at]) %> ago</em>
   </div>
 <% end %>

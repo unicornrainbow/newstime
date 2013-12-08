@@ -22,7 +22,11 @@ class NotesController < ApplicationController
         path: path,
         markdown: markdown,
         html: $markdown.render(markdown),
-        date_time: created_at
+        created_at: created_at,
+        formatted_date: created_at.strftime('%A, %B %e %Y'),
+        formatted_time: created_at.strftime('%I:%M %p'),
+        formatted_date_time: created_at.strftime('%A, %B %e, %Y, %l:%M %p')
+
       }
     }
     @notes.reverse!
