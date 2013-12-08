@@ -4,19 +4,34 @@ class EntriesController < ApplicationController
   #
   #   days_ago - Interger value of number of days to go back.
   def index
+    topic = params[:topic]
     date = Date.today - params[:days_ago].to_i.days
     #date = Date.parse('2013/12/7')
 
     # Normalize date
-    today_path = "#{NOTES_ROOT}/entries/#{date.strftime("%Y/%m/%d")}"
+
+    root_path = "#{NOTES_ROOT}/entries/"
+
+    if topic
+      # TODO: Watch out for use passing in a relative path that can get out of
+      # the directory. I'll have to look into this more.
+      root_path = "#{NOTES_ROOT}/#{topic}/entries/"
+    end
+
+    today_path = "#{root_path}/#{date.strftime("%Y/%m/%d")}"
     todays_entries = Dir["#{today_path}/*.txt"]
 
-    root_path = "/Users/blake/.notes/entries/"
     @entries = todays_entries.map { |full_path|
       path, ext = full_path.match(/#{root_path}(.*)\.(txt)$/).try(:captures)
       created_at = parse_created_at("#{path}.#{ext}")
 
       markdown = File.read(full_path)
+      front_matter, _markdown = markdown.match(/---((.|\n)*)---((.|\n)*)/).try(:captures)
+      if front_matter
+        front_matter = YAML.load(front_matter)
+        markdown = markdown.gsub(/---(.|\n)*---/, '') # Strip front matter
+      end
+
       attributes = {
         path: path,
         markdown: markdown,
@@ -37,7 +52,14 @@ class EntriesController < ApplicationController
     full_path = root_path + path
 
     created_at = parse_created_at(path)
+
     markdown = File.read(full_path + '.txt')
+    front_matter, _markdown = markdown.match(/---((.|\n)*)---((.|\n)*)/).try(:captures)
+    if front_matter
+      front_matter = YAML.load(front_matter)
+      markdown = markdown.gsub(/---(.|\n)*---/, '') # Strip front matter
+    end
+
     attributes = {
       path: path,
       markdown: markdown,

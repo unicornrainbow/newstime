@@ -31,6 +31,7 @@ gem 'jbuilder', '~> 1.2'
 
 gem 'dotenv-rails', group: [:test, :development, :production]
 gem "redcarpet"
+gem "front-matter", "~> 1.2.1"
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -47,4 +48,4 @@ gem 'unicorn'
 # gem 'capistrano', group: :development
 
 # Use debugger
-# gem 'debugger', group: [:development, :test]
+gem 'debugger', group: [:development, :test]
