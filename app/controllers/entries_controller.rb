@@ -55,12 +55,11 @@ class EntriesController < ApplicationController
   def edit
     root_path = "/Users/blake/.notes/entries/"
     path = params[:path]
-    path += '.txt' unless path =~ /\.txt$/
     full_path = root_path + path
 
     created_at = parse_created_at(path)
-    markdown = File.read(full_path)
-    @entry = {
+    markdown = File.read(full_path + '.txt')
+    attributes = {
       path: path,
       markdown: markdown,
       html: $markdown.render(markdown),
@@ -69,6 +68,11 @@ class EntriesController < ApplicationController
       formatted_time: created_at.strftime('%I:%M %p'),
       formatted_date_time: created_at.strftime('%A, %B %e, %Y, %l:%M %p')
     }
+    @entry = OpenStruct.new(attributes)
+  end
+
+  def update
+    render text: 'hold tight'
   end
 
 private

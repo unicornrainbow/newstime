@@ -14,13 +14,18 @@
   }
   textarea {
     width: 589pt;
-    height: 200px;
+    height: 400px; /* Set up auto height */
+    border-width: 1px;
+    box-shadow: none !important; /* disable bootstrap form glow */
+    border-radius: 0 !important;
   }
 </style>
 <div class="entry">
-  <h2><%= @entry[:formatted_date_time] %></h2>
-  <textarea><%= raw(@entry[:markdown]) %></textarea>
-  <br>
-  <a href="javascript:history.back();">Cancel</a>
-  <input class="btn btn-primary pull-right" type="submit" value="Save Changes"></input>
+  <%= form_tag "/entries/#{@entry.path}" do %>
+    <h2><%= @entry.formatted_date_time %></h2>
+    <textarea name=""><%= @entry.markdown %></textarea>
+    <br>
+    <a href="javascript:history.back();">Cancel</a>
+    <input class="btn btn-primary pull-right" type="submit" value="Save Changes"></input>
+  <% end %>
 </div>
