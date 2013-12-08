@@ -60,6 +60,8 @@ class EntriesController < ApplicationController
       markdown = markdown.gsub(/---(.|\n)*---/, '') # Strip front matter
     end
 
+    tags = front_matter[:tags]
+
     attributes = {
       path: path,
       markdown: markdown,
@@ -67,7 +69,8 @@ class EntriesController < ApplicationController
       created_at: created_at,
       formatted_date: created_at.strftime('%A, %B %e %Y'),
       formatted_time: created_at.strftime('%I:%M %p'),
-      formatted_date_time: created_at.strftime('%A, %B %e, %Y, %l:%M %p')
+      formatted_date_time: created_at.strftime('%A, %B %e, %Y, %l:%M %p'),
+      tags: tags
     }
     @entry = OpenStruct.new(attributes)
     respond_to do |format|
@@ -96,7 +99,31 @@ class EntriesController < ApplicationController
   end
 
   def update
-    render text: 'hold tight'
+    root_path = "/Users/blake/.notes/entries/"
+    path = params[:path]
+    full_path = root_path + path
+    created_at = parse_created_at(path)
+
+    markdown = params[:markdown]
+
+    File.write(full_path + '.txt', markdown)
+
+    redirect_to "/entries/" + path
+
+    #root_path = "/Users/blake/.notes/entries/"
+    #path = params[:path]
+    #full_path = root_path + path
+
+    #created_at = parse_created_at(path)
+
+    #markdown = File.read(full_path + '.txt')
+
+    #tags = front_matter[:tags]
+
+
+    ## Open the file for writing, and save.
+
+    #render text: 'hold tight'
   end
 
 private

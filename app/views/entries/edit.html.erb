@@ -4,7 +4,7 @@
   <div class="entry clearfix">
     <%= form_tag "/entries/#{@entry.path}", role: "form" do %>
       <h2><%= @entry.formatted_date_time %></h2>
-      <textarea name=""><%= @entry.markdown %></textarea>
+      <textarea name="markdown"><%= @entry.markdown %></textarea>
       <br>
       <br>
       <a href="javascript:history.back();">Cancel</a>
