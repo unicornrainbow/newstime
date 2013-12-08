@@ -15,7 +15,8 @@
         editor.getSession().setValue(textarea.val());
         editor.getSession().on('change', function(){
           textarea.val(editor.getSession().getValue());
-        });
+          });
+        editor.focus();
       </script>
       <br>
       <br>
