@@ -33,6 +33,28 @@ class EntriesController < ApplicationController
   def show
     root_path = "/Users/blake/.notes/entries/"
     path = params[:path]
+    full_path = root_path + path
+
+    created_at = parse_created_at(path)
+    markdown = File.read(full_path + '.txt')
+    @entry = {
+      path: path,
+      markdown: markdown,
+      html: $markdown.render(markdown),
+      created_at: created_at,
+      formatted_date: created_at.strftime('%A, %B %e %Y'),
+      formatted_time: created_at.strftime('%I:%M %p'),
+      formatted_date_time: created_at.strftime('%A, %B %e, %Y, %l:%M %p')
+    }
+    respond_to do |format|
+      format.html
+      format.text { render text: markdown }
+    end
+  end
+
+  def edit
+    root_path = "/Users/blake/.notes/entries/"
+    path = params[:path]
     path += '.txt' unless path =~ /\.txt$/
     full_path = root_path + path
 
@@ -47,10 +69,6 @@ class EntriesController < ApplicationController
       formatted_time: created_at.strftime('%I:%M %p'),
       formatted_date_time: created_at.strftime('%A, %B %e, %Y, %l:%M %p')
     }
-    respond_to do |format|
-      format.html
-      format.text { render text: markdown }
-    end
   end
 
 private

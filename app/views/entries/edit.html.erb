@@ -12,11 +12,15 @@
     max-width: 500px;
     border-radius: 4px;
   }
+  textarea {
+    width: 589pt;
+    height: 200px;
+  }
 </style>
 <div class="entry">
   <h2><%= @entry[:formatted_date_time] %></h2>
-  <%= raw(@entry[:html]) %>
-  <em><%= time_ago_in_words(@entry[:created_at]) %> ago</em>
+  <textarea><%= raw(@entry[:markdown]) %></textarea>
   <br>
-  <a href="/entries/edit/<%= @entry[:path] %>">edit</a>
+  <a href="javascript:history.back();">Cancel</a>
+  <input class="btn btn-primary pull-right" type="submit" value="Save Changes"></input>
 </div>
