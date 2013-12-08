@@ -1,9 +1,8 @@
-class NotesController < ApplicationController
+class EntriesController < ApplicationController
 
   # Parameters
   #
   #   days_ago - Interger value of number of days to go back.
-
   def index
     date = Date.today - params[:days_ago].to_i.days
     #date = Date.parse('2013/12/7')
@@ -12,8 +11,8 @@ class NotesController < ApplicationController
     today_path = "#{NOTES_ROOT}/entries/#{date.strftime("%Y/%m/%d")}"
     todays_entries = Dir["#{today_path}/*.txt"]
 
+    root_path = "/Users/blake/.notes/entries/"
     @notes = todays_entries.map { |full_path|
-      root_path = "/Users/blake/.notes/entries/"
       path = full_path.match(/#{root_path}(.*)/).try(:captures).first
       created_at = parse_created_at(path)
 
@@ -26,15 +25,32 @@ class NotesController < ApplicationController
         formatted_date: created_at.strftime('%A, %B %e %Y'),
         formatted_time: created_at.strftime('%I:%M %p'),
         formatted_date_time: created_at.strftime('%A, %B %e, %Y, %l:%M %p')
-
       }
     }
     @notes.reverse!
   end
 
   def show
-    date = Date.today - params[:days_ago].to_i.days
+    root_path = "/Users/blake/.notes/entries/"
+    path = params[:path]
+    path += '.txt' unless path =~ /\.txt$/
+    full_path = root_path + path
 
+    created_at = parse_created_at(path)
+    markdown = File.read(full_path)
+    @entry = {
+      path: path,
+      markdown: markdown,
+      html: $markdown.render(markdown),
+      created_at: created_at,
+      formatted_date: created_at.strftime('%A, %B %e %Y'),
+      formatted_time: created_at.strftime('%I:%M %p'),
+      formatted_date_time: created_at.strftime('%A, %B %e, %Y, %l:%M %p')
+    }
+    respond_to do |format|
+      format.html
+      format.text { render text: markdown }
+    end
   end
 
 private

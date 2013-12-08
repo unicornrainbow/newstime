@@ -1,6 +1,8 @@
 NoteboxWeb::Application.routes.draw do
 
-  root to: 'notes#index'
+  root to: 'entries#index'
+  get 'entries/*path' => 'entries#show'
+
 
 
   # The priority is based upon order of creation: first created -> highest priority.
