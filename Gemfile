@@ -43,6 +43,7 @@ end
 
 # Use unicorn as the app server
 gem 'unicorn'
+gem 'better_errors'
 
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development
