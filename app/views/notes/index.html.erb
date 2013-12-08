@@ -1,10 +1,13 @@
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700,300' rel='stylesheet' type='text/css'>
 <style>
+  body {
+    font-family: 'Open Sans';
+  }
   .note {
     border-bottom: 1px solid #efefef;
     padding: 2pt;
     margin: 1em auto;
     width: 600pt;
-
   }
   .note img {
     max-width: 500px;
@@ -13,7 +16,7 @@
 </style>
 <% @notes.each do |note| %>
   <div class="note">
-    <h2><%= note[:name] %></h2>
+    <h2><%= note[:path] %></h2>
     <%= raw(note[:html]) %>
   </div>
 <% end %>

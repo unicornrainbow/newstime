@@ -12,13 +12,13 @@ class NotesController < ApplicationController
     today_path = "#{NOTES_ROOT}/entries/#{date.strftime("%Y/%m/%d")}"
     todays_entries = Dir["#{today_path}/*.txt"]
 
-    @notes = todays_entries.map { |path|
+    @notes = todays_entries.map { |full_path|
       root_path = "/Users/blake/.notes/entries/"
-      web_path = path.match(/#{root_path}(.*)/).try(:captures).first
+      path = full_path.match(/#{root_path}(.*)/).try(:captures).first
 
-      markdown = File.read(path)
+      markdown = File.read(full_path)
       {
-        name: web_path,
+        path: path,
         markdown: markdown,
         html: $markdown.render(markdown)
       }
