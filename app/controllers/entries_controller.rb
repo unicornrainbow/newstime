@@ -12,7 +12,7 @@ class EntriesController < ApplicationController
     todays_entries = Dir["#{today_path}/*.txt"]
 
     root_path = "/Users/blake/.notes/entries/"
-    @notes = todays_entries.map { |full_path|
+    @entries = todays_entries.map { |full_path|
       path, ext = full_path.match(/#{root_path}(.*)\.(txt)$/).try(:captures)
       created_at = parse_created_at("#{path}.#{ext}")
 
@@ -28,7 +28,7 @@ class EntriesController < ApplicationController
       }
       OpenStruct.new(attributes)
     }
-    @notes.reverse!
+    @entries.reverse!
   end
 
   def show
