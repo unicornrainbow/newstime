@@ -13,8 +13,8 @@ class EntriesController < ApplicationController
 
     root_path = "/Users/blake/.notes/entries/"
     @notes = todays_entries.map { |full_path|
-      path = full_path.match(/#{root_path}(.*)/).try(:captures).first
-      created_at = parse_created_at(path)
+      path, ext = full_path.match(/#{root_path}(.*)\.(txt)$/).try(:captures)
+      created_at = parse_created_at("#{path}.#{ext}")
 
       markdown = File.read(full_path)
       {
