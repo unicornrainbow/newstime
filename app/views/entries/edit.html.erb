@@ -1,11 +1,17 @@
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700,300' rel='stylesheet' type='text/css'>
-<%= stylesheet_link_tag 'entries' %>
-<div class="entry">
-  <%= form_tag "/entries/#{@entry.path}" do %>
-    <h2><%= @entry.formatted_date_time %></h2>
-    <textarea name=""><%= @entry.markdown %></textarea>
-    <br>
-    <a href="javascript:history.back();">Cancel</a>
-    <input class="btn btn-primary pull-right" type="submit" value="Save Changes"></input>
-  <% end %>
+<div class="container">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700,300' rel='stylesheet' type='text/css'>
+  <%= stylesheet_link_tag 'entries' %>
+  <div class="entry clearfix">
+    <%= form_tag "/entries/#{@entry.path}", role: "form" do %>
+      <h2><%= @entry.formatted_date_time %></h2>
+      <textarea name=""><%= @entry.markdown %></textarea>
+      <br>
+      <br>
+      <a href="javascript:history.back();">Cancel</a>
+      <div class="btn-group pull-right">
+        <input class="btn btn-primary" type="submit" value="Save Changes"></input>
+      </div>
+      <br><br>
+    <% end %>
+  </div>
 </div>

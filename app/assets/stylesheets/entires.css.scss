@@ -2,11 +2,15 @@ body {
   padding-top: 40px;
 }
 .entry {
-  border-bottom: 1px solid #efefef;
   padding: 2pt;
   margin: 1em 0;
   width: 600pt;
 }
+
+.entry-list {
+  border-bottom: 1px solid #efefef;
+}
+
 .entry img {
   max-width: 500px;
   border-radius: 4px;
@@ -31,9 +35,7 @@ body {
 }
 
 textarea {
-  width: 589pt;
+  width: 595pt;
   height: 400px; /* Set up auto height */
   border-width: 1px;
-  box-shadow: none !important; /* disable bootstrap form glow */
-  border-radius: 0 !important;
 }

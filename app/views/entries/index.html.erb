@@ -1,7 +1,8 @@
+<%= javascript_include_tag 'entries' %>
 <%= stylesheet_link_tag 'entries' %>
 <div class="container">
   <% @notes.each do |note| %>
-    <div class="entry">
+    <div class="entry entry-list">
       <h2>
         <a href="entries/<%= note[:path] %>"><%= note[:formatted_date_time] %></a>
         <a href="/entries/edit/<%= note.path %>" class="edit">edit</a>
