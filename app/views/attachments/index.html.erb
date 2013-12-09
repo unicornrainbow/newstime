@@ -7,7 +7,7 @@
 
   <div class="container">
     <% @attachments.each do |attachment| %>
-      <%= link_to attachment.name, attachment.path %>
+      <a href="<%= attachment.path %>"><%= attachment.name %></a>
     <% end %>
   </div>
 </div>

@@ -25,7 +25,8 @@ class AttachmentsController < ApplicationController
 
       attributes = {
         name: path,
-        path: "/attachments/#{path}"
+        path: "/attachments/#{path}.#{ext}/show",
+        download_path: "/attachments/#{path}.#{ext}"
       }
       OpenStruct.new(attributes)
     }
@@ -37,22 +38,40 @@ class AttachmentsController < ApplicationController
   def show
     date = Date.today - params[:days_ago].to_i.days
     root_path = "#{Attachment::ATTACHMENT_ROOT}/"
-    attachments = Dir["#{Attachment::ATTACHMENT_ROOT}/#{params[:path]}.*"]
-
-
-    path, ext = attachments.first.match(/#{root_path}(.*)\.(.*)$/).try(:captures)
+    path = "#{Attachment::ATTACHMENT_ROOT}/#{params[:path]}"
+    path, ext = path.match(/#{root_path}(.*)\.(.*)$/).try(:captures)
 
     basename = File.basename(path)
-    created_at = parse_created_at("#{path}.#{ext}")
+    created_at = parse_created_at("#{path}")
 
     # Need to be able to figure out thefile
     #send_file "#{Attachment::ATTACHMENT_ROOT}/#{params[:path]}.png"
 
+    File.exists?("#{root_path}#{path}.#{ext}") or not_found
+
     attributes = {
       name: path,
-      path: "/attachments/#{path}"
+      path: "/attachments/#{path}.#{ext}/show",
+      download_path: "/attachments/#{path}.#{ext}"
     }
     @attachment = OpenStruct.new(attributes)
+  end
+
+  def download
+    date = Date.today - params[:days_ago].to_i.days
+    root_path = "#{Attachment::ATTACHMENT_ROOT}/"
+    full_path = "#{Attachment::ATTACHMENT_ROOT}/#{params[:path]}.#{params[:format]}"
+
+    path, ext = full_path.match(/#{root_path}(.*)\.(.*)$/).try(:captures)
+
+    #basename = File.basename(path)
+    #created_at = parse_created_at("#{path}")
+
+    ## Need to be able to figure out thefile
+
+    #File.exists?("#{root_path}#{path}.#{ext}") or not_found
+
+    send_file "#{Attachment::ATTACHMENT_ROOT}/#{path}.#{ext}"
   end
 
 

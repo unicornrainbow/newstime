@@ -1,4 +1,5 @@
 <div class="container">
   <h2><%= @attachment.name %></h2>
-  <%= link_to @attachment.name, @attachment.path %>
+
+  <%= link_to "Download", @attachment.download_path %>
 </div>

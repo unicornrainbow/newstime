@@ -23,7 +23,8 @@ NoteboxWeb::Application.routes.draw do
   scope '/attachments', controller: 'attachments' do
     get '/' => :index
     get '*path/edit' => :edit
-    get '*path' => :show
+    get '*path/show' => :show
+    get '*path' => :download
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
