@@ -7,8 +7,11 @@ NoteboxWeb::Application.routes.draw do
     post '*path' => 'entries#update'
   end
 
-  get '/images' => 'images#index'
-
+  scope '/images' do
+    get '/' => 'images#index'
+    get '*path' => 'images#png', format: 'png'
+    get '*path' => 'images#index'
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

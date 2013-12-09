@@ -1,5 +1,13 @@
 <div class="container">
-  <% @images.each do |image| %>
-    <img src="<%= image.src %>"></img>
-  <% end %>
+  <a href="images/?days_ago=<%= params['days_ago'].to_i + 1 %>">← Previous Day</a>
+  &nbsp;
+  <a href="images/?days_ago=<%= params['days_ago'].to_i - 1 %>">Next Day →</a>
+  &nbsp;
+  <a href="images/">Today</a>
+
+  <div class="container">
+    <% @images.each do |image| %>
+      <img src="<%= image.src %>"></img>
+    <% end %>
+  </div>
 </div>

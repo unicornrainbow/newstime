@@ -23,6 +23,10 @@ class ImagesController < ApplicationController
 
   end
 
+  def png
+    send_file "/Users/blake/images/#{params[:path]}.png"
+  end
+
 private
 
   def parse_created_at(path)

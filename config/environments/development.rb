@@ -26,4 +26,8 @@ NoteboxWeb::Application.configure do
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
   config.assets.debug = true
+
+  # For developing in concert with nginx, no static assest handled by app.
+  config.serve_static_assets = false
+
 end
