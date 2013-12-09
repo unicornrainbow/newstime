@@ -55,12 +55,13 @@ class EntriesController < ApplicationController
 
     markdown = File.read(full_path + '.txt')
     front_matter, _markdown = markdown.match(/---((.|\n)*)---((.|\n)*)/).try(:captures)
+    tags = []
     if front_matter
       front_matter = YAML.load(front_matter).symbolize_keys
       markdown = markdown.gsub(/---(.|\n)*---/, '') # Strip front matter
+      tags = front_matter[:tags]
     end
 
-    tags = front_matter[:tags]
 
     attributes = {
       path: path,
