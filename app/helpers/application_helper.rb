@@ -27,10 +27,10 @@ module ApplicationHelper
   #
   # Example:
   #
-  #     <li class="<%= active_path('/radio') %>"><a href="/radio">Radio</a></li>
+  #     <li class="<%= active('/radio') %>"><a href="/radio">Radio</a></li>
   #
-  def active_path(path)
-    "active" if path_matches?(path)
+  def active(path, active_class="active")
+    active_class if path_matches?(path)
   end
 
 end

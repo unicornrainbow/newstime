@@ -28,10 +28,9 @@ NoteboxWeb::Application.routes.draw do
 
   scope '/bookmarks', controller: 'bookmarks' do
     get '/' => :index
-    get :new
-    get '*path/edit' => :edit
-    get '*path' => :show
   end
+
+  get '/email' => 'emails#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
