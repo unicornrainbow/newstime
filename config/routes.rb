@@ -7,6 +7,7 @@ NoteboxWeb::Application.routes.draw do
     post '*path' => 'entries#update'
   end
 
+  get '/images' => 'images#index'
 
 
   # The priority is based upon order of creation: first created -> highest priority.
