@@ -8,7 +8,7 @@
       <textarea name="markdown"><%= @entry.markdown %></textarea>
       <div id="editor"></div>
       <script>
-        $(function(){
+        require(['ace/ace'], function (ace) {
           var editor = ace.edit("editor");
           editor.setKeyboardHandler("ace/keyboard/vim");
 
@@ -18,7 +18,7 @@
             textarea.val(editor.getSession().getValue());
             });
           editor.focus();
-        });
+        })
       </script>
       <br>
       <br>
