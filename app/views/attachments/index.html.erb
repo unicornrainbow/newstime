@@ -4,10 +4,18 @@
   <a href="attachments/?days_ago=<%= params['days_ago'].to_i - 1 %>">Next Day →</a>
   &nbsp;
   <a href="attachments/">Today</a>
+  <br>
 
-  <div class="container">
-    <% @attachments.each do |attachment| %>
-      <a href="<%= attachment.path %>"><%= attachment.name %></a>
-    <% end %>
-  </div>
+  <table class="table">
+    <h4>
+      <%= @formatted_date %>
+    </h4>
+    <tr>
+      <td>
+        <% @attachments.each do |attachment| %>
+          <a href="<%= attachment.path %>"><%= attachment.path_ext %></a>
+        <% end %>
+      </td>
+    </tr>
+  <table>
 </div>

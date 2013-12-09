@@ -13,6 +13,7 @@ class AttachmentsController < ApplicationController
 
   def index
     date = Date.today - params[:days_ago].to_i.days
+    @formatted_date = date.strftime('%A, %B %e %Y')
     root_path = "#{Attachment::ATTACHMENT_ROOT}/"
 
     today_path = "#{root_path}#{date.strftime("%Y/%m/%d")}"
@@ -20,13 +21,16 @@ class AttachmentsController < ApplicationController
 
     @attachments = todays_entries.map { |full_path|
       path, ext = full_path.match(/#{root_path}(.*)\.(.*)$/).try(:captures)
+      path_ext = "#{path}.#{ext}"
       basename = File.basename(path)
       created_at = parse_created_at("#{path}.#{ext}")
 
       attributes = {
         name: path,
-        path: "/attachments/#{path}.#{ext}/show",
-        download_path: "/attachments/#{path}.#{ext}"
+        path_ext: path_ext,
+        ext: ext,
+        path: "/attachments/#{path_ext}/show",
+        download_path: "/attachments/#{path_ext}"
       }
       OpenStruct.new(attributes)
     }
@@ -40,6 +44,7 @@ class AttachmentsController < ApplicationController
     root_path = "#{Attachment::ATTACHMENT_ROOT}/"
     path = "#{Attachment::ATTACHMENT_ROOT}/#{params[:path]}"
     path, ext = path.match(/#{root_path}(.*)\.(.*)$/).try(:captures)
+    path_ext = "#{path}.#{ext}"
 
     basename = File.basename(path)
     created_at = parse_created_at("#{path}")
@@ -51,8 +56,10 @@ class AttachmentsController < ApplicationController
 
     attributes = {
       name: path,
-      path: "/attachments/#{path}.#{ext}/show",
-      download_path: "/attachments/#{path}.#{ext}"
+      path_ext: path_ext,
+      ext: ext,
+      path: "/attachments/#{path_ext}/show",
+      download_path: "/attachments/#{path_ext}"
     }
     @attachment = OpenStruct.new(attributes)
   end
@@ -63,6 +70,8 @@ class AttachmentsController < ApplicationController
     full_path = "#{Attachment::ATTACHMENT_ROOT}/#{params[:path]}.#{params[:format]}"
 
     path, ext = full_path.match(/#{root_path}(.*)\.(.*)$/).try(:captures)
+    path_ext = "#{path}.#{ext}"
+
 
     #basename = File.basename(path)
     #created_at = parse_created_at("#{path}")
@@ -71,7 +80,7 @@ class AttachmentsController < ApplicationController
 
     #File.exists?("#{root_path}#{path}.#{ext}") or not_found
 
-    send_file "#{Attachment::ATTACHMENT_ROOT}/#{path}.#{ext}"
+    send_file "#{Attachment::ATTACHMENT_ROOT}/#{path_ext}"
   end
 
 
