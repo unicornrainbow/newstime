@@ -1,0 +1,13 @@
+<div class="container">
+  <a href="attachment/?days_ago=<%= params['days_ago'].to_i + 1 %>">← Previous Day</a>
+  &nbsp;
+  <a href="attachments/?days_ago=<%= params['days_ago'].to_i - 1 %>">Next Day →</a>
+  &nbsp;
+  <a href="attachments/">Today</a>
+
+  <div class="container">
+    <% @attachments.each do |attachment| %>
+      <%= link_to attachment.name, attachment.path %>
+    <% end %>
+  </div>
+</div>
