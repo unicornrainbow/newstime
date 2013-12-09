@@ -6,8 +6,10 @@ body {
   padding: 2pt;
   margin: 1em 0;
   width: 600pt;
+  input[type='checkbox'] {
+    margin-right: 2px;
+  }
 }
-
 .entry-list {
   border-bottom: 1px solid #efefef;
 }

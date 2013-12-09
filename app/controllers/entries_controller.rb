@@ -32,10 +32,14 @@ class EntriesController < ApplicationController
         markdown = markdown.gsub(/---(.|\n)*---/, '') # Strip front matter
       end
 
+      render_checkboxes!(markdown)
+
+      html = $markdown.render(markdown)
+
       attributes = {
         path: path,
         markdown: markdown,
-        html: $markdown.render(markdown),
+        html: html,
         created_at: created_at,
         formatted_date: created_at.strftime('%A, %B %e %Y'),
         formatted_time: created_at.strftime('%I:%M %p'),
@@ -54,6 +58,7 @@ class EntriesController < ApplicationController
     created_at = parse_created_at(path)
 
     markdown = File.read(full_path + '.txt')
+    render_checkboxes!(markdown)
     front_matter, _markdown = markdown.match(/---((.|\n)*)---((.|\n)*)/).try(:captures)
     tags = []
     if front_matter
@@ -134,6 +139,11 @@ private
     #2013/23/23/23:23:23.txt'
     date, time = path.match(/(\d{2,4}\/\d{1,2}\/\d{1,2})\/(\d{1,2}\:\d{1,2}\:\d{1,2})/).try(:captures)
     Time.parse("#{date} #{time}") # Might need some conrrection for timezone.
+  end
+
+  def render_checkboxes!(markdown)
+    markdown.gsub!(/^\[ \]/, "<input type=\"checkbox\"></input> ")
+    markdown.gsub!(/^\[(x|X)\]/, "<input type=\"checkbox\" checked></input> ")
   end
 
 end
