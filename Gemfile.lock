@@ -1,4 +1,14 @@
 GIT
+  remote: git://github.com/mongoid/mongoid.git
+  revision: bbc0df51f9c1fec19dd15e4c5d478d6474adefdc
+  specs:
+    mongoid (4.0.0.alpha1)
+      activemodel (~> 4.0.0)
+      moped (~> 2.0.beta4)
+      origin (~> 1.0)
+      tzinfo (~> 0.3.37)
+
+GIT
   remote: git://github.com/thomas-mcdonald/bootstrap-sass.git
   revision: 9c6c07f74ff515cf38380b014cfede14a4f0eae4
   branch: 3
@@ -45,12 +55,13 @@ GEM
     angularjs-rails (1.2.3)
     arel (4.0.1)
     atomic (1.1.14)
-    better_errors (0.9.0)
+    better_errors (1.0.1)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
-    bson (1.9.2)
+    bson (2.0.0)
+    bson_ext (1.5.1)
     builder (3.1.4)
-    coderay (1.0.9)
+    coderay (1.1.0)
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -59,16 +70,16 @@ GEM
       execjs
     coffee-script-source (1.6.3)
     columnize (0.3.6)
-    debugger (1.6.2)
+    connection_pool (1.2.0)
+    debugger (1.6.3)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.2.0)
-      debugger-ruby_core_source (~> 1.2.3)
+      debugger-ruby_core_source (~> 1.2.4)
     debugger-linecache (1.2.0)
-    debugger-ruby_core_source (1.2.3)
+    debugger-ruby_core_source (1.2.4)
     dotenv (0.9.0)
     dotenv-rails (0.9.0)
       dotenv (= 0.9.0)
-    durran-validatable (2.0.1)
     erubis (2.7.0)
     execjs (2.0.2)
     expression_parser (0.9.0)
@@ -85,20 +96,18 @@ GEM
       thor (>= 0.14, < 2.0)
     json (1.8.1)
     kgio (2.8.1)
-    leshill-will_paginate (2.3.11)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.25.1)
     minitest (4.7.5)
-    mongo (1.9.2)
-      bson (~> 1.9.2)
-    mongoid (1.0.6)
-      activesupport (>= 2.2.2)
-      durran-validatable (>= 2.0.1)
-      leshill-will_paginate (>= 2.3.11)
-      mongo (>= 0.18.2)
+    moped (2.0.0.beta4)
+      bson (~> 2.0)
+      connection_pool (~> 1.2)
+      optionable (~> 0.2.0)
     multi_json (1.8.2)
+    optionable (0.2.0)
+    origin (1.1.0)
     polyglot (0.3.3)
     rack (1.5.2)
     rack-test (0.6.2)
@@ -120,7 +129,7 @@ GEM
     rake (10.1.0)
     rdoc (3.12.2)
       json (~> 1.4)
-    redcarpet (2.3.0)
+    redcarpet (3.0.0)
     rinku (1.7.3)
     sass (3.2.12)
     sass-rails (4.0.1)
@@ -153,7 +162,7 @@ GEM
     uglifier (2.3.2)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
-    unicorn (4.6.3)
+    unicorn (4.7.0)
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
@@ -165,13 +174,14 @@ DEPENDENCIES
   angularjs-rails
   better_errors
   bootstrap-sass!
+  bson_ext
   coffee-rails (~> 4.0.0)
   debugger
   dotenv-rails
   front-matter (~> 1.2.1)
   jbuilder (~> 1.2)
   jquery-rails
-  mongoid
+  mongoid (~> 4.0.0.alpha1)!
   rails (= 4.0.2)
   redcarpet
   sass-rails (~> 4.0.0)

@@ -15,7 +15,8 @@ gem "front-matter", "~> 1.2.1"
 gem "wikicloth", git: "https://github.com/nricciar/wikicloth.git"
 gem "angularjs-rails"
 gem 'unicorn'
-gem "mongoid"
+gem 'mongoid', '~> 4.0.0.alpha1', github: 'mongoid/mongoid'
+gem 'bson_ext'
 
 group :development, :test do
   gem 'debugger'
