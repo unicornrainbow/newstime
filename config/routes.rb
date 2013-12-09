@@ -21,13 +21,13 @@ NoteboxWeb::Application.routes.draw do
   end
 
   scope '/attachments', controller: 'attachments' do
-    get '/' => :index
+    get '/' => :index, as: 'attachments'
     get '*path/edit' => :edit
     get '*path' => :show
   end
 
   scope '/bookmarks', controller: 'bookmarks' do
-    get '/' => :index
+    get '/' => :index, as: 'bookmarks'
   end
 
   get '/email' => 'emails#index'

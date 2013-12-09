@@ -18,7 +18,7 @@
         <%= navbar_li "Attachments", '/attachments' %>
 
         <%= dropdown_menu "More" do %>
-          <%= navbar_li "Bookmarks", "/bookmarks" %>
+          <%= navbar_li("Bookmarks", '/bookmarks') %>
           <%= navbar_li "Radio", "/radio" %>
           <%= navbar_li "Email", "/emails", active_path: "/emails?"  %>
           <%= navbar_li "Wiki", "/wiki" %>
@@ -26,8 +26,8 @@
           <%= navbar_li "Videos", "/videos" %>
 
           <%= dropdown_menu "Biz Dev" do %>
-            <%= navbar_li "Business Models", "/customer_interviews" %>
-            <%= navbar_li "Customer Interviews", "/customer_interviews" %>
+            <%= navbar_li "Business Models", "/business_models" %>
+            <%= navbar_li "Customer Interviews", "entries/customer_interviews" %>
           <% end %>
         <% end %>
 
