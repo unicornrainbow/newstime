@@ -33,4 +33,49 @@ module ApplicationHelper
     active_class if path_matches?(path)
   end
 
+  def dropdown_menu(title, &block)
+    tmp, @dropdown_active_paths = @dropdown_active_paths, []
+    content = [
+      content_tag('a', "#{title} <b class=\"caret\"></b>".html_safe, href: "#", class: "dropdown-toggle", "data-toggle" => "dropdown"),
+      content_tag('ul', capture(&block), class: "dropdown-menu")
+    ].join
+    active = @dropdown_active_paths.any? { |path| path_matches?(path) }
+    @dropdown_active_paths, tmp = tmp, @dropdown_active_paths
+    @dropdown_active_paths += tmp if @dropdown_active_paths
+    content = content_tag('li', content.html_safe, class: "dropdown #{"active" if active}".html_safe ).html_safe
+  end
+
+
+  def navbar_li(title, url=nil, options={})
+    options[:active_path] ||= url
+    content = title
+
+    if url
+      content = content_tag('a', title, href: url)
+      @dropdown_active_paths << options[:active_path] if @dropdown_active_paths
+    end
+
+    li_options = {}
+    if options[:active_path]
+      li_options[:class] = active(options[:active_path])
+    end
+
+    content_tag('li', content.html_safe, li_options).html_safe
+  end
+
+class DropdownDSL
+
+  def initialize(dropdown)
+    @dropdown = dropdown
+  end
+
+  def li(label, url=nil)
+
+    '/(bookmarks|radio|email?|wiki)'
+    active(dsl.active_matcher)
+  end
+
+end
+
+
 end

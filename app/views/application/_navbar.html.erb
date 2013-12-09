@@ -13,20 +13,26 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="<%= active('/(notes.*)?$') %>"><a href="/">Notes</a></li>
-        <li class="<%= active('/images') %>"><a href="/images">Images</a></li>
-        <li class="dropdown <%= active('/(attachments|bookmarks|radio|email?|wiki)') %>">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">More <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li class="<%= active('/attachments') %>"><a href="/attachments">Attachments</a></li>
-            <li class="<%= active('/bookmarks') %>"><a href="/bookmarks">Bookmarks</a></li>
-            <li class="<%= active('/radio') %>"><a href="/radio">Radio</a></li>
-            <li class="<%= active('/emails?') %>"><a href="/email">Email</a></li>
-            <li class="<%= active('/wiki') %>"><a href="/wiki">Wiki</a></li>
-            <li class="<%= active('/timers') %>"><a href="/timers">Timers</a></li>
-          </ul>
-        </li>
+        <%= navbar_li "Notes", '/', active_path: '/(notes.*)?$'  %>
+        <%= navbar_li "Images", '/images' %>
+        <%= navbar_li "Attachments", '/attachments' %>
+
+        <%= dropdown_menu "More" do %>
+          <%= navbar_li "Bookmarks", "/bookmarks" %>
+          <%= navbar_li "Radio", "/radio" %>
+          <%= navbar_li "Email", "/emails", active_path: "/emails?"  %>
+          <%= navbar_li "Wiki", "/wiki" %>
+          <%= navbar_li "Timers", "/timers" %>
+          <%= navbar_li "Videos", "/videos" %>
+
+          <%= dropdown_menu "Biz Dev" do %>
+            <%= navbar_li "Business Models", "/customer_interviews" %>
+            <%= navbar_li "Customer Interviews", "/customer_interviews" %>
+          <% end %>
+        <% end %>
+
       </ul>
+
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search">
