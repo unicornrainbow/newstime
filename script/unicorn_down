@@ -1,6 +1,3 @@
-# Boot new app
-kill -USR2 $(cat tmp/pids/unicorn.pid)
-
-# Tear down old
+# Tears down old unicron process
 kill -WINCH $(cat tmp/pids/unicorn.pid.oldbin)
 kill -QUIT $(cat tmp/pids/unicorn.pid.oldbin)

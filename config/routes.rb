@@ -7,10 +7,23 @@ NoteboxWeb::Application.routes.draw do
     post '*path' => 'entries#update'
   end
 
-  scope '/images' do
-    get '/' => 'images#index'
-    get '*path' => 'images#png', format: 'png'
-    get '*path' => 'images#index'
+  scope '/images', controller: 'images' do
+    get '/' => :index
+    get '*path.png' => :png
+    get '*path/edit' => :edit
+    get '*path' => :index
+  end
+
+  scope '/wiki', controller: 'wiki' do
+    get '/' => :index
+    get '*path/edit' => :edit
+    get '*path' => :show
+  end
+
+  scope '/attachments', controller: 'attachments' do
+    get '/' => :index
+    get '*path/edit' => :edit
+    get '*path' => :show
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

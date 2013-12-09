@@ -33,6 +33,8 @@ gem 'dotenv-rails', group: [:test, :development, :production]
 gem "redcarpet"
 gem "front-matter", "~> 1.2.1"
 
+gem "wikicloth", git: "https://github.com/nricciar/wikicloth.git"
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false

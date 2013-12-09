@@ -1,37 +1,25 @@
 module NavbarHelper
   def navbar_notes_class
-    classes = []
-    classes << "active" if current_page?("/")
-    classes.join(" ")
+    "active" if path_matches?(/^\/$/) || path_matches?('/notes')
   end
 
   def navbar_images_class
-    classes = []
-    classes << "active" if current_page?("/images")
-    classes.join(" ")
+    "active" if path_matches? '/images'
   end
 
    def navbar_attachments_class
-    classes = []
-    classes << "active" if current_page?("/attachments")
-    classes.join(" ")
+    "active" if path_matches? '/attachments'
    end
 
    def navbar_wiki_class
-    classes = []
-    classes << "active" if current_page?("/wiki")
-    classes.join(" ")
+    "active" if path_matches? '/wiki'
    end
 
    def navbar_bookmarks_class
-    classes = []
-    classes << "active" if current_page?("/bookmarks")
-    classes.join(" ")
+    "active" if path_matches? '/bookmarks'
    end
 
    def navbar_email_class
-    classes = []
-    classes << "active" if current_page?("/email")
-    classes.join(" ")
+    "active" if path_matches? '/email'
    end
 end
