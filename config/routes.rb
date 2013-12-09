@@ -28,6 +28,7 @@ NoteboxWeb::Application.routes.draw do
 
   scope '/bookmarks', controller: 'bookmarks' do
     get '/' => :index
+    get :new
     get '*path/edit' => :edit
     get '*path' => :show
   end

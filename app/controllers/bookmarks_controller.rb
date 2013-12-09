@@ -6,4 +6,8 @@ class BookmarksController < ApplicationController
     @bookmarks = [{}]
   end
 
+  def new
+    @bookmark = OpenStruct.new
+  end
+
 end
