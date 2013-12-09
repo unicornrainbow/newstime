@@ -8,15 +8,17 @@
       <textarea name="markdown"><%= @entry.markdown %></textarea>
       <div id="editor"></div>
       <script>
-        var editor = ace.edit("editor");
-        editor.setKeyboardHandler("ace/keyboard/vim");
+        $(function(){
+          var editor = ace.edit("editor");
+          editor.setKeyboardHandler("ace/keyboard/vim");
 
-        var textarea = $('textarea[name="markdown"]').hide();
-        editor.getSession().setValue(textarea.val());
-        editor.getSession().on('change', function(){
-          textarea.val(editor.getSession().getValue());
-          });
-        editor.focus();
+          var textarea = $('textarea[name="markdown"]').hide();
+          editor.getSession().setValue(textarea.val());
+          editor.getSession().on('change', function(){
+            textarea.val(editor.getSession().getValue());
+            });
+          editor.focus();
+        });
       </script>
       <br>
       <br>

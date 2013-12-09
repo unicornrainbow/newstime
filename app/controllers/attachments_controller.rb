@@ -29,7 +29,7 @@ class AttachmentsController < ApplicationController
         name: path,
         path_ext: path_ext,
         ext: ext,
-        path: "/attachments/#{path_ext}/show",
+        path: "/attachments/#{path}",
         download_path: "/attachments/#{path_ext}"
       }
       OpenStruct.new(attributes)
@@ -58,7 +58,7 @@ class AttachmentsController < ApplicationController
       name: path,
       path_ext: path_ext,
       ext: ext,
-      path: "/attachments/#{path_ext}/show",
+      path: "/attachments/#{path}",
       download_path: "/attachments/#{path_ext}"
     }
     @attachment = OpenStruct.new(attributes)

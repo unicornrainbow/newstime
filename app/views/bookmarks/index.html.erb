@@ -1,0 +1,21 @@
+<div class="container">
+  <a href="attachment/?days_ago=<%= params['days_ago'].to_i + 1 %>">← Previous Day</a>
+  &nbsp;
+  <a href="bookmarks/?days_ago=<%= params['days_ago'].to_i - 1 %>">Next Day →</a>
+  &nbsp;
+  <a href="bookmarks/">Today</a>
+  <br>
+
+  <table class="table">
+    <h4>
+      <%= @formatted_date %>
+    </h4>
+    <tr>
+      <td>
+        <% @bookmarks.each do |bookmark| %>
+          Bookmark
+        <% end %>
+      </td>
+    </tr>
+  <table>
+</div>
