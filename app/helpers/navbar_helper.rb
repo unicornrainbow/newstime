@@ -1,6 +1,6 @@
 module NavbarHelper
   def navbar_notes_class
-    "active" if path_matches?(/^\/$/) || path_matches?('/notes')
+    "active" if path_matches? '/(notes.*)?$'
   end
 
   def navbar_images_class

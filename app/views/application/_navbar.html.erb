@@ -15,10 +15,16 @@
       <ul class="nav navbar-nav">
         <li class="<%= navbar_notes_class %>"><a href="/">Notes</a></li>
         <li class="<%= navbar_images_class %>"><a href="/images">Images</a></li>
-        <li class="<%= navbar_attachments_class %>"><a href="/attachments">Attachments</a></li>
-        <li class="<%= navbar_wiki_class %>"><a href="/wiki">Wiki</a></li>
-        <li class="<%= navbar_bookmarks_class %>"><a href="/bookmarks">Bookmarks</a></li>
-        <li class="<%= navbar_email_class %>"><a href="/email">Email</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">More <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li class="<%= navbar_attachments_class %>"><a href="/attachments">Attachments</a></li>
+            <li class="<%= navbar_bookmarks_class %>"><a href="/bookmarks">Bookmarks</a></li>
+            <li class="<%= active_path('/radio') %>"><a href="/radio">Radio</a></li>
+            <li class="<%= navbar_email_class %>"><a href="/email">Email</a></li>
+            <li class="<%= navbar_wiki_class %>"><a href="/wiki">Wiki</a></li>
+          </ul>
+        </li>
       </ul>
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">

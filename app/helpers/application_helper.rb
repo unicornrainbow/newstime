@@ -21,4 +21,16 @@ module ApplicationHelper
     request.fullpath.match(value)
   end
 
+  # Return class "active" if path matches path passed.
+  #
+  # Helpful for generating bootstrap active classes for menu items.
+  #
+  # Example:
+  #
+  #     <li class="<%= active_path('/radio') %>"><a href="/radio">Radio</a></li>
+  #
+  def active_path(path)
+    "active" if path_matches?(path)
+  end
+
 end
