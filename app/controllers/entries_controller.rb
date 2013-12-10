@@ -14,6 +14,9 @@ class EntriesController < ApplicationController
       topic: params[:topic]
     }.delete_if { |k, v| v.nil? }
 
+    # Get dir listing of notes root ( This could work for following sub topics too)
+    @topics = [:index]
+
     # Normalize date
 
     root_path = "#{NOTES_ROOT}/entries/"
