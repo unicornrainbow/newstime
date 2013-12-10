@@ -14,9 +14,6 @@ class EntriesController < ApplicationController
       topic: params[:topic]
     }.delete_if { |k, v| v.nil? }
 
-    # Get dir listing of notes root ( This could work for following sub topics too)
-    @topics = [:index]
-
     # Normalize date
 
     root_path = "#{NOTES_ROOT}/entries/"
@@ -26,6 +23,11 @@ class EntriesController < ApplicationController
       # the directory. I'll have to look into this more.
       root_path = "#{NOTES_ROOT}/#{topic}/entries/"
     end
+
+    # Get dir listing of notes root ( This could work for following sub topics too)
+    @topics = Dir.entries(NOTES_ROOT) # Get topic listing
+    @topics.reject! { |t| t.match(/^\./) } # Remove hidden files
+
 
     today_path = "#{root_path}/#{date.strftime("%Y/%m/%d")}"
     todays_entries = Dir["#{today_path}/*.txt"]

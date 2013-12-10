@@ -1,5 +1,7 @@
-<ul>
+<ul class="entry-topics well">
+  <h4>Topics</h4>
   <% @topics.each do |topic| %>
-    <li><%= link_to topic, "/?" + {topic: topic}.to_param %></li>
+    <li class="<%= "active" if topic == @options[:topic] %>">
+      <%= link_to topic, "/?" + {topic: topic}.to_param %></li>
   <% end %>
 </ul>

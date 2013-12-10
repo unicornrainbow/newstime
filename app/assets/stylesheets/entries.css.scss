@@ -33,3 +33,10 @@
   position: absolute;
   bottom: 0;
 }
+
+.entry-topics {
+  list-style: none;
+  li.active {
+    font-weight: bold;
+  }
+}
