@@ -142,8 +142,8 @@ private
   end
 
   def render_checkboxes!(markdown)
-    markdown.gsub!(/^\[ \]/, "<input type=\"checkbox\"></input> ")
-    markdown.gsub!(/^\[(x|X)\]/, "<input type=\"checkbox\" checked></input> ")
+    markdown.gsub!(/^(  )?\[ \](.*)/, "<input type=\"checkbox\"></input> \\2<br>")
+    markdown.gsub!(/^(  )?\[(x|X)\](.*)/, "<input type=\"checkbox\" checked></input> \\3<br>")
   end
 
 end
