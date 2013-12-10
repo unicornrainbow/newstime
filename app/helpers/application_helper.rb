@@ -36,7 +36,7 @@ module ApplicationHelper
   def dropdown_menu(title, &block)
     tmp, @dropdown_active_paths = @dropdown_active_paths, []
     content = [
-      content_tag('a', "#{title} <b class=\"caret\"></b>".html_safe, href: "#", class: "dropdown-toggle", "data-toggle" => "dropdown"),
+      content_tag('a', title.html_safe, href: "#", class: "dropdown-toggle", "data-toggle" => "dropdown"),
       content_tag('ul', capture(&block), class: "dropdown-menu")
     ].join
     active = @dropdown_active_paths.any? { |path| path_matches?(path) }

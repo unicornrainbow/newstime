@@ -17,7 +17,7 @@
         <%= navbar_li "Images", '/images' %>
         <%= navbar_li "Attachments", '/attachments' %>
 
-        <%= dropdown_menu "More" do %>
+        <%= dropdown_menu "More <b class=\"caret\"></b>" do %>
           <%= navbar_li("Bookmarks", '/bookmarks') %>
           <%= navbar_li "Radio", "/radio" %>
           <%= navbar_li "Email", "/emails", active_path: "/emails?"  %>
@@ -40,18 +40,14 @@
         <button type="submit" class="btn btn-default">Submit</button>
       </form>
       <ul class="nav navbar-nav navbar-right">
-        <%#<li><a href="#">Link</a></li>%>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Blakefrost <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">Settings</a></li>
-            <li><a href="#">Change Password</a></li>
-            <li><a href="#">Backup</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Sign out</a></li>
-          </ul>
-        </li>
+        <%= dropdown_menu "Blakefrost <b class=\"caret\"></b>" do %>
+          <%= navbar_li "Profile", "/profile" %>
+          <%= navbar_li "Settings", "/settings" %>
+          <%= navbar_li "Change Password", "/change_password" %>
+          <%= navbar_li "Backup", "/backup" %>
+          <li class="divider"></li>
+          <%= navbar_li "Sign Out", "/sign_out" %>
+        <% end %>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div>
