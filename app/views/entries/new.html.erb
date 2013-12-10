@@ -1,0 +1,33 @@
+<script src="/assets/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<%= stylesheet_link_tag 'entries' %>
+
+<%= form_tag "/entries/#{@entry.path}", role: "form" do %>
+  <div class="container">
+    <div class="page-header">
+      <h1>New Entry</h1>
+      <div class="pull-right">
+        <a class="btn" href="javascript:history.back();">Cancel</a>
+        <input class="btn btn-primary" type="submit" value="Save Changes"></input>
+      </div>
+    </div>
+    <div class="entry">
+      <h2><%= @entry.formatted_date_time %></h2>
+      <textarea name="markdown"><%= @entry.markdown %></textarea>
+      <div id="editor"></div>
+    </div>
+  </div>
+<% end %>
+
+<script>
+  require(['ace/ace'], function (ace) {
+    var editor = ace.edit("editor");
+    editor.setKeyboardHandler("ace/keyboard/vim");
+
+    var textarea = $('textarea[name="markdown"]').hide();
+    editor.getSession().setValue(textarea.val());
+    editor.getSession().on('change', function(){
+      textarea.val(editor.getSession().getValue());
+      });
+    editor.focus();
+  })
+</script>

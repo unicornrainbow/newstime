@@ -85,6 +85,10 @@ class EntriesController < ApplicationController
     end
   end
 
+  def new
+    @entry = OpenStruct.new({})
+  end
+
   def edit
     root_path = "/Users/blake/.notes/entries/"
     path = params[:path]

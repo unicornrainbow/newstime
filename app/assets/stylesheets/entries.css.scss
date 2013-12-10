@@ -6,6 +6,7 @@ body {
   padding: 2pt;
   margin: 1em 0;
   width: 600pt;
+  position: relative;
   input[type='checkbox'] {
     margin-right: 2px;
   }
@@ -30,6 +31,9 @@ body {
 }
 
 #editor {
+  height: 100%;
   width: 595pt;
-  height: 400px; /* Set up auto height */
+  top: 0;
+  position: absolute;
+  bottom: 0;
 }
