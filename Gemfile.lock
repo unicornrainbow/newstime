@@ -107,6 +107,7 @@ GEM
     mongo (1.9.2)
       bson (~> 1.9.2)
     multi_json (1.8.2)
+    nprogress-rails (0.1.2.3)
     plucky (0.6.6)
       mongo (~> 1.5)
     polyglot (0.3.3)
@@ -188,6 +189,7 @@ DEPENDENCIES
   jbuilder (~> 1.2)
   jquery-rails
   mongo_mapper!
+  nprogress-rails
   rails (= 4.0.2)
   redcarpet
   sass-rails (~> 4.0.0)
