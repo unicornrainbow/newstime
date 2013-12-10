@@ -2,11 +2,11 @@
 <%= stylesheet_link_tag 'entries' %>
 
 <div class="container">
-  <a href="/?days_ago=<%= params['days_ago'].to_i + 1 %>">← Previous Day</a>
+  <%= link_to "← Previous Day", options_url("/", days_ago: @options[:days_ago].to_i + 1 ) %>
   &nbsp;
-  <a href="/?days_ago=<%= params['days_ago'].to_i - 1 %>">Next Day →</a>
+  <%= link_to "Next Day →", options_url("/", days_ago: @options[:days_ago].to_i - 1 ) %>
   &nbsp;
-  <a href="/">Today</a>
+  <a href="images/">Today</a>
   <% @entries.each do |note| %>
     <div class="entry entry-list">
       <h4>

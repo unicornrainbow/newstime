@@ -64,7 +64,7 @@ module ApplicationHelper
   end
 
   def options_url(path, options)
-    "#{path}/?#{@options.merge(options).to_param}"
+    "#{path}?#{@options.merge(options).to_param}"
   end
 
 end

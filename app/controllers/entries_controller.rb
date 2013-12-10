@@ -8,6 +8,12 @@ class EntriesController < ApplicationController
     date = Date.today - params[:days_ago].to_i.days
     #date = Date.parse('2013/12/7')
 
+    # Why does slice throw an exception if the key is missing?
+    @options = {
+      days_ago: params[:days_ago],
+      topic: params[:topic]
+    }.delete_if { |k, v| v.nil? }
+
     # Normalize date
 
     root_path = "#{NOTES_ROOT}/entries/"
