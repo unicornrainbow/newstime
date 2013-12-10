@@ -15,9 +15,9 @@
       <ul class="nav navbar-nav">
         <%= navbar_li "Notes", '/', active_path: '/(notes.*)?$'  %>
         <%= navbar_li "Images", '/images' %>
-        <%= navbar_li "Attachments", '/attachments' %>
 
         <%= dropdown_menu "More <b class=\"caret\"></b>" do %>
+          <%= navbar_li "Attachments", '/attachments' %>
           <%= navbar_li("Bookmarks", '/bookmarks') %>
           <%= navbar_li "Radio", "/radio" %>
           <%= navbar_li "Email", "/emails", active_path: "/emails?"  %>
