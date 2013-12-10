@@ -32,6 +32,7 @@ NoteboxWeb::Application.routes.draw do
 
   get '/email' => 'emails#index'
 
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -86,4 +87,8 @@ NoteboxWeb::Application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+
+  # Any routes that aren't defined above here go to the 404
+  match "*a", :to => "application#routing_error", via: [:get, :post]
+
 end
