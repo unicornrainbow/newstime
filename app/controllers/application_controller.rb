@@ -11,24 +11,4 @@ class ApplicationController < ActionController::Base
     render "404", :status => 404
   end
 
-  # CUSTOM EXCEPTION HANDLING
-  #rescue_from Exception do |e|
-    #throw :as
-    ##error(e)
-  #end
-
-  #rescue_from ActiveRecord::RecordNotFound, :with => :rescue404
-  #rescue_from ActionController::RoutingError, :with => :rescue404
-
-  #def local_request?
-    #false
-  #end
-
-
-  #def rescue404
-    #throw :as
-    #render :text => "as"
-    ##your custom method for errors, you can render anything you want there
-  #end
-
 end
