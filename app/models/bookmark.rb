@@ -1,8 +1,8 @@
-#class Bookmark
-  #include Mongoid::Document
+class Bookmark
+  include MongoMapper::Document
 
-  #field :title
-  #field :url
-  #field :created_at
-
-#end
+  key :title,       String
+  key :url,         String
+  key :description, String
+  key :created_at,  Time
+end

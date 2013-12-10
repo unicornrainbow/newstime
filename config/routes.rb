@@ -27,7 +27,10 @@ NoteboxWeb::Application.routes.draw do
   end
 
   scope '/bookmarks', controller: 'bookmarks' do
-    get '/' => :index, as: 'bookmarks'
+    get  '/' => :index, as: 'bookmarks'
+    get  '/new' => :new
+
+    post '/' => :create
   end
 
   get '/email' => 'emails#index'

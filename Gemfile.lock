@@ -1,12 +1,13 @@
 GIT
-  remote: git://github.com/mongoid/mongoid.git
-  revision: bbc0df51f9c1fec19dd15e4c5d478d6474adefdc
+  remote: git://github.com/mongomapper/mongomapper.git
+  revision: 9b87dee507802a8cb96f2d316802c9fd241448c8
+  tag: v0.13.0.beta2
   specs:
-    mongoid (4.0.0.alpha1)
-      activemodel (~> 4.0.0)
-      moped (~> 2.0.beta4)
-      origin (~> 1.0)
-      tzinfo (~> 0.3.37)
+    mongo_mapper (0.13.0.beta2)
+      activemodel (>= 3.0.0)
+      activesupport (>= 3.0)
+      mongo (~> 1.8)
+      plucky (~> 0.6.5)
 
 GIT
   remote: git://github.com/thomas-mcdonald/bootstrap-sass.git
@@ -58,7 +59,9 @@ GEM
     better_errors (1.0.1)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
-    bson (2.0.0)
+    binding_of_caller (0.7.2)
+      debug_inspector (>= 0.0.1)
+    bson (1.9.2)
     bson_ext (1.5.1)
     builder (3.1.4)
     coderay (1.1.0)
@@ -70,7 +73,7 @@ GEM
       execjs
     coffee-script-source (1.6.3)
     columnize (0.3.6)
-    connection_pool (1.2.0)
+    debug_inspector (0.0.2)
     debugger (1.6.3)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.2.0)
@@ -101,13 +104,11 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.25.1)
     minitest (4.7.5)
-    moped (2.0.0.beta4)
-      bson (~> 2.0)
-      connection_pool (~> 1.2)
-      optionable (~> 0.2.0)
+    mongo (1.9.2)
+      bson (~> 1.9.2)
     multi_json (1.8.2)
-    optionable (0.2.0)
-    origin (1.1.0)
+    plucky (0.6.6)
+      mongo (~> 1.5)
     polyglot (0.3.3)
     rack (1.5.2)
     rack-test (0.6.2)
@@ -139,6 +140,9 @@ GEM
     sdoc (0.3.20)
       json (>= 1.1.3)
       rdoc (~> 3.10)
+    simple_form (3.0.1)
+      actionpack (>= 4.0.0, < 4.1)
+      activemodel (>= 4.0.0, < 4.1)
     sprockets (2.10.1)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -173,7 +177,9 @@ PLATFORMS
 DEPENDENCIES
   angularjs-rails
   better_errors
+  binding_of_caller
   bootstrap-sass!
+  bson
   bson_ext
   coffee-rails (~> 4.0.0)
   debugger
@@ -181,11 +187,12 @@ DEPENDENCIES
   front-matter (~> 1.2.1)
   jbuilder (~> 1.2)
   jquery-rails
-  mongoid (~> 4.0.0.alpha1)!
+  mongo_mapper!
   rails (= 4.0.2)
   redcarpet
   sass-rails (~> 4.0.0)
   sdoc
+  simple_form
   sqlite3
   turbolinks
   uglifier (>= 1.3.0)
