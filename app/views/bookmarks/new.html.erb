@@ -1,7 +1,7 @@
 <div class="container">
   <%= form_tag '/bookmarks' do |f| %>
-    <%= text_field :name, @bookmark.title %><br>
-    <%= text_field :url, @bookmark.url %><br>
+    <%= text_field "bookmark[name]", @bookmark.title %><br>
+    <%= text_field "bookmark[url]", @bookmark.url %><br>
     <%= submit_tag "Save", class: 'btn' %>
   <% end %>
 </div>

@@ -1,8 +1,8 @@
 class Bookmark
-  include MongoMapper::Document
+  include Mongoid::Document
 
-  key :title,       String
-  key :url,         String
-  key :description, String
-  key :created_at,  Time
+  field :title
+  field :url
+  field :description
+  field :created_at, type: DateTime
 end
