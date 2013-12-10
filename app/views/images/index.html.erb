@@ -1,9 +1,10 @@
 <div class="container">
-  <a href="images/?days_ago=<%= params['days_ago'].to_i + 1 %>">← Previous Day</a>
+  <%= link_to "← Previous Day", options_url("/images", days_ago: @options[:days_ago].to_i + 1 ) %>
   &nbsp;
-  <a href="images/?days_ago=<%= params['days_ago'].to_i - 1 %>">Next Day →</a>
+  <%= link_to "Next Day →", options_url("/images", days_ago: @options[:days_ago].to_i - 1 ) %>
   &nbsp;
   <a href="images/">Today</a>
+
 
   <div class="container">
     <% @images.each do |image| %>

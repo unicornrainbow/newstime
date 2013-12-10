@@ -11,8 +11,7 @@ class BookmarksController < ApplicationController
   end
 
   def create
-    debugger
-    @bookmark = Bookmark.create(params[:bookmark].permit(:title, :url))
+    @bookmark = Bookmark.create(params[:bookmark].permit(:title, :url, :description))
     if @bookmark
       redirect_to bookmark_path(@bookmark)
     else

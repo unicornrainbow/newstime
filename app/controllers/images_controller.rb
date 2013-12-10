@@ -3,7 +3,13 @@ class ImagesController < ApplicationController
   def index
     @images = Image.page
 
-    date = Date.today - params[:days_ago].to_i.days
+    # Why does slice throw an exception if the key is missing?
+    @options = {
+      days_ago: params[:days_ago],
+      topic: params[:topic]
+    }.delete_if { |k, v| v.nil? }
+
+    date = Date.today - @options[:days_ago].to_i.days
 
     root_path = "#{IMAGES_ROOT}/captures/"
 

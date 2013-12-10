@@ -63,19 +63,8 @@ module ApplicationHelper
     content_tag('li', content.html_safe, li_options).html_safe
   end
 
-class DropdownDSL
-
-  def initialize(dropdown)
-    @dropdown = dropdown
+  def options_url(path, options)
+    "#{path}/?#{@options.merge(options).to_param}"
   end
-
-  def li(label, url=nil)
-
-    '/(bookmarks|radio|email?|wiki)'
-    active(dsl.active_matcher)
-  end
-
-end
-
 
 end
