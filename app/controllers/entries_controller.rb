@@ -28,7 +28,6 @@ class EntriesController < ApplicationController
     @topics = Dir.entries(NOTES_ROOT) # Get topic listing
     @topics.reject! { |t| t.match(/^\./) } # Remove hidden files
 
-
     today_path = "#{root_path}/#{date.strftime("%Y/%m/%d")}"
     todays_entries = Dir["#{today_path}/*.txt"]
 
@@ -41,6 +40,7 @@ class EntriesController < ApplicationController
       if front_matter
         front_matter = YAML.load(front_matter)
         markdown = markdown.gsub(/---(.|\n)*---/, '') # Strip front matter
+        title = front_matter["title"]
       end
 
       render_checkboxes!(markdown)
@@ -54,7 +54,8 @@ class EntriesController < ApplicationController
         created_at: created_at,
         formatted_date: created_at.strftime('%A, %B %e %Y'),
         formatted_time: created_at.strftime('%I:%M %p'),
-        formatted_date_time: created_at.strftime('%A, %B %e, %Y, %l:%M %p')
+        formatted_date_time: created_at.strftime('%A, %B %e, %Y, %l:%M %p'),
+        title: title
       }
       OpenStruct.new(attributes)
     }
@@ -76,6 +77,7 @@ class EntriesController < ApplicationController
       front_matter = YAML.load(front_matter).symbolize_keys
       markdown = markdown.gsub(/---(.|\n)*---/, '') # Strip front matter
       tags = front_matter[:tags]
+      @title = front_matter[:title]
     end
 
 
@@ -98,6 +100,52 @@ class EntriesController < ApplicationController
 
   def new
     @entry = OpenStruct.new({})
+  end
+
+  # Log
+  def log
+    # - Find the note by the path
+    # - Get the log od diffs to render. (Could be a cell or facet of diffs
+    # controller.
+    @log_entries = [:s, :a]
+
+    root_path = "/Users/blake/.notes/entries/"
+    path = params[:path]
+    full_path = root_path + path
+
+    created_at = parse_created_at(path)
+
+    markdown = File.read(full_path + '.txt')
+    render_checkboxes!(markdown)
+    front_matter, _markdown = markdown.match(/---((.|\n)*)---((.|\n)*)/).try(:captures)
+    tags = []
+    if front_matter
+      front_matter = YAML.load(front_matter).symbolize_keys
+      markdown = markdown.gsub(/---(.|\n)*---/, '') # Strip front matter
+      tags = front_matter[:tags]
+      @title = front_matter[:title]
+    end
+
+
+    attributes = {
+      path: path,
+      markdown: markdown,
+      html: $markdown.render(markdown),
+      created_at: created_at,
+      formatted_date: created_at.strftime('%A, %B %e %Y'),
+      formatted_time: created_at.strftime('%I:%M %p'),
+      formatted_date_time: created_at.strftime('%A, %B %e, %Y, %l:%M %p'),
+      tags: tags
+    }
+    @entry = OpenStruct.new(attributes)
+    respond_to do |format|
+      format.html
+      format.text { render text: markdown }
+    end
+
+    cmd = "git log -u --no-decorate --no-color --pretty \"#{}\""
+
+
   end
 
   def edit

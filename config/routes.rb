@@ -6,7 +6,9 @@ NoteboxWeb::Application.routes.draw do
 
   # Entries
   scope '/entries/' do
-    get  'edit/*path' => 'entries#edit'
+    get  '*path/edit' => 'entries#edit'
+    get  '*path/log' => 'entries#log'
+
     get  '*path' => 'entries#show'
     post '*path' => 'entries#update'
   end
@@ -39,6 +41,11 @@ NoteboxWeb::Application.routes.draw do
     get  '/new' => :new
 
     post '/' => :create
+  end
+
+  # Times
+  scope '/timers', controller: 'timers' do
+    get '/' => :index, as: 'timers'
   end
 
   # Email

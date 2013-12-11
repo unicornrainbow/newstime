@@ -3,18 +3,12 @@
   <%= stylesheet_link_tag 'entries' %>
   <div class="entry">
     <h4>
-      <%= @entry.formatted_date_time %>
-      <a href="/entries/edit/<%= @entry[:path] %>" class="edit">edit</a>
+      <%= @title || @entry.formatted_date_time %>
+      <a href="/entries/<%= @entry[:path] %>/edit" class="edit">edit</a>
     </h4>
     <%= raw(@entry.html) %>
     <p>
       <em><%= time_ago_in_words(@entry[:created_at]) %> ago</em>
     </p>
-    <ul>
-      <% @entry.tags.each do |tag| %>
-        <li><%= tag %></li>
-      <% end %>
-    </ul>
-
   </div>
 </div>
