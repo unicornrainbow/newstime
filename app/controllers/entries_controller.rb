@@ -4,6 +4,8 @@ class EntriesController < ApplicationController
   #
   #   days_ago - Interger value of number of days to go back.
   def index
+    box = Notebox::Box.new(NOTES_ROOT)
+
     topic = params[:topic]
     date = Date.today - params[:days_ago].to_i.days
     #date = Date.parse('2013/12/7')
@@ -14,9 +16,9 @@ class EntriesController < ApplicationController
       topic: params[:topic]
     }.delete_if { |k, v| v.nil? }
 
+    #root_path =
     # Normalize date
 
-    root_path = "#{NOTES_ROOT}/entries/"
 
     if topic
       # TODO: Watch out for use passing in a relative path that can get out of
