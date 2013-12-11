@@ -6,6 +6,16 @@
   input[type='checkbox'] {
     margin-right: 2px;
   }
+
+  .highlight {
+    /*padding: 2px 4px;*/
+    /*font-size: 90%;*/
+    /*color: #c7254e;*/
+    background-color: #ffff00;
+    white-space: nowrap;
+    /*border-radius: 4px;*/
+  }
+
 }
 .entry-list {
   border-bottom: 1px solid #efefef;
@@ -13,6 +23,7 @@
     border-bottom: none;
   }
 }
+
 
 
 .entry img {

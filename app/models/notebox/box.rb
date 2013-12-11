@@ -74,6 +74,7 @@ class Notebox::Box
       render_checkboxes!(markdown)
 
       html = $markdown.render(markdown)
+      html = html.gsub(/(#{keyword})/i, '<span class="highlight">\1</span>')
 
       attributes = {
         path: path,
