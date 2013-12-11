@@ -14,6 +14,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <%= navbar_li "Notes", '/', active_path: '/(notes.*)?$'  %>
+        <%= navbar_li "<i class=\"glyphicon glyphicon-flash\"></i>".html_safe, '/new'  %>
         <%= navbar_li "Images", '/images' %>
 
         <%= dropdown_menu "More <b class=\"caret\"></b>" do %>
