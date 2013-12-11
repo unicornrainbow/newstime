@@ -1,14 +1,15 @@
+require_dependency 'notebox/box'
+
 class EntriesController < ApplicationController
 
   # Parameters
   #
   #   days_ago - Interger value of number of days to go back.
   def index
-    box = Notebox::Box.new(NOTES_ROOT)
-
     topic = params[:topic]
     date = Date.today - params[:days_ago].to_i.days
-    #date = Date.parse('2013/12/7')
+
+    @entries = $notebox.fetch_entries(topic: topic, date: date)
 
     # Why does slice throw an exception if the key is missing?
     @options = {
@@ -16,52 +17,9 @@ class EntriesController < ApplicationController
       topic: params[:topic]
     }.delete_if { |k, v| v.nil? }
 
-    #root_path =
-    # Normalize date
-
-
-    if topic
-      # TODO: Watch out for use passing in a relative path that can get out of
-      # the directory. I'll have to look into this more.
-      root_path = "#{NOTES_ROOT}/#{topic}/entries/"
-    end
-
     # Get dir listing of notes root ( This could work for following sub topics too)
     @topics = Dir.entries(NOTES_ROOT) # Get topic listing
     @topics.reject! { |t| t.match(/^\./) } # Remove hidden files
-
-    today_path = "#{root_path}/#{date.strftime("%Y/%m/%d")}"
-    todays_entries = Dir["#{today_path}/*.txt"]
-
-    @entries = todays_entries.map { |full_path|
-      path, ext = full_path.match(/#{root_path}(.*)\.(txt)$/).try(:captures)
-      created_at = parse_created_at("#{path}.#{ext}")
-
-      markdown = File.read(full_path)
-      front_matter, _markdown = markdown.match(/---((.|\n)*)---((.|\n)*)/).try(:captures)
-      if front_matter
-        front_matter = YAML.load(front_matter)
-        markdown = markdown.gsub(/---(.|\n)*---/, '') # Strip front matter
-        title = front_matter["title"]
-      end
-
-      render_checkboxes!(markdown)
-
-      html = $markdown.render(markdown)
-
-      attributes = {
-        path: path,
-        markdown: markdown,
-        html: html,
-        created_at: created_at,
-        formatted_date: created_at.strftime('%A, %B %e %Y'),
-        formatted_time: created_at.strftime('%I:%M %p'),
-        formatted_date_time: created_at.strftime('%A, %B %e, %Y, %l:%M %p'),
-        title: title
-      }
-      OpenStruct.new(attributes)
-    }
-    @entries.reverse!
   end
 
   def show
@@ -81,7 +39,6 @@ class EntriesController < ApplicationController
       tags = front_matter[:tags]
       @title = front_matter[:title]
     end
-
 
     attributes = {
       path: path,
@@ -146,7 +103,6 @@ class EntriesController < ApplicationController
     end
 
     cmd = "git log -u --no-decorate --no-color --pretty \"#{}\""
-
 
   end
 
