@@ -48,7 +48,18 @@ class Notebox::Box
     entries
   end
 
+  def search(keyword)
+    sanitize_command!(keyword)
+    results = `cd "#{@path}" && git grep -i "#{keyword}"`
+    results.split("\n")
+  end
+
 private
+
+  def sanitize_command!(command)
+    # Whitelist some safe characters
+    command.gsub!(/[^a-zA-b 0-9]+/, '')
+  end
 
   def parse_created_at(path)
     # Parse created at

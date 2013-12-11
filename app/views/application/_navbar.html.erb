@@ -32,12 +32,11 @@
             <%= navbar_li "Customer Interviews", "entries/customer_interviews" %>
           <% end %>
         <% end %>
-
       </ul>
 
-      <form class="navbar-form navbar-left" role="search">
+      <form class="navbar-form navbar-left" role="search" action="/entries/search">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
+          <input type="text" class="form-control" placeholder="Search" name="q" value="<%= params[:q] %>">
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
       </form>

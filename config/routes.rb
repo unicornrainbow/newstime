@@ -5,9 +5,10 @@ NoteboxWeb::Application.routes.draw do
   get '/new' => 'entries#new'
 
   # Entries
-  scope '/entries/' do
-    get  '*path/edit' => 'entries#edit'
-    get  '*path/log' => 'entries#log'
+  scope '/entries/', controller: 'entries' do
+    get  '/search' => :search
+    get  '*path/edit' => :edit
+    get  '*path/log' => :log
 
     get  '*path' => 'entries#show'
     post '*path' => 'entries#update'

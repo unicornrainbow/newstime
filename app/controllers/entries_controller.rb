@@ -9,7 +9,7 @@ class EntriesController < ApplicationController
     topic = params[:topic]
     date = Date.today - params[:days_ago].to_i.days
 
-    @entries = $notebox.fetch_entries(topic: topic, date: date)
+    @entries = notebox.fetch_entries(topic: topic, date: date)
 
     # Why does slice throw an exception if the key is missing?
     @options = {
@@ -20,6 +20,10 @@ class EntriesController < ApplicationController
     # Get dir listing of notes root ( This could work for following sub topics too)
     @topics = Dir.entries(NOTES_ROOT) # Get topic listing
     @topics.reject! { |t| t.match(/^\./) } # Remove hidden files
+  end
+
+  def search
+    @results = notebox.search(params[:q].to_s)
   end
 
   def show
@@ -154,6 +158,10 @@ class EntriesController < ApplicationController
   end
 
 private
+
+  def notebox
+    @notebox ||= Notebox::Box.new(NOTES_ROOT)
+  end
 
   def parse_created_at(path)
     # Parse created at
