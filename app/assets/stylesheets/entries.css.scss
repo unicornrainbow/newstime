@@ -9,7 +9,11 @@
 }
 .entry-list {
   border-bottom: 1px solid #efefef;
+  &:last-child {
+    border-bottom: none;
+  }
 }
+
 
 .entry img {
   max-width: 500px;
