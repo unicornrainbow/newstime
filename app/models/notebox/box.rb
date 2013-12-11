@@ -22,7 +22,8 @@ class Notebox::Box
       markdown = File.read(full_path)
       front_matter, _markdown = markdown.match(/---((.|\n)*)---((.|\n)*)/).try(:captures)
       if front_matter
-        front_matter = YAML.load(front_matter)
+        #front_matter = YAML.load(front_matter)
+        front_matter = {}
         markdown = markdown.gsub(/---(.|\n)*---/, '') # Strip front matter
         title = front_matter["title"]
       end
