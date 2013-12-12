@@ -26,6 +26,25 @@
   }
 }
 
+.entries-log {
+
+}
+
+.entries-log-entry {
+  h5 {
+    width: 600px;
+    padding: 10px;
+    border-bottom: 1px solid #efefef;
+  }
+
+  pre {
+    border: none;
+    background-color: white;
+    border-radius: 0;
+  }
+
+}
+
 .entries-list {
 
   .entry {
