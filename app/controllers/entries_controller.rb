@@ -76,7 +76,7 @@ class EntriesController < ApplicationController
     # - Find the note by the path
     # - Get the log od diffs to render. (Could be a cell or facet of diffs
     # controller.
-    @log_entries = [:s, :a]
+
 
     root_path = "/Users/blake/.notes/entries/"
     path = params[:path]
@@ -95,25 +95,47 @@ class EntriesController < ApplicationController
       @title = front_matter[:title]
     end
 
+    @cmd_results = `cd #{NOTES_ROOT} && git log -u --no-decorate --no-color --pretty \"entries/#{path}.txt\"`
 
-    attributes = {
-      path: path,
-      markdown: markdown,
-      html: $markdown.render(markdown),
-      created_at: created_at,
-      formatted_date: created_at.strftime('%A, %B %e %Y'),
-      formatted_time: created_at.strftime('%I:%M %p'),
-      formatted_date_time: created_at.strftime('%A, %B %e, %Y, %l:%M %p'),
-      tags: tags
-    }
-    @entry = OpenStruct.new(attributes)
-    respond_to do |format|
-      format.html
-      format.text { render text: markdown }
+    @log_entries = []
+    current = nil
+    header_flag=false # Dictates if within header
+    comment_flag=false # Dictates if within commit comment
+
+    @cmd_results.lines.each do |line|
+      if comment_flag
+        case line
+        when /^diff (.*)$/
+          comment_flag=false
+        else
+          current[:comment] << line
+        end
+      elsif header_flag
+        case line
+        when /^Author: (.*)$/
+          current[:author] = $1
+        when /^Date: (.*)$/
+          current[:date] = DateTime.parse($1)
+          comment_flag=true
+        when /^@@ (.*) @@/
+          current[:range] = $1
+          header_flag=false
+        end
+      else
+        case line
+        when /^commit (\w{40})$/
+          current = {
+            commit: $1,
+            comment: "",
+            diff: ""
+          }
+          @log_entries << current
+          header_flag=true
+        else
+          current[:diff] << line
+        end
+      end
     end
-
-    cmd = "git log -u --no-decorate --no-color --pretty \"#{}\""
-
   end
 
   def edit

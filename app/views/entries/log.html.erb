@@ -1,5 +1,7 @@
 <div class="container">
   <% @log_entries.each do |log_entry| %>
-    Log Entry
+    <pre><%= log_entry %></pre>
   <% end %>
+  <pre><%= @cmd_results %></pre>
+
 <div>
