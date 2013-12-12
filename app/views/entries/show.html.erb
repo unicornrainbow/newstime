@@ -7,8 +7,10 @@
       <a href="/entries/<%= @entry[:path] %>/edit" class="edit">edit</a>
     </h4>
     <%= raw(@entry.html) %>
-    <p>
-      <em><%= time_ago_in_words(@entry[:created_at]) %> ago</em>
+    <p class="foot-links">
+      <a href="<%= entries_url(days_ago: (Date.today - @entry[:created_at].to_date).to_i) %>"><%= time_ago_in_words(@entry[:created_at]) %> ago</a>
+      &bull;
+      <a href="/entries/<%= params[:path] %>/log">Log</a>
     </p>
   </div>
 </div>

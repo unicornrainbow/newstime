@@ -11,7 +11,6 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
 gem 'dotenv-rails', group: [:test, :development, :production]
 gem "redcarpet"
-gem "front-matter", "~> 1.2.1"
 gem "wikicloth", git: "https://github.com/nricciar/wikicloth.git"
 gem 'mongoid', '~> 4.0.0.alpha1', github: 'mongoid/mongoid'
 gem "angularjs-rails"

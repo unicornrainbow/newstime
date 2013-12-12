@@ -1,6 +1,6 @@
 NoteboxWeb::Application.routes.draw do
 
-  root to: 'entries#index'
+  root to: 'entries#index', as: :entries
 
   get '/new' => 'entries#new'
 

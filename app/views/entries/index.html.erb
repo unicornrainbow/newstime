@@ -8,7 +8,7 @@
       &nbsp;
       <%= link_to "Next Day →", options_url("/", days_ago: @options[:days_ago].to_i - 1 ) %>
       &nbsp;
-      <a href="images/">Today</a>
+      <%= link_to "Today", entries_url %>
       <% @entries.each do |note| %>
         <div class="entry entry-list">
           <h4>
@@ -18,7 +18,9 @@
           <div class="entry-body">
             <%= raw(note[:html]) %>
           </div>
-          <p><em><%= time_ago_in_words(note[:created_at]) %> ago</em></p>
+          <p>
+            <%= time_ago_in_words(note[:created_at]) %> ago
+          </p>
         </div>
       <% end %>
     </div>
