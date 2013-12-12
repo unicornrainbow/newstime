@@ -29,6 +29,7 @@ class EntriesController < ApplicationController
   def show
     path = params[:path]
     topic = params[:topic]
+
     root_path = topic ? "#{NOTES_ROOT}/#{topic}/entries/" : "#{NOTES_ROOT}/entries/"
     highlight = params[:highlight]
     full_path = root_path + path

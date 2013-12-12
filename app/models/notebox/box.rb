@@ -34,7 +34,7 @@ class Notebox::Box
       html = $markdown.render(markdown)
 
       attributes = {
-        path: "/entries#{path}",
+        path: topic ? "/#{topic}/entries#{path}" : "/entries#{path}",
         markdown: markdown,
         html: html,
         created_at: created_at,
@@ -79,7 +79,7 @@ class Notebox::Box
       html = html.gsub(/(#{keyword})/i, '<span class="highlight">\1</span>')
 
       attributes = {
-        path: path,
+        path: topic ? "/#{topic}#{path}" : path,
         markdown: markdown,
         html: html,
         created_at: created_at,

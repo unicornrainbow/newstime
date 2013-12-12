@@ -1,7 +1,7 @@
 <%= javascript_include_tag 'entries' %>
 <%= stylesheet_link_tag 'entries' %>
 
-<div class="container">
+<div class="container entries-list">
   <div class="row">
     <div class="col-md-9">
       <%= link_to "← Previous Day", options_url("/", days_ago: @options[:days_ago].to_i + 1 ) %>
