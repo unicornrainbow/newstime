@@ -51,6 +51,7 @@ NoteboxWeb::Application.routes.draw do
 
   # Email
   get '/email' => 'emails#index'
+  get '/backup' => 'backups#index'
 
   match "*a", :to => "application#routing_error", via: [:get, :post]
 
