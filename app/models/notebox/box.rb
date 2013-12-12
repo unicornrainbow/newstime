@@ -29,11 +29,12 @@ class Notebox::Box
       end
 
       render_checkboxes!(markdown)
+      markdown.gsub!(/notebox:\/\/(\S*)/, 'http://localhost:3000/\1')
 
       html = $markdown.render(markdown)
 
       attributes = {
-        path: path,
+        path: "/entries#{path}",
         markdown: markdown,
         html: html,
         created_at: created_at,
@@ -72,6 +73,7 @@ class Notebox::Box
       end
 
       render_checkboxes!(markdown)
+      markdown.gsub!(/notebox:\/\/(\S*)/, 'http://localhost:3000/\1')
 
       html = $markdown.render(markdown)
       html = html.gsub(/(#{keyword})/i, '<span class="highlight">\1</span>')

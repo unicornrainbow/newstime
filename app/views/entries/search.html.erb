@@ -7,8 +7,8 @@
       <% @results.each do |note| %>
         <div class="entry entry-list">
           <h4>
-            <a href="/entries<%= note[:path] %>"><%= note[:title] || note[:formatted_date_time] %></a>
-            <a href="/entries<%= note.path %>/edit" class="edit">edit</a>
+            <%= link_to note[:title] || note[:formatted_date_time], "/#{note[:path]}?highlight=#{CGI::escape(params[:q])}" %>
+            <a href="/<%= note.path %>/edit" class="edit">edit</a>
           </h4>
           <div class="entry-body">
             <%= raw(note[:html]) %>

@@ -27,8 +27,10 @@ class EntriesController < ApplicationController
   end
 
   def show
-    root_path = "/Users/blake/.notes/entries/"
     path = params[:path]
+    topic = params[:topic]
+    root_path = topic ? "#{NOTES_ROOT}/#{topic}/entries/" : "#{NOTES_ROOT}/entries/"
+    highlight = params[:highlight]
     full_path = root_path + path
 
     created_at = parse_created_at(path)
@@ -44,10 +46,13 @@ class EntriesController < ApplicationController
       @title = front_matter[:title]
     end
 
+    html = $markdown.render(markdown)
+    html = html.gsub(/(#{highlight})/i, '<span class="highlight">\1</span>') if highlight
+
     attributes = {
       path: path,
       markdown: markdown,
-      html: $markdown.render(markdown),
+      html: html,
       created_at: created_at,
       formatted_date: created_at.strftime('%A, %B %e %Y'),
       formatted_time: created_at.strftime('%I:%M %p'),
@@ -111,9 +116,12 @@ class EntriesController < ApplicationController
   end
 
   def edit
-    root_path = "/Users/blake/.notes/entries/"
     path = params[:path]
+    topic = params[:topic]
+    root_path = topic ? "#{NOTES_ROOT}/#{topic}/entries/" : "#{NOTES_ROOT}/entries/"
+
     full_path = root_path + path
+
 
     created_at = parse_created_at(path)
     markdown = File.read(full_path + '.txt')
