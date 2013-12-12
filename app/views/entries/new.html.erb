@@ -1,26 +1,23 @@
-<%= stylesheet_link_tag 'entries' %>
+<script src="/assets/ace/ace.js" type="text/javascript" charset="utf-8"></script>
 
-<%= form_tag "/entries/#{@entry.path}", role: "form" do %>
-  <div class="container">
-    <div class="page-header">
-      <h1>New Entry</h1>
-      <div class="pull-right">
-        <a class="btn" href="javascript:history.back();">Cancel</a>
-        <input class="btn btn-primary" type="submit" value="Save Changes"></input>
+<div class="container">
+  <%= stylesheet_link_tag 'entries' %>
+  <div class="entry entry-edit clearfix">
+    <%= form_tag "/entries/#{@entry.path}", role: "form" do %>
+      <div class="title-area">
+        <input class="btn btn-primary pull-right" type="submit" value="Save Changes"></input>
+        <h2 class="entry-title"><%= @entry.formatted_date_time %>&nbsp;</h2>
       </div>
-    </div>
-    <div class="entry">
-      <h2><%= @entry.formatted_date_time %></h2>
-      <textarea name="markdown" class="hide"><%= @entry.markdown %></textarea>
-      <div id="editor"></div>
-    </div>
+      <%= render 'editor' %>
+    <% end %>
   </div>
-<% end %>
+</div>
 
 <script>
   require(['ace/ace'], function (ace) {
     var editor = ace.edit("editor");
     editor.setKeyboardHandler("ace/keyboard/vim");
+    editor.renderer.setShowGutter(false);
 
     var textarea = $('textarea[name="markdown"]').hide();
     editor.getSession().setValue(textarea.val());

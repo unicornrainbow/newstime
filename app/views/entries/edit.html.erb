@@ -5,8 +5,8 @@
   <div class="entry entry-edit clearfix">
     <%= form_tag "/entries/#{@entry.path}", role: "form" do %>
       <div class="title-area">
+        <input class="btn btn-primary pull-right" type="submit" value="Save Changes"></input>
         <h2 class="entry-title"><%= @entry.formatted_date_time %></h2>
-        <input class="btn btn-primary" type="submit" value="Save Changes"></input>
       </div>
       <%= render 'editor' %>
     <% end %>
