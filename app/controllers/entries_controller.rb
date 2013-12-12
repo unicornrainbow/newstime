@@ -107,7 +107,7 @@ class EntriesController < ApplicationController
         when /^diff (.*)$/
           comment_flag=false
         else
-          current[:comment] << line
+          current[:message] << line
         end
       elsif header_flag
         case line
@@ -125,7 +125,7 @@ class EntriesController < ApplicationController
         when /^commit (\w{40})$/
           current = {
             commit: $1,
-            comment: "",
+            message: "",
             diff: ""
           }
           @log_entries << current

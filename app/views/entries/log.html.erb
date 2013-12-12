@@ -5,6 +5,7 @@
   <% @log_entries.each do |log_entry| %>
     <div class="entries-log-entry">
       <h5><%= log_entry[:author] %> <%= log_entry[:date].strftime("%D") %> (<%= time_ago_in_words(log_entry[:date]) %>)</h5>
+      <p><em><%= log_entry[:message] %></em></p>
       <pre><%= log_entry[:diff].chomp.html_safe %></pre>
     </div>
   <% end %>
