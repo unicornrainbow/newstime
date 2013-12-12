@@ -60,6 +60,7 @@ class Notebox::Box
     @results = file_paths.map do |file_path|
       full_path = "#{NOTES_ROOT}/#{file_path}"
       path, ext = file_path.match(/(.*)\.(txt)$/).try(:captures)
+      topic = path.match(/\/(.*)\/?entries/).try(:captures).try(:first)
 
       created_at = parse_created_at("#{path}.#{ext}")
 
