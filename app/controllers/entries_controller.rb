@@ -77,7 +77,6 @@ class EntriesController < ApplicationController
     # - Get the log od diffs to render. (Could be a cell or facet of diffs
     # controller.
 
-
     root_path = "/Users/blake/.notes/entries/"
     path = params[:path]
     full_path = root_path + path
@@ -131,11 +130,34 @@ class EntriesController < ApplicationController
           }
           @log_entries << current
           header_flag=true
+        when /^\+/
+          current[:diff] << "<span class=\"line-added\">#{CGI::escapeHTML(line)}</span>"
+        when /^\-/
+          current[:diff] << "<span class=\"line-removed\">#{CGI::escapeHTML(line)}</span>"
         else
           current[:diff] << line
         end
       end
     end
+
+    html = $markdown.render(markdown)
+
+    attributes = {
+      path: path,
+      markdown: markdown,
+      html: html,
+      created_at: created_at,
+      formatted_date: created_at.strftime('%A, %B %e %Y'),
+      formatted_time: created_at.strftime('%I:%M %p'),
+      formatted_date_time: created_at.strftime('%A, %B %e, %Y, %l:%M %p'),
+      tags: tags
+    }
+    @entry = OpenStruct.new(attributes)
+    respond_to do |format|
+      format.html
+      format.text { render text: markdown }
+    end
+
   end
 
   def edit

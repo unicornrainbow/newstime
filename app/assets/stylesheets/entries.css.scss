@@ -28,12 +28,13 @@
 
 .entries-log {
 
+
 }
 
 .entries-log-entry {
+  width: 800px;
   h5 {
-    width: 600px;
-    padding: 10px;
+    padding: 10px 0;
     border-bottom: 1px solid #efefef;
   }
 
@@ -41,6 +42,19 @@
     border: none;
     background-color: white;
     border-radius: 0;
+    padding-left: 0;
+  }
+
+  .line-added {
+    background-color: #ddffdd;
+    width: 100%;
+    display: block;
+  }
+
+  .line-removed {
+    background-color: #ffdddd;
+    width: 100%;
+    display: block;
   }
 
 }
