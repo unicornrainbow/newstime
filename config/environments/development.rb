@@ -30,4 +30,6 @@ Press::Application.configure do
   # For developing in concert with nginx, no static assest handled by app.
   config.serve_static_assets = false
 
+  # Configure default host for action mailer.
+  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 end
