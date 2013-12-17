@@ -1,4 +1,12 @@
-<% editions.each do |edition| %>
-  <%= link_to edition.path, editions_path(edition) %>
-  <br>
-<% end %>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Editions</th>
+    </tr>
+  </thead>
+  <% editions.each do |edition| %>
+    <tr>
+      <td><%= link_to edition.path, edition %></td>
+    <tr>
+  <% end %>
+</table>
