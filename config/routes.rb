@@ -2,6 +2,8 @@ Press::Application.routes.draw do
 
   root to: redirect('/editions')
 
+  devise_for :users
+
   scope '/editions', controller: 'editions' do
     get '/' => :index, as: :editions
     get '/new' => :new, as: :new_edition
