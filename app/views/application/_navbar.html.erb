@@ -7,30 +7,18 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/">Notebox</a>
+      <a class="navbar-brand" href="/">Press</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <%= navbar_li "Notes", '/', active_path: '/(notes.*)?$'  %>
-        <%= navbar_li "<i class=\"glyphicon glyphicon-flash\"></i>".html_safe, '/new'  %>
-        <%= navbar_li "Images", '/images' %>
+        <%= navbar_li "Editions", '/', active_path: '/editions'  %>
+        <%= navbar_li "Stories", '/', active_path: '/stories'  %>
+        <%= navbar_li "Photos", '/', active_path: '/photos'  %>
 
         <%= dropdown_menu "More <b class=\"caret\"></b>" do %>
           <%= navbar_li "Attachments", '/attachments' %>
-          <%= navbar_li("Bookmarks", '/bookmarks') %>
-          <%= navbar_li "Radio", "/radio" %>
-          <%= navbar_li "Email", "/emails", active_path: "/emails?"  %>
-          <%= navbar_li "Wiki", "/wiki" %>
-          <%= navbar_li "Timers", "/timers" %>
-          <%= navbar_li "Videos", "/videos" %>
-          <%= navbar_li "News", "/news" %>
-
-          <%= dropdown_menu "Biz Dev" do %>
-            <%= navbar_li "Business Models", "/business_models" %>
-            <%= navbar_li "Customer Interviews", "entries/customer_interviews" %>
-          <% end %>
         <% end %>
       </ul>
 

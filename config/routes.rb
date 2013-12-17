@@ -1,18 +1,10 @@
 Press::Application.routes.draw do
 
-  root to: 'entries#index', as: :entries
+  root to: 'editions#index', as: :entries
+
+  resources :editions
 
   get '/new' => 'entries#new'
-
-  # Entries
-  scope '/entries/', controller: 'entries' do
-    get  '/search' => :search
-    get  '*path/edit' => :edit
-    get  '*path/log' => :log
-
-    get  '*path' => 'entries#show'
-    post '*path' => 'entries#update'
-  end
 
   # Images
   scope '/images', controller: 'images' do
