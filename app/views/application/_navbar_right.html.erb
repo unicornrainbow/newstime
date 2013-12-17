@@ -1,9 +1,12 @@
 <ul class="nav navbar-nav navbar-right">
   <%= dropdown_menu "Blakefrost <b class=\"caret\"></b>" do %>
-    <%= navbar_li "Profile", "/profile" %>
-    <%= navbar_li "Settings", "/settings" %>
-    <%= navbar_li "Change Password", "/change_password" %>
+    <%#= navbar_li "Profile", "/profile" %>
+    <%#= navbar_li "Settings", "/settings" %>
+    <%#= navbar_li "Change Password", edit_user_registration_path %>
+    <%= navbar_li "User Settings", edit_user_registration_path %>
     <li class="divider"></li>
-    <%= navbar_li "Sign Out", "/sign_out" %>
+    <li>
+      <%= link_to('Sign Out', destroy_user_session_path, :method => :delete) %>
+    </li>
   <% end %>
 </ul>
