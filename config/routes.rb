@@ -1,6 +1,6 @@
 Press::Application.routes.draw do
 
-  root to: redirect('/editions')
+  root to: 'editions#index'
 
   devise_for :users
 
@@ -22,5 +22,6 @@ Press::Application.routes.draw do
   end
 
   match "*a", :to => "application#routing_error", via: [:get, :post]
+
 
 end
