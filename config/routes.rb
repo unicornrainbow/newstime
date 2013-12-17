@@ -1,4 +1,4 @@
-NoteboxWeb::Application.routes.draw do
+Press::Application.routes.draw do
 
   root to: 'entries#index', as: :entries
 

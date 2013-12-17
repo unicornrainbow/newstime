@@ -3,4 +3,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-NoteboxWeb::Application.load_tasks
+Press::Application.load_tasks

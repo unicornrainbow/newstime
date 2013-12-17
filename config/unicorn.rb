@@ -21,7 +21,7 @@ worker_processes 2
 
 # Help ensure your application will always spawn in the symlinked
 # "current" directory that Capistrano sets up.
-APP_PATH = "/Users/blake/Projects/notebox_web"
+APP_PATH = "/Users/blake/Projects/press"
 working_directory APP_PATH
 
 # listen on both a Unix domain socket and a TCP port,
