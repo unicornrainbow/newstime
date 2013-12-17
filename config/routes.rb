@@ -4,6 +4,7 @@ Press::Application.routes.draw do
 
   scope '/editions', controller: 'editions' do
     get '/' => :index, as: :editions
+    get '/new' => :new, as: :new_edition
   end
 
   scope '/stories', controller: 'stories' do
