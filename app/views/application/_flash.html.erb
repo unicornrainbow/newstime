@@ -1,6 +1,14 @@
 <% if notice %>
-  <p class="notice"><%= notice %></p>
+  <div class="container">
+    <div class="alert alert-info">
+      <p><%= notice %></p>
+    </div>
+  </div>
 <% end %>
 <% if alert %>
-  <p class="alert"><%= alert %></p>
+  <div class="container">
+    <div class="alert alert-danger">
+      <p class="alert"><%= alert %></p>
+    </div>
+  </div>
 <% end %>

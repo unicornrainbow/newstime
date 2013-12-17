@@ -10,7 +10,7 @@ class EditionsController < ApplicationController
   def create
     @edition = Edition.new(edition_params)
     if @edition.save
-      redirect_to @edition
+      redirect_to @edition, notice: "Edition created successfully."
     else
       render "new"
     end
