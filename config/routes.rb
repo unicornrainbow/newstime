@@ -1,17 +1,17 @@
 Press::Application.routes.draw do
 
-  root to: 'editions#index', as: :entries
+  root to: redirect('/editions')
 
-  resources :editions
+  scope '/editions', controller: 'editions' do
+    get '/' => :index, as: :editions
+  end
 
-  get '/new' => 'entries#new'
+  scope '/stories', controller: 'stories' do
+    get '/' => :index, as: :stories
+  end
 
-  # Images
-  scope '/images', controller: 'images' do
-    get '/' => :index
-    get '*path.png' => :png
-    get '*path/edit' => :edit
-    get '*path' => :index
+  scope '/photos', controller: 'photos' do
+    get '/' => :index, as: :photos
   end
 
   match "*a", :to => "application#routing_error", via: [:get, :post]

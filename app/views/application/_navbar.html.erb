@@ -13,31 +13,15 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <%= navbar_li "Editions", '/', active_path: '/editions'  %>
-        <%= navbar_li "Stories", '/', active_path: '/stories'  %>
-        <%= navbar_li "Photos", '/', active_path: '/photos'  %>
+        <%= navbar_li "Editions", editions_path, active_path: editions_path  %>
+        <%= navbar_li "Stories", stories_path, active_path: stories_path %>
+        <%= navbar_li "Photos", photos_path, active_path: photos_path  %>
 
-        <%= dropdown_menu "More <b class=\"caret\"></b>" do %>
-          <%= navbar_li "Attachments", '/attachments' %>
-        <% end %>
+        <%#= dropdown_menu "More <b class=\"caret\"></b>" do %>
+          <%#= navbar_li "Attachments", '/attachments' %>
+        <%# end %>
       </ul>
-
-      <form class="navbar-form navbar-left" role="search" action="/entries/search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" value="<%= params[:q] %>">
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form>
-      <ul class="nav navbar-nav navbar-right">
-        <%= dropdown_menu "Blakefrost <b class=\"caret\"></b>" do %>
-          <%= navbar_li "Profile", "/profile" %>
-          <%= navbar_li "Settings", "/settings" %>
-          <%= navbar_li "Change Password", "/change_password" %>
-          <%= navbar_li "Backup", "/backup" %>
-          <li class="divider"></li>
-          <%= navbar_li "Sign Out", "/sign_out" %>
-        <% end %>
-      </ul>
-    </div><!-- /.navbar-collapse -->
+      <%= render 'navbar_right' %>
+    </div>
   </div>
 </nav>
