@@ -16,6 +16,8 @@ gem "angularjs-rails"
 gem 'unicorn'
 gem 'simple_form'
 gem 'binding_of_caller'
+gem "paperclip"
+gem "mongoid-paperclip", :require => "mongoid_paperclip"
 gem "devise"
 
 gem 'bson'

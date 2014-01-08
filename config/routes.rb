@@ -14,25 +14,29 @@ Press::Application.routes.draw do
     post '/' => :create
   end
 
-  scope '/stories', controller: 'stories' do
-    get '/' => :index, as: :stories
-    get '/new' => :new, as: :new_story
+  resources :stories
+  resources :photos
 
-    get '/:id' => :show, as: :story
-    delete '/:id' => :delete
+  #scope '/stories', controller: 'stories' do
+    #get '/' => :index, as: :stories
+    #get '/new' => :new, as: :new_story
+    #get '/get'
 
-    post '/' => :create
-  end
+    #get '/:id' => :show, as: :story
+    #delete '/:id' => :delete
 
-  scope '/photos', controller: 'photos' do
-    get '/' => :index, as: :photos
-    get '/new' => :new, as: :new_photo
+    #post '/' => :create
+  #end
 
-    get '/:id' => :show, as: :photo
-    delete '/:id' => :delete
+  #scope '/photos', controller: 'photos' do
+    #get '/' => :index, as: :photos
+    #get '/new' => :new, as: :new_photo
 
-    post '/' => :create
-  end
+    #get '/:id' => :show, as: :photo
+    #delete '/:id' => :delete
+
+    #post '/' => :create
+  #end
 
   match "*a", :to => "application#routing_error", via: [:get, :post]
 

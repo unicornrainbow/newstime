@@ -7,13 +7,18 @@
   <table class="table table-bordered">
     <thead>
       <tr>
-        <th colspan=2>Photos</th>
+        <th>Photos</th>
+        <th>URL</th>
+        <th></th>
       </tr>
     </thead>
     <% @photos.each do |photo| %>
       <tr>
         <td><%= link_to photo.name, photo %></td>
-        <td><%= link_to "Delete", photo, method: :delete, confirm: "Are you sure?" %></td>
+        <td><%= link_to photo.attachment.url, photo.attachment.url  %></td>
+        <td>
+        <%= link_to "Edit", edit_photo_path(photo) %> /
+        <%= link_to "Delete", photo, method: :delete, confirm: "Are you sure?" %></td>
       <tr>
     <% end %>
   </table>

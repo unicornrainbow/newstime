@@ -1,21 +1,24 @@
 <div class="container">
-  <div class="btn-group pull-right">
-    <%= link_to 'New', new_story_path, class: 'btn btn-link' %>
-  </div>
-  <hr>
-
   <table class="table table-bordered">
     <thead>
       <tr>
-        <th colspan=2>Stories</th>
+        <th>
+          Stories
+        </th>
       </tr>
     </thead>
     <% @stories.each do |story| %>
       <tr>
-        <td><%= link_to story.name, story %></td>
-        <td><%= link_to "Delete", story, method: :delete, confirm: "Are you sure?" %></td>
+        <td><%= link_to story.name, story %>
+          <strong>
+            (<%= link_to "Edit", edit_story_path(story) %>
+              /
+             <%= link_to "Delete", story, method: :delete, confirm: "Are you sure?" %>)
+          </strong>
+        </td>
       <tr>
     <% end %>
   </table>
+  <%= link_to 'New', new_story_path %>
 
 </div>
