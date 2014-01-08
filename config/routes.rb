@@ -26,6 +26,12 @@ Press::Application.routes.draw do
 
   scope '/photos', controller: 'photos' do
     get '/' => :index, as: :photos
+    get '/new' => :new, as: :new_photo
+
+    get '/:id' => :show, as: :photo
+    delete '/:id' => :delete
+
+    post '/' => :create
   end
 
   match "*a", :to => "application#routing_error", via: [:get, :post]

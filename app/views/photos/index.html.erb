@@ -1,3 +1,21 @@
 <div class="container">
-  Photos
+  <div class="btn-group pull-right">
+    <%= link_to 'New', new_photo_path, class: 'btn btn-link' %>
+  </div>
+  <hr>
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th colspan=2>Photos</th>
+      </tr>
+    </thead>
+    <% @photos.each do |photo| %>
+      <tr>
+        <td><%= link_to photo.name, photo %></td>
+        <td><%= link_to "Delete", photo, method: :delete, confirm: "Are you sure?" %></td>
+      <tr>
+    <% end %>
+  </table>
+
 </div>
