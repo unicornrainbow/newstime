@@ -15,6 +15,11 @@ Press::Application.routes.draw do
 
   scope '/stories', controller: 'stories' do
     get '/' => :index, as: :stories
+    get '/new' => :new, as: :new_story
+
+    get '/:id' => :show, as: :story
+
+    post '/' => :create
   end
 
   scope '/photos', controller: 'photos' do

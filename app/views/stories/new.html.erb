@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-8 story-new">
+      <h2>New Edition</h2>
+      <%= simple_form_for @story do |f| %>
+        <%= f.input :name %>
+        <%= f.input :body, as: :text %>
+        <%= f.button :submit, class: 'btn-default' %>
+      <% end %>
+    </div>
+  </div>
+</div>
