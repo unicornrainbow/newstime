@@ -4,6 +4,7 @@
       <h2>New Photo</h2>
       <%= simple_form_for @photo do |f| %>
         <%= f.input :name %>
+        <%= f.input :attachment %>
         <%= f.button :submit, class: 'btn-default' %>
       <% end %>
     </div>

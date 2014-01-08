@@ -8,14 +8,16 @@
     <thead>
       <tr>
         <th>Photos</th>
-        <th>URL</th>
+        <th>Attachment</th>
         <th></th>
       </tr>
     </thead>
     <% @photos.each do |photo| %>
       <tr>
         <td><%= link_to photo.name, photo %></td>
-        <td><%= link_to photo.attachment.url, photo.attachment.url  %></td>
+
+        <td><%= image_tag photo.attachment.url %><br>
+        <%= link_to photo.attachment.url, photo.attachment.url  %></td>
         <td>
         <%= link_to "Edit", edit_photo_path(photo) %> /
         <%= link_to "Delete", photo, method: :delete, confirm: "Are you sure?" %></td>

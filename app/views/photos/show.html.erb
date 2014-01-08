@@ -3,5 +3,9 @@
   <hr>
   <h4>
     <%= @photo.name %>
+    <br>
+    <%= @photo.attachment.url %>
+    <br>
+    <%= image_tag @photo.attachment.url %>
   </h4>
 </div>
