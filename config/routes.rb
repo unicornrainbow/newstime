@@ -9,6 +9,7 @@ Press::Application.routes.draw do
     get '/new' => :new, as: :new_edition
 
     get '/:id' => :show, as: :edition
+    delete '/:id' => :delete
 
     post '/' => :create
   end

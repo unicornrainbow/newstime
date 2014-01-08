@@ -23,7 +23,12 @@ class EditionsController < ApplicationController
     @edition = Edition.find(params[:id])
   end
 
-  private
+  def delete
+    @edition = Edition.find(params[:id]).destroy
+    redirect_to :back
+  end
+
+private
 
   def edition_params
     params.require(:edition).permit(:name)

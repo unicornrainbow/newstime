@@ -1,12 +1,13 @@
 <table class="table table-bordered">
   <thead>
     <tr>
-      <th>Editions</th>
+      <th colspan=2>Editions</th>
     </tr>
   </thead>
   <% editions.each do |edition| %>
     <tr>
       <td><%= link_to edition.name, edition %></td>
+      <td><%= link_to "Delete", edition, method: :delete, confirm: "Are you sure?" %></td>
     <tr>
   <% end %>
 </table>
