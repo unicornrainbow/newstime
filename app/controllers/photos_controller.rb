@@ -35,7 +35,7 @@ class PhotosController < ApplicationController
     @photo = Photo.find(params[:id])
   end
 
-  def delete
+  def destroy
     @photo = Photo.find(params[:id]).destroy
     redirect_to :back
   end
