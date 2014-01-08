@@ -1,3 +1,17 @@
 <div class="container">
-  Stories Index
+  Stories
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Stories</th>
+      </tr>
+    </thead>
+    <% @stories.each do |story| %>
+      <tr>
+        <td><%= link_to story.name, story %></td>
+      <tr>
+    <% end %>
+  </table>
+
 </div>
