@@ -1,6 +1,6 @@
 class StoriesController < ApplicationController
   def index
-    @stories = Story.all
+    @stories = Story.desc(:name)
   end
 
   def new
@@ -18,6 +18,11 @@ class StoriesController < ApplicationController
 
   def show
     @story = Story.find(params[:id])
+  end
+
+  def delete
+    @story = Story.find(params[:id]).destroy
+    redirect_to :back
   end
 
 private

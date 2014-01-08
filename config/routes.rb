@@ -18,6 +18,7 @@ Press::Application.routes.draw do
     get '/new' => :new, as: :new_story
 
     get '/:id' => :show, as: :story
+    delete '/:id' => :delete
 
     post '/' => :create
   end
