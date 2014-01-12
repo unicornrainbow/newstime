@@ -1,11 +1,12 @@
 <div class="container">
+  <%= render 'editions_navbar' %>
   <h4>
     <%= @edition.name %>
   </h4>
 
+  <pre><%= @edition.source %></pre>
+
   <%= link_to "Edit", edit_edition_path(@edition) %>
   |
   <%= link_to "Preview", preview_edition_path(@edition) %>
-
-  <pre><%= @edition.source %></pre>
 </div>

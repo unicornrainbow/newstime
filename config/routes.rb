@@ -5,6 +5,7 @@ Press::Application.routes.draw do
   devise_for :users
 
   resources :editions do
+    resource :masthead
     member do
       get :preview
     end
