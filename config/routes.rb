@@ -4,7 +4,14 @@ Press::Application.routes.draw do
 
   devise_for :users
 
-  resources :editions
+  resources :editions do
+    member do
+      get :preview
+    end
+  end
+
+
+
   resources :stories
   resources :photos
 

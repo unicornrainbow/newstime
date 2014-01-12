@@ -41,10 +41,17 @@ class EditionsController < ApplicationController
     redirect_to :back
   end
 
+  def preview
+    # Previews a copy of the edition
+    @edition = Edition.find(params[:id])
+    @edition.render! # Update html
+    render text: @edition.html
+  end
+
 private
 
   def edition_params
-    params.require(:edition).permit(:name, :source)
+    params.require(:edition).permit(:name, :source, :html)
   end
 
 end
