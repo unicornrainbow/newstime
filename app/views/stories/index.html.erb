@@ -11,8 +11,7 @@
     </thead>
     <% @stories.each do |story| %>
       <tr>
-        <td><%= link_to story.name, story %>
-        </td>
+        <td><%= link_to story.name, story %></td>
 
         <td>
           <%= link_to "Edit", edit_story_path(story) %> /

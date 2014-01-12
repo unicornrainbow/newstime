@@ -1,0 +1,11 @@
+<style>
+  #edition_source {
+    height: 300px;
+  }
+</style>
+
+<%= simple_form_for edition do |f| %>
+  <%= f.input :name %>
+  <%= f.input :source, as: :text %>
+  <%= f.button :submit, class: 'btn-default' %>
+<% end %>

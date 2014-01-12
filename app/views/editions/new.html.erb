@@ -2,11 +2,7 @@
   <div class="row">
     <div class="col-xs-8">
       <h2>New Edition</h2>
-      <%= simple_form_for @edition do |f| %>
-        <%= f.input :name %>
-        <%= f.input :path %>
-        <%= f.button :submit, class: 'btn-default' %>
-      <% end %>
+      <%= render 'form', edition: @edition %>
     </div>
   </div>
 </div>
