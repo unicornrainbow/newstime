@@ -44,7 +44,9 @@ class EditionsController < ApplicationController
   def preview
     # Previews a copy of the edition
     @edition = Edition.find(params[:id])
-    @edition.render! # Update html
+    renderer = EditionRenderer.new(@edition)
+    @edition.html = renderer.render
+    @edition.save
     render text: @edition.html
   end
 
