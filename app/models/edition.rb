@@ -4,5 +4,10 @@ class Edition
   field :path, type: String
   field :source, type: String
   field :created_at, type: Time
-  field :html, type: String
+  field :html, type: String     # The render html source markup
+  field :title, type: String
+
+  def to_liquid
+    { 'title' => title }
+  end
 end

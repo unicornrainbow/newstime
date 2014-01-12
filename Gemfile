@@ -19,6 +19,7 @@ gem 'binding_of_caller'
 gem "paperclip"
 gem "mongoid-paperclip", :require => "mongoid_paperclip"
 gem "devise"
+gem "liquid"
 
 gem 'bson'
 gem 'bson_ext'

@@ -6,7 +6,8 @@ class EditionRenderer
 
   # Return rendered html
   def render
-    @edition.source
+    template = Liquid::Template.parse(@edition.source)
+    template.render('edition' => @edition)
   end
 
 end
