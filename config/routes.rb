@@ -22,6 +22,7 @@ Press::Application.routes.draw do
   resources :stories
   resources :photos
   resources :videos
+  resources :layouts
 
   namespace :admin do
     resources :users
