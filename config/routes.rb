@@ -11,8 +11,7 @@ Press::Application.routes.draw do
     end
   end
 
-
-
+  resources :mastheads
   resources :stories
   resources :photos
 

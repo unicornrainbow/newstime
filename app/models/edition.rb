@@ -7,6 +7,8 @@ class Edition
   field :html, type: String     # The render html source markup
   field :title, type: String
 
+  has_one :masthead
+
   def to_liquid
     { 'title' => title }
   end
