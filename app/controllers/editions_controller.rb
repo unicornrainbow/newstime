@@ -53,7 +53,7 @@ class EditionsController < ApplicationController
 private
 
   def edition_params
-    params.require(:edition).permit(:name, :source, :title)
+    params.require(:edition).permit(:name, :source, :title, :masthead_id)
   end
 
 end

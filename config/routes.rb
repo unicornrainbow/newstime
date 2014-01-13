@@ -14,6 +14,7 @@ Press::Application.routes.draw do
   resources :mastheads
   resources :stories
   resources :photos
+  resources :videos
 
   # Active 404
   match "*a", :to => "application#routing_error", via: [:get, :post]

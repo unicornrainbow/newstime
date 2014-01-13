@@ -16,10 +16,11 @@
         <%= navbar_li "Editions", editions_path, active_path: editions_path  %>
         <%= navbar_li "Stories", stories_path, active_path: stories_path %>
         <%= navbar_li "Photos", photos_path, active_path: photos_path  %>
+        <%= navbar_li "Video", '/videos', active_path: '/videos'  %>
 
-        <%#= dropdown_menu "More <b class=\"caret\"></b>" do %>
-          <%#= navbar_li "Attachments", '/attachments' %>
-        <%# end %>
+        <%= dropdown_menu "More <b class=\"caret\"></b>" do %>
+          <%= navbar_li "Mastheads", '/mastheads' %>
+        <% end %>
       </ul>
       <%= render 'navbar_right' %>
     </div>

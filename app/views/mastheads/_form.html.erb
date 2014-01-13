@@ -1,5 +1,5 @@
 <%= simple_form_for masthead do |f| %>
   <%= f.input :name %>
-  <%= f.input :edition %>
+  <%= f.association :edition, collection: Edition.all %>
   <%= f.button :submit, class: 'btn-default' %>
 <% end %>

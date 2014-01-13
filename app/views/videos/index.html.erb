@@ -1,0 +1,19 @@
+<div class="container">
+  <h3>Videos</h3>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>videos</th>
+      </tr>
+    </thead>
+    <% @videos.each do |video| %>
+      <tr>
+        <td><%= link_to video.name, video %></td>
+
+        <%= link_to "Edit", edit_video_path(video) %> /
+        <%= link_to "Delete", video, method: :delete, confirm: "Are you sure?" %></td>
+      <tr>
+    <% end %>
+  </table>
+  <%= link_to 'New', new_video_path %>
+</div>

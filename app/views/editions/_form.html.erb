@@ -8,5 +8,6 @@
   <%= f.input :name %>
   <%= f.input :title %>
   <%= f.input :source, as: :text %>
+  <%= f.input :masthead_id, collection: Masthead.all, as: :select %>
   <%= f.button :submit, class: 'btn-default' %>
 <% end %>

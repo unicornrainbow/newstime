@@ -18,15 +18,16 @@ class MastheadsController < ApplicationController
   end
 
   def edit
+    @masthead = Masthead.find(params[:id])
     #if params
     #@edition = Edition.find(params[:id])
     #@masthead = @edition.masthead
   end
 
   def update
-    @edition = Edition.find(params[:id])
-    if @edition.update_attributes(edition_params)
-      redirect_to @edition, notice: "Edition updated successfully."
+    @masthead = Masthead.find(params[:id])
+    if @masthead.update_attributes(masthead_params)
+      redirect_to @masthead, notice: "masthead updated successfully."
     else
       render "edit"
     end
@@ -36,6 +37,11 @@ class MastheadsController < ApplicationController
     @masthead = Masthead.find(params[:id])
     #@edition = Edition.find(params[:edition_id])
     #masthead = @edition.masthead
+  end
+
+  def destroy
+    @masthead = Masthead.find(params[:id]).destroy
+    redirect_to :back
   end
 
 private
