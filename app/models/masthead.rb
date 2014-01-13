@@ -2,5 +2,6 @@
 class Masthead
   include Mongoid::Document
   field :name, type: String
-  belongs_to :edition
+  field :source, type: String
+  has_many :editions
 end
