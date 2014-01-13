@@ -11,7 +11,12 @@ Press::Application.routes.draw do
     end
   end
 
-  resources :mastheads
+  resources :mastheads do
+    member do
+      get :preview
+    end
+  end
+
   resources :stories
   resources :photos
   resources :videos

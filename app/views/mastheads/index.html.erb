@@ -12,7 +12,8 @@
       <tr>
         <td><%= link_to masthead.name, masthead %></td>
         <td><%= link_to "Edit", edit_masthead_path(masthead) %> /
-          <%= link_to "Delete", masthead, method: :delete, confirm: "Are you sure?" %></td>
+          <%= link_to "Delete", masthead, method: :delete, confirm: "Are you sure?" %> /
+          <%= link_to "Preview", preview_masthead_path(masthead) %></td>
       <tr>
     <% end %>
   </table>

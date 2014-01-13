@@ -44,6 +44,14 @@ class MastheadsController < ApplicationController
     redirect_to :back
   end
 
+  def preview
+    @masthead = Masthead.find(params[:id])
+    renderer = MastheadRenderer.new(@masthead)
+    @masthead.html = renderer.render
+    @masthead.save
+    render text: @masthead.html
+  end
+
 private
 
   def masthead_params
