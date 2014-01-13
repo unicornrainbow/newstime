@@ -25,7 +25,6 @@ class Admin::OrganizationsController < AdminController
     @organization = Organization.find(params[:id])
   end
 
-
   def update
     @organization = Organization.find(params[:id])
     if @organization.update_attributes(organization_params)
@@ -34,7 +33,6 @@ class Admin::OrganizationsController < AdminController
       render "edit"
     end
   end
-
 
 private
 
