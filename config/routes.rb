@@ -3,7 +3,7 @@ Press::Application.routes.draw do
   root to: 'editions#index'
 
   devise_for :users
-  devise_for :admins
+  devise_for :admin_user
 
 
   resources :editions do
@@ -25,6 +25,7 @@ Press::Application.routes.draw do
 
   namespace :admin do
     resources :users
+    resources :organizations
   end
 
   # Active 404
