@@ -1,6 +1,6 @@
 <ul class="nav navbar-nav navbar-right">
   <% if current_user %>
-    <%= dropdown_menu "Blakefrost <b class=\"caret\"></b>" do %>
+  <%= dropdown_menu "#{current_user.email} (#{current_user.organization.name}) <b class=\"caret\"></b>" do %>
       <%#= navbar_li "Profile", "/profile" %>
       <%#= navbar_li "Settings", "/settings" %>
       <%#= navbar_li "Change Password", edit_user_registration_path %>
