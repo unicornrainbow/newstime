@@ -3,6 +3,8 @@ Press::Application.routes.draw do
   root to: 'editions#index'
 
   devise_for :users
+  devise_for :admins
+
 
   resources :editions do
     resource :masthead
@@ -20,6 +22,10 @@ Press::Application.routes.draw do
   resources :stories
   resources :photos
   resources :videos
+
+  namespace :admin do
+    resources :users
+  end
 
   # Active 404
   match "*a", :to => "application#routing_error", via: [:get, :post]

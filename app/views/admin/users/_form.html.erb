@@ -1,0 +1,4 @@
+<%= simple_form_for user, url: admin_user_path(user) do |f| %>
+  <%= f.input :email %>
+  <%= f.button :submit, class: 'btn-default' %>
+<% end %>
