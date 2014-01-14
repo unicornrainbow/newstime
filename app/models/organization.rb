@@ -5,5 +5,6 @@ class Organization
   field :name, type: String
 
   has_many :users
+  has_many :editions
 
 end

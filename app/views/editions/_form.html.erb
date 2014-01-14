@@ -1,14 +1,4 @@
-<style>
-  #edition_source {
-    height: 300px;
-  }
-</style>
-
 <%= simple_form_for edition do |f| %>
   <%= f.input :name %>
-  <%= f.input :title %>
-  <%= f.input :source, as: :text %>
-  <%= f.input :masthead_id, collection: Masthead.all, as: :select %>
-  <%= f.input :layout_id, collection: Layout.all, as: :select %>
   <%= f.button :submit, class: 'btn-default' %>
 <% end %>

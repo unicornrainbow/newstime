@@ -3,7 +3,7 @@ class EditionsController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-    @editions = Edition.asc(:path)
+    @editions = current_user.organization.editions.asc(:path)
   end
 
   def new
@@ -12,6 +12,10 @@ class EditionsController < ApplicationController
 
   def create
     @edition = Edition.new(edition_params)
+
+    # All edtions must have an orgnaization
+    @edition.organization = current_user.organization
+
     if @edition.save
       redirect_to @edition, notice: "Edition created successfully."
     else
