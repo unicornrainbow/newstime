@@ -17,6 +17,10 @@ class SectionsController < ApplicationController
 
   def create
     @section = Section.new(section_params)
+
+    # All section must have an organization
+    @section.organization = current_user.organization
+
     if @section.save
       redirect_to @section, notice: "Section created successfully."
     else

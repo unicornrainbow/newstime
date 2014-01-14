@@ -6,6 +6,7 @@ class Section
 
   belongs_to :edition
   belongs_to :layout
+  belongs_to :organization
   has_many   :pages
   field      :ordinal, type: Integer
 end
