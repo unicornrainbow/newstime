@@ -53,10 +53,7 @@ class SectionsController < ApplicationController
   def preview
     # Previews a copy of the section
     @section = Section.find(params[:id])
-    renderer = SectionRenderer.new(@section)
-    @section.html = renderer.render
-    @section.save
-    render text: @section.html
+    render text: SectionRenderer.new(@section).render
   end
 
 private
