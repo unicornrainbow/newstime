@@ -5,7 +5,6 @@ Press::Application.routes.draw do
   devise_for :users
   devise_for :admin_user
 
-
   resources :editions do
     resource :masthead
     member do
@@ -23,6 +22,7 @@ Press::Application.routes.draw do
   resources :photos
   resources :videos
   resources :layouts
+  resources :partials
 
   namespace :admin do
     resources :users
