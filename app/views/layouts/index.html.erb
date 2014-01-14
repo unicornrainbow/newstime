@@ -4,14 +4,16 @@
     <thead>
       <tr>
         <th>layout</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <% @layouts.each do |layout| %>
       <tr>
         <td><%= link_to layout.name, layout %></td>
-
-        <%= link_to "Edit", edit_layout_path(layout) %> /
-        <%= link_to "Delete", layout, method: :delete, confirm: "Are you sure?" %></td>
+        <td>
+          <%= link_to "Edit", edit_layout_path(layout) %> /
+          <%= link_to "Delete", layout, method: :delete, confirm: "Are you sure?" %>
+        </td>
       <tr>
     <% end %>
   </table>
