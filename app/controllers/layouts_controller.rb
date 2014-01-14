@@ -47,7 +47,7 @@ class LayoutsController < ApplicationController
 private
 
   def layout_params
-    params.require(:layout).permit(:name, :source)
+    params.require(:layout).permit(:name, :source, :parent_layout_id)
   end
 
 end
