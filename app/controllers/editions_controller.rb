@@ -34,6 +34,7 @@ class EditionsController < ApplicationController
 
   def show
     @edition = Edition.find(params[:id])
+    @sections = @edition.sections
   end
 
   def destroy

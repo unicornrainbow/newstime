@@ -6,6 +6,7 @@ Press::Application.routes.draw do
   devise_for :admin_user
 
   resources :editions do
+    resource :section
     resource :masthead
     member do
       get :preview
@@ -23,6 +24,7 @@ Press::Application.routes.draw do
   resources :videos
   resources :layouts
   resources :partials
+  resources :sections
 
   namespace :admin do
     resources :users

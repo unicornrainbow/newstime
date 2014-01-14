@@ -9,8 +9,7 @@ class Edition
   field :html, type: String     # The render html source markup
   field :title, type: String
 
-  belongs_to :masthead
-  belongs_to :layout
+  has_many :sections
 
   def to_liquid
     { 'title' => title }

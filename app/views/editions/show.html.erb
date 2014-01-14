@@ -1,10 +1,16 @@
 <div class="container">
   <%= render 'editions_navbar' %>
-  <h4>
-    <%= @edition.name %>
-  </h4>
+  <h1>Edition Name: <%= @edition.name %></h1>
 
-  <pre><%= @edition.source %></pre>
+  <h4>Sections</h4>
+  <ol>
+    <% @sections.each do |section| %>
+      <li><%= link_to section.name, section %></li>
+    <% end %>
+  </ol>
+  <%= link_to "New Section", new_edition_section_path(@edition) %>
+
+  <br><br>
 
   <%= link_to "Edit", edit_edition_path(@edition) %>
   |
