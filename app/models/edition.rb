@@ -10,6 +10,7 @@ class Edition
   field :title, type: String
 
   belongs_to :masthead
+  belongs_to :layout
 
   def to_liquid
     { 'title' => title }
