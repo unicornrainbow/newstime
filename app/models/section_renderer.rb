@@ -12,8 +12,20 @@ class SectionRenderer
     @edition = @section.edition
     @pages   = @section.pages
 
+    page_content = @pages.each_with_index.map do |page, i|
+      renderer = PageRenderer.new(page)
+      renderer.render(
+        'page_number' => i+1,
+        'page' => page,
+        'edition' => @edition
+      )
+    end.join
+
     layout_template = Liquid::Template.parse(@layout.source)
-    layout_template.render('yield' => "Output from Page Rendering")
+    layout_template.render(
+      'yield' => page_content,
+      'edition' => @edition
+    )
   end
 
 end

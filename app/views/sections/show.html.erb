@@ -1,6 +1,15 @@
 <div class="container">
 
   <%= @section.name %>
+
+  <h4>Pages</h4>
+  <ol>
+    <% @pages.each do |page| %>
+      <li><%= link_to page.name, page %></li>
+    <% end %>
+  </ol>
+  <%= link_to "New Page", new_section_page_path(@section) %>
+
   <br>
   <%= link_to "Edit", edit_section_path(@section) %> |
   <%= link_to "Preview", preview_section_path(@section) %>
