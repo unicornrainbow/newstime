@@ -8,5 +8,6 @@ class Organization
   has_many :editions
   has_many :sections
   has_many :stylesheets
+  has_many :javascripts
 
 end
