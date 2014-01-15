@@ -7,5 +7,6 @@ class Organization
   has_many :users
   has_many :editions
   has_many :sections
+  has_many :stylesheets
 
 end

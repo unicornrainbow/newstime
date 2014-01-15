@@ -24,6 +24,7 @@ Press::Application.routes.draw do
   resources :videos
   resources :layouts
   resources :partials
+  resources :stylesheets
   resources :pages do
     member do
       get :preview
