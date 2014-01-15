@@ -5,9 +5,19 @@ class PageRenderer
   end
 
   # Return rendered html
-  def render(params)
-    layout_template = Liquid::Template.parse(@page.source)
-    layout_template.render(params)
+  def render(params={})
+    result = ''
+
+    page_template = Liquid::Template.parse(@page.source)
+    result = page_template.render(params)
+
+    if @page.layout
+      layout = @page.layout
+      layout_template = Liquid::Template.parse(layout.source)
+      result = layout_template.render(params.merge('yield' => result))
+    else
+      result
+    end
   end
 
 end

@@ -43,10 +43,17 @@ class PagesController < ApplicationController
     end
   end
 
+  def preview
+    # Previews a copy of the section
+    @page = Page.find(params[:id])
+    render text: PageRenderer.new(@page).render
+  end
+
+
 private
 
   def page_params
-    params.require(:page).permit(:name, :section_id, :source)
+    params.require(:page).permit(:name, :section_id, :source, :layout_id)
   end
 
 end
