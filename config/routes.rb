@@ -26,6 +26,7 @@ Press::Application.routes.draw do
   resources :partials
   resources :stylesheets
   resources :javascripts
+  resources :inlets
   resources :pages do
     member do
       get :preview
