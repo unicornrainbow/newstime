@@ -20,6 +20,7 @@ gem "paperclip"
 gem "mongoid-paperclip", :require => "mongoid_paperclip"
 gem "devise"
 gem "liquid"
+gem "tilt"
 
 gem 'bson'
 gem 'bson_ext'

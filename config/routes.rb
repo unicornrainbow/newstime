@@ -10,6 +10,8 @@ Press::Application.routes.draw do
     resource :masthead
     member do
       get :preview
+      get '*path.js'  => :javascript
+      get '*path.css' => :stylesheet
     end
   end
 
@@ -30,7 +32,6 @@ Press::Application.routes.draw do
       get :preview
     end
   end
-
 
 
   resources :sections do

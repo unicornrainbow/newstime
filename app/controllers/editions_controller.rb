@@ -25,8 +25,8 @@ class EditionsController < ApplicationController
 
   def edit
     @edition = Edition.find(params[:id])
-    template_name = 'sfrecord'
-    render layout: "#{template_name}/application"
+    edition_layout = EditionLayout.new('sfrecord/v1')
+    render text: edition_layout.render
   end
 
   def update
@@ -55,6 +55,18 @@ class EditionsController < ApplicationController
     @edition.html = renderer.render
     @edition.save
     render text: @edition.html
+  end
+
+  def javascript
+    environment = Sprockets::Environment.new
+    environment.append_path "#{Rails.root}/vendor/edition_layouts/sfrecord/v1/javascripts"
+    render text: environment["#{params[:path]}.js"], content_type: "application/js"
+  end
+
+  def stylesheet
+    environment = Sprockets::Environment.new
+    environment.append_path "#{Rails.root}/vendor/edition_layouts/sfrecord/v1/stylesheets"
+    render text: environment["#{params[:path]}.css"], content_type: "text/css"
   end
 
 private
