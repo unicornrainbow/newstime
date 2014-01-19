@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "fonts" %>
+</head>
+<body ng-app="app">
+  <%= render 'mastheads/main' %>
+  <%= yield %>
+  <%= render 'grid_overlay' %>
+  <%= javascript_include_tag "application" %>
+</body>
+</html>
