@@ -25,6 +25,8 @@ class EditionsController < ApplicationController
 
   def edit
     @edition = Edition.find(params[:id])
+    template_name = 'sfrecord'
+    render layout: "#{template_name}/application"
   end
 
   def update
