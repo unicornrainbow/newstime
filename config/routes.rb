@@ -24,8 +24,6 @@ Press::Application.routes.draw do
   resources :videos
   resources :layouts
   resources :partials
-  resources :stylesheets
-  resources :javascripts
   resources :inlets
   resources :pages do
     member do
