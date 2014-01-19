@@ -64,6 +64,7 @@ GEM
     bson (2.0.0)
     bson_ext (1.5.1)
     builder (3.1.4)
+    chunky_png (1.2.8)
     climate_control (0.0.3)
       activesupport (>= 3.0)
     cocaine (0.5.3)
@@ -77,6 +78,12 @@ GEM
       execjs
     coffee-script-source (1.6.3)
     columnize (0.3.6)
+    compass (0.12.2)
+      chunky_png (~> 1.2)
+      fssm (>= 0.2.7)
+      sass (~> 3.1)
+    compass-rails (1.1.2)
+      compass (>= 0.12.2)
     connection_pool (1.2.0)
     debug_inspector (0.0.2)
     debugger (1.6.3)
@@ -97,6 +104,7 @@ GEM
     erubis (2.7.0)
     execjs (2.0.2)
     expression_parser (0.9.0)
+    fssm (0.2.10)
     hike (1.2.3)
     i18n (0.6.9)
     jbuilder (1.5.3)
@@ -202,6 +210,7 @@ DEPENDENCIES
   bson
   bson_ext
   coffee-rails (~> 4.0.0)
+  compass-rails
   debugger
   devise
   dotenv-rails

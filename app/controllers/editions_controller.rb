@@ -66,6 +66,11 @@ class EditionsController < ApplicationController
   def stylesheet
     environment = Sprockets::Environment.new
     environment.append_path "#{Rails.root}/vendor/edition_layouts/sfrecord/v1/stylesheets"
+    environment.context_class.class_eval do
+      def asset_path(path, options = {})
+        "/assets/#{path}"
+      end
+    end
     render text: environment["#{params[:path]}.css"], content_type: "text/css"
   end
 

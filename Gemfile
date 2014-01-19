@@ -22,6 +22,8 @@ gem "devise"
 gem "liquid"
 gem "tilt"
 
+gem 'compass-rails'
+
 gem 'bson'
 gem 'bson_ext'
 gem 'nprogress-rails'
