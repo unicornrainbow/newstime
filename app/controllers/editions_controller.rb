@@ -66,6 +66,11 @@ class EditionsController < ApplicationController
   def stylesheet
     environment = Sprockets::Environment.new
     environment.append_path "#{Rails.root}/vendor/edition_layouts/sfrecord/v1/stylesheets"
+
+    # Major hack to load bootstrap into this isolated environment courtesy of https://gist.github.com/datenimperator/3668587
+    Bootstrap.load!
+    environment.append_path Compass::Frameworks['bootstrap'].templates_directory + "/../vendor/assets/stylesheets"
+
     environment.context_class.class_eval do
       def asset_path(path, options = {})
         "/assets/#{path}"
