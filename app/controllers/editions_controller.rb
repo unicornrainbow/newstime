@@ -25,8 +25,9 @@ class EditionsController < ApplicationController
 
   def edit
     @edition = Edition.find(params[:id])
-    edition_layout = LayoutModule.new('sfrecord/v1')
-    render text: edition_layout.render
+    layout_module = LayoutModule.new('sfrecord/v1')
+    template = layout_module.templates['main']
+    render text: template.render(title: "SF Record")
   end
 
   def update
@@ -59,7 +60,7 @@ class EditionsController < ApplicationController
 
   def javascript
     environment = Sprockets::Environment.new
-    environment.append_path "#{Rails.root}/vendor/edition_layouts/sfrecord/v1/javascripts"
+    environment.append_path "#{Rails.root}/vendor/layout_modules/sfrecord/v1/javascripts"
 
     # Hack to load paths for jquery and angular gems
     environment.append_path Gem.loaded_specs['angularjs-rails'].full_gem_path + "/vendor/assets/javascripts"
@@ -73,7 +74,7 @@ class EditionsController < ApplicationController
 
   def stylesheet
     environment = Sprockets::Environment.new
-    environment.append_path "#{Rails.root}/vendor/edition_layouts/sfrecord/v1/stylesheets"
+    environment.append_path "#{Rails.root}/vendor/layout_modules/sfrecord/v1/stylesheets"
 
     # Major hack to load bootstrap into this isolated environment courtesy of https://gist.github.com/datenimperator/3668587
     Bootstrap.load!

@@ -1,41 +1,109 @@
 # layout_module = LayoutModule.new('sfrecord/v1')
-# template = layout_module.find_template('main')
+# template = layout_module.templates['main']
 # template.render(title: "San Francisco Record")
 
-module LayoutModule
+
+# TODO: Need to guard against recursion in layout rendering! Limit depth
+
+class LayoutModule
+
+  attr_reader :name, :root, :templates, :partials
 
   def initialize(name)
     @name = name
-    @layout_module_root = "#{Rails.root}/vendor/layout_modules/#{@name}"
+    @root = "#{Rails.root}/vendor/layout_modules/#{@name}"
+    @templates = TemplateAccessor.new(self)
+    @partials = PartialAccessor.new(self)
   end
 
-  def render
-    template = Tilt.new("#{@layout_module_root}/views/main.html.erb")
-    context = Context.new(title: "San Francisco Record")
-    template.render(context) do
-      %q{
-      <div class="row">
-        <div class="col span24">
-          Content
-        </div>
-      </div>
-      }
+  class TemplateAccessor
+
+    def initialize(layout_module)
+      @layout_module = layout_module
     end
+
+    def [](name)
+      Template.new(@layout_module, name)
+    end
+
   end
 
+  class PartialAccessor
+
+    def initialize(layout_module)
+      @layout_module = layout_module
+    end
+
+    def [](name)
+      Partial.new(@layout_module, name)
+    end
+
+  end
 
   class Template
 
-    def self.find(name)
-
+    def initialize(layout_module, name)
+      @layout_module = layout_module
+      @name = name
     end
 
+    def render(*args)
+      context = Context.new(@layout_module, *args)
+
+      # TODO: Resolve extension and location based on search path and extensions
+      # (Should be handled by Tilt)
+
+      tilt = Tilt.new("#{@layout_module.root}/views/#{@name}.html.erb")
+      tilt.render(context) do
+        %q{
+        <div class="row">
+          <div class="col span24">
+            Content
+          </div>
+        </div>
+        }
+      end
+    end
+  end
+
+  class Partial
+
+    def initialize(layout_module, name)
+      @layout_module = layout_module
+      @name = name
+    end
+
+    def render(*args)
+      context = Context.new(@layout_module, *args)
+
+      # TODO: Resolve extension and location based on search path and extensions
+      # (Should be handled by Tilt)
+
+      # Prefixed last segment of name with an underscore by convention.
+      segments = @name.split('/')
+      segments[-1] = "_" << segments[-1]
+      @name = segments.join('/')
+
+      tilt = Tilt.new("#{@layout_module.root}/views/#{@name}.html.erb")
+      tilt.render(context) do
+        %q{
+        <div class="row">
+          <div class="col span24">
+            Content
+          </div>
+        </div>
+        }
+      end
+    end
   end
 
   class Context
+    attr_reader :layout_module
+
     attr_accessor :title
 
-    def initialize(opts={})
+    def initialize(layout_module, opts={})
+      @layout_module = layout_module
       @title = opts.delete(:title)
     end
 
@@ -48,7 +116,7 @@ module LayoutModule
     end
 
     def render(name, *args)
-
+      layout_module.partials[name].render(*args)
     end
   end
 
