@@ -60,6 +60,11 @@ class EditionsController < ApplicationController
   def javascript
     environment = Sprockets::Environment.new
     environment.append_path "#{Rails.root}/vendor/edition_layouts/sfrecord/v1/javascripts"
+
+    # Hack to load paths for jquery and angular gems
+    environment.append_path Gem.loaded_specs['angularjs-rails'].full_gem_path + "/vendor/assets/javascripts"
+    environment.append_path Gem.loaded_specs['jquery-rails'].full_gem_path + "/vendor/assets/javascripts"
+
     render text: environment["#{params[:path]}.js"], content_type: "application/js"
   end
 
