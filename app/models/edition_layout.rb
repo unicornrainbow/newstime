@@ -12,7 +12,6 @@ class EditionLayout
 
 end
 
-
 class EditionLayoutContext
 
   attr_accessor :title
@@ -25,7 +24,8 @@ class EditionLayoutContext
     %Q{<link href="#{name}.css" rel="stylesheet" media="screen" />}
   end
 
-  def javascript_include_tag(*args)
+  def javascript_include_tag(name)
+    %Q{<script href="#{name}.js" type="text/javascript"></script>}
   end
 
   def render(*args)
