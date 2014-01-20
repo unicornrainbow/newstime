@@ -11,7 +11,7 @@ class LayoutModule
 
   def initialize(name)
     @name = name
-    @root = "#{Rails.root}/vendor/layout_modules/#{@name}"
+    @root = "#{Rails.root}/layouts/#{@name}"
     @templates = TemplateAccessor.new(self)
     @partials = PartialAccessor.new(self)
   end
