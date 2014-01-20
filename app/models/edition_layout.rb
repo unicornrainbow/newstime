@@ -1,3 +1,4 @@
+# TODO: Rename to LayoutModule
 class EditionLayout
 
   def initialize(name)
@@ -7,7 +8,15 @@ class EditionLayout
   def render
     template = Tilt.new("#{Rails.root}/vendor/edition_layouts/#{@name}/views/main.html.erb")
     context = EditionLayoutContext.new(title: "San Francisco Record")
-    template.render(context) { "Content" }
+    template.render(context) do
+      %q{
+      <div class="row">
+        <div class="col span24">
+          Content
+        </div>
+      </div>
+      }
+    end
   end
 
 end
