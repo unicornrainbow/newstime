@@ -1,4 +1,12 @@
 GIT
+  remote: git://github.com/luckyjazzbo/angular-rails-templates.git
+  revision: c8b494a2f684914d471f6a6143684b467a4e2ba9
+  specs:
+    angular-rails-templates (0.0.2)
+      railties (>= 3.1)
+      sprockets-rails
+
+GIT
   remote: git://github.com/mongoid/mongoid.git
   revision: bbc0df51f9c1fec19dd15e4c5d478d6474adefdc
   specs:
@@ -203,6 +211,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  angular-rails-templates!
   angularjs-rails
   better_errors
   binding_of_caller

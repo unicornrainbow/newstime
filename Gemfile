@@ -28,6 +28,8 @@ gem 'bson'
 gem 'bson_ext'
 gem 'nprogress-rails'
 
+gem 'angular-rails-templates', github: 'luckyjazzbo/angular-rails-templates' # Including for support in templates, should not have to be loaded up here.
+
 group :development, :test do
   gem 'debugger'
   gem 'better_errors'

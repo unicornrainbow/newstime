@@ -25,7 +25,7 @@ class EditionLayoutContext
   end
 
   def javascript_include_tag(name)
-    %Q{<script href="#{name}.js" type="text/javascript"></script>}
+    %Q{<script src="#{name}.js" type="text/javascript"></script>}
   end
 
   def render(*args)

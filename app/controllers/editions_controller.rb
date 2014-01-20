@@ -65,7 +65,10 @@ class EditionsController < ApplicationController
     environment.append_path Gem.loaded_specs['angularjs-rails'].full_gem_path + "/vendor/assets/javascripts"
     environment.append_path Gem.loaded_specs['jquery-rails'].full_gem_path + "/vendor/assets/javascripts"
 
-    render text: environment["#{params[:path]}.js"], content_type: "application/js"
+    # Is is a coffee file or a straight js? Need to have this done
+    # automatically with sprockets or something.
+
+    render text: environment["#{params[:path]}"], content_type: "text/javascript"
   end
 
   def stylesheet

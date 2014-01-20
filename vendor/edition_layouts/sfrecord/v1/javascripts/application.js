@@ -26,7 +26,6 @@
 
 app = angular.module("app", ["templates"])
 
-
 $(document).keypress(function(event) {
   // Map t to toggle grid.
   if (event.which == 116) {
