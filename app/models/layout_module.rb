@@ -1,13 +1,12 @@
-# TODO: Rename to LayoutModule
-class EditionLayout
+class LayoutModule
 
   def initialize(name)
     @name = name
   end
 
   def render
-    template = Tilt.new("#{Rails.root}/vendor/edition_layouts/#{@name}/views/main.html.erb")
-    context = EditionLayoutContext.new(title: "San Francisco Record")
+    template = Tilt.new("#{Rails.root}/vendor/layout_modules/#{@name}/views/main.html.erb")
+    context = LayoutModuleContext.new(title: "San Francisco Record")
     template.render(context) do
       %q{
       <div class="row">
@@ -21,7 +20,7 @@ class EditionLayout
 
 end
 
-class EditionLayoutContext
+class LayoutModuleContext
 
   attr_accessor :title
 

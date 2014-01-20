@@ -25,7 +25,7 @@ class EditionsController < ApplicationController
 
   def edit
     @edition = Edition.find(params[:id])
-    edition_layout = EditionLayout.new('sfrecord/v1')
+    edition_layout = LayoutModule.new('sfrecord/v1')
     render text: edition_layout.render
   end
 
