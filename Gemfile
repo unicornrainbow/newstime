@@ -21,6 +21,7 @@ gem "mongoid-paperclip", :require => "mongoid_paperclip"
 gem "devise"
 gem "liquid"
 gem "tilt"
+gem "slim"
 
 gem 'compass-rails'
 

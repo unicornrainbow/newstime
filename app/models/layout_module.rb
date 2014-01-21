@@ -9,6 +9,12 @@ class LayoutModule
 
   attr_reader :name, :root, :templates, :partials
 
+  SUPPORTED_TEMPLATE_FORMATS = [
+    :erb,
+    :haml,
+    :slim
+  ]
+
   def initialize(name)
     @name = name
     @root = "#{Rails.root}/layouts/#{@name}"
@@ -76,15 +82,21 @@ class LayoutModule
     def render(*args)
       context = Context.new(@layout_module, *args)
 
-      # TODO: Resolve extension and location based on search path and extensions
-      # (Should be handled by Tilt)
-
       # Prefixed last segment of name with an underscore by convention.
       segments = @name.split('/')
       segments[-1] = "_" << segments[-1]
       @name = segments.join('/')
 
-      tilt = Tilt.new("#{@layout_module.root}/views/#{@name}.html.erb")
+      file_name = "#{@layout_module.root}/views/#{@name}.html"
+
+      # Resolve which type of template (erb, haml, slim...)
+      # TODO: There should be a cleaner way to do this.
+      ext = SUPPORTED_TEMPLATE_FORMATS.find { |ext| File.exists?("#{file_name}.#{ext}") }
+      file_name << ".#{ext}"
+
+      #throw file_name
+
+      tilt = Tilt.new(file_name)
       tilt.render(context) do
         %q{
         <div class="row">
