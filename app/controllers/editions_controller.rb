@@ -91,9 +91,8 @@ class EditionsController < ApplicationController
   def font
     fonts_root = "#{Rails.root}/layouts/sfrecord/fonts"
 
-    # WARNING: Make sure the user can escape up about the font root (Chroot?)
+    # TODO: WARNING: Make sure the user can escape up about the font root (Chroot?)
     font_path = "#{fonts_root}/#{params["path"]}.#{params["format"]}"
-    #throw font_path
     not_found unless File.exists?(font_path)
     send_file font_path
   end
