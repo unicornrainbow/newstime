@@ -130,6 +130,10 @@ class LayoutModule
     def render(name, *args)
       layout_module.partials[name].render(*args)
     end
+
+    def cache(*args)
+      yield # Mock implementation.
+    end
   end
 
 end
