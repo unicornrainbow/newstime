@@ -33,7 +33,7 @@ fonts = [
   'Poiret+One'
 ]
 
-WebFont.load google: {families: fonts}
+#WebFont.load google: {families: fonts}
 
 #WebFont.load google: {families: ['Sacramento']}
 #WebFont.load google: {families: ['Abel']}
