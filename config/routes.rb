@@ -10,6 +10,7 @@ Press::Application.routes.draw do
     resource :masthead
     member do
       get :preview
+      get 'fonts/*path' => :font
       get '*path.js'  => :javascript
       get '*path.css' => :stylesheet
     end
