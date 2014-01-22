@@ -29,7 +29,17 @@ class EditionsController < ApplicationController
     @edition = Edition.find(params[:id])
     layout_module = LayoutModule.new('sfrecord')
     template = layout_module.templates['main']
-    render text: template.render(title: "SF Record")
+
+    sections = [
+      OpenStruct.new(name: 'Main', path: "main"),
+      OpenStruct.new(name: 'Business', path: "business"),
+      OpenStruct.new(name: 'Sports', path: "sports"),
+      OpenStruct.new(name: 'Comics', path: "comics"),
+      OpenStruct.new(name: 'Bay Area', path: "bay_area"),
+      OpenStruct.new(name: 'World/Nation', path: "world")
+    ]
+
+    render text: template.render(sections: sections, title: "SF Record")
   end
 
   def update
@@ -80,7 +90,7 @@ class EditionsController < ApplicationController
   end
 
   def stylesheet
-    result = Rails.cache.fetch "editions/#{params["id"]}/stylesheets/#{params[:path]}" do
+    #result = Rails.cache.fetch "editions/#{params["id"]}/stylesheets/#{params[:path]}" do
       environment = Sprockets::Environment.new
       environment.append_path "#{Rails.root}/layouts/sfrecord/stylesheets"
 
@@ -94,8 +104,8 @@ class EditionsController < ApplicationController
         end
       end
 
-      environment["#{params[:path]}.css"]
-    end
+      result = environment["#{params[:path]}.css"]
+    #end
     render text: result, content_type: "text/css"
   end
 
