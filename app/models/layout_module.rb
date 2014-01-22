@@ -107,9 +107,6 @@ class LayoutModule
       end
     end
 
-    # Prevent infinite recursion of render.
-    include RecursionControl
-    prevent_recursion :render
   end
 
   class Context
