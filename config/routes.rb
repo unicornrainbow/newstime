@@ -5,7 +5,6 @@ Press::Application.routes.draw do
   devise_for :users
   devise_for :admin_user
 
-
   resources :editions do
     resource :section
     resource :masthead
