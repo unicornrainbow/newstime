@@ -90,7 +90,7 @@ class EditionsController < ApplicationController
   end
 
   def stylesheet
-    #result = Rails.cache.fetch "editions/#{params["id"]}/stylesheets/#{params[:path]}" do
+    result = Rails.cache.fetch "editions/#{params["id"]}/stylesheets/#{params[:path]}" do
       environment = Sprockets::Environment.new
       environment.append_path "#{Rails.root}/layouts/sfrecord/stylesheets"
 
@@ -104,8 +104,8 @@ class EditionsController < ApplicationController
         end
       end
 
-      result = environment["#{params[:path]}.css"]
-    #end
+      environment["#{params[:path]}.css"]
+    end
     render text: result, content_type: "text/css"
   end
 
