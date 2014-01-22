@@ -47,11 +47,11 @@ class LayoutModule
   end
 
   class Template
-
     def initialize(layout_module, name)
       @layout_module = layout_module
       @name = name
     end
+
 
     def render(*args)
       context = Context.new(@layout_module, *args)
@@ -73,7 +73,6 @@ class LayoutModule
   end
 
   class Partial
-
     def initialize(layout_module, name)
       @layout_module = layout_module
       @name = name
@@ -107,6 +106,10 @@ class LayoutModule
         }
       end
     end
+
+    # Prevent infinite recursion of render.
+    include RecursionControl
+    prevent_recursion :render
   end
 
   class Context
