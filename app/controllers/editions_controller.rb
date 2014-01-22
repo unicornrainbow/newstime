@@ -61,33 +61,42 @@ class EditionsController < ApplicationController
   end
 
   def javascript
-    environment = Sprockets::Environment.new
-    environment.append_path "#{Rails.root}/layouts/sfrecord/javascripts"
+    # TODO: Action caching would probably word better.
+    result = Rails.cache.fetch "editions/#{params["id"]}/javascript/#{params[:path]}" do
+      environment = Sprockets::Environment.new
+      environment.append_path "#{Rails.root}/layouts/sfrecord/javascripts"
 
-    # Hack to load paths for jquery and angular gems
-    environment.append_path Gem.loaded_specs['angularjs-rails'].full_gem_path + "/vendor/assets/javascripts"
-    environment.append_path Gem.loaded_specs['jquery-rails'].full_gem_path + "/vendor/assets/javascripts"
+      # Hack to load paths for jquery and angular gems
+      environment.append_path Gem.loaded_specs['angularjs-rails'].full_gem_path + "/vendor/assets/javascripts"
+      environment.append_path Gem.loaded_specs['jquery-rails'].full_gem_path + "/vendor/assets/javascripts"
 
-    # Is is a coffee file or a straight js? Need to have this done
-    # automatically with sprockets or something.
+      # Is is a coffee file or a straight js? Need to have this done
+      # automatically with sprockets or something.
 
-    render text: environment["#{params[:path]}"], content_type: "text/javascript"
+      environment["#{params[:path]}"]
+    end
+
+    render text: result, content_type: "text/javascript"
   end
 
   def stylesheet
-    environment = Sprockets::Environment.new
-    environment.append_path "#{Rails.root}/layouts/sfrecord/stylesheets"
+    result = Rails.cache.fetch "editions/#{params["id"]}/stylesheets/#{params[:path]}" do
+      environment = Sprockets::Environment.new
+      environment.append_path "#{Rails.root}/layouts/sfrecord/stylesheets"
 
-    # Major hack to load bootstrap into this isolated environment courtesy of https://gist.github.com/datenimperator/3668587
-    Bootstrap.load!
-    environment.append_path Compass::Frameworks['bootstrap'].templates_directory + "/../vendor/assets/stylesheets"
+      # Major hack to load bootstrap into this isolated environment courtesy of https://gist.github.com/datenimperator/3668587
+      Bootstrap.load!
+      environment.append_path Compass::Frameworks['bootstrap'].templates_directory + "/../vendor/assets/stylesheets"
 
-    environment.context_class.class_eval do
-      def asset_path(path, options = {})
-        "/assets/#{path}"
+      environment.context_class.class_eval do
+        def asset_path(path, options = {})
+          "/assets/#{path}"
+        end
       end
+
+      environment["#{params[:path]}.css"]
     end
-    render text: environment["#{params[:path]}.css"], content_type: "text/css"
+    render text: result, content_type: "text/css"
   end
 
   def font
