@@ -1,0 +1,3 @@
+[submodule "layouts/sfrecord"]
+	path = layouts/sfrecord
+	url = ../sfrecord_layout
