@@ -5,14 +5,17 @@ Press::Application.routes.draw do
   devise_for :users
   devise_for :admin_user
 
+
   resources :editions do
     resource :section
     resource :masthead
     member do
       get :preview
-      get 'fonts/*path' => :font
-      get '*path.js'  => :javascript
-      get '*path.css' => :stylesheet
+      scope 'edit' do
+        get 'fonts/*path' => :font
+        get '*path.js'  => :javascript
+        get '*path.css' => :stylesheet
+      end
     end
   end
 

@@ -27,5 +27,8 @@ module Press
 
     # Use Accel-Redirect for serving files with nginx
     config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'
+
+    # Force trailing slash.
+    config.action_controller.default_url_options = { :trailing_slash => true }
   end
 end

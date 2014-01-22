@@ -2,6 +2,8 @@ class EditionsController < ApplicationController
 
   before_filter :authenticate_user!
 
+  before_filter :force_trailing_slash, only: 'edit'
+
   def index
     @editions = current_user.organization.editions.asc(:path)
   end

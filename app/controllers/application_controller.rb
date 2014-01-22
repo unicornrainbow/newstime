@@ -11,4 +11,10 @@ class ApplicationController < ActionController::Base
     render "404", status: 404
   end
 
+protected
+
+  def force_trailing_slash
+    redirect_to request.original_url + '/' unless request.original_url.match(/\/$/)
+  end
+
 end
