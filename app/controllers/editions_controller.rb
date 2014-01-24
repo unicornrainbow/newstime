@@ -90,7 +90,7 @@ class EditionsController < ApplicationController
   end
 
   def stylesheet
-    result = Rails.cache.fetch "editions/#{params["id"]}/stylesheets/#{params[:path]}" do
+    #result = Rails.cache.fetch "editions/#{params["id"]}/stylesheets/#{params[:path]}" do
       environment = Sprockets::Environment.new
       environment.append_path "#{Rails.root}/layouts/sfrecord/stylesheets"
 
@@ -104,8 +104,8 @@ class EditionsController < ApplicationController
         end
       end
 
-      environment["#{params[:path]}.css"]
-    end
+      result = environment["#{params[:path]}.css"]
+    #end
     render text: result, content_type: "text/css"
   end
 
@@ -116,6 +116,18 @@ class EditionsController < ApplicationController
     font_path = "#{fonts_root}/#{params["path"]}.#{params["format"]}"
     not_found unless File.exists?(font_path)
     send_file font_path
+  end
+
+  def image
+    images_root = "#{Rails.root}/layouts/sfrecord/images"
+
+    # TODO: WARNING: Make sure the user can escape up about the font root (Chroot?)
+    image_path = "#{images_root}/#{params["path"]}.#{params["format"]}"
+    not_found unless File.exists?(image_path)
+    #send_file image_path, type: 'image/svg+xml', disposition: 'inline'
+    #didn't work...
+    render text: File.read(image_path), type: 'image/svg+xml'
+
   end
 
 private

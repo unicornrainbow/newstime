@@ -12,6 +12,7 @@ Press::Application.routes.draw do
       get :preview
       scope 'edit' do
         get 'fonts/*path' => :font
+        get 'images/*path' => :image
         get '*path.js'  => :javascript
         get '*path.css' => :stylesheet
       end
