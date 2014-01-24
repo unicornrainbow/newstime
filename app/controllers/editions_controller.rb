@@ -126,7 +126,7 @@ class EditionsController < ApplicationController
     not_found unless File.exists?(image_path)
     #send_file image_path, type: 'image/svg+xml', disposition: 'inline'
     #didn't work...
-    render text: File.read(image_path), type: 'image/svg+xml'
+    render text: File.read(image_path), content_type: 'image/svg+xml'
 
   end
 
