@@ -1,8 +1,6 @@
 module ApplicationHelper
   include NavbarHelper
 
-  attr_reader :title, :layout_module, :sections # TODO: Move to EditionsHelper
-
   def parent_layout(layout)
     @view_flow.set(:layout,output_buffer)
     self.output_buffer = render(:file => "layouts/#{layout}")
@@ -67,10 +65,6 @@ module ApplicationHelper
 
   def options_url(path, options)
     "#{path}?#{@options.merge(options).to_param}"
-  end
-
-  def render_layout(&block)
-    @template.render(self, &block).html_safe
   end
 
 end

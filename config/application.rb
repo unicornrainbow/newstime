@@ -27,5 +27,7 @@ module Press
 
     # Use Accel-Redirect for serving files with nginx
     config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'
+
+    config.action_controller.include_all_helpers = false
   end
 end
