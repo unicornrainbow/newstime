@@ -1,7 +1,5 @@
 class EditionsController < ApplicationController
-
   before_filter :authenticate_user!
-
   before_filter :force_trailing_slash, only: 'compose'
 
   def index
