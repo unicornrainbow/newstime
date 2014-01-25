@@ -14,7 +14,7 @@ class LayoutModule
 			view = LayoutModule::View.new(view)
 
       tilt = Tilt.new("#{@layout_module.root}/views/#{@name}.html.erb")
-      tilt.render(view, &block)
+      tilt.render(view) { view.capture(&block) }
     end
   end
 end
