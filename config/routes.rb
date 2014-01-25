@@ -12,10 +12,10 @@ Press::Application.routes.draw do
       get :preview
       get :compose
       scope 'compose' do
-        get 'fonts/*path' => :font
-        get 'images/*path' => :image
-        get '*path.js'  => :javascript
-        get '*path.css' => :stylesheet
+        get 'fonts/*path'       => :fonts
+        get 'images/*path'      => :images
+        get 'javascripts/*path' => :javascripts
+        get 'stylesheets/*path' => :stylesheets
       end
     end
   end

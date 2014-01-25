@@ -74,7 +74,7 @@ class EditionsController < ApplicationController
     render text: @edition.html
   end
 
-  def javascript
+  def javascripts
     # TODO: Action caching would probably word better.
     result = Rails.cache.fetch "editions/#{params["id"]}/javascript/#{params[:path]}" do
       environment = Sprockets::Environment.new
@@ -93,7 +93,7 @@ class EditionsController < ApplicationController
     render text: result, content_type: "text/javascript"
   end
 
-  def stylesheet
+  def stylesheets
     #result = Rails.cache.fetch "editions/#{params["id"]}/stylesheets/#{params[:path]}" do
       environment = Sprockets::Environment.new
       environment.append_path "#{Rails.root}/layouts/sfrecord/stylesheets"
@@ -113,7 +113,7 @@ class EditionsController < ApplicationController
     render text: result, content_type: "text/css"
   end
 
-  def font
+  def fonts
     fonts_root = "#{Rails.root}/layouts/sfrecord/fonts"
 
     # TODO: WARNING: Make sure the user can escape up about the font root (Chroot?)
@@ -122,7 +122,7 @@ class EditionsController < ApplicationController
     send_file font_path
   end
 
-  def image
+  def images
     images_root = "#{Rails.root}/layouts/sfrecord/images"
 
     # TODO: WARNING: Make sure the user can escape up about the font root (Chroot?)
