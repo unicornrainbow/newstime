@@ -1,6 +1,7 @@
 class EditionsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :force_trailing_slash, only: 'compose'
+
+  respond_to :html
 
   def index
     @editions = current_user.organization.editions.asc(:path)
@@ -28,8 +29,17 @@ class EditionsController < ApplicationController
   end
 
   attr_reader :layout_module
+  before_filter :find_edition, only: :compose
   def compose
-    @edition = Edition.find(params[:id])
+    # Redirect to main if no path specified
+    redirect_to (compose_edition_path(@edition) + '/main.html') and return unless params['path']
+
+    # Only respond to requests with an explict .html extension.
+    not_found unless request.original_url.match(/\.html$/)
+
+    # Only respond to request for .html
+    # Force a trailing .html
+
     @layout_name = @edition.layout_name
 
     # TODO: Instead, if a path is provided, look up the section by name and
@@ -139,6 +149,10 @@ class EditionsController < ApplicationController
   end
 
 private
+
+  def find_edition
+    @edition = Edition.find(params[:id])
+  end
 
   def edition_params
     params.require(:edition).permit(:name, :source, :title, :masthead_id, :layout_id, :layout_name)
