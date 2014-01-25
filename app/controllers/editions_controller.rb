@@ -77,8 +77,10 @@ class EditionsController < ApplicationController
   def javascripts
     # TODO: Action caching would probably word better.
     result = Rails.cache.fetch "editions/#{params["id"]}/javascript/#{params[:path]}" do
+      @edition = Edition.find(params[:id])
       environment = Sprockets::Environment.new
-      environment.append_path "#{Rails.root}/layouts/sfrecord/javascripts"
+      environment.append_path "#{Rails.root}/layouts/#{@edition.layout_name}/javascripts"
+
 
       # Hack to load paths for jquery and angular gems
       environment.append_path Gem.loaded_specs['angularjs-rails'].full_gem_path + "/vendor/assets/javascripts"
@@ -94,9 +96,10 @@ class EditionsController < ApplicationController
   end
 
   def stylesheets
-    #result = Rails.cache.fetch "editions/#{params["id"]}/stylesheets/#{params[:path]}" do
+    result = Rails.cache.fetch "editions/#{params["id"]}/stylesheets/#{params[:path]}" do
+      @edition = Edition.find(params[:id])
       environment = Sprockets::Environment.new
-      environment.append_path "#{Rails.root}/layouts/sfrecord/stylesheets"
+      environment.append_path "#{Rails.root}/layouts/#{@edition.layout_name}/stylesheets"
 
       # Major hack to load bootstrap into this isolated environment courtesy of https://gist.github.com/datenimperator/3668587
       Bootstrap.load!
@@ -109,12 +112,13 @@ class EditionsController < ApplicationController
       end
 
       result = environment["#{params[:path]}.css"]
-    #end
+    end
     render text: result, content_type: "text/css"
   end
 
   def fonts
-    fonts_root = "#{Rails.root}/layouts/sfrecord/fonts"
+    @edition = Edition.find(params[:id])
+    fonts_root = "#{Rails.root}/layouts/#{@edition.layout_name}/fonts"
 
     # TODO: WARNING: Make sure the user can escape up about the font root (Chroot?)
     font_path = "#{fonts_root}/#{params["path"]}.#{params["format"]}"
@@ -123,7 +127,8 @@ class EditionsController < ApplicationController
   end
 
   def images
-    images_root = "#{Rails.root}/layouts/sfrecord/images"
+    @edition = Edition.find(params[:id])
+    images_root = "#{Rails.root}/layouts/#{@edition.layout_name}/images"
 
     # TODO: WARNING: Make sure the user can escape up about the font root (Chroot?)
     image_path = "#{images_root}/#{params["path"]}.#{params["format"]}"
