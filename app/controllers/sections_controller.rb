@@ -43,6 +43,7 @@ class SectionsController < ApplicationController
 
   def show
     @section = Section.find(params[:id])
+    @edition = @section.edition
     @pages = @section.pages
   end
 

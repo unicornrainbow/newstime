@@ -32,8 +32,10 @@ class EditionsController < ApplicationController
     @edition = Edition.find(params[:id])
     @layout_name = @edition.layout_name
     @template_name = params['path'] || 'main'
+
     @title = @edition.title
     @sections = @edition.sections
+
     @layout_module = LayoutModule.new(@layout_name)
     @template = @layout_module.templates[@template_name]
     render layout: false

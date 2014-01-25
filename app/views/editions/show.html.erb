@@ -5,7 +5,7 @@
   <h4>Sections</h4>
   <ol>
     <% @sections.each do |section| %>
-      <li><%= link_to section.name, section %></li>
+      <li><%= link_to section.name, section %> (<%= link_to "edit", edit_section_path(section) %>)</li>
     <% end %>
   </ol>
   <%= link_to "Add Section", new_edition_section_path(@edition) %>

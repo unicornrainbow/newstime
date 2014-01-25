@@ -12,7 +12,10 @@ class Edition
   has_many :sections
   belongs_to :organization
 
-  def to_liquid
-    { 'title' => title }
-  end
+  liquid_methods :title
+
+  # TODO: Delete me if the above works.
+  #def to_liquid
+    #{ 'title' => title }
+  #end
 end

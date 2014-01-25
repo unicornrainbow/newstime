@@ -1,6 +1,9 @@
 <div class="container">
 
-  <%= @section.name %>
+  <%= link_to "&larr; Edition (#{@edition.name})".html_safe, edition_path(@edition) %>
+  <br>
+
+  <h2><%= @section.name %> Section</h2>
 
   <h4>Pages</h4>
   <ol>
