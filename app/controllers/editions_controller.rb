@@ -2,7 +2,7 @@ class EditionsController < ApplicationController
 
   before_filter :authenticate_user!
 
-  before_filter :force_trailing_slash, only: 'edit'
+  before_filter :force_trailing_slash, only: 'compose'
 
   def index
     @editions = current_user.organization.editions.asc(:path)
@@ -27,7 +27,11 @@ class EditionsController < ApplicationController
 
   def edit
     @edition = Edition.find(params[:id])
-    layout_module = LayoutModule.new('sfrecord')
+  end
+
+  def compose
+    @edition = Edition.find(params[:id])
+    layout_module = LayoutModule.new(@edition.layout_name)
     template = layout_module.templates['main']
 
     sections = [
@@ -133,7 +137,7 @@ class EditionsController < ApplicationController
 private
 
   def edition_params
-    params.require(:edition).permit(:name, :source, :title, :masthead_id, :layout_id)
+    params.require(:edition).permit(:name, :source, :title, :masthead_id, :layout_id, :layout_name)
   end
 
 end

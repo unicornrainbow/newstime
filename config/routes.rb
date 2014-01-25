@@ -10,7 +10,8 @@ Press::Application.routes.draw do
     resource :masthead
     member do
       get :preview
-      scope 'edit' do
+      get :compose
+      scope 'compose' do
         get 'fonts/*path' => :font
         get 'images/*path' => :image
         get '*path.js'  => :javascript
