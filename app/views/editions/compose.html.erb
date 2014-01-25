@@ -1,7 +1,7 @@
-<%= @template.render(self) do %>
+<%= yield_content do %>
   <div class="row">
     <div class="col span24">
       <input class="add-page-btn" type="button" value="Add Page"></input>
     </div>
   </div>
-<% end.html_safe %>
+<% end %>
