@@ -7,14 +7,15 @@ class LayoutModule
       @name = name
     end
 
-    def render(*args)
-      context = Context.new(@layout_module, *args)
+    def render(view, &block)
+      tilt = Tilt.new("#{@layout_module.root}/views/#{@name}.html.erb")
 
       # TODO: Resolve extension and location based on search path and extensions
       # (Should be handled by Tilt)
 
       tilt = Tilt.new("#{@layout_module.root}/views/#{@name}.html.erb")
-      tilt.render(context) do
+			view = LayoutModule::View.new(view)
+      tilt.render(view) do
         %q{
         <div class="row">
           <div class="col span24">
@@ -22,6 +23,8 @@ class LayoutModule
           </div>
         </div>
         }
+
+			#view.capture(&block)
       end
     end
   end

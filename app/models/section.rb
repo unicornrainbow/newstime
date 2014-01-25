@@ -3,6 +3,7 @@ class Section
   include Mongoid::Timestamps
 
   field :name, type: String
+  field :path, type: String
 
   belongs_to :edition
   belongs_to :layout

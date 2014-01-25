@@ -27,21 +27,16 @@ class EditionsController < ApplicationController
     @edition = Edition.find(params[:id])
   end
 
+  attr_reader :layout_module
   def compose
     @edition = Edition.find(params[:id])
-    layout_module = LayoutModule.new(@edition.layout_name)
-    template = layout_module.templates['main']
-
-    sections = [
-      OpenStruct.new(name: 'Main', path: "main"),
-      OpenStruct.new(name: 'Business', path: "business"),
-      OpenStruct.new(name: 'Sports', path: "sports"),
-      OpenStruct.new(name: 'Comics', path: "comics"),
-      OpenStruct.new(name: 'Bay Area', path: "bay_area"),
-      OpenStruct.new(name: 'World/Nation', path: "world")
-    ]
-
-    render text: template.render(sections: sections, title: "SF Record")
+    @layout_name = @edition.layout_name
+    @template_name = params['path'] || 'main'
+    @title = @edition.title
+    @sections = @edition.sections
+    @layout_module = LayoutModule.new(@layout_name)
+    @template = @layout_module.templates[@template_name]
+    render layout: false
   end
 
   def update

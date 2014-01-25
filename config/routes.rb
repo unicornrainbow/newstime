@@ -16,6 +16,7 @@ Press::Application.routes.draw do
         get 'images/*path'      => :images
         get 'javascripts/*path' => :javascripts
         get 'stylesheets/*path' => :stylesheets
+        get '*path' => :compose
       end
     end
   end
