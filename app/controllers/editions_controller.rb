@@ -31,6 +31,10 @@ class EditionsController < ApplicationController
   def compose
     @edition = Edition.find(params[:id])
     @layout_name = @edition.layout_name
+
+    # TODO: Instead, if a path is provided, look up the section by name and
+    # render template configuaration from there. Allow a default section
+    # template configuration to be set on the edition.
     @template_name = params['path'] || 'main'
 
     @title = @edition.title
