@@ -3,11 +3,8 @@ require  'layout_module'
 class LayoutModule
   class View < SimpleDelegator
     def render(name, *args, &block)
-      #layout_module.partials[name].render(self, *args, &block)
       content = capture(&block) if block_given?
       content = layout_module.partials[name].render(self, *args) { content }
-
-      #concat(layout_module.partials[name].render(self, *args) { capture(&block) })
     end
 
     # Render content within a partial serving as a layout.
@@ -18,33 +15,6 @@ class LayoutModule
       content = block.call
       content = layout_module.partials[name].render(self, *args) { content }
       concat(content)
-
-
-      #capture(&block)
-      #layout_module.partials[name].render(self, *args, &block)
-
-      # This was the money that emit things
-      #concat(layout_module.partials[name].render(self, *args, &block).html_safe)
-
-      # Stand in line
-      #layout_module.partials[name].render(self, *args, &block).html_safe
-
-
-      #layout_module.partials[name].render(self, *args) { capture(&block) }.html_safe
-      #concat(layout_module.partials[name].render(self, *args) { capture { block.call.html_safe } }.html_safe
-
-      # I need to some how access the stuff that would be yield in the parrent
-      # context
-      #content = capture(&block)
-      #throw content
-      #
-      #
-      #concat(block.call("ads"))
-
-
-      #layout_module.partials[name].render(self, *args) { capture(&block) }.html_safe
-
-
     end
 
     def capture(&block)

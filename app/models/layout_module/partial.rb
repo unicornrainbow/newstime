@@ -8,9 +8,6 @@ class LayoutModule
     end
 
     def render(view, *args, &block)
-      # This is weird, but passing content in because it is needed.
-      #context = Context.new(@layout_module, *args)
-
       # Prefixed last segment of name with an underscore by convention.
       segments = @name.split('/')
       segments[-1] = "_" << segments[-1]
@@ -25,17 +22,7 @@ class LayoutModule
 
       tilt = Tilt.new(file_name)
 
-      #tilt.render(context, *args, &block)
       tilt.render(view, *args) { view.capture(&block) }
-      #""
-      #if block_given?
-        ##tilt.render(context, *args) { capture(&block) }
-        ##tilt.render(context, *args) { capture(block.to_proc)  }
-        ##tilt.render(context, *args, &capture(block))
-        ##
-      #else
-        #tilt.render(context, *args)
-      #end
     end
   end
 end

@@ -46,14 +46,8 @@ class EditionsController < ApplicationController
     # Find section by path off of edtion.
     @section = @edition.sections.where(path: @path).first
 
-    # Only respond to request for .html
-    # Force a trailing .html
-
     @layout_name = @edition.layout_name
 
-    # TODO: Instead, if a path is provided, look up the section by name and
-    # render template configuaration from there. Allow a default section
-    # template configuration to be set on the edition.
     @template_name = @section.template_name.presence || @edition.default_section_template_name
 
     @title = @edition.title
