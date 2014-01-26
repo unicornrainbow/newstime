@@ -3,19 +3,12 @@ require  'layout_module'
 class LayoutModule
   class View < SimpleDelegator
     def render(name, *args, &block)
-      content = capture(&block) if block_given?
-      content = layout_module.partials[name].render(self, *args) { content }
+      layout_module.partials[name].render(self, *args, &block)
     end
 
     # Render content within a partial serving as a layout.
     def render_layout(name, *args, &block)
-
-      content = page_content
-      @__layout = layout_module.partials[name]
-      content = @__layout.render(self, *args) { content }
-      content = block.call
-      content = layout_module.partials[name].render(self, *args) { content }
-      concat(content)
+      concat(layout_module.partials[name].render(self, *args, &block))
     end
 
     def capture(&block)
