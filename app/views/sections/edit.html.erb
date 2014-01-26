@@ -3,6 +3,8 @@
     <div class="col-xs-8">
       <h2>Edit Section</h2>
       <%= render 'form', section: @section %>
+      <br>
+      <%= link_to "Cancel", section_path(@section) %>
     </div>
   </div>
 </div>

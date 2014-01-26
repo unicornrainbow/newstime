@@ -9,7 +9,7 @@ class Edition
   field :html, type: String     # The render html source markup
   field :layout_name, type: String
 
-  has_many :sections
+  has_many :sections, :order => :sequence.asc
   belongs_to :organization
 
   liquid_methods :title

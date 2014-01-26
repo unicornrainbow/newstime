@@ -4,6 +4,7 @@ class Section
 
   field :name, type: String
   field :path, type: String
+  field :sequence, type: Integer
 
   belongs_to :edition
   belongs_to :layout
