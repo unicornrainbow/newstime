@@ -7,5 +7,7 @@
   <%#= f.input :layout_id, collection: Layout.all, as: :select %>
   <%= f.button :submit, class: 'btn-default btn-primary' %>
   &nbsp;
-  <%= link_to "Cancel", section_path(@section) %>
+  <% if section.persisted? %>
+    <%= link_to "Cancel", section_path(section) %>
+  <% end %>
 <% end %>
