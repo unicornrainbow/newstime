@@ -1,6 +1,8 @@
 class EditionsController < ApplicationController
   before_filter :authenticate_user!
 
+  before_filter :find_edition, only: :compose
+
   respond_to :html
 
   def index
@@ -28,14 +30,15 @@ class EditionsController < ApplicationController
     @edition = Edition.find(params[:id])
   end
 
-  attr_reader :layout_module
-  before_filter :find_edition, only: :compose
   def compose
     # Redirect to main if no path specified
     redirect_to (compose_edition_path(@edition) + '/main.html') and return unless params['path']
 
     # Only respond to requests with an explict .html extension.
     not_found unless request.original_url.match(/\.html$/)
+
+    # Set composing flag as indication to layout_module
+    @composing = true
 
     # Reconstruct path with extension
     @path = "#{params['path']}.html"

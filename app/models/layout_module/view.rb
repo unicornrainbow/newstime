@@ -2,7 +2,6 @@ require  'layout_module'
 
 class LayoutModule
   class View < SimpleDelegator
-
     def render(name, *args)
       layout_module.partials[name].render(self, *args)
     end
@@ -14,5 +13,5 @@ class LayoutModule
     def javascript_include_tag(name)
       %Q{<script src="#{name}.js" type="text/javascript"></script>}
     end
-	end
+  end
 end
