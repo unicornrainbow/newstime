@@ -9,6 +9,7 @@ class LayoutModule
 
     # Render content within a partial serving as a layout.
     def render_layout(name, *args, &block)
+
       content = page_content
       @__layout = layout_module.partials[name]
       content = @__layout.render(self, *args) { content }

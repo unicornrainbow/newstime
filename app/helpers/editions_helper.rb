@@ -2,9 +2,9 @@ module EditionsHelper
   attr_reader :title, :layout_module, :sections, :publish_date, :edition, :page_content
 
   def yield_content(&block)
-    @page_content = capture(&block)
+    content = capture(&block)
     view = LayoutModule::CaptureConcat.new(self)
-    content = @template.render(view) { @page_content }
+    content = @template.render(view) { content }
     concat(view.captured_content.html_safe)
   end
 
