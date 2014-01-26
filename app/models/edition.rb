@@ -9,6 +9,9 @@ class Edition
   field :html, type: String     # The render html source markup
   field :layout_name, type: String
 
+  # A default option inherited by the sections when template name isn't set
+  field :default_section_template_name, type: String
+
   has_many :sections, :order => :sequence.asc
   belongs_to :organization
 

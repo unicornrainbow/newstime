@@ -155,7 +155,7 @@ private
   end
 
   def edition_params
-    params.require(:edition).permit(:name, :source, :title, :masthead_id, :layout_id, :layout_name)
+    params.require(:edition).permit(:name, :source, :title, :masthead_id, :layout_id, :layout_name, :default_section_template_name)
   end
 
 end
