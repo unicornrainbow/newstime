@@ -8,6 +8,7 @@ class Edition
   field :created_at, type: Time
   field :html, type: String     # The render html source markup
   field :layout_name, type: String
+  field :publish_date, type: Date
 
   # A default option inherited by the sections when template name isn't set
   field :default_section_template_name, type: String

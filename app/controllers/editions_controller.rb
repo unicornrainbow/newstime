@@ -55,6 +55,7 @@ class EditionsController < ApplicationController
 
     @title = @edition.title
     @sections = @edition.sections
+    @publish_date = @edition.publish_date
 
     @layout_module = LayoutModule.new(@layout_name)
     @template = @layout_module.templates[@template_name]
@@ -161,7 +162,7 @@ private
   end
 
   def edition_params
-    params.require(:edition).permit(:name, :source, :title, :masthead_id, :layout_id, :layout_name, :default_section_template_name)
+    params.require(:edition).permit(:name, :source, :title, :masthead_id, :layout_id, :layout_name, :default_section_template_name, :publish_date)
   end
 
 end
