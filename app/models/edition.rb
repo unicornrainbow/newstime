@@ -9,6 +9,8 @@ class Edition
   field :html, type: String     # The render html source markup
   field :layout_name, type: String
   field :publish_date, type: Date
+  field :store_link, type: String
+  #field :price, type: Float
 
   # A default option inherited by the sections when template name isn't set
   field :default_section_template_name, type: String
