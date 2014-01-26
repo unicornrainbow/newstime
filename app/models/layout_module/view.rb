@@ -19,12 +19,7 @@ class LayoutModule
 
     def capture(&block)
       view = LayoutModule::CaptureConcat.new(self)
-      #block.bind(view).call
       view.instance_eval(&proc)
-      #Could I evaluate the block in the
-      #block.call
-      #Rails.logger.info "Call Capture"
-      #""
     end
 
     def stylesheet_link_tag(name)
