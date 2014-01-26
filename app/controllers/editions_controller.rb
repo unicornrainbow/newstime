@@ -37,6 +37,12 @@ class EditionsController < ApplicationController
     # Only respond to requests with an explict .html extension.
     not_found unless request.original_url.match(/\.html$/)
 
+    # Reconstruct path with extension
+    @path = "#{params['path']}.html"
+
+    # Find section by path off of edtion.
+    @section = @edition.sections.where(path: @path).first
+
     # Only respond to request for .html
     # Force a trailing .html
 
@@ -45,7 +51,7 @@ class EditionsController < ApplicationController
     # TODO: Instead, if a path is provided, look up the section by name and
     # render template configuaration from there. Allow a default section
     # template configuration to be set on the edition.
-    @template_name = params['path'] || 'main'
+    @template_name = @section.template_name.presence || @edition.default_section_template_name
 
     @title = @edition.title
     @sections = @edition.sections
