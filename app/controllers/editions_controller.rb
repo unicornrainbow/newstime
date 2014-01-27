@@ -56,7 +56,7 @@ class EditionsController < ApplicationController
 
     @layout_module = LayoutModule.new(@layout_name)
     @template = @layout_module.templates[@template_name]
-    render layout: false
+    render layout: 'layout_module'
   end
 
   def update
