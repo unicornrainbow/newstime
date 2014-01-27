@@ -25,7 +25,7 @@ class LayoutModule
 
       # Render using the LayoutModule::View wrapped view, injecting the rendered
       # content and passing the args.
-      content = tilt.render(view, *args) { content }
+      content = tilt.render(view, *args) { content }.html_safe
 
       while template_name = view.layouts.pop
         content = view.layout_module.templates[template_name].render(view, *args) { content }
