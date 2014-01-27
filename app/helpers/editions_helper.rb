@@ -28,10 +28,10 @@ module EditionsHelper
   end
 
   def composer_stylesheet
-    stylesheet_link_tag("composer")
+    stylesheet_link_tag("composer") + "\n"
   end
 
   def composer_javascript
-    javascript_include_tag("composer")
+    javascript_include_tag("composer") + "\n"
   end
 end
