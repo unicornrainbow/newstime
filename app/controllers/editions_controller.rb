@@ -31,28 +31,25 @@ class EditionsController < ApplicationController
   end
 
   def compose
-    # Redirect to main if no path specified
+    # Redirect to main if no path specified.
     redirect_to (compose_edition_path(@edition) + '/main.html') and return unless params['path']
 
     # Only respond to requests with an explict .html extension.
     not_found unless request.original_url.match(/\.html$/)
 
-    # Set composing flag as indication to layout_module
+    # Set composing flag as indication to layout_module.
     @composing = true
 
     # Reconstruct path with extension
     @path = "#{params['path']}.html"
 
     # Find section by path off of edtion.
-    @section = @edition.sections.where(path: @path).first
-
-    @layout_name = @edition.layout_name
-
+    @section       = @edition.sections.where(path: @path).first
+    @layout_name   = @edition.layout_name
     @template_name = @section.template_name.presence || @edition.default_section_template_name
-
-    @title = @section.title || @edition.title
-
+    @title         = @section.title.presence || @edition.title
     @layout_module = LayoutModule.new(@layout_name)
+
     render layout: 'layout_module'
   end
 
