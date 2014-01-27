@@ -1,9 +1,7 @@
 <div class="container">
-
   <%= @page.name %>
   <br>
   <pre><%= @page.source %></pre>
-
   <br>
   <%= link_to "Edit", edit_page_path(@page) %> |
   <%= link_to "Preview", preview_page_path(@page) %>
