@@ -19,7 +19,12 @@ class LayoutModule
 
       # Render using the LayoutModule::View wrapped view, injecting the rendered
       # content and passing the args.
-      tilt.render(view, *args) { content }
+      content = tilt.render(view, *args) { content }
+      if view.current_layout
+        view.concat(view.current_layout.render(view, *args) { content })
+      else
+        view.concat(content)
+      end
     end
   end
 end

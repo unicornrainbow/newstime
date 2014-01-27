@@ -6,11 +6,6 @@ class LayoutModule
       layout_module.partials[name].render(self, *args, &block)
     end
 
-    # Render content within a partial serving as a layout.
-    def render_layout(name, *args, &block)
-      concat(layout_module.partials[name].render(self, *args, &block))
-    end
-
     def capture(&block)
       view = LayoutModule::CaptureConcat.new(self)
       view.instance_eval(&proc)
