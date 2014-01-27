@@ -8,6 +8,8 @@ class LayoutModule
     end
 
     def render(view, *args, &block)
+      _layouts, view.layouts = view.layouts, []
+
       # Acquire the tilt template
       tilt = Tilt.new("#{@layout_module.root}/views/#{@name}.html.erb")
 
@@ -21,11 +23,12 @@ class LayoutModule
       # content and passing the args.
       content = tilt.render(view, *args) { content }
 
-      if partial_name = view.layouts.pop
+      while partial_name = view.layouts.pop
         content = view.layout_module.partials[partial_name].render(view, *args) { content }
       end
 
       view.concat(content)
+      view.layouts = _layouts
     end
   end
 end

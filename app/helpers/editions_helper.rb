@@ -1,6 +1,7 @@
 module EditionsHelper
   attr_reader :title, :layout_module, :sections, :publish_date, :edition, :composing
-  attr_accessor :current_layout
+
+  attr_accessor :layouts
 
   alias :composing? :composing
 
@@ -8,10 +9,16 @@ module EditionsHelper
     @layouts ||= []
   end
 
+  # TODO: rename to push_layout
+  def layout(name)
+    layouts << name
+  end
+
   def yield_content(&block)
     content = capture(&block)
 
-    if template_name = layouts.pop
+    # TODO: loop through layouts
+    while template_name = layouts.pop
       view = LayoutModule::CaptureConcat.new(self)
       template = layout_module.templates[template_name]
       template.render(view) { content }
@@ -19,10 +26,6 @@ module EditionsHelper
     end
 
     concat(content)
-  end
-
-  def layout(name)
-    self.layouts << name
   end
 
   def composer_stylesheet
