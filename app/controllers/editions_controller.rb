@@ -31,7 +31,7 @@ class EditionsController < ApplicationController
 
   def compose
     # Redirect to main if no path specified.
-    redirect_to (compose_edition_path(@edition) + '/main.html') and return unless params['path']
+    redirect_to (send("#{params[:action]}_edition_path".to_sym, @edition) + '/main.html') and return unless params['path']
 
     # Only respond to requests with an explict .html extension.
     not_found unless request.original_url.match(/\.html$/)

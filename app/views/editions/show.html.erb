@@ -12,7 +12,9 @@
 
   <br><br>
 
-  <%= link_to "Edit Edition", edit_edition_path(@edition) %>
+  <%= link_to "Edit", edit_edition_path(@edition) %>
   |
-  <%= link_to "Visual Composer".html_safe, compose_edition_path(@edition) %>
+  <%= link_to "Compose", compose_edition_path(@edition) %>
+  |
+  <%= link_to "Preview", preview_edition_path(@edition) %>
 </div>
