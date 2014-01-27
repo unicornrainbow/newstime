@@ -1,5 +1,5 @@
 module EditionsHelper
-  attr_reader :layout_module, :edition, :composing
+  attr_reader :layout_module, :edition, :composing, :template_name
 
   attr_accessor :layouts
 
