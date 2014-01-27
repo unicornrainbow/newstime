@@ -16,8 +16,11 @@ module EditionsHelper
   def yield_content(&block)
     content = capture(&block)
 
+    # Decorate view with layout module particularities.
+    view = LayoutModule::View.new(self)
+
     while template_name = layouts.pop
-      view = LayoutModule::CaptureConcat.new(self)
+      view = LayoutModule::CaptureConcat.new(view)
       template = layout_module.templates[template_name]
       template.render(view) { content }
       content = view.captured_content.html_safe
