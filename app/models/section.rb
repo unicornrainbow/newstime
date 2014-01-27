@@ -5,6 +5,7 @@ class Section
   field :name, type: String
   field :path, type: String
   field :sequence, type: Integer
+  field :title, type: String
 
   field :template_name, type: String
 

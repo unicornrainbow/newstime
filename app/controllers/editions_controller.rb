@@ -50,6 +50,8 @@ class EditionsController < ApplicationController
 
     @template_name = @section.template_name.presence || @edition.default_section_template_name
 
+    @title = @section.title || @edition.title
+
     @layout_module = LayoutModule.new(@layout_name)
     render layout: 'layout_module'
   end
