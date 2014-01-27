@@ -13,8 +13,9 @@ class LayoutModule
       content = view.capture(&block) if block_given?
       content = tilt.render(view, *args) { content }.html_safe
 
-      while template_name = view.layouts.pop
-        content = view.layout_module.templates[template_name].render(view, *args) { content }
+      while layout = view.layouts.pop
+        template_name = layout.shift
+        content = view.layout_module.templates[template_name].render(view, *layout) { content }
       end
 
       view.layouts = _layouts

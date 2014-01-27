@@ -9,8 +9,8 @@ module EditionsHelper
     @layouts ||= []
   end
 
-  def wrap_with(name)
-    layouts << name
+  def wrap_with(*args)
+    layouts << args
   end
 
   def yield_content(&block)
@@ -19,9 +19,10 @@ module EditionsHelper
     # Decorate view with layout module particularities.
     view = LayoutModule::View.new(self)
 
-    while template_name = layouts.pop
+    while layout = layouts.pop
+      template_name = layout.shift
       template = layout_module.templates[template_name]
-      content = template.render(view) { content }.html_safe
+      content = template.render(view, *layout) { content }.html_safe
     end
 
     concat(content)
