@@ -9,7 +9,6 @@ Press::Application.routes.draw do
     resource :section
     resource :masthead
     member do
-      get :preview
       get :compose
       scope 'compose' do
         get 'fonts/*path'       => :fonts
@@ -17,6 +16,15 @@ Press::Application.routes.draw do
         get 'javascripts/*path' => :javascripts
         get 'stylesheets/*path' => :stylesheets
         get '*path' => :compose, :defaults => { :format => "html" }
+      end
+
+      get :preview
+      scope 'preview' do
+        get 'fonts/*path'       => :fonts
+        get 'images/*path'      => :images
+        get 'javascripts/*path' => :javascripts
+        get 'stylesheets/*path' => :stylesheets
+        get '*path' => :preview, :defaults => { :format => "html" }
       end
     end
   end

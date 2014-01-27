@@ -1,6 +1,6 @@
 class EditionsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :find_edition, only: :compose
+  before_filter :find_edition, only: [:compose, :preview]
 
   respond_to :html
 
@@ -37,7 +37,7 @@ class EditionsController < ApplicationController
     not_found unless request.original_url.match(/\.html$/)
 
     # Set composing flag as indication to layout_module.
-    @composing = true
+    @composing = params[:action] == 'compose'
 
     # Reconstruct path with extension
     @path = "#{params['path']}.html"
@@ -49,8 +49,10 @@ class EditionsController < ApplicationController
     @title         = @section.title.presence || @edition.title
     @layout_module = LayoutModule.new(@layout_name)
 
-    render layout: 'layout_module'
+    render 'edition', layout: 'layout_module'
   end
+
+  alias :preview :compose
 
   def update
     @edition = Edition.find(params[:id])
@@ -69,15 +71,6 @@ class EditionsController < ApplicationController
   def destroy
     @edition = Edition.find(params[:id]).destroy
     redirect_to :back
-  end
-
-  def preview
-    # Previews a copy of the edition
-    @edition = Edition.find(params[:id])
-    renderer = EditionRenderer.new(@edition)
-    @edition.html = renderer.render
-    @edition.save
-    render text: @edition.html
   end
 
   def javascripts
@@ -142,7 +135,6 @@ class EditionsController < ApplicationController
     #send_file image_path, type: 'image/svg+xml', disposition: 'inline'
     #didn't work...
     render text: File.read(image_path), content_type: 'image/svg+xml'
-
   end
 
 private
