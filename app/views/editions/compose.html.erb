@@ -1,4 +1,5 @@
 <% wrap_with template_name -%>
+
 <%= render 'content' %>
 <% if composing? %>
 <div class="row">
@@ -6,4 +7,10 @@
     <input class="add-page-btn" type="button" value="Add Page"></input>
   </div>
 </div>
+<% end -%>
+
+<% if composing? %>
+<% content_for :toolbar do %>
+  <%= render 'toolbar' %>
+<% end %>
 <% end -%>

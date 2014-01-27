@@ -1,6 +1,5 @@
 class EditionsController < ApplicationController
   before_filter :authenticate_user!
-
   before_filter :find_edition, only: :compose
 
   respond_to :html
