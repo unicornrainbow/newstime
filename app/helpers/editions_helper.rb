@@ -20,10 +20,8 @@ module EditionsHelper
     view = LayoutModule::View.new(self)
 
     while template_name = layouts.pop
-      view = LayoutModule::CaptureConcat.new(view)
-      template = layout_module.templates[template_name]
-      template.render(view) { content }
-      content = view.captured_content.html_safe
+      template = layout_module.partials[template_name]
+      content = template.render(view) { content }.html_safe
     end
 
     concat(content)
