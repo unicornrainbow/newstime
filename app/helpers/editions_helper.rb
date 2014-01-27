@@ -9,7 +9,7 @@ module EditionsHelper
     @layouts ||= []
   end
 
-  def push_layout(name)
+  def wrap_with(name)
     layouts << name
   end
 
