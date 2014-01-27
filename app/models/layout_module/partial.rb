@@ -8,11 +8,6 @@ class LayoutModule
     end
 
     def render(view, *args, &block)
-      # Prefixed last segment of name with an underscore by convention.
-      segments = @name.split('/')
-      segments[-1] = "_" << segments[-1]
-      @name = segments.join('/')
-
       file_name = "#{@layout_module.root}/views/#{@name}.html"
 
       # Resolve which type of template (erb, haml, slim...)

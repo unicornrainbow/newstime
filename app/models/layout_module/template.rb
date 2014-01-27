@@ -11,7 +11,14 @@ class LayoutModule
       _layouts, view.layouts = view.layouts, []
 
       # Acquire the tilt template
-      tilt = Tilt.new("#{@layout_module.root}/views/#{@name}.html.erb")
+      file_name = "#{@layout_module.root}/views/#{@name}.html"
+
+      # Resolve which type of template (erb, haml, slim...)
+      # TODO: There should be a cleaner way to do this.
+      ext = SUPPORTED_TEMPLATE_FORMATS.find { |ext| File.exists?("#{file_name}.#{ext}") }
+      file_name << ".#{ext}"
+
+      tilt = Tilt.new(file_name)
 
       # Capture content from block.
       content = view.capture(&block)
