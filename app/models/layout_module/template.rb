@@ -4,7 +4,7 @@ class LayoutModule
   class Template
     def initialize(layout_module, name)
       @layout_module = layout_module
-      @name = name
+      @name          = name
     end
 
     def render(view, *args, &block)
