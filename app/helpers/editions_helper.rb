@@ -9,15 +9,13 @@ module EditionsHelper
     @layouts ||= []
   end
 
-  # TODO: rename to push_layout
-  def layout(name)
+  def push_layout(name)
     layouts << name
   end
 
   def yield_content(&block)
     content = capture(&block)
 
-    # TODO: loop through layouts
     while template_name = layouts.pop
       view = LayoutModule::CaptureConcat.new(self)
       template = layout_module.templates[template_name]
