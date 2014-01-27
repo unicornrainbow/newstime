@@ -10,21 +10,7 @@ class LayoutModule
     def render(view, *args, &block)
       _layouts, view.layouts = view.layouts, []
 
-      # Acquire the tilt template
-      file_name = "#{@layout_module.root}/views/#{@name}.html"
-
-      # Resolve which type of template (erb, haml, slim...)
-      # TODO: There should be a cleaner way to do this.
-      ext = SUPPORTED_TEMPLATE_FORMATS.find { |ext| File.exists?("#{file_name}.#{ext}") }
-      file_name << ".#{ext}"
-
-      tilt = Tilt.new(file_name)
-
-      # Capture content from block.
       content = view.capture(&block) if block_given?
-
-      # Render using the LayoutModule::View wrapped view, injecting the rendered
-      # content and passing the args.
       content = tilt.render(view, *args) { content }.html_safe
 
       while template_name = view.layouts.pop
@@ -32,8 +18,29 @@ class LayoutModule
       end
 
       view.layouts = _layouts
-
       content
     end
+
+  private
+
+    # Returns tilt template
+    def tilt
+      @tilt ||= begin
+        file_name = "#{templates_root}/#{@name}.html"
+        ext = resolve_ext(file_name)
+        file_name << ".#{ext}"
+        tilt = Tilt.new(file_name)
+     end
+    end
+
+    # Resolve which type of template (erb, haml, slim...)
+    def resolve_ext(file_name)
+      SUPPORTED_TEMPLATE_FORMATS.find { |ext| File.exists?("#{file_name}.#{ext}") }
+    end
+
+    def templates_root
+      @root ||= "#{@layout_module.root}/templates"
+    end
+
   end
 end
