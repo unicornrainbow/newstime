@@ -6,11 +6,6 @@ class LayoutModule
       layout_module.partials[name].render(self, *args, &block)
     end
 
-    def capture(&block)
-      view = LayoutModule::CaptureConcat.new(self)
-      view.instance_eval(&proc)
-    end
-
     def stylesheet_link_tag(name)
       %Q{<link href="#{name}.css" rel="stylesheet" media="screen" />}
     end

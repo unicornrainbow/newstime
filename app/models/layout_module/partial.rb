@@ -8,6 +8,9 @@ class LayoutModule
     end
 
     def render(view, *args, &block)
+      _layouts, view.layouts = view.layouts, []
+
+      # Acquire the tilt template
       file_name = "#{@layout_module.root}/views/#{@name}.html"
 
       # Resolve which type of template (erb, haml, slim...)
@@ -17,7 +20,20 @@ class LayoutModule
 
       tilt = Tilt.new(file_name)
 
-      tilt.render(view, *args) { view.capture(&block) }
+      # Capture content from block.
+      content = view.capture(&block) if block_given?
+
+      # Render using the LayoutModule::View wrapped view, injecting the rendered
+      # content and passing the args.
+      content = tilt.render(view, *args) { content }
+
+      while partial_name = view.layouts.pop
+        content = view.layout_module.partials[partial_name].render(view, *args) { content }
+      end
+
+      view.layouts = _layouts
+
+      content
     end
   end
 end
