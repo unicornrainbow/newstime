@@ -1,7 +1,7 @@
 require  'layout_module'
 
 class LayoutModule
-  class Partial
+  class Template
     def initialize(layout_module, name)
       @layout_module = layout_module
       @name = name
@@ -27,8 +27,8 @@ class LayoutModule
       # content and passing the args.
       content = tilt.render(view, *args) { content }
 
-      while partial_name = view.layouts.pop
-        content = view.layout_module.partials[partial_name].render(view, *args) { content }
+      while template_name = view.layouts.pop
+        content = view.layout_module.templates[template_name].render(view, *args) { content }
       end
 
       view.layouts = _layouts

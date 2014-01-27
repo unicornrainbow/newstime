@@ -7,6 +7,5 @@ class LayoutModule
     @name = name
     @root = "#{Rails.root}/layouts/#{@name}"
     @templates = TemplateAccessor.new(self)
-    @partials = PartialAccessor.new(self)
   end
 end

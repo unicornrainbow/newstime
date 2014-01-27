@@ -3,7 +3,7 @@ require  'layout_module'
 class LayoutModule
   class View < SimpleDelegator
     def render(name, *args, &block)
-      layout_module.partials[name].render(self, *args, &block)
+      layout_module.templates[name].render(self, *args, &block)
     end
 
     def stylesheet_link_tag(name)

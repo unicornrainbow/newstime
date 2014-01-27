@@ -20,7 +20,7 @@ module EditionsHelper
     view = LayoutModule::View.new(self)
 
     while template_name = layouts.pop
-      template = layout_module.partials[template_name]
+      template = layout_module.templates[template_name]
       content = template.render(view) { content }.html_safe
     end
 
