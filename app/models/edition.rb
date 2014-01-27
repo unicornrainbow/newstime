@@ -11,6 +11,7 @@ class Edition
   field :publish_date, type: Date
   field :store_link,   type: String
   field :fmt_price,    type: String  # Formatted price string
+  field :volume_label, type: String  # Formatted price string
 
   # A default option inherited by the sections when template name isn't set
   field :default_section_template_name, type: String
