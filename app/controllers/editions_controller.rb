@@ -55,7 +55,6 @@ class EditionsController < ApplicationController
     @publish_date = @edition.publish_date
 
     @layout_module = LayoutModule.new(@layout_name)
-    @template = @layout_module.templates[@template_name]
     render layout: 'layout_module'
   end
 

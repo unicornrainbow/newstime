@@ -20,11 +20,12 @@ class LayoutModule
       # Render using the LayoutModule::View wrapped view, injecting the rendered
       # content and passing the args.
       content = tilt.render(view, *args) { content }
-      if view.current_layout
-        view.concat(view.current_layout.render(view, *args) { content })
-      else
-        view.concat(content)
+
+      if partial_name = view.layouts.pop
+        content = view.layout_module.partials[partial_name].render(view, *args) { content }
       end
+
+      view.concat(content)
     end
   end
 end
