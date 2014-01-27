@@ -8,12 +8,17 @@ class LayoutModule
     end
 
     def render(view, *args, &block)
-      # TODO: Resolve extension and location based on search path and extensions
-      # (Should be handled by Tilt)
+      # Acquire the tilt template
+      tilt = Tilt.new("#{@layout_module.root}/views/#{@name}.html.erb")
+
+      # Capture content from block.
       content = view.capture(&block)
 
+      # Decorate view with layout module particularities.
       view = LayoutModule::View.new(view)
-      tilt = Tilt.new("#{@layout_module.root}/views/#{@name}.html.erb")
+
+      # Render using the LayoutModule::View wrapped view, injecting the rendered
+      # content and passing the args.
       tilt.render(view, *args) { content }
     end
   end
