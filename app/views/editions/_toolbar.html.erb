@@ -15,9 +15,6 @@
 </div>
 <div class="compose-toolbar-panel">
   <div class="container">
-    <%= simple_form_for edition do |f| %>
-      <%= f.input :name, hint: "The name of the edition, to refer to in the UI." %>
-      <%= f.button :submit, class: 'btn-default btn-primary' %>
-    <% end %>
+    <%= render 'editions/form' %>
   </div>
 </div>
