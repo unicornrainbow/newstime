@@ -35,27 +35,33 @@
   border-bottom: 2px solid #ccc;
 
   .container {
-    height: 50px;
+    height: 60px;
     width: 1184px;
     margin: 0 auto;
     color: white;
   }
   .newstime-logo {
     float: left;
-    height: 50px;
-    width: 206px;
-    padding: 10px;
+    height: 53px;
+    width: 165px;
+    margin: 8px 22px 0;
+    position: absolute;
     svg {
+      height: 82px;
       fill: #ccc;
     }
+  }
+  nav {
+    margin-left: 150px;
   }
   nav ul {
     font-family: 'Raleway', sans-serif;
     font-size: 15pt;
     float: left;
     display: block;
-    margin-left: 20px;
+    margin-left: 50px;
     padding: 0;
+
     li {
       margin: 0;
       display: inline;
@@ -65,7 +71,7 @@
         font-weight: 100;
         font-style: normal;
         position: relative;
-        top: 11px;
+        top: 16px;
         margin: 0;
       }
       a:hover  {
@@ -76,6 +82,7 @@
     }
   }
 }
+
 @font-face {
   font-family: 'Raleway';
   font-style: normal;
