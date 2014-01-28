@@ -137,6 +137,10 @@ class EditionsController < ApplicationController
     render text: File.read(image_path), content_type: 'image/svg+xml'
   end
 
+  def logo
+    render layout: false
+  end
+
 private
 
   def find_edition
