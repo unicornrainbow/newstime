@@ -11,6 +11,10 @@ class ApplicationController < ActionController::Base
     render "404", status: 404
   end
 
+  def logo
+    render layout: false
+  end
+
 protected
 
   def force_trailing_slash

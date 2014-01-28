@@ -60,7 +60,7 @@ Press::Application.routes.draw do
     resources :organizations
   end
 
-  get '/logo' => 'editions#logo'
+  get '/logo' => 'application#logo'
 
   # Active 404
   match "*a", :to => "application#routing_error", via: [:get, :post]
