@@ -1,3 +1,7 @@
+//= require ./composer/_font_faces
+//= require ./composer/_compose_toolbar
+//= require ./composer/_compose_toolbar_panel
+
 .btn-base {
   display: inline-block;
   padding: 6px 12px;
@@ -30,65 +34,4 @@
   &:focus {
     outline: 0;
   }
-}
-
-
-.nt-compose-toolbar {
-  background-color: #484c55;
-  border-bottom: 2px solid #ccc;
-
-  .container {
-    height: 60px;
-    width: 1184px;
-    margin: 0 auto;
-    color: white;
-  }
-  .newstime-logo {
-    float: left;
-    height: 53px;
-    width: 165px;
-    margin: -10px 22px 0;
-    position: absolute;
-    svg {
-      height: 82px;
-      fill: #ccc;
-    }
-  }
-  nav {
-    margin-left: 150px;
-  }
-  nav ul {
-    font-family: 'Raleway', sans-serif;
-    font-size: 15pt;
-    float: left;
-    display: block;
-    margin-left: 50px;
-    padding: 0;
-
-    li {
-      margin: 0;
-      display: inline;
-      a {
-        padding: 11px 15px;
-        color: #ccc;
-        font-weight: 100;
-        font-style: normal;
-        position: relative;
-        top: 15px;
-        margin: 0;
-      }
-      a:hover  {
-        text-decoration: none;
-        cursor: pointer;
-        color: white;
-      }
-    }
-  }
-}
-
-@font-face {
-  font-family: 'Raleway';
-  font-style: normal;
-  font-weight: 100;
-  src: local('Raleway Thin'), local('Raleway-Thin'), url(/assets/raleway/Raleway-Thin.woff) format('woff');
 }
