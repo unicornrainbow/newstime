@@ -9,8 +9,14 @@
 //
 //= require lib/jquery.easing
 
-$(function() {
-  $(".add-page-btn").click(function() {
-    alert("Add Page")
-  });
-});
+//$(function() {
+  //$(".add-page-btn").click(function() {
+    //alert("Add Page")
+  //});
+//});
+
+app = angular.module("app", ["templates"])
+
+//angular.element(document).ready(function() {
+  //angular.bootstrap(document, ['app']);
+//});
