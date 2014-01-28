@@ -32,6 +32,7 @@
   }
 }
 
+
 .nt-compose-toolbar {
   background-color: #484c55;
   border-bottom: 2px solid #ccc;
@@ -46,7 +47,7 @@
     float: left;
     height: 53px;
     width: 165px;
-    margin: 8px 22px 0;
+    margin: -10px 22px 0;
     position: absolute;
     svg {
       height: 82px;
@@ -73,7 +74,7 @@
         font-weight: 100;
         font-style: normal;
         position: relative;
-        top: 16px;
+        top: 15px;
         margin: 0;
       }
       a:hover  {
