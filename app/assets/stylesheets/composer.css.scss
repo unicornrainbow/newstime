@@ -32,7 +32,23 @@
 
 
 .nt-compose-toolbar {
-  height: 50px;
   background-color: #484c55;
+  border-bottom: 2px solid #ccc;
 
+  .container {
+    height: 50px;
+    /*font-family: 'Exo', serif;*/
+    width: 1184px;
+    margin: 0 auto;
+    color: white;
+  }
+  .newstime-standin {
+    height: 50px;
+    width: 206px;
+    padding: 10px;
+    svg {
+      /*fill: #484c55*/
+      fill: #ccc;
+    }
+  }
 }
