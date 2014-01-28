@@ -29,5 +29,7 @@ module Press
     config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'
 
     config.action_controller.include_all_helpers = false
+
+    config.assets.paths << "#{Rails.root}/app/assets/fonts"
   end
 end
