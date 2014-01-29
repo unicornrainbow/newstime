@@ -46,7 +46,7 @@ class EditionsController < ApplicationController
     @section       = @edition.sections.where(path: @path).first
     @layout_name   = @edition.layout_name
     @template_name = @section.template_name.presence || @edition.default_section_template_name
-    @title         = @section.title.presence || @edition.title
+    @title         = @section.page_title.presence || @edition.page_title
     @layout_module = LayoutModule.new(@layout_name)
 
     render 'edition', layout: 'layout_module'
@@ -144,7 +144,7 @@ private
   end
 
   def edition_params
-    params.require(:edition).permit(:name, :source, :title, :masthead_id, :layout_id, :layout_name, :default_section_template_name, :publish_date, :store_link, :fmt_price, :volume_label)
+    params.require(:edition).permit(:name, :source, :page_title, :masthead_id, :layout_id, :layout_name, :default_section_template_name, :publish_date, :store_link, :fmt_price, :volume_label)
   end
 
 end

@@ -3,9 +3,9 @@ class Section
   include Mongoid::Timestamps
 
   field :name, type: String
+  field :page_title, type: String
   field :path, type: String
   field :sequence, type: Integer
-  field :title, type: String
 
   field :template_name, type: String
 

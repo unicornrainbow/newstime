@@ -3,7 +3,7 @@ class Edition
   include Mongoid::Timestamps
 
   field :name,         type: String
-  field :title,        type: String
+  field :page_title,        type: String
   field :path,         type: String
   field :created_at,   type: Time
   field :html,         type: String     # The render html source markup
