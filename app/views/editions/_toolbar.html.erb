@@ -11,6 +11,14 @@
         <a>Section</a></li>
     </ul>
     </nav>
+    <nav class="pull-right">
+    <ul>
+      <li>
+        <%= link_to "Preview", "#{preview_edition_path(@edition)}/#{@section.path}" %>
+      </li>
+    </ul>
+    </nav>
+
   </div>
 </div>
 <div class="compose-toolbar-panel" id="edition-tab-panel">
