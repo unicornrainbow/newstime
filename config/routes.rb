@@ -26,6 +26,8 @@ Press::Application.routes.draw do
         get 'stylesheets/*path' => :stylesheets
         get '*path' => :preview, :defaults => { :format => "html" }
       end
+
+      get :download
     end
   end
 

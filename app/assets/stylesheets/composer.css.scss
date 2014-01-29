@@ -35,3 +35,16 @@
     outline: 0;
   }
 }
+
+.compose-toolbar {
+  nav.pull-right {
+    li {
+      margin-top: 11px;
+      font-size: 10pt;
+      a {
+        padding: 11px 0 0 20px;
+        height: 40px;
+      }
+    }
+  }
+}

@@ -9,16 +9,24 @@
         <a>Edition</a></li>
       <li id="section-tab">
         <a>Section</a></li>
-    </ul>
-    </nav>
-    <nav class="pull-right">
-    <ul>
       <li>
         <%= link_to "Preview", "#{preview_edition_path(@edition)}/#{@section.path}" %>
       </li>
+      <li>
+        <%= link_to "Download", download_edition_path(@edition) %>
+      </li>
     </ul>
     </nav>
-
+    <nav class="pull-right">
+      <ul>
+        <li>
+          <%= link_to current_user.email, edit_user_registration_path %>
+        </li>
+        <li>
+          <%= link_to('Sign Out', destroy_user_session_path, :method => :delete) %>
+        </li>
+      </ul>
+    </nav>
   </div>
 </div>
 <div class="compose-toolbar-panel" id="edition-tab-panel">

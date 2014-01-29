@@ -137,6 +137,10 @@ class EditionsController < ApplicationController
     render text: File.read(image_path), content_type: 'image/svg+xml'
   end
 
+  def download
+    # TODO: Implement, compilation and download as zip.
+  end
+
 private
 
   def find_edition
