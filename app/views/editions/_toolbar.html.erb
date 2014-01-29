@@ -1,24 +1,24 @@
-<div id="edition-toolbar" class="compose-toolbar" edition-toolbar>
+<div id="edition-toolbar" class="compose-toolbar">
   <div class="container">
     <div class="newstime-logo">
       <%= render 'newstime_pendulum_logo' %>
     </div>
     <nav>
     <ul>
-      <li class="active">
+      <li id="edition-tab">
         <a>Edition</a></li>
-      <li>
+      <li id="section-tab">
         <a>Section</a></li>
     </ul>
     </nav>
   </div>
 </div>
-<div class="compose-toolbar-panel">
+<div class="compose-toolbar-panel" id="edition-tab-panel">
   <div class="container">
     <%= render 'editions/form' %>
   </div>
 </div>
-<div class="compose-toolbar-panel">
+<div class="compose-toolbar-panel" id="section-tab-panel">
   <div class="container">
     <%= render 'sections/form', section: @section %>
   </div>

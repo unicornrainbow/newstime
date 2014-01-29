@@ -35,7 +35,7 @@ class SectionsController < ApplicationController
   def update
     @section = Section.find(params[:id])
     if @section.update_attributes(section_params)
-      redirect_to @section, notice: "Section updated successfully."
+      redirect_to :back, notice: "Section updated successfully."
     else
       render "edit"
     end
