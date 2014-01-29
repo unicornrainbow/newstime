@@ -62,4 +62,15 @@ $(function() {
     sectionPanel.hide()
   });
 
+  $('.add-section').click(function(){
+    // 1. Add a list item at the end of the section nav stuff.
+    // 2. Capture input until enter or escape.
+    // 3. For each letter, add it tho the item
+    // 4. On backspace, remove last letter.
+    //
+    // On escape, delete span and free keyboard.
+    // On enter, post to backend, and free keyboard.
+    //
+  });
+
 })

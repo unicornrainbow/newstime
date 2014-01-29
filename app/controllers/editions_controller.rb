@@ -49,7 +49,7 @@ class EditionsController < ApplicationController
     @title         = @section.page_title.presence || @edition.page_title
     @layout_module = LayoutModule.new(@layout_name)
 
-    render 'edition', layout: 'layout_module'
+    render 'compose', layout: 'layout_module'
   end
 
   alias :preview :compose
