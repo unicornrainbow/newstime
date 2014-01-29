@@ -38,6 +38,13 @@
     border: 0;
     background: #ccc;
     color: black;
+    outline: none;
+  }
 
+  a.cancel {
+    color: #ccc;
+    &:hover {
+      color: #eee;
+    }
   }
 }

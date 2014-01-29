@@ -8,6 +8,6 @@
   <%= f.button :submit, class: 'btn-default btn-primary' %>
   &nbsp;
   <% if section.persisted? %>
-    <%= link_to "Cancel", section_path(section) %>
+    <%= link_to "Cancel", section_path(section), class: 'cancel' %>
   <% end %>
 <% end %>

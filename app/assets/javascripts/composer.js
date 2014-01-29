@@ -25,8 +25,9 @@ $(function() {
   var editionTab   = $("#edition-tab"),
       sectionTab   = $("#section-tab"),
       editionPanel = $("#edition-tab-panel"),
-      sectionPanel = $("#section-tab-panel")
-
+      sectionPanel = $("#section-tab-panel"),
+      editionCancel= $(".cancel", editionPanel),
+      sectionCancel= $(".cancel", sectionPanel);
 
   editionPanel.hide();
   sectionPanel.hide();
@@ -45,6 +46,20 @@ $(function() {
 
     sectionTab.toggleClass('active');
     sectionPanel.toggle();
+  });
+
+  editionCancel.click(function(e) {
+    e.preventDefault();
+
+    editionTab.removeClass('active')
+    editionPanel.hide()
+  });
+
+  sectionCancel.click(function(e) {
+    e.preventDefault();
+
+    sectionTab.removeClass('active')
+    sectionPanel.hide()
   });
 
 })
