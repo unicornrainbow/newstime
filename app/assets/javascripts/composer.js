@@ -65,20 +65,49 @@ $(function() {
   var addSection  = $('.add-section'),
       sectionsNav = $('.sections-nav');
 
-  addSection.click(function(){
-    addSection.before(" <span><a href=''>|</a></span> ");
+  addSection.click(function(e){
+    e.preventDefault();
+    e.stopPropagation();
 
-    // 1. Add a list item at the end of the section nav stuff.
+    var input = $(" <input type='text'></input> ");
+    addSection.before(input);
+    input.focus();
 
-    // 2. Capture input until enter or escape.
-    // 3. For each letter, add it tho the item
-    // 4. On backspace, remove last letter.
-    //
-    // On escape, delete span and free keyboard.
-    // On enter, post to backend, and free keyboard.
-    // - Any click action should also break the focus.
-    // - If nothing was entered, then the span add should be removed.
-    //
+    var cancel = function() {
+      input.remove()
+    }
+
+    var createSection = function(sectionName) {
+      console.log(sectionName);
+      $.ajax({
+
+
+      });
+    }
+
+    var submit = function() {
+      var sectionName = input.val();
+      if (sectionName == '') {
+        cancel();
+      } else {
+        addSection.before(" <span><a href=''>" + sectionName + "</a></span> ");
+        input.remove();
+      }
+    }
+
+    // ESC to Cancel, Enter to submit.
+    $(input).keyup(function(e){
+      switch(e.keyCode) {
+        case 27: // ESC
+          cancel();
+          break;
+        case 13: // ENTER
+          submit();
+      }
+    });
+
+    // Click should submit.
+    $(document).click(function(){ submit() });
   });
 
 })
