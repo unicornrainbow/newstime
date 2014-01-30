@@ -138,7 +138,6 @@ class EditionsController < ApplicationController
   end
 
   def download
-    # TODO: Implement, compilation and download as zip.
   end
 
 private

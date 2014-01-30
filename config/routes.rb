@@ -6,8 +6,7 @@ Press::Application.routes.draw do
   devise_for :admin_user
 
   resources :editions do
-    resource :section
-    resource :masthead
+    resources :sections
     member do
       get :compose
       scope 'compose' do

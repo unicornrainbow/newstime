@@ -62,38 +62,77 @@ $(function() {
     sectionPanel.hide()
   });
 
+  captureAuthenticityToken = function() {
+    // Find a authenticity token
+    //captureAuthenticityToken();
+    //""
+  }
+
   var addSection  = $('.add-section'),
-      sectionsNav = $('.sections-nav');
+      sectionsNav = $('.sections-nav'),
+      authenticityToken = captureAuthenticityToken();
 
   addSection.click(function(e){
     e.preventDefault();
     e.stopPropagation();
 
-    var input = $(" <input type='text'></input> ");
+    var input = $(" <input class='section-nav-input' type='text'></input> ");
     addSection.before(input);
     input.focus();
 
+    // Submits if document is clicked anywhere.
+    var clickHandler = function(){ submit() }
+
     var cancel = function() {
+      clickHandler
       input.remove()
     }
 
-    var createSection = function(sectionName) {
-      console.log(sectionName);
+    var createSection = function(sectionName, opts) {
+      var editionID = "52d59b0f6f7263363a200000";
+      var url = "http://press.newstime.io/editions/" + editionID + "/sections";
+
       $.ajax({
-
-
+        type: "POST",
+        url: url,
+        data: {
+          authenticityToken: authenticityToken,
+          name: sectionName
+        },
+        success: opts['success'],
+        error: opts['error'],
+        dataType: 'json'
       });
     }
 
+
+    $document = $(document)
     var submit = function() {
       var sectionName = input.val();
       if (sectionName == '') {
         cancel();
       } else {
+        $document.unbind(clickHandler); // Remove click handler which was bound.
+        var success = function() {
+          alert("success");
+        };
+
+        var error = function() {
+          alert("error");
+        };
+
         addSection.before(" <span><a href=''>" + sectionName + "</a></span> ");
+        createSection(sectionName, {
+          success: success,
+          error: error
+        });
+
         input.remove();
       }
     }
+
+    // Click should submit.
+    $document.click(clickHandler);
 
     // ESC to Cancel, Enter to submit.
     $(input).keyup(function(e){
@@ -103,11 +142,12 @@ $(function() {
           break;
         case 13: // ENTER
           submit();
+          break;
+        default:
+          // Resize form field.
       }
     });
 
-    // Click should submit.
-    $(document).click(function(){ submit() });
   });
 
 })
