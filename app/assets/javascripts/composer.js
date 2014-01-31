@@ -9,18 +9,9 @@
 //
 //= require lib/jquery.easing
 
-//$(function() {
-  //$(".add-page-btn").click(function() {
-    //alert("Add Page")
-  //});
-//});
 
 app = angular.module("app", ["templates"])
 
-//angular.element(document).ready(function() {
-  //angular.bootstrap(document, ['app']);
-//});
-//
 $(function() {
   var editionTab   = $("#edition-tab"),
       sectionTab   = $("#section-tab"),
@@ -78,14 +69,24 @@ $(function() {
 
     var input = $(" <input class='section-nav-input' type='text'></input> ");
     addSection.before(input);
+
+    addSection.hide();
+
+    link = $("<a href=''></a>");
+    span = $(" <span class='section-nav-input-span for-size'></span> ");
+    span.html(link);
+    addSection.before(span);
+    span.addClass('for-sizing');
+
     input.focus();
 
     // Submits if document is clicked anywhere.
     var clickHandler = function(){ submit() }
 
     var cancel = function() {
-      clickHandler
-      input.remove()
+      $document.remove(clickHandler);
+      input.remove();
+      span.remove();
     }
 
     var createSection = function(sectionName, opts) {
@@ -112,27 +113,35 @@ $(function() {
       if (sectionName == '') {
         cancel();
       } else {
-        $document.unbind(clickHandler); // Remove click handler which was bound.
-        var success = function() {
-          alert("success");
-        };
+        var value = input.val();
+        input.remove()
 
-        var error = function() {
-          alert("error");
-        };
+        link.html(value);
+        link.attr({'href': value + ".html"});
+        span.removeClass('for-sizing');
 
-        addSection.before(" <span><a href=''>" + sectionName + "</a></span> ");
+        addSection.before(" ");
+
+        addSection.show();
+
         createSection(sectionName, {
-          success: success,
-          error: error
+          success: function() {
+            alert('success');
+          }
         });
 
-        input.remove();
+        $document.unbind(clickHandler); // Remove click handler which was bound.
       }
     }
 
     // Click should submit.
     $document.click(clickHandler);
+
+    var resize = function() {
+      // Measure Invisible Span.
+      link.text(input.val());
+      input.css({'width': link.width() + 10 + 'px'});
+    }
 
     // ESC to Cancel, Enter to submit.
     $(input).keyup(function(e){
@@ -144,7 +153,7 @@ $(function() {
           submit();
           break;
         default:
-          // Resize form field.
+          resize();
       }
     });
 
