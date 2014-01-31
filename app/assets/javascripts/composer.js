@@ -54,9 +54,7 @@ $(function() {
   });
 
   captureAuthenticityToken = function() {
-    // Find a authenticity token
-    //captureAuthenticityToken();
-    //""
+    return $("input[name=authenticity_token]").first().val();
   }
 
   var addSection  = $('.add-section'),
@@ -92,7 +90,6 @@ $(function() {
     var createSection = function(sectionName, opts) {
       var editionID = "52d59b0f6f7263363a200000";
       var url = "http://press.newstime.io/editions/" + editionID + "/sections";
-
       $.ajax({
         type: "POST",
         url: url,
@@ -113,19 +110,20 @@ $(function() {
         cancel();
       } else {
         var value = input.val();
+
         input.remove()
 
         link.html(value);
         link.attr({'href': value + ".html"});
+
         span.removeClass('for-sizing');
 
         addSection.before(" ");
-
         addSection.show();
 
-        createSection(sectionName, {
+        createSection(sectionName)
           success: function() {
-            alert('success');
+            // TODO: Implement success.
           }
         });
 
