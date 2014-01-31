@@ -106,7 +106,6 @@ $(function() {
       });
     }
 
-
     $document = $(document)
     var submit = function() {
       var sectionName = input.val();
@@ -140,7 +139,7 @@ $(function() {
     var resize = function() {
       // Measure Invisible Span.
       link.text(input.val());
-      input.css({'width': link.width() + 10 + 'px'});
+      input.css({'width': link.width() + 15 + 'px'});
     }
 
     // ESC to Cancel, Enter to submit.
