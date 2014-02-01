@@ -1,4 +1,4 @@
-![NEWSTIME](https://github.com/blakefrost/newstime/blob/master/screenshots/2014/02/01/12-10-39.png)
+![NEWSTIME](https://raw2.github.com/blakefrost/newstime/master/screenshots/2014/02/01/12-10-39.png)
 
 The product of this work is free. All Rights to its use are vested in the people
 of the world.
