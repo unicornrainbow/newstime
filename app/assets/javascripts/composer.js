@@ -88,14 +88,20 @@ $(function() {
     }
 
     var createSection = function(sectionName, opts) {
-      var editionID = "52d59b0f6f7263363a200000";
-      var url = "http://press.newstime.io/editions/" + editionID + "/sections";
+      var editionID   = "52d59b0f6f7263363a200000";
+      var url         = "http://press.newstime.io/editions/" + editionID + "/sections";
+      var sectionPath = sectionName + ".html"
+      console.log(url);
       $.ajax({
         type: "POST",
         url: url,
         data: {
-          authenticityToken: authenticityToken,
-          name: sectionName
+          authenticity_token: authenticityToken,
+          section: {
+            name: sectionName,
+            path: sectionPath,
+            edition_id: '52d59b0f6f7263363a200000'
+          }
         },
         success: opts['success'],
         error: opts['error'],
@@ -118,12 +124,15 @@ $(function() {
 
         span.removeClass('for-sizing');
 
-        addSection.before(" ");
+        addSection.before(" "); // Induce proper spacing.
         addSection.show();
 
-        createSection(sectionName)
+        createSection(sectionName, {
           success: function() {
-            // TODO: Implement success.
+            alert("That was a success!");
+          },
+          error: function() {
+            alert("That did not work.");
           }
         });
 
