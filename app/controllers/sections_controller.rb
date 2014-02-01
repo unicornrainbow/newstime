@@ -2,6 +2,8 @@ class SectionsController < ApplicationController
 
   before_filter :authenticate_user!
 
+  skip_before_filter :verify_authenticity_token
+
   def index
     @sections = Section.asc(:path)
   end
@@ -49,7 +51,8 @@ class SectionsController < ApplicationController
 
   def destroy
     @section = Section.find(params[:id]).destroy
-    redirect_to :back
+    @edition = @section.edition
+    redirect_to edition_path(@edition)
   end
 
   def preview
