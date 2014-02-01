@@ -1,22 +1,11 @@
-This is free software licensed under the [GNU GENERAL PUBLIC LICENSE
-V3](http://www.gnu.org/licenses/gpl.html)
+The product of this work is free. All Rights to its use are vested in the people
+of the world.
 
-    Newstime: A platform for the people.
-    Copyright (C) 2014  Blake S. Taylor
+Use it well, and spread the love. ♡
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+I am the author, but I am not the creator, so I can not claim ownership of any
+kind. Use it as you would the air you breath. To work on this code has been a
+gift, and as sure as the sun shines, it is with love that this is given to you.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-The Newstime Logotype and Brand are trademarked and copyrighted works wholly
-owned by Blake Sebastian Taylor and may not be used without express written
-permission. Copyright 2014, All Rights Reserved.
+-- Blake S. Taylor
+By birth, Jonathan Craig Dearborn Humphrey
