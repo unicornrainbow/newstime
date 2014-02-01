@@ -95,6 +95,7 @@ $(function() {
           section: {
             name: sectionName,
             path: sectionPath,
+            sequence: 10,
             edition_id: '52d59b0f6f7263363a200000'
           }
         },
