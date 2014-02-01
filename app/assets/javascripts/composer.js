@@ -78,11 +78,7 @@ $(function() {
 
     input.focus();
 
-    // Submits if document is clicked anywhere.
-    var clickHandler = function(){ submit() }
-
     var cancel = function() {
-      $document.remove(clickHandler);
       input.remove();
       span.remove();
     }
@@ -91,7 +87,6 @@ $(function() {
       var editionID   = "52d59b0f6f7263363a200000";
       var url         = "http://press.newstime.io/editions/" + editionID + "/sections";
       var sectionPath = sectionName + ".html"
-      console.log(url);
       $.ajax({
         type: "POST",
         url: url,
@@ -103,8 +98,6 @@ $(function() {
             edition_id: '52d59b0f6f7263363a200000'
           }
         },
-        success: opts['success'],
-        error: opts['error'],
         dataType: 'json'
       });
     }
@@ -127,21 +120,9 @@ $(function() {
         addSection.before(" "); // Induce proper spacing.
         addSection.show();
 
-        createSection(sectionName, {
-          success: function() {
-            alert("That was a success!");
-          },
-          error: function() {
-            alert("That did not work.");
-          }
-        });
-
-        $document.unbind(clickHandler); // Remove click handler which was bound.
+        createSection(sectionName);
       }
     }
-
-    // Click should submit.
-    $document.click(clickHandler);
 
     var resize = function() {
       // Measure Invisible Span.
