@@ -1,12 +1,8 @@
-<div class="container">
+<div class="grid grid24">
   <div class="row">
-    <div class="col-xs-8 story-new">
+    <div class="col">
       <h2>New Photo</h2>
-      <%= simple_form_for @photo do |f| %>
-        <%= f.input :name %>
-        <%= f.input :attachment %>
-        <%= f.button :submit, class: 'btn-default' %>
-      <% end %>
+      <%= render 'form', photo: @photo %>
     </div>
   </div>
 </div>
