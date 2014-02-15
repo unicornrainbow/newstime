@@ -1,3 +1,19 @@
+<style type="text/css" media="screen">
+  h2{
+    font-family: Raleway;
+    font-weight: 200;
+  }
+
+  .btn {
+    border-radius: 0;
+  }
+
+  .form-control {
+    border-radius: 0;
+  }
+</style>
+
+
 <div id="edition-toolbar" class="compose-toolbar">
   <div class="container">
     <div class="newstime-logo">
@@ -5,6 +21,7 @@
     </div>
   </div>
 </div>
+<%= render 'flash' %>
 <div class="grid grid24">
   <div class="row">
     <div class="col span8 offset8">
@@ -12,8 +29,8 @@
 
       <%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
         <div class="form-inputs">
-          <%= f.input :email, :required => false, :autofocus => true %>
-          <%= f.input :password, :required => false %>
+          <%= f.input :email, :required => false, label: false, placeholder: 'Email', :autofocus => true %>
+          <%= f.input :password, :required => false, label: false, placeholder: 'Password' %>
         </div>
 
         <div class="form-actions">

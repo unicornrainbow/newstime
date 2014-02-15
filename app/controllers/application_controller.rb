@@ -20,4 +20,8 @@ protected
   def force_trailing_slash
     redirect_to request.original_url + '/' unless request.original_url.match(/\/$/)
   end
+
+  def after_sign_out_path_for(resource_or_scope)
+    new_user_session_path
+  end
 end
