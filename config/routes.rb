@@ -1,8 +1,7 @@
 Press::Application.routes.draw do
 
-  #root to: 'editions#index'
-  root to: 'webpages#home'
-
+  root to: 'editions#index'
+  #root to: 'webpages#home'
 
   devise_for :users
   devise_for :admin_user
