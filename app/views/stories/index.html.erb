@@ -1,25 +1,28 @@
-<div class="container">
-  <h3>Stories</h3>
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>
-          Name
-        </th>
-        <th></th>
-      </tr>
-    </thead>
-    <% @stories.each do |story| %>
-      <tr>
-        <td><%= link_to story.name, story %></td>
+<div class="grid grid24">
+  <div class="row">
+    <div class="col">
+      <br>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>
+              Name
+            </th>
+            <th></th>
+          </tr>
+        </thead>
+        <% @stories.each do |story| %>
+          <tr>
+            <td><%= link_to story.name, story %></td>
 
-        <td>
-          <%= link_to "Edit", edit_story_path(story) %> /
-          <%= link_to "Delete", story, method: :delete, confirm: "Are you sure?" %>
-        </td>
-      <tr>
-    <% end %>
-  </table>
-  <%= link_to 'New', new_story_path %>
-
+            <td>
+              <%= link_to "Edit", edit_story_path(story) %> /
+              <%= link_to "Delete", story, method: :delete, confirm: "Are you sure?" %>
+            </td>
+          <tr>
+        <% end %>
+      </table>
+      <%= link_to 'New', new_story_path %>
+    </div>
+  </div>
 </div>

@@ -1,24 +1,28 @@
-<div class="container">
-  <h3>Image</h3>
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>Photos</th>
-        <th>Attachment</th>
-        <th></th>
-      </tr>
-    </thead>
-    <% @photos.each do |photo| %>
-      <tr>
-        <td><%= link_to photo.name, photo %></td>
+<div class="grid grid24">
+  <div class="row">
+    <div class="col">
+      <br>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Attachment</th>
+            <th></th>
+          </tr>
+        </thead>
+        <% @photos.each do |photo| %>
+          <tr>
+            <td><%= link_to photo.name, photo %></td>
 
-        <td><%= image_tag photo.attachment.url(:small) %><br>
-          <%= link_to photo.attachment.url, photo.attachment.styles  %></td>
-        <td>
-        <%= link_to "Edit", edit_photo_path(photo) %> /
-        <%= link_to "Delete", photo, method: :delete, confirm: "Are you sure?" %></td>
-      <tr>
-    <% end %>
-  </table>
-  <%= link_to 'New', new_photo_path %>
+            <td><%= image_tag photo.attachment.url(:small) %><br>
+              <%= link_to photo.attachment.url, photo.attachment.styles  %></td>
+            <td>
+            <%= link_to "Edit", edit_photo_path(photo) %> /
+            <%= link_to "Delete", photo, method: :delete, confirm: "Are you sure?" %></td>
+          <tr>
+        <% end %>
+      </table>
+      <%= link_to 'New', new_photo_path %>
+    </div>
+  </div>
 </div>
