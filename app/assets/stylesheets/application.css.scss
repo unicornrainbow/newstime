@@ -30,10 +30,7 @@ a {
 ul.action-menu {
   line-height: normal;
   margin: 0; padding: 0;
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
-  width: 100%;
-  text-align: right;
+  float: right;
   margin-bottom: 20px;
   li {
     display: inline;
