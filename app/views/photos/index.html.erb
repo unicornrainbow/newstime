@@ -17,8 +17,6 @@
             <td><%= image_tag photo.attachment.url(:small) %><br>
               <%= link_to photo.attachment.url, photo.attachment.styles  %></td>
             <td>
-            <%= link_to "Edit", edit_photo_path(photo) %> /
-            <%= link_to "Delete", photo, method: :delete, confirm: "Are you sure?" %></td>
           <tr>
         <% end %>
       </table>

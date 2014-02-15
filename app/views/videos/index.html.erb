@@ -6,15 +6,11 @@
         <thead>
           <tr>
             <th>Name</th>
-            <th>actions</th>
           </tr>
         </thead>
         <% @videos.each do |video| %>
           <tr>
             <td><%= link_to video.name, video %></td>
-
-            <td><%= link_to "Edit", edit_video_path(video) %> /
-            <%= link_to "Delete", video, method: :delete, confirm: "Are you sure?" %></td>
           <tr>
         <% end %>
       </table>
