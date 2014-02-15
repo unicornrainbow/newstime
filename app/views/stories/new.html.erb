@@ -1,12 +1,13 @@
-<div class="container">
+<div class="grid grid24">
   <div class="row">
-    <div class="col-xs-8 story-new">
+    <div class="col">
       <h2>New Story</h2>
       <%= simple_form_for @story do |f| %>
         <%= f.input :name %>
-        <%= f.input :body, as: :text %>
+        <%= f.input :body, as: :text, input_html: { rows: 40 } %>
         <%= f.button :submit, class: 'btn-default' %>
       <% end %>
+      <br>
     </div>
   </div>
 </div>
