@@ -7,7 +7,7 @@
   <%= f.input :default_section_template_name, hint: "Default value inherited by the section when template name isn't set there." %>
   <%= f.input :fmt_price, hint: "Formmatted price. i.e. 25¢" %>
   <%= f.input :volume_label, hint: "The volume label for the edition." %>
-  <%= f.button :submit, class: 'btn-default btn-primary' %>
+  <%= f.button :submit, class: 'btn-default' %>
   &nbsp;
   <% if edition.persisted? %>
     <%= link_to "Cancel", edition_path(@edition), class: 'cancel' %>
