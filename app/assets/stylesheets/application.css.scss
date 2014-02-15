@@ -22,6 +22,15 @@ body {
   margin-bottom: 20px;
 }
 
+.alert-flash {
+  margin-top: -20px;
+  border-top: none;
+  border-radius: 0;
+  .col {
+    padding: 0 20px;
+  }
+}
+
 .story-new {
   textarea {
     height: 300px;
