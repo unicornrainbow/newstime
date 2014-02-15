@@ -22,7 +22,7 @@
             <td><%= edition.page_title %></td>
             <td><%= edition.volume_label %></td>
             <td><%= edition.publish_date.try(:strftime, "%D") %></td>
-            <td><%= edition.updated_at.strftime("%D") %></td>
+            <td><%= format_date(edition.updated_at) %></td>
           <tr>
         <% end %>
       </table>

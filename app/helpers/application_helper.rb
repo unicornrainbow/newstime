@@ -67,4 +67,8 @@ module ApplicationHelper
     "#{path}?#{@options.merge(options).to_param}"
   end
 
+  def format_date(date)
+    date.try(:strftime, "%D")
+  end
+
 end

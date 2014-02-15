@@ -9,14 +9,18 @@
       <table class="table">
         <thead>
           <tr>
-            <th>
-              Name
-            </th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Date Modified</th>
+            <th>Word Count</th>
           </tr>
         </thead>
         <% @stories.each do |story| %>
           <tr>
-            <td><%= link_to story.name, story %></td>
+            <td><%= link_to story.title, story %></td>
+            <td><%= story.author %></td>
+            <td><%= format_date(story.updated_at) %></td>
+            <td><%= story.word_count %></td>
           <tr>
         <% end %>
       </table>

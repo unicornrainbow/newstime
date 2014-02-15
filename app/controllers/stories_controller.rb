@@ -1,6 +1,6 @@
 class StoriesController < ApplicationController
   def index
-    @stories = Story.desc(:name)
+    @stories = Story.desc(:updated_at)
   end
 
   def new
@@ -41,7 +41,7 @@ class StoriesController < ApplicationController
 private
 
   def story_params
-    params.require(:story).permit(:name, :body)
+    params.require(:story).permit(:name, :body, :author, :source, :title)
   end
 
 end
