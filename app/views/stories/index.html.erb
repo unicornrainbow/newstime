@@ -1,13 +1,17 @@
 <div class="grid grid24">
   <div class="row">
     <div class="col">
+      <ul class="action-menu pull-right">
+        <li>
+          <%= link_to "New Story", new_story_path %>
+        </li>
+      </ul>
       <table class="table">
         <thead>
           <tr>
             <th>
               Name
             </th>
-            <th></th>
           </tr>
         </thead>
         <% @stories.each do |story| %>
