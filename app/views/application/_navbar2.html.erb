@@ -1,0 +1,35 @@
+<div id="edition-toolbar" class="compose-toolbar">
+  <div class="container">
+    <div class="newstime-logo">
+      <%= render 'newstime_pendulum_logo' %>
+    </div>
+    <nav>
+    <ul>
+      <%= navbar_li "Editions", editions_path, active_path: editions_path  %>
+      <%= navbar_li "Stories", stories_path, active_path: stories_path %>
+      <%= navbar_li "Photos", photos_path, active_path: photos_path  %>
+      <%= navbar_li "Video", '/videos', active_path: '/videos'  %>
+    </ul>
+    <% if false %>
+      <%= dropdown_menu "More <b class=\"caret\"></b>" do %>
+        <%= navbar_li "Layouts", '/layouts' %>
+        <%= navbar_li "Inlets", '/inlets' %>
+        <%= navbar_li "Pages", '/pages' %>
+        <%= navbar_li "Sections", '/sections' %>
+        <%= navbar_li "Partials", '/partials' %>
+        <%= navbar_li "Mastheads", '/mastheads' %>
+      <% end %>
+    <% end %>
+    </nav>
+    <nav class="pull-right">
+      <ul>
+        <li>
+          <%= link_to current_user.email, edit_user_registration_path %>
+        </li>
+        <li>
+          <%= link_to('Sign Out', destroy_user_session_path, :method => :delete) %>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

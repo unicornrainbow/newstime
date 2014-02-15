@@ -2,12 +2,13 @@
 <html>
 <head>
   <title>Press</title>
+  <%= stylesheet_link_tag    "composer", media: "all" %>
   <%= stylesheet_link_tag    "application", media: "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <%= render 'navbar' %>
+  <%= render 'navbar2' %>
   <%= render 'flash' %>
   <%= yield %>
 </body>
