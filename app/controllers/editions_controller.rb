@@ -5,7 +5,7 @@ class EditionsController < ApplicationController
   respond_to :html
 
   def index
-    @editions = current_user.organization.editions.asc(:path)
+    @editions = current_user.organization.editions.desc(:updated_at)
   end
 
   def new

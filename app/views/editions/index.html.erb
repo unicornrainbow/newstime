@@ -6,13 +6,13 @@
         <thead>
           <tr>
             <th>Name</th>
-            <th></th>
+            <td>Last Modified</td>
           </tr>
         </thead>
         <% @editions.each do |edition| %>
           <tr>
             <td><%= link_to edition.name, compose_edition_path(edition) %></td>
-            <td><%= link_to "Delete", edition, method: :delete, confirm: "Are you sure?" %></td>
+            <td><%= edition.updated_at.strftime("%D") %></td>
           <tr>
         <% end %>
       </table>
