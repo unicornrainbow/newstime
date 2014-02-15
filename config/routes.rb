@@ -1,6 +1,6 @@
 Press::Application.routes.draw do
 
-  root to: 'editions#index'
+  root to: redirect('/editions')
   #root to: 'webpages#home'
 
   devise_for :users

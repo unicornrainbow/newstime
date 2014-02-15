@@ -1,21 +1,26 @@
-<div class="container">
-  <h3>Editions</h3>
+<div class="grid grid24">
+  <div class="row">
+    <div class="col span5">
+      <%= render 'sidebar_nav' %>
+    </div>
+    <div class="col span19">
+      <h3>Editions</h3>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Path</th>
+            <th></th>
+          </tr>
+        </thead>
+        <% @editions.each do |edition| %>
+          <tr>
+            <td><%= link_to edition.name, compose_edition_path(edition) %></td>
+            <td><%= link_to "Delete", edition, method: :delete, confirm: "Are you sure?" %></td>
+          <tr>
+        <% end %>
+      </table>
 
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>Path</th>
-        <th></th>
-      </tr>
-    </thead>
-    <% @editions.each do |edition| %>
-      <tr>
-        <td><%= link_to edition.name, edition %></td>
-        <td><%= link_to "Edit", edit_edition_path(edition) %> /
-          <%= link_to "Delete", edition, method: :delete, confirm: "Are you sure?" %></td>
-      <tr>
-    <% end %>
-  </table>
-
-  <%= link_to 'New', new_edition_path %>
+      <%= link_to 'New', new_edition_path %>
+    </div>
+  </div>
 </div>
