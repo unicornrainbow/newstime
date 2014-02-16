@@ -36,8 +36,9 @@ class SectionsController < ApplicationController
 
   def update
     @section = Section.find(params[:id])
+    @edition = @section.edition
     if @section.update_attributes(section_params)
-      redirect_to :back, notice: "Section updated successfully."
+      redirect_to "#{compose_edition_path(@edition)}/#{@section.path}", notice: "Section updated successfully."
     else
       render "edit"
     end
@@ -50,9 +51,10 @@ class SectionsController < ApplicationController
   end
 
   def destroy
-    @section = Section.find(params[:id]).destroy
+    @section = Section.find(params[:id])
     @edition = @section.edition
-    redirect_to edition_path(@edition)
+    @section.destroy
+    redirect_to compose_edition_path(@edition)
   end
 
   def preview
