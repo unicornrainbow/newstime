@@ -1,5 +1,4 @@
 //= require jquery
-//= require jquery_ujs
 //
 //= require angular
 //= require_self
@@ -61,6 +60,7 @@ $(function() {
       sectionsNav = $('.sections-nav'),
       authenticityToken = captureAuthenticityToken();
 
+  // Handle Add Section Click
   addSection.click(function(e){
     e.preventDefault();
     e.stopPropagation();
@@ -103,7 +103,7 @@ $(function() {
       });
     }
 
-    $document = $(document)
+    $document = $(document);
     var submit = function() {
       var sectionName = input.val();
       if (sectionName == '') {
