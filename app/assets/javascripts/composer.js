@@ -61,18 +61,28 @@ $(function() {
       sectionsNav = $('.sections-nav'),
       authenticityToken = captureAuthenticityToken();
 
+  var postForm = function(action, method, input) {
+    var form;
+    form = $('<form />', {
+        action: action,
+        method: method,
+        style: 'display: none;'
+    });
+    if (typeof input !== 'undefined') {
+      $.each(input, function (name, value) {
+        $('<input />', {
+          type: 'hidden',
+          name: name,
+          value: value
+        }).appendTo(form);
+      });
+    }
+    form.appendTo('body').submit();
+  }
+
   var createPage = function(sectionID, opts) {
     // TODO: Do we need to be passing in the sectionID in two places?
-    var url = "/sections/" + sectionID + "/pages";
-    $.ajax({
-      type: "POST",
-      url: url,
-      data: {
-        authenticity_token: authenticityToken,
-        page: {}
-      },
-      dataType: 'json'
-    });
+    postForm("/sections/" + sectionID + "/pages", "post", { authenticity_token: authenticityToken });
   }
 
   // Handle Add Section Click
@@ -164,7 +174,6 @@ $(function() {
 
   $(".add-page-btn").click(function() {
     createPage(composer.sectionID); // Temp solution, should be pulling this from the dom and using a directive.
-    location.reload(); // HACK: Reload, in the future inject...
   });
 
 })

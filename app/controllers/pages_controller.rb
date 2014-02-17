@@ -29,7 +29,7 @@ class PagesController < ApplicationController
     @page.organization = current_user.organization
 
     if @page.save
-      redirect_to @page, notice: "Page created successfully."
+      redirect_to :back, notice: "Page created successfully."
     else
       render "new"
     end
