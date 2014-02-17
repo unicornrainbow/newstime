@@ -3,7 +3,7 @@ Press::Application.routes.draw do
   root to: redirect('/editions')
   #root to: 'webpages#home'
 
-  devise_for :users
+  devise_for :users, controllers: { sessions: "sessions" }
   devise_for :admin_user
 
   resources :editions do
