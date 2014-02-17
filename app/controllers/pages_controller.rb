@@ -14,7 +14,16 @@ class PagesController < ApplicationController
   end
 
   def create
+    if params[:section_id]
+      # TODO: [security] User must have access to the section.
+      @section = Section.find(params[:section_id])
+    end
+
     @page = Page.new(page_params)
+
+    if @section
+      @section.pages << @page
+    end
 
     # All section must have an organization
     @page.organization = current_user.organization
@@ -53,7 +62,8 @@ class PagesController < ApplicationController
 private
 
   def page_params
-    params.require(:page).permit(:name, :section_id, :source, :layout_id)
+    #params.require(:page).permit(:name, :section_id, :source, :layout_id)
+    params.fetch(:page, {}).permit(:name, :section_id, :source, :layout_id)
   end
 
 end

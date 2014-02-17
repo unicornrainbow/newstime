@@ -44,6 +44,7 @@ class EditionsController < ApplicationController
 
     # Find section by path off of edtion.
     @section       = @edition.sections.where(path: @path).first
+    @pages         = @section.pages
     @layout_name   = @edition.layout_name
     @template_name = @section.template_name.presence || @edition.default_section_template_name
     @title         = @section.page_title.presence || @edition.page_title

@@ -69,9 +69,7 @@ $(function() {
       url: url,
       data: {
         authenticity_token: authenticityToken,
-        page: {
-          section_id: sectionID
-        }
+        page: {}
       },
       dataType: 'json'
     });
