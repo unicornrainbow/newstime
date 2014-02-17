@@ -56,9 +56,26 @@ $(function() {
     return $("input[name=authenticity_token]").first().val();
   }
 
+
   var addSection  = $('.add-section'),
       sectionsNav = $('.sections-nav'),
       authenticityToken = captureAuthenticityToken();
+
+  var createPage = function(sectionID, opts) {
+    // TODO: Do we need to be passing in the sectionID in two places?
+    var url = "/sections/" + sectionID + "/pages";
+    $.ajax({
+      type: "POST",
+      url: url,
+      data: {
+        authenticity_token: authenticityToken,
+        page: {
+          section_id: sectionID
+        }
+      },
+      dataType: 'json'
+    });
+  }
 
   // Handle Add Section Click
   addSection.click(function(e){
@@ -83,9 +100,9 @@ $(function() {
       span.remove();
     }
 
-    var createSection = function(sectionName, opts) {
-      var editionID   = "52d59b0f6f7263363a200000";
-      var url         = "http://press.newstime.io/editions/" + editionID + "/sections";
+    var createSection = function(editionID, sectionName, opts) {
+      // TODO: Do we need to be passing in the editionID in two places?
+      var url         = "/editions/" + editionID + "/sections";
       var sectionPath = sectionName + ".html"
       $.ajax({
         type: "POST",
@@ -96,7 +113,7 @@ $(function() {
             name: sectionName,
             path: sectionPath,
             sequence: 10,
-            edition_id: '52d59b0f6f7263363a200000'
+            edition_id: editionID
           }
         },
         dataType: 'json'
@@ -121,7 +138,7 @@ $(function() {
         addSection.before(" "); // Induce proper spacing.
         addSection.show();
 
-        createSection(sectionName);
+        createSection(composer.editionID, sectionName);
       }
     }
 
@@ -145,6 +162,11 @@ $(function() {
       }
     });
 
+  });
+
+  $(".add-page-btn").click(function() {
+    createPage(composer.sectionID); // Temp solution, should be pulling this from the dom and using a directive.
+    location.reload(); // HACK: Reload, in the future inject...
   });
 
 })

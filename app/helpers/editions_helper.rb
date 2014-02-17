@@ -39,6 +39,7 @@ module EditionsHelper
   end
 
   def composer_javascript
-    javascript_include_tag("composer") + "\n"
+    content = content_for(:composer_variables)
+    content << javascript_include_tag("composer") + "\n"
   end
 end
