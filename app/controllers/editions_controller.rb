@@ -1,10 +1,11 @@
 class EditionsController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, except: :index
   before_filter :find_edition, only: [:compose, :preview]
 
   respond_to :html
 
   def index
+    redirect_to new_user_session_path and return unless current_user
     @editions = current_user.organization.editions.desc(:updated_at)
   end
 
