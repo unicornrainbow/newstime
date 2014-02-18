@@ -6,7 +6,7 @@ class Page
   belongs_to :organization
   belongs_to :layout
 
-  field      :ordinal, type: Integer
   field      :name,    type: String
   field      :source,  type: String
+  field      :number, type: Integer
 end

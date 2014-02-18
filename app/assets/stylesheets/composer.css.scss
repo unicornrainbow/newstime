@@ -37,6 +37,36 @@
   }
 }
 
+.col {
+  position: relative;
+}
+
+.row {
+  position: relative;
+
+}
+
+.add-content-btn {
+  background: #ccc;
+  color: #484c55;
+  height: 10px;
+  overflow: hidden;
+  border: 0;
+  width: 100%;
+  margin: 0;
+  position: absolute;
+  left: 0;
+
+
+  &:focus {
+    outline: 0;
+  }
+  &:hover {
+    background-color: #bbb;
+
+  }
+}
+
 .compose-toolbar {
   nav.pull-right {
     li {

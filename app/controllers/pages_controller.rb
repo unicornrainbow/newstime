@@ -25,14 +25,17 @@ class PagesController < ApplicationController
       @section.pages << @page
     end
 
+    # Set page numbers
+    @page.number = @section.next_page_number
+
     # All section must have an organization
     @page.organization = current_user.organization
 
-    if @page.save
-      redirect_to :back, notice: "Page created successfully."
-    else
-      render "new"
-    end
+    @page.save
+
+    @section.renumber_pages!
+
+    redirect_to :back, notice: "Page created successfully."
   end
 
   def edit
