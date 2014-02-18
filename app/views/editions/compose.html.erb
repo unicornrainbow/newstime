@@ -13,15 +13,15 @@
 
 <% if composing? %>
 
-<% content_for :composer_variables do %>
-  <script type="text/javascript" charset="utf-8">
-    var composer = {
-      editionID: "<%= @edition.id %>",
-      sectionID: "<%= @section.id %>"
-    }
-  </script>
-<% end %>
-<% content_for :toolbar do %>
-  <%= render 'toolbar' %>
-<% end %>
+  <% content_for :composer_variables do %>
+    <script type="text/javascript" charset="utf-8">
+      var composer = {
+        editionID: "<%= @edition.id %>",
+        sectionID: "<%= @section.id %>"
+      }
+    </script>
+  <% end %>
+  <% content_for :toolbar do %>
+    <%= render 'toolbar' %>
+  <% end %>
 <% end -%>

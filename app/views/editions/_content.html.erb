@@ -1,25 +1,15 @@
 <% @pages.each_with_index do |page, i| %>
-  <div class="broadsheet">
+  <div class="broadsheet" style="height: <%= page.pixel_height %>px">
     <div class="row">
+
+      <%= render 'page_header', page: page unless page.number == 1 %>
+
       <% if composing? %>
-        <div class="col span24" style="height: 10px;">
-          <input class="add-content-btn" type="button"></input>
+        <div class="col span24">
+          <input class="add-content-btn" type="button" value="Add Content"></input>
         </div>
       <% end -%>
 
-      <div class="col span6">
-        <div class="gray-box" id="example1" style="height: 1293px"><input class="add-content-btn" type="button"></input>
-        </div>
-      </div>
-      <div class="col span24">
-        <% unless i == 0 %>
-          <div class="page-header"> <strong><%= @section.letter %><%= page.number %> &bull; <%= edition.publish_date.strftime("%A, %B %d, %Y") %> </strong> &bull; www.sfrecord.com</div>
-        <% end -%>
-        <% if composing? %>
-          <%#<input class="add-page-btn" type="button" value="Add Content"></input>%>
-          <input class="add-content-btn" type="button" value="Add Content"></input>
-        <% end -%>
-      </div>
     </div>
   </div>
 <% end -%>

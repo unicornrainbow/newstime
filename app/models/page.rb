@@ -9,4 +9,8 @@ class Page
   field      :name,    type: String
   field      :source,  type: String
   field      :number, type: Integer
+
+  def pixel_height
+    1200
+  end
 end

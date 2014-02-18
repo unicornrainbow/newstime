@@ -37,33 +37,22 @@
   }
 }
 
-.col {
-  position: relative;
-}
-
-.row {
-  position: relative;
-
-}
-
 .add-content-btn {
+  font-family: 'Raleway', sans-serif;
   background: #ccc;
   color: #484c55;
-  height: 10px;
-  overflow: hidden;
-  border: 0;
+  border: none;
   width: 100%;
+  font-size: 12pt;
   margin: 0;
-  position: absolute;
+  margin-bottom: 10px;
   left: 0;
-
 
   &:focus {
     outline: 0;
   }
   &:hover {
     background-color: #bbb;
-
   }
 }
 
