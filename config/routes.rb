@@ -43,6 +43,7 @@ Press::Application.routes.draw do
   resources :layouts
   resources :partials
   resources :inlets
+  resources :content_regions
   resources :pages do
     member do
       get :preview
