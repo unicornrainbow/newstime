@@ -85,6 +85,20 @@ $(function() {
     postForm("/sections/" + sectionID + "/pages", "post", { authenticity_token: authenticityToken });
   }
 
+  var requestContentParameters = function(){
+    alert("Get Params with Modal...");
+    return {};
+  }
+
+  var createContentRegion = function(sectionID, pageNumber, params) {
+    $.extend(params, {
+      sectionID: sectionID,
+      pageNumber: pageNumber,
+      authenticity_token: authenticityToken
+    });
+    postForm("/content_regions", "post", params);
+  }
+
   // Handle Add Section Click
   addSection.click(function(e){
     e.preventDefault();
@@ -174,6 +188,13 @@ $(function() {
 
   $(".add-page-btn").click(function() {
     createPage(composer.sectionID); // Temp solution, should be pulling this from the dom and using a directive.
+  });
+
+  $(".add-content-btn").click(function() {
+    var sectionID = composer.sectionID;
+    var pageNumber = $(this).data("page-number");
+    var params = requestContentParameters();
+    createContentRegion(sectionID, pageNumber, params); // Temp solution, should be pulling this from the dom and using a directive.
   });
 
 })

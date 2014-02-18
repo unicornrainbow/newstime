@@ -35,7 +35,8 @@ class PagesController < ApplicationController
 
     @section.renumber_pages!
 
-    redirect_to :back, notice: "Page created successfully."
+    #redirect_to :back, notice: "Page created successfully."
+    redirect_to :back
   end
 
   def edit
