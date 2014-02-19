@@ -36,6 +36,8 @@ class EditionsController < ApplicationController
   end
 
   def compose
+    flash[:notice] # Clear flash, since it's not currently displayed anywhere
+
     # Redirect to main if no path specified.
     redirect_to (send("#{params[:action]}_edition_path".to_sym, @edition) + '/main.html') and return unless params['path']
 
