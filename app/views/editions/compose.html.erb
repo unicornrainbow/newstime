@@ -23,5 +23,10 @@
   <% end %>
   <% content_for :toolbar do %>
     <%= render 'toolbar' %>
-  <% end %>
+    <div class="composer-modal add-content-region hidden">
+      <div class="composer-modal-pane">
+        <%= render 'content_regions/form', content_region: ContentRegion.new %>
+      </div>
+    </div>
+  <% end -%>
 <% end -%>
