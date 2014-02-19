@@ -1,7 +1,5 @@
 Press::Application.routes.draw do
-
   root to: redirect('/editions')
-  #root to: 'webpages#home'
 
   devise_for :users, controllers: { sessions: "sessions" }
   devise_for :admin_user
@@ -10,23 +8,21 @@ Press::Application.routes.draw do
     resources :sections
     member do
       get :compose
-      scope 'compose' do
+      asset_routes = lambda do
         get 'fonts/*path'       => :fonts
         get 'images/*path'      => :images
         get 'javascripts/*path' => :javascripts
         get 'stylesheets/*path' => :stylesheets
+      end
+      scope 'compose' do
+        scope controller: :edition_assets, &asset_routes
         get '*path' => :compose, :defaults => { :format => "html" }
       end
-
       get :preview
       scope 'preview' do
-        get 'fonts/*path'       => :fonts
-        get 'images/*path'      => :images
-        get 'javascripts/*path' => :javascripts
-        get 'stylesheets/*path' => :stylesheets
+        scope controller: :edition_assets, &asset_routes
         get '*path' => :preview, :defaults => { :format => "html" }
       end
-
       get :download
     end
   end
