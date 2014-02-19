@@ -16,11 +16,19 @@ class EditionsController < ApplicationController
   def create
     @edition = Edition.new(edition_params)
 
+    # TODO: Pull from user profile or orgnaiztion
+    @edition.layout_name = 'sfrecord' if @edition.layout_name.empty?
+    @edition.page_title = @edition.name if @edition.page_title.empty?
+
+    # Create Main Section
+    @main_section = Section.create(name: "Main", path: "main.html", edition: @edition)
+
     # All edtions must have an orgnaization
     @edition.organization = current_user.organization
 
     if @edition.save
-      redirect_to @edition, notice: "Edition created successfully."
+      #redirect_to @edition, notice: "Edition created successfully."
+      redirect_to compose_edition_path(@edition)
     else
       render "new"
     end
@@ -45,7 +53,8 @@ class EditionsController < ApplicationController
 
     # Find section by path off of edtion.
     @section       = @edition.sections.where(path: @path).first
-    @pages         = @section.pages
+
+    @pages         = @section.pages || []
     @layout_name   = @edition.layout_name
     @template_name = @section.template_name.presence || @edition.default_section_template_name
     @title         = @section.page_title.presence || @edition.page_title

@@ -13,12 +13,13 @@ class Edition
   field :fmt_price,    type: String  # Formatted price string
   field :volume_label, type: String  # Formatted price string
 
+  # A default option inherited by the sections when template name isn't set
+  field :default_section_template_name, type: String, default: "sections/default"
+
   include Mongoid::Paperclip
   has_mongoid_attached_file :compiled_editon  # The compiled version for signing and distribution.
   has_mongoid_attached_file :signature        # The signature to match the compiled version.
 
-  # A default option inherited by the sections when template name isn't set
-  field :default_section_template_name, type: String
 
   has_many :sections, :order => :sequence.asc
   belongs_to :organization
