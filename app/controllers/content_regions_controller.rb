@@ -68,7 +68,7 @@ private
 
   def content_region_params
     #params.require(:content_region).permit(:name, :section_id, :source, :layout_id)
-    params.fetch(:content_region, {}).permit(:page_id, :column_width, :pixel_height, :row)
+    params.fetch(:content_region, {}).permit(:page_id, :column_width, :pixel_height, :row_sequence)
   end
 
 end

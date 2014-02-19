@@ -7,7 +7,7 @@ class GridComposition
     @rows ||= begin
       grouped_content_regions = @page.content_regions.group_by(&:row_sequence)
       grouped_content_regions.each.map do |i, content_regions|
-        GridCompositionRow.new(1, content_regions)
+        GridCompositionRow.new(i, content_regions)
       end
     end
   end
