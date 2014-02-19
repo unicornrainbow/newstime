@@ -37,7 +37,8 @@
   }
 }
 
-.add-content-btn {
+.add-content-btn,
+.add-content-region-btn {
   @extend .btn-base;
   font-family: 'Raleway', sans-serif;
   background: #ccc;

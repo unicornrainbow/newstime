@@ -179,7 +179,7 @@ $(function() {
 
   var composerModal = $(".composer-modal");
 
-  $(".add-content-btn").click(function() {
+  $(".add-content-region-btn").click(function() {
     var pageID = $(this).data("page-id");
     var rowSequence = $(this).data("row-sequence");
 
@@ -190,6 +190,11 @@ $(function() {
     $("[name='content_region[row_sequence]']").val(rowSequence);
 
     composerModal.removeClass("hidden")
+  });
+
+
+  $(".add-content-btn").click(function() {
+    alert('add content button');
   });
 
   $(".composer-modal-dismiss").click(function(){
