@@ -8,12 +8,13 @@ class Page
 
   has_many :content_regions
 
-  field      :name,    type: String
-  field      :source,  type: String
-  field      :number, type: Integer
+  field      :name,         type: String
+  field      :source,       type: String
+  field      :number,       type: Integer
+  field      :pixel_height, type: Integer
 
   def pixel_height
-    1200
+    self[:pixel_height] || 1200
   end
 
   def next_content_region_sequence

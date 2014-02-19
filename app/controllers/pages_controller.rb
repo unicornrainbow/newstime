@@ -28,6 +28,9 @@ class PagesController < ApplicationController
     # Set page numbers
     @page.number = @section.next_page_number
 
+    @edition = @section.edition
+    @page.pixel_height = @edition.page_pixel_height
+
     # All section must have an organization
     @page.organization = current_user.organization
 

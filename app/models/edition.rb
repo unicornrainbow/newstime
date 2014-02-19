@@ -14,6 +14,7 @@ class Edition
   field :store_link,   type: String
   field :fmt_price,    type: String  # Formatted price string
   field :volume_label, type: String  # Formatted price string
+  field :page_pixel_height, type: Integer, default: 1200  # Default pixel height of pages in edition
 
   # A default option inherited by the sections when template name isn't set
   field :default_section_template_name, type: String, default: "sections/default"
