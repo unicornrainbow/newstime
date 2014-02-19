@@ -14,9 +14,10 @@ class ContentRegionsController < ApplicationController
   end
 
   def create
-    if params[:page_id]
+     @page_id = params[:page_id] || content_region_params[:page_id]
+    if @page_id
       # TODO: [security] User must have access to the section.
-      @page = Page.find(params[:section_id])
+      @page = Page.find(@page_id)
     end
 
     @content_region = ContentRegion.new(content_region_params)
@@ -33,7 +34,7 @@ class ContentRegionsController < ApplicationController
 
     @content_region.save
 
-    @section.resequence_content_regions!
+    @page.resequence_content_regions!
 
     #redirect_to :back, notice: "ContentRegion created successfully."
     redirect_to :back
@@ -67,7 +68,7 @@ private
 
   def content_region_params
     #params.require(:content_region).permit(:name, :section_id, :source, :layout_id)
-    params.fetch(:content_region, {}).permit(:page_id)
+    params.fetch(:content_region, {}).permit(:page_id, :column_width, :pixel_height)
   end
 
 end

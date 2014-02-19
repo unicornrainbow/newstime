@@ -4,6 +4,7 @@ class ContentRegion
 
   field      :column_width,  type: Integer
   field      :pixel_height,  type: Integer
+  field      :sequence,      type: Integer
 
   belongs_to :organization
   belongs_to :page
