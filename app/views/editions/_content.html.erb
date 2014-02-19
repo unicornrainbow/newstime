@@ -4,6 +4,10 @@
 
       <%= render 'page_header', page: page unless page.number == 1 %>
 
+      <% page.content_regions.each_with_index do |content_region, i| %>
+        <%= render 'content_region', content_region: content_region %>
+      <% end -%>
+
       <% if composing? %>
         <div class="col span24">
           <input class="add-content-btn" type="button" value="Add Content Region" data-page-number="<%= page.number %>" data-page-id="<%= page.id %>"></input>
