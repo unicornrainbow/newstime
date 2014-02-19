@@ -25,10 +25,6 @@ class PublicationsController < ApplicationController
     end
   end
 
-  def edit
-    @publication = Publication.find(params[:id])
-  end
-
   def update
     @publication = Publication.find(params[:id])
     if @publication.update_attributes(publication_params)
@@ -50,7 +46,7 @@ class PublicationsController < ApplicationController
 private
 
   def publication_params
-    params.require(:publication).permit(:name, :default_layout_name, :store_url, :default_price)
+    params.require(:publication).permit(:name, :default_layout_name, :store_url, :default_price, :website_url)
   end
 
 end

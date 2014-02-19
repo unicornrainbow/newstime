@@ -27,6 +27,10 @@ a {
   outline: none !important; // Just to get rid of the bootstrap outline for now.
 }
 
+.compose-toolbar {
+  margin-bottom: 20px;
+}
+
 ul.action-menu {
   line-height: normal;
   margin: 0; padding: 0;

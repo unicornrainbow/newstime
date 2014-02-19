@@ -95,7 +95,7 @@ private
   end
 
   def edition_params
-    params.require(:edition).permit(:name, :source, :page_title, :masthead_id, :layout_id, :layout_name, :default_section_template_name, :publish_date, :store_link, :fmt_price, :volume_label)
+    params.require(:edition).permit(:name, :source, :page_title, :masthead_id, :layout_id, :layout_name, :default_section_template_name, :publish_date, :store_link, :fmt_price, :volume_label, :publication_id)
   end
 
 end

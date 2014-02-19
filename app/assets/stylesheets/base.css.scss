@@ -631,7 +631,7 @@ $container-lg-desktop:        ((1140px + $grid-gutter-width));
 
 // Core CSS
 @import "bootstrap/scaffolding";
-@import "bootstrap/type";
+/*@import "bootstrap/type";*/
 @import "bootstrap/code";
 /*@import "bootstrap/grid";*/
 @import "bootstrap/tables";

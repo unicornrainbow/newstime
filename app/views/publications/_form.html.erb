@@ -1,7 +1,8 @@
 <%= simple_form_for publication do |f| %>
   <%= f.input :name, hint: "The name of the publication, to refer to in the UI.", autofocus: true %>
   <%= f.input :default_layout_name, hint: "The default layout to be prepopulate for editions of this publication." %>
-  <%= f.input :store_url, hint: "Url to newstime store." %>
+  <%= f.input :store_url, hint: "URL to newstime store, or other compatible publishing platform." %>
+  <%= f.input :website_url, hint: "The URL or the newspapers's website." %>
   <%= f.input :default_price, hint: "Default price for edition." %>
 
   <%= f.button :submit, class: 'btn-default' %>

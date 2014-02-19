@@ -4,6 +4,7 @@ class Publication
 
   field :name, type: String
   field :default_layout_name, type: String
+  field :website_url, type: String
   field :store_url, type: String
   field :default_price, type: String
 
@@ -26,7 +27,6 @@ class Publication
 
     slug = default_name.underscore.gsub(/[ _]/, '-')
     slug.gsub!(/\./, '')
-
     {
       name: default_name,
       page_title: default_name,
