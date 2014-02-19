@@ -2,6 +2,7 @@ module EditionsHelper
   attr_reader *[
     :layout_module,
     :edition,
+    :section,
     :composing,
     :template_name,
     :title
@@ -31,6 +32,15 @@ module EditionsHelper
       content = template.render(view, *layout) { content }.html_safe
     end
 
+    concat(content)
+  end
+
+  def render(name, *args)
+    super(name, *args)
+  rescue ActionView::MissingTemplate
+    view = LayoutModule::View.new(self)
+    template = layout_module.templates[name]
+    content = template.render(view, *args).html_safe
     concat(content)
   end
 
