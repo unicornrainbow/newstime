@@ -187,7 +187,7 @@ $(function() {
 
     // Set hidden form field values
     $("[name='content_region[page_id]']").val(pageID);
-    $("[name='content_region[row_seqence]']").val(rowSequence);
+    $("[name='content_region[row_sequence]']").val(rowSequence);
 
     composerModal.removeClass("hidden")
   });
