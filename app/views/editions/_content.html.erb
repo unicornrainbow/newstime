@@ -1,19 +1,19 @@
 <% @pages.each_with_index do |page, i| %>
   <div class="broadsheet" style="height: <%= page.pixel_height %>px">
     <div class="row">
-
       <%= render 'page_header', page: page unless page.number == 1 %>
+    <div>
 
-      <% page.content_regions.each_with_index do |content_region, i| %>
-        <%= render 'content_region', content_region: content_region %>
-      <% end -%>
+    <% page.content_regions.each_with_index do |content_region, i| %>
+      <%= render 'content_region', content_region: content_region %>
+    <% end -%>
 
-      <% if composing? %>
+    <% if composing? %>
+      <div class="row">
         <div class="col span24">
           <input class="add-content-btn" type="button" value="Add Content Region" data-page-number="<%= page.number %>" data-page-id="<%= page.id %>"></input>
         </div>
-      <% end -%>
-
-    </div>
+      </div>
+  <% end -%>
   </div>
 <% end -%>
