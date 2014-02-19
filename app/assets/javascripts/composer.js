@@ -181,26 +181,15 @@ $(function() {
 
   $(".add-content-btn").click(function() {
     var pageID = $(this).data("page-id");
+    var rowSequence = $(this).data("row-sequence");
 
     var form = $("form", composerModal);
 
-    var pageIDInput = $("[name='content_region[page_id]']");
-    pageIDInput.val(pageID);
-    console.log(pageIDInput.val());
-
     // Set hidden form field values
+    $("[name='content_region[page_id]']").val(pageID);
+    $("[name='content_region[row_seqence]']").val(rowSequence);
 
     composerModal.removeClass("hidden")
-
-    //var createContentRegion = function(sectionID, pageNumber, params) {
-      //$.extend(params, {
-        //sectionID: sectionID,
-        //pageNumber: pageNumber,
-        //authenticity_token: authenticityToken
-      //});
-      //postForm("/content_regions", "post", params);
-    //}
-      //createContentRegion(sectionID, pageNumber, params); // Temp solution, should be pulling this from the dom and using a directive.
   });
 
   $(".composer-modal-dismiss").click(function(){

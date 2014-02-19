@@ -27,7 +27,6 @@ class Page
   end
 
   def grid_composition
-    GridComposition.new(self)
+    @grid_composition ||= GridComposition.new(self)
   end
-
 end
