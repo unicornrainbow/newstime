@@ -2,6 +2,8 @@ class EditionsController < ApplicationController
   before_filter :authenticate_user!, except: :index
   before_filter :find_edition, only: [:compose, :preview]
 
+  skip_filter :verify_authenticity_token, only: :delete
+
   respond_to :html
 
   def index
@@ -81,7 +83,7 @@ class EditionsController < ApplicationController
 
   def destroy
     @edition = Edition.find(params[:id]).destroy
-    redirect_to :back
+    redirect_to editions_path, notice: "Edition deleted successfully."
   end
 
   def javascripts

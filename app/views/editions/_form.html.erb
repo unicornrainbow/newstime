@@ -11,5 +11,6 @@
   &nbsp;
   <% if edition.persisted? %>
     <%= link_to "Cancel", edition_path(@edition), class: 'cancel' %>
+    <%= link_to "Delete", edition_path(@edition), class: 'pull-right', method: 'delete', confirm: "Please confirm to delete edition." %>
   <% end -%>
 <% end %>
