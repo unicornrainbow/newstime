@@ -3,16 +3,15 @@
 <%= render 'content' %>
 
 <% if composing? %>
-<br>
 <div class="row">
   <div class="col span24">
     <input class="add-page-btn" type="button" value="Add Page"></input>
   </div>
+
 </div>
+<br>
 <% end -%>
-
 <% if composing? %>
-
   <% content_for :composer_variables do %>
     <script type="text/javascript" charset="utf-8">
       var composer = {

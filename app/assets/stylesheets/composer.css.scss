@@ -38,6 +38,7 @@
 }
 
 .add-content-btn {
+  @extend .btn-base;
   font-family: 'Raleway', sans-serif;
   background: #ccc;
   color: #484c55;
@@ -80,7 +81,7 @@
   right: 0;
   bottom: 0;
   font-family: 'Raleway', sans-serif;
-  z-index: 10;
+  z-index: 15;
 }
 
 .composer-modal-pane {
