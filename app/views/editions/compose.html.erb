@@ -25,6 +25,8 @@
     <%= render 'toolbar' %>
     <div class="composer-modal add-content-region hidden">
       <div class="composer-modal-pane">
+        <a href="" class="pull-right composer-modal-dismiss">Close</a>
+        <h3>Add Content Region</h3>
         <%= render 'content_regions/form', content_region: ContentRegion.new %>
       </div>
     </div>

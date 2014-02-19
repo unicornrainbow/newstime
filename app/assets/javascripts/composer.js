@@ -177,13 +177,17 @@ $(function() {
     createPage(composer.sectionID); // Temp solution, should be pulling this from the dom and using a directive.
   });
 
-  $(".add-content-btn").click(function() {
-    var sectionID = composer.sectionID;
-    var pageNumber = $(this).data("page-number");
-    console.log(pageNumber);
+  var composerModal = $(".composer-modal");
 
-    var composerModal = $(".composer-modal")
-    var form = $("form", composerModal)
+  $(".add-content-btn").click(function() {
+    var pageID = $(this).data("page-id");
+
+    var form = $("form", composerModal);
+
+    var pageIDInput = $("[name='content_region[page_id]']");
+    pageIDInput.val(pageID);
+    console.log(pageIDInput.val());
+
     // Set hidden form field values
 
     composerModal.removeClass("hidden")
@@ -197,6 +201,10 @@ $(function() {
       //postForm("/content_regions", "post", params);
     //}
       //createContentRegion(sectionID, pageNumber, params); // Temp solution, should be pulling this from the dom and using a directive.
+  });
+
+  $(".composer-modal-dismiss").click(function(){
+    composerModal.addClass("hidden");
   });
 
 })

@@ -1,4 +1,6 @@
 <%= simple_form_for content_region do |f| %>
   <%= f.input :page_id, as: :hidden %>
+  <%= f.input :column_width, placeholder: "24" %>
+  <%= f.input :pixel_height, placeholder: "500" %>
   <%= f.button :submit, class: 'btn-default' %>
 <% end %>

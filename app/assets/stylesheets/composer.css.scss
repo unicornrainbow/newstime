@@ -74,7 +74,7 @@
 
 .composer-modal {
   position: fixed;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.3);
   top: 0;
   left: 0;
   right: 0;
@@ -84,9 +84,44 @@
 }
 
 .composer-modal-pane {
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.9);
+  /*box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.5);*/
   width: 500px;
-  padding: 10px;
-  min-height: 300px;
+  padding: 20px;
+  /*min-height: 300px;*/
   margin: 100px auto;
+
+  .composer-modal-dismiss {
+    /*position: absolute;*/
+    /*left: 0;*/
+  }
+
+  form {
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    margin: .2em 0 .5em;
+  }
+
+  input {
+    border-radius: 0;
+    &:focus {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+  }
+
+  .btn {
+    border-radius: 0;
+    color: #ccc;
+    background-color: #484c55;
+    border: 0;
+    &:hover {
+      background-color: #484c55;
+      color: #ddd;
+    }
+  }
 }
