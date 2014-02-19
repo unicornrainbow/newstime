@@ -50,7 +50,7 @@ class PublicationsController < ApplicationController
 private
 
   def publication_params
-    params.require(:publication).permit(:name)
+    params.require(:publication).permit(:name, :default_layout_name, :store_url, :default_price)
   end
 
 end

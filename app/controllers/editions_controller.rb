@@ -12,29 +12,8 @@ class EditionsController < ApplicationController
   end
 
   def new
-    # Finagle some defaults
-    highest_unititled = Edition.where(name: /Edition No./).desc(:name).try(:first)
-    unless highest_unititled
-      @default_name = "Edition No. 1"
-    else
-      increment = highest_unititled.name.match(/Edition No. (.*)/).try(:captures).first
-      @default_name = "Edition No. #{increment.to_i+1}"
-    end
-
-    @default_slug = @default_name.underscore.gsub(/[ _]/, '-')
-    @default_slug.gsub!(/\./, '')
-
-    default_params = {
-      name: @default_name,
-      page_title: @default_name,
-      publish_date: Date.today,
-      layout_name: 'sfrecord',
-      store_link: "http://www.newstime.io/san-francisco-record/#{@default_slug}",
-      fmt_price: '25¢',
-      volume_label: @default_name
-    }
-
-    @edition = Edition.new(default_params)
+    @publication = Publication.first
+    @edition = @publication.build_edition
   end
 
   def create

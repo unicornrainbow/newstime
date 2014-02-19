@@ -24,8 +24,8 @@ class Edition
   ## Relationships
   has_many :sections, :order => :sequence.asc
   belongs_to :organization
+  belongs_to :publication, inverse_of: :editions
 
   ## Liquid
   liquid_methods :title
-
 end
