@@ -35,6 +35,8 @@ module EditionsHelper
     concat(content)
   end
 
+  # TODO: In time, this logic should be reverse to not rely on exceptions and to
+  # check with the layout module first to allow more flexiable overriding.
   def render(name, *args)
     super(name, *args)
   rescue ActionView::MissingTemplate
