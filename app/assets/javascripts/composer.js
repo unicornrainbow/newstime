@@ -177,28 +177,37 @@ $(function() {
     createPage(composer.sectionID); // Temp solution, should be pulling this from the dom and using a directive.
   });
 
-  var composerModal = $(".composer-modal");
+  var composerModals = $(".composer-modal");
+  var contentRegionModal = $(".add-content-region");
+  var contentItemModal = $(".add-content-item");
 
   $(".add-content-region-btn").click(function() {
     var pageID = $(this).data("page-id");
     var rowSequence = $(this).data("row-sequence");
 
-    var form = $("form", composerModal);
+    var form = $("form", contentRegionModal);
 
     // Set hidden form field values
     $("[name='content_region[page_id]']").val(pageID);
     $("[name='content_region[row_sequence]']").val(rowSequence);
 
-    composerModal.removeClass("hidden")
+    contentRegionModal.removeClass("hidden")
   });
 
 
   $(".add-content-btn").click(function() {
-    alert('add content button');
+    var contentRegionID = $(this).data("content-region-id");
+
+    var form = $("form", contentItemModal);
+
+    // Set hidden form field values
+    $("[name='content_item[content_region_id]']").val(contentRegionID);
+
+    contentItemModal.removeClass("hidden")
   });
 
   $(".composer-modal-dismiss").click(function(){
-    composerModal.addClass("hidden");
+    composerModals.addClass("hidden");
   });
 
 })

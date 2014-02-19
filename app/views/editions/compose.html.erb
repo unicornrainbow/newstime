@@ -30,5 +30,12 @@
         <%= render 'content_regions/form', content_region: ContentRegion.new %>
       </div>
     </div>
+    <div class="composer-modal add-content-item hidden">
+      <div class="composer-modal-pane">
+        <a href="" class="pull-right composer-modal-dismiss">Close</a>
+        <h3>Add Content</h3>
+        <%= render 'content_items/form', content_item: ContentItem.new %>
+      </div>
+    </div>
   <% end -%>
 <% end -%>

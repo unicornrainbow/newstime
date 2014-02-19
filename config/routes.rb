@@ -41,6 +41,7 @@ Press::Application.routes.draw do
   resources :inlets
   resources :content_regions
   resources :publications
+  resources :content_items
   resources :pages do
     member do
       get :preview
