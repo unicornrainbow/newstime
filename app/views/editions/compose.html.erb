@@ -1,16 +1,17 @@
 <% wrap_with template_name -%>
 
-<%= render 'content' %>
+<% @pages.each do |page| %>
+  <%= render "page", page: page, grid_composition: page.grid_composition %>
+<% end -%>
 
 <% if composing? %>
 <div class="row">
   <div class="col span24">
     <input class="add-page-btn" type="button" value="Add Page"></input>
   </div>
-
 </div>
-<br>
 <% end -%>
+
 <% if composing? %>
   <% content_for :composer_variables do %>
     <script type="text/javascript" charset="utf-8">

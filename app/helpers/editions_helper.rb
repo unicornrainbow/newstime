@@ -42,8 +42,7 @@ module EditionsHelper
   rescue ActionView::MissingTemplate
     view = LayoutModule::View.new(self)
     template = layout_module.templates[name]
-    content = template.render(view, *args).html_safe
-    concat(content)
+    template.render(view, *args).html_safe
   end
 
   def composer_stylesheet

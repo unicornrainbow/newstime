@@ -26,5 +26,7 @@ class Page
     end
   end
 
+  def grid_composition
+  end
 
 end
