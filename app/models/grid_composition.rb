@@ -4,8 +4,11 @@ class GridComposition
   end
 
   def rows
-    @rows ||= @page.content_regions.each_with_index.map do |content_region, i|
-      GridCompositionRow.new(i+1, [content_region])
+    @rows ||= begin
+      grouped_content_regions = @page.content_regions.group_by(&:row_sequence)
+      grouped_content_regions.each.map do |i, content_regions|
+        GridCompositionRow.new(1, content_regions)
+      end
     end
   end
 
