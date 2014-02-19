@@ -1,0 +1,9 @@
+<%= simple_form_for publication do |f| %>
+  <%= f.input :name, hint: "The name of the publication, to refer to in the UI.", autofocus: true %>
+  <%= f.button :submit, class: 'btn-default' %>
+  &nbsp;
+  <% if publication.persisted? %>
+    <%= link_to "Cancel", publication_path(@publication), class: 'cancel' %>
+    <%= link_to "Delete", publication_path(@publication), class: 'pull-right', method: 'delete', confirm: "Please confirm to delete publication." %>
+  <% end -%>
+<% end %>

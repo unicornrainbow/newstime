@@ -9,5 +9,6 @@ class Organization
   has_many :sections
   has_many :stylesheets
   has_many :javascripts
+  has_many :publications
 
 end

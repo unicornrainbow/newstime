@@ -2,6 +2,7 @@ class Edition
   include Mongoid::Document
   include Mongoid::Timestamps
 
+  ## Attributes
   field :name,         type: String
   field :page_title,        type: String
   field :path,         type: String
@@ -20,14 +21,11 @@ class Edition
   has_mongoid_attached_file :compiled_editon  # The compiled version for signing and distribution.
   has_mongoid_attached_file :signature        # The signature to match the compiled version.
 
-
+  ## Relationships
   has_many :sections, :order => :sequence.asc
   belongs_to :organization
 
+  ## Liquid
   liquid_methods :title
 
-  # TODO: Delete me if the above works.
-  #def to_liquid
-    #{ 'title' => title }
-  #end
 end
