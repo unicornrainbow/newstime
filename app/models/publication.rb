@@ -44,4 +44,15 @@ class Publication
     "#{store_url}/#{slug}" # Kind of a hack for now.
   end
 
+  def default_sections
+    [
+      { name: "Main",         path: "main.html" },
+      { name: "Business",     path: "business.html" },
+      { name: "Sports",       path: "sports.html" },
+      { name: "Comics",       path: "comics.html" },
+      { name: "Bay Area",     path: "bay-area.html" },
+      { name: "World/Nation", path: "world-nation.html" }
+    ]
+  end
+
 end

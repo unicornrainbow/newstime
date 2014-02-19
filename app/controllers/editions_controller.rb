@@ -17,15 +17,11 @@ class EditionsController < ApplicationController
   end
 
   def create
-    @edition = Edition.new(edition_params)
+    @publication = Publication.find(edition_params[:publication_id])
 
-    # HACK: Create Main Section
-    # TODO: Initialize with default set of sections (Extract configuration from
-    # existing edition
-    @main_section = Section.create(name: "Main", path: "main.html", edition: @edition)
+    @edition = Edition.new(edition_params.merge(sections_attributes: @publication.default_sections))
 
-    # All edtions must have an orgnaization
-    @edition.organization = current_user.organization
+    @edition.organization = @publication.organization
 
     if @edition.save
       #redirect_to @edition, notice: "Edition created successfully."

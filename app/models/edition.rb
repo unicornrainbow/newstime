@@ -1,6 +1,7 @@
 class Edition
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Mongoid::Paperclip
 
   ## Attributes
   field :name,         type: String
@@ -17,7 +18,7 @@ class Edition
   # A default option inherited by the sections when template name isn't set
   field :default_section_template_name, type: String, default: "sections/default"
 
-  include Mongoid::Paperclip
+
   has_mongoid_attached_file :compiled_editon  # The compiled version for signing and distribution.
   has_mongoid_attached_file :signature        # The signature to match the compiled version.
 
@@ -25,6 +26,8 @@ class Edition
   has_many :sections, :order => :sequence.asc
   belongs_to :organization
   belongs_to :publication, inverse_of: :editions
+
+  accepts_nested_attributes_for :sections
 
   ## Liquid
   liquid_methods :title
