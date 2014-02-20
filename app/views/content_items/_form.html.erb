@@ -1,4 +1,4 @@
-<%= simple_form_for content_item do |f| %>
+<%= simple_form_for content_item, url: content_items_path do |f| %>
   <%= f.input :content_region_id, as: :hidden %>
   <%= f.input :type, collection: ["Headline", "Story Text", "Photo", "Video"], as: :select %>
   <%= f.button :submit, class: 'btn-default' %>

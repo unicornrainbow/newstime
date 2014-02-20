@@ -3,11 +3,11 @@ class ContentItemsController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-    @content_items = ContentItem.asc(:path)
+    @content_items = Content::ContentItem.asc(:path)
   end
 
   def new
-    @content_item = ContentItem.new
+    @content_item = Content::ContentItem.new
 
     # Assign section if passed.
     @content_item.section = Section.find(params[:section_id]) if params[:section_id]
@@ -20,7 +20,7 @@ class ContentItemsController < ApplicationController
       @page = Page.find(@page_id)
     end
 
-    @content_item = ContentItem.new(content_item_params)
+    @content_item = Content::ContentItem.new(content_item_params)
 
     if @page
       @page.content_items << @content_item
@@ -36,22 +36,22 @@ class ContentItemsController < ApplicationController
 
     @page.resequence_content_items!
 
-    #redirect_to :back, notice: "ContentItem created successfully."
+    #redirect_to :back, notice: "Content::ContentItem created successfully."
     redirect_to :back
   end
 
   def edit
-    @content_item = ContentItem.find(params[:id])
+    @content_item = Content::ContentItem.find(params[:id])
   end
 
   def show
-    @content_item = ContentItem.find(params[:id])
+    @content_item = Content::ContentItem.find(params[:id])
   end
 
   def update
-    @content_item = ContentItem.find(params[:id])
+    @content_item = Content::ContentItem.find(params[:id])
     if @content_item.update_attributes(content_item_params)
-      redirect_to @content_item, notice: "ContentItem updated successfully."
+      redirect_to @content_item, notice: "Content::ContentItem updated successfully."
     else
       render "edit"
     end
@@ -59,8 +59,8 @@ class ContentItemsController < ApplicationController
 
   def preview
     # Previews a copy of the section
-    @content_item = ContentItem.find(params[:id])
-    render text: ContentItemRenderer.new(@content_item).render
+    @content_item = Content::ContentItem.find(params[:id])
+    render text: Content::ContentItemRenderer.new(@content_item).render
   end
 
 

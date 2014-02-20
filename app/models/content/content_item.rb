@@ -1,4 +1,7 @@
-class ContentItem
+# IDEA: Perhaps all of this stuff should be in a content module to keep it seperate
+# from the rest of the app?
+
+class Content::ContentItem
   include Mongoid::Document
   include Mongoid::Timestamps
 
