@@ -1,3 +1,5 @@
-class Content::HeadlineStyle
-  field :name, type: String
+module Content
+  class HeadlineStyle
+    field :name, type: String
+  end
 end

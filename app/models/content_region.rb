@@ -10,4 +10,16 @@ class ContentRegion
 
   belongs_to :organization
   belongs_to :page
+  has_many :content_items, class_name: 'Content::ContentItem', :inverse_of => :content_region
+
+  def next_content_item_sequence
+    content_items.max(:sequence) || 0 + 1
+  end
+
+  def resequence_content_items!
+    # NOOP for now...
+    #content_items.asc(:sequence).each_with_index do |content_item, i|
+      #content_items.update_attribute(:sequence, i+1) if content_item.sequence != i+1
+    #end
+  end
 end

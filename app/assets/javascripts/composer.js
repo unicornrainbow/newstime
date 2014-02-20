@@ -201,7 +201,8 @@ $(function() {
     var form = $("form", contentItemModal);
 
     // Set hidden form field values
-    $("[name='content_item[content_region_id]']").val(contentRegionID);
+    //$("[name='content_item[content_region_id]']").val(contentRegionID);
+    $("[name='content_content_item[content_region_id]']").val(contentRegionID);
 
     contentItemModal.removeClass("hidden")
   });

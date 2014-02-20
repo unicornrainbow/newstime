@@ -1,3 +1,5 @@
-class Content::VideoContentItem < ContentItem
-  belongs_to :video
+module Content
+  class VideoContentItem < ContentItem
+    belongs_to :video
+  end
 end
