@@ -12,7 +12,6 @@ class Content::ContentItem
     ["Video", "Content::VideoContentItem"]
   ]
 
-
   field    :_type,          type: String
   field    :sequence,      type: Integer
 

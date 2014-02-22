@@ -57,12 +57,11 @@ class ContentItemsController < ApplicationController
     end
   end
 
-  def preview
-    # Previews a copy of the section
-    @content_item = Content::ContentItem.find(params[:id])
-    render text: Content::ContentItemRenderer.new(@content_item).render
+  # Returns an html form for creating a content item for consumption over ajax.
+  def fields
+    @content_item = Content.const_get(params[:type].camelize).new
+    render "#{params[:type].underscore}_fields", layout: false
   end
-
 
 private
 

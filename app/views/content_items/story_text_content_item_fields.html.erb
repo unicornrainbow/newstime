@@ -1,0 +1,3 @@
+<%= simple_fields_for @content_item, url: content_items_path do |f| %>
+  <%= f.input :story_id, collection: Story.all, as: :select %>
+<% end %>

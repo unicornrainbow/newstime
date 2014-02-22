@@ -41,7 +41,11 @@ Press::Application.routes.draw do
   resources :inlets
   resources :content_regions
   resources :publications
-  resources :content_items
+  resources :content_items do
+    collection do
+      get "fields/:type" => :fields
+    end
+  end
   resources :pages do
     member do
       get :preview
