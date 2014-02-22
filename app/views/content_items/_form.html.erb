@@ -1,12 +1,15 @@
 <%= simple_form_for content_item, url: content_items_path do |f| %>
   <%= f.input :content_region_id, as: :hidden %>
   <%= f.input :_type, collection: Content::ContentItem::TYPE_COLLECTION, as: :select, input_html: { class: 'type-selector' } %>
-  <%#= render "#{content_item.class.to_s.underscore.split("/").pop}_fields" %>
+
   <% case content_item %>
   <% when Content::HeadlineContentItem then %>
     <%= f.input :text %>
+  <% when Content::StoryTextContentItem then %>
+    <%= f.input :story_id, collection: Story.all, as: :select %>
   <% else %>
     Please choose a content item type.<br><br>
   <% end %>
+
   <%= f.button :submit, class: 'btn-default' %>
 <% end %>
