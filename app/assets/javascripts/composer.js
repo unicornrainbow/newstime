@@ -193,16 +193,8 @@ $(function() {
     contentRegionModal.removeClass("hidden");
   });
 
-
   $(".add-content-btn").click(function() {
-    var contentRegionID = $(this).data("content-region-id");
-
-    var form = $("form", contentItemModal);
-
-    // Set hidden form field values
-    //$("[name='content_item[content_region_id]']").val(contentRegionID);
-    $("[name='content_content_item[content_region_id]']").val(contentRegionID);
-
+    $(".content-region-id", contentItemModal).val($(this).data("content-region-id"))
     contentItemModal.removeClass("hidden")
   });
 
@@ -210,7 +202,10 @@ $(function() {
     composerModals.addClass("hidden");
   });
 
+  // HACK: This entire file needs to be designed and rewritten when the
+  // prototype is done. I'm doing it this was to save time upfront.
   var handelContentItemTypeChange = function() {
+    var contentRegionID = $(".content-region-id", contentItemModal).val(); // Capture content region id until we get to crazy.
     var type = $(this).val();
     $.ajax({
       type: "GET",
@@ -219,7 +214,10 @@ $(function() {
       dataType: 'html',
       success: function(html){
         contentItemModalForm = $(html).replaceAll(contentItemModalForm) // Replace form
-        $(".type-selector", contentItemModalForm).change(handelContentItemTypeChange); // Rewire
+
+        // Rewire and reset content-region-id
+        $(".content-region-id", contentItemModal).val(contentRegionID);
+        $(".type-selector", contentItemModalForm).change(handelContentItemTypeChange);
       }
     });
   }
