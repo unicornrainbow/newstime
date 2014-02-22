@@ -210,21 +210,25 @@ $(function() {
     composerModals.addClass("hidden");
   });
 
-
-
-  // Wire up the content item type field loader.
-  $("[name='content_content_item[_type]']", contentItemModalForm).change(function() {
+  var handelContentItemTypeChange = function() {
     var type = $(this).val();
     $.ajax({
       type: "GET",
-      url: "/content_items/fields",
+      url: "/content_items/form",
       data: { type: type },
       dataType: 'html',
-      success: function(fields_html){
-        $('.fields', contentItemModal).html(fields_html);
+      success: function(html){
+        contentItemModalForm = $(html).replaceAll(contentItemModalForm)
+        $(".type-selector", contentItemModalForm).change(handelContentItemTypeChange);
+
+        //contentItemModalForm = form;
+        //contentItemModalForm = $("form", contentItemModal);
+        //contentItemModalForm.hide();
       }
     });
+  }
 
-  });
+  // Wire up the content item type field loader.
+  $(".type-selector", contentItemModalForm).change(handelContentItemTypeChange);
 
 })

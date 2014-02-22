@@ -63,7 +63,7 @@ class ContentItemsController < ApplicationController
   #
   #   http://press.newstime.io/content_items/fields?type=Content::HeadlineContentItem
   #
-  def fields
+  def form
     raise SecuityException unless [
       "Content::HeadlineContentItem",
       "Content::StoryTextContentItem",
@@ -71,7 +71,7 @@ class ContentItemsController < ApplicationController
       "Content::VideoContentItem"
     ].include?(params[:type])
     @content_item = params[:type].camelize.constantize.new
-    render "#{params[:type].underscore.split("/").pop}_fields", layout: false
+    render layout: false
   end
 
 private
