@@ -1,5 +1,5 @@
 <%= simple_form_for content_item, url: content_items_path do |f| %>
   <%= f.input :content_region_id, as: :hidden %>
-  <%= f.input :_type, collection: [["Headline", "Content::HeadlineContentItem"], ["Story Text", "Content::StoryTextContentItem"], ["Photo", "Content::PhotoContentItem"], ["Video", "Content::VideoContentItem"]], as: :select %>
+  <%= f.input :_type, collection: Content::ContentItem::TYPE_COLLECTION, as: :select %>
   <%= f.button :submit, class: 'btn-default' %>
 <% end %>

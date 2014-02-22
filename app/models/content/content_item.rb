@@ -5,6 +5,14 @@ class Content::ContentItem
   include Mongoid::Document
   include Mongoid::Timestamps
 
+  TYPE_COLLECTION = content_item_types = [
+    ["Headline", "Content::HeadlineContentItem"],
+    ["Story Text", "Content::StoryTextContentItem"],
+    ["Photo", "Content::PhotoContentItem"],
+    ["Video", "Content::VideoContentItem"]
+  ]
+
+
   field    :_type,          type: String
   field    :sequence,      type: Integer
 
