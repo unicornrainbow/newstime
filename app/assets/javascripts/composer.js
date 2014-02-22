@@ -187,10 +187,10 @@ $(function() {
     var rowSequence = $(this).data("row-sequence");
 
     // Set hidden form field values
-    $("[name='content_region[page_id]']", contentItemModalForm).val(pageID);
-    $("[name='content_region[row_sequence]']", contentItemModalForm).val(rowSequence);
+    $("[name='content_region[page_id]']", contentRegionModal).val(pageID);
+    $("[name='content_region[row_sequence]']", contentRegionModal).val(rowSequence);
 
-    contentRegionModal.removeClass("hidden")
+    contentRegionModal.removeClass("hidden");
   });
 
 
@@ -218,12 +218,8 @@ $(function() {
       data: { type: type },
       dataType: 'html',
       success: function(html){
-        contentItemModalForm = $(html).replaceAll(contentItemModalForm)
-        $(".type-selector", contentItemModalForm).change(handelContentItemTypeChange);
-
-        //contentItemModalForm = form;
-        //contentItemModalForm = $("form", contentItemModal);
-        //contentItemModalForm.hide();
+        contentItemModalForm = $(html).replaceAll(contentItemModalForm) // Replace form
+        $(".type-selector", contentItemModalForm).change(handelContentItemTypeChange); // Rewire
       }
     });
   }
