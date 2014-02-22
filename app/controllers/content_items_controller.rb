@@ -78,7 +78,7 @@ private
 
   def content_item_params
     #params.require(:content_item).permit(:name, :section_id, :source, :layout_id)
-    params.fetch(:content_content_item, {}).permit(:content_region_id, :_type)
+    params.fetch(:content_content_item, {}).permit(:content_region_id, :_type, :text)
   end
 
 end

@@ -210,6 +210,8 @@ $(function() {
     composerModals.addClass("hidden");
   });
 
+
+
   // Wire up the content item type field loader.
   $("[name='content_content_item[_type]']", contentItemModalForm).change(function() {
     var type = $(this).val();
@@ -219,7 +221,7 @@ $(function() {
       data: { type: type },
       dataType: 'html',
       success: function(fields_html){
-        console.log(fields_html);
+        $('.fields', contentItemModal).html(fields_html);
       }
     });
 
