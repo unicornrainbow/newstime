@@ -8,7 +8,7 @@ class Content::ContentItem
 
   TYPE_COLLECTION = content_item_types = [
     ["Headline", "Content::HeadlineContentItem"],
-    ["Story Text", "Content::StoryTextContentItem"],
+    ["Story", "Content::StoryTextContentItem"],
     ["Photo", "Content::PhotoContentItem"],
     ["Video", "Content::VideoContentItem"]
   ]
