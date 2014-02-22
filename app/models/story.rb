@@ -1,7 +1,6 @@
 class Story
   include Mongoid::Document
   include Mongoid::Timestamps
-  field :name, type: String
   field :title, type: String
   field :body, type: String
   field :author, type: String
@@ -13,4 +12,6 @@ class Story
   def count_words
     self.word_count = body.split(' ').count
   end
+
+  alias :name :title
 end
