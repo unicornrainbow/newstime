@@ -16,6 +16,8 @@ class Section
   has_many   :pages, order: :number.asc
   field      :ordinal, type: Integer
 
+  accepts_nested_attributes_for :pages
+
   ## Methods
 
   def renumber_pages!
