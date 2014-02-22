@@ -4,6 +4,7 @@
 class Content::ContentItem
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Mongoid::Attributes::Dynamic
 
   TYPE_COLLECTION = content_item_types = [
     ["Headline", "Content::HeadlineContentItem"],
