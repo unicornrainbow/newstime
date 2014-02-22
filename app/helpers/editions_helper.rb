@@ -53,4 +53,20 @@ module EditionsHelper
     content = content_for(:composer_variables)
     content << javascript_include_tag("composer") + "\n"
   end
+
+  def render_content_items(content_region)
+    content = ""
+    content_region.content_items.each do |content_item|
+
+      content << case content_item
+      when Content::HeadlineContentItem then
+        render "content/headline", text: content_item.text
+      when Content::StoryTextContentItem then
+        render "content/story", story: content_item.story
+      when Content::PhotoContentItem then
+      when Content::VideoContentItem then
+      end
+    end
+    content
+  end
 end
