@@ -180,16 +180,15 @@ $(function() {
   var composerModals = $(".composer-modal");
   var contentRegionModal = $(".add-content-region");
   var contentItemModal = $(".add-content-item");
+  var contentItemModalForm = $("form", contentItemModal);
 
   $(".add-content-region-btn").click(function() {
     var pageID = $(this).data("page-id");
     var rowSequence = $(this).data("row-sequence");
 
-    var form = $("form", contentRegionModal);
-
     // Set hidden form field values
-    $("[name='content_region[page_id]']").val(pageID);
-    $("[name='content_region[row_sequence]']").val(rowSequence);
+    $("[name='content_region[page_id]']", contentItemModalForm).val(pageID);
+    $("[name='content_region[row_sequence]']", contentItemModalForm).val(rowSequence);
 
     contentRegionModal.removeClass("hidden")
   });
@@ -209,6 +208,21 @@ $(function() {
 
   $(".composer-modal-dismiss").click(function(){
     composerModals.addClass("hidden");
+  });
+
+  // Wire up the content item type field loader.
+  $("[name='content_content_item[_type]']", contentItemModalForm).change(function() {
+    var type = $(this).val();
+    $.ajax({
+      type: "GET",
+      url: "/content_items/fields",
+      data: { type: type },
+      dataType: 'html',
+      success: function(fields_html){
+        console.log(fields_html);
+      }
+    });
+
   });
 
 })
