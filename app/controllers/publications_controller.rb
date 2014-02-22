@@ -46,7 +46,7 @@ class PublicationsController < ApplicationController
 private
 
   def publication_params
-    params.require(:publication).permit(:name, :default_layout_name, :store_url, :default_price, :website_url)
+    params.require(:publication).permit(:name, :default_layout_name, :store_url, :default_price, :website_url, :default_section_attributes)
   end
 
 end

@@ -8,6 +8,18 @@ class Publication
   field :store_url, type: String
   field :default_price, type: String
 
+  # Example:
+  #
+  #  [
+  #    { name: "Main",         path: "main.html",         sequence: 10,  letter: 'A', pages_attributes: [ { number: 1 } ] },
+  #    { name: "Business",     path: "business.html",     sequence: 20,  letter: 'B', pages_attributes: [ { number: 1 } ] },
+  #    { name: "Sports",       path: "sports.html",       sequence: 30,  letter: 'S', pages_attributes: [ { number: 1 } ] },
+  #    { name: "Comics",       path: "comics.html",       sequence: 40,  letter: 'C', pages_attributes: [ { number: 1 } ] },
+  #    { name: "Bay Area",     path: "bay-area.html",     sequence: 50,  letter: 'L', pages_attributes: [ { number: 1 } ] },
+  #    { name: "World/Nation", path: "world-nation.html", sequence: 60,  letter: 'W', pages_attributes: [ { number: 1 } ] }
+  #  ]
+  field :default_section_attributes, type: String
+
   has_many :editions, inverse_of: :publication
   belongs_to :organization
 
@@ -42,17 +54,6 @@ class Publication
     # TODO: Store url should accept a slug or have access to paramters and
     # functions for formmatting...
     "#{store_url}/#{slug}" # Kind of a hack for now.
-  end
-
-  def default_sections
-    [
-      { name: "Main",         path: "main.html",         sequence: 10,  letter: 'A', pages_attributes: [ { number: 1 } ] },
-      { name: "Business",     path: "business.html",     sequence: 20,  letter: 'B', pages_attributes: [ { number: 1 } ] },
-      { name: "Sports",       path: "sports.html",       sequence: 30,  letter: 'S', pages_attributes: [ { number: 1 } ] },
-      { name: "Comics",       path: "comics.html",       sequence: 40,  letter: 'C', pages_attributes: [ { number: 1 } ] },
-      { name: "Bay Area",     path: "bay-area.html",     sequence: 50,  letter: 'L', pages_attributes: [ { number: 1 } ] },
-      { name: "World/Nation", path: "world-nation.html", sequence: 60,  letter: 'W', pages_attributes: [ { number: 1 } ] }
-    ]
   end
 
 end

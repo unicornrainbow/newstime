@@ -18,9 +18,7 @@ class EditionsController < ApplicationController
 
   def create
     @publication = Publication.find(edition_params[:publication_id])
-
-    @edition = Edition.new(edition_params.merge(sections_attributes: @publication.default_sections))
-
+    @edition = Edition.new(edition_params.merge(sections_attributes: JSON.parse(@publication.default_section_attributes)))
     @edition.organization = @publication.organization
 
     if @edition.save

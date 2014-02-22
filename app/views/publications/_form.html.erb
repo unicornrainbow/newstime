@@ -4,6 +4,7 @@
   <%= f.input :store_url, hint: "URL to newstime store, or other compatible publishing platform." %>
   <%= f.input :website_url, hint: "The URL or the newspapers's website." %>
   <%= f.input :default_price, hint: "Default price for edition." %>
+  <%= f.input :default_section_attributes, hint: "Defaults used to populate edition sections.", as: :text, input_html: { rows: 5 } %>
 
   <%= f.button :submit, class: 'btn-default' %>
   &nbsp;
