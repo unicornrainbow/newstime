@@ -43,7 +43,7 @@ Press::Application.routes.draw do
   resources :publications
   resources :content_items do
     collection do
-      get "fields/:type" => :fields
+      get :fields
     end
   end
   resources :pages do

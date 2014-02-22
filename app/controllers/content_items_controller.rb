@@ -58,9 +58,20 @@ class ContentItemsController < ApplicationController
   end
 
   # Returns an html form for creating a content item for consumption over ajax.
+  #
+  # Example request:
+  #
+  #   http://press.newstime.io/content_items/fields?type=Content::HeadlineContentItem
+  #
   def fields
-    @content_item = Content.const_get(params[:type].camelize).new
-    render "#{params[:type].underscore}_fields", layout: false
+    raise SecuityException unless [
+      "Content::HeadlineContentItem",
+      "Content::StoryTextContentItem",
+      "Content::PhotoContentItem",
+      "Content::VideoContentItem"
+    ].include?(params[:type])
+    @content_item = params[:type].camelize.constantize.new
+    render "#{params[:type].underscore.split("/").pop}_fields", layout: false
   end
 
 private
