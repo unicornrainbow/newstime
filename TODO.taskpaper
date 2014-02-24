@@ -1,33 +1,19 @@
 NEWSTIME: A Platform for the People
 
 The Goal: As an editior and newsteam, I would like to be able to create a compiled digital newspaper based on a template, add pages, and to compose content on those pages, so that I can create and prepare an edition for publication and sell it through an online store, without blocking access to the purchasable content.
-Pages:
-	- Render page
-	- Get independent content rendering for each of the sections
-	- Allow content insertion
-Sections:
-	- Add delete section to the section menu.
-		- On delete of section, send user to the main section.
-	- On paths change of section, send user to the new name.
 Download:
 	- Implement Compilation
 	- Add button to download compiled version and add section
 	- Build download screen, show pubish button once content compiled, signature add, price and store link and other required fields are set.
-Navigation:
-	- Edition list and home screen
 Design:
 	- User settings page
-	- Make login screen beutiful
 	- Animate Newtime logo
 Content:
 	- Threading, with smart linking between pages.
 	- Integrate Crawdad
 	- Add video
 	- Add pictures
-	- Add headlines
-Users & Account Managment:
-	- Homepage
-	- Beautify and enrich account creation and user managment
+	- Auto size headlines
 Publishing:
 	- Add publish button to edition
 	- Build Store
@@ -36,3 +22,13 @@ Signing:
 	- Client for signature validation.
 Softsell:
 	- Implement "inbetween" softsell page
+Archive:
+	- Add headlines @done @project(Content)
+	- Make login screen look reasonable @done @project(Design)
+	- Edition list and home screen @done @project(Navigation)
+	- On paths change of section, send user to the new name. @done @project(Sections)
+	- Add delete section to the section menu. @done @project(Sections)
+		- On delete of section, send user to the main section. @done
+	- Allow content insertion @done @project(Pages)
+	- Get independent content rendering for each of the sections @done @project(Pages)
+	- Render page @done @project(Pages)
