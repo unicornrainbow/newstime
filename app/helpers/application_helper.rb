@@ -1,5 +1,6 @@
 module ApplicationHelper
   include NavbarHelper
+  include StoryHelper
 
   def parent_layout(layout)
     @view_flow.set(:layout,output_buffer)

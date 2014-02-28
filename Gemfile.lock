@@ -145,6 +145,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.25.1)
+    mini_portile (0.5.1)
     minitest (4.7.5)
     mongoid-paperclip (0.0.8)
       paperclip (>= 2.3.6)
@@ -153,6 +154,8 @@ GEM
       connection_pool (~> 1.2)
       optionable (~> 0.2.0)
     multi_json (1.8.2)
+    nokogiri (1.6.0)
+      mini_portile (~> 0.5.0)
     nprogress-rails (0.1.2.3)
     optionable (0.2.0)
     origin (1.1.0)
@@ -264,6 +267,7 @@ DEPENDENCIES
   liquid
   mongoid (~> 4.0.0.alpha1)!
   mongoid-paperclip
+  nokogiri (~> 1.6.0)
   nprogress-rails
   paperclip
   rails (= 4.0.2)
