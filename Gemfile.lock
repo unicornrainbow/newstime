@@ -106,6 +106,7 @@ GEM
     compass-rails (1.1.2)
       compass (>= 0.12.2)
     connection_pool (1.2.0)
+    dalli (2.6.4)
     debug_inspector (0.0.2)
     debugger (1.6.3)
       columnize (>= 0.3.1)
@@ -259,6 +260,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   compass-rails
   crawdad!
+  dalli (~> 2.6.4)
   debugger
   devise
   dotenv-rails
