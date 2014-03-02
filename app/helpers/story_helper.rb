@@ -16,21 +16,28 @@ module StoryHelper
     end
   end
 
-  def flow_story(story, options={})
-    flow_text(story.body, options)
+  def flow_story(key, story, options={})
+    width         = options[:width] || 284
+    last_mod_time = options[:last_mod_time] || 284 # This is obviously a wrong default value.
+    limit         = options[:limit] || 100         # Dummy default.
+    fragment_index = 1                             # Holdover, might not be needed anymore.
+
+    fetch_story_fragment "#{key}-#{width}-#{limit}", fragment_index, last_mod_time do
+      flow_text(story.body, options)
+    end
   end
 
   def flow_text(text, options={})
     width         = options[:width] || 284
     last_mod_time = options[:last_mod_time] || 284
-		limit         = options[:limit] || 100
+    limit         = options[:limit] || 100
 
-		html = $markdown.render(text)
+    html = $markdown.render(text)
     doc = Nokogiri::HTML(html)
-		elements = doc.css("body > *")
+    elements = doc.css("body > *")
 
-		line_streamer = LineStreamer.new(elements, width: width)
-		line_streamer.take(limit).html_safe
+    line_streamer = LineStreamer.new(elements, width: width)
+    line_streamer.take(limit).html_safe
   end
 
   # Returns the current story fragment index for a given story name and verion

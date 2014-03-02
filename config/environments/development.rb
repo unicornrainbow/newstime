@@ -32,4 +32,7 @@ Press::Application.configure do
 
   # Configure default host for action mailer.
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+
+  # Memcache
+  config.cache_store = :dalli_store, { namespace: "press_development", compress: true }
 end
