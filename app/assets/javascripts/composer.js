@@ -1,15 +1,11 @@
 //= require jquery
 //
-//= require angular
 //= require_self
-//= require_tree ./templates
 //= require_tree ./controllers
 //= require_tree ./directives
 //
 //= require lib/jquery.easing
 
-
-app = angular.module("app", ["templates"])
 
 $(function() {
   var editionTab   = $("#edition-tab"),
