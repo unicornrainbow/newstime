@@ -1,7 +1,6 @@
 $(function() {
 
   $.fn.contentModal = function() {
-
     contentItemModal = this,
     contentItemModalForm = $("form", contentItemModal);
 
@@ -26,5 +25,7 @@ $(function() {
     }
 
     $(".type-selector", contentItemModalForm).change(handelContentItemTypeChange);
+
+    return this;
   }
 });

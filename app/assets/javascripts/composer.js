@@ -6,6 +6,8 @@
 //= require plugins/section_nav
 //= require plugins/content_modal
 //= require plugins/add_page_button
+//= require plugins/add_content_region_button
+//= require plugins/add_content_button
 
 var Newstime = {};
 
@@ -14,9 +16,8 @@ Newstime.Composer = {
     this.captureAuthenticityToken();
 
     var composerModals = $(".composer-modal"),
-        contentRegionModal = $(".add-content-region")
-
-    var contentModal = $(".add-content-item").contentModal();
+        contentRegionModal = $(".add-content-region"),
+        contentItemModal = $(".add-content-item").contentModal();
 
     // Initialize Plugins
     $('#edition-toolbar').editionToolbar();
@@ -24,24 +25,8 @@ Newstime.Composer = {
     $('[headline-control]').headlineControl();
 
     $(".add-page-btn").addPageButton()
-    //$(".add-content-region-btn").addContentRegionButton()
-    //$(".add-content-btn").addContentButton()
-
-    $(".add-content-region-btn").click(function() {
-      var pageID = $(this).data("page-id");
-      var rowSequence = $(this).data("row-sequence");
-
-      // Set hidden form field values
-      $("[name='content_region[page_id]']", contentRegionModal).val(pageID);
-      $("[name='content_region[row_sequence]']", contentRegionModal).val(rowSequence);
-
-      contentRegionModal.removeClass("hidden");
-    });
-
-    $(".add-content-btn").click(function() {
-      $(".content-region-id", contentItemModal).val($(this).data("content-region-id"))
-      contentItemModal.removeClass("hidden")
-    });
+    $(".add-content-region-btn").addContentRegionButton(contentRegionModal)
+    $(".add-content-btn").addContentButton(contentItemModal)
 
     $(".composer-modal-dismiss").click(function(){
       composerModals.addClass("hidden");
