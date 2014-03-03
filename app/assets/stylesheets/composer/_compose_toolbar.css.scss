@@ -2,8 +2,11 @@
   background-color: #484c55;
   border-bottom: 2px solid #ccc;
 
-  .container {
+  > .container {
     height: 60px;
+  }
+
+  .container {
     width: 1184px;
     margin: 0 auto;
     color: white;

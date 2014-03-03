@@ -1,55 +1,16 @@
 //= require lib/zepto
 //
 // ## Plugins
+//= require plugins/edition_toolbar
 //= require plugins/headline_control
 
 $(function() {
-
-  $('[headline-control]').headlineControl();
-
-  var editionTab   = $("#edition-tab"),
-      sectionTab   = $("#section-tab"),
-      editionPanel = $("#edition-tab-panel"),
-      sectionPanel = $("#section-tab-panel"),
-      editionCancel= $(".cancel", editionPanel),
-      sectionCancel= $(".cancel", sectionPanel);
-
-  editionPanel.hide();
-  sectionPanel.hide();
-
-  editionTab.click(function(){
-    sectionTab.removeClass('active')
-    sectionPanel.hide()
-
-    editionTab.toggleClass('active');
-    editionPanel.toggle();
-  });
-
-  sectionTab.click(function(){
-    editionTab.removeClass('active')
-    editionPanel.hide()
-
-    sectionTab.toggleClass('active');
-    sectionPanel.toggle();
-  });
-
-  editionCancel.click(function(e) {
-    e.preventDefault();
-
-    editionTab.removeClass('active')
-    editionPanel.hide()
-  });
-
-  sectionCancel.click(function(e) {
-    e.preventDefault();
-
-    sectionTab.removeClass('active')
-    sectionPanel.hide()
-  });
-
   captureAuthenticityToken = function() {
     return $("input[name=authenticity_token]").first().val();
   }
+
+  $('#edition-toolbar').editionToolbar();
+  $('[headline-control]').headlineControl();
 
 
   var addSection  = $('.add-section'),
