@@ -1,6 +1,7 @@
 //= require lib/zepto
 //
 // ## Plugins
+//= require newstime_util
 //= require plugins/edition_toolbar
 //= require plugins/headline_control
 //= require plugins/section_nav
@@ -9,7 +10,7 @@
 //= require plugins/add_content_region_button
 //= require plugins/add_content_button
 
-var Newstime = {};
+var Newstime = Newstime || {};
 
 Newstime.Composer = {
   init: function() {
@@ -35,26 +36,8 @@ Newstime.Composer = {
 
   captureAuthenticityToken: function() {
     this.authenticityToken = $("input[name=authenticity_token]").first().val();
-  },
-
-  postForm: function(action, method, input) {
-    var form;
-    form = $('<form />', {
-        action: action,
-        method: method,
-        style: 'display: none;'
-    });
-    if (typeof input !== 'undefined') {
-      $.each(input, function (name, value) {
-        $('<input />', {
-          type: 'hidden',
-          name: name,
-          value: value
-        }).appendTo(form);
-      });
-    }
-    form.appendTo('body').submit();
   }
 }
+
 
 $(function() { Newstime.Composer.init(); });
