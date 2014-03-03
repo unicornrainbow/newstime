@@ -5,6 +5,7 @@
 //= require plugins/headline_control
 //= require plugins/section_nav
 //= require plugins/content_modal
+//= require plugins/add_page_button
 
 var Newstime = {};
 
@@ -22,20 +23,9 @@ Newstime.Composer = {
     $('#section-nav').sectionNav();
     $('[headline-control]').headlineControl();
 
-    //$(".add-page-btn").addPageButton()
+    $(".add-page-btn").addPageButton()
     //$(".add-content-region-btn").addContentRegionButton()
     //$(".add-content-btn").addContentButton()
-
-
-    var createPage = function(sectionID, opts) {
-      // TODO: Do we need to be passing in the sectionID in two places?
-      Newstime.Composer.postForm("/sections/" + sectionID + "/pages", "post", { authenticity_token: Newstime.Composer.authenticityToken });
-    }
-
-    $(".add-page-btn").click(function() {
-      createPage(composer.sectionID); // Temp solution, should be pulling this from the dom and using a directive.
-    });
-
 
     $(".add-content-region-btn").click(function() {
       var pageID = $(this).data("page-id");
@@ -56,7 +46,6 @@ Newstime.Composer = {
     $(".composer-modal-dismiss").click(function(){
       composerModals.addClass("hidden");
     });
-
   },
 
   captureAuthenticityToken: function() {
