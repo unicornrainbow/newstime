@@ -1,6 +1,12 @@
 //= require lib/zepto
+//
+// ## Plugins
+//= require plugins/headline_control
 
 $(function() {
+
+  $('[headline-control]').headlineControl();
+
   var editionTab   = $("#edition-tab"),
       sectionTab   = $("#section-tab"),
       editionPanel = $("#edition-tab-panel"),
