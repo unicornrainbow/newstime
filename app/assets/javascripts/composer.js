@@ -4,6 +4,7 @@
 //= require plugins/edition_toolbar
 //= require plugins/headline_control
 //= require plugins/section_nav
+//= require plugins/content_modal
 
 var Newstime = {};
 
@@ -11,10 +12,51 @@ Newstime.Composer = {
   init: function() {
     this.captureAuthenticityToken();
 
+    var composerModals = $(".composer-modal"),
+        contentRegionModal = $(".add-content-region")
+
+    var contentModal = $(".add-content-item").contentModal();
+
     // Initialize Plugins
     $('#edition-toolbar').editionToolbar();
     $('#section-nav').sectionNav();
     $('[headline-control]').headlineControl();
+
+    //$(".add-page-btn").addPageButton()
+    //$(".add-content-region-btn").addContentRegionButton()
+    //$(".add-content-btn").addContentButton()
+
+
+    var createPage = function(sectionID, opts) {
+      // TODO: Do we need to be passing in the sectionID in two places?
+      Newstime.Composer.postForm("/sections/" + sectionID + "/pages", "post", { authenticity_token: Newstime.Composer.authenticityToken });
+    }
+
+    $(".add-page-btn").click(function() {
+      createPage(composer.sectionID); // Temp solution, should be pulling this from the dom and using a directive.
+    });
+
+
+    $(".add-content-region-btn").click(function() {
+      var pageID = $(this).data("page-id");
+      var rowSequence = $(this).data("row-sequence");
+
+      // Set hidden form field values
+      $("[name='content_region[page_id]']", contentRegionModal).val(pageID);
+      $("[name='content_region[row_sequence]']", contentRegionModal).val(rowSequence);
+
+      contentRegionModal.removeClass("hidden");
+    });
+
+    $(".add-content-btn").click(function() {
+      $(".content-region-id", contentItemModal).val($(this).data("content-region-id"))
+      contentItemModal.removeClass("hidden")
+    });
+
+    $(".composer-modal-dismiss").click(function(){
+      composerModals.addClass("hidden");
+    });
+
   },
 
   captureAuthenticityToken: function() {
@@ -42,64 +84,3 @@ Newstime.Composer = {
 }
 
 $(function() { Newstime.Composer.init(); });
-
-$(function() {
-
-  var createPage = function(sectionID, opts) {
-    // TODO: Do we need to be passing in the sectionID in two places?
-    postForm("/sections/" + sectionID + "/pages", "post", { authenticity_token: authenticityToken });
-  }
-
-  $(".add-page-btn").click(function() {
-    createPage(composer.sectionID); // Temp solution, should be pulling this from the dom and using a directive.
-  });
-
-  var composerModals = $(".composer-modal");
-  var contentRegionModal = $(".add-content-region");
-  var contentItemModal = $(".add-content-item");
-  var contentItemModalForm = $("form", contentItemModal);
-
-  $(".add-content-region-btn").click(function() {
-    var pageID = $(this).data("page-id");
-    var rowSequence = $(this).data("row-sequence");
-
-    // Set hidden form field values
-    $("[name='content_region[page_id]']", contentRegionModal).val(pageID);
-    $("[name='content_region[row_sequence]']", contentRegionModal).val(rowSequence);
-
-    contentRegionModal.removeClass("hidden");
-  });
-
-  $(".add-content-btn").click(function() {
-    $(".content-region-id", contentItemModal).val($(this).data("content-region-id"))
-    contentItemModal.removeClass("hidden")
-  });
-
-  $(".composer-modal-dismiss").click(function(){
-    composerModals.addClass("hidden");
-  });
-
-  // HACK: This entire file needs to be designed and rewritten when the
-  // prototype is done. I'm doing it this was to save time upfront.
-  var handelContentItemTypeChange = function() {
-    var contentRegionID = $(".content-region-id", contentItemModal).val(); // Capture content region id until we get to crazy.
-    var type = $(this).val();
-    $.ajax({
-      type: "GET",
-      url: "/content_items/form",
-      data: { type: type },
-      dataType: 'html',
-      success: function(html){
-        contentItemModalForm = $(html).replaceAll(contentItemModalForm) // Replace form
-
-        // Rewire and reset content-region-id
-        $(".content-region-id", contentItemModal).val(contentRegionID);
-        $(".type-selector", contentItemModalForm).change(handelContentItemTypeChange);
-      }
-    });
-  }
-
-  // Wire up the content item type field loader.
-  $(".type-selector", contentItemModalForm).change(handelContentItemTypeChange);
-
-})
