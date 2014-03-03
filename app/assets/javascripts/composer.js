@@ -4,20 +4,22 @@
 //= require plugins/edition_toolbar
 //= require plugins/headline_control
 
-$(function() {
-  captureAuthenticityToken = function() {
-    return $("input[name=authenticity_token]").first().val();
-  }
+var Newstime = {};
 
-  $('#edition-toolbar').editionToolbar();
-  $('[headline-control]').headlineControl();
+Newstime.Composer = {
+  init: function() {
+    this.captureAuthenticityToken();
 
+    // Initialize Plugins
+    $('#edition-toolbar').editionToolbar();
+    $('[headline-control]').headlineControl();
+  },
 
-  var addSection  = $('.add-section'),
-      sectionsNav = $('.sections-nav'),
-      authenticityToken = captureAuthenticityToken();
+  captureAuthenticityToken: function() {
+    this.authenticityToken = $("input[name=authenticity_token]").first().val();
+  },
 
-  var postForm = function(action, method, input) {
+  postForm: function(action, method, input) {
     var form;
     form = $('<form />', {
         action: action,
@@ -35,11 +37,14 @@ $(function() {
     }
     form.appendTo('body').submit();
   }
+}
 
-  var createPage = function(sectionID, opts) {
-    // TODO: Do we need to be passing in the sectionID in two places?
-    postForm("/sections/" + sectionID + "/pages", "post", { authenticity_token: authenticityToken });
-  }
+$(function() { Newstime.Composer.init(); });
+
+$(function() {
+
+  var addSection  = $('.add-section'),
+      sectionsNav = $('.sections-nav')
 
 
   // Handle Add Section Click
@@ -128,6 +133,12 @@ $(function() {
     });
 
   });
+
+
+  var createPage = function(sectionID, opts) {
+    // TODO: Do we need to be passing in the sectionID in two places?
+    postForm("/sections/" + sectionID + "/pages", "post", { authenticity_token: authenticityToken });
+  }
 
   $(".add-page-btn").click(function() {
     createPage(composer.sectionID); // Temp solution, should be pulling this from the dom and using a directive.
