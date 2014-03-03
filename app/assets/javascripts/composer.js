@@ -1,11 +1,4 @@
-//= require jquery
-//
-//= require_self
-//= require_tree ./controllers
-//= require_tree ./directives
-//
-//= require lib/jquery.easing
-
+//= require lib/zepto
 
 $(function() {
   var editionTab   = $("#edition-tab"),
