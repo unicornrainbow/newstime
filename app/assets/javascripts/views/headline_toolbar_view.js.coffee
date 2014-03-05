@@ -39,7 +39,8 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
     @$fontSizeInput = @$el.find('.current-font-size')
     @$fontWeightInput = @$el.find('.current-font-weight')
     @$fontFamilySelect = @$el.find('.font-family-select')
-    @$headlineAlignment = @$el.find('headline-alignment')
+    @$headlineAlignment = @$el.find('.headline-alignment')
+    @$headlineStyle = @$el.find('.headline-style')
 
 
   changeText: ->
@@ -101,3 +102,4 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
     @$fontSizeInput.val(@$headline.css('font-size'))
     @$fontWeightInput.val(@$headline.css('font-weight'))
     @$fontFamilySelect.val(@$headline.css('font-family'))
+    @$headlineStyle.val(@$headline.css('font-style'))
