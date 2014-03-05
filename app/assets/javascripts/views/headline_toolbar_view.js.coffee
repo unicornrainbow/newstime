@@ -10,16 +10,20 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
         <option value="Exo, sans-serif">Exo</option>
         <option value="EB Garamond, serif">Garamond</option>
       </select>
+      <br>
       <select class="headline-alignment">
         <option value="left">Left</option>
         <option value="center">Center</option>
         <option value="right">Right</option>
       </select>
+      <br>
       <select class="headline-style">
         <option value="normal">Normal</option>
         <option value="italic">Italic</option>
       </select>
+      <br>
       <input class="nt-control current-font-size"></input>
+      <br>
       <input class="nt-control current-font-weight"></input>
     """
 
