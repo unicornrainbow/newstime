@@ -3,6 +3,7 @@
 //= require ./composer/_compose_toolbar_panel
 //= require ./composer/_section_nav_input
 //= require ./composer/_headline_control
+//= require ./composer/_headline_toolbar
 
 .btn-base {
   display: inline-block;
@@ -128,3 +129,5 @@
     }
   }
 }
+
+input:focus { outline: none; }

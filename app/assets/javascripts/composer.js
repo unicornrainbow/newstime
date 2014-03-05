@@ -13,8 +13,7 @@
 //= require plugins/add_content_button
 //
 //= require views/headline_control_view
-
-
+//= require views/headline_toolbar_view
 
 var Newstime = Newstime || {};
 
@@ -26,10 +25,14 @@ Newstime.Composer = {
         contentRegionModal = $(".add-content-region"),
         contentItemModal = $(".add-content-item").contentModal();
 
+
+    headlineToolbar = new Newstime.HeadlineToolbarView();
+    $('body').append(headlineToolbar.el);
+
     // Initialize Plugins
     $('#edition-toolbar').editionToolbar();
     $('#section-nav').sectionNav();
-    $('[headline-control]').headlineControl();
+    $('[headline-control]').headlineControl(headlineToolbar);
 
     $(".add-page-btn").addPageButton()
     $(".add-content-region-btn").addContentRegionButton(contentRegionModal)

@@ -1,19 +1,7 @@
-.headline-control {
-  position: relative;
-  display: block;
-  &:hover {
-    .headline-tools {
-      opacity: 1;
-      transition: opacity .2s;
-    }
-  }
-}
-
-
-.headline-tools {
+.headline-toolbar {
   white-space: nowrap;
-  right: 0;
-  opacity: 0;
+  left: 0;
+  top: 200px;
   border-radius: 2px;
   transition: opacity .2s;
   background-color: #484c55;
@@ -32,7 +20,6 @@
   }
 
   select {
-    display: inline-block;
   }
 
   .headline-style {
@@ -41,7 +28,6 @@
 
   .control-btn {
     padding: 2px 10px;
-    display: inline-block;
   }
 
   .nt-control {
@@ -53,5 +39,3 @@
   }
 
 }
-
-input:focus { outline: none; }
