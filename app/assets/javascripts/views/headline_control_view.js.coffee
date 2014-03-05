@@ -36,6 +36,7 @@ class @Newstime.HeadlineControlView extends Backbone.View
           <span class="control-btn reduce-size">-</span>
           <span class="font-size-status">48pt</span>
           <span class="control-btn increase-size">+</span>
+        </div>
       </div>
     """
     console.log(@$el)
