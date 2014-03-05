@@ -28,15 +28,10 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
     """
 
     # Selects
-    @$headline = @$el.find('h1')
     @$fontSizeInput = @$el.find('.current-font-size')
     @$fontWeightInput = @$el.find('.current-font-weight')
     @$fontFamilySelect = @$el.find('.font-family-select')
     @$headlineAlignment = @$el.find('headline-alignment')
-    # Initialize font size
-    @$fontSizeInput.val(@$headline.css('font-size'))
-    @$fontWeightInput.val(@$headline.css('font-weight'))
-    @$fontFamilySelect.val(@$headline.css('font-family'))
 
   events:
    'keydown .current-font-size': 'keydownFontSize'
@@ -96,3 +91,9 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
 
     #console.log(, rect.right, rect.bottom, rect.left)
     @$el.css(top: rect.top + top, left: rect.right)
+
+    # Initialize font size
+    @$headline = headlineControl.$el
+    @$fontSizeInput.val(@$headline.css('font-size'))
+    @$fontWeightInput.val(@$headline.css('font-weight'))
+    @$fontFamilySelect.val(@$headline.css('font-family'))
