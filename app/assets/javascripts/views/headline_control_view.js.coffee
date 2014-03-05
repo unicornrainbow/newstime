@@ -5,7 +5,7 @@ class @Newstime.HeadlineControlView extends Backbone.View
   events:
    'keydown .current-font-size': 'keydownFontSize'
    'change .current-font-size': 'changeFontSize'
-   'change .nt-pick-font select': 'changeFont'
+   'change select.font-family-select': 'changeFont'
 
   keydownFontSize: (e) ->
     switch e.keyCode
@@ -30,12 +30,15 @@ class @Newstime.HeadlineControlView extends Backbone.View
 
     @$el.prepend """
       <div class="headline-tools">
-        <div class='nt-pick-font'>
-          <select>
-            <option value=""></option>
-            <option value="Exo">Exo</option>
-          </select>
-        </div>
+        <select class=">
+          <option value=""></option>
+          <option value="Exo">Exo</option>
+        </select>
+        <select class="headline-alignment">
+          <option value="left">Left</option>
+          <option value="center">Center</option>
+          <option value="right">Right</option>
+        </select>
         <div class="nt-adjust-size">
           <input class="current-font-size" value="48pt"></input>
         </div>
@@ -45,6 +48,6 @@ class @Newstime.HeadlineControlView extends Backbone.View
     # Selects
     @$headline = @$el.find('h1')
     @$fontSizeInput = @$el.find('.current-font-size')
-
+    @$headlineAlignment = @$el.find('headline-alignment')
     # Initialize font size
     @$fontSizeInput.val(@$headline.css('font-size'))

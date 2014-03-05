@@ -21,6 +21,7 @@
   top: 0;
   font-family: 'Raleway', sans-serif;
   font-size: 10pt;
+  padding: 2px;
 
   -webkit-user-select: none;
   user-select: none;
@@ -30,16 +31,17 @@
     cursor: pointer;
   }
 
+  select {
+    display: inline-block;
+  }
+
   .control-btn {
     padding: 2px 10px;
     display: inline-block;
   }
+
 }
 
-.nt-pick-font {
-  display: inline-block;
-  padding: 2px;
-}
 
 .nt-adjust-size {
   display: inline-block;
