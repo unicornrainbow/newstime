@@ -15,14 +15,13 @@ $ ->
     @prepend(toolbar)
     @addClass('headline-control')
 
-    $this = this
 
     @mouseenter ->
-      $this.addClass 'show-tools'
+      $(this).addClass 'show-tools'
       #console.log 'asd'
 
     @mouseleave ->
-      $this.removeClass 'show-tools'
+      $(this).removeClass 'show-tools'
 
 
     reduceSizeBtn.click ->
