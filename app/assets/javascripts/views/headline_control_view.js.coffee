@@ -5,8 +5,6 @@ class @Newstime.HeadlineControlView extends Backbone.View
   events:
    'keydown .current-font-size': 'keydownFontSize'
    'change .nt-pick-font select': 'changeFont'
-   'mouseenter': 'showTools'
-   'mouseleave': 'hideTools'
 
   keydownFontSize: (e) ->
     switch e.keyCode
@@ -22,16 +20,10 @@ class @Newstime.HeadlineControlView extends Backbone.View
   changeFont: (e) ->
     @$headline.css 'font-family': $(e.currentTarget).val()
 
-  showTools: ->
-    @$el.addClass 'show-tools'
-
-  hideTools: ->
-    @$el.removeClass 'show-tools'
-
   initialize: ->
     @$el.addClass('headline-control')
 
-    toolbar = $ """
+    @$el.prepend """
       <div class="headline-tools">
         <div class='nt-pick-font'>
           <select>
@@ -44,8 +36,7 @@ class @Newstime.HeadlineControlView extends Backbone.View
         </div>
       </div>
     """
-    console.log(@$el)
-    toolbar.prependTo(@$el)
+
 
     @$headline = @$el.find('h1')
     @$fontSizeInput = @$el.find('.current-font-size')

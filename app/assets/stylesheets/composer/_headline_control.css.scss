@@ -2,16 +2,17 @@
   position: relative;
   display: block;
   overflow: hidden;
-  &.show-tools {
+  &:hover {
     .headline-tools {
       opacity: 1;
-      transition: opacity 1s;
-
+      transition: opacity .2s;
     }
   }
 }
 
 .headline-tools {
+  border-radius: 2px;
+  transition: opacity .2s;
   opacity: 0;
   background-color: #484c55;
   color: #eee;
