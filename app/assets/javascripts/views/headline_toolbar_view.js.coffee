@@ -82,3 +82,17 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
 
   changeFont: (e) ->
     @$headline.css 'font-family': $(e.currentTarget).val()
+
+
+  setHeadlineControl: (headlineControl) ->
+    # Scroll offset
+    doc = document.documentElement
+    body = document.body
+    left = (doc && doc.scrollLeft || body && body.scrollLeft || 0)
+    top = (doc && doc.scrollTop  || body && body.scrollTop  || 0)
+
+    # Bind to and position the toolbar
+    rect = headlineControl.el.getBoundingClientRect()
+
+    #console.log(, rect.right, rect.bottom, rect.left)
+    @$el.css(top: rect.top + top, left: rect.right)
