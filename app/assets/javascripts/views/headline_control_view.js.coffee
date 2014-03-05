@@ -4,6 +4,7 @@ class @Newstime.HeadlineControlView extends Backbone.View
 
   events:
    'keydown .current-font-size': 'keydownFontSize'
+   'keydown .current-font-weight': 'keydownFontWeight'
    'change .current-font-size': 'changeFontSize'
    'change .font-family-select': 'changeFont'
    'change .headline-alignment': 'changeAlignment'
@@ -28,6 +29,18 @@ class @Newstime.HeadlineControlView extends Backbone.View
 
   changeAlignment: (e) ->
     @$headline.css 'text-align': $(e.currentTarget).val()
+
+  keydownFontWeight: (e) ->
+    switch e.keyCode
+      when 38 then delta = 100
+      when 40 then delta = -100
+
+    if delta
+      fontWeight = @$fontWeightInput.val()
+      fontWeight = "#{parseInt(fontWeight)+delta}"
+      @$headline.css('font-weight', fontWeight)
+      @$fontWeightInput.val(fontWeight)
+
 
   changeFont: (e) ->
     @$headline.css 'font-family': $(e.currentTarget).val()
@@ -54,6 +67,8 @@ class @Newstime.HeadlineControlView extends Backbone.View
     # Selects
     @$headline = @$el.find('h1')
     @$fontSizeInput = @$el.find('.current-font-size')
+    @$fontWeightInput = @$el.find('.current-font-weight')
     @$headlineAlignment = @$el.find('headline-alignment')
     # Initialize font size
     @$fontSizeInput.val(@$headline.css('font-size'))
+    @$fontWeightInput.val(@$headline.css('font-weight'))
