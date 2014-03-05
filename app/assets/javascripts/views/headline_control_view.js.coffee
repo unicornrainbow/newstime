@@ -11,7 +11,8 @@ class @Newstime.HeadlineControlView extends Backbone.View
    'click .headline': 'changeText'
 
   changeText: ->
-    @$headline.text(prompt "Headline Text", @$headline.text())
+    text = prompt("Headline Text", @$headline.text())
+    @$headline.text(text) if text
 
   keydownFontSize: (e) ->
     switch e.keyCode
@@ -58,6 +59,10 @@ class @Newstime.HeadlineControlView extends Backbone.View
           <option value="left">Left</option>
           <option value="center">Center</option>
           <option value="right">Right</option>
+        </select>
+        <select class="headline-style">
+          <option value="normal">Normal</option>
+          <option value="italic">Italic</option>
         </select>
         <input class="nt-control current-font-size"></input>
         <input class="nt-control current-font-weight"></input>

@@ -10,15 +10,16 @@
   }
 }
 
+
 .headline-tools {
+  white-space: nowrap;
+  right: 0;
   opacity: 0;
   border-radius: 2px;
   transition: opacity .2s;
   background-color: #484c55;
   color: #eee;
   position: absolute;
-  right: 0;
-  top: 0;
   font-family: 'Raleway', sans-serif;
   font-size: 10pt;
   padding: 2px;
@@ -33,6 +34,10 @@
 
   select {
     display: inline-block;
+  }
+
+  .headline-style {
+    display: none;
   }
 
   .control-btn {
