@@ -2,6 +2,15 @@
 
 class @Newstime.HeadlineToolbarView extends Backbone.View
 
+  events:
+   'keydown .current-font-size': 'keydownFontSize'
+   'keydown .current-font-weight': 'keydownFontWeight'
+   'change .current-font-size': 'changeFontSize'
+   'change .font-family-select': 'changeFont'
+   'change .headline-alignment': 'changeAlignment'
+   'change .headline-style': 'changeStyle'
+   'click .headline': 'changeText'
+
   initialize: ->
     @$el.addClass('headline-toolbar')
 
@@ -26,20 +35,12 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
       <br>
       <input class="nt-control current-font-weight"></input>
     """
-
     # Selects
     @$fontSizeInput = @$el.find('.current-font-size')
     @$fontWeightInput = @$el.find('.current-font-weight')
     @$fontFamilySelect = @$el.find('.font-family-select')
     @$headlineAlignment = @$el.find('headline-alignment')
 
-  events:
-   'keydown .current-font-size': 'keydownFontSize'
-   'keydown .current-font-weight': 'keydownFontWeight'
-   'change .current-font-size': 'changeFontSize'
-   'change .font-family-select': 'changeFont'
-   'change .headline-alignment': 'changeAlignment'
-   'click .headline': 'changeText'
 
   changeText: ->
     text = prompt("Headline Text", @$headline.text())
@@ -59,6 +60,9 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
 
   changeFontSize: (e) ->
     @$headline.css 'font-size': $(e.currentTarget).val()
+
+  changeStyle: (e) ->
+    @$headline.css 'font-style': $(e.currentTarget).val()
 
   changeAlignment: (e) ->
     @$headline.css 'text-align': $(e.currentTarget).val()
