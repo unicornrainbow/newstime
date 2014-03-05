@@ -40,19 +40,19 @@
     display: inline-block;
   }
 
+  .nt-control {
+    background: transparent;
+    color: #eee;
+    border: none;
+    width: 50px;
+    text-align: center;
+  }
+
 }
 
 
 .nt-adjust-size {
   display: inline-block;
-}
-
-.current-font-size {
-  background: transparent;
-  color: #eee;
-  border: none;
-  width: 50px;
-  text-align: center;
 }
 
 input:focus { outline: none; }

@@ -5,7 +5,12 @@ class @Newstime.HeadlineControlView extends Backbone.View
   events:
    'keydown .current-font-size': 'keydownFontSize'
    'change .current-font-size': 'changeFontSize'
-   'change select.font-family-select': 'changeFont'
+   'change .font-family-select': 'changeFont'
+   'change .headline-alignment': 'changeAlignment'
+   'click .headline': 'changeText'
+
+  changeText: ->
+    @$headline.text(prompt "Headline Text", @$headline.text())
 
   keydownFontSize: (e) ->
     switch e.keyCode
@@ -18,9 +23,11 @@ class @Newstime.HeadlineControlView extends Backbone.View
       @$headline.css('font-size', fontSize)
       @$fontSizeInput.val(fontSize)
 
-
   changeFontSize: (e) ->
     @$headline.css 'font-size': $(e.currentTarget).val()
+
+  changeAlignment: (e) ->
+    @$headline.css 'text-align': $(e.currentTarget).val()
 
   changeFont: (e) ->
     @$headline.css 'font-family': $(e.currentTarget).val()
@@ -39,9 +46,8 @@ class @Newstime.HeadlineControlView extends Backbone.View
           <option value="center">Center</option>
           <option value="right">Right</option>
         </select>
-        <div class="nt-adjust-size">
-          <input class="current-font-size" value="48pt"></input>
-        </div>
+        <input class="nt-control current-font-size"></input>
+        <input class="nt-control current-font-weight"></input>
       </div>
     """
 
