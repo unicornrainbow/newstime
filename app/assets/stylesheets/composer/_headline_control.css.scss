@@ -1,0 +1,36 @@
+.headline-control {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  &.show-tools {
+    .headline-tools {
+      opacity: 1;
+      transition: opacity 1s;
+
+    }
+  }
+}
+
+.headline-tools {
+  opacity: 0;
+  background-color: #484c55;
+  color: #eee;
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-family: 'Raleway', sans-serif;
+  font-size: 10pt;
+
+  -webkit-user-select: none;
+  user-select: none;
+
+  span {
+    /*padding: 10px;*/
+    cursor: pointer;
+  }
+
+  .control-btn {
+    padding: 2px 10px;
+    display: inline-block;
+  }
+}
