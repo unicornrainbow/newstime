@@ -1,4 +1,6 @@
 //= require lib/zepto
+//= require lib/underscore
+//= require lib/backbone
 //
 // ## Plugins
 //= require newstime_util
@@ -9,6 +11,10 @@
 //= require plugins/add_page_button
 //= require plugins/add_content_region_button
 //= require plugins/add_content_button
+//
+//= require views/headline_control_view
+
+
 
 var Newstime = Newstime || {};
 
