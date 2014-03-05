@@ -12,7 +12,8 @@ class @Newstime.HeadlineControlView extends Backbone.View
 
   changeText: ->
     text = prompt("Headline Text", @$headline.text())
-    @$headline.text(text) if text
+    text = text.replace('\\n', "<br>")
+    @$headline.html(text) if text
 
   keydownFontSize: (e) ->
     switch e.keyCode
@@ -51,9 +52,9 @@ class @Newstime.HeadlineControlView extends Backbone.View
 
     @$el.prepend """
       <div class="headline-tools">
-        <select class=">
-          <option value=""></option>
-          <option value="Exo">Exo</option>
+        <select class="font-family-select">
+          <option value="Exo, sans-serif">Exo</option>
+          <option value="EB Garamond, serif">Garamond</option>
         </select>
         <select class="headline-alignment">
           <option value="left">Left</option>
@@ -73,7 +74,9 @@ class @Newstime.HeadlineControlView extends Backbone.View
     @$headline = @$el.find('h1')
     @$fontSizeInput = @$el.find('.current-font-size')
     @$fontWeightInput = @$el.find('.current-font-weight')
+    @$fontFamilySelect = @$el.find('.font-family-select')
     @$headlineAlignment = @$el.find('headline-alignment')
     # Initialize font size
     @$fontSizeInput.val(@$headline.css('font-size'))
     @$fontWeightInput.val(@$headline.css('font-weight'))
+    @$fontFamilySelect.val(@$headline.css('font-family'))
