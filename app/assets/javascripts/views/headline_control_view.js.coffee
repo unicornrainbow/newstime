@@ -5,6 +5,7 @@ class @Newstime.HeadlineControlView extends Backbone.View
   events:
    'click .reduce-size': 'reduceSize'
    'click .increase-size': 'increaseSize'
+   'change .nt-pick-font select': 'changeFont'
    'mouseenter': 'showTools'
    'mouseleave': 'hideTools'
 
@@ -20,6 +21,9 @@ class @Newstime.HeadlineControlView extends Backbone.View
     @$headline.css('font-size', fontSize)
     @$fontSizeStatus.text(fontSize)
 
+  changeFont: (e) ->
+    @$headline.css 'font-family': $(e.currentTarget).val()
+
   showTools: ->
     @$el.addClass 'show-tools'
 
@@ -32,6 +36,12 @@ class @Newstime.HeadlineControlView extends Backbone.View
 
     toolbar = $ """
       <div class="headline-tools">
+        <div class='nt-pick-font'>
+          <select>
+            <option value=""></option>
+            <option value="Exo">Exo</option>
+          </select>
+        </div>
         <div class="nt-adjust-size">
           <span class="control-btn reduce-size">-</span>
           <span class="font-size-status">48pt</span>
