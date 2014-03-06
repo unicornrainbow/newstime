@@ -62,7 +62,7 @@ module EditionsHelper
       when Content::HeadlineContentItem then
         render "content/headline", id: content_item.id,
           text: content_item.text,
-          font_size: content_item.font_size
+          style: content_item.style
       when Content::StoryTextContentItem then
         render "content/story", story: content_item.story
       when Content::PhotoContentItem then

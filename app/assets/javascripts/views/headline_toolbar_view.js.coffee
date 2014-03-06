@@ -37,6 +37,14 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
         authenticity_token: Newstime.Composer.authenticityToken
         content_item:
           font_size: @$headline.css('font-size')
+          font_weight: @$headline.css('font-weight')
+          font_family: @$headline.css('font-family')
+          font_style: @$headline.css('font-style')
+          text_align: @$headline.css('text-align')
+          margin_top: @$headline.css('margin-top')
+          margin_bottom: @$headline.css('margin-bottom')
+          padding_top: @$headline.css('padding-top')
+          padding_bottom: @$headline.css('padding-bottom')
 
 
   moveHandeler: (e) =>
