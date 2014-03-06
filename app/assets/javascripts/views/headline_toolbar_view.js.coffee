@@ -23,6 +23,10 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
    'change .headline-alignment': 'changeAlignment'
    'change .headline-style': 'changeStyle'
    'click .headline': 'changeText'
+   'click .dismiss': 'dismiss'
+
+  dismiss: ->
+    @$el.hide()
 
   moveHandeler: (e) =>
     @$el.css('top', event.pageY + @topMouseOffset)
@@ -39,11 +43,13 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
     $(document).unbind('mousemove', @moveHandeler)
 
   initialize: ->
+    @$el.hide()
     @$el.addClass('headline-toolbar')
 
     @$el.html """
       <div class="title-bar">
         Headline
+        <span class="dismiss">x</span>
       </div>
       <div class="palette-body">
         <select class="font-family-select">
@@ -215,3 +221,4 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
     @$marginBottom.val(@$headline.css('margin-bottom'))
     @$paddingTop.val(@$headline.css('padding-top'))
     @$paddingBottom.val(@$headline.css('padding-bottom'))
+    @$el.show()
