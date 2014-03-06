@@ -60,7 +60,9 @@ module EditionsHelper
 
       content << case content_item
       when Content::HeadlineContentItem then
-        render "content/headline", text: content_item.text
+        render "content/headline", id: content_item.id,
+          text: content_item.text,
+          font_size: content_item.font_size
       when Content::StoryTextContentItem then
         render "content/story", story: content_item.story
       when Content::PhotoContentItem then

@@ -18,7 +18,7 @@ class Page
   end
 
   def next_content_region_sequence
-    content_regions.max(:sequence) || 0 + 1
+    (content_regions.max(:sequence) || 0) + 1
   end
 
   def resequence_content_regions!

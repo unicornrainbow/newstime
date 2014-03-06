@@ -1,6 +1,7 @@
 class ContentItemsController < ApplicationController
 
   before_filter :authenticate_user!
+  skip_before_filter :verify_authenticity_token, only: :update
 
   def index
     @content_items = Content::ContentItem.asc(:path)
@@ -50,11 +51,8 @@ class ContentItemsController < ApplicationController
 
   def update
     @content_item = Content::ContentItem.find(params[:id])
-    if @content_item.update_attributes(content_item_params)
-      redirect_to @content_item, notice: "Content::ContentItem updated successfully."
-    else
-      render "edit"
-    end
+    @content_item.update_attributes(content_item_params)
+    render text: 'ok'
   end
 
   # Returns an html form for creating a content item for consumption over ajax.
@@ -78,7 +76,7 @@ private
 
   def content_item_params
     #params.require(:content_item).permit(:name, :section_id, :source, :layout_id)
-    params.fetch(:content_item, {}).permit(:content_region_id, :_type, :text, :columns, :story_id, :caption)
+    params.fetch(:content_item, {}).permit(:content_region_id, :_type, :text, :columns, :story_id, :caption, :font_size)
   end
 
 end

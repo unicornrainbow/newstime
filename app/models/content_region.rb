@@ -10,10 +10,10 @@ class ContentRegion
 
   belongs_to :organization
   belongs_to :page
-  has_many :content_items, class_name: 'Content::ContentItem', :inverse_of => :content_region
+  has_many :content_items, class_name: 'Content::ContentItem', :inverse_of => :content_region, order: :sequence.asc
 
   def next_content_item_sequence
-    content_items.max(:sequence) || 0 + 1
+    (content_items.max(:sequence) || 0) + 1
   end
 
   def resequence_content_items!

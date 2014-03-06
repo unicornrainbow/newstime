@@ -26,7 +26,18 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
    'click .dismiss': 'dismiss'
 
   dismiss: ->
+    @save()
     @$el.hide()
+
+  save: ->
+    $.ajax
+      type: "PUT"
+      url: "/content_items/#{@headlineId}.json"
+      data:
+        authenticity_token: Newstime.Composer.authenticityToken
+        content_item:
+          font_size: @$headline.css('font-size')
+
 
   moveHandeler: (e) =>
     @$el.css('top', event.pageY + @topMouseOffset)
@@ -208,8 +219,10 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
     #console.log(, rect.right, rect.bottom, rect.left)
     @$el.css(top: rect.top + top, left: rect.right)
 
-    # Initialize font size
+    # Initialize Values
     @$headline = headlineControl.$el
+    @headlineId = @$headline.data('headline-id')
+
     @$fontSizeInput.val(@$headline.css('font-size'))
     @$fontWeightInput.val(@$headline.css('font-weight'))
     @$fontFamilySelect.val(@$headline.css('font-family'))
@@ -221,4 +234,6 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
     @$marginBottom.val(@$headline.css('margin-bottom'))
     @$paddingTop.val(@$headline.css('padding-top'))
     @$paddingBottom.val(@$headline.css('padding-bottom'))
+
+
     @$el.show()
