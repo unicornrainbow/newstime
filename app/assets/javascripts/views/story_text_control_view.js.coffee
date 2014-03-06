@@ -6,7 +6,7 @@ class @Newstime.StoryTextControlView extends Backbone.View
     'click': 'click'
 
   click: ->
-    @tool_palette.setHeadlineControl(this)
+    @toolPalette.setStoryTextControl(this)
 
   initialize: (options) ->
-    @tool_palette = options.tool_palette
+    @toolPalette = options.toolPalette

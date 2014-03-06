@@ -1,0 +1,54 @@
+.story-text-tool-palette { /* palette */
+  width: 180px;
+  white-space: nowrap;
+  left: 0;
+  top: 200px;
+  border-radius: 2px;
+  transition: opacity .2s;
+  background-color: #484c55;
+  color: #eee;
+  position: absolute;
+  font-family: 'Raleway', sans-serif;
+  font-size: 10pt;
+  padding: 0;
+  border-radius: 2px;
+  box-shadow: 1px 1px 1px #888888;
+
+  .dismiss {
+    float: right;
+  }
+
+  .palette-body {
+    padding: 7px;
+  }
+
+  .title-bar {
+    padding: 4px 7px;
+    border-radius: 2px 2px 0 0;
+    background-color: #2e3137;
+    cursor: move;
+  }
+
+  -webkit-user-select: none;
+  user-select: none;
+
+  span {
+    cursor: pointer;
+  }
+
+  select {
+  }
+
+  .control-btn {
+    padding: 2px 10px;
+  }
+
+  .nt-control {
+    background: transparent;
+    color: #eee;
+    border: none;
+    text-align: center;
+    width: 50px;
+  }
+
+}
