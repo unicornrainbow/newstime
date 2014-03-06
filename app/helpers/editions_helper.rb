@@ -64,7 +64,7 @@ module EditionsHelper
           text: content_item.text,
           style: content_item.style
       when Content::StoryTextContentItem then
-        render "content/story", story: content_item.story
+        render "content/story", story: content_item.story, id: content_item.id
       when Content::PhotoContentItem then
       when Content::VideoContentItem then
       end
