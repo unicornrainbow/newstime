@@ -25,12 +25,13 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
    'click .headline': 'changeText'
 
   moveHandeler: (e) =>
-    #$("span").text(event.pageX + ", " + event.pageY);
-    @$el.css('top', event.pageY)
-    @$el.css('left', event.pageX)
+    @$el.css('top', event.pageY + @topMouseOffset)
+    @$el.css('left', event.pageX + @leftMouseOffset)
 
   beginDrag: (e) ->
     # Calulate offsets
+    @topMouseOffset = parseInt(@$el.css('top')) - event.pageY
+    @leftMouseOffset = parseInt(@$el.css('left')) - event.pageX
 
     $(document).bind('mousemove', @moveHandeler)
 
@@ -54,6 +55,7 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
             <option value="left">Left</option>
             <option value="center">Center</option>
             <option value="right">Right</option>
+            <option value="justify">Justify</option>
           </select>
         </div>
         <select class="headline-style">
@@ -206,6 +208,8 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
     @$fontWeightInput.val(@$headline.css('font-weight'))
     @$fontFamilySelect.val(@$headline.css('font-family'))
     @$headlineStyle.val(@$headline.css('font-style'))
+    @$headlineAlignment.val(@$headline.css('text-align'))
+    @$headline.css('text-align')
 
     @$marginTop.val(@$headline.css('margin-top'))
     @$marginBottom.val(@$headline.css('margin-bottom'))
