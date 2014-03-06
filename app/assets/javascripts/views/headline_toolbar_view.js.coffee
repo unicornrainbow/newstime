@@ -5,8 +5,18 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
   events:
    'keydown .current-font-size': 'keydownFontSize'
    'keydown .current-font-weight': 'keydownFontWeight'
+
+   'keydown .margin-top': 'keydownMarginTop'
+   'keydown .margin-bottom': 'keydownMarginBottom'
+   'keydown .padding-top': 'keydownPaddingTop'
+   'keydown .padding-bottom': 'keydownPaddingBottom'
+
    'change .current-font-size': 'changeFontSize'
    'change .font-family-select': 'changeFont'
+   'change .margin-top': 'changeMarginTop'
+   'change .margin-bottom': 'changeMarginBottom'
+   'change .padding-top': 'changePaddingTop'
+   'change .padding-bottom': 'changePaddingBottom'
    'change .headline-alignment': 'changeAlignment'
    'change .headline-style': 'changeStyle'
    'click .headline': 'changeText'
@@ -31,9 +41,17 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
         <option value="italic">Italic</option>
       </select>
       <br>
-      <input class="nt-control current-font-size"></input>
+      Size: <input class="nt-control current-font-size"></input>
       <br>
-      <input class="nt-control current-font-weight"></input>
+      Weight: <input class="nt-control current-font-weight"></input>
+      <br>
+      Margin:
+        <input class="nt-control margin-top"></input>
+        <input class="nt-control margin-bottom"></input>
+      <br>
+      Padding:
+        <input class="nt-control padding-top"></input>
+        <input class="nt-control padding-bottom"></input>
     """
     # Selects
     @$fontSizeInput = @$el.find('.current-font-size')
@@ -42,6 +60,10 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
     @$headlineAlignment = @$el.find('.headline-alignment')
     @$headlineStyle = @$el.find('.headline-style')
 
+    @$marginTop = @$el.find('.margin-top')
+    @$marginBottom = @$el.find('.margin-bottom')
+    @$paddingTop = @$el.find('.padding-top')
+    @$paddingBottom = @$el.find('.padding-bottom')
 
   changeText: ->
     text = prompt("Headline Text", @$headline.text())
@@ -59,6 +81,54 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
       @$headline.css('font-size', fontSize)
       @$fontSizeInput.val(fontSize)
 
+
+  keydownMarginTop: (e) ->
+    switch e.keyCode
+      when 38 then delta = 1
+      when 40 then delta = -1
+
+    if delta
+      value = @$marginTop.val()
+      value = "#{parseInt(value)+delta}px"
+      @$headline.css('margin-top', value)
+      @$marginTop.val(value)
+
+
+  keydownMarginBottom: (e) ->
+    switch e.keyCode
+      when 38 then delta = 1
+      when 40 then delta = -1
+
+    if delta
+      value = @$marginBottom.val()
+      value = "#{parseInt(value)+delta}px"
+      @$headline.css('margin-bottom', value)
+      @$marginBottom.val(value)
+
+
+  keydownPaddingTop: (e) ->
+    switch e.keyCode
+      when 38 then delta = 1
+      when 40 then delta = -1
+
+    if delta
+      value = @$paddingTop.val()
+      value = "#{parseInt(value)+delta}px"
+      @$headline.css('padding-top', value)
+      @$paddingTop.val(value)
+
+
+  keydownPaddingBottom: (e) ->
+    switch e.keyCode
+      when 38 then delta = 1
+      when 40 then delta = -1
+
+    if delta
+      value = @$paddingBottom.val()
+      value = "#{parseInt(value)+delta}px"
+      @$headline.css('padding-bottom', value)
+      @$paddingBottom.val(value)
+
   changeFontSize: (e) ->
     @$headline.css 'font-size': $(e.currentTarget).val()
 
@@ -67,6 +137,19 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
 
   changeAlignment: (e) ->
     @$headline.css 'text-align': $(e.currentTarget).val()
+
+  changePaddingTop: (e) ->
+    console.log('asd')
+    @$headline.css 'padding-top': $(e.currentTarget).val()
+
+  changePaddingBottom: (e) ->
+    @$headline.css 'padding-bottom': $(e.currentTarget).val()
+
+  changeMarginTop: (e) ->
+    @$headline.css 'margin-top': $(e.currentTarget).val()
+
+  changeMarginBottom: (e) ->
+    @$headline.css 'margin-bottom': $(e.currentTarget).val()
 
   keydownFontWeight: (e) ->
     switch e.keyCode
@@ -78,7 +161,6 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
       fontWeight = "#{parseInt(fontWeight)+delta}"
       @$headline.css('font-weight', fontWeight)
       @$fontWeightInput.val(fontWeight)
-
 
   changeFont: (e) ->
     @$headline.css 'font-family': $(e.currentTarget).val()
@@ -103,3 +185,8 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
     @$fontWeightInput.val(@$headline.css('font-weight'))
     @$fontFamilySelect.val(@$headline.css('font-family'))
     @$headlineStyle.val(@$headline.css('font-style'))
+
+    @$marginTop.val(@$headline.css('margin-top'))
+    @$marginBottom.val(@$headline.css('margin-bottom'))
+    @$paddingTop.val(@$headline.css('padding-top'))
+    @$paddingBottom.val(@$headline.css('padding-bottom'))
