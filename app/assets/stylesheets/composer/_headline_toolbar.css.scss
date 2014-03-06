@@ -1,5 +1,5 @@
-.headline-toolbar {
-  width: 150px;
+.headline-toolbar { /* palette */
+  width: 180px;
   white-space: nowrap;
   left: 0;
   top: 200px;
@@ -10,13 +10,25 @@
   position: absolute;
   font-family: 'Raleway', sans-serif;
   font-size: 10pt;
-  padding: 2px;
+  padding: 0;
+  border-radius: 2px;
+  box-shadow: 1px 1px 1px #888888;
+
+  .palette-body {
+    padding: 7px;
+  }
+
+  .title-bar {
+    padding: 4px 7px;
+    border-radius: 2px 2px 0 0;
+    background-color: #2e3137;
+    cursor: move;
+  }
 
   -webkit-user-select: none;
   user-select: none;
 
   span {
-    /*padding: 10px;*/
     cursor: pointer;
   }
 

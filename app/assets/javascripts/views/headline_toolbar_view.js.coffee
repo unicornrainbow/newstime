@@ -6,6 +6,9 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
    'keydown .current-font-size': 'keydownFontSize'
    'keydown .current-font-weight': 'keydownFontWeight'
 
+   'mousedown .title-bar': 'beginDrag'
+   'mouseup .title-bar': 'endDrag'
+
    'keydown .margin-top': 'keydownMarginTop'
    'keydown .margin-bottom': 'keydownMarginBottom'
    'keydown .padding-top': 'keydownPaddingTop'
@@ -21,37 +24,55 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
    'change .headline-style': 'changeStyle'
    'click .headline': 'changeText'
 
+  moveHandeler: (e) =>
+    #$("span").text(event.pageX + ", " + event.pageY);
+    @$el.css('top', event.pageY)
+    @$el.css('left', event.pageX)
+
+  beginDrag: (e) ->
+    # Calulate offsets
+
+    $(document).bind('mousemove', @moveHandeler)
+
+  endDrag: (e) ->
+    $(document).unbind('mousemove', @moveHandeler)
+
   initialize: ->
     @$el.addClass('headline-toolbar')
 
     @$el.html """
-      <select class="font-family-select">
-        <option value="Exo, sans-serif">Exo</option>
-        <option value="EB Garamond, serif">Garamond</option>
-      </select>
-      <br>
-      <select class="headline-alignment">
-        <option value="left">Left</option>
-        <option value="center">Center</option>
-        <option value="right">Right</option>
-      </select>
-      <br>
-      <select class="headline-style">
-        <option value="normal">Normal</option>
-        <option value="italic">Italic</option>
-      </select>
-      <br>
-      Size: <input class="nt-control current-font-size"></input>
-      <br>
-      Weight: <input class="nt-control current-font-weight"></input>
-      <br>
-      Margin:
-        <input class="nt-control margin-top"></input>
-        <input class="nt-control margin-bottom"></input>
-      <br>
-      Padding:
-        <input class="nt-control padding-top"></input>
-        <input class="nt-control padding-bottom"></input>
+      <div class="title-bar">
+        Headline
+      </div>
+      <div class="palette-body">
+        <select class="font-family-select">
+          <option value="Exo, sans-serif">Exo</option>
+          <option value="EB Garamond, serif">Garamond</option>
+        </select>
+        <div>
+          <select class="headline-alignment">
+            <option value="left">Left</option>
+            <option value="center">Center</option>
+            <option value="right">Right</option>
+          </select>
+        </div>
+        <select class="headline-style">
+          <option value="normal">Normal</option>
+          <option value="italic">Italic</option>
+        </select>
+        <br>
+        Size: <input class="nt-control current-font-size"></input>
+        <br>
+        Weight: <input class="nt-control current-font-weight"></input>
+        <br>
+        Margin:
+          <input class="nt-control margin-top"></input>
+          <input class="nt-control margin-bottom"></input>
+        <br>
+        Padding:
+          <input class="nt-control padding-top"></input>
+          <input class="nt-control padding-bottom"></input>
+      </div>
     """
     # Selects
     @$fontSizeInput = @$el.find('.current-font-size')
