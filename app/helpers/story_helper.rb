@@ -4,6 +4,8 @@ require 'crawdad/ffi/tokens'
 require 'crawdad/native'
 require 'crawdad/html_tokenizer'
 require 'stringio'
+require "net/http"
+require "uri"
 
 module StoryHelper
 
@@ -16,6 +18,9 @@ module StoryHelper
     end
   end
 
+  # Paramters:
+  #
+  #   key - used in cache key.
   def flow_story(key, story, options={})
     width         = options[:width] || 284
     last_mod_time = options[:last_mod_time] || 284 # This is obviously a wrong default value.
@@ -38,6 +43,30 @@ module StoryHelper
 
     line_streamer = LineStreamer.new(elements, width: width)
     line_streamer.take(limit).html_safe
+  end
+
+
+  def flow_text_service(text, options={})
+    width         = options[:width] || 284
+    last_mod_time = options[:last_mod_time] || 284
+    limit         = options[:limit] || 100
+    # Post the to backend service.
+    # Return the result.
+
+    linebreak_service_domain = "http://linebreak.newstime.com"
+    uri = URI.parse(service_domain)
+
+    # TODO: Move to model
+    html = $markdown.render(text)
+    doc = Nokogiri::HTML(html)
+    elements = doc.css("body > *")
+
+    # Shortcut
+    response = Net::HTTP.post_form(uri, {
+      "width" => width,
+      "limit" => limit,
+      "html" => elements
+    })
   end
 
   # Returns the current story fragment index for a given story name and verion
