@@ -9,6 +9,8 @@ require "uri"
 
 module StoryHelper
 
+  LINEBREAK_SERVICE_URL = ENV['LINEBREAK_SERVICE_URL']
+
   def story_stream(story_name, width)
     @story_streams ||= {}
     @story_streams[story_name] ||= begin
@@ -27,9 +29,10 @@ module StoryHelper
     limit         = options[:limit] || 100         # Dummy default.
     fragment_index = 1                             # Holdover, might not be needed anymore.
 
-    fetch_story_fragment "#{key}-#{width}-#{limit}", fragment_index, last_mod_time do
-      flow_text(story.body, options)
-    end
+    #fetch_story_fragment "#{key}-#{width}-#{limit}", fragment_index, last_mod_time do
+      #flow_text(story.body, options)
+      flow_text_service(story.body, options)
+    #end
   end
 
   def flow_text(text, options={})
@@ -53,8 +56,7 @@ module StoryHelper
     # Post the to backend service.
     # Return the result.
 
-    linebreak_service_domain = "http://linebreak.newstime.com"
-    uri = URI.parse(service_domain)
+    uri = URI.parse(LINEBREAK_SERVICE_URL)
 
     # TODO: Move to model
     html = $markdown.render(text)
@@ -67,6 +69,9 @@ module StoryHelper
       "limit" => limit,
       "html" => elements
     })
+    JSON.parse(response.body)["html"]
+  rescue
+    "Linebreak Service Unavailable"
   end
 
   # Returns the current story fragment index for a given story name and verion
