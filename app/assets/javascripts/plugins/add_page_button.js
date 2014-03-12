@@ -2,7 +2,7 @@ $(function() {
   $.fn.addPageButton = function() {
     var createPage = function(sectionID, opts) {
       // TODO: Do we need to be passing in the sectionID in two places?
-      Newstime.Composer.postForm("/sections/" + sectionID + "/pages", "post", { authenticity_token: Newstime.Composer.authenticityToken });
+      Newstime.Util.postForm("/sections/" + sectionID + "/pages", "post", { authenticity_token: Newstime.Composer.authenticityToken });
     }
 
     this.click(function() {

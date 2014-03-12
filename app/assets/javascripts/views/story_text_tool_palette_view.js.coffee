@@ -17,6 +17,10 @@ class @Newstime.StoryTextToolPaletteView extends Backbone.View
         url: "/content_items/#{@storyTextId}.json"
         data:
           authenticity_token: Newstime.Composer.authenticityToken
+        complete: =>
+          # Delete the node and hide palette
+          @$storyText.remove()
+          @$el.hide()
 
   dismiss: ->
     @save()
