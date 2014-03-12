@@ -27,13 +27,13 @@ class @Newstime.StoryTextToolPaletteView extends Backbone.View
     @$el.hide()
 
   save: ->
-    #$.ajax
-      #type: "PUT"
-      #url: "/content_items/#{@storyTextId}.json"
-      #data:
-        #authenticity_token: Newstime.Composer.authenticityToken
-        #content_item:
-          #font_size: @$story_text.css('font-size')
+    $.ajax
+      type: "PUT"
+      url: "/content_items/#{@storyTextId}.json"
+      data:
+        authenticity_token: Newstime.Composer.authenticityToken
+        content_item:
+          columns: @$columnsSelect.val()
 
   moveHandeler: (e) =>
     @$el.css('top', event.pageY + @topMouseOffset)
@@ -59,9 +59,18 @@ class @Newstime.StoryTextToolPaletteView extends Backbone.View
         <span class="dismiss">x</span>
       </div>
       <div class="palette-body">
+        <div>
+          <select class="story-content-item-columns">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select>
+        </div>
         <a class="story-delete">Delete</a>
       </div>
     """
+
+    @$columnsSelect = @$el.find('.story-content-item-columns')
 
   setStoryTextControl: (targetControl) ->
     # Scroll offset
@@ -77,5 +86,14 @@ class @Newstime.StoryTextToolPaletteView extends Backbone.View
     # Initialize Values
     @$storyText = targetControl.$el
     @storyTextId = @$storyText.data('story-text-id')
+
+    # Request values from the backend.
+    $.ajax
+      type: "GET"
+      url: "/content_items/#{@storyTextId}.json"
+      data:
+        authenticity_token: Newstime.Composer.authenticityToken
+      success: (data) =>
+        @$columnsSelect.val(data['columns'])
 
     @$el.show()

@@ -47,6 +47,7 @@ class ContentItemsController < ApplicationController
 
   def show
     @content_item = Content::ContentItem.find(params[:id])
+    render json: @content_item.to_json
   end
 
   def update
