@@ -55,6 +55,11 @@ class ContentItemsController < ApplicationController
     render text: 'ok'
   end
 
+  def destroy
+    @content_item = Content::ContentItem.find(params[:id]).destroy
+    render text: 'ok'
+  end
+
   # Returns an html form for creating a content item for consumption over ajax.
   #
   # Example request:

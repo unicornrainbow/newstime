@@ -8,6 +8,15 @@ class @Newstime.StoryTextToolPaletteView extends Backbone.View
    'mousedown .title-bar': 'beginDrag'
    'mouseup .title-bar': 'endDrag'
    'click .dismiss': 'dismiss'
+   'click .story-delete': 'delete'
+
+  delete: ->
+    if confirm 'Click OK to delete story'
+      $.ajax
+        type: "DELETE"
+        url: "/content_items/#{@storyTextId}.json"
+        data:
+          authenticity_token: Newstime.Composer.authenticityToken
 
   dismiss: ->
     @save()
@@ -46,6 +55,7 @@ class @Newstime.StoryTextToolPaletteView extends Backbone.View
         <span class="dismiss">x</span>
       </div>
       <div class="palette-body">
+        <a class="story-delete">Delete</a>
       </div>
     """
 
