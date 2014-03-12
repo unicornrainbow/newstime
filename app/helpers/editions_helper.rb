@@ -65,9 +65,19 @@ module EditionsHelper
           style: content_item.style
       when Content::StoryTextContentItem then
         options = {}
-        options[:id]    = content_item.id
-        options[:story] = content_item.story
-        options[:width] = content_item.width
+        options[:id]       = content_item.id
+        options[:story]    = content_item.story
+        options[:width]    = content_item.width
+        options[:height]   = 200 # Standin, needs to be computed off of what is remaining.
+        options[:columns]  = content_item.columns
+
+
+        column_width = 34 # Standin values
+        gutter_width = 16
+
+        # Compute column width of individual text columns
+        text_column_width = (content_item.width - ((content_item.columns - 1) * gutter_width)) / content_item.columns
+        options[:text_column_width]  = text_column_width
 
         render "content/story", options
       when Content::PhotoContentItem then
