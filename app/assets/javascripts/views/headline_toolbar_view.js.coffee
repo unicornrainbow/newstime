@@ -27,6 +27,7 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
 
   dismiss: ->
     @save()
+    @headlineControl = undefined
     @$el.hide()
 
   save: ->
@@ -36,6 +37,7 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
       data:
         authenticity_token: Newstime.Composer.authenticityToken
         content_item:
+          text: @$headline.html()
           font_size: @$headline.css('font-size')
           font_weight: @$headline.css('font-weight')
           font_family: @$headline.css('font-family')
@@ -228,6 +230,7 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
     @$el.css(top: rect.top + top, left: rect.right)
 
     # Initialize Values
+    @headlineControl = headlineControl
     @$headline = headlineControl.$el
     @headlineId = @$headline.data('headline-id')
 

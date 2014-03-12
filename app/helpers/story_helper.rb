@@ -30,16 +30,13 @@ module StoryHelper
     limit         = options[:limit] || 100         # Dummy default.
     fragment_index = 1                             # Holdover, might not be needed anymore.
 
-    result = ""
-    columns.times do |i|
-      content = flow_text_service(story.body, options)
-      result << render("content/text_column", width: width, content: content)
-    end
-    result
-
     #fetch_story_fragment "#{key}-#{width}-#{limit}", fragment_index, last_mod_time do
-      #flow_text(story.body, options)
-      #flow_text_service(story.body, options)
+      result = ""
+      columns.times do |i|
+        content = flow_text_service(story.body, options)
+        result << render("content/text_column", width: width, content: content)
+      end
+      result
     #end
   end
 
