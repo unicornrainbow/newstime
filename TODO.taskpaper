@@ -5,15 +5,10 @@ Download:
 	- Implement Compilation
 	- Add button to download compiled version and add section
 	- Build download screen, show pubish button once content compiled, signature add, price and store link and other required fields are set.
-Design:
-	- User settings page
-	- Animate Newtime logo
 Content:
 	- Threading, with smart linking between pages.
-	- Integrate Crawdad
 	- Add video
 	- Add pictures
-	- Auto size headlines
 Publishing:
 	- Add publish button to edition
 	- Build Store
@@ -23,6 +18,7 @@ Signing:
 Softsell:
 	- Implement "inbetween" softsell page
 Archive:
+	- Integrate Crawdad @done @project(Content)
 	- Add headlines @done @project(Content)
 	- Make login screen look reasonable @done @project(Design)
 	- Edition list and home screen @done @project(Navigation)
