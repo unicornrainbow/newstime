@@ -1,0 +1,17 @@
+.content-region-control-view {
+  position: relative;
+  .content-region-toolbar {
+    a {
+      cursor: pointer;
+    }
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  &:hover {
+    .content-region-toolbar {
+      display: block;
+    }
+  }
+}

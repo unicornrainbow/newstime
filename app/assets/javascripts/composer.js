@@ -17,6 +17,8 @@
 //
 //= require views/story_text_control_view
 //= require views/story_text_tool_palette_view
+//
+//= require views/content_region_control_view
 
 var Newstime = Newstime || {};
 
@@ -36,10 +38,15 @@ Newstime.Composer = {
     $('#section-nav').sectionNav();
     $('[headline-control]').headlineControl(headlineToolbar);
 
+
     var storyTextToolPalette = new Newstime.StoryTextToolPaletteView();
     $('body').append(storyTextToolPalette.el);
     $('[story-text-control]').each(function(i, el) {
       new Newstime.StoryTextControlView({el: el, toolPalette: storyTextToolPalette});
+    });
+
+    $('[content-region-control]').each(function(i, el) {
+      new Newstime.ContentRegionControlView({el: el});
     });
 
     $(".add-page-btn").addPageButton()
