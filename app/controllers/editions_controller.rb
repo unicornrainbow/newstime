@@ -66,7 +66,8 @@ class EditionsController < ApplicationController
   def update
     @edition = Edition.find(params[:id])
     if @edition.update_attributes(edition_params)
-      redirect_to compose_edition_url(@edition), notice: "Edition updated successfully."
+      #redirect_to compose_edition_url(@edition), notice: "Edition updated successfully."
+      redirect_to :back
     else
       render "edit"
     end

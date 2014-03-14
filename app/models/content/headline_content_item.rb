@@ -17,8 +17,7 @@ module Content
       attributes.slice('font_size', 'font_weight', 'font_family', 'font_style', 'text_align', 'margin_top', 'margin_bottom', 'padding_top', 'padding_bottom').map do |k, v|
         "#{k.gsub('_', '-')}: #{v};"
       end.join
-
-
     end
+
   end
 end
