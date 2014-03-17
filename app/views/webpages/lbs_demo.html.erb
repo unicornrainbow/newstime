@@ -5,12 +5,33 @@
   <%= javascript_include_tag "jquery" %>
   <script type="text/javascript" charset="utf-8">
     $(function() {
-        var form = $("#lbs_test_form")
-        form.submit(function() {
-          // 1. Submit to line break service on port 9000
-          // 2. Display Results
-          return false;
+      var form = $("#lbs_test_form"),
+          resultsDiv = $("#results");
+
+      form.submit(function(e) {
+        e.preventDefault();
+        var postData = form.serializeArray(),
+            width    = $('#width').val(),
+            formURL  = form.attr("action");
+
+        $.ajax({
+          url: formURL,
+          type: "POST",
+          dataType: 'jsonp',
+          data: postData,
+          success:function(data, textStatus, jqXHR) {
+            //data: return data from server
+            resultsDiv.html(data["html"]);
+            resultsDiv.css({width: width});
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+            //if fails
+            console.log("failed");
+          }
         });
+
+        return false;
+      });
 
     });
   </script>
@@ -20,6 +41,35 @@
       font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
       font-weight: 300;
     }
+
+    #lbs_test_form {
+      width: 750px;
+      float: left;
+    }
+
+    #results {
+      width: 400px;
+      float: left;
+    }
+
+    #results .typeset {
+      font-family: "Minion Pro", Gentium, "Gentium Basic", "Hoefler Text", Constantia, "Palatino Linotype", Georgia, serif;
+      font-size: 16px;
+      word-spacing: -1px;
+      text-align: justify;
+      text-indent: 40px;
+      color: #484c55;
+      line-height: 1.42857;
+    }
+
+    #results p .line {
+      white-space: nowrap;
+    }
+
+    #results p .line:after {
+      content: ' ';
+      white-space: normal;
+    }
   </style>
 
 </head>
@@ -27,11 +77,12 @@
 <body>
 <h1 id="line_break_service_demo">Line Break Service Demo</h1>
 
-<form id="lbs_test_form" method="get" accept-charset="utf-8">
-  <label for="width">Width</label><input type="text/submit/hidden/button" name="width" value="100" id="width">
+<form id="lbs_test_form" action="http://localhost:9000" method="get" accept-charset="utf-8">
+  <label for="width">Width</label><input type="text/submit/hidden/button" name="width" value="284" id="width">
   <label for="height">Height</label><input type="text/submit/hidden/button" name="height" value="200" id="height">
-  <label for="overflow_reserve">Overflow Reserve</label><input type="text/submit/hidden/button" name="overflow_reserve" value="50" id="overflow_reserve"> <br>
-  <textarea name="html" rows="40" cols="120">
+  <label for="overflow_reserve">Overflow Reserve</label><input type="text/submit/hidden/button" name="overflow_reserve" value="50" id="overflow_reserve">
+  <input type="submit" value="Continue →"> <br>
+  <textarea name="html" rows="40" cols="100">
 <p>
   Four score and seven years ago our fathers brought forth on this continent, a
   new nation, conceived in Liberty, and dedicated to the proposition that all
@@ -60,8 +111,11 @@
 </p>
   </textarea>
 
-  <p><input type="submit" value="Continue →"></p>
 </form>
+
+<div id="results">
+
+</div>
 
 </body>
 <html>
