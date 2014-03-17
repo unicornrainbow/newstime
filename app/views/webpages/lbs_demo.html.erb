@@ -2,8 +2,17 @@
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
   <title>Line Break Service Demo</title>
+  <%= javascript_include_tag "jquery" %>
   <script type="text/javascript" charset="utf-8">
-    <%#alert("hello");%>
+    $(function() {
+        var form = $("#lbs_test_form")
+        form.submit(function() {
+          // 1. Submit to line break service on port 9000
+          // 2. Display Results
+          return false;
+        });
+
+    });
   </script>
 
   <style type="text/css" media="screen">
@@ -18,7 +27,7 @@
 <body>
 <h1 id="line_break_service_demo">Line Break Service Demo</h1>
 
-<form method="get" accept-charset="utf-8">
+<form id="lbs_test_form" method="get" accept-charset="utf-8">
   <label for="width">Width</label><input type="text/submit/hidden/button" name="width" value="100" id="width">
   <label for="height">Height</label><input type="text/submit/hidden/button" name="height" value="200" id="height">
   <label for="overflow_reserve">Overflow Reserve</label><input type="text/submit/hidden/button" name="overflow_reserve" value="50" id="overflow_reserve"> <br>
