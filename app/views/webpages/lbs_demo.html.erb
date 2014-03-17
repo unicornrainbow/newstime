@@ -26,9 +26,9 @@
             //data: return data from server
             resultsDiv.html(data["html"]);
             resultsDiv.css({width: width, height: height, 'line-height': lineHeight});
+            overflowHtmlTextarea.val(data["overflow_html"]);
             if(data["overflowed"] == true) {
               resultsDiv.append('<p class="text-center"><em><a href="">Continued on Page B4</a></em></p>'); // Example continuation
-              overflowHtmlTextarea.val(data["overflow_html"]);
             }
           },
           error: function(jqXHR, textStatus, errorThrown) {
