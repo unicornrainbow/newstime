@@ -12,6 +12,7 @@
         e.preventDefault();
         var postData = form.serializeArray(),
             width    = $('#width').val(),
+            height    = $('#height').val(),
             formURL  = form.attr("action");
 
         $.ajax({
@@ -22,7 +23,7 @@
           success:function(data, textStatus, jqXHR) {
             //data: return data from server
             resultsDiv.html(data["html"]);
-            resultsDiv.css({width: width});
+            resultsDiv.css({width: width, height: height});
           },
           error: function(jqXHR, textStatus, errorThrown) {
             //if fails
@@ -48,18 +49,22 @@
     }
 
     #results {
-      width: 400px;
+      overflow: hidden;
       float: left;
     }
 
     #results .typeset {
       font-family: "Minion Pro", Gentium, "Gentium Basic", "Hoefler Text", Constantia, "Palatino Linotype", Georgia, serif;
       font-size: 16px;
+      color: #484c55;
+      line-height: 1.42857;
+    }
+
+    #results p {
+      margin: 0;
       word-spacing: -1px;
       text-align: justify;
       text-indent: 40px;
-      color: #484c55;
-      line-height: 1.42857;
     }
 
     #results p .line {
@@ -70,6 +75,11 @@
       content: ' ';
       white-space: normal;
     }
+    #resultsWrapper {
+      padding: 10px;
+      background-color: #eee;
+      float: left;
+    }
   </style>
 
 </head>
@@ -79,7 +89,7 @@
 
 <form id="lbs_test_form" action="http://localhost:9000" method="get" accept-charset="utf-8">
   <label for="width">Width</label><input type="text/submit/hidden/button" name="width" value="284" id="width">
-  <label for="height">Height</label><input type="text/submit/hidden/button" name="height" value="200" id="height">
+  <label for="height">Height</label><input type="text/submit/hidden/button" name="height" value="400" id="height">
   <label for="overflow_reserve">Overflow Reserve</label><input type="text/submit/hidden/button" name="overflow_reserve" value="50" id="overflow_reserve">
   <input type="submit" value="Continue →"> <br>
   <textarea name="html" rows="40" cols="100">
@@ -113,8 +123,8 @@
 
 </form>
 
-<div id="results">
-
+<div id="resultsWrapper">
+  <div id="results"></div>
 </div>
 
 </body>
