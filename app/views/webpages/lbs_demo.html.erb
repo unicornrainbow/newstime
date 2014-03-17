@@ -13,6 +13,7 @@
         var postData = form.serializeArray(),
             width    = $('#width').val(),
             height    = $('#height').val(),
+            lineHeight    = $('#line_height').val(),
             formURL  = form.attr("action");
 
         $.ajax({
@@ -23,7 +24,7 @@
           success:function(data, textStatus, jqXHR) {
             //data: return data from server
             resultsDiv.html(data["html"]);
-            resultsDiv.css({width: width, height: height});
+            resultsDiv.css({width: width, height: height, 'line-height': lineHeight});
           },
           error: function(jqXHR, textStatus, errorThrown) {
             //if fails
@@ -49,7 +50,6 @@
     }
 
     #results {
-      overflow: hidden;
       float: left;
     }
 
@@ -57,7 +57,6 @@
       font-family: "Minion Pro", Gentium, "Gentium Basic", "Hoefler Text", Constantia, "Palatino Linotype", Georgia, serif;
       font-size: 16px;
       color: #484c55;
-      line-height: 1.42857;
     }
 
     #results p {
@@ -66,6 +65,20 @@
       text-align: justify;
       text-indent: 40px;
     }
+
+
+    /* Trick to fully justify the last line. */
+    #results p.broken {
+      margin-bottom: -22px; /* Offset extra space added from hidden after content. */
+    }
+
+    #results p.broken:after {
+      content: " __________________________________________________________";
+      line-height: 0;
+      font-size: 1px;
+      visibility: hidden
+    }
+
 
     #results p .line {
       white-space: nowrap;
@@ -90,9 +103,10 @@
 <form id="lbs_test_form" action="http://localhost:9000" method="get" accept-charset="utf-8">
   <label for="width">Width</label><input type="text/submit/hidden/button" name="width" value="284" id="width">
   <label for="height">Height</label><input type="text/submit/hidden/button" name="height" value="400" id="height">
+  <label for="line_height">Line Height</label><input type="text/submit/hidden/button" name="line_height" value="20px" id="line_height"><br>
   <label for="overflow_reserve">Overflow Reserve</label><input type="text/submit/hidden/button" name="overflow_reserve" value="50" id="overflow_reserve">
   <input type="submit" value="Continue →"> <br>
-  <textarea name="html" rows="40" cols="100">
+  <textarea name="html" rows="30" cols="100">
 <p>
   Four score and seven years ago our fathers brought forth on this continent, a
   new nation, conceived in Liberty, and dedicated to the proposition that all
