@@ -67,6 +67,10 @@ Press::Application.routes.draw do
 
   get '/logo' => 'application#logo'
 
+  scope controller: :webpages do
+    get :lbs_demo
+  end
+
   # Active 404
   match "*a", :to => "application#routing_error", via: [:get, :post]
 

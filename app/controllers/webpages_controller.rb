@@ -5,4 +5,7 @@ class WebpagesController < ApplicationController
   def home
   end
 
+  def lbs_demo
+  end
+
 end
