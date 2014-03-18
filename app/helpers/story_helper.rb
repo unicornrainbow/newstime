@@ -27,14 +27,17 @@ module StoryHelper
     columns       = options[:columns] || 1
     width         = options[:width] || 284
     last_mod_time = options[:last_mod_time] || 284 # This is obviously a wrong default value.
-    limit         = options[:limit] || 100         # Dummy default.
+    height        = options[:height] || 100        # Dummy default.
     fragment_index = 1                             # Holdover, might not be needed anymore.
 
     #fetch_story_fragment "#{key}-#{width}-#{limit}", fragment_index, last_mod_time do
+      unset = story.body
       result = ""
       columns.times do |i|
-        content = flow_text_service(story.body, options)
-        result << render("content/text_column", width: width, content: content)
+        service_result = flow_text_service(unset, options)
+        content = service_result["html"]
+        unset = service_result["overflow_html"]
+        result << render("content/text_column", width: width, height: height, content: content)
       end
       result
     #end
@@ -43,7 +46,7 @@ module StoryHelper
   def flow_text(text, options={})
     width         = options[:width] || 284
     last_mod_time = options[:last_mod_time] || 284
-    limit         = options[:limit] || 100
+    height        = options[:height] || 100
 
     html = $markdown.render(text)
     doc = Nokogiri::HTML(html)
@@ -55,9 +58,9 @@ module StoryHelper
 
 
   def flow_text_service(text, options={})
-    width         = options[:width] || 284
-    last_mod_time = options[:last_mod_time] || 284
-    limit         = options[:limit] || 100
+    width          = options[:width] || 284
+    last_mod_time  = options[:last_mod_time] || 284
+    height         = options[:height] || 100
     # Post the to backend service.
     # Return the result.
 
@@ -71,10 +74,10 @@ module StoryHelper
     # Shortcut
     response = Net::HTTP.post_form(uri, {
       "width" => width,
-      "limit" => limit,
+      "height" => height,
       "html" => elements
     })
-    JSON.parse(response.body)["html"]
+    JSON.parse(response.body)
   rescue
     "Linebreak Service Unavailable"
   end
