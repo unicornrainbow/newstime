@@ -15,7 +15,7 @@ module StoryHelper
     @story_streams ||= {}
     @story_streams[story_name] ||= begin
       story = Story.get(story_name)
-      elements = story.doc.css("body > *")
+      elements = story.doc.css("body > p")
       LineStreamer.new(elements, width: width)
     end
   end
@@ -27,11 +27,18 @@ module StoryHelper
     columns       = options[:columns] || 1
     width         = options[:width] || 284
     last_mod_time = options[:last_mod_time] || 284 # This is obviously a wrong default value.
-    height        = options[:height] || 100        # Dummy default.
+    height        = options[:height] || 200        # Dummy default.
     fragment_index = 1                             # Holdover, might not be needed anymore.
 
     #fetch_story_fragment "#{key}-#{width}-#{limit}", fragment_index, last_mod_time do
-      unset = story.body
+
+      # TODO: Move to model
+      html = $markdown.render(story.body)
+      doc = Nokogiri::HTML(html)
+      elements = doc.css("body > p")
+
+      unset = elements.to_html
+
       result = ""
       columns.times do |i|
         service_result = flow_text_service(unset, options)
@@ -46,36 +53,31 @@ module StoryHelper
   def flow_text(text, options={})
     width         = options[:width] || 284
     last_mod_time = options[:last_mod_time] || 284
-    height        = options[:height] || 100
+    height        = options[:height] || 200
 
     html = $markdown.render(text)
     doc = Nokogiri::HTML(html)
-    elements = doc.css("body > *")
+    elements = doc.css("body > p")
 
     line_streamer = LineStreamer.new(elements, width: width)
     line_streamer.take(limit).html_safe
   end
 
 
-  def flow_text_service(text, options={})
+  def flow_text_service(html, options={})
     width          = options[:width] || 284
     last_mod_time  = options[:last_mod_time] || 284
-    height         = options[:height] || 100
+    height         = options[:height] || 200
     # Post the to backend service.
     # Return the result.
 
     uri = URI.parse(LINEBREAK_SERVICE_URL)
 
-    # TODO: Move to model
-    html = $markdown.render(text)
-    doc = Nokogiri::HTML(html)
-    elements = doc.css("body > *")
-
     # Shortcut
     response = Net::HTTP.post_form(uri, {
       "width" => width,
       "height" => height,
-      "html" => elements
+      "html" => html
     })
     JSON.parse(response.body)
   rescue
