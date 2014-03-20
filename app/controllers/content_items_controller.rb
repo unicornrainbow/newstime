@@ -83,7 +83,7 @@ private
   def content_item_params
     #params.require(:content_item).permit(:name, :section_id, :source, :layout_id)
     params.fetch(:content_item, {}).permit(:content_region_id, :_type, :text, :columns, :story_id, :caption, :font_size,
-      :font_weight, :font_family, :font_style, :text_align, :margin_top, :margin_bottom, :padding_top, :padding_bottom, :height)
+      :font_weight, :font_family, :font_style, :text_align, :margin_top, :margin_bottom, :padding_top, :padding_bottom, :height, :photo_id)
   end
 
 end

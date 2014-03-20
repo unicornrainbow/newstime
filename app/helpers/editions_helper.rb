@@ -80,9 +80,14 @@ module EditionsHelper
 
         render "content/story", options
       when Content::PhotoContentItem then
-        "Photo"
+        options = {}
+        options[:id]            = content_item.id
+        options[:photo_url]     = content_item.photo_url
+        options[:photo_width]   = content_region.width
+        options[:photo_height]  = content_region.width / content_item.photo.aspect_ratio
+        render "content/photo", options
       when Content::VideoContentItem then
-        "Video"
+        render "content/video", options
       end
     end
     content
