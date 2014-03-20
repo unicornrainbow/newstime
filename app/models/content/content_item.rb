@@ -14,7 +14,8 @@ class Content::ContentItem
   ]
 
   field    :_type,          type: String
-  field    :sequence,      type: Integer
+  field    :sequence,       type: Integer
+  field    :height,         type: Integer
 
   belongs_to :organization
   belongs_to :content_region

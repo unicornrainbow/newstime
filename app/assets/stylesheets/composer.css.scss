@@ -39,6 +39,15 @@
   &:focus {
     outline: 0;
   }
+
+  &:hover {
+    background-color: #bbb;
+  }
+
+  &:active {
+    margin: 1px -1px -1px 1px;
+    background-color: #aaa;
+  }
 }
 
 .add-content-btn,
@@ -59,6 +68,10 @@
   }
   &:hover {
     background-color: #bbb;
+  }
+  &:active {
+    margin: 1px -1px -1px 1px;
+    background-color: #aaa;
   }
 }
 
