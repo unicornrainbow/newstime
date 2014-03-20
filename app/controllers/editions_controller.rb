@@ -55,7 +55,7 @@ class EditionsController < ApplicationController
     @layout_name   = @edition.layout_name
     @template_name = @section.template_name.presence || @edition.default_section_template_name
     @title         = @section.page_title.presence || @edition.page_title
-    @layout_module = LayoutModule.new(@layout_name)
+    @layout_module = LayoutModule.new(@layout_name) # TODO: Rename to MediaModule
     @content_item = Content::ContentItem.new
 
     render 'compose', layout: 'layout_module'

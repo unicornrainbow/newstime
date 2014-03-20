@@ -30,7 +30,7 @@ module StoryHelper
     height        = options[:height] || 200        # Dummy default.
     fragment_index = 1                             # Holdover, might not be needed anymore.
 
-    #fetch_story_fragment "#{key}-#{width}-#{limit}", fragment_index, last_mod_time do
+    fetch_story_fragment "#{key}-#{width}-#{height}", fragment_index, last_mod_time do
 
       # TODO: Move to model
       html = $markdown.render(story.body)
@@ -47,7 +47,7 @@ module StoryHelper
         result << render("content/text_column", width: width, height: height, content: content)
       end
       result
-    #end
+    end
   end
 
   def flow_text(text, options={})

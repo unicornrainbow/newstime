@@ -54,7 +54,10 @@ module EditionsHelper
     content << javascript_include_tag("composer") + "\n"
   end
 
-  def render_content_items(content_region)
+  def render_content_items(content_region, options={})
+    column_width = options[:column_width] || 34 # Standin values
+    gutter_width = options[:gutter_width] || 16
+
     content = ""
     content_region.content_items.each do |content_item|
 
@@ -71,17 +74,15 @@ module EditionsHelper
         options[:height]   = content_item.height
         options[:columns]  = content_item.columns
 
-
-        column_width = 34 # Standin values
-        gutter_width = 16
-
         # Compute column width of individual text columns
         text_column_width = (content_item.width - ((content_item.columns - 1) * gutter_width)) / content_item.columns
         options[:text_column_width]  = text_column_width
 
         render "content/story", options
       when Content::PhotoContentItem then
+        "Photo"
       when Content::VideoContentItem then
+        ""
       end
     end
     content
