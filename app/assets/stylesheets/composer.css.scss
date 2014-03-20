@@ -46,7 +46,7 @@
   }
 
   &:active {
-    margin: 1px -1px -1px 1px;
+    /*margin: 1px -1px -1px 1px;*/
     background-color: #aaa;
   }
 }
@@ -71,7 +71,7 @@
     background-color: #bbb;
   }
   &:active {
-    margin: 1px -1px -1px 1px;
+    /*margin: 1px -1px -1px 1px;*/
     background-color: #aaa;
   }
 }
@@ -145,5 +145,14 @@
     }
   }
 }
+
+.new_content_region {
+  .collection_radio_buttons {
+    display: inline-block;
+    margin-right: 32px;
+    margin-left: 5px;
+  }
+}
+
 
 input:focus { outline: none; }

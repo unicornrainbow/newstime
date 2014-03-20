@@ -3,6 +3,7 @@
   <%= f.input :text %>
 <% when Content::StoryTextContentItem then %>
   <%= f.input :story_id, collection: Story.all, as: :select %>
+  <%= f.input :height, hint: "Height of column" %>
   <%= f.input :columns, hint: "Number of columns to render" %>
 <% when Content::PhotoContentItem then %>
   <%= f.input :photo_id, collection: Photo.all, as: :select %>

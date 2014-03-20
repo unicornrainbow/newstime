@@ -68,7 +68,7 @@ module EditionsHelper
         options[:id]       = content_item.id
         options[:story]    = content_item.story
         options[:width]    = content_item.width
-        options[:height]   = 500 # Standin, needs to be computed off of what is remaining.
+        options[:height]   = content_item.height
         options[:columns]  = content_item.columns
 
 

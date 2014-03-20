@@ -34,6 +34,7 @@ class @Newstime.StoryTextToolPaletteView extends Backbone.View
         authenticity_token: Newstime.Composer.authenticityToken
         content_item:
           columns: @$columnsSelect.val()
+          height: @$heightInput.val()
 
   moveHandeler: (e) =>
     @$el.css('top', event.pageY + @topMouseOffset)
@@ -68,11 +69,16 @@ class @Newstime.StoryTextToolPaletteView extends Backbone.View
             <option value="5">5</option>
           </select>
         </div>
+        <br>
+        Height:
+        <input class="nt-control story-content-item-height"></input>
+        <br>
         <a class="story-delete">Delete</a>
       </div>
     """
 
     @$columnsSelect = @$el.find('.story-content-item-columns')
+    @$heightInput = @$el.find('.story-content-item-height')
 
   setStoryTextControl: (targetControl) ->
     # Scroll offset
@@ -97,5 +103,6 @@ class @Newstime.StoryTextToolPaletteView extends Backbone.View
         authenticity_token: Newstime.Composer.authenticityToken
       success: (data) =>
         @$columnsSelect.val(data['columns'])
+        @$heightInput.val(data['height'])
 
     @$el.show()
