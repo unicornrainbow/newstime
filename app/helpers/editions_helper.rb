@@ -82,7 +82,7 @@ module EditionsHelper
       when Content::PhotoContentItem then
         "Photo"
       when Content::VideoContentItem then
-        ""
+        "Video"
       end
     end
     content
