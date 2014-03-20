@@ -12,7 +12,7 @@ class @Newstime.ContentRegionControlView extends Backbone.View
 
     @$toolbar = $ """
       <div class="content-region-toolbar">
-        <a class="content-region-settings">Settings</a>
+        <a class="content-region-settings"><i class="fa fa-gear"></i></a>
       </div>
     """
     @$toolbar.prependTo(@$el)
