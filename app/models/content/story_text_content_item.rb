@@ -14,7 +14,7 @@ module Content
 
     LINEBREAK_SERVICE_URL = ENV['LINEBREAK_SERVICE_URL']
 
-    belongs_to :story
+    belongs_to :story, inverse_of: :story_text_content_items
 
     # TODO: Store rendered_html and overflow html
     #
@@ -22,6 +22,7 @@ module Content
       # Need all the story text content items, for the story, in this edition
       #
       # Get all story text content items for the story
+      #throw linked_content_items = story.story_text_content_items.to_a
       linked_content_items = story.story_text_content_items.to_a
 
       # Reject, unless for the same edition
@@ -73,7 +74,7 @@ module Content
 
     def render(view)
 
-      #throw adjacent_outlets  # The preceding linked story text content item, should there be one.
+      adjacent_outlets  # The preceding linked story text content item, should there be one.
       #trailing_outlet # The subsequent linked story text content item, should there be one.
 
 
