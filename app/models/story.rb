@@ -11,6 +11,8 @@ class Story
 
   before_save :count_words
 
+  has_many :story_text_content_items, inverse_of: :story, class_name: 'Content::StoryTextContentItem'
+
   def count_words
     self.word_count = body.split(' ').count
   end

@@ -28,6 +28,10 @@ class Content::ContentItem
     @section ||= page.section
   end
 
+  def edition
+    @edition ||= section.edition
+  end
+
   # Returns the computed with of the content region
   def width
     content_region.width

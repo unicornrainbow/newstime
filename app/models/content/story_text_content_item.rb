@@ -17,8 +17,66 @@ module Content
     belongs_to :story
 
     # TODO: Store rendered_html and overflow html
+    #
+    def adjacent_outlets
+      # Need all the story text content items, for the story, in this edition
+      #
+      # Get all story text content items for the story
+      linked_content_items = story.story_text_content_items.to_a
+
+      # Reject, unless for the same edition
+      linked_content_items.select! do |content_item|
+        content_item.edition.id == edition.id
+      end
+
+      # Order them based on Section Sequence -> Page Number -> Content Region Row -> Content Region Sequence -> Content Item Sequence
+      linked_content_items.sort! do |a, b|
+        # Section
+        result = a.section.sequence <=> b.section.sequence
+        result.zero? or return result
+
+        # Page
+        result = a.page.number <=> b.page.number
+        result.zero? or return result
+
+        # Content Region Row
+        result = a.content_region.row_sequence <=> b.content_region.row_sequence
+        result.zero? or return result
+
+        # Content Region Sequence
+        result = a.content_region.sequence <=> b.content_region.sequence
+        result.zero? or return result
+
+        # Finally, Content Region Sequence
+        result = a.sequence <=> b.sequence
+      end
+
+      # Find index of this content_item, return adjacent content_items
+      index = linked_content_items.map(&:id).index(self.id)
+
+      leading_index   = index-1
+      following_index = index+2
+
+      leading   = nil
+      following = nil
+
+      if leading_index > 0
+        leading = linked_content_items[leading_index]
+      end
+
+      if following_index < linked_content_items.length
+        following = linked_content_items[following_index]
+      end
+
+      [leading, following]
+    end
 
     def render(view)
+
+      #throw adjacent_outlets  # The preceding linked story text content item, should there be one.
+      #trailing_outlet # The subsequent linked story text content item, should there be one.
+
+
       html = $markdown.render(story.body)
       doc = Nokogiri::HTML(html)
       elements = doc.css("body > p")
