@@ -17,6 +17,10 @@ class Page
     self[:pixel_height] || 1200
   end
 
+  def gutter_width
+    16 # Stand-in Value
+  end
+
   def next_content_region_sequence
     (content_regions.max(:sequence) || 0) + 1
   end

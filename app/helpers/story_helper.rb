@@ -9,81 +9,6 @@ require "uri"
 
 module StoryHelper
 
-  LINEBREAK_SERVICE_URL = ENV['LINEBREAK_SERVICE_URL']
-
-  def story_stream(story_name, width)
-    @story_streams ||= {}
-    @story_streams[story_name] ||= begin
-      story = Story.get(story_name)
-      elements = story.doc.css("body > p")
-      LineStreamer.new(elements, width: width)
-    end
-  end
-
-  # Paramters:
-  #
-  #   key - used in cache key.
-  def flow_story(key, story, options={})
-    columns       = options[:columns] || 1
-    width         = options[:width] || 284
-    last_mod_time = options[:last_mod_time] || 284 # This is obviously a wrong default value.
-    height        = options[:height] || 200        # Dummy default.
-    fragment_index = 1                             # Holdover, might not be needed anymore.
-
-    fetch_story_fragment "#{key}-#{width}-#{height}", fragment_index, last_mod_time do
-
-      # TODO: Move to model
-      html = $markdown.render(story.body)
-      doc = Nokogiri::HTML(html)
-      elements = doc.css("body > p")
-
-      unset = elements.to_html
-
-      result = ""
-      columns.times do |i|
-        service_result = flow_text_service(unset, options)
-        content = service_result["html"]
-        unset = service_result["overflow_html"]
-        result << render("content/text_column", width: width, height: height, content: content)
-      end
-      result
-    end
-  end
-
-  def flow_text(text, options={})
-    width         = options[:width] || 284
-    last_mod_time = options[:last_mod_time] || 284
-    height        = options[:height] || 200
-
-    html = $markdown.render(text)
-    doc = Nokogiri::HTML(html)
-    elements = doc.css("body > p")
-
-    line_streamer = LineStreamer.new(elements, width: width)
-    line_streamer.take(limit).html_safe
-  end
-
-
-  def flow_text_service(html, options={})
-    width          = options[:width] || 284
-    last_mod_time  = options[:last_mod_time] || 284
-    height         = options[:height] || 200
-    # Post the to backend service.
-    # Return the result.
-
-    uri = URI.parse(LINEBREAK_SERVICE_URL)
-
-    # Shortcut
-    response = Net::HTTP.post_form(uri, {
-      "width" => width,
-      "height" => height,
-      "html" => html
-    })
-    JSON.parse(response.body)
-  rescue
-    "Linebreak Service Unavailable"
-  end
-
   # Returns the current story fragment index for a given story name and verion
   # key. The version key can be used to have different tracks for the same story
   # in same document if needed.
@@ -113,52 +38,6 @@ module StoryHelper
     end
 
     fragment[:payload]
-  end
-
-  def story_html(story_name, options={})
-    limit =  options[:limit]
-    story = Story.get(story_name)
-    story.html.html_safe
-  end
-
-  def lay_story(story_name, line_count, options={})
-    width = options[:width] || 284
-    tolorence = options[:tolerence] || 10
-
-    limit =  options[:limit]
-    story = Story.get(story_name)
-    paragraphs = story.doc.css("body > p")
-    paragraphs.map do |p|
-      text = p.text
-
-      stream = Crawdad::HtmlTokenizer.new(FontProfile2.get('minion')).paragraph(text, hyphenation: true, indent: 50)
-
-      para = Crawdad::Paragraph.new(stream, :width => width)
-
-      lines = para.lines(tolorence)
-      stringio = StringIO.new
-      lines.each do |tokens, breakpoint|
-        stringio.write("<span class=\"line\">")
-
-        # skip over glue and penalties at the beginning of each line
-        tokens.shift until Crawdad::Tokens::Box === tokens.first
-
-        tokens.each do |token|
-          case token
-          when Crawdad::Tokens::Box
-            stringio.write(token.content)
-          when Crawdad::Tokens::Glue
-            stringio.write(" ")
-          end
-        end
-        last_token = tokens.last
-        if last_token.class == Crawdad::Tokens::Penalty && last_token[:flagged] == 1
-          stringio.write("-")
-        end
-        stringio.write("</span> ")
-      end
-      "<p class=\"typeset\">#{stringio.string}</p>"
-    end.join.html_safe
   end
 
 end

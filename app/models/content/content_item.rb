@@ -20,6 +20,14 @@ class Content::ContentItem
   belongs_to :organization
   belongs_to :content_region
 
+  def page
+    @page ||= content_region.page
+  end
+
+  def section
+    @section ||= page.section
+  end
+
   # Returns the computed with of the content region
   def width
     content_region.width

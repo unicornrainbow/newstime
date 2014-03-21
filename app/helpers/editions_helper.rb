@@ -67,18 +67,8 @@ module EditionsHelper
           text: content_item.text,
           style: content_item.style
       when Content::StoryTextContentItem then
-        options = {}
-        options[:id]       = content_item.id
-        options[:story]    = content_item.story
-        options[:width]    = content_item.width
-        options[:height]   = content_item.height
-        options[:columns]  = content_item.columns
-
-        # Compute column width of individual text columns
-        text_column_width = (content_item.width - ((content_item.columns - 1) * gutter_width)) / content_item.columns
-        options[:text_column_width]  = text_column_width
-
-        render "content/story", options
+        rendered_html = content_item.render(self)
+        render "content/story", id: content_item.id, rendered_html: rendered_html
       when Content::PhotoContentItem then
         options = {}
         options[:id]            = content_item.id
