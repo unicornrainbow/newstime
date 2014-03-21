@@ -7,8 +7,6 @@ Download:
 	- Build download screen, show pubish button once content compiled, signature add, price and store link and other required fields are set.
 Content:
 	- Threading, with smart linking between pages.
-	- Add video
-	- Add pictures
 Publishing:
 	- Add publish button to edition
 	- Build Store
@@ -18,6 +16,8 @@ Signing:
 Softsell:
 	- Implement "inbetween" softsell page
 Archive:
+	- Add video @done @project(Content)
+	- Add pictures @done @project(Content)
 	- Integrate Crawdad @done @project(Content)
 	- Add headlines @done @project(Content)
 	- Make login screen look reasonable @done @project(Design)
