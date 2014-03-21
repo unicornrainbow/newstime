@@ -4,6 +4,7 @@ class Photo
   #field :dimensions, type: Array
   field :width, type: Integer
   field :height, type: Integer
+  field :aspect_ratio, type: Float
 
   include Mongoid::Paperclip
   has_mongoid_attached_file :attachment,
@@ -22,9 +23,6 @@ class Photo
     attachment_content_type =~ %r{^(image|(x-)?application)/(bmp|gif|jpeg|jpg|pjpeg|png|x-png)$}
   end
 
-  def aspect_ratio
-    width.to_f/height
-  end
 
 private
 
@@ -36,6 +34,7 @@ private
     unless tempfile.nil?
       geometry = Paperclip::Geometry.from_file(tempfile)
       self.width, self.height = [geometry.width.to_i, geometry.height.to_i]
+      self.aspect_ratio = width.to_f/height
     end
   end
 

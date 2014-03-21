@@ -87,6 +87,11 @@ module EditionsHelper
         options[:photo_height]  = content_region.width / content_item.photo.aspect_ratio
         render "content/photo", options
       when Content::VideoContentItem then
+        options = {}
+        options[:id]                = content_item.id
+        options[:video_url]         = content_item.video_url
+        options[:video_thumbnail]   = "" #content_region.width
+
         render "content/video", options
       end
     end
