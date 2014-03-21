@@ -31,5 +31,8 @@ module Press
     config.action_controller.include_all_helpers = false
 
     config.assets.paths << "#{Rails.root}/app/assets/fonts"
+
+    config.assets.precompile += %w( platform.css )
+
   end
 end
