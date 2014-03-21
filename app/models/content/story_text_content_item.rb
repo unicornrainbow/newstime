@@ -16,6 +16,8 @@ module Content
 
     belongs_to :story
 
+    # TODO: Store rendered_html and overflow html
+
     def render(view)
       html = $markdown.render(story.body)
       doc = Nokogiri::HTML(html)
@@ -27,10 +29,14 @@ module Content
 
       result = ""
       columns.times do |i|
+        render_by_line = include_by_line && i.zero?
+        height = render_by_line ? self.height - 40 : self.height
+
         service_result = flow_text_service(unset, width: text_column_width, height: height)
         content = service_result["html"]
         unset = service_result["overflow_html"]
-        result << view.render("content/text_column", story: story, render_by_line: include_by_line && i.zero?, width: text_column_width, height: height, content: content)
+
+        result << view.render("content/text_column", story: story, render_by_line: render_by_line, width: text_column_width, height: height, content: content)
       end
       result
 
