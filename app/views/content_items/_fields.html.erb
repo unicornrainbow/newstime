@@ -1,14 +1,14 @@
 <% case content_item %>
-<% when Content::HeadlineContentItem then %>
+<% when HeadlineContentItem then %>
   <%= f.input :text %>
-<% when Content::StoryTextContentItem then %>
+<% when StoryTextContentItem then %>
   <%= f.input :story_id, collection: Story.all, as: :select %>
   <%= f.input :height, hint: "Height of column" %>
   <%= f.input :columns, hint: "Number of columns to render" %>
-<% when Content::PhotoContentItem then %>
+<% when PhotoContentItem then %>
   <%= f.input :photo_id, collection: Photo.all, as: :select %>
   <%= f.input :caption, hint: "Caption for photo" %>
-<% when Content::VideoContentItem then %>
+<% when VideoContentItem then %>
   <%= f.input :video_id, collection: Video.all, as: :select %>
   <%= f.input :caption, hint: "Caption for video" %>
 <% else %>

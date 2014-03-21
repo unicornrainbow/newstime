@@ -4,11 +4,11 @@ class ContentItemsController < ApplicationController
   skip_before_filter :verify_authenticity_token, only: :update
 
   def index
-    @content_items = Content::ContentItem.asc(:path)
+    @content_items = ContentItem.asc(:path)
   end
 
   def new
-    @content_item = Content::ContentItem.new
+    @content_item = ContentItem.new
 
     # Assign section if passed.
     @content_item.section = Section.find(params[:section_id]) if params[:section_id]
@@ -21,7 +21,7 @@ class ContentItemsController < ApplicationController
       @content_region = ContentRegion.find(@content_region_id)
     end
 
-    @content_item = Content::ContentItem.new(content_item_params)
+    @content_item = ContentItem.new(content_item_params)
 
     if @content_region
       @content_region.content_items << @content_item
@@ -37,27 +37,27 @@ class ContentItemsController < ApplicationController
 
     @content_region.resequence_content_items!
 
-    #redirect_to :back, notice: "Content::ContentItem created successfully."
+    #redirect_to :back, notice: "ContentItem created successfully."
     redirect_to :back
   end
 
   def edit
-    @content_item = Content::ContentItem.find(params[:id])
+    @content_item = ContentItem.find(params[:id])
   end
 
   def show
-    @content_item = Content::ContentItem.find(params[:id])
+    @content_item = ContentItem.find(params[:id])
     render json: @content_item.to_json
   end
 
   def update
-    @content_item = Content::ContentItem.find(params[:id])
+    @content_item = ContentItem.find(params[:id])
     @content_item.update_attributes(content_item_params)
     render text: 'ok'
   end
 
   def destroy
-    @content_item = Content::ContentItem.find(params[:id]).destroy
+    @content_item = ContentItem.find(params[:id]).destroy
     render text: 'ok'
   end
 
@@ -65,14 +65,14 @@ class ContentItemsController < ApplicationController
   #
   # Example request:
   #
-  #   http://press.newstime.io/content_items/fields?type=Content::HeadlineContentItem
+  #   http://press.newstime.io/content_items/fields?type=HeadlineContentItem
   #
   def form
     raise SecuityException unless [
-      "Content::HeadlineContentItem",
-      "Content::StoryTextContentItem",
-      "Content::PhotoContentItem",
-      "Content::VideoContentItem"
+      "HeadlineContentItem",
+      "StoryTextContentItem",
+      "PhotoContentItem",
+      "VideoContentItem"
     ].include?(params[:type])
     @content_item = params[:type].camelize.constantize.new
     render layout: false

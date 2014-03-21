@@ -62,21 +62,21 @@ module EditionsHelper
     content_region.content_items.each do |content_item|
 
       content << case content_item
-      when Content::HeadlineContentItem then
+      when HeadlineContentItem then
         render "content/headline", id: content_item.id,
           text: content_item.text,
           style: content_item.style
-      when Content::StoryTextContentItem then
+      when StoryTextContentItem then
         rendered_html = content_item.render(self)
         render "content/story", id: content_item.id, rendered_html: rendered_html
-      when Content::PhotoContentItem then
+      when PhotoContentItem then
         options = {}
         options[:id]            = content_item.id
         options[:photo_url]     = content_item.photo_url
         options[:photo_width]   = content_region.width
         options[:photo_height]  = content_region.width / content_item.photo.aspect_ratio
         render "content/photo", options
-      when Content::VideoContentItem then
+      when VideoContentItem then
         options = {}
         options[:id]                = content_item.id
         options[:video_url]         = content_item.video_url

@@ -1,16 +1,16 @@
 # IDEA: Perhaps all of this stuff should be in a content module to keep it seperate
 # from the rest of the app?
 
-class Content::ContentItem
+class ContentItem
   include Mongoid::Document
   include Mongoid::Timestamps
   include Mongoid::Attributes::Dynamic
 
   TYPE_COLLECTION = content_item_types = [
-    ["Headline", "Content::HeadlineContentItem"],
-    ["Story", "Content::StoryTextContentItem"],
-    ["Photo", "Content::PhotoContentItem"],
-    ["Video", "Content::VideoContentItem"]
+    ["Headline", "HeadlineContentItem"],
+    ["Story", "StoryTextContentItem"],
+    ["Photo", "PhotoContentItem"],
+    ["Video", "VideoContentItem"]
   ]
 
   field    :_type,          type: String
