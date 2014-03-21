@@ -1,25 +1,6 @@
-require 'crawdad'
-require 'crawdad/ffi'
-require 'crawdad/ffi/tokens'
-require 'crawdad/native'
-require 'crawdad/html_tokenizer'
 require 'stringio'
-require "net/http"
-require "uri"
 
 module StoryHelper
-
-  # Returns the current story fragment index for a given story name and verion
-  # key. The version key can be used to have different tracks for the same story
-  # in same document if needed.
-  def story_fragment_index(story_name, version)
-    @story_fragment_indexes ||= {}
-
-    story_fragment_key = "#{story_name}-#{version}"
-    index = @story_fragment_indexes[story_fragment_key]
-    index = index ? index + 1 : 0
-    @story_fragment_indexes[story_fragment_key] = index
-  end
 
   def fetch_story_fragment(story_name, fragment_index, last_mod_time)
     fragment = $dalli.get "story_fragments/#{story_name}/#{fragment_index}"

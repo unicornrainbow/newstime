@@ -1,3 +1,6 @@
+require "net/http"
+require "uri"
+
 module Content
   class StoryTextContentItem < ContentItem
     field :columns, type: Integer, default: 1
