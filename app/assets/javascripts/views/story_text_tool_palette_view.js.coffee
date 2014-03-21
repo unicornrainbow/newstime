@@ -57,7 +57,7 @@ class @Newstime.StoryTextToolPaletteView extends Backbone.View
     @$el.html """
       <div class="title-bar">
         Story
-        <span class="dismiss">x</span>
+        <span class="dismiss"></span>
       </div>
       <div class="palette-body">
         <div>

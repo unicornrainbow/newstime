@@ -11,11 +11,33 @@
   font-family: 'Raleway', sans-serif;
   font-size: 10pt;
   padding: 0;
-  border-radius: 2px;
-  box-shadow: 1px 1px 1px #888888;
+  border-radius: 4px;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
 
   .dismiss {
     float: right;
+    padding: 3px;
+
+    &:before {
+      content: "";
+      width: 13px; height: 13px;
+      background-image: url('/assets/palette_dismiss.png');
+      background-position: left;
+      background-repeat: no-repeat;
+      background-size: 39px 13px;
+      display: block;
+    }
+    &:hover {
+      &:before {
+        background-position: center;
+      }
+    }
+
+    &:active {
+      &:before {
+        background-position: right;
+      }
+    }
   }
 
   .story-delete {
@@ -27,8 +49,8 @@
   }
 
   .title-bar {
-    padding: 4px 7px;
-    border-radius: 2px 2px 0 0;
+    padding: 8px;
+    border-radius: 4px 4px 0 0;
     background-color: #2e3137;
     cursor: move;
   }

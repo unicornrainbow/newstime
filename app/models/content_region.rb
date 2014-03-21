@@ -3,7 +3,6 @@ class ContentRegion
   include Mongoid::Timestamps
 
   field      :column_width,  type: Integer  # Number of columns wide (Could probably have better name, like column_count)
-  field      :pixel_height,  type: Integer
   # Which row is the contnet region on.
   field      :row_sequence,  type: Integer, default: 1
   field      :sequence,      type: Integer
