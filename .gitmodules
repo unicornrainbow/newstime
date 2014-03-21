@@ -1,6 +1,3 @@
 [submodule "layouts/sfrecord"]
-	path = layouts/sfrecord
-	url = ../sfrecord_layout
-[submodule "layouts/sfpublicpress"]
-	path = layouts/sfpublicpress
-	url = ../sfpublicpress_layout
+  path = layouts/sfrecord
+  url = git@github.com:blakefrost/sfrecord_layout.git
