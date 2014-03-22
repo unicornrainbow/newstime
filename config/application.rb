@@ -37,7 +37,7 @@ module Press
       "composer.css",
       "composer.js",
       "jquery.js"
-    )
+    ]
 
   end
 end
