@@ -2,7 +2,7 @@ Press::Application.routes.draw do
   root to: redirect('/editions')
 
   devise_for :users, controllers: { sessions: "sessions" }
-  devise_for :admin_user
+  #devise_for :admin_user
 
   resources :editions do
     resources :sections
@@ -60,10 +60,10 @@ Press::Application.routes.draw do
     end
   end
 
-  namespace :admin do
-    resources :users
-    resources :organizations
-  end
+  #namespace :admin do
+    #resources :users
+    #resources :organizations
+  #end
 
   get '/logo' => 'application#logo'
 
