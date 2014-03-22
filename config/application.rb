@@ -32,7 +32,7 @@ module Press
 
     config.assets.paths << "#{Rails.root}/app/assets/fonts"
 
-    config.assets.precompile += %w( platform.css )
+    config.assets.precompile += %w( platform.css composer.css )
 
   end
 end
