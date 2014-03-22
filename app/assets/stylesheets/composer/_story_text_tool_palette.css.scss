@@ -21,7 +21,7 @@
     &:before {
       content: "";
       width: 13px; height: 13px;
-      background-image: url('/assets/palette_dismiss.png');
+      background-image: asset-url('/assets/palette_dismiss.png');
       background-position: left;
       background-repeat: no-repeat;
       background-size: 39px 13px;
