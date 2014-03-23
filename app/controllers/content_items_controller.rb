@@ -21,7 +21,9 @@ class ContentItemsController < ApplicationController
       @content_region = ContentRegion.find(@content_region_id)
     end
 
-    @content_item = ContentItem.new(content_item_params)
+    # HACK: Needed to do this weird magic so that mongoid would pickup on the
+    # logic for the relations of the sub type.
+    @content_item = content_item_params['_type'].constantize.new(content_item_params)
 
     if @content_region
       @content_region.content_items << @content_item

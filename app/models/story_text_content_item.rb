@@ -33,29 +33,29 @@ class StoryTextContentItem < ContentItem
     linked_content_items.sort! do |a, b|
       # Section
       result = a.section.sequence <=> b.section.sequence
-      result.zero? or return result
+      result.zero? or next result
 
       # Page
       result = a.page.number <=> b.page.number
-      result.zero? or return result
+      result.zero? or next result
 
       # Content Region Row
       result = a.content_region.row_sequence <=> b.content_region.row_sequence
-      result.zero? or return result
+      result.zero? or next result
 
       # Content Region Sequence
       result = a.content_region.sequence <=> b.content_region.sequence
-      result.zero? or return result
+      result.zero? or next result
 
       # Finally, Content Region Sequence
-      result = a.sequence <=> b.sequence
+      result = (a.sequence <=> b.sequence)
     end
 
     # Find index of this content_item, return adjacent content_items
     index = linked_content_items.map(&:id).index(self.id)
 
     leading_index   = index-1
-    following_index = index+2
+    following_index = index+1
 
     leading   = nil
     following = nil
@@ -73,18 +73,16 @@ class StoryTextContentItem < ContentItem
 
   def render(view)
 
-    adjacent_outlets  # The preceding linked story text content item, should there be one.
-    #trailing_outlet # The subsequent linked story text content item, should there be one.
-
+    leading, trailing = adjacent_outlets
+    # leading: The preceding linked story text content item, should there be one.
+    # trailing: The subsequent linked story text content item, should there be one.
 
     html = $markdown.render(story.body)
     doc = Nokogiri::HTML(html)
     elements = doc.css("body > p")
     include_by_line = true
-    #updated_at
 
     unset = elements.to_html
-
     result = ""
     columns.times do |i|
       render_by_line = include_by_line && i.zero?
