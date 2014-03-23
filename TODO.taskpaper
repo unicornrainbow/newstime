@@ -5,8 +5,8 @@ Download:
 	- Implement Compilation
 	- Add button to download compiled version and add section
 	- Build download screen, show pubish button once content compiled, signature add, price and store link and other required fields are set.
-Content:
-	- Threading, with smart linking between pages.
+Audio:
+	- Allow audio attachment and transcription of stories
 Publishing:
 	- Add publish button to edition
 	- Build Store
@@ -16,6 +16,7 @@ Signing:
 Softsell:
 	- Implement "inbetween" softsell page
 Archive:
+	- Threading, with smart linking between pages. @done @project(Content)
 	- Add video @done @project(Content)
 	- Add pictures @done @project(Content)
 	- Integrate Crawdad @done @project(Content)
