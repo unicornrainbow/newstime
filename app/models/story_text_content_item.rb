@@ -54,13 +54,14 @@ class StoryTextContentItem < ContentItem
     # Find index of this content_item, return adjacent content_items
     index = linked_content_items.map(&:id).index(self.id)
 
+
     leading_index   = index-1
     following_index = index+1
 
     leading   = nil
     following = nil
 
-    if leading_index > 0
+    if leading_index >= 0
       leading = linked_content_items[leading_index]
     end
 
@@ -77,24 +78,28 @@ class StoryTextContentItem < ContentItem
     # leading: The preceding linked story text content item, should there be one.
     # trailing: The subsequent linked story text content item, should there be one.
 
-    html = $markdown.render(story.body)
-    doc = Nokogiri::HTML(html)
-    elements = doc.css("body > p")
-    include_by_line = true
+    if leading
+      "continued"
+    else
+      html = $markdown.render(story.body)
+      doc = Nokogiri::HTML(html)
+      elements = doc.css("body > p")
+      include_by_line = true
 
-    unset = elements.to_html
-    result = ""
-    columns.times do |i|
-      render_by_line = include_by_line && i.zero?
-      height = render_by_line ? self.height - 40 : self.height
+      unset = elements.to_html
+      result = ""
+      columns.times do |i|
+        render_by_line = include_by_line && i.zero?
+        height = render_by_line ? self.height - 40 : self.height
 
-      service_result = flow_text_service(unset, width: text_column_width, height: height)
-      content = service_result["html"]
-      unset = service_result["overflow_html"]
+        service_result = flow_text_service(unset, width: text_column_width, height: height)
+        content = service_result["html"]
+        unset = service_result["overflow_html"]
 
-      result << view.render("content/text_column", story: story, render_by_line: render_by_line, width: text_column_width, height: height, content: content)
+        result << view.render("content/text_column", story: story, render_by_line: render_by_line, width: text_column_width, height: height, content: content)
+      end
+      result
     end
-    result
 
     #rendered_html
   end
