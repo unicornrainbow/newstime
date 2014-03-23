@@ -6,7 +6,8 @@ class StoryTextContentItem < ContentItem
 
   # Render fields
   #field :rendered_at, type: DateTime
-  #field :rendered_html, type: String
+  field :rendered_html, type: String
+  field :overflow_html, type: String
   #field :include_by_line, type: Boolean
   #field :span_by_line, type: Boolean # Should the by line span columns, if more than one present, or be part of the first column.
   #
@@ -79,7 +80,24 @@ class StoryTextContentItem < ContentItem
     # trailing: The subsequent linked story text content item, should there be one.
 
     if leading
-      "continued"
+      include_by_line = false
+
+      unset = leading.overflow_html
+      result = ""
+      columns.times do |i|
+        render_by_line = include_by_line && i.zero?
+        height = render_by_line ? self.height - 40 : self.height
+
+        service_result = flow_text_service(unset, width: text_column_width, height: height)
+        content = service_result["html"]
+        unset = service_result["overflow_html"]
+
+        result << view.render("content/text_column", story: story, render_by_line: render_by_line, width: text_column_width, height: height, content: content)
+      end
+      self.rendered_html = result
+      self.overflow_html = unset
+      save
+      rendered_html
     else
       html = $markdown.render(story.body)
       doc = Nokogiri::HTML(html)
@@ -98,10 +116,11 @@ class StoryTextContentItem < ContentItem
 
         result << view.render("content/text_column", story: story, render_by_line: render_by_line, width: text_column_width, height: height, content: content)
       end
-      result
+      self.rendered_html = result
+      self.overflow_html = unset
+      save
+      rendered_html
     end
-
-    #rendered_html
   end
 
   # Returns the width of each text column
