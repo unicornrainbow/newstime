@@ -80,47 +80,53 @@ class StoryTextContentItem < ContentItem
     # trailing: The subsequent linked story text content item, should there be one.
 
     if leading
-      # Subsequent outlet
       include_by_line = false
-      include_by_continuation = !!trailing
-
       unset = leading.overflow_html
-      result = ""
-      columns.times do |i|
-        render_by_line = include_by_line && i.zero?
-        render_by_continuation = include_by_continuation && i+1 == columns
-        height = render_by_line ? self.height - 40 : self.height
-
-        service_result = flow_text_service(unset, width: text_column_width, height: height)
-        content = service_result["html"]
-        unset = service_result["overflow_html"]
-
-        result << view.render("content/text_column", story: story, render_by_line: render_by_line, render_by_continuation: render_by_continuation, width: text_column_width, height: height, content: content)
-      end
     else
       # First outlet
       html = $markdown.render(story.body)
       doc = Nokogiri::HTML(html)
       elements = doc.css("body > p")
       include_by_line = true
-      include_by_continuation = !!trailing
-
       unset = elements.to_html
-      result = ""
-      columns.times do |i|
-        render_by_line = include_by_line && i.zero?
-        render_by_continuation = include_by_continuation && i+1 == columns
-        column_height = height
-        column_height = render_by_line ? column_height - 40 : column_height
-        column_height = render_by_continuation ? column_height - 20 : column_height
-
-        service_result = flow_text_service(unset, width: text_column_width, height: column_height, overflow_reserve: 20)
-        content = service_result["html"]
-        unset = service_result["overflow_html"]
-
-        result << view.render("content/text_column", story: story, render_by_line: render_by_line, render_by_continuation: render_by_continuation, width: text_column_width, height: height, content: content)
-      end
     end
+
+    # Subsequent outlet
+    include_by_continuation = !!trailing
+
+    result = ""
+    columns.times do |i|
+      render_by_line = include_by_line && i.zero?
+      render_by_continuation = include_by_continuation && i+1 == columns
+
+      if render_by_continuation
+        trailing_page = trailing.page
+        trailing_section = trailing_page.section
+        continuation_text = "Continued on Page #{trailing_page.page_ref}"
+        continuation_path = "#{trailing_section.path}##{trailing.id}"
+      end
+
+      column_height = height
+      column_height = render_by_line ? column_height - 40 : column_height
+      column_height = render_by_continuation ? column_height - 20 : column_height
+
+      service_result = flow_text_service(unset, width: text_column_width, height: column_height)
+      content = service_result["html"]
+      unset = service_result["overflow_html"]
+
+      result << view.render("content/text_column",
+        story: story,
+        render_by_line: render_by_line,
+        render_by_continuation: render_by_continuation,
+        continuation_text: continuation_text,
+        continuation_path: continuation_path,
+        width: text_column_width,
+        height: height,
+        content: content
+      )
+
+    end
+
     self.rendered_html = result
     self.overflow_html = unset
     save

@@ -31,6 +31,10 @@ class Page
     end
   end
 
+  def page_ref
+    "#{section.letter}#{number}"
+  end
+
   def grid_composition
     @grid_composition ||= GridComposition.new(self)
   end

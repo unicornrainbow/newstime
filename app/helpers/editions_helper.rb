@@ -68,7 +68,7 @@ module EditionsHelper
           style: content_item.style
       when StoryTextContentItem then
         rendered_html = content_item.render(self)
-        render "content/story", id: content_item.id, rendered_html: rendered_html
+        render "content/story", id: content_item.id, anchor: content_item.id, rendered_html: rendered_html
       when PhotoContentItem then
         options = {}
         options[:id]            = content_item.id
