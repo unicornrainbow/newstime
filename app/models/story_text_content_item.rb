@@ -92,23 +92,34 @@ class StoryTextContentItem < ContentItem
     end
 
     # Subsequent outlet
-    include_by_continuation = !!trailing
+    include_continuation = !!trailing
+    include_precedent_link = !!leading
 
     result = ""
     columns.times do |i|
       render_by_line = include_by_line && i.zero?
-      render_by_continuation = include_by_continuation && i+1 == columns
+      render_continuation = include_continuation && i+1 == columns
+      render_precedent_link = include_precedent_link && i.zero?
 
-      if render_by_continuation
+      if render_continuation
         trailing_page = trailing.page
         trailing_section = trailing_page.section
         continuation_text = "Continued on Page #{trailing_page.page_ref}"
         continuation_path = "#{trailing_section.path}##{trailing.id}"
       end
 
+      if render_precedent_link
+        # stiched could also work
+        leading_page = leading.page
+        leading_section = leading_page.section
+        precedent_text = "Continued from Page #{leading_page.page_ref}"
+        precedent_path = "#{leading_section.path}##{leading.id}"
+      end
+
       column_height = height
       column_height = render_by_line ? column_height - 40 : column_height
-      column_height = render_by_continuation ? column_height - 20 : column_height
+      column_height = render_continuation ? column_height - 20 : column_height
+      column_height = render_precedent_link ? column_height - 20 : column_height
 
       service_result = flow_text_service(unset, width: text_column_width, height: column_height)
       content = service_result["html"]
@@ -117,9 +128,12 @@ class StoryTextContentItem < ContentItem
       result << view.render("content/text_column",
         story: story,
         render_by_line: render_by_line,
-        render_by_continuation: render_by_continuation,
+        render_continuation: render_continuation,
         continuation_text: continuation_text,
         continuation_path: continuation_path,
+        render_precedent_link: render_precedent_link,
+        precedent_text: precedent_text,
+        precedent_path: precedent_path,
         width: text_column_width,
         height: height,
         content: content
