@@ -56,9 +56,10 @@ class EditionStoryTypesetter
         column_height = render_continuation ? column_height - 20 : column_height
         column_height = render_precedent_link ? column_height - 20 : column_height
 
-        service_result = flow_text_service(html, width: text_column_width, height: column_height)
-        content = service_result["html"]
-        html = service_result["overflow_html"]
+        typesetter_service = HtmlTypesetterService(html, width: text_column_width, height: column_height)
+        typesetter_service.typeset # Invoke Service
+        content = typesetter_service.typeset_html
+        html    = typesetter.overrun_html
 
         result << view.render("content/text_column",
           story: story,
@@ -77,7 +78,7 @@ class EditionStoryTypesetter
       end
 
       content_item.rendered_html = result
-      content_item.overrun_html = unset
+      content_item.overrun_html  = html
       content_item.save
     end
 
