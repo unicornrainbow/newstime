@@ -1,21 +1,12 @@
 class Api::StoryTextContentItemsController < ApiController
 
-  skip_before_filter :verify_authenticity_token, only: :update
-
   def create
-     @content_region_id = params[:content_region_id] || content_item_params[:content_region_id]
-    if @content_region_id
-      # TODO: [security] User must have access to the section.
-      @content_region = ContentRegion.find(@content_region_id)
-    end
-
-    # HACK: Needed to do this weird magic so that mongoid would pickup on the
-    # logic for the relations of the sub type.
     @content_item = StoryTextContentItem.new(content_item_params)
 
-    if @content_region
-      @content_region.content_items << @content_item
-    end
+    @content_region_id = params[:content_region_id] || content_item_params[:content_region_id]
+    # TODO: [security] User must have access to the section.
+    @content_region = ContentRegion.find(@content_region_id)
+    @content_region.content_items << @content_item
 
     # Set content_item numbers
     @content_item.sequence = @content_region.next_content_item_sequence
@@ -27,18 +18,17 @@ class Api::StoryTextContentItemsController < ApiController
 
     @content_region.resequence_content_items!
 
-    #redirect_to :back, notice: "ContentItem created successfully."
-    redirect_to :back
+    respond_with :api, @content_item
   end
 
   def update
-    @content_item = ContentItem.find(params[:id])
+    @content_item = StoryTextContentItem.find(params[:id])
     @content_item.update_attributes(content_item_params)
-    render text: 'ok'
+    respond_with :api, @content_item
   end
 
   def destroy
-    @content_item = ContentItem.find(params[:id]).destroy
+    @content_item = StoryTextContentItem.find(params[:id]).destroy
     render text: 'ok'
   end
 
