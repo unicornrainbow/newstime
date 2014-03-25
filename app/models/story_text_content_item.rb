@@ -2,17 +2,15 @@ require "net/http"
 require "uri"
 
 class StoryTextContentItem < ContentItem
-  field :columns, type: Integer, default: 1
+  LINEBREAK_SERVICE_URL = ENV['LINEBREAK_SERVICE_URL']
 
-  # Render fields
-  #field :rendered_at, type: DateTime
+  field :columns, type: Integer, default: 1
   field :rendered_html, type: String
   field :overflow_html, type: String
+
+  #field :rendered_at, type: DateTime
   #field :include_by_line, type: Boolean
   #field :span_by_line, type: Boolean # Should the by line span columns, if more than one present, or be part of the first column.
-  #
-
-  LINEBREAK_SERVICE_URL = ENV['LINEBREAK_SERVICE_URL']
 
   belongs_to :story, inverse_of: :story_text_content_items
 
