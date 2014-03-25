@@ -7,7 +7,7 @@ class StoryTextContentItem < ContentItem
   belongs_to :story, inverse_of: :story_text_content_items
 
   # Width of each text column based on width, column count and gutter width.
-  def column_width
+  def text_column_width
     (width - (columns - 1) * gutter_width) / columns
   end
 
@@ -15,7 +15,7 @@ class StoryTextContentItem < ContentItem
     page.gutter_width # Derived from page
   end
 
-  def render!
+  def typeset!
     EditionStoryTypesetter.new(edition, story).typeset!
   end
 end

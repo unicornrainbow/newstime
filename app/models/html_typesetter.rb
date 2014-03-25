@@ -1,8 +1,8 @@
 # Calls typesetting service to typeset html
 class HtmlTypesetter
-  LINEBREAK_SERVICE_URL = URI.parse(ENV['LINEBREAK_SERVICE_URL'])
+  LINEBREAK_SERVICE_URI = URI.parse(ENV['LINEBREAK_SERVICE_URL'])
 
-  attr_reader :parsed_response
+  attr_reader :parsed_response, :typeset_html, :overrun_html, :width, :height, :overflow_reserve, :html
 
   def initialize(html, options={})
     @html             = html

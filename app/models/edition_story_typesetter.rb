@@ -56,10 +56,10 @@ class EditionStoryTypesetter
         column_height = render_continuation ? column_height - 20 : column_height
         column_height = render_precedent_link ? column_height - 20 : column_height
 
-        typesetter_service = HtmlTypesetterService(html, width: text_column_width, height: column_height)
+        typesetter_service = HtmlTypesetter.new(html, width: text_column_width, height: column_height)
         typesetter_service.typeset # Invoke Service
         content = typesetter_service.typeset_html
-        html    = typesetter.overrun_html
+        html    = typesetter_service.overrun_html
 
         result << view.render("content/text_column",
           story: story,
@@ -115,4 +115,20 @@ class EditionStoryTypesetter
       result = (a.sequence <=> b.sequence)
     end
   end
+
+private
+
+  def view
+    #@layout_module = LayoutModule.new(@layout_name)
+    #view = LayoutModule::View.new(self)
+    #@view ||= LayoutModule::View.new(OpenStruct.new(layout_module: LayoutModule.new('sfrecord')))
+    view ||= begin
+               view = ActionController::Base.new.view_context
+               view.extend ApplicationHelper
+               view.extend EditionsHelper
+               view.instance_variable_set(:@layout_module, LayoutModule.new('sfrecord'))
+               LayoutModule::View.new(view)
+             end
+  end
+
 end

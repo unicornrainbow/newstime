@@ -39,7 +39,8 @@ class ContentItemsController < ApplicationController
 
     @content_region.resequence_content_items!
 
-    #redirect_to :back, notice: "ContentItem created successfully."
+    @content_item.typeset! if @content_item.is_a?(StoryTextContentItem)
+
     redirect_to :back
   end
 
@@ -55,6 +56,7 @@ class ContentItemsController < ApplicationController
   def update
     @content_item = ContentItem.find(params[:id])
     @content_item.update_attributes(content_item_params)
+    @content_item.typeset! if @content_item.is_a?(StoryTextContentItem)
     render text: 'ok'
   end
 
