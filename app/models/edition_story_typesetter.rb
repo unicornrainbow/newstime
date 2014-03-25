@@ -119,12 +119,9 @@ class EditionStoryTypesetter
 private
 
   def view
-    #@layout_module = LayoutModule.new(@layout_name)
-    #view = LayoutModule::View.new(self)
-    #@view ||= LayoutModule::View.new(OpenStruct.new(layout_module: LayoutModule.new('sfrecord')))
     view ||= begin
-               view = ActionController::Base.new.view_context
-               view.extend ApplicationHelper
+               view = Object.new #ActionController::Base.new.view_context
+               #view.extend ApplicationHelper
                view.extend EditionsHelper
                view.instance_variable_set(:@layout_module, LayoutModule.new('sfrecord'))
                LayoutModule::View.new(view)
