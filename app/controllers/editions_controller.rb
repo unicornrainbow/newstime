@@ -1,6 +1,6 @@
 class EditionsController < ApplicationController
   before_filter :authenticate_user!, except: :index
-  before_filter :find_edition, only: [:compose, :preview]
+  before_filter :find_edition, only: [:compose, :preview, :compile]
 
   skip_filter :verify_authenticity_token, only: :delete
 
@@ -86,7 +86,12 @@ class EditionsController < ApplicationController
   def download
   end
 
-  def test
+  def compile
+    @path = "#{params['path']}.html"
+    @section       = @edition.sections.where(path: @path).first
+    section_compiler = SectionCompiler.new(@section)
+    section_compiler.compile!
+    render text: section_compiler.html
   end
 
 private

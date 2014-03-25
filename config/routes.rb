@@ -24,6 +24,11 @@ Press::Application.routes.draw do
         get '*path' => :preview, :defaults => { :format => "html" }
       end
       get :download
+
+      scope 'compile' do
+        scope controller: :edition_assets, &asset_routes
+        get '*path' => :compile, :defaults => { :format => "html" }
+      end
     end
   end
 
