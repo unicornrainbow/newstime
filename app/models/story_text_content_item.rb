@@ -16,6 +16,6 @@ class StoryTextContentItem < ContentItem
   end
 
   def render!
-    EditionStoryTypeSetter.new(edition, story).typeset!
+    EditionStoryTypesetter.new(edition, story).typeset!
   end
 end
