@@ -86,6 +86,9 @@ class EditionsController < ApplicationController
   def download
   end
 
+  def test
+  end
+
 private
 
   def find_edition

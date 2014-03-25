@@ -40,7 +40,7 @@ class EditionStoryTypesetter
           trailing_page = nxt.page
           trailing_section = trailing_page.section
           continuation_text = "Continued on Page #{trailing_page.page_ref}"
-          continuation_path = "#{trailing_section.path}##{nxt.id}"
+          continuation_path = "#{trailing_section.path}#page-#{trailing_page.number}"
         end
 
         if render_precedent_link
@@ -48,7 +48,7 @@ class EditionStoryTypesetter
           leading_page = prev.page
           leading_section = leading_page.section
           precedent_text = "Continued from Page #{leading_page.page_ref}"
-          precedent_path = "#{leading_section.path}##{prev.id}"
+          precedent_path = "#{leading_section.path}#page-#{leading_page.number}"
         end
 
         column_height = height
