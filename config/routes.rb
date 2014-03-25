@@ -60,6 +60,10 @@ Press::Application.routes.draw do
     end
   end
 
+  namespace :api do
+    resources :story_text_content_items, only: [:create, :update]
+  end
+
   #namespace :admin do
     #resources :users
     #resources :organizations
