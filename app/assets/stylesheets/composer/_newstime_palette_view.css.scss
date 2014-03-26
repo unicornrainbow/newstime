@@ -1,4 +1,4 @@
-.story-text-tool-palette { /* palette */
+.newstime-palette-view { /* palette */
   width: 180px;
   white-space: nowrap;
   left: 0;
@@ -13,10 +13,13 @@
   padding: 0;
   border-radius: 4px;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+  -webkit-user-select: none;
+  user-select: none;
 
   .dismiss {
     float: right;
     padding: 3px;
+    cursor: default;
 
     &:before {
       content: "";
@@ -40,10 +43,6 @@
     }
   }
 
-  .story-delete {
-    cursor: pointer;
-  }
-
   .palette-body {
     padding: 7px;
   }
@@ -57,29 +56,6 @@
 
   .title-bar.grabbing {
     cursor: -webkit-grabbing;
-  }
-
-
-  -webkit-user-select: none;
-  user-select: none;
-
-  span {
-    cursor: pointer;
-  }
-
-  select {
-  }
-
-  .control-btn {
-    padding: 2px 10px;
-  }
-
-  .nt-control {
-    background: transparent;
-    color: #eee;
-    border: none;
-    text-align: center;
-    width: 50px;
   }
 
 }

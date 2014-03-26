@@ -12,11 +12,13 @@
 //= require plugins/add_content_region_button
 //= require plugins/add_content_button
 //
+//= require views/palette_view
+//
 //= require views/headline_control_view
 //= require views/headline_toolbar_view
 //
 //= require views/story_text_control_view
-//= require views/story_text_tool_palette_view
+//= require views/story_properties_view
 //
 //= require views/content_region_control_view
 //= require views/content_region_properties_view
@@ -40,10 +42,10 @@ Newstime.Composer = {
     $('[headline-control]').headlineControl(headlineToolbar);
 
 
-    var storyTextToolPalette = new Newstime.StoryTextToolPaletteView();
-    $('body').append(storyTextToolPalette.el);
+    var storyPropertiesView = new Newstime.StoryPropertiesView();
+    $('body').append(storyPropertiesView.palette.el);
     $('[story-text-control]').each(function(i, el) {
-      new Newstime.StoryTextControlView({el: el, toolPalette: storyTextToolPalette});
+      new Newstime.StoryTextControlView({el: el, toolPalette: storyPropertiesView});
     });
 
     var contentRegionPropertiesView = new Newstime.ContentRegionPropertiesView();
