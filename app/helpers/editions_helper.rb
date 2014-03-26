@@ -12,6 +12,8 @@ module EditionsHelper
 
   alias :composing? :composing
 
+  attr_accessor :asset_recorder
+
   def layouts
     @layouts ||= []
   end
@@ -34,6 +36,7 @@ module EditionsHelper
 
     concat(content)
   end
+
 
   # TODO: In time, this logic should be reverse to not rely on exceptions and to
   # check with the layout module first to allow more flexiable overriding.
@@ -101,4 +104,5 @@ module EditionsHelper
 
     fragment[:payload]
   end
+
 end

@@ -8,10 +8,12 @@ class LayoutModule
     end
 
     def stylesheet_link_tag(name)
+      asset_recorder.try(:stylesheet, "#{name}.css")
       %Q{<link href="#{name}.css" rel="stylesheet" media="screen" />}
     end
 
     def javascript_include_tag(name)
+      asset_recorder.try(:javascript, "#{name}.js")
       %Q{<script src="#{name}.js" type="text/javascript"></script>}
     end
 
