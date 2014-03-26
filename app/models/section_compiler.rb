@@ -1,3 +1,4 @@
+# Compiles a section of an edition.
 class SectionCompiler
   attr_reader :section, :html
 
@@ -28,12 +29,6 @@ class SectionCompiler
     # This is almost there, but needs to be completly out of the context of a
     # request. Nice start.
     @controller.render "compose", layout: 'layout_module'
-
-     #view = ActionController::Base.new.view_context
-     #view.extend ApplicationHelper
-     #view.extend EditionsHelper
-     #view.instance_variable_set(:@layout_module, LayoutModule.new('sfrecord'))
-     #LayoutModule::View.new(view)
 
     @html = @controller.response_body.first
   end
