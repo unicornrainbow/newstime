@@ -1,13 +1,10 @@
 @Newstime = @Newstime || {}
 
-class @Newstime.HeadlineToolbarView extends Backbone.View
+class @Newstime.HeadlinePropertiesView extends Backbone.View
 
   events:
    'keydown .current-font-size': 'keydownFontSize'
    'keydown .current-font-weight': 'keydownFontWeight'
-
-   'mousedown .title-bar': 'beginDrag'
-   'mouseup .title-bar': 'endDrag'
 
    'keydown .margin-top': 'keydownMarginTop'
    'keydown .margin-bottom': 'keydownMarginBottom'
@@ -23,12 +20,58 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
    'change .headline-alignment': 'changeAlignment'
    'change .headline-style': 'changeStyle'
    'click .headline': 'changeText'
-   'click .dismiss': 'dismiss'
 
-  dismiss: ->
-    @save()
-    @headlineControl = undefined
-    @$el.hide()
+  initialize: ->
+    @palette = new Newstime.PaletteView(title: "Headline")
+    @palette.attach(@$el)
+
+    @palette.bind 'dismiss', =>
+      @headlineControl = undefined
+      @save()
+
+    @$el.addClass('headline-properties')
+
+    @$el.html """
+      <select class="font-family-select">
+        <option value="Exo, sans-serif">Exo</option>
+        <option value="EB Garamond, serif">Garamond</option>
+      </select>
+      <div>
+        <select class="headline-alignment">
+          <option value="left">Left</option>
+          <option value="center">Center</option>
+          <option value="right">Right</option>
+          <option value="justify">Justify</option>
+        </select>
+      </div>
+      <select class="headline-style">
+        <option value="normal">Normal</option>
+        <option value="italic">Italic</option>
+      </select>
+      <br>
+      Size: <input class="nt-control current-font-size"></input>
+      <br>
+      Weight: <input class="nt-control current-font-weight"></input>
+      <br>
+      Margin:
+        <input class="nt-control margin-top"></input>
+        <input class="nt-control margin-bottom"></input>
+      <br>
+      Padding:
+        <input class="nt-control padding-top"></input>
+        <input class="nt-control padding-bottom"></input>
+    """
+    # Selects
+    @$fontSizeInput = @$el.find('.current-font-size')
+    @$fontWeightInput = @$el.find('.current-font-weight')
+    @$fontFamilySelect = @$el.find('.font-family-select')
+    @$headlineAlignment = @$el.find('.headline-alignment')
+    @$headlineStyle = @$el.find('.headline-style')
+
+    @$marginTop = @$el.find('.margin-top')
+    @$marginBottom = @$el.find('.margin-bottom')
+    @$paddingTop = @$el.find('.padding-top')
+    @$paddingBottom = @$el.find('.padding-bottom')
 
   save: ->
     $.ajax
@@ -49,72 +92,6 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
           padding_bottom: @$headline.css('padding-bottom')
 
 
-  moveHandeler: (e) =>
-    @$el.css('top', event.pageY + @topMouseOffset)
-    @$el.css('left', event.pageX + @leftMouseOffset)
-
-  beginDrag: (e) ->
-    # Calulate offsets
-    @topMouseOffset = parseInt(@$el.css('top')) - event.pageY
-    @leftMouseOffset = parseInt(@$el.css('left')) - event.pageX
-
-    $(document).bind('mousemove', @moveHandeler)
-
-  endDrag: (e) ->
-    $(document).unbind('mousemove', @moveHandeler)
-
-  initialize: ->
-    @$el.hide()
-    @$el.addClass('headline-toolbar')
-
-    @$el.html """
-      <div class="title-bar">
-        Headline
-        <span class="dismiss">x</span>
-      </div>
-      <div class="palette-body">
-        <select class="font-family-select">
-          <option value="Exo, sans-serif">Exo</option>
-          <option value="EB Garamond, serif">Garamond</option>
-        </select>
-        <div>
-          <select class="headline-alignment">
-            <option value="left">Left</option>
-            <option value="center">Center</option>
-            <option value="right">Right</option>
-            <option value="justify">Justify</option>
-          </select>
-        </div>
-        <select class="headline-style">
-          <option value="normal">Normal</option>
-          <option value="italic">Italic</option>
-        </select>
-        <br>
-        Size: <input class="nt-control current-font-size"></input>
-        <br>
-        Weight: <input class="nt-control current-font-weight"></input>
-        <br>
-        Margin:
-          <input class="nt-control margin-top"></input>
-          <input class="nt-control margin-bottom"></input>
-        <br>
-        Padding:
-          <input class="nt-control padding-top"></input>
-          <input class="nt-control padding-bottom"></input>
-      </div>
-    """
-    # Selects
-    @$fontSizeInput = @$el.find('.current-font-size')
-    @$fontWeightInput = @$el.find('.current-font-weight')
-    @$fontFamilySelect = @$el.find('.font-family-select')
-    @$headlineAlignment = @$el.find('.headline-alignment')
-    @$headlineStyle = @$el.find('.headline-style')
-
-    @$marginTop = @$el.find('.margin-top')
-    @$marginBottom = @$el.find('.margin-bottom')
-    @$paddingTop = @$el.find('.padding-top')
-    @$paddingBottom = @$el.find('.padding-bottom')
-
   changeText: ->
     text = prompt("Headline Text", @$headline.text())
     text = text.replace('\\n', "<br>")
@@ -131,7 +108,6 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
       @$headline.css('font-size', fontSize)
       @$fontSizeInput.val(fontSize)
 
-
   keydownMarginTop: (e) ->
     switch e.keyCode
       when 38 then delta = 1
@@ -142,7 +118,6 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
       value = "#{parseInt(value)+delta}px"
       @$headline.css('margin-top', value)
       @$marginTop.val(value)
-
 
   keydownMarginBottom: (e) ->
     switch e.keyCode
@@ -166,7 +141,6 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
       value = "#{parseInt(value)+delta}px"
       @$headline.css('padding-top', value)
       @$paddingTop.val(value)
-
 
   keydownPaddingBottom: (e) ->
     switch e.keyCode
@@ -215,7 +189,6 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
   changeFont: (e) ->
     @$headline.css 'font-family': $(e.currentTarget).val()
 
-
   setHeadlineControl: (headlineControl) ->
     # Scroll offset
     doc = document.documentElement
@@ -227,7 +200,7 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
     rect = headlineControl.el.getBoundingClientRect()
 
     #console.log(, rect.right, rect.bottom, rect.left)
-    @$el.css(top: rect.top + top, left: rect.right)
+    @palette.$el.css(top: rect.top + top, left: rect.right)
 
     # Initialize Values
     @headlineControl = headlineControl
@@ -246,5 +219,4 @@ class @Newstime.HeadlineToolbarView extends Backbone.View
     @$paddingTop.val(@$headline.css('padding-top'))
     @$paddingBottom.val(@$headline.css('padding-bottom'))
 
-
-    @$el.show()
+    @palette.show()

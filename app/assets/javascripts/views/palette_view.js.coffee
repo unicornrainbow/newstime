@@ -24,6 +24,9 @@ class @Newstime.PaletteView extends Backbone.View
     @$body = @$el.find('.palette-body')
     @$titleBar = @$el.find('.title-bar')
 
+    # Attach to dom
+    $('body').append(@el)
+
   dismiss: ->
     @trigger 'dismiss'
     @hide()
