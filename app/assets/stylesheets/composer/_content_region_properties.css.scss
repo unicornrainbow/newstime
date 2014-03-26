@@ -1,4 +1,4 @@
-.story-text-tool-palette { /* palette */
+.content-region-properties {
   width: 180px;
   white-space: nowrap;
   left: 0;
@@ -52,13 +52,8 @@
     padding: 8px;
     border-radius: 4px 4px 0 0;
     background-color: #2e3137;
-    cursor: -webkit-grab;
+    cursor: move;
   }
-
-  .title-bar.grabbing {
-    cursor: -webkit-grabbing;
-  }
-
 
   -webkit-user-select: none;
   user-select: none;

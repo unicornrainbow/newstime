@@ -6,7 +6,7 @@ class @Newstime.ContentRegionControlView extends Backbone.View
     'click .content-region-settings': 'showSettings'
 
   initialize: (options) ->
-    console.log "Content Region Control Init"
+    @propertiesView = options.propertiesView
 
     @$el.addClass 'content-region-control-view'
 
@@ -17,7 +17,5 @@ class @Newstime.ContentRegionControlView extends Backbone.View
     """
     @$toolbar.prependTo(@$el)
 
-
   showSettings: ->
-    alert "Show Settings"
-    #console.log "Content Region Control View Clicked"
+    @propertiesView.setContentRegionControl(this)

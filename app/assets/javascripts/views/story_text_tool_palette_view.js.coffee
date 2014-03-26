@@ -41,6 +41,8 @@ class @Newstime.StoryTextToolPaletteView extends Backbone.View
     @$el.css('left', event.pageX + @leftMouseOffset)
 
   beginDrag: (e) ->
+    @$titleBar.addClass('grabbing')
+
     # Calulate offsets
     @topMouseOffset = parseInt(@$el.css('top')) - event.pageY
     @leftMouseOffset = parseInt(@$el.css('left')) - event.pageX
@@ -48,6 +50,7 @@ class @Newstime.StoryTextToolPaletteView extends Backbone.View
     $(document).bind('mousemove', @moveHandeler)
 
   endDrag: (e) ->
+    @$titleBar.removeClass('grabbing')
     $(document).unbind('mousemove', @moveHandeler)
 
   initialize: ->
@@ -61,6 +64,7 @@ class @Newstime.StoryTextToolPaletteView extends Backbone.View
       </div>
       <div class="palette-body">
         <div>
+        Column:
           <select class="story-content-item-columns">
             <option value="1">1</option>
             <option value="2">2</option>
@@ -79,6 +83,7 @@ class @Newstime.StoryTextToolPaletteView extends Backbone.View
 
     @$columnsSelect = @$el.find('.story-content-item-columns')
     @$heightInput = @$el.find('.story-content-item-height')
+    @$titleBar = @$el.find('.title-bar')
 
   setStoryTextControl: (targetControl) ->
     # Scroll offset
