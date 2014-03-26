@@ -64,6 +64,10 @@ class EditionCompiler
       File.write(output_dir.join(javascript_path), result)
     end
 
+    # Fonts
+    # For now, just copy fonts from the media module
+    FileUtils.cp_r "#{Rails.root}/layouts/#{@edition.layout_name}/fonts", output_dir.join('fonts')
+
     # TODO: Collect and render consumed media module assets
     # TODO: Collect and render content assets
     # TODO: Create content manifest
