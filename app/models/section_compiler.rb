@@ -23,6 +23,8 @@ class SectionCompiler
     @controller.instance_variable_set(:@title, @title)
     @controller.instance_variable_set(:@layout_module, @layout_module)
 
+    @controller.send :set_response!, nil #
+
     # This is almost there, but needs to be completly out of the context of a
     # request. Nice start.
     @controller.render "compose", layout: 'layout_module'
@@ -33,7 +35,7 @@ class SectionCompiler
      #view.instance_variable_set(:@layout_module, LayoutModule.new('sfrecord'))
      #LayoutModule::View.new(view)
 
-    @html = "hello"
+    @html = @controller.response_body.first
   end
 
 end
