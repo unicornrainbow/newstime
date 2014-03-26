@@ -3,16 +3,12 @@
 class @Newstime.ContentRegionPropertiesView extends Backbone.View
 
   initialize: ->
-    @$el.hide()
     @$el.addClass('content-region-properties')
 
+    @palette = new Newstime.PaletteView(title: "Content Region")
+    @palette.attach(@$el)
+
     @$el.html """
-      <div class="title-bar">
-        Content Region
-        <span class="dismiss"></span>
-      </div>
-      <div class="palette-body">
-      </div>
     """
 
     @$columnsSelect = @$el.find('.story-content-item-columns')
@@ -27,7 +23,7 @@ class @Newstime.ContentRegionPropertiesView extends Backbone.View
 
     # Bind to and position the tool-palette
     rect = targetControl.el.getBoundingClientRect()
-    @$el.css(top: rect.top + top, left: rect.right)
+    @palette.$el.css(top: rect.top + top, left: rect.right)
 
     # Initialize Values
     #@$storyText = targetControl.$el
@@ -43,4 +39,4 @@ class @Newstime.ContentRegionPropertiesView extends Backbone.View
         #@$columnsSelect.val(data['columns'])
         #@$heightInput.val(data['height'])
 
-    @$el.show()
+    @palette.show()
