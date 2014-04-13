@@ -8,7 +8,8 @@ gem 'bootstrap-sass', '~> 3.1.1'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
-gem 'jbuilder', '~> 1.2'
+gem 'rabl'
+gem 'oj'
 gem 'dotenv-rails', group: [:test, :development, :production]
 gem "redcarpet"
 gem "wikicloth", git: "https://github.com/nricciar/wikicloth.git"

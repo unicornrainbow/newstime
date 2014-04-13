@@ -29,11 +29,14 @@ class @Newstime.StoryPropertiesView extends Backbone.View
       Height:
       <input class="nt-control story-content-item-height"></input>
       <br>
+      <a class="story-link" href="">Story</a>
+      <br>
       <a class="story-delete">Delete</a>
     """
 
     @$columnsSelect = @$el.find('.story-content-item-columns')
     @$heightInput = @$el.find('.story-content-item-height')
+    @$storkLink = @$el.find('.story-link')
 
   delete: ->
     if confirm 'Click OK to delete story'
@@ -72,6 +75,7 @@ class @Newstime.StoryPropertiesView extends Backbone.View
     @$storyText = targetControl.$el
     @storyTextId = @$storyText.data('story-text-id')
 
+
     # Request values from the backend.
     $.ajax
       type: "GET"
@@ -81,5 +85,7 @@ class @Newstime.StoryPropertiesView extends Backbone.View
       success: (data) =>
         @$columnsSelect.val(data['columns'])
         @$heightInput.val(data['height'])
+        @$storkLink.text(data['story']['name'])
+        @$storkLink.attr(href: data['story']['url'])
 
     @palette.show()
