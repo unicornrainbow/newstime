@@ -3,7 +3,8 @@
 class @Newstime.StoryPropertiesView extends Backbone.View
 
   events:
-   'click .story-delete': 'delete'
+    'click .story-delete': 'delete'
+    'click .story-reflow': 'reflow'
 
   initialize: ->
     @palette = new Newstime.PaletteView(title: "Story")
@@ -31,6 +32,8 @@ class @Newstime.StoryPropertiesView extends Backbone.View
       <br>
       <a class="story-link" href="">Story</a>
       <br>
+      <a class="story-reflow">Reflow</a>
+      <br>
       <a class="story-delete">Delete</a>
     """
 
@@ -49,6 +52,16 @@ class @Newstime.StoryPropertiesView extends Backbone.View
           # Delete the node and hide palette
           @$storyText.remove()
           @palette.hide()
+
+
+  # Reflows the story
+  reflow: ->
+    alert 'ad'
+    $.ajax
+      type: "PUT"
+      url: "/content_items/#{@storyTextId}.json"
+      data:
+        authenticity_token: Newstime.Composer.authenticityToken
 
   save: ->
     $.ajax
@@ -74,7 +87,6 @@ class @Newstime.StoryPropertiesView extends Backbone.View
     # Initialize Values
     @$storyText = targetControl.$el
     @storyTextId = @$storyText.data('story-text-id')
-
 
     # Request values from the backend.
     $.ajax
