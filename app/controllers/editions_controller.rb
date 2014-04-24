@@ -84,6 +84,7 @@ class EditionsController < ApplicationController
   end
 
   def download
+    render layout: false
   end
 
   def compile

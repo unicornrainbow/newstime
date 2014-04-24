@@ -1,1 +1,37 @@
-Download
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Press</title>
+  <%= composer_stylesheet  %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <%= render 'flash' %>
+
+  <%= @edition %>
+  <ol class="download-progress-bar">
+    <li>
+      Print
+    </li>
+    <li>
+      Sign
+    </li>
+    <li>
+      Deliver
+    </li>
+  </ol>
+
+  <br>
+  <p class="lead">
+    Here you can print a virtual copy of your edition. Once printed, it can be signed and distributed to your readers.
+  </p>
+  <p class="lead">
+    <strong>All set to print?</strong>
+    <br>
+    Press the print button to kick things off &amp; continue now.
+  </p>
+  <input type="button" value="Print Edition">
+
+
+</body>
+</html>
