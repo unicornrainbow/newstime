@@ -65,11 +65,7 @@ class EditionsController < ApplicationController
 
   def update
     @edition = Edition.find(params[:id])
-    if @edition.update_attributes(edition_params)
-      flash[:notice] = "Update Succeeded"
-    else
-      flash[:notice] = "Update Failed"
-    end
+    @edition.update_attributes(edition_params)
     redirect_to :back
   end
 
