@@ -28,7 +28,6 @@
 <body>
   <%= render 'flash' %>
 
-  <%= @edition %>
   <ol id="download-progress-bar" class="horizontal-list">
     <li class="current-step">
       Print
@@ -43,15 +42,18 @@
 
   <br>
   <p class="lead">
-    Here you can print a virtual copy of your edition. Once printed, it can be signed and distributed to your readers.
+    Here you can print a virtual copy of your edition. Once printed, it can be
+    signed and distributed to your readers.
   </p>
   <p class="lead">
     <strong>All set to print?</strong>
     <br>
     Press the print button to kick things off &amp; continue now.
   </p>
-  <input type="button" value="Print Edition">
 
+  <%= button_to "Print Edition", edition_path(@edition, edition: { state_event: :print }), :class => "", :method => :put %>
 
-</body>
+  Button should post to edition controller with a state transition.
+
+  </body>
 </html>
