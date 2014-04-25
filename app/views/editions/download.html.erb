@@ -28,32 +28,105 @@
 <body>
   <%= render 'flash' %>
 
-  <ol id="download-progress-bar" class="horizontal-list">
-    <li class="current-step">
-      Print
-    </li>
-    <li>
-      Sign
-    </li>
-    <li>
-      Deliver
-    </li>
-  </ol>
+  <% if @edition.initial? %>
+    <ol id="download-progress-bar" class="horizontal-list">
+      <li class="current-step">
+        Print
+      </li>
+      <li>
+        Sign
+      </li>
+      <li>
+        Deliver
+      </li>
+    </ol>
 
-  <br>
-  <p class="lead">
-    Here you can print a virtual copy of your edition. Once printed, it can be
-    signed and distributed to your readers.
-  </p>
-  <p class="lead">
-    <strong>All set to print?</strong>
     <br>
-    Press the print button to kick things off &amp; continue now.
-  </p>
+    <p class="lead">
+      Here you can print a virtual copy of your edition. Once printed, it can be
+      signed and distributed to your readers.
+    </p>
+    <p class="lead">
+      <strong>All set to print?</strong>
+      <br>
+      Press the print button to kick things off &amp; continue now.
+    </p>
 
-  <%= button_to "Print Edition", edition_path(@edition, edition: { state_event: :print }), :class => "", :method => :put %>
+    <%= button_to "Print Edition", edition_path(@edition, edition: { state_event: :print }), :class => "", :method => :put %>
 
-  Button should post to edition controller with a state transition.
+    Button should post to edition controller with a state transition.
+  <% end -%>
 
-  </body>
+  <% if @edition.printing? %>
+    <ol id="download-progress-bar" class="horizontal-list">
+      <li class="current-step">
+        Print
+      </li>
+      <li>
+        Sign
+      </li>
+      <li>
+        Deliver
+      </li>
+    </ol>
+    <br>
+    Printing
+
+    <%= button_to "Force Printing Complete", edition_path(@edition, edition: { state_event: :printing_complete }), :class => "", :method => :put %>
+  <% end -%>
+
+  <% if @edition.printed? %>
+    <ol id="download-progress-bar" class="horizontal-list">
+      <li>
+        Print
+      </li>
+      <li class="current-step">
+        Sign
+      </li>
+      <li>
+        Deliver
+      </li>
+    </ol>
+    <br>
+    Printed
+    <%= button_to "Sign Edition", edition_path(@edition, edition: { state_event: :sign }), :class => "", :method => :put %>
+  <% end -%>
+
+  <% if @edition.signed? %>
+    <ol id="download-progress-bar" class="horizontal-list">
+      <li>
+        Print
+      </li>
+      <li>
+        Sign
+      </li>
+      <li class="current-step">
+        Deliver
+      </li>
+    </ol>
+    <br>
+    Signed
+    <%= button_to "Deliver Edition", edition_path(@edition, edition: { state_event: :deliver }), :class => "", :method => :put %>
+  <% end -%>
+
+
+  <% if @edition.delivered? %>
+    <ol id="download-progress-bar" class="horizontal-list">
+      <li>
+        Print
+      </li>
+      <li>
+        Sign
+      </li>
+      <li>
+        Deliver
+      </li>
+    </ol>
+    <br>
+    Published!
+
+    <%= button_to "Reset", edition_path(@edition, edition: { state_event: :reset }), :class => "", :method => :put %>
+  <% end -%>
+
+</body>
 </html>

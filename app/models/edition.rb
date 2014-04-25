@@ -45,6 +45,10 @@ class Edition
     event :deliver do
       transition :signed => :delivered
     end
+
+    event :reset do
+      transition any => :initial
+    end
   end
 
   ## Liquid
