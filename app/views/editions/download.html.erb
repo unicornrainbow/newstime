@@ -53,8 +53,6 @@
     </p>
 
     <%= button_to "Print Edition", edition_path(@edition, edition: { state_event: :print }), :class => "", :method => :put %>
-
-    Button should post to edition controller with a state transition.
   <% end -%>
 
   <% if @edition.printing? %>
