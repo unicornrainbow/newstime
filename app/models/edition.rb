@@ -19,7 +19,6 @@ class Edition
   # A default option inherited by the sections when template name isn't set
   field :default_section_template_name, type: String, default: "sections/default"
 
-
   has_mongoid_attached_file :compiled_editon  # The compiled version for signing and distribution.
   has_mongoid_attached_file :signature        # The signature to match the compiled version.
 
@@ -29,6 +28,24 @@ class Edition
   belongs_to :publication, inverse_of: :editions
 
   accepts_nested_attributes_for :sections
+
+  state_machine :state, initial: :initial do
+    event :print do
+      transition :initial => :printing
+    end
+
+    event :printing_complete do
+      transition :printing => :printed
+    end
+
+    event :sign do
+      transition :printed => :signed
+    end
+
+    event :deliver do
+      transition :signed => :delivered
+    end
+  end
 
   ## Liquid
   liquid_methods :title

@@ -28,6 +28,7 @@ gem "simple-form-datepicker", "~> 0.1.3"
 gem "crawdad", git: "https://github.com/blakefrost/crawdad.git", branch: "newstime"
 gem "nokogiri", "~> 1.6.0"
 gem "dalli", '~> 2.6.4'
+gem 'state_machine', '~> 1.2.0'
 
 gem 'compass-rails'
 
