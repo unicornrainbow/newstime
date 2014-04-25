@@ -34,7 +34,7 @@ class Edition
       transition :initial => :printing
     end
 
-    event :printing_complete do
+    event :print_complete do
       transition :printing => :printed
     end
 
@@ -42,8 +42,8 @@ class Edition
       transition :printed => :signed
     end
 
-    event :deliver do
-      transition :signed => :delivered
+    event :publish do
+      transition :signed => :published
     end
 
     event :reset do

@@ -37,7 +37,7 @@
         Sign
       </li>
       <li>
-        Deliver
+        Publish
       </li>
     </ol>
 
@@ -66,13 +66,13 @@
         Sign
       </li>
       <li>
-        Deliver
+        Publish
       </li>
     </ol>
     <br>
     Printing
 
-    <%= button_to "Force Printing Complete", edition_path(@edition, edition: { state_event: :printing_complete }), :class => "", :method => :put %>
+    <%= button_to "Force Printing Complete", edition_path(@edition, edition: { state_event: :print_complete }), :class => "", :method => :put %>
   <% end -%>
 
   <% if @edition.printed? %>
@@ -84,7 +84,7 @@
         Sign
       </li>
       <li>
-        Deliver
+        Publish
       </li>
     </ol>
     <br>
@@ -101,16 +101,16 @@
         Sign
       </li>
       <li class="current-step">
-        Deliver
+        Publish
       </li>
     </ol>
     <br>
     Signed
-    <%= button_to "Deliver Edition", edition_path(@edition, edition: { state_event: :deliver }), :class => "", :method => :put %>
+    <%= button_to "Publish Edition", edition_path(@edition, edition: { state_event: :publish }), :class => "", :method => :put %>
   <% end -%>
 
 
-  <% if @edition.delivered? %>
+  <% if @edition.published? %>
     <ol id="download-progress-bar" class="horizontal-list">
       <li>
         Print
@@ -119,7 +119,7 @@
         Sign
       </li>
       <li>
-        Deliver
+        Publish
       </li>
     </ol>
     <br>
