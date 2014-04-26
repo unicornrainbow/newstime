@@ -72,6 +72,8 @@ class EditionCompiler
     # TODO: Collect and render content assets
     # TODO: Create content manifest
     # TODO: Zip and assocaiet with edition
+
+    @edition.print_complete
   end
 
 end

@@ -19,7 +19,7 @@ class Edition
   # A default option inherited by the sections when template name isn't set
   field :default_section_template_name, type: String, default: "sections/default"
 
-  has_mongoid_attached_file :compiled_editon  # The compiled version for signing and distribution.
+  has_mongoid_attached_file :compiled_edition  # The compiled version for signing and distribution.
   has_mongoid_attached_file :signature        # The signature to match the compiled version.
 
   ## Relationships
@@ -30,7 +30,9 @@ class Edition
   accepts_nested_attributes_for :sections
 
   state_machine :state, initial: :initial do
-    event :print do
+    before_transition :initial => :printing, do: :queue_print
+
+    event :print_start do
       transition :initial => :printing
     end
 
@@ -49,6 +51,10 @@ class Edition
     event :reset do
       transition any => :initial
     end
+  end
+
+  def queue_print
+    EditionsPrintWorker.perform_async(id.to_s)
   end
 
   ## Liquid

@@ -52,7 +52,7 @@
       Press the print button to kick things off &amp; continue now.
     </p>
 
-    <%= button_to "Print Edition", edition_path(@edition, edition: { state_event: :print }), :class => "", :method => :put %>
+    <%= button_to "Print Edition", edition_path(@edition, edition: { state_event: :print_start }), :class => "", :method => :put %>
   <% end -%>
 
   <% if @edition.printing? %>

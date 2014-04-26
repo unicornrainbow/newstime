@@ -1,8 +1,9 @@
+require 'sidekiq/web'
+
 Press::Application.routes.draw do
   root to: redirect('/editions')
 
   devise_for :users, controllers: { sessions: "sessions" }
-  #devise_for :admin_user
 
   resources :editions do
     resources :sections
@@ -57,7 +58,6 @@ Press::Application.routes.draw do
     end
   end
 
-
   resources :sections do
     resources :pages
     member do
@@ -79,6 +79,8 @@ Press::Application.routes.draw do
   scope controller: :webpages do
     get :lbs_demo
   end
+
+  mount Sidekiq::Web, at: "/sidekiq"
 
   # Active 404
   match "*a", :to => "application#routing_error", via: [:get, :post]

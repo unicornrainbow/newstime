@@ -30,6 +30,7 @@ gem "nokogiri", "~> 1.6.0"
 gem "dalli", '~> 2.6.4'
 gem 'state_machine', '~> 1.2.0'
 gem 'sidekiq' #, '~> 3.0.0'
+gem 'sinatra'
 
 gem 'compass-rails'
 

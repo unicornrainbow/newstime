@@ -95,6 +95,10 @@ after_fork do |server, worker|
   defined?(ActiveRecord::Base) and
     ActiveRecord::Base.establish_connection
 
+  Sidekiq.configure_client do |config|
+    config.redis = { :url => 'redis://localhost:6379/12', :namespace => 'newstime_development' }
+  end
+
   # if preload_app is true, then you may also want to check and
   # restart any other shared sockets/descriptors such as Memcached,
   # and Redis.  TokyoCabinet file handles are safe to reuse
