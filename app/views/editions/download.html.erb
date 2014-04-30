@@ -126,5 +126,16 @@
     <%= button_to "Reset", edition_path(@edition, edition: { state_event: :reset }), :class => "", :method => :put %>
   <% end -%>
 
+  <%= javascript_include_tag 'composer' %>
+
+  <script type="text/javascript" charset="utf-8">
+    $(function() {
+      var faye = new Faye.Client('http://localhost:9292/faye');
+      faye.subscribe('/messages/new', function (data) {
+        alert(data);
+      });
+    });
+  </script>
+
 </body>
 </html>

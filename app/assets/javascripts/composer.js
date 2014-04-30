@@ -1,6 +1,7 @@
 //= require lib/zepto
 //= require lib/underscore
 //= require lib/backbone
+//= require faye
 //
 // ## Plugins
 //= require newstime_util
