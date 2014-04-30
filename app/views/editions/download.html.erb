@@ -69,8 +69,6 @@
     </ol>
     <br>
     Printing
-
-    <%= button_to "Force Printing Complete", edition_path(@edition, edition: { state_event: :print_complete }), :class => "", :method => :put %>
   <% end -%>
 
   <% if @edition.printed? %>
@@ -127,6 +125,15 @@
   <% end -%>
 
   <%= javascript_include_tag 'composer' %>
+
+  <script type="text/javascript" charset="utf-8">
+    $(function() {
+      var faye = new Faye.Client('<%= FAYE_URL %>');
+      faye.subscribe('/editions/<%= @edition.id.to_s %>', function (data) {
+        location.reload();
+      });
+    });
+  </script>
 
 </body>
 </html>
