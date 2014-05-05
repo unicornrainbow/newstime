@@ -7,6 +7,7 @@ Press::Application.routes.draw do
 
   resources :editions do
     resources :sections
+    resources :prints
     member do
       get :compose
       asset_routes = lambda do

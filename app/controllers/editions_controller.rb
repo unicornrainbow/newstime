@@ -70,8 +70,7 @@ class EditionsController < ApplicationController
   end
 
   def show
-    @edition = Edition.find(params[:id])
-    @sections = @edition.sections
+    redirect_to action: :compose
   end
 
   def destroy

@@ -10,10 +10,10 @@
       <li id="section-tab">
         <a>Section</a></li>
       <li>
-        <%= link_to "Preview", "#{preview_edition_path(@edition)}/#{@section.path}" %>
+        <%= link_to "Preview", "#{preview_edition_path(@edition)}/#{@section.path}"%>
       </li>
-      <li>
-        <%= link_to "Download", download_edition_path(@edition) %>
+      <li id="prints-tab">
+        <a>Prints</a></li>
       </li>
     </ul>
     </nav>
@@ -36,6 +36,11 @@
   <div class="compose-toolbar-panel" id="section-tab-panel">
     <div class="container">
       <%= render 'sections/form', section: @section %>
+    </div>
+  </div>
+  <div class="compose-toolbar-panel" id="prints-tab-panel">
+    <div class="container">
+      Prints
     </div>
   </div>
 </div>
