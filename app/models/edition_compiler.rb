@@ -73,9 +73,6 @@ class EditionCompiler
     # TODO: Create content manifest
     # TODO: Zip and assocaiet with edition
 
-
-    # Trigger print complete event on the edition.
-    @edition.print_complete
   end
 
 end

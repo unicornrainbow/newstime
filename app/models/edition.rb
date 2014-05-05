@@ -5,7 +5,7 @@ class Edition
 
   ## Attributes
   field :name,         type: String
-  field :page_title,        type: String
+  field :page_title,   type: String
   field :path,         type: String
   field :created_at,   type: Time
   field :html,         type: String     # The render html source markup
@@ -24,6 +24,7 @@ class Edition
 
   ## Relationships
   has_many :sections, :order => :sequence.asc
+  has_many :prints, :order => :created_at.asc
   belongs_to :organization
   belongs_to :publication, inverse_of: :editions
 
