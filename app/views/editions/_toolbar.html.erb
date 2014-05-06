@@ -20,7 +20,7 @@
         <%= link_to "Preview", "#{preview_edition_path(@edition)}/#{@section.path}" %>
       </li>
       <li>
-        <%= link_to "Prints", edition_prints_path(@edition, return_to: request.fullpath) %>
+        <%= link_to "Prints", edition_prints_path(@edition) %>
       </li>
     </ul>
     </nav>

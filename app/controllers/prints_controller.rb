@@ -3,7 +3,6 @@ class PrintsController < ApplicationController
   before_filter :find_edition, only: [:index]
 
   def index
-    session[:return_to] = params[:return_to]
   end
 
 private

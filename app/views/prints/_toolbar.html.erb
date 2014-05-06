@@ -6,10 +6,7 @@
     <nav>
     <ul>
       <li>
-        <%= link_to "Edition", session[:return_to] || compose_edition_path(edition) %>
-      </li>
-      <li>
-        <%= link_to "Preview", "#{preview_edition_path(@edition)}"%>
+        <%= link_to "Edition", compose_edition_path(edition) %>
       </li>
       <li class="active">
         <%= link_to "Prints", edition_prints_path(@edition) %>
