@@ -2,18 +2,19 @@
 class EditionsPrintWorker
   include Sidekiq::Worker
 
-  def perform(edition_id)
+  def perform(print_id)
     # TODO: This should be move to a service class
-    logger.info "Edition Compile Beginning"
-    edition = Edition.find(edition_id)
-    EditionCompiler.new(edition).compile!
+    logger.info "Print #{print_id} Beginning"
+    print = Print.find(print_id)
+    edition = print.edition
+    compiler = EditionCompiler.new(edition)
+    compiler.compile!
 
-    # Create a new print object
-    edition.prints.create
+    # TODO: Need convention for where to print is to be stored on disk.
 
     # Trigger print complete event on the edition.
-    edition.print_complete
+    print.print_complete
 
-    logger.info "Edition Compile Complete"
+    logger.info "Print #{print_id} Complete"
   end
 end

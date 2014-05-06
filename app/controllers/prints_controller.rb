@@ -7,12 +7,12 @@ class PrintsController < ApplicationController
   end
 
   def show
-    render text: "Show Print"
-
+    # TODO: Return printed assets from disk or other backend
   end
 
   def create
     @print = @edition.prints.create
+    @print.print_start
     redirect_to :back, notice: "Print Started"
   end
 

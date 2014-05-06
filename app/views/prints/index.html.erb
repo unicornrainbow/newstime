@@ -10,12 +10,14 @@
         <thead>
           <tr>
             <th>Printed At</th>
+            <th>Status</th>
             <th>Actions</th>
           </tr>
         </thead>
         <% @prints.each do |print| %>
           <tr>
             <td><%= link_to format_date_and_time(print.created_at), print_path(print) %></td>
+            <td><%= print.state %></td>
             <td>
               <%= link_to "Download", "" %>
               <%= link_to "Attach Signature", "" %>
