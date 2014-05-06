@@ -6,14 +6,21 @@
     <nav>
     <ul>
       <li id="edition-tab">
-        <a>Edition</a></li>
-      <li id="section-tab">
-        <a>Section</a></li>
-      <li>
-        <%= link_to "Preview", "#{preview_edition_path(@edition)}/#{@section.path}"%>
+        <a>Edition</a>
       </li>
-      <li id="prints-tab">
-        <a>Prints</a></li>
+      <li id="section-tab">
+        <a>Section</a>
+      </li>
+    </ul>
+    </nav>
+
+    <nav>
+    <ul>
+      <li>
+        <%= link_to "Preview", "#{preview_edition_path(@edition)}/#{@section.path}" %>
+      </li>
+      <li>
+        <%= link_to "Prints", edition_prints_path(@edition, return_to: request.fullpath) %>
       </li>
     </ul>
     </nav>
