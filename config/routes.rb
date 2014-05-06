@@ -34,7 +34,11 @@ Press::Application.routes.draw do
     end
   end
 
-  resources :prints
+  resources :prints do
+    member do
+      get :download
+    end
+  end
 
   resources :mastheads do
     member do
