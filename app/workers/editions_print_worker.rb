@@ -16,7 +16,7 @@ class EditionsPrintWorker
     FileUtils.rmdir print.share_path
     FileUtils.mv compiler.output_dir, print.share_path
 
-    # TODO: Zip Print
+    print.zip!
 
     # Trigger print complete event on the edition.
     print.print_complete

@@ -43,14 +43,22 @@ class Print
     !["initial", "printing"].include?(state)
   end
 
+  def edition_share_path
+    "#{Rails.root}/share/compiled_editions/#{edition.id.to_s}"
+  end
+
   # Share path on disk where the print is stored
   def share_path
-    "#{Rails.root}/share/compiled_editions/#{edition.id.to_s}/#{id.to_s}"
+    "#{edition_share_path}/#{id.to_s}"
   end
 
   def zip_path
     "#{share_path}.zip"
   end
 
+  # Zips the output
+  def zip!
+    system "cd #{edition_share_path}; zip -r #{id.to_s}.zip #{id.to_s}"
+  end
 
 end
