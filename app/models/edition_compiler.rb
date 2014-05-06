@@ -1,19 +1,20 @@
 require 'fileutils'
+require 'securerandom'
 
 # Compile and entire edition
 class EditionCompiler
 
-  attr_reader :edition, :html
+  attr_reader :edition, :html, :output_dir
 
   def initialize(edition)
     @edition = edition
   end
 
   def compile!
-    output_dir = Rails.root.join('tmp', 'compiled_editions', @edition.id)
+    @output_dir = Rails.root.join('tmp', 'prints', SecureRandom.hex)
     # Clean output directory
     #FileUtils.rm_rf output_dir
-    FileUtils.mkdir_p output_dir
+    FileUtils.mkdir_p @output_dir
 
     sections = edition.sections
     stylesheet_assets = []
@@ -23,7 +24,7 @@ class EditionCompiler
       sc.compile!
       stylesheet_assets += sc.asset_recorder.stylesheet_assets
       javascript_assets += sc.asset_recorder.javascript_assets
-      File.write(output_dir.join(section.path), sc.html)
+      File.write(@output_dir.join(section.path), sc.html)
     end
 
     environment = Sprockets::Environment.new
@@ -50,8 +51,8 @@ class EditionCompiler
       path = stylesheet_path.split('/').tap(&:shift).join('/') # Remove leading stylesheet/
       result = environment[path]
 
-      FileUtils.mkdir_p File.expand_path('..', output_dir.join(stylesheet_path))
-      File.write(output_dir.join(stylesheet_path), result)
+      FileUtils.mkdir_p File.expand_path('..', @output_dir.join(stylesheet_path))
+      File.write(@output_dir.join(stylesheet_path), result)
     end
 
     # Javascripts
@@ -60,13 +61,13 @@ class EditionCompiler
       path = javascript_path.split('/').tap(&:shift).join('/') # Remove leading javascript/
       result = environment[path]
 
-      FileUtils.mkdir_p File.expand_path('..', output_dir.join(javascript_path))
-      File.write(output_dir.join(javascript_path), result)
+      FileUtils.mkdir_p File.expand_path('..', @output_dir.join(javascript_path))
+      File.write(@output_dir.join(javascript_path), result)
     end
 
     # Fonts
     # For now, just copy fonts from the media module
-    FileUtils.cp_r "#{Rails.root}/layouts/#{@edition.layout_name}/fonts", output_dir.join('fonts')
+    FileUtils.cp_r "#{Rails.root}/layouts/#{@edition.layout_name}/fonts", @output_dir.join('fonts')
 
     # TODO: Collect and render consumed media module assets
     # TODO: Collect and render content assets
