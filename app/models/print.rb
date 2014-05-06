@@ -39,4 +39,8 @@ class Print
     Net::HTTP.post_form(uri, :message => message.to_json)
   end
 
+  def print_complete?
+    !["initial", "printing"].include?(state)
+  end
+
 end
