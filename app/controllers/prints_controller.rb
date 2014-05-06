@@ -19,7 +19,7 @@ class PrintsController < ApplicationController
   def download
     @print = Print.find(params["id"])
     @edition = @print.edition
-    send_file @print.zip_path, filename: "#{@edition.name} #{@print.created_at.localtime.strftime("%F %r")}"
+    send_file @print.zip_path, filename: "#{@edition.name} #{@print.created_at.localtime.strftime("%F %r")}.zip"
   end
 
 private
