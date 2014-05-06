@@ -68,7 +68,11 @@ module ApplicationHelper
   end
 
   def format_date(date)
-    date.try(:strftime, "%D")
+    date.localtime.try(:strftime, "%D")
+  end
+
+  def format_date_and_time(date)
+    date.localtime.try(:strftime, "%D %l:%M%P")
   end
 
 end

@@ -24,7 +24,7 @@ class Edition
 
   ## Relationships
   has_many :sections, :order => :sequence.asc
-  has_many :prints, :order => :created_at.asc
+  has_many :prints, :order => :created_at.desc
   belongs_to :organization
   belongs_to :publication, inverse_of: :editions
 
