@@ -2,7 +2,20 @@ class Print
   include Mongoid::Document
   include Mongoid::Timestamps
 
+  # The version number should be incremended with each sequential print. I
+  # should be set based on a query when the print is created.
+  field :version, type: Integer, default: 1
+
+  before_create :set_version
+
   belongs_to :edition
+
+  def set_version
+    previous_print = edition.prints.order_by(:version.desc).first
+    if previous_print
+      self.version = previous_print.version + 1
+    end
+  end
 
   state_machine :state, initial: :initial do
     before_transition :initial => :printing, do: :queue_print
@@ -30,7 +43,8 @@ class Print
   end
 
   def name
-    "#{edition.name.underscore.gsub(/[^a-z\s]/, '').gsub(' ', '_')}_#{created_at.localtime.strftime('%Y%m%d%H%M%S')}"
+    stripped_name = edition.name.underscore.gsub(/[^a-z\s]/, '').gsub(' ', '_')
+    "#{stripped_name}_v#{version}"
   end
 
   def queue_print
