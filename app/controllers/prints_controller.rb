@@ -18,6 +18,12 @@ class PrintsController < ApplicationController
     send_file @print.zip_path
   end
 
+  def show
+    @edition = Edition.find(params["edition_id"])
+    @print = @edition.prints.where(version: params["version"]).first # Look up by version
+    send_file "#{@print.share_path}/#{params[:path]}.#{params[:format]}", disposition: :inline
+  end
+
   def view
     @print = Print.find(params["id"])
     send_file "#{@print.share_path}/#{params[:path]}.#{params[:format]}", disposition: :inline

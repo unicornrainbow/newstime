@@ -7,7 +7,13 @@ Press::Application.routes.draw do
 
   resources :editions do
     resources :sections
-    resources :prints
+    resources :prints, except: 'show' do
+      collection do
+        get ':version/*path' => :show
+      end
+    end
+
+
     member do
       get :compose
       asset_routes = lambda do
@@ -34,7 +40,7 @@ Press::Application.routes.draw do
     end
   end
 
-  resources :prints do
+  resources :prints, except: 'show' do
     member do
       get :download
       get 'view/*path' => :view, :defaults => { :format => "html" }
