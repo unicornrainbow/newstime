@@ -37,6 +37,7 @@ Press::Application.routes.draw do
   resources :prints do
     member do
       get :download
+      get 'view/*path' => :view, :defaults => { :format => "html" }
     end
   end
 

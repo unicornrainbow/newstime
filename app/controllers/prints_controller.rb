@@ -6,10 +6,6 @@ class PrintsController < ApplicationController
     @prints = @edition.prints
   end
 
-  def show
-    # TODO: Return printed assets from disk or other backend
-  end
-
   def create
     @print = @edition.prints.create
     @print.print_start
@@ -20,6 +16,11 @@ class PrintsController < ApplicationController
     @print = Print.find(params["id"])
     @edition = @print.edition
     send_file @print.zip_path
+  end
+
+  def view
+    @print = Print.find(params["id"])
+    send_file "#{@print.share_path}/#{params[:path]}.#{params[:format]}", disposition: :inline
   end
 
 private
