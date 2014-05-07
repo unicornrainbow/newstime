@@ -1,0 +1,25 @@
+<tr>
+  <% if print.print_complete? %>
+    <td><%= link_to format_date_and_time(print.created_at), show_edition_print_path(edition.to_param, print.version, path: 'main.html') %></td>
+  <% else -%>
+    <td><%= format_date_and_time(print.created_at)%></td>
+  <% end -%>
+  <td><%= print.version %></td>
+  <td><%= print.state %></td>
+  <td>
+    <% if print.initial? %>
+    <% elsif print.printing? %>
+    <% elsif print.printed? %>
+      <%= link_to "Download", download_print_path(print) %> |
+      <%= link_to "Attach Signature", "" %>
+    <% elsif print.signed? %>
+      <%= link_to "Download", download_print_path(print) %> |
+      <%= link_to "Publish", "" %>
+    <% elsif print.published? %>
+      <%= link_to "Download", download_print_path(print) %> |
+      <%= link_to "View Dashboard", "" %> |
+      <%= link_to "View in Store", "" %>
+    <% end %>
+
+  </td>
+</tr>

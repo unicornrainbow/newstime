@@ -16,20 +16,7 @@
           </tr>
         </thead>
         <% @prints.each do |print| %>
-          <tr>
-            <% if print.print_complete? %>
-              <td><%= link_to format_date_and_time(print.created_at), show_edition_print_path(@edition.to_param, print.version, path: 'main.html') %></td>
-            <% else -%>
-              <td><%= format_date_and_time(print.created_at)%></td>
-            <% end -%>
-            <td><%= print.version %></td>
-            <td><%= print.state %></td>
-            <td>
-              <%= link_to "Download", download_print_path(print) %>
-              <%= link_to "Attach Signature", "" %>
-              <%= link_to "Publish", "" %>
-            </td>
-          <tr>
+          <%= render 'print_detail', print: print, edition: @edition %>
         <% end %>
       </table>
     </div>
