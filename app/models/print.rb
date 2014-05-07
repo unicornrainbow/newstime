@@ -29,6 +29,10 @@ class Print
     end
   end
 
+  def name
+    id.to_s
+  end
+
   def queue_print
     EditionsPrintWorker.perform_async(id.to_s)
   end
@@ -53,12 +57,12 @@ class Print
   end
 
   def zip_path
-    "#{share_path}.zip"
+    "#{share_path}/#{name}.zip"
   end
 
   # Zips the output
   def zip!
-    system "cd #{edition_share_path}; zip -r #{id.to_s}.zip #{id.to_s}"
+    system "cd #{share_path}; zip -r #{name}.zip ."
   end
 
 end
