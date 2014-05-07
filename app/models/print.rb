@@ -76,13 +76,14 @@ class Print
     "#{share_path}/#{name}.zip"
   end
 
+  # Creates the webpub manifest on disk if one doesn't exist.
+  def add_webpub_manifest!
+    system "cd #{share_path}; #{Rails.root.join('script/create_manifest')} #{edition.store_link}"
+  end
+
   # Zips the output
   def zip!
     system "cd #{share_path}; zip -r #{name}.zip ."
-  end
-
-  def add_webpub_manifest
-    system "cd #{share_path}; #{Rails.root.join('script/create_manifest')} #{edition.store_link}"
   end
 
 end

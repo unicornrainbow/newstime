@@ -16,6 +16,8 @@ class EditionsPrintWorker
     FileUtils.rmdir print.share_path
     FileUtils.mv compiler.output_dir, print.share_path
 
+    print.add_webpub_manifest!
+
     print.zip!
 
     # Trigger print complete event on the edition.
