@@ -29,10 +29,20 @@ class PrintsController < ApplicationController
     send_file "#{@print.share_path}/#{params[:path]}.#{params[:format]}", disposition: :inline
   end
 
+  def update
+    @print = Print.find(params[:id])
+    @print.update_attributes(print_params)
+    redirect_to :back
+  end
+
 private
 
   def find_edition
     @edition = Edition.find(params[:edition_id])
+  end
+
+  def print_params
+    params.require(:print).permit(:signature)
   end
 
 end

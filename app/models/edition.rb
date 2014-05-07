@@ -19,9 +19,6 @@ class Edition
   # A default option inherited by the sections when template name isn't set
   field :default_section_template_name, type: String, default: "sections/default"
 
-  has_mongoid_attached_file :compiled_edition  # The compiled version for signing and distribution.
-  has_mongoid_attached_file :signature        # The signature to match the compiled version.
-
   ## Relationships
   has_many :sections, :order => :sequence.asc
   has_many :prints, :order => :created_at.desc

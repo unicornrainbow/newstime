@@ -3,12 +3,16 @@ require 'digest/sha1'
 class Print
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Mongoid::Paperclip
+
+  has_mongoid_attached_file :signature        # The signature to match the compiled version.
 
   # The version number should be incremended with each sequential print. I
   # should be set based on a query when the print is created.
   field :version, type: Integer, default: 1
 
   before_create :set_version
+  before_save :check_for_signature
 
   belongs_to :edition
 
@@ -47,6 +51,14 @@ class Print
   def name
     stripped_name = edition.name.underscore.gsub(/[^a-z\s]/, '').gsub(' ', '_')
     "#{stripped_name}_v#{version}"
+  end
+
+  # Checks for being added, if found, marks as signed.
+  def check_for_signature
+    if signature_file_name_changed?
+      sign if signature.present?
+    end
+    true
   end
 
   def queue_print

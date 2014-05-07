@@ -60,5 +60,12 @@
     faye.subscribe('/editions/<%= @edition.id.to_s %>', function (data) {
       location.reload();
     });
+
+    $('.attach-signature').each(function(i, el) {
+      $('#print_signature', el).change(function() {
+        el.submit()
+      });
+    });
+
   });
 </script>
