@@ -30,7 +30,7 @@ class Print
   end
 
   def name
-    id.to_s
+    "#{edition.name.underscore.gsub(/[^a-z\s]/, '').gsub(' ', '_')}_#{created_at.localtime.strftime('%Y%m%d%H%M%S')}"
   end
 
   def queue_print
