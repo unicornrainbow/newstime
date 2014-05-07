@@ -52,7 +52,7 @@ class Print
   end
 
   def broadcast_print_complete
-    message = {:channel => "/editions/#{id.to_s}", :data => "print_complete", :ext => {:auth_token => FAYE_TOKEN}}
+    message = {:channel => "/editions/#{edition.to_param}", :data => "print_complete", :ext => {:auth_token => FAYE_TOKEN}}
     uri = URI.parse(FAYE_URL)
     Net::HTTP.post_form(uri, :message => message.to_json)
   end

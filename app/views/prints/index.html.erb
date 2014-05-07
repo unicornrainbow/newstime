@@ -1,3 +1,32 @@
+<% content_for :head do %>
+<style type="text/css" media="screen">
+  .one {
+    opacity: 0;
+    -webkit-animation: dot 1.3s infinite;
+    -webkit-animation-delay: 0.0s;
+  }
+
+  .two {
+    opacity: 0;
+    -webkit-animation: dot 1.3s infinite;
+    -webkit-animation-delay: 0.2s;
+  }
+
+  .three {
+    opacity: 0;
+    -webkit-animation: dot 1.3s infinite;
+    -webkit-animation-delay: 0.3s;
+  }
+
+  @-webkit-keyframes dot {
+      0% { opacity: 0; }
+     50% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+</style>
+<% end %>
+
+
 <div class="grid grid24">
   <div class="row">
     <div class="col">
@@ -22,3 +51,14 @@
     </div>
   </div>
 </div>
+
+
+<%= javascript_include_tag 'faye' %>
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    var faye = new Faye.Client('<%= FAYE_URL %>');
+    faye.subscribe('/editions/<%= @edition.id.to_s %>', function (data) {
+      location.reload();
+    });
+  });
+</script>
