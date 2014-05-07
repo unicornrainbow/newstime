@@ -7,12 +7,11 @@ Press::Application.routes.draw do
 
   resources :editions do
     resources :sections
-    resources :prints, except: 'show' do
-      collection do
-        get ':version/*path' => :show
+    resources :prints, only: ['index', 'create'] do
+      member do
+        get '(*path)' => :show, as: 'show'
       end
     end
-
 
     member do
       get :compose

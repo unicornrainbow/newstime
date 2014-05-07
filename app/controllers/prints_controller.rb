@@ -20,7 +20,7 @@ class PrintsController < ApplicationController
 
   def show
     @edition = Edition.find(params["edition_id"])
-    @print = @edition.prints.where(version: params["version"]).first # Look up by version
+    @print = @edition.prints.where(version: params["id"]).first # Look up by version
     send_file "#{@print.share_path}/#{params[:path]}.#{params[:format]}", disposition: :inline
   end
 

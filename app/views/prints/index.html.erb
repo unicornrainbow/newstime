@@ -18,7 +18,7 @@
         <% @prints.each do |print| %>
           <tr>
             <% if print.print_complete? %>
-              <td><%= link_to format_date_and_time(print.created_at), "#{print_path(print)}/view/main.html" %></td>
+              <td><%= link_to format_date_and_time(print.created_at), show_edition_print_path(@edition.to_param, print.version, path: 'main.html') %></td>
             <% else -%>
               <td><%= format_date_and_time(print.created_at)%></td>
             <% end -%>
