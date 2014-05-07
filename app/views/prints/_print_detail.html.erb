@@ -1,6 +1,10 @@
 <tr>
+  <td>
+    <%= link_to show_edition_print_path(edition.to_param, print.version, path: 'main.html') do %>
+      <%= image_tag show_edition_print_path(edition.to_param, print.version, path: 'cover.png'), width: 300, title: format_date_and_time(print.created_at) %>
+    <% end -%>
+  </td>
   <% if print.print_complete? %>
-    <td><%= link_to format_date_and_time(print.created_at), show_edition_print_path(edition.to_param, print.version, path: 'main.html') %></td>
   <% else -%>
     <td><%= format_date_and_time(print.created_at)%></td>
   <% end -%>
