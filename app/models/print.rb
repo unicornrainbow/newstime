@@ -1,3 +1,5 @@
+require 'digest/sha1'
+
 class Print
   include Mongoid::Document
   include Mongoid::Timestamps
@@ -77,6 +79,10 @@ class Print
   # Zips the output
   def zip!
     system "cd #{share_path}; zip -r #{name}.zip ."
+  end
+
+  def add_webpub_manifest
+    system "cd #{share_path}; #{Rails.root.join('script/create_manifest')} #{edition.store_link}"
   end
 
 end
