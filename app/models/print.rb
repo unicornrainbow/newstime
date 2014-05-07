@@ -76,6 +76,12 @@ class Print
     "#{share_path}/#{name}.zip"
   end
 
+  def capture_screen_print!
+    # Captures screenshot using webkit2png in path, rename cover-clipped.png to
+    # cover.png for better convention.
+    system "cd #{share_path}; webkit2png -z 2.0 -C -s 1 --filename=cover --clipwidth=2880 --clipheight=1800 #{share_path}/main.html; mv cover-clipped.png cover.png" # Assumes mail.html
+  end
+
   # Creates the webpub manifest on disk if one doesn't exist.
   def add_webpub_manifest!
     system "cd #{share_path}; #{Rails.root.join('script/create_manifest')} #{edition.store_link}"
