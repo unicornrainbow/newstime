@@ -1,7 +1,9 @@
 <tr>
   <td>
-    <%= link_to show_edition_print_path(edition.to_param, print.version, path: 'main.html') do %>
-      <%= image_tag show_edition_print_path(edition.to_param, print.version, path: 'cover.png'), width: 300, title: format_date_and_time(print.created_at) %>
+    <% if print.print_complete? %>
+      <%= link_to show_edition_print_path(edition.to_param, print.version, path: 'main.html') do %>
+        <%= image_tag show_edition_print_path(edition.to_param, print.version, path: 'cover.png'), width: 300, title: format_date_and_time(print.created_at), class: "covershot" %>
+      <% end -%>
     <% end -%>
   </td>
   <% if print.print_complete? %>
