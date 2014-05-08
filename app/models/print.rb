@@ -26,6 +26,7 @@ class Print
   state_machine :state, initial: :initial do
     before_transition :initial => :printing, do: :queue_print
     after_transition  :printing => :printed, do: :broadcast_print_complete
+    before_transition :signed => :published, do: :publish_print_to_store
 
     event :print_start do
       transition :initial => :printing
@@ -59,6 +60,13 @@ class Print
       sign if signature.present?
     end
     true
+  end
+
+  def publish_print_to_store
+    # Where to post
+    # Post the relevant attributes
+    # do it in the background (Service class even)
+    # Need to upload zip
   end
 
   def queue_print
