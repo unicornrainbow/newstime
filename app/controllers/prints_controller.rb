@@ -42,7 +42,7 @@ private
   end
 
   def print_params
-    params.require(:print).permit(:signature)
+    params.require(:print).permit(:signature, :state_event)
   end
 
 end
