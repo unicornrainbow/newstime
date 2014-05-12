@@ -112,6 +112,7 @@ GEM
       sprockets (<= 2.11.0)
     connection_pool (1.2.0)
     cookiejar (0.3.2)
+    curb (0.8.5)
     daemons (1.1.9)
     dalli (2.6.4)
     debug_inspector (0.0.2)
@@ -309,6 +310,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   compass-rails
   crawdad!
+  curb
   dalli (~> 2.6.4)
   debugger
   devise

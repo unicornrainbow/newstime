@@ -11,6 +11,10 @@ class Print
   # should be set based on a query when the print is created.
   field :version, type: Integer, default: 1
 
+  # TODO: These should be copied at print time. (The object graph should be
+  # serialized into a tree and stored for future reinstantiation)
+  delegate :publish_date, :fmt_price, :store_link, :volume_label, to: :edition
+
   before_create :set_version
   before_save :check_for_signature
 
@@ -49,6 +53,7 @@ class Print
     end
   end
 
+
   def name
     stripped_name = edition.name.underscore.gsub(/[^a-z\s]/, '').gsub(' ', '_')
     "#{stripped_name}_v#{version}"
@@ -63,10 +68,7 @@ class Print
   end
 
   def publish_print_to_store
-    # Where to post
-    # Post the relevant attributes
-    # do it in the background (Service class even)
-    # Need to upload zip
+    PublishPrintWorker.perform_async(to_param)
   end
 
   def queue_print

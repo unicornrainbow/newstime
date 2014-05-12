@@ -33,6 +33,7 @@ gem 'sidekiq' #, '~> 3.0.0'
 gem 'sinatra'
 gem 'faye'
 gem 'thin', require: false
+gem 'curb'
 
 gem 'compass-rails'
 
