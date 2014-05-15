@@ -42,6 +42,7 @@ Press::Application.routes.draw do
   resources :prints, except: 'show' do
     member do
       get :download
+      put :publish
       get 'view/*path' => :view, :defaults => { :format => "html" }
     end
   end

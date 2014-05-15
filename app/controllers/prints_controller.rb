@@ -35,6 +35,12 @@ class PrintsController < ApplicationController
     redirect_to :back
   end
 
+  def publish
+    @print = Print.find(params[:id])
+    @print.publish_print_to_store
+    redirect_to :back
+  end
+
 private
 
   def find_edition

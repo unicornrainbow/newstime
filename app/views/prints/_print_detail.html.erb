@@ -33,7 +33,8 @@
       <%= link_to "Publish", print_path(print.to_param, print: { state_event: :publish }), :class => "", :method => :put, confirm: "Please confirm you wish to publish this print." %>
     <% elsif print.published? %>
       <%= link_to "Download", download_print_path(print) %> |
-      <%= link_to "View in Store", edition.store_link %>
+      <%= link_to "View in Store", edition.store_link %> |
+      <%= link_to "Push", publish_print_path(print.to_param), :method => :put, confirm: "Please confirm you wish to publish this print." %>
       <%#= link_to "View Dashboard", "" %>
     <% end %>
   </td>
