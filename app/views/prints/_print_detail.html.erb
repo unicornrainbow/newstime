@@ -6,10 +6,12 @@
       <% end -%>
     <% end -%>
   </td>
-  <% if print.print_complete? %>
-  <% else -%>
-    <td><%= format_date_and_time(print.created_at)%></td>
-  <% end -%>
+  <td>
+    <% if print.print_complete? %>
+    <% else -%>
+      <%= format_date_and_time(print.created_at)%>
+    <% end -%>
+  </td>
   <td><%= print.version %></td>
   <td>
     <% case print.state %>
