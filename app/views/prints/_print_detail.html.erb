@@ -7,10 +7,7 @@
     <% end -%>
   </td>
   <td>
-    <% if print.print_complete? %>
-    <% else -%>
-      <%= format_date_and_time(print.created_at)%>
-    <% end -%>
+    <%= format_date_and_time(print.created_at)%>
   </td>
   <td><%= print.version %></td>
   <td>
