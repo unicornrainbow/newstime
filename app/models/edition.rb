@@ -12,7 +12,18 @@ class Edition
   field :layout_name,  type: String
   field :publish_date, type: Date
   field :store_link,   type: String
-  field :fmt_price,    type: String  # Formatted price string
+  field :price,        type: Float   # Formatted price string
+  #field :fmt_price,    type: String  # Formatted price string
+
+  def pricef
+    if price < 1.00
+      "%.f¢" % (price.round(2)*100)
+    else
+      "$%.2f" % price.round(2)
+    end
+  end
+  alias :fmt_price :pricef
+
   field :volume_label, type: String  # Formatted price string
   field :page_pixel_height, type: Integer, default: 1200  # Default pixel height of pages in edition
 

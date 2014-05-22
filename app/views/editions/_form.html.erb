@@ -9,7 +9,8 @@
   <%= f.input :layout_name, hint: "The name of the layout module to use." %>
   <%= f.input :store_link, hint: "Link to where paper is on sale in store." %>
   <%= f.input :default_section_template_name, hint: "Default value inherited by the section when template name isn't set there." %>
-  <%= f.input :fmt_price, hint: "Formmatted price. i.e. 25¢" %>
+  <%= f.input :price,     hint: "The price of the edition in dollars." %>
+  <%# f.input :fmt_price, hint: "Formmatted price. i.e. 25¢" %>
   <%= f.input :volume_label, hint: "The volume label for the edition." %>
   <%= f.button :submit, class: 'btn-default' %>
   &nbsp;
