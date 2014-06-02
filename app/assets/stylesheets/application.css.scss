@@ -12,6 +12,8 @@
  *= require grid/grid
  *= require dropdown_submenu
  *= require entries
+
+ *= require_tree ./application
  */
 
 body {

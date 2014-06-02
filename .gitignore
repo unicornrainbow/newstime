@@ -19,3 +19,4 @@ dump
 public/assets
 .env
 share
+layouts/blank

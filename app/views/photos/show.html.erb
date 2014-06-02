@@ -1,11 +1,8 @@
-<div class="container">
-  <%= render 'toolbar' %>
+<div class="photo-show grid grid24">
+  <h3><a href="/photos">Photos</a> &gt; <%= @photo.name %></h3>
+  <%#= @photo.attachment.url %>
   <hr>
-  <h4>
-    <%= @photo.name %>
-    <br>
-    <%= @photo.attachment.url %>
-    <br>
+  <div class="photo">
     <%= image_tag @photo.attachment.url %>
-  </h4>
+  </div>
 </div>

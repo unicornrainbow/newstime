@@ -1,29 +1,27 @@
-<div class="grid grid24">
+<div class="grid grid24 photo-index">
   <div class="row">
     <div class="col">
+
       <ul class="action-menu pull-right">
         <li>
           <%= link_to "New Photo", new_photo_path %>
         </li>
       </ul>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Attachment</th>
-            <th></th>
-          </tr>
-        </thead>
-        <% @photos.each do |photo| %>
-          <tr>
-            <td><%= link_to photo.name, photo %></td>
-
-            <td><%= image_tag photo.attachment.url(:small) %><br>
-              <%= link_to photo.attachment.url, photo.attachment.styles  %></td>
-            <td>
-          <tr>
-        <% end %>
-      </table>
     </div>
   </div>
+
+  <% @photos.each_slice(4) do |photos| %>
+    <div class="row">
+      <% photos.each do |photo| %>
+        <div class="col span6">
+          <div class="photo">
+            <%= link_to photo do %>
+              <%= image_tag photo.attachment.url(:original) %>
+            <% end -%>
+          </div>
+        </div>
+      <% end -%>
+    </div>
+    <br>
+  <% end %>
 </div>

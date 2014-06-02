@@ -60,8 +60,7 @@ class EditionAssetsController < ApplicationController
     # TODO: WARNING: Make sure the user can escape up about the font root (Chroot?)
     image_path = "#{images_root}/#{params["path"]}.#{params["format"]}"
     not_found unless File.exists?(image_path)
-    #send_file image_path, type: 'image/svg+xml', disposition: 'inline'
-    #didn't work...
+
     render text: File.read(image_path), content_type: 'image/svg+xml'
   end
 

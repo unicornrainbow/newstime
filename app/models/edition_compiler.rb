@@ -71,8 +71,6 @@ class EditionCompiler
 
     # TODO: Collect and render consumed media module assets
     # TODO: Collect and render content assets (Images, videos)
-    # TODO: Create content manifest
-    # TODO: Zip and assocaiet with edition
 
   end
 
