@@ -58,20 +58,22 @@ class EditionAssetsController < ApplicationController
     @edition = Edition.find(params[:id])
 
     # Find photo with the same name, from edition photos (Could be hashed)
+    # TODO: Would be nice if this find was scoped better to the edition to avoid
+    # name conflicts.
     photo = Photo.find_by(name: params[:path])
-    send_file photo.attachment.path, disposition: :inline
+    if photo
+      send_file photo.attachment.path, disposition: :inline
+    else
+      # No content image found, serve from layout
+
+      images_root = "#{Rails.root}/layouts/#{@edition.layout_name}/images"
+
+      # TODO: WARNING: Make sure the user can escape up about the font root (Chroot?)
+      image_path = "#{images_root}/#{params["path"]}.#{params["format"]}"
+      not_found unless File.exists?(image_path)
+
+      render text: File.read(image_path), content_type: 'image/svg+xml'
+    end
   end
-
-
-  #def images
-    #@edition = Edition.find(params[:id])
-    #images_root = "#{Rails.root}/layouts/#{@edition.layout_name}/images"
-
-    ## TODO: WARNING: Make sure the user can escape up about the font root (Chroot?)
-    #image_path = "#{images_root}/#{params["path"]}.#{params["format"]}"
-    #not_found unless File.exists?(image_path)
-
-    #render text: File.read(image_path), content_type: 'image/svg+xml'
-  #end
 
 end
