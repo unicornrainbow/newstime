@@ -74,7 +74,7 @@ module EditionsHelper
       when PhotoContentItem then
         options = {}
         options[:id]            = content_item.id
-        options[:photo_url]     = content_item.photo_url
+        options[:photo_url]     = content_item.edition_relative_url_path
         options[:photo_width]   = content_region.width
         options[:photo_height]  = content_region.width / content_item.photo.aspect_ratio
         render "content/photo", options

@@ -4,6 +4,11 @@ class PhotoContentItem < ContentItem
 
   def photo_url
     # This needs to be relative to the edition
-    photo.attachment.url
+    #photo.attachment.url
   end
+
+  def edition_relative_url_path
+    "images/#{photo.name}#{File.extname(photo.attachment.path)}"
+  end
+
 end

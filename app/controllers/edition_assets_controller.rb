@@ -53,15 +53,25 @@ class EditionAssetsController < ApplicationController
     send_file font_path
   end
 
+
   def images
     @edition = Edition.find(params[:id])
-    images_root = "#{Rails.root}/layouts/#{@edition.layout_name}/images"
 
-    # TODO: WARNING: Make sure the user can escape up about the font root (Chroot?)
-    image_path = "#{images_root}/#{params["path"]}.#{params["format"]}"
-    not_found unless File.exists?(image_path)
-
-    render text: File.read(image_path), content_type: 'image/svg+xml'
+    # Find photo with the same name, from edition photos (Could be hashed)
+    photo = Photo.find_by(name: params[:path])
+    send_file photo.attachment.path, disposition: :inline
   end
+
+
+  #def images
+    #@edition = Edition.find(params[:id])
+    #images_root = "#{Rails.root}/layouts/#{@edition.layout_name}/images"
+
+    ## TODO: WARNING: Make sure the user can escape up about the font root (Chroot?)
+    #image_path = "#{images_root}/#{params["path"]}.#{params["format"]}"
+    #not_found unless File.exists?(image_path)
+
+    #render text: File.read(image_path), content_type: 'image/svg+xml'
+  #end
 
 end

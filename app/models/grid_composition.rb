@@ -1,3 +1,4 @@
+# GridComposition: Formats page into a grid for rendering.
 class GridComposition
   def initialize(page)
     @page = page
