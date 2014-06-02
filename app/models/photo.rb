@@ -24,6 +24,10 @@ class Photo
   end
 
 
+  def edition_relative_url_path
+    "images/#{name}#{File.extname(attachment.path)}"
+  end
+
 private
 
   # Retrieves dimensions for image assets

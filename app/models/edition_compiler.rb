@@ -69,8 +69,18 @@ class EditionCompiler
     # For now, just copy fonts from the media module
     FileUtils.cp_r "#{Rails.root}/layouts/#{@edition.layout_name}/fonts", @output_dir.join('fonts')
 
-    # TODO: Collect and render consumed media module assets
-    # TODO: Collect and render content assets (Images, videos)
+    # Collect and render content Image assets
+    FileUtils.mkdir @output_dir.join('images')
+    photos = edition.resolve_photos
+    photos.each do |photo|
+      # TODO: Would be great to know the size to be rendered from the photo
+      # content item, and included specifically for that. Need to make sure to
+      # be sizing the images appropraitly.
+      FileUtils.cp photo.attachment.path, @output_dir.join(photo.edition_relative_url_path)
+    end
+
+    # TODO: Collect and render consumed media module assets (Images...)
+    # TODO: Collect and render content Video assets
 
   end
 

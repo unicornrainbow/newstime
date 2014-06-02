@@ -38,6 +38,26 @@ class Edition
 
   accepts_nested_attributes_for :sections
 
+
+  # Methods
+
+  # Resolves and returns all images referenced in the edition.
+  def resolve_photos
+    # Edition > Sections > Pages > Content Regions > Photo Content Items > Photos
+
+    photos = []
+    sections.each do |section|
+      section.pages.each do |page|
+        page.content_regions.each do |region|
+          photos += region.content_items.where(_type: 'PhotoContentItem').map(&:photo)
+        end
+      end
+    end
+    photos
+
+
+  end
+
   ## Liquid
   liquid_methods :title
 end
