@@ -6,7 +6,7 @@ class Publication
   field :default_layout_name, type: String
   field :website_url, type: String
   field :store_url, type: String
-  field :default_price, type: String
+  field :default_price, type: Float
 
   # Example:
   #
@@ -45,7 +45,7 @@ class Publication
       publish_date: Date.today,
       layout_name: default_layout_name,
       store_link: generate_store_link(slug),
-      fmt_price: default_price,
+      price: default_price,
       volume_label: default_name
     }
   end

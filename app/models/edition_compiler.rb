@@ -70,7 +70,7 @@ class EditionCompiler
     FileUtils.cp_r "#{Rails.root}/layouts/#{@edition.layout_name}/fonts", @output_dir.join('fonts')
 
     # TODO: Collect and render consumed media module assets
-    # TODO: Collect and render content assets
+    # TODO: Collect and render content assets (Images, videos)
     # TODO: Create content manifest
     # TODO: Zip and assocaiet with edition
 
