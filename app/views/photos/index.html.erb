@@ -1,4 +1,4 @@
-<div class="grid grid24 photo-index">
+<div class="grid grid24 photo-index four-up">
   <div class="row">
     <div class="col">
       <ul class="action-menu pull-right">
@@ -13,7 +13,7 @@
     <div class="row">
       <% photos.each do |photo| %>
         <div class="col span6">
-          <div class="photo">
+          <div class="photo four-up-cell">
             <%= link_to photo do %>
               <%= image_tag photo.attachment.url(:original) %>
             <% end -%>

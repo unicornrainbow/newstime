@@ -1,4 +1,4 @@
-<div class="grid grid24 video-index">
+<div class="grid grid24 video-index four-up">
   <div class="row">
     <div class="col">
       <ul class="action-menu pull-right">
@@ -13,7 +13,7 @@
     <div class="row">
       <% videos.each do |video| %>
         <div class="col span6">
-          <div class="video">
+          <div class="video four-up-cell">
             <%= link_to video do %>
               <%= image_tag video.cover_image.url(:original) %>
             <% end -%>
