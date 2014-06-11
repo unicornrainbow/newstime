@@ -53,9 +53,23 @@ class Edition
         end
       end
     end
+
     photos
+  end
 
 
+  def resolve_videos
+    # Edition > Sections > Pages > Content Regions > Photo Content Items > Photos
+
+    videos = []
+    sections.each do |section|
+      section.pages.each do |page|
+        page.content_regions.each do |region|
+          videos += region.content_items.where(_type: 'VideoContentItem').map(&:video)
+        end
+      end
+    end
+    videos
   end
 
   ## Liquid
