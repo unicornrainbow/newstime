@@ -3,8 +3,8 @@ class VideoContentItem < ContentItem
   belongs_to :video
 
   def video_url
-    video.video_file.url
-    #"videos/#{video.name}/#{File.extname(video.attachment.path)}"
+    # Note: Edition relative
+    "videos/#{video.name}#{File.extname(video.video_file.path)}"
   end
 
   def cover_image_url

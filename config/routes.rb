@@ -18,6 +18,7 @@ Press::Application.routes.draw do
       asset_routes = lambda do
         get 'fonts/*path'       => :fonts
         get 'images/*path'      => :images
+        get 'videos/*path'      => :videos
         get 'javascripts/*path' => :javascripts
         get 'stylesheets/*path' => :stylesheets
       end

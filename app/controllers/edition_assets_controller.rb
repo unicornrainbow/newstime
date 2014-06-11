@@ -60,7 +60,7 @@ class EditionAssetsController < ApplicationController
     # Find photo with the same name, from edition photos (Could be hashed)
     # TODO: Would be nice if this find was scoped better to the edition to avoid
     # name conflicts.
-    photo = Photo.find_by(name: params[:path])
+    photo = Photo.where(name: params[:path]).first
     if photo
       send_file photo.attachment.path, disposition: :inline
     else
@@ -72,8 +72,19 @@ class EditionAssetsController < ApplicationController
       image_path = "#{images_root}/#{params["path"]}.#{params["format"]}"
       not_found unless File.exists?(image_path)
 
-      render text: File.read(image_path), content_type: 'image/svg+xml'
+      #render text: File.read(image_path), content_type: 'image/svg+xml' # NOTE: This seems to be left over from serving svg data, may be useful later
+      send_file image_path, disposition: :inline
     end
+  end
+
+  def videos
+    @edition = Edition.find(params[:id])
+
+    # Find video with the same name, from edition photos (Could be hashed)
+    # TODO: Would be nice if this find was scoped better to the edition to avoid
+    # name conflicts.
+    video = Video.find_by(name: params[:path])
+    send_file video.video_file.path, disposition: :inline
   end
 
 end
