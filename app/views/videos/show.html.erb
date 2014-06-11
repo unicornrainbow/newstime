@@ -18,20 +18,15 @@
 
       </script>
 
-      <video id="video" controls="controls" width="100%">
+      <video id="video" controls="controls" width="48%">
         <source src="<%= @video.video_file %>" type="video/mp4">
       </video>
+      <%= image_tag @video.cover_image.url, width: "48%", style: "float: right" %>
       <%= form_tag set_cover_video_url(@video), method: "post" do %>
         <input id="cover-offset" name="offset" value="0.0" type="hidden" />
-        <input type="submit" value="Set Cover">
+        <input type="submit" value="Set Cover to Current Frame">
       <% end -%>
       <br>
-
-      <div class="video">
-        <%= image_tag @video.cover_image.url %>
-      </div>
-
-      <%= @video.video_file.path %>
 
     </div>
   </div>
