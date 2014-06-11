@@ -1,6 +1,10 @@
-<div class="container">
-  <h4>
-    <%= @video.name %><br>
-    <%= @video.video_file %>
-  </h4>
+<div class="video-show grid grid24">
+  <h3><%= link_to "Videos", videos_url %> &gt; <%= @video.name %></h3>
+
+  <hr>
+  <div class="video">
+    <%= image_tag @video.cover_image.url %>
+  </div>
+
+  <%#= @video.video_file %>
 </div>

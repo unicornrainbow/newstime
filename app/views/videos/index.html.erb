@@ -1,4 +1,4 @@
-<div class="grid grid24">
+<div class="grid grid24 video-index">
   <div class="row">
     <div class="col">
       <ul class="action-menu pull-right">
@@ -6,18 +6,21 @@
           <%= link_to "New Video", new_video_path %>
         </li>
       </ul>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Name</th>
-          </tr>
-        </thead>
-        <% @videos.each do |video| %>
-          <tr>
-            <td><%= link_to video.name, video %></td>
-          <tr>
-        <% end %>
-      </table>
     </div>
   </div>
+
+  <% @videos.each_slice(4) do |videos| %>
+    <div class="row">
+      <% videos.each do |video| %>
+        <div class="col span6">
+          <div class="video">
+            <%= link_to video do %>
+              <%= image_tag video.cover_image.url(:original) %>
+            <% end -%>
+          </div>
+        </div>
+      <% end -%>
+    </div>
+    <br>
+  <% end %>
 </div>
