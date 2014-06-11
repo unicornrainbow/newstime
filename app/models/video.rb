@@ -4,12 +4,20 @@ class Video
 
   include Mongoid::Paperclip
   has_mongoid_attached_file :video_file
-  has_mongoid_attached_file :cover_image,
-    :styles => {
-      :original => ['1920x1680>', :jpg],
-      :small    => ['100x100#',   :jpg],
-      :medium   => ['250x250',    :jpg],
-      :large    => ['500x500>',   :jpg]
-    }
+  has_mongoid_attached_file :cover_image
+
+  # Extract and set a cover image from the video source.
+  def extract_cover
+    random_name = (0...8).map { (65 + rand(26)).chr }.join
+    tmp_file = "tmp/#{random_name}.jpg"
+
+    `ffmpeg -i '#{video_file.path}' -vframes 1 -an #{tmp_file}`
+
+    # Attach output image as cover image
+    File.open(tmp_file) do |f|
+      self.cover_image = f
+      save
+    end
+  end
 
 end
