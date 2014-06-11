@@ -55,7 +55,14 @@ Press::Application.routes.draw do
 
   resources :stories
   resources :photos
-  resources :videos
+  resources :videos do
+    member do
+      post :set_cover
+    end
+
+  end
+
+
   resources :layouts
   resources :partials
   resources :inlets

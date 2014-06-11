@@ -40,6 +40,12 @@ class VideosController < ApplicationController
     redirect_to :back
   end
 
+  def set_cover
+    @video = Video.find(params[:id])
+    @video.extract_cover!(params['offset'])
+    redirect_to :back
+  end
+
 private
 
   def video_params

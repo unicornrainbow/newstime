@@ -1,9 +1,38 @@
 <div class="video-show grid grid24">
-  <h3><%= link_to "Videos", videos_url %> &gt; <%= @video.name %></h3>
+  <div class="col">
+    <div class="row span24">
+      <h3><%= link_to "Videos", videos_url %> &gt; <%= @video.name %></h3>
 
-  <hr>
-  <div class="video">
-    <%= image_tag @video.cover_image.url %>
+      <hr>
+      <script type="text/javascript" charset="utf-8">
+        var currentTime;
+
+        $(document).ready(function() {
+            var coverOffsetField = $('#cover-offset')
+            $("#video").on("timeupdate", function(event) {
+              currentTime = this.currentTime
+              coverOffsetField.val(currentTime);
+            });
+        })
+
+
+      </script>
+
+      <video id="video" controls="controls" width="100%">
+        <source src="<%= @video.video_file %>" type="video/mp4">
+      </video>
+      <%= form_tag set_cover_video_url(@video), method: "post" do %>
+        <input id="cover-offset" name="offset" value="0.0" type="hidden" />
+        <input type="submit" value="Set Cover">
+      <% end -%>
+      <br>
+
+      <div class="video">
+        <%= image_tag @video.cover_image.url %>
+      </div>
+
+      <%= @video.video_file.path %>
+
+    </div>
   </div>
-
 </div>
