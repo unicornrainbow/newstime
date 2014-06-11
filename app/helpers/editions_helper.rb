@@ -82,7 +82,7 @@ module EditionsHelper
         options = {}
         options[:id]                = content_item.id
         options[:video_url]         = content_item.video_url
-        options[:video_thumbnail]   = "" #content_region.width
+        options[:video_thumbnail]   = content_item.cover_image_url
 
         render "content/video", options
       end
