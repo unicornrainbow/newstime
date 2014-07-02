@@ -20,4 +20,14 @@ class Video
     end
   end
 
+  def video_url
+    # Note: Edition relative
+    "videos/#{name}#{File.extname(video_file.path)}"
+  end
+
+  def cover_image_url
+    "images/#{name}#{File.extname(cover_image.path)}"
+  end
+
+
 end

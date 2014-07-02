@@ -4,10 +4,10 @@ class VideoContentItem < ContentItem
 
   def video_url
     # Note: Edition relative
-    "videos/#{video.name}#{File.extname(video.video_file.path)}"
+    video.video_url
   end
 
   def cover_image_url
-    video.cover_image.url
+    video.cover_image_url
   end
 end

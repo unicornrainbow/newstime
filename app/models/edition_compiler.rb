@@ -73,7 +73,7 @@ class EditionCompiler
     FileUtils.cp_r "#{Rails.root}/layouts/#{@edition.layout_name}/images", @output_dir.join('images')
 
     # Collect and render content Image assets
-    FileUtils.mkdir @output_dir.join('images')
+    FileUtils.mkdir_p @output_dir.join('images')
     photos = edition.resolve_photos
     photos.each do |photo|
       # TODO: Would be great to know the size to be rendered from the photo
@@ -83,15 +83,19 @@ class EditionCompiler
     end
 
 
-    # TODO: Collect and render content Video assets
-    FileUtils.mkdir @output_dir.join('videos')
+    # Collect videos and video cover images
+    FileUtils.mkdir_p @output_dir.join('videos')
     videos = edition.resolve_videos
     videos.each do |video|
       # TODO: Would be great to know the size to be rendered from the photo
       # content item, and included specifically for that. Need to make sure to
       # be sizing the images appropraitly.
       FileUtils.cp video.video_file.path, @output_dir.join(video.video_url)
+      # TODO: May run into conflict with similarily name files. (Something to
+      # check for in the future.)
+      FileUtils.cp video.cover_image.path, @output_dir.join(video.cover_image_url)
     end
+
 
     # TODO: Collect and render consumed media module assets (Images...)
 
