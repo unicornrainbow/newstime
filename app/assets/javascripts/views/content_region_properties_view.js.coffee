@@ -4,6 +4,21 @@ class @Newstime.ContentRegionPropertiesView extends Backbone.View
 
   events:
     'click .content-region-delete': 'delete'
+    'click [data-direction=left]': 'move'
+    'click [data-direction=right]': 'move'
+
+  move: (event) ->
+    direction = $(event.currentTarget).data('direction')
+
+    $.ajax
+      type: "PUT"
+      url: "/content_regions/#{@contentRegionId}/move"
+      data:
+        authenticity_token: Newstime.Composer.authenticityToken
+        content_region:
+          direction: direction
+      complete: =>
+        console.log 'move complete'
 
   initialize: ->
     @palette = new Newstime.PaletteView(title: "Content Region")
@@ -28,6 +43,13 @@ class @Newstime.ContentRegionPropertiesView extends Backbone.View
           <option value="3">1/8</option>
           <option value="2">1/12</option>
         </select>
+      </div>
+      <div>
+      Move:
+        <button data-direction="left">&#8592;</button>
+        <button data-direction="right">&#8594;</button>
+        <button data-direction="up">&#8593;</button>
+        <button data-direction="down">&#8595;</button>
       </div>
 
       <br>

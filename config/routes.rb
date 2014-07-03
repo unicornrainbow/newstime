@@ -67,7 +67,11 @@ Press::Application.routes.draw do
   resources :layouts
   resources :partials
   resources :inlets
-  resources :content_regions
+  resources :content_regions do
+    member do
+      put :move
+    end
+  end
   resources :publications
   resources :content_items do
     collection do

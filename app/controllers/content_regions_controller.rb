@@ -56,6 +56,36 @@ class ContentRegionsController < ApplicationController
     render text: 'ok'
   end
 
+  def move
+    @content_region = ContentRegion.find(params[:id])
+    case params[:content_region][:direction]
+    when "right" then
+      # Move region right
+      # Get right adjecent content region, and swap sequence
+      #throw @content_region.page.content_regions
+      right_adjacent = @content_region.page.content_regions.where(row_sequence: @content_region.row_sequence, sequence: @content_region.sequence + 1).first
+      if right_adjacent
+        right_adjacent.update_attributes(sequence: @content_region.sequence)
+        @content_region.update_attributes(sequence: @content_region.sequence + 1)
+      end
+    when "left" then
+      # Move region left
+      # Get left adjecent content region, and swap sequence
+      if @content_region.sequence > 1
+        left_adjacent = @content_region.page.content_regions.where(row_sequence: @content_region.row_sequence, sequence: @content_region.sequence - 1).first
+        if left_adjacent
+          left_adjacent.update_attributes(sequence: @content_region.sequence)
+          @content_region.update_attributes(sequence: @content_region.sequence - 1)
+        end
+      end
+    when "up" then
+      # Move region up
+    when "down" then
+      # Move region down
+    end
+    render text: "ok"
+  end
+
   def destroy
     @content_region = ContentRegion.find(params[:id]).destroy
     # TODO: Should delete content items that are ophaned
