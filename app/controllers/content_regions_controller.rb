@@ -1,6 +1,7 @@
 class ContentRegionsController < ApplicationController
 
   before_filter :authenticate_user!
+  skip_before_filter :verify_authenticity_token
 
   def index
     @content_regions = ContentRegion.asc(:path)
@@ -46,19 +47,18 @@ class ContentRegionsController < ApplicationController
 
   def show
     @content_region = ContentRegion.find(params[:id])
+    render layout: false
   end
 
   def update
     @content_region = ContentRegion.find(params[:id])
-    if @content_region.update_attributes(content_region_params)
-      redirect_to @content_region, notice: "ContentRegion updated successfully."
-    else
-      render "edit"
-    end
+    @content_region.update_attributes(content_region_params)
+    render text: 'ok'
   end
 
   def destroy
     @content_region = ContentRegion.find(params[:id]).destroy
+    # TODO: Should delete content items that are ophaned
     render text: 'ok'
   end
 

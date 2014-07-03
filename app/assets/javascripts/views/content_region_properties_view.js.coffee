@@ -9,16 +9,35 @@ class @Newstime.ContentRegionPropertiesView extends Backbone.View
     @palette = new Newstime.PaletteView(title: "Content Region")
     @palette.attach(@$el)
 
+    @palette.bind 'dismiss', =>
+      @save()
+
     @$el.html """
-      Width: Dropdown
+      <div>
+      Width:
+        <select class="content-region-width">
+          <option value="24">Full</option>
+          <option value="18">3/4</option>
+          <option value="16">2/3</option>
+          <option value="15">5/8</option>
+          <option value="12">Half</option>
+          <option value="9">3/8</option>
+          <option value="8">1/3</option>
+          <option value="6">1/4</option>
+          <option value="4">1/6</option>
+          <option value="3">1/8</option>
+          <option value="2">1/12</option>
+        </select>
+      </div>
+
       <br>
       <a class="content-region-delete">Delete</a>
     """
 
+
     @$el.addClass('content-region-properties')
 
-    @$columnsSelect = @$el.find('.story-content-item-columns')
-    @$heightInput = @$el.find('.story-content-item-height')
+    @$contentRegionWidth = @$el.find('.content-region-width')
 
   setPosition: (top, left) ->
     # Scroll offset
@@ -47,6 +66,16 @@ class @Newstime.ContentRegionPropertiesView extends Backbone.View
           @$contentRegionControl.remove()
           @palette.hide()
 
+  save: ->
+    # TODO: If changes to content region, should rerender effected areas
+    $.ajax
+      type: "PUT"
+      url: "/content_regions/#{@contentRegionId}.json"
+      data:
+        authenticity_token: Newstime.Composer.authenticityToken
+        content_region:
+          column_width: @$contentRegionWidth.val()
+
   show: ->
     @palette.show()
 
@@ -66,11 +95,10 @@ class @Newstime.ContentRegionPropertiesView extends Backbone.View
     @contentRegionId = @$contentRegionControl.data('content-region-id')
 
     # Request values from the backend.
-    #$.ajax
-      #type: "GET"
-      #url: "/content_items/#{@storyTextId}.json"
-      #data:
-        #authenticity_token: Newstime.Composer.authenticityToken
-      #success: (data) =>
-        #@$columnsSelect.val(data['columns'])
-        #@$heightInput.val(data['height'])
+    $.ajax
+      type: "GET"
+      url: "/content_regions/#{@contentRegionId}.json"
+      data:
+        authenticity_token: Newstime.Composer.authenticityToken
+      success: (data) =>
+        @$contentRegionWidth.val(data['column_width'])
