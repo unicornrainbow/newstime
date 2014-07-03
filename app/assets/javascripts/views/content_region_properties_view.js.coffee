@@ -2,6 +2,9 @@
 
 class @Newstime.ContentRegionPropertiesView extends Backbone.View
 
+  events:
+    'click .content-region-delete': 'delete'
+
   initialize: ->
     @palette = new Newstime.PaletteView(title: "Content Region")
     @palette.attach(@$el)
@@ -32,6 +35,18 @@ class @Newstime.ContentRegionPropertiesView extends Backbone.View
 
     @palette.setPosition(topOffset + top, leftOffset + left)
 
+  delete: ->
+    if confirm 'Click OK to delete content region'
+      $.ajax
+        type: "DELETE"
+        url: "/content_regions/#{@contentRegionId}.json"
+        data:
+          authenticity_token: Newstime.Composer.authenticityToken
+        complete: =>
+          # Delete the node and hide palette
+          @$contentRegionControl.remove()
+          @palette.hide()
+
   show: ->
     @palette.show()
 
@@ -47,8 +62,8 @@ class @Newstime.ContentRegionPropertiesView extends Backbone.View
     @palette.$el.css(top: rect.top + top, left: rect.right)
 
     # Initialize Values
-    #@$storyText = targetControl.$el
-    #@storyTextId = @$storyText.data('story-text-id')
+    @$contentRegionControl = targetControl.$el
+    @contentRegionId = @$contentRegionControl.data('content-region-id')
 
     # Request values from the backend.
     #$.ajax

@@ -57,6 +57,11 @@ class ContentRegionsController < ApplicationController
     end
   end
 
+  def destroy
+    @content_region = ContentRegion.find(params[:id]).destroy
+    render text: 'ok'
+  end
+
   def preview
     # Previews a copy of the section
     @content_region = ContentRegion.find(params[:id])
