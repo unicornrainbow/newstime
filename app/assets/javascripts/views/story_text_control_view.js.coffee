@@ -12,6 +12,5 @@ class @Newstime.StoryTextControlView extends Backbone.View
     @toolPalette.setPosition(event.y, event.x)
     @toolPalette.show()
 
-
   initialize: (options) ->
     @toolPalette = options.toolPalette

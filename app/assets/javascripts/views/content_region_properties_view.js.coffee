@@ -3,13 +3,16 @@
 class @Newstime.ContentRegionPropertiesView extends Backbone.View
 
   initialize: ->
-    @$el.addClass('content-region-properties')
-
     @palette = new Newstime.PaletteView(title: "Content Region")
     @palette.attach(@$el)
 
     @$el.html """
+      Width: Dropdown
+      <br>
+      <a class="content-region-delete">Delete</a>
     """
+
+    @$el.addClass('content-region-properties')
 
     @$columnsSelect = @$el.find('.story-content-item-columns')
     @$heightInput = @$el.find('.story-content-item-height')

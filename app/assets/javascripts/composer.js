@@ -47,7 +47,6 @@ Newstime.Composer = {
     });
 
     var contentRegionPropertiesView = new Newstime.ContentRegionPropertiesView();
-    $('body').append(contentRegionPropertiesView.el);
     $('[content-region-control]').each(function(i, el) {
       new Newstime.ContentRegionControlView({el: el, propertiesView: contentRegionPropertiesView});
     });
