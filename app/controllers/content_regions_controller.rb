@@ -68,6 +68,7 @@ class ContentRegionsController < ApplicationController
         right_adjacent.update_attributes(sequence: @content_region.sequence)
         @content_region.update_attributes(sequence: @content_region.sequence + 1)
       end
+      @content_region.page.resequence_content_regions! # Just to make sure a proper sequence is set, shouldn't be needed, but works kinks out
     when "left" then
       # Move region left
       # Get left adjecent content region, and swap sequence
@@ -78,6 +79,7 @@ class ContentRegionsController < ApplicationController
           @content_region.update_attributes(sequence: @content_region.sequence - 1)
         end
       end
+      @content_region.page.resequence_content_regions! # Just to make sure a proper sequence is set, shouldn't be needed, but works kinks out
     when "up" then
       # Move region up
     when "down" then
