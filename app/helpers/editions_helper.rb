@@ -85,6 +85,11 @@ module EditionsHelper
         options[:video_thumbnail]   = content_item.cover_image_url
 
         render "content/video", options
+      when HorizontalRuleContentItem then
+        options = {}
+        options[:style_class]  = content_item.style_class # short-hr, news-column-double-rule
+
+        render "content/horizontal_rule", options
       end
     end
     content

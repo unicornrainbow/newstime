@@ -10,7 +10,8 @@ class ContentItem
     ["Headline", "HeadlineContentItem"],
     ["Story", "StoryTextContentItem"],
     ["Photo", "PhotoContentItem"],
-    ["Video", "VideoContentItem"]
+    ["Video", "VideoContentItem"],
+    ["Horizontal Rule", "HorizontalRuleContentItem"]
   ]
 
   field    :_type,          type: String
