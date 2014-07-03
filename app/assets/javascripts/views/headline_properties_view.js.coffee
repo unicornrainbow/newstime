@@ -21,6 +21,21 @@ class @Newstime.HeadlinePropertiesView extends Backbone.View
    'change .headline-style': 'changeStyle'
    'click .headline': 'changeText'
 
+   'click .headline-delete': 'delete'
+
+
+  delete: ->
+    if confirm 'Click OK to delete content region'
+      $.ajax
+        type: "DELETE"
+        url: "/content_items/#{@headlineId}.json"
+        data:
+          authenticity_token: Newstime.Composer.authenticityToken
+        complete: =>
+          # Delete the node and hide palette
+          @$headline.remove()
+          @palette.hide()
+
   initialize: ->
     @palette = new Newstime.PaletteView(title: "Headline")
     @palette.attach(@$el)
@@ -60,6 +75,8 @@ class @Newstime.HeadlinePropertiesView extends Backbone.View
       Padding:
         <input class="nt-control padding-top"></input>
         <input class="nt-control padding-bottom"></input>
+      <br>
+      <a class="headline-delete">Delete</a>
     """
     # Selects
     @$fontSizeInput = @$el.find('.current-font-size')
@@ -203,7 +220,7 @@ class @Newstime.HeadlinePropertiesView extends Backbone.View
     @palette.$el.css(top: rect.top + top, left: rect.right)
 
     # Initialize Values
-    @headlineControl = headlineControl
+    @$headlineControl = headlineControl
     @$headline = headlineControl.$el
     @headlineId = @$headline.data('headline-id')
 

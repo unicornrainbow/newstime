@@ -32,9 +32,9 @@ class @Newstime.StoryPropertiesView extends Backbone.View
       <br>
       <a class="story-link" href="">Story</a>
       <br>
-      <a class="story-reflow">Reflow</a>
+      <a class="story-reflow" href="">Reflow</a>
       <br>
-      <a class="story-delete">Delete</a>
+      <a class="story-delete" href="">Delete</a>
     """
 
     @$columnsSelect = @$el.find('.story-content-item-columns')
@@ -56,12 +56,13 @@ class @Newstime.StoryPropertiesView extends Backbone.View
 
   # Reflows the story
   reflow: ->
-    alert 'ad'
     $.ajax
       type: "PUT"
       url: "/content_items/#{@storyTextId}.json"
       data:
         authenticity_token: Newstime.Composer.authenticityToken
+      complete: =>
+        location.reload()
 
   save: ->
     $.ajax

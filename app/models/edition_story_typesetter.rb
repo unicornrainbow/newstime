@@ -51,15 +51,23 @@ class EditionStoryTypesetter
           precedent_path = "#{leading_section.path}#page-#{leading_page.number}"
         end
 
+
+        # Has text overrun, should be determined on the
+        is_last_column = column_index + 1 == column_count
+        has_text_overrun = html && !render_continuation && is_last_column
+
+
         column_height = height
         column_height = render_by_line ? column_height - 40 : column_height
         column_height = render_continuation ? column_height - 20 : column_height
         column_height = render_precedent_link ? column_height - 20 : column_height
+        column_height = has_text_overrun ? column_height - 20 : column_height
 
         typesetter_service = HtmlTypesetter.new(html, width: text_column_width, height: column_height)
         typesetter_service.typeset # Invoke Service
         content = typesetter_service.typeset_html
         html    = typesetter_service.overrun_html
+
 
         result << view.render("content/text_column",
           story: story,
@@ -72,7 +80,8 @@ class EditionStoryTypesetter
           precedent_path: precedent_path,
           width: text_column_width,
           height: height,
-          content: content
+          content: content,
+          has_text_overrun: has_text_overrun
         )
 
       end
