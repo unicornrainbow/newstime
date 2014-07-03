@@ -14,6 +14,24 @@ class @Newstime.ContentRegionPropertiesView extends Backbone.View
     @$columnsSelect = @$el.find('.story-content-item-columns')
     @$heightInput = @$el.find('.story-content-item-height')
 
+  setPosition: (top, left) ->
+    # Scroll offset
+    doc = document.documentElement
+    body = document.body
+    leftOffset = (doc && doc.scrollLeft || body && body.scrollLeft || 0)
+    topOffset = (doc && doc.scrollTop  || body && body.scrollTop  || 0)
+
+    # If greater than a certain distance to the right, subtract the width to
+    # counter act.
+
+    if leftOffset + left > 1000
+      left = left - @palette.width()
+
+    @palette.setPosition(topOffset + top, leftOffset + left)
+
+  show: ->
+    @palette.show()
+
   setContentRegionControl: (targetControl) ->
     # Scroll offset
     doc = document.documentElement
@@ -38,5 +56,3 @@ class @Newstime.ContentRegionPropertiesView extends Backbone.View
       #success: (data) =>
         #@$columnsSelect.val(data['columns'])
         #@$heightInput.val(data['height'])
-
-    @palette.show()

@@ -57,3 +57,9 @@ class @Newstime.PaletteView extends Backbone.View
   # Attachs html or element to body of palette
   attach: (html) ->
     @$body.html(html)
+
+  setPosition: (top, left) ->
+    @$el.css(top: top, left: left)
+
+  width: ->
+    parseInt(@$el.css('width'))

@@ -17,5 +17,7 @@ class @Newstime.ContentRegionControlView extends Backbone.View
     """
     @$toolbar.prependTo(@$el)
 
-  showSettings: ->
+  showSettings: (event) ->
     @propertiesView.setContentRegionControl(this)
+    @propertiesView.setPosition(event.y, event.x)
+    @propertiesView.show()

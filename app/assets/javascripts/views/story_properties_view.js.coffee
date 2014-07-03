@@ -73,6 +73,24 @@ class @Newstime.StoryPropertiesView extends Backbone.View
           columns: @$columnsSelect.val()
           height: @$heightInput.val()
 
+  setPosition: (top, left) ->
+    # Scroll offset
+    doc = document.documentElement
+    body = document.body
+    leftOffset = (doc && doc.scrollLeft || body && body.scrollLeft || 0)
+    topOffset = (doc && doc.scrollTop  || body && body.scrollTop  || 0)
+
+    # If greater than a certain distance to the right, subtract the width to
+    # counter act.
+
+    if leftOffset + left > 1000
+      left = left - @palette.width()
+
+    @palette.setPosition(topOffset + top, leftOffset + left)
+
+  show: ->
+    @palette.show()
+
   setStoryTextControl: (targetControl) ->
     # Scroll offset
     doc = document.documentElement
@@ -82,7 +100,7 @@ class @Newstime.StoryPropertiesView extends Backbone.View
 
     # Bind to and position the tool-palette
     rect = targetControl.el.getBoundingClientRect()
-    @palette.$el.css(top: rect.top + top, left: rect.right)
+    #@setPosition(rect.top + top, rect.right)
 
     # Initialize Values
     @$storyText = targetControl.$el
@@ -99,5 +117,3 @@ class @Newstime.StoryPropertiesView extends Backbone.View
         @$heightInput.val(data['height'])
         @$storkLink.text(data['story']['name'])
         @$storkLink.attr(href: data['story']['url'])
-
-    @palette.show()
