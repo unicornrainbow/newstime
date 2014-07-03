@@ -18,7 +18,9 @@
       <%= print.state %>
     <% end %>
   </td>
-
+  <td>
+    <%= print.file_size %>
+  </td>
   <td>
     <% if print.initial? %>
     <% elsif print.printing? %>

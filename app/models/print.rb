@@ -11,6 +11,8 @@ class Print
   # should be set based on a query when the print is created.
   field :version, type: Integer, default: 1
 
+  field :file_size, type: String # Size of the zipped output.
+
   # TODO: These should be copied at print time. (The object graph should be
   # serialized into a tree and stored for future reinstantiation)
   delegate :publish_date, :fmt_price, :store_link, :volume_label, :publication, to: :edition
@@ -112,6 +114,11 @@ class Print
   # Zips the output
   def zip!
     system "cd #{share_path}; zip -r #{name}.zip ."
+
+    # Measure and record file size
+    file_size = ApplicationController.helpers.number_to_human_size(File.size(File.join(share_path, "#{name}.zip")))
+    update_attribute(:file_size, file_size)
   end
+
 
 end
