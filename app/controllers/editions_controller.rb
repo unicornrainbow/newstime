@@ -12,7 +12,7 @@ class EditionsController < ApplicationController
   end
 
   def new
-    @publication = Publication.first
+    @publication = params[:publication_id] ? Publication.find(params[:publication_id]) : Publication.first
     @edition = @publication.build_edition
   end
 

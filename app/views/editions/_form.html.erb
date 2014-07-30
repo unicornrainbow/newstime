@@ -19,3 +19,12 @@
     <%= link_to "Delete", edition_path(@edition), class: 'pull-right', method: 'delete', confirm: "Please confirm to delete edition." %>
   <% end -%>
 <% end %>
+
+<script>
+  // Quick hack to enable selecting difference publications on the new page.
+  $(function(){
+    $("#edition_publication_id").change(function(value){
+      $(location).attr("search", "publication_id=" + $(this).val())
+    });
+  });
+</script>
