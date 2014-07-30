@@ -1,4 +1,5 @@
 class Edition
+  @layout =
   include Mongoid::Document
   include Mongoid::Timestamps
   include Mongoid::Paperclip
@@ -70,6 +71,14 @@ class Edition
       end
     end
     videos
+  end
+
+  def layout_module
+    @layout_module ||= LayoutModule.new(layout_name)
+  end
+
+  def layout_module_root
+    layout_module.root
   end
 
   ## Liquid

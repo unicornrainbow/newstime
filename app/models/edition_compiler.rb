@@ -28,8 +28,8 @@ class EditionCompiler
     end
 
     environment = Sprockets::Environment.new
-    environment.append_path "#{Rails.root}/layouts/#{@edition.layout_name}/stylesheets"
-    environment.append_path "#{Rails.root}/layouts/#{@edition.layout_name}/javascripts"
+    environment.append_path File.join(@edition.layout_module_root, "stylesheets")
+    environment.append_path File.join(@edition.layout_module_root, "javascripts")
 
     # Major hack to load bootstrap into this isolated environment courtesy of https://gist.github.com/datenimperator/3668587
     Bootstrap.load!
@@ -67,10 +67,10 @@ class EditionCompiler
 
     # Fonts
     # For now, just copy fonts from the media module
-    FileUtils.cp_r "#{Rails.root}/layouts/#{@edition.layout_name}/fonts", @output_dir.join('fonts')
+    FileUtils.cp_r File.join(@edition.layout_module_root, "fonts"), @output_dir.join('fonts')
 
     # Copy images from media module
-    FileUtils.cp_r "#{Rails.root}/layouts/#{@edition.layout_name}/images", @output_dir.join('images')
+    FileUtils.cp_r File.join(@edition.layout_module_root, "images"), @output_dir.join('images')
 
     # Collect and render content Image assets
     FileUtils.mkdir_p @output_dir.join('images')

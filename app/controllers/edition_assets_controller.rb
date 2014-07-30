@@ -7,7 +7,8 @@ class EditionAssetsController < ApplicationController
     result = Rails.cache.fetch "editions/#{params["id"]}/javascript/#{params[:path]}" do
       @edition = Edition.find(params[:id])
       environment = Sprockets::Environment.new
-      environment.append_path "#{Rails.root}/layouts/#{@edition.layout_name}/javascripts"
+      environment.append_path File.join(@edition.layout_module_root, "javascripts")
+
 
       # Hack to load paths for jquery and angular gems
       environment.append_path Gem.loaded_specs['angularjs-rails'].full_gem_path + "/vendor/assets/javascripts"
@@ -26,7 +27,7 @@ class EditionAssetsController < ApplicationController
     result = Rails.cache.fetch "editions/#{params["id"]}/stylesheets/#{params[:path]}" do
       @edition = Edition.find(params[:id])
       environment = Sprockets::Environment.new
-      environment.append_path "#{Rails.root}/layouts/#{@edition.layout_name}/stylesheets"
+      environment.append_path File.join(@edition.layout_module_root, "stylesheets")
 
       # Major hack to load bootstrap into this isolated environment courtesy of https://gist.github.com/datenimperator/3668587
       Bootstrap.load!
@@ -45,7 +46,8 @@ class EditionAssetsController < ApplicationController
 
   def fonts
     @edition = Edition.find(params[:id])
-    fonts_root = "#{Rails.root}/layouts/#{@edition.layout_name}/fonts"
+    fonts_root = File.join(@edition.layout_module_root, "fonts")
+
 
     # TODO: WARNING: Make sure the user can escape up about the font root (Chroot?)
     font_path = "#{fonts_root}/#{params["path"]}.#{params["format"]}"
@@ -66,7 +68,7 @@ class EditionAssetsController < ApplicationController
     else
       # No content image found, serve from layout
 
-      images_root = "#{Rails.root}/layouts/#{@edition.layout_name}/images"
+      images_root = File.join(@edition.layout_module_root, "images")
 
       # TODO: WARNING: Make sure the user can escape up about the font root (Chroot?)
       image_path = "#{images_root}/#{params["path"]}.#{params["format"]}"

@@ -5,7 +5,7 @@ class LayoutModule
 
   def initialize(name)
     @name = name
-    @root = "#{Rails.root}/layouts/#{@name}"
+    @root = MEDIA_MODULES[@name]
     @templates = TemplateAccessor.new(self)
   end
 end
