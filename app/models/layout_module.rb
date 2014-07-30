@@ -5,7 +5,7 @@ class LayoutModule
 
   def initialize(name)
     @name = name
-    @root = MEDIA_MODULES[@name]
+    @root = MEDIA_MODULES[@name]["path"]
     @templates = TemplateAccessor.new(self)
   end
 end

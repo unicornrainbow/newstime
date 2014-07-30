@@ -9,6 +9,6 @@
 MEDIA_MODULES = YAML::load_file(File.join(__dir__, '../media_modules.yml'))
 
 # Expand Paths relative to project root
-MEDIA_MODULES.map do |name, path|
-  MEDIA_MODULES[name] = File.expand_path(path, Rails.root)
+MEDIA_MODULES.map do |k, v|
+  v["path"] = File.expand_path(v["path"], Rails.root)
 end

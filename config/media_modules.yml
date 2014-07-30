@@ -1,3 +1,5 @@
 ---
-sfrecord: ../layouts/sfrecord
-volusia_democratic_caucus: ../layouts/volusia_democratic_caucus
+sfrecord:
+  path: ../layouts/sfrecord
+volusia_democratic_caucus:
+  path: ../layouts/volusia_democratic_caucus
