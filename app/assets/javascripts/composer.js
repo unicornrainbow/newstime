@@ -26,6 +26,8 @@
 //
 //= require views/photo_control_view
 //= require views/photo_properties_view
+//
+//= require views/properties_panel_view
 
 var Newstime = Newstime || {};
 
