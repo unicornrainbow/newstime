@@ -23,6 +23,9 @@
 //
 //= require views/content_region_control_view
 //= require views/content_region_properties_view
+//
+//= require views/photo_control_view
+//= require views/photo_properties_view
 
 var Newstime = Newstime || {};
 
@@ -49,6 +52,11 @@ Newstime.Composer = {
     var contentRegionPropertiesView = new Newstime.ContentRegionPropertiesView();
     $('[content-region-control]').each(function(i, el) {
       new Newstime.ContentRegionControlView({el: el, propertiesView: contentRegionPropertiesView});
+    });
+
+    var photoPropertiesView = new Newstime.PhotoPropertiesView();
+    $('[photo-control]').each(function(i, el) {
+      new Newstime.PhotoControlView({el: el, propertiesView: photoPropertiesView});
     });
 
     $(".add-page-btn").addPageButton()

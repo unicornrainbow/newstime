@@ -20,11 +20,13 @@
   <% end -%>
 <% end %>
 
-<script>
-  // Quick hack to enable selecting difference publications on the new page.
-  $(function(){
-    $("#edition_publication_id").change(function(value){
-      $(location).attr("search", "publication_id=" + $(this).val())
+<% if local_assigns[:new] %>
+  <script>
+    // Quick hack to enable selecting difference publications on the new page.
+    $(function(){
+      $("#edition_publication_id").change(function(value){
+        $(location).attr("search", "publication_id=" + $(this).val())
+      });
     });
-  });
-</script>
+  </script>
+<% end -%>
