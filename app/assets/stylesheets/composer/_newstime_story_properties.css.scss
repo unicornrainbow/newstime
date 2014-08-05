@@ -1,4 +1,9 @@
 .newstime-story-properties { /* palette */
+
+  text-overflow: ellipsis;
+  overflow: hidden;
+
+
   .story-delete {
     cursor: pointer;
   }
