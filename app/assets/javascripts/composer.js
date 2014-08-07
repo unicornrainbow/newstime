@@ -1,36 +1,12 @@
+// ## Libraries
 //= require lib/zepto
 //= require lib/underscore
 //= require lib/backbone
 //= require faye
 //
-// ## Plugins
+// ## App
 //= require newstime_util
-//= require plugins/edition_toolbar
-//= require plugins/headline_control
-//= require plugins/section_nav
-//= require plugins/content_modal
-//= require plugins/add_page_button
-//= require plugins/add_content_region_button
-//= require plugins/add_content_button
-//
-//= require views/palette_view
-//
-//= require views/headline_control_view
-//= require views/headline_properties_view
-//
-//= require views/story_text_control_view
-//= require views/story_properties_view
-//
-//= require views/content_region_control_view
-//= require views/content_region_properties_view
-//
-//= require views/photo_control_view
-//= require views/photo_properties_view
-//
-//= require views/properties_panel_view
-//
-//= require views/vertical_ruler_view
-//
+//= require_tree ./composer/plugins
 //= require_tree ./composer/views
 
 var Newstime = Newstime || {};
