@@ -28,6 +28,8 @@
 //= require views/photo_properties_view
 //
 //= require views/properties_panel_view
+//
+//= require views/vertical_ruler_view
 
 var Newstime = Newstime || {};
 
@@ -68,6 +70,11 @@ Newstime.Composer = {
     $(".composer-modal-dismiss").click(function(){
       composerModals.addClass("hidden");
     });
+
+    // Create Vertical Rule
+    verticalRulerView = new Newstime.VerticalRulerView()
+    $('body').append(verticalRulerView.el);
+
   },
 
   captureAuthenticityToken: function() {
