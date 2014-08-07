@@ -29,8 +29,21 @@ class @Newstime.PageComposeView extends Backbone.View
       closest
 
     # TODO: Get the offset to be on the grid steps
-    leftSteps = [0, 10, 20, 30, 40, 50, 60, 70, 80]
-    rightSteps = [0, 10, 20, 30, 40, 50, 60, 70, 80]
+    columnWidth = 34
+    gutterWidth = 16
+    columns = 24
+
+    # Compute Left Steps
+    firstStep = gutterWidth/2
+    columnStep = columnWidth + gutterWidth
+    leftSteps = _(columns).times (i) ->
+      columnStep * i + firstStep
+
+    firstStep = columnWidth
+    columnStep = columnWidth + gutterWidth
+    rightSteps = _(columns).times (i) ->
+      columnStep * i + firstStep
+
 
     x = closestFn(e.offsetX, leftSteps)
     selection.beginSelection(x, e.offsetY)
