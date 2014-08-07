@@ -75,6 +75,14 @@ Newstime.Composer = {
     //verticalRulerView = new Newstime.VerticalRulerView()
     //$('body').append(verticalRulerView.el);
 
+
+    log = console.log;
+    console.log = function(message) {
+      log.call(console, message);
+    }
+    console.log("Tapping into console.log");
+
+
   },
 
   captureAuthenticityToken: function() {
