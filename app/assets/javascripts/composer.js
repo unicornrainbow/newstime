@@ -30,6 +30,8 @@
 //= require views/properties_panel_view
 //
 //= require views/vertical_ruler_view
+//
+//= require_tree ./composer/views
 
 var Newstime = Newstime || {};
 
@@ -63,6 +65,10 @@ Newstime.Composer = {
       new Newstime.PhotoControlView({el: el, propertiesView: photoPropertiesView});
     });
 
+    $('[page-compose]').each(function(i, el) {
+      new Newstime.PageComposeView({el: el});
+    });
+
     //$(".add-page-btn").addPageButton()
     //$(".add-content-region-btn").addContentRegionButton(contentRegionModal)
     //$(".add-content-btn").addContentButton(contentItemModal)
@@ -76,11 +82,11 @@ Newstime.Composer = {
     //$('body').append(verticalRulerView.el);
 
 
-    log = console.log;
-    console.log = function(message) {
-      log.call(console, message);
-    }
-    console.log("Tapping into console.log");
+    //log = console.log;  // example code, delete if you will.
+    //console.log = function(message) {
+      //log.call(console, message);
+    //}
+    //console.log("Tapping into console.log");
 
 
   },
