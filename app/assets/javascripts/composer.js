@@ -37,9 +37,9 @@ Newstime.Composer = {
   init: function() {
     this.captureAuthenticityToken();
 
-    var composerModals = $(".composer-modal"),
-        contentRegionModal = $(".add-content-region"),
-        contentItemModal = $(".add-content-item").contentModal();
+    //var composerModals = $(".composer-modal"),
+        //contentRegionModal = $(".add-content-region"),
+        //contentItemModal = $(".add-content-item").contentModal();
 
     var headlineProperties = new Newstime.HeadlinePropertiesView();
 
@@ -63,13 +63,13 @@ Newstime.Composer = {
       new Newstime.PhotoControlView({el: el, propertiesView: photoPropertiesView});
     });
 
-    $(".add-page-btn").addPageButton()
-    $(".add-content-region-btn").addContentRegionButton(contentRegionModal)
-    $(".add-content-btn").addContentButton(contentItemModal)
+    //$(".add-page-btn").addPageButton()
+    //$(".add-content-region-btn").addContentRegionButton(contentRegionModal)
+    //$(".add-content-btn").addContentButton(contentItemModal)
 
-    $(".composer-modal-dismiss").click(function(){
-      composerModals.addClass("hidden");
-    });
+    //$(".composer-modal-dismiss").click(function(){
+      //composerModals.addClass("hidden");
+    //});
 
     // Create Vertical Rule
     //verticalRulerView = new Newstime.VerticalRulerView()
