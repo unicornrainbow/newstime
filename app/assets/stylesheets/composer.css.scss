@@ -1,16 +1,4 @@
-//= require ./composer/font-awesome
-//= require ./composer/_font_faces
-//= require ./composer/_compose_toolbar
-//= require ./composer/_compose_toolbar_panel
-//= require ./composer/_section_nav_input
-//= require ./composer/_headline_control
-//= require ./composer/_headline_properties
-//= require ./composer/_newstime_story_properties
-//= require ./composer/_newstime_palette_view
-//= require ./composer/_content_region_control_view
-//= require ./composer/_content_region_properties
-//= require ./composer/_vertical_ruler
-//= require ./composer/_vertical_guideline
+//= require_tree ./composer
 
 .btn-base {
   display: inline-block;
