@@ -72,8 +72,8 @@ Newstime.Composer = {
     });
 
     // Create Vertical Rule
-    verticalRulerView = new Newstime.VerticalRulerView()
-    $('body').append(verticalRulerView.el);
+    //verticalRulerView = new Newstime.VerticalRulerView()
+    //$('body').append(verticalRulerView.el);
 
   },
 
