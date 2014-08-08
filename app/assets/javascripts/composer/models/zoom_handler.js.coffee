@@ -18,35 +18,14 @@ class @Newstime.ZoomHandler extends Backbone.Model
 
 
   captureScrollPosition: (e) =>
-    console.log "Scrolling"
 
-    # Scrolling is fireing at the wrong time, and so there is a bug capture the
-    # correct horzontal scroll position
-
-    if window.devicePixelRatio/@devicePixelRatio == @zoomLevel # Otherwise require recalibration of zoom
+    # Ensure zoom is calibrated
+    if window.devicePixelRatio/@devicePixelRatio == @zoomLevel
+      # If calibrated, recalulate scroll poisiton
       documentWidth = Math.round(@zoomLevel*document.body.scrollWidth) # scroll width give the correct width, considering auto margins on resize, versus document width
       windowWidth   = Math.round(@zoomLevel*$(window).width())
       scrollLeft   = Math.round(@zoomLevel*$(window).scrollLeft())
       @horizontalScrollPosition = Math.round(100 * scrollLeft / (documentWidth - windowWidth))
-
-    #documentWidth = Math.round(@zoomLevel*document.body.scrollWidth) # scroll width give the correct width, considering auto margins on resize, versus document width
-    #windowWidth   = Math.round(@zoomLevel*$(window).width())
-    #scrollLeft   = Math.round(@zoomLevel*$(window).scrollLeft())
-
-    #if documentWidth - windowWidth == 0
-      ## Assumed scroll position with no scroll is 50%
-      #@horizontalScrollPosition = 50
-    #else
-      #@horizontalScrollPosition = Math.round(100 * scrollLeft / (documentWidth - windowWidth))
-
-    #console.log
-      #zoomLevel: @zoomLevel
-      #windowWidth: windowWidth
-      #documentWidth: documentWidth
-      #scrollLeft: scrollLeft
-      #horizontalScrollPosition: @horizontalScrollPosition
-
-    #console.log @horizontalScrollPosition
 
   resize: (e) =>
     @calibrateZoom()
@@ -66,18 +45,9 @@ class @Newstime.ZoomHandler extends Backbone.Model
     @$zoomTarget.css
       zoom: "#{@zoomLevel * 100}%"
 
-    # Need to zoom according to center
-    #windowWidth   = $(window).width() # * @zoomLevel
-    #documentWidth = $(document).width() # * @zoomLevel
-    #scrollLeft    = $(window).scrollLeft() # * @zoomLevel
-
-
-    #documentWidth = Math.round(@zoomLevel*$(document).width())
     documentWidth = Math.round(@zoomLevel*document.body.scrollWidth) # scroll width give the correct width, considering auto margins on resize, versus document width
     windowWidth   = Math.round(@zoomLevel*$(window).width())
     scrollLeft   = Math.round(@zoomLevel*$(window).scrollLeft())
-
-    #@horizontalScrollPosition = Math.round(100 * scrollLeft / (documentWidth - windowWidth))
 
     if documentWidth - windowWidth == 0
       # Assumed scroll position with no scroll is 50%
