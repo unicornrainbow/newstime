@@ -19,6 +19,8 @@ Newstime.Composer = {
         //contentRegionModal = $(".add-content-region"),
         //contentItemModal = $(".add-content-item").contentModal();
 
+    var eventCaptureScreen = new Newstime.EventCaptureScreen();
+
     var headlineProperties = new Newstime.HeadlinePropertiesView();
 
     // Initialize Plugins
@@ -42,7 +44,7 @@ Newstime.Composer = {
     });
 
     $('[page-compose]').each(function(i, el) {
-      new Newstime.PageComposeView({el: el});
+      new Newstime.PageComposeView({el: el, eventCaptureScreen: eventCaptureScreen});
     });
 
     //$(".add-page-btn").addPageButton()

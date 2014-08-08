@@ -5,8 +5,7 @@ class @Newstime.PageComposeView extends Backbone.View
   initialize: (options) ->
     @$el.addClass 'page-compose'
 
-    @eventCaptureScreen = new Newstime.EventCaptureScreen()
-    @$el.append(@eventCaptureScreen.el)
+    @eventCaptureScreen = options.eventCaptureScreen
 
     @gridLines = new Newstime.GridLines()
     @$el.append(@gridLines.el)

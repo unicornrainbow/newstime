@@ -10,6 +10,7 @@ class @Newstime.EventCaptureScreen extends Backbone.View
 
   initialize: (options) ->
     @$el.addClass "event-capture-screen"
+    $('body').append(@el)
 
   mousedown: (e) ->
     e.stopPropagation()
