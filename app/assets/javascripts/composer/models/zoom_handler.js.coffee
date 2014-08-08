@@ -83,3 +83,15 @@ class @Newstime.ZoomHandler extends Backbone.Model
       # Apply scroll position
       scrollTop = (documentHeight - windowHeight) * (@verticalScrollPosition/100) / @zoomLevel
       $(window).scrollTop(scrollTop)
+
+  zoomToPoint: (x, y) ->
+    # This is a demo implementation, just to test the idea
+    @zoomLevelIndex ?= 0
+    @zoomLevelIndex = @zoomLevelIndex+1
+    zoomLevels = [100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
+    @zoomLevel = zoomLevels[@zoomLevelIndex]/100
+    console.log "zooming here"
+
+    # And apply zoom level to the zoom target (page)
+    @$zoomTarget.css
+      zoom: "#{@zoomLevel * 100}%"

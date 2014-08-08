@@ -28,8 +28,7 @@ class @Newstime.GlobalKeyboardDispatch extends Backbone.Model
         @cmdDown = true
 
         zoomMouseWheel = (e) ->
-          console.log "zooming"
-          console.log(e)
+          Newstime.Composer.zoomHandler.zoomToPoint(50, 50)
 
         zoomMouseWheel = _.throttle(zoomMouseWheel, 200)
 
