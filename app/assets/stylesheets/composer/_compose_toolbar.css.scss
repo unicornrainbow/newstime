@@ -2,7 +2,9 @@
   background-color: #484c55;
   border-bottom: 2px solid #ccc;
   z-index: 2000;
-  position: relative;
+  position: fixed;
+  left: 0;
+  right: 0;
 
   > .container {
     height: 60px;
@@ -74,4 +76,8 @@
       }
     }
   }
+}
+
+.compose-toolbar-spacer { // Take space left by fixed position header
+  height: 60px;
 }

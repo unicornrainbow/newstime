@@ -78,6 +78,11 @@ Newstime.Composer = {
     var toolboxView = new Newstime.ToolboxView();
     toolboxView.show();
 
+
+    // This will change from platform to platform, but because
+    // zoom persist across page referese, need to set it hard.
+    // Could possible check client and do mapping that way. (Need good way to
+    // detect retina)
     var devicePixelRatio = 2 //window.devicePixelRatio;
     var resize = function() {
       // Calibrate zoom
@@ -90,6 +95,7 @@ Newstime.Composer = {
       // And apply zoom level to the zoom target (page)
       $('.page').css({zoom: zoomLevel + "%"});
     }
+
 
     resize();
     $(window).resize(resize);
@@ -104,6 +110,5 @@ Newstime.Composer = {
     this.gridOverlay.toggle();
   }
 }
-
 
 $(function() { Newstime.Composer.init(); });
