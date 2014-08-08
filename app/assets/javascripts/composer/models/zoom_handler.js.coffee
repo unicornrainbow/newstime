@@ -22,12 +22,30 @@ class @Newstime.ZoomHandler extends Backbone.Model
 
     # Scrolling is fireing at the wrong time, and so there is a bug capture the
     # correct horzontal scroll position
-    #
+
+    if window.devicePixelRatio/@devicePixelRatio == @zoomLevel # Otherwise require recalibration of zoom
+      documentWidth = Math.round(@zoomLevel*document.body.scrollWidth) # scroll width give the correct width, considering auto margins on resize, versus document width
+      windowWidth   = Math.round(@zoomLevel*$(window).width())
+      scrollLeft   = Math.round(@zoomLevel*$(window).scrollLeft())
+      @horizontalScrollPosition = Math.round(100 * scrollLeft / (documentWidth - windowWidth))
+
     #documentWidth = Math.round(@zoomLevel*document.body.scrollWidth) # scroll width give the correct width, considering auto margins on resize, versus document width
     #windowWidth   = Math.round(@zoomLevel*$(window).width())
     #scrollLeft   = Math.round(@zoomLevel*$(window).scrollLeft())
 
-    #@horizontalScrollPosition = Math.round(100 * scrollLeft / (documentWidth - windowWidth))
+    #if documentWidth - windowWidth == 0
+      ## Assumed scroll position with no scroll is 50%
+      #@horizontalScrollPosition = 50
+    #else
+      #@horizontalScrollPosition = Math.round(100 * scrollLeft / (documentWidth - windowWidth))
+
+    #console.log
+      #zoomLevel: @zoomLevel
+      #windowWidth: windowWidth
+      #documentWidth: documentWidth
+      #scrollLeft: scrollLeft
+      #horizontalScrollPosition: @horizontalScrollPosition
+
     #console.log @horizontalScrollPosition
 
   resize: (e) =>
@@ -57,7 +75,7 @@ class @Newstime.ZoomHandler extends Backbone.Model
     #documentWidth = Math.round(@zoomLevel*$(document).width())
     documentWidth = Math.round(@zoomLevel*document.body.scrollWidth) # scroll width give the correct width, considering auto margins on resize, versus document width
     windowWidth   = Math.round(@zoomLevel*$(window).width())
-    #scrollLeft   = Math.round(@zoomLevel*$(window).scrollLeft())
+    scrollLeft   = Math.round(@zoomLevel*$(window).scrollLeft())
 
     #@horizontalScrollPosition = Math.round(100 * scrollLeft / (documentWidth - windowWidth))
 
@@ -66,11 +84,12 @@ class @Newstime.ZoomHandler extends Backbone.Model
       @horizontalScrollPosition = 50
     else
       # Apply scroll position
-      $(window).scrollLeft((documentWidth - windowWidth) * (@horizontalScrollPosition/100) / @zoomLevel )
+      scrollLeft = (documentWidth - windowWidth) * (@horizontalScrollPosition/100) / @zoomLevel
+      $(window).scrollLeft(scrollLeft)
 
     console.log
       zoomLevel: @zoomLevel
       windowWidth: windowWidth
       documentWidth: documentWidth
-      #scrollLeft: scrollLeft
+      scrollLeft: scrollLeft
       horizontalScrollPosition: @horizontalScrollPosition
