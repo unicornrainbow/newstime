@@ -37,7 +37,6 @@ class @Newstime.ZoomHandler extends Backbone.Model
     @calibrateZoom()
 
   calibrateZoom: ->
-    console.log "calibrating zoom"
 
     # Calibrate zoom
     @zoomLevel = window.devicePixelRatio/@devicePixelRatio
@@ -64,14 +63,6 @@ class @Newstime.ZoomHandler extends Backbone.Model
       scrollLeft = (documentWidth - windowWidth) * (@horizontalScrollPosition/100) / @zoomLevel
       $(window).scrollLeft(scrollLeft)
 
-    #console.log
-      #zoomLevel: @zoomLevel
-      #windowWidth: windowWidth
-      #documentWidth: documentWidth
-      #scrollLeft: scrollLeft
-      #horizontalScrollPosition: @horizontalScrollPosition
-
-
     # Lock scroll vertically
 
     documentHeight = Math.round(@zoomLevel*document.body.scrollHeight)
@@ -85,10 +76,3 @@ class @Newstime.ZoomHandler extends Backbone.Model
       # Apply scroll position
       scrollTop = (documentHeight - windowHeight) * (@verticalScrollPosition/100) / @zoomLevel
       $(window).scrollTop(scrollTop)
-
-    #console.log
-      zoomLevel: @zoomLevel
-      windowHeight: windowHeight
-      documentHeight: documentHeight
-      scrollTop: scrollTop
-      verticalScrollPosition: @verticalScrollPosition
