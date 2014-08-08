@@ -1,0 +1,67 @@
+.newstime-toolbox { /* palette */
+  border-radius: 4px;
+  width: 70px;
+  white-space: nowrap;
+  left: 10px;
+  top: 100px;
+  transition: opacity .2s;
+  background-color: #484c55;
+  color: #eee;
+  position: fixed;
+  font-family: 'Raleway', sans-serif;
+  font-size: 10pt;
+  padding: 0;
+  border-radius: 2px;
+  z-index: 2000;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+  -webkit-user-select: none;
+  user-select: none;
+
+  .dismiss {
+    float: right;
+    padding: 0px;
+    cursor: default;
+
+    &:before {
+      content: "";
+      width: 13px; height: 13px;
+      background-image: asset-url('palette_dismiss.png');
+      background-position: left;
+      background-repeat: no-repeat;
+      background-size: 39px 13px;
+      display: block;
+    }
+    &:hover {
+      &:before {
+        background-position: center;
+      }
+    }
+
+    &:active {
+      &:before {
+        background-position: right;
+      }
+    }
+  }
+
+  .palette-body {
+    padding: 7px;
+  }
+
+  .title-bar {
+    padding: 5px;
+    height: 22px;
+    border-radius: 4px 4px 0 0;
+    background-color: #2e3137;
+    cursor: -webkit-grab;
+  }
+
+  .title-bar.grabbing {
+    cursor: -webkit-grabbing;
+  }
+
+  button {
+    color: #2e3137;
+  }
+
+}

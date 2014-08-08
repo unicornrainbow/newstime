@@ -75,8 +75,8 @@ Newstime.Composer = {
     //
     this.gridOverlay = $('.grid-overlay').hide();
 
-    new Newstime.ToolboxView()
-
+    var toolboxView = new Newstime.ToolboxView();
+    toolboxView.show();
 
   },
 
