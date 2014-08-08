@@ -11,3 +11,6 @@ class @Newstime.GlobalKeyboardDispatch extends Backbone.Model
         # Toggle grid (State should persist across reloads, this is workspace
         # and should be user specific.
         Newstime.Composer.toggleGridOverlay()
+
+      else
+        console.log e
