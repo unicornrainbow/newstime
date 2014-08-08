@@ -14,7 +14,9 @@ class @Newstime.EventCaptureScreen extends Backbone.View
 
   mousedown: (e) ->
     e.stopPropagation()
-    @trigger 'mousedown', e
+    switch e.which
+      when 1
+        @trigger 'mousedown', e
 
   mouseup: (e) ->
     e.stopPropagation()
