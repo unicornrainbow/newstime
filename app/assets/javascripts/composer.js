@@ -25,8 +25,9 @@ Newstime.Composer = {
     var headlineProperties = new Newstime.HeadlinePropertiesView();
 
     var globalKeyboardDispatch = new Newstime.GlobalKeyboardDispatch();
+    Newstime.Composer.globalKeyboardDispatch = globalKeyboardDispatch;
 
-    var keyboard = new Newstime.Keyboard({ defaultFocus: globalKeyboardDispatch });
+    Newstime.Composer.keyboard = new Newstime.Keyboard({ defaultFocus: globalKeyboardDispatch });
     //keyboard.pushFocus(textRegion) // example
 
 

@@ -14,10 +14,17 @@ class @Newstime.ZoomHandler extends Backbone.Model
 
     @calibrateZoom()
     $(window).resize(@resize)
+
+    #trottledCaptureScrollPosition = _.throttle(@captureScrollPosition, 100)
     $(window).scroll(@captureScrollPosition)
 
 
   captureScrollPosition: (e) =>
+
+    #if Newstime.Composer.globalKeyboardDispatch.cmdDown
+      #console.log "zooming"
+      #return false
+    #else
 
     # Ensure zoom is calibrated
     if window.devicePixelRatio/@devicePixelRatio == @zoomLevel
@@ -28,10 +35,10 @@ class @Newstime.ZoomHandler extends Backbone.Model
       @horizontalScrollPosition = Math.round(100 * scrollLeft / (documentWidth - windowWidth))
 
 
-      documentHeight = Math.round(@zoomLevel*document.body.scrollHeight)
-      windowHeight   = Math.round(@zoomLevel*$(window).height())
-      scrollTop   = Math.round(@zoomLevel*$(window).scrollTop())
-      @verticalScrollPosition = Math.round(100 * scrollTop / (documentHeight - windowHeight))
+    documentHeight = Math.round(@zoomLevel*document.body.scrollHeight)
+    windowHeight   = Math.round(@zoomLevel*$(window).height())
+    scrollTop   = Math.round(@zoomLevel*$(window).scrollTop())
+    @verticalScrollPosition = Math.round(100 * scrollTop / (documentHeight - windowHeight))
 
   resize: (e) =>
     @calibrateZoom()
