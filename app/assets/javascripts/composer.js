@@ -7,6 +7,7 @@
 // ## App
 //= require newstime_util
 //= require_tree ./composer/plugins
+//= require_tree ./composer/models
 //= require_tree ./composer/views
 
 var Newstime = Newstime || {};
@@ -22,6 +23,12 @@ Newstime.Composer = {
     var eventCaptureScreen = new Newstime.EventCaptureScreen();
 
     var headlineProperties = new Newstime.HeadlinePropertiesView();
+
+    var globalKeyboardDispatch = new Newstime.GlobalKeyboardDispatch();
+
+    var keyboard = new Newstime.Keyboard({ defaultFocus: globalKeyboardDispatch });
+    //keyboard.pushFocus(textRegion) // example
+
 
     // Initialize Plugins
     $('#edition-toolbar').editionToolbar();
@@ -65,12 +72,18 @@ Newstime.Composer = {
       //log.call(console, message);
     //}
     //console.log("Tapping into console.log");
+    //
+    this.gridOverlay = $('.grid-overlay').hide();
 
 
   },
 
   captureAuthenticityToken: function() {
     this.authenticityToken = $("input[name=authenticity_token]").first().val();
+  },
+
+  toggleGridOverlay: function() {
+    this.gridOverlay.toggle();
   }
 }
 
