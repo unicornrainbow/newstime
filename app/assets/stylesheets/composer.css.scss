@@ -1,5 +1,11 @@
 //= require_tree ./composer
 
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  /* box-sizing: border-box; */
+}
+
 .btn-base {
   display: inline-block;
   padding: 6px 12px;
