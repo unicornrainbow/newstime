@@ -56,6 +56,52 @@ class @Newstime.CtrlZoomHandler extends Backbone.Model
 
     @repositionScroll()
 
+  zoomInPoint: (x, y) ->
+    # This is a demo implementation, just to test the idea
+    @zoomLevelIndex ?= 0
+    @zoomLevelIndex = Math.min(@zoomLevelIndex+1, 10)
+    @zoomLevel = @zoomLevels[@zoomLevelIndex]/100
+
+    # And apply zoom level to the zoom target (page)
+    @$zoomTarget.css
+      zoom: "#{@zoomLevel * 100}%"
+
+
+
+    # Lock scroll horizontally
+    #documentWidth = document.body.scrollWidth # scroll width give the correct width, considering auto margins on resize, versus document width
+    documentWidth = $(document).width() # scroll width give the correct width, considering auto margins on resize, versus document width
+    windowWidth   = $(window).width()
+    scrollLeft   = $(window).scrollLeft()
+
+
+    if documentWidth - windowWidth == 0
+      # Assumed scroll position with no scroll is 50%
+      @horizontalScrollPosition = 50
+    else
+      # Apply scroll position
+      #scrollLeft = (documentWidth - windowWidth) * (@horizontalScrollPosition/100)
+      scrollLeft = (documentWidth - windowWidth) * x/windowWidth
+
+
+      $(window).scrollLeft(scrollLeft)
+
+    # Lock scroll vertically
+
+    documentHeight = Math.round(document.body.scrollHeight)
+    windowHeight   = Math.round($(window).height())
+    scrollTop   = Math.round($(window).scrollTop())
+
+    if documentHeight - windowHeight == 0
+      # Assumed scroll position with no scroll is 50%
+      @verticalScrollPosition = 50
+    else
+      # Apply scroll position
+      #scrollTop = (documentHeight - windowHeight) * (@verticalScrollPosition/100)
+      # Need to compensate for menu bar up top...
+      #scrollTop = (documentHeight - windowHeight) * y/windowHeight
+      #$(window).scrollTop(scrollTop)
+
   zoomOut: ->
     # This is a demo implementation, just to test the idea
     @zoomLevelIndex ?= 0

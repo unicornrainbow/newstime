@@ -27,7 +27,7 @@ class @Newstime.GlobalKeyboardDispatch extends Backbone.Model
 
         zoomMouseWheel = (e) ->
           if e.wheelDeltaY < 0
-            Newstime.Composer.ctrlZoomHandler.zoomIn()
+            Newstime.Composer.ctrlZoomHandler.zoomInPoint(e.x, e.y)
           else if e.wheelDeltaY > 0
             Newstime.Composer.ctrlZoomHandler.zoomOut()
 
