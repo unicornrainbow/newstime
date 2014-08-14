@@ -7,7 +7,6 @@ class @Newstime.EventCaptureScreen extends Backbone.View
     'mousemove': 'mousemove'
     'click': 'click'
 
-
   initialize: (options) ->
     @$el.addClass "event-capture-screen"
     $('body').append(@el)
@@ -17,6 +16,7 @@ class @Newstime.EventCaptureScreen extends Backbone.View
     #switch e.which
       #when 1
         #@trigger 'mousedown', e
+
 
   #mouseup: (e) ->
     #e.stopPropagation()

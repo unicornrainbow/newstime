@@ -2,16 +2,14 @@
 
 class @Newstime.GlobalKeyboardDispatch extends Backbone.Model
 
-  initialize: ->
-    console.log "Gobal Keyboard Dispatch"
+  initialize: (options) ->
 
-    @cmdDown = false
+    @optDown = false
 
     $(window).blur ->
       console.log "canceled"
-      @cmdDown = false
+      @optDown = false
       window.onmousewheel = null
-
 
   keypress: (e) ->
     switch e.charCode
@@ -24,11 +22,14 @@ class @Newstime.GlobalKeyboardDispatch extends Backbone.Model
 
   keydown: (e) ->
     switch e.keyCode
-      when 91 # cmd
-        @cmdDown = true
+      when 18 # opt
+        @optDown = true
 
         zoomMouseWheel = (e) ->
-          Newstime.Composer.zoomHandler.zoomToPoint(50, 50)
+          if e.wheelDeltaY < 0
+            Newstime.Composer.ctrlZoomHandler.zoomIn()
+          else if e.wheelDeltaY > 0
+            Newstime.Composer.ctrlZoomHandler.zoomOut()
 
         zoomMouseWheel = _.throttle(zoomMouseWheel, 200)
 
@@ -37,20 +38,21 @@ class @Newstime.GlobalKeyboardDispatch extends Backbone.Model
           zoomMouseWheel(e)
 
       when 187 # +
-        if e.ctrlKey
+        if e.altKey
           Newstime.Composer.ctrlZoomHandler.zoomIn()
 
       when 189 # -
-        if e.ctrlKey
+        if e.altKey
           Newstime.Composer.ctrlZoomHandler.zoomOut()
 
       when 48 # 0
-        if e.ctrlKey
+        if e.altKey
           Newstime.Composer.ctrlZoomHandler.zoomReset()
+
 
   keyup: (e) ->
     console.log "up", e.keyCode
     switch e.keyCode
-      when 91 # cmd
-        @cmdDown = false
+      when 18 # opt
+        @optDown = false
         window.onmousewheel = null
