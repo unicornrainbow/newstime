@@ -49,6 +49,11 @@ class @Newstime.GlobalKeyboardDispatch extends Backbone.Model
         if e.altKey
           Newstime.Composer.ctrlZoomHandler.zoomReset()
 
+      #when 32 # space
+        #e.stopPropagation()
+        #e.preventDefault()
+        #console.log "handle grab tool"
+
 
   keyup: (e) ->
     console.log "up", e.keyCode
