@@ -3,35 +3,36 @@ class EditionAssetsController < ApplicationController
   respond_to :html
 
   def javascripts
-    # TODO: Action caching would probably word better.
-    result = Rails.cache.fetch "editions/#{params["id"]}/javascript/#{params[:path]}" do
-      @edition = Edition.find(params[:id])
+    @edition = Edition.find(params[:id])
+
+    $sprocket_js_environments ||= {}
+    environment = $sprocket_js_environments[@edition.layout_module_root]
+    unless environment
+      # Load environment into global cache.
       environment = Sprockets::Environment.new
       environment.append_path File.join(@edition.layout_module_root, "javascripts")
-
 
       # Hack to load paths for jquery and angular gems
       environment.append_path Gem.loaded_specs['angularjs-rails'].full_gem_path + "/vendor/assets/javascripts"
       environment.append_path Gem.loaded_specs['jquery-rails'].full_gem_path + "/vendor/assets/javascripts"
 
-      # Is is a coffee file or a straight js? Need to have this done
-      # automatically with sprockets or something.
-
-      environment["#{params[:path]}"]
+      $sprocket_js_environments[@edition.layout_module_root] = environment
     end
+
+    result = environment["#{params[:path]}"]
 
     render text: result, content_type: "text/javascript"
   end
 
   def stylesheets
-    result = Rails.cache.fetch "editions/#{params["id"]}/stylesheets/#{params[:path]}" do
-      @edition = Edition.find(params[:id])
+    @edition = Edition.find(params[:id])
+
+    $sprocket_environments ||= {}
+    environment = $sprocket_environments[@edition.layout_module_root]
+    unless environment
+      # Load environment into global cache.
       environment = Sprockets::Environment.new
       environment.append_path File.join(@edition.layout_module_root, "stylesheets")
-
-      # Major hack to load bootstrap into this isolated environment courtesy of https://gist.github.com/datenimperator/3668587
-      Bootstrap.load!
-      environment.append_path Compass::Frameworks['bootstrap'].templates_directory + "/../vendor/assets/stylesheets"
 
       environment.context_class.class_eval do
         def asset_path(path, options = {})
@@ -39,8 +40,11 @@ class EditionAssetsController < ApplicationController
         end
       end
 
-      result = environment["#{params[:path]}.css"]
+      $sprocket_environments[@edition.layout_module_root] = environment
     end
+
+
+    result = environment["#{params[:path]}.css"]
     render text: result, content_type: "text/css"
   end
 
