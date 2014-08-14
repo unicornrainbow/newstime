@@ -1,0 +1,123 @@
+@Newstime = @Newstime || {}
+
+class @Newstime.CtrlZoomHandler extends Backbone.Model
+
+  initialize: (options) ->
+    # This will change from platform to platform, but because
+    # zoom persist across page referese, need to set it hard.
+    # Could possible check client and do mapping that way. (Need good way to
+    # detect retina)
+    @devicePixelRatio = 2 # window.devicePixelRatio;
+
+    @$body = $('body')
+    @$zoomTarget = $('.page')
+
+    #@calibrateZoom()
+    #$(window).resize(@resize)
+
+    $(window).scroll(@captureScrollPosition)
+
+
+  captureScrollPosition: (e) =>
+
+    # Ensure zoom is calibrated
+    if window.devicePixelRatio/@devicePixelRatio == @zoomLevel
+      # If calibrated, recalulate scroll poisiton
+      documentWidth = Math.round(@zoomLevel*document.body.scrollWidth) # scroll width give the correct width, considering auto margins on resize, versus document width
+      windowWidth   = Math.round(@zoomLevel*$(window).width())
+      scrollLeft   = Math.round(@zoomLevel*$(window).scrollLeft())
+      @horizontalScrollPosition = Math.round(100 * scrollLeft / (documentWidth - windowWidth))
+
+
+    documentHeight = Math.round(@zoomLevel*document.body.scrollHeight)
+    windowHeight   = Math.round(@zoomLevel*$(window).height())
+    scrollTop   = Math.round(@zoomLevel*$(window).scrollTop())
+    @verticalScrollPosition = Math.round(100 * scrollTop / (documentHeight - windowHeight))
+
+  zoomIn: ->
+    # This is a demo implementation, just to test the idea
+    @zoomLevelIndex ?= 0
+    @zoomLevelIndex = @zoomLevelIndex+1
+    zoomLevels = [100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
+    @zoomLevel = zoomLevels[@zoomLevelIndex]/100
+
+    # And apply zoom level to the zoom target (page)
+    @$zoomTarget.css
+      zoom: "#{@zoomLevel * 100}%"
+
+
+  zoomOut: ->
+    # This is a demo implementation, just to test the idea
+    @zoomLevelIndex ?= 0
+    @zoomLevelIndex = @zoomLevelIndex-1
+    zoomLevels = [100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
+    @zoomLevel = zoomLevels[@zoomLevelIndex]/100
+
+    # And apply zoom level to the zoom target (page)
+    @$zoomTarget.css
+      zoom: "#{@zoomLevel * 100}%"
+
+  zoomReset: ->
+    @zoomLevelIndex = 0
+    zoomLevels = [100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
+    @zoomLevel = zoomLevels[@zoomLevelIndex]/100
+
+    # And apply zoom level to the zoom target (page)
+    @$zoomTarget.css
+      zoom: "#{@zoomLevel * 100}%"
+
+  #resize: (e) =>
+    #@calibrateZoom()
+
+  #calibrateZoom: ->
+
+    ## Calibrate zoom
+    #@zoomLevel = window.devicePixelRatio/@devicePixelRatio
+    #@inverseZoomLevel = 1/@zoomLevel
+
+    ## Now we negate the zoom level by doing the inverse to the body.
+    #@$body.css
+      #zoom: "#{@inverseZoomLevel * 100}%"
+
+    ## And apply zoom level to the zoom target (page)
+    #@$zoomTarget.css
+      #zoom: "#{@zoomLevel * 100}%"
+
+    ## Lock scroll horizontally
+    #documentWidth = Math.round(@zoomLevel*document.body.scrollWidth) # scroll width give the correct width, considering auto margins on resize, versus document width
+    #windowWidth   = Math.round(@zoomLevel*$(window).width())
+    #scrollLeft   = Math.round(@zoomLevel*$(window).scrollLeft())
+
+    #if documentWidth - windowWidth == 0
+      ## Assumed scroll position with no scroll is 50%
+      #@horizontalScrollPosition = 50
+    #else
+      ## Apply scroll position
+      #scrollLeft = (documentWidth - windowWidth) * (@horizontalScrollPosition/100) / @zoomLevel
+      #$(window).scrollLeft(scrollLeft)
+
+    ## Lock scroll vertically
+
+    #documentHeight = Math.round(@zoomLevel*document.body.scrollHeight)
+    #windowHeight   = Math.round(@zoomLevel*$(window).height())
+    #scrollTop   = Math.round(@zoomLevel*$(window).scrollTop())
+
+    #if documentHeight - windowHeight == 0
+      ## Assumed scroll position with no scroll is 50%
+      #@verticalScrollPosition = 50
+    #else
+      ## Apply scroll position
+      #scrollTop = (documentHeight - windowHeight) * (@verticalScrollPosition/100) / @zoomLevel
+      #$(window).scrollTop(scrollTop)
+
+  zoomToPoint: (x, y) ->
+    # This is a demo implementation, just to test the idea
+    @zoomLevelIndex ?= 0
+    @zoomLevelIndex = @zoomLevelIndex+1
+    zoomLevels = [100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
+    @zoomLevel = zoomLevels[@zoomLevelIndex]/100
+    console.log "zooming here"
+
+    # And apply zoom level to the zoom target (page)
+    @$zoomTarget.css
+      zoom: "#{@zoomLevel * 100}%"

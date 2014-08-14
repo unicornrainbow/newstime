@@ -20,7 +20,7 @@ class @Newstime.GlobalKeyboardDispatch extends Backbone.Model
         # and should be user specific.
         Newstime.Composer.toggleGridOverlay()
       else
-        console.log e
+        #console.log e
 
   keydown: (e) ->
     switch e.keyCode
@@ -35,6 +35,18 @@ class @Newstime.GlobalKeyboardDispatch extends Backbone.Model
         window.onmousewheel = (e) ->
           e.preventDefault()
           zoomMouseWheel(e)
+
+      when 187 # +
+        if e.ctrlKey
+          Newstime.Composer.ctrlZoomHandler.zoomIn()
+      when 189 # -
+        if e.ctrlKey
+          Newstime.Composer.ctrlZoomHandler.zoomOut()
+
+      when 48 # 0
+        if e.ctrlKey
+          Newstime.Composer.ctrlZoomHandler.zoomReset()
+
 
   keyup: (e) ->
     console.log "up", e.keyCode

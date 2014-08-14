@@ -79,8 +79,11 @@ Newstime.Composer = {
     var toolboxView = new Newstime.ToolboxView();
     toolboxView.show();
 
-    var zoomHandeler = new Newstime.ZoomHandler()
-    Newstime.Composer.zoomHandler = zoomHandeler
+    //var zoomHandeler = new Newstime.ZoomHandler()
+    //Newstime.Composer.zoomHandler = zoomHandeler
+
+    var ctrlZoomHandeler = new Newstime.CtrlZoomHandler()
+    Newstime.Composer.ctrlZoomHandler = ctrlZoomHandeler
 
   },
 
