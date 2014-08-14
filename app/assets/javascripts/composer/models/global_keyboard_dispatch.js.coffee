@@ -17,7 +17,7 @@ class @Newstime.GlobalKeyboardDispatch extends Backbone.Model
         # Toggle grid (State should persist across reloads, this is workspace
         # and should be user specific.
         Newstime.Composer.toggleGridOverlay()
-      else
+      #else
         #console.log e
 
   keydown: (e) ->
@@ -31,7 +31,7 @@ class @Newstime.GlobalKeyboardDispatch extends Backbone.Model
           else if e.wheelDeltaY > 0
             Newstime.Composer.ctrlZoomHandler.zoomOut()
 
-        zoomMouseWheel = _.throttle(zoomMouseWheel, 200)
+        zoomMouseWheel = _.throttle(zoomMouseWheel, 100)
 
         window.onmousewheel = (e) ->
           e.preventDefault()
