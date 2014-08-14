@@ -39,6 +39,7 @@ class @Newstime.GlobalKeyboardDispatch extends Backbone.Model
       when 187 # +
         if e.ctrlKey
           Newstime.Composer.ctrlZoomHandler.zoomIn()
+
       when 189 # -
         if e.ctrlKey
           Newstime.Composer.ctrlZoomHandler.zoomOut()
@@ -46,7 +47,6 @@ class @Newstime.GlobalKeyboardDispatch extends Backbone.Model
       when 48 # 0
         if e.ctrlKey
           Newstime.Composer.ctrlZoomHandler.zoomReset()
-
 
   keyup: (e) ->
     console.log "up", e.keyCode
