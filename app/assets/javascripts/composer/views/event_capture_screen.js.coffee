@@ -26,9 +26,9 @@ class @Newstime.EventCaptureScreen extends Backbone.View
     #e.stopPropagation()
     #@trigger 'mouseup', e
 
-  #mousemove: (e) ->
-    #e.stopPropagation()
-    #@trigger 'mousemove', e
+  mousemove: (e) ->
+    e.stopPropagation()
+    @trigger 'mousemove', e
 
   #click: (e) ->
     #e.stopPropagation()
@@ -44,3 +44,6 @@ class @Newstime.EventCaptureScreen extends Backbone.View
     console.log "Show Cursor"
     @$el.css
       cursor: ''
+
+  changeCursor: (cursor) ->
+    @$el.css cursor: cursor

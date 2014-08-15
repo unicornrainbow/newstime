@@ -19,6 +19,8 @@ class @Newstime.ToolboxView extends Backbone.View
       </div>
     """
 
+    @composer = options.composer
+
     # Select Elements
     @$body = @$el.find('.palette-body')
     @$titleBar = @$el.find('.title-bar')
@@ -29,12 +31,13 @@ class @Newstime.ToolboxView extends Backbone.View
   # This is will be called by the application, if a mousedown event is targeted
   # at the panel
   mousedown: (e) ->
-    # Need to figure out if it is a title bar hit, or needs to go somewhere
-    # else.
 
+    # Did it hit the title bar?
+    titleBarHit = true # Pretend it did.
 
-
-
+    if titleBarHit
+      console.log "Begin Drag"
+      @beginDrag()
 
 
   dismiss: ->
@@ -52,7 +55,9 @@ class @Newstime.ToolboxView extends Backbone.View
     @$el.css('left', event.pageX + @leftMouseOffset)
 
   beginDrag: (e) ->
-    @$titleBar.addClass('grabbing')
+    #@$titleBar.addClass('grabbing')
+    @composer.changeCursor('-webkit-grabbing')
+
 
     # Calulate offsets
     @topMouseOffset = parseInt(@$el.css('top')) - event.pageY

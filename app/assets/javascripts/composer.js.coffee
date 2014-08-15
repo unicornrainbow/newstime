@@ -109,7 +109,8 @@
     #console.log("Tapping into console.log");
 
     @gridOverlay = $(".grid-overlay").hide()
-    toolboxView = new Newstime.ToolboxView()
+    toolboxView = new Newstime.ToolboxView
+      composer: this
 
     # Tool box is a panel, and needs to be attached to the panels view for
     # display and interaction.
@@ -128,6 +129,9 @@
     @eventCaptureScreen.bind 'mousedown', (e) =>
       @mousedown(e)
 
+    @eventCaptureScreen.bind 'mousemove', (e) =>
+      @mousemove(e)
+
 
   captureAuthenticityToken: ->
     @authenticityToken = $("input[name=authenticity_token]").first().val()
@@ -142,6 +146,43 @@
 
   showCursor: ->
     @eventCaptureScreen.showCursor()
+
+  changeCursor: (cursor) ->
+    @eventCaptureScreen.changeCursor(cursor)
+
+
+  mousemove: (e) ->
+
+
+    e = {
+      x: e.x
+      y: e.y - @topOffset
+    }
+
+    panel = @panelsView.findPanel(e.x, e.y)
+    if panel
+      console.log "Over panel", panel
+
+      # Mousemove on this object needs to be smart enough to trigger a mouseover
+      # at the right times on the panel, and what is considered to be the moused
+      # over object changes.
+      #panel.mousemove(e)
+
+      # Now that we have an object, in this case a panel that match the corrds,
+      # we can trigger the mousedown on the panel.
+      #panel.mousedown(e)
+      #
+
+      # Keep in mind, there are dom event, object events, and possible a new
+      # type of event.
+      #
+      # Dom == Document Object Model
+      # Iom == Interface Object Model ? Or something like that could be a useful
+      # idea.
+
+      return true
+
+
 
   mousedown: (e) ->
     # We've received a mouse down event!
