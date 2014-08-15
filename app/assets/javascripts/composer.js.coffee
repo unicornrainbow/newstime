@@ -16,6 +16,16 @@
   init: ->
     @captureAuthenticityToken()
 
+    @topOffset = '62px'
+
+
+    # Panels view show and manages the panels that are shown above the view
+    # port.
+    @panelsView = new Newstime.PanelsView
+      topOffset: @topOffset
+
+    $('body').append(@panelsView.el)
+
     #@eventEmitter = new Newstime.EventEmitter (Mouse events, Keyboard Events,
     #Scroll Events)
 
@@ -24,7 +34,7 @@
     #contentItemModal = $(".add-content-item").contentModal();
 
     @eventCaptureScreen = new Newstime.EventCaptureScreen
-      topOffset: '62px'
+      topOffset: @topOffset
 
     headlineProperties = new Newstime.HeadlinePropertiesView()
 
@@ -100,7 +110,14 @@
 
     @gridOverlay = $(".grid-overlay").hide()
     toolboxView = new Newstime.ToolboxView()
+
+    # Tool box is a panel, and needs to be attached to the panels view for
+    # display and interaction.
+    @panelsView.attachPanel(toolboxView)
+
+    # Show the toolbox panel
     toolboxView.show()
+
 
     #var zoomHandeler = new Newstime.ZoomHandler()
     #Newstime.Composer.zoomHandler = zoomHandeler
@@ -130,10 +147,30 @@
     # We've received a mouse down event!
     # Figure out where to send the event
 
+    # Check against panels.
+    #@panels.push 3
+    #_.each @panels, (panel) ->
+      #console.log panel
+      #
+      #
+
+    #console.log @panelsView.panels
+
+    # Call into panel view with the click, and check for a hit...
+    if @panelsView.mousedown(e)
+      # If the event mousedown hit something, return true to indicate and stop
+      # propgation (A bit different than dom event propgation) (Could be a
+      # little confusing)
+      return true
+
+    # Panels are fixed over the view port, so no mapping is required. Perhaps
+    # the "canvas" objects need to be inside of a canvas container.
+
+
     # Forward to child objects.
-    @children ?= []
-    @children.push 3
-    console.log @children
+    #@children ?= []
+    #@children.push 3
+    #console.log @children
 
     # As we search through the children, the uppermost object should be the
     # first to receive. We will map the click based on zoom level and scroll,

@@ -24,7 +24,7 @@ class @Newstime.ToolboxView extends Backbone.View
     @$titleBar = @$el.find('.title-bar')
 
     # Attach to dom
-    $('body').append(@el)
+    #$('body').append(@el)
 
   dismiss: ->
     @trigger 'dismiss'
