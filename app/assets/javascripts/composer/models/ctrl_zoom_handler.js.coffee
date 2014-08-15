@@ -66,8 +66,6 @@ class @Newstime.CtrlZoomHandler extends Backbone.Model
     @$zoomTarget.css
       zoom: "#{@zoomLevel * 100}%"
 
-
-
     # Lock scroll horizontally
     #documentWidth = document.body.scrollWidth # scroll width give the correct width, considering auto margins on resize, versus document width
     documentWidth = $(document).width() # scroll width give the correct width, considering auto margins on resize, versus document width
