@@ -7,7 +7,7 @@ class @Newstime.GlobalKeyboardDispatch extends Backbone.Model
     @optDown = false
 
     $(window).blur ->
-      console.log "canceled"
+      #console.log "canceled"
       @optDown = false
       window.onmousewheel = null
 
@@ -49,15 +49,23 @@ class @Newstime.GlobalKeyboardDispatch extends Backbone.Model
         if e.altKey
           Newstime.Composer.ctrlZoomHandler.zoomReset()
 
-      #when 32 # space
-        #e.stopPropagation()
-        #e.preventDefault()
+      when 32 # space
+        e.stopPropagation()
+        e.preventDefault()
         #console.log "handle grab tool"
+
+        # Engage Drag Mode.
+        @trigger 'dragModeEngaged'
 
 
   keyup: (e) ->
-    console.log "up", e.keyCode
+    #console.log "up", e.keyCode
     switch e.keyCode
       when 18 # opt
         @optDown = false
         window.onmousewheel = null
+
+      when 32 #space
+        e.stopPropagation()
+        e.preventDefault()
+        @trigger 'dragModeDisengaged'

@@ -11,11 +11,16 @@ class @Newstime.EventCaptureScreen extends Backbone.View
     @$el.addClass "event-capture-screen"
     $('body').append(@el)
 
-  #mousedown: (e) ->
-    #e.stopPropagation()
-    #switch e.which
-      #when 1
-        #@trigger 'mousedown', e
+    # Apply top offset (Allows room for menu)
+    @topOffset = options.topOffset
+    @$el.css top: @topOffset
+
+
+  mousedown: (e) ->
+    e.stopPropagation()
+    switch e.which
+      when 1 # Left button
+        @trigger 'mousedown', e
 
   #mouseup: (e) ->
     #e.stopPropagation()
@@ -28,3 +33,14 @@ class @Newstime.EventCaptureScreen extends Backbone.View
   #click: (e) ->
     #e.stopPropagation()
     #@trigger 'click', e
+
+
+  hideCursor: ->
+    console.log "Hide Cursor"
+    @$el.css
+      cursor: 'none'
+
+  showCursor: ->
+    console.log "Show Cursor"
+    @$el.css
+      cursor: ''
