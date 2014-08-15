@@ -3,9 +3,9 @@
 class @Newstime.ToolboxView extends Backbone.View
 
   events:
-   'mousedown .title-bar': 'beginDrag'
    'mouseup .title-bar': 'endDrag'
    'click .dismiss': 'dismiss'
+   #'mousedown .title-bar': 'beginDrag'
 
   initialize: (options) ->
     @$el.hide()
@@ -25,6 +25,17 @@ class @Newstime.ToolboxView extends Backbone.View
 
     # Attach to dom
     #$('body').append(@el)
+
+  # This is will be called by the application, if a mousedown event is targeted
+  # at the panel
+  mousedown: (e) ->
+    # Need to figure out if it is a title bar hit, or needs to go somewhere
+    # else.
+
+
+
+
+
 
   dismiss: ->
     @trigger 'dismiss'

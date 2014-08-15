@@ -161,10 +161,21 @@
     }
 
     # Call into panel view with the click, and check for a hit...
-    if @panelsView.mousedown(e)
-      # If the event mousedown hit something, return true to indicate and stop
-      # propgation (A bit different than dom event propgation) (Could be a
-      # little confusing)
+    panel = @panelsView.findPanel(e.x, e.y)
+    if panel
+      console.log "Selected panel", panel
+
+      # Now that we have an object, in this case a panel that match the corrds,
+      # we can trigger the mousedown on the panel.
+      panel.mousedown(e)
+
+      # Keep in mind, there are dom event, object events, and possible a new
+      # type of event.
+      #
+      # Dom == Document Object Model
+      # Iom == Interface Object Model ? Or something like that could be a useful
+      # idea.
+
       return true
 
     # Panels are fixed over the view port, so no mapping is required. Perhaps

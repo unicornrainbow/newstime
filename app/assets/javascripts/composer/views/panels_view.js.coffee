@@ -18,26 +18,19 @@ class @Newstime.PanelsView extends Backbone.View
     # Attach it to the dom el
     @$el.append(panel.el)
 
-  mousedown: (e) ->
+  # Finds panel based on x, y corrdinate.
+  findPanel: (x, y) ->
     # Received a mousedown event, check for a hit and to see if we need to pass
     # on to a panel.
 
     # Check against panels.
-    _.each @panels, (panel) =>
-      #@detectHit panel, e.x, e.y
-      #
-      #
-      console.log @detectHit panel, e.x, e.y
+    # Panel are assumed to be in order from top most first (When selected, a
+    # panel is moved to the top visually and in this stack
 
+    panel = _.find @panels, (panel) =>
+      @detectHit panel, x, y
 
-      #console.log panel.detectHit e.x, e.y  # Detects hit; Handels hit detection
-      #console.log panel, e
-      #
-      # So, we want to object to have control of what is considered a hit.
-      # But what we really want to know is what we hit.
-
-
-    return true
+    return panel
 
   detectHit: (panel, x, y) ->
     # Get panel geometry
