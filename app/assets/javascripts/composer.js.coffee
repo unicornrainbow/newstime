@@ -156,8 +156,8 @@
 
     # Create a new event object and map based on the offset of the view port.
     e = {
-      x: e.layerX
-      y: e.layerY
+      x: e.x
+      y: e.y - @topOffset
     }
 
     # Call into panel view with the click, and check for a hit...
