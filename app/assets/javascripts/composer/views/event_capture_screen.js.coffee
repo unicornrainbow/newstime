@@ -13,7 +13,7 @@ class @Newstime.EventCaptureScreen extends Backbone.View
 
     # Apply top offset (Allows room for menu)
     @topOffset = options.topOffset
-    @$el.css top: @topOffset
+    @$el.css top: "#{@topOffset}px"
 
 
   mousedown: (e) ->

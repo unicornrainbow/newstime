@@ -62,3 +62,18 @@ class @Newstime.ToolboxView extends Backbone.View
 
   width: ->
     parseInt(@$el.css('width'))
+
+  height: ->
+    parseInt(@$el.css('height'))
+
+  x: ->
+    parseInt(@$el.css('left'))
+
+  y: ->
+    parseInt(@$el.css('top'))
+
+  geometry: ->
+    x: @x()
+    y: @y()
+    width: @width()
+    height: @height()

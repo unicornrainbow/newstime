@@ -16,7 +16,7 @@
   init: ->
     @captureAuthenticityToken()
 
-    @topOffset = '62px'
+    @topOffset = 62 # px
 
 
     # Panels view show and manages the panels that are shown above the view
@@ -151,10 +151,14 @@
     #@panels.push 3
     #_.each @panels, (panel) ->
       #console.log panel
-      #
-      #
 
     #console.log @panelsView.panels
+
+    # Create a new event object and map based on the offset of the view port.
+    e = {
+      x: e.layerX
+      y: e.layerY
+    }
 
     # Call into panel view with the click, and check for a hit...
     if @panelsView.mousedown(e)
