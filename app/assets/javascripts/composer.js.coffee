@@ -95,23 +95,6 @@
       )
       return
 
-    #$(".add-page-btn").addPageButton()
-    #$(".add-content-region-btn").addContentRegionButton(contentRegionModal)
-    #$(".add-content-btn").addContentButton(contentItemModal)
-
-    #$(".composer-modal-dismiss").click(function(){
-    #composerModals.addClass("hidden");
-    #});
-
-    # Create Vertical Rule
-    #verticalRulerView = new Newstime.VerticalRulerView()
-    #$('body').append(verticalRulerView.el);
-
-    #log = console.log;  // example code, delete if you will.
-    #console.log = function(message) {
-    #log.call(console, message);
-    #}
-    #console.log("Tapping into console.log");
 
     @gridOverlay = $(".grid-overlay").hide()
 
