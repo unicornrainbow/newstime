@@ -1,6 +1,6 @@
 .newstime-toolbox { /* palette */
   border-radius: 4px;
-  width: 70px;
+  width: 68px;
   white-space: nowrap;
   left: 10px;
   top: 100px;
@@ -52,7 +52,8 @@
   }
 
   .palette-body {
-    padding: 7px;
+    padding: 2px;
+    height: 80px;
   }
 
   .title-bar {
@@ -69,6 +70,21 @@
 
   button {
     color: #2e3137;
+  }
+
+  .toolbox-button {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #515560;
+    float: left;
+    margin: 1px;
+  }
+
+  .select-tool {
+    background-image: asset-url('select_tool.png');
+    background-repeat: no-repeat;
+    background-size: 11px;
+    background-position: 9px;
   }
 
 }

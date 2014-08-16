@@ -193,10 +193,6 @@
       @changeCursor('')
 
   mousedown: (e) ->
-
-    # Since we are tracking mousemoves, the values of the current mouse location
-    # match what's coming in from the event.
-
     e =
       x: @mouseX
       y: @mouseY

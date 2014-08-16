@@ -16,6 +16,9 @@ class @Newstime.ToolboxView extends Backbone.View
         <span class="dismiss"></span>
       </div>
       <div class="palette-body">
+        <div class="toolbox-button select-tool"></div>
+        <div class="toolbox-button"></div>
+        <div class="toolbox-button"></div>
       </div>
     """
 
