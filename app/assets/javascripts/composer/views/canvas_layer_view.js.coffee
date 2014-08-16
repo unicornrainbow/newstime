@@ -120,8 +120,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
     @zoomLevelIndex ?= 0
     @zoomLevelIndex = @zoomLevelIndex+1
-    zoomLevels = [100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
-    @zoomLevel = zoomLevels[@zoomLevelIndex]/100
+    @zoomLevel = @zoomLevels[@zoomLevelIndex]/100
     console.log "zooming here"
 
     # And apply zoom level to the zoom target (page)
