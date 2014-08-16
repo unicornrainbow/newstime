@@ -139,6 +139,7 @@
     @coverLayerView.changeCursor(cursor)
 
 
+  # Public: Handles mousemove events, called by CoverLayerView
   mousemove: (e) ->
 
     # Store current cursor location.
@@ -152,10 +153,19 @@
     # Check for a hit on panel layer
     hit = @panelLayerView.hit(e.x, e.y)
 
+    if hit
+      @mousemoveHit(hit)
+      return
 
     # Check for hit on canvas layer
     #hit = @canvasLayerView.hit(e.x, e.y)
 
+    #if hit
+      #@mousemoveHit(hit)
+      #return
+
+
+  mousemoveHit: (hit) ->
 
     if hit
       # Store as hoveredObject and trigger mouseout, mouseover events
@@ -198,7 +208,6 @@
 
   zoomReset: ->
     @canvasLayerView.zoomReset()
-
 
   repositionScroll: ->
     @canvasLayerView.repositionScroll()
