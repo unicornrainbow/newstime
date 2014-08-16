@@ -9,7 +9,6 @@ class @Newstime.CoverLayerView extends Backbone.View
 
   initialize: (options) ->
     @$el.addClass "cover-layer-view"
-    $('body').append(@el)
 
     # Apply top offset (Allows room for menu)
     @topOffset = options.topOffset

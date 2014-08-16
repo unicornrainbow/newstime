@@ -19,22 +19,16 @@
     ## Config
     @topOffset = 62 # px
 
-    # Panels view show and manages the panels that are shown above the view
-    # port.
-    @panelLayerView = new Newstime.PanelLayerView
-      topOffset: @topOffset
 
-    $('body').append(@panelLayerView.el)
-
-    #@eventEmitter = new Newstime.EventEmitter (Mouse events, Keyboard Events,
-    #Scroll Events)
-
-    #var composerModals = $(".composer-modal"),
-    #contentRegionModal = $(".add-content-region"),
-    #contentItemModal = $(".add-content-item").contentModal();
-
+    # Create application layers
     @coverLayerView = new Newstime.CoverLayerView
       topOffset: @topOffset
+    $('body').append(@coverLayerView.el)
+
+    @panelLayerView = new Newstime.PanelLayerView
+      topOffset: @topOffset
+    $('body').append(@panelLayerView.el)
+
 
     headlineProperties = new Newstime.HeadlinePropertiesView()
 
@@ -49,6 +43,13 @@
 
     @globalKeyboardDispatch.bind 'dragModeDisengaged', ->
       canvasDragView.disengage()
+
+    #@eventEmitter = new Newstime.EventEmitter (Mouse events, Keyboard Events,
+    #Scroll Events)
+
+    #var composerModals = $(".composer-modal"),
+    #contentRegionModal = $(".add-content-region"),
+    #contentItemModal = $(".add-content-item").contentModal();
 
 
     Newstime.Composer.globalKeyboardDispatch = @globalKeyboardDispatch
