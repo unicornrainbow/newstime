@@ -162,12 +162,32 @@
       y: e.y - @topOffset
     }
 
-    panel = @panelLayerView.findPanel(e.x, e.y)
-    if panel
-      console.log "Over panel", panel
+    # Check for a hit on panel layer
+    hit = @panelLayerView.hit(e.x, e.y)
 
-      return true
 
+    # Check for hit on canvas layer
+    #hit = @canvasLayerView.hit(e.x, e.y)
+
+
+    if hit
+      # Store as hoveredObject and trigger mouseout, mouseover events
+      if @hoveredObject != hit
+        if @hoveredObject
+          @hoveredObject.trigger 'mouseout', {}
+
+        @hoveredObject = hit
+        @hoveredObject.trigger 'mouseover', {}
+
+    else
+
+      # Clear hovered object, if there is one.
+      if @hoveredObject
+        @hoveredObject.trigger 'mouseout', {}
+        @hoveredObject = null
+
+
+    #console.log "hover", @hoveredObject
 
   mousedown: (e) ->
     # We've received a mouse down event!
@@ -187,7 +207,7 @@
     }
 
     # Call into panel view with the click, and check for a hit...
-    panel = @panelLayerView.findPanel(e.x, e.y)
+    panel = @panelLayerView.hit(e.x, e.y)
     if panel
       console.log "Selected panel", panel
 

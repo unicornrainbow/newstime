@@ -25,6 +25,9 @@ class @Newstime.ToolboxView extends Backbone.View
     @$body = @$el.find('.palette-body')
     @$titleBar = @$el.find('.title-bar')
 
+    @bind 'mouseover', @mouseover
+    @bind 'mouseout', @mouseout
+
     # Attach to dom
     #$('body').append(@el)
 
@@ -68,6 +71,12 @@ class @Newstime.ToolboxView extends Backbone.View
   endDrag: (e) ->
     @$titleBar.removeClass('grabbing')
     $(document).unbind('mousemove', @moveHandeler)
+
+  mouseover: ->
+    @$el.addClass 'hovered'
+
+  mouseout: ->
+    @$el.removeClass 'hovered'
 
   # Attachs html or element to body of palette
   attach: (html) ->

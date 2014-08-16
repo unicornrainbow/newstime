@@ -18,8 +18,8 @@ class @Newstime.PanelLayerView extends Backbone.View
     # Attach it to the dom el
     @$el.append(panel.el)
 
-  # Finds panel based on x, y corrdinate.
-  findPanel: (x, y) ->
+  # Registers hit, and returns hit panel, should there be one.
+  hit: (x, y) ->
     # Received a mousedown event, check for a hit and to see if we need to pass
     # on to a panel.
 
