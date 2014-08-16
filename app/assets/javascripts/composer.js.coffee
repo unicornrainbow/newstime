@@ -16,6 +16,9 @@
   init: ->
     @captureAuthenticityToken()
 
+    # Capture Elements
+    @$body = $('body')
+
     ## Config
     @topOffset = 62 # px
 
@@ -23,11 +26,11 @@
     # Create application layers
     @coverLayerView = new Newstime.CoverLayerView
       topOffset: @topOffset
-    $('body').append(@coverLayerView.el)
+    @$body.append(@coverLayerView.el)
 
     @panelLayerView = new Newstime.PanelLayerView
       topOffset: @topOffset
-    $('body').append(@panelLayerView.el)
+    @$body.append(@panelLayerView.el)
 
 
     headlineProperties = new Newstime.HeadlinePropertiesView()
