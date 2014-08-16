@@ -157,10 +157,13 @@
 
   mousemove: (e) ->
 
-    e = {
-      x: e.x
-      y: e.y - @topOffset
-    }
+    # Store current cursor location.
+    @mouseX = e.x
+    @mouseY = e.y - @topOffset
+
+    e =
+      x: @mouseX
+      y: @mouseY
 
     # Check for a hit on panel layer
     hit = @panelLayerView.hit(e.x, e.y)
@@ -186,60 +189,20 @@
         @hoveredObject.trigger 'mouseout', {}
         @hoveredObject = null
 
-
-    #console.log "hover", @hoveredObject
+      # Clear cursor state
+      @changeCursor('')
 
   mousedown: (e) ->
-    # We've received a mouse down event!
-    # Figure out where to send the event
 
-    # Check against panels.
-    #@panels.push 3
-    #_.each @panels, (panel) ->
-      #console.log panel
+    # Since we are tracking mousemoves, the values of the current mouse location
+    # match what's coming in from the event.
 
-    #console.log @panelLayerView.panels
+    e =
+      x: @mouseX
+      y: @mouseY
 
-    # Create a new event object and map based on the offset of the view port.
-    e = {
-      x: e.x
-      y: e.y - @topOffset
-    }
-
-    # Call into panel view with the click, and check for a hit...
-    panel = @panelLayerView.hit(e.x, e.y)
-    if panel
-      console.log "Selected panel", panel
-
-      # Now that we have an object, in this case a panel that match the corrds,
-      # we can trigger the mousedown on the panel.
-      panel.mousedown(e)
-
-      # Keep in mind, there are dom event, object events, and possible a new
-      # type of event.
-      #
-      # Dom == Document Object Model
-      # Iom == Interface Object Model ? Or something like that could be a useful
-      # idea.
-
-      return true
-
-    # Panels are fixed over the view port, so no mapping is required. Perhaps
-    # the "canvas" objects need to be inside of a canvas container.
-
-
-    # Forward to child objects.
-    #@children ?= []
-    #@children.push 3
-    #console.log @children
-
-    # As we search through the children, the uppermost object should be the
-    # first to receive. We will map the click based on zoom level and scroll,
-    # and see if there is a click. We must realize that this click is actually
-    # received on the view port (Event capture region), and there is the canvas
-    # which is the total area. The panels are above, and perhaps shouldn't be
-    # thought of as children, and are infact panels, that can be hit
-
+    if @hoveredObject
+      @hoveredObject.trigger 'mousedown'
 
 $ ->
   Newstime.Composer.init()

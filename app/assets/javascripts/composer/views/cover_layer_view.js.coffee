@@ -18,7 +18,7 @@ class @Newstime.CoverLayerView extends Backbone.View
 
   mousedown: (e) ->
     e.stopPropagation()
-    @composer.mousemove(e)
+    @composer.mousedown(e)
     #switch e.which
       #when 1 # Left button
         #@trigger 'mousedown', e

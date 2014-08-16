@@ -27,6 +27,7 @@ class @Newstime.ToolboxView extends Backbone.View
 
     @bind 'mouseover', @mouseover
     @bind 'mouseout', @mouseout
+    @bind 'mousedown', @mousedown
 
     # Attach to dom
     #$('body').append(@el)
@@ -63,10 +64,14 @@ class @Newstime.ToolboxView extends Backbone.View
 
 
     # Calulate offsets
-    @topMouseOffset = parseInt(@$el.css('top')) - event.pageY
-    @leftMouseOffset = parseInt(@$el.css('left')) - event.pageX
+    #@topMouseOffset = parseInt(@$el.css('top')) - event.pageY
+    #@leftMouseOffset = parseInt(@$el.css('left')) - event.pageX
 
-    $(document).bind('mousemove', @moveHandeler)
+
+    @leftMouseOffset = parseInt(@$el.css('left')) - event.x
+    @topMouseOffset = parseInt(@$el.css('top')) - event.y
+
+    #$(document).bind('mousemove', @moveHandeler)
 
   endDrag: (e) ->
     @$titleBar.removeClass('grabbing')
@@ -74,9 +79,12 @@ class @Newstime.ToolboxView extends Backbone.View
 
   mouseover: ->
     @$el.addClass 'hovered'
+    @composer.changeCursor('-webkit-grab')
 
   mouseout: ->
     @$el.removeClass 'hovered'
+    #@composer.changeCursor('-webkit-grab') # Need to clear cursor
+
 
   # Attachs html or element to body of palette
   attach: (html) ->
