@@ -16,15 +16,15 @@
   init: ->
     @captureAuthenticityToken()
 
+    ## Config
     @topOffset = 62 # px
-
 
     # Panels view show and manages the panels that are shown above the view
     # port.
-    @panelsView = new Newstime.PanelsView
+    @panelLayerView = new Newstime.PanelLayerView
       topOffset: @topOffset
 
-    $('body').append(@panelsView.el)
+    $('body').append(@panelLayerView.el)
 
     #@eventEmitter = new Newstime.EventEmitter (Mouse events, Keyboard Events,
     #Scroll Events)
@@ -114,7 +114,7 @@
 
     # Tool box is a panel, and needs to be attached to the panels view for
     # display and interaction.
-    @panelsView.attachPanel(toolboxView)
+    @panelLayerView.attachPanel(toolboxView)
 
     # Show the toolbox panel
     toolboxView.show()
@@ -158,7 +158,7 @@
       y: e.y - @topOffset
     }
 
-    panel = @panelsView.findPanel(e.x, e.y)
+    panel = @panelLayerView.findPanel(e.x, e.y)
     if panel
       console.log "Over panel", panel
 
@@ -191,7 +191,7 @@
     #_.each @panels, (panel) ->
       #console.log panel
 
-    #console.log @panelsView.panels
+    #console.log @panelLayerView.panels
 
     # Create a new event object and map based on the offset of the view port.
     e = {
@@ -200,7 +200,7 @@
     }
 
     # Call into panel view with the click, and check for a hit...
-    panel = @panelsView.findPanel(e.x, e.y)
+    panel = @panelLayerView.findPanel(e.x, e.y)
     if panel
       console.log "Selected panel", panel
 

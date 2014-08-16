@@ -1,8 +1,8 @@
 # View layer which manages display and interaction with panels
-class @Newstime.PanelsView extends Backbone.View
+class @Newstime.PanelLayerView extends Backbone.View
 
   initialize: (options) ->
-    @$el.addClass 'panels-view'
+    @$el.addClass 'panel-layer-view'
     @panels ?= []
 
     # Until we have a better means of containg all the application layer, just
