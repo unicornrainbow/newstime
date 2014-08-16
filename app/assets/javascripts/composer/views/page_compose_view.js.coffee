@@ -5,12 +5,12 @@ class @Newstime.PageComposeView extends Backbone.View
   initialize: (options) ->
     @$el.addClass 'page-compose'
 
-    @eventCaptureScreen = options.eventCaptureScreen
+    @coverLayerView = options.coverLayerView
 
     @gridLines = new Newstime.GridLines()
     @$el.append(@gridLines.el)
 
-    @eventCaptureScreen.bind 'mousedown', @mousedown
+    #@coverLayerView.bind 'mousedown', @mousedown
 
   mousedown: (e) =>
     @trackingSelection = true
@@ -47,14 +47,14 @@ class @Newstime.PageComposeView extends Backbone.View
     x = closestFn(e.offsetX, leftSteps)
     selection.beginSelection(x, e.offsetY)
 
-    @eventCaptureScreen.bind 'mousemove', (e) ->
-      # TODO: Width needs to be one of certain allowable values
+    #@coverLayerView.bind 'mousemove', (e) ->
+      ## TODO: Width needs to be one of certain allowable values
 
-      width = closestFn(e.offsetX - selection.anchorX, rightSteps)
-      selection.$el.css
-        width: width
-        height: e.offsetY - selection.anchorY
+      #width = closestFn(e.offsetX - selection.anchorX, rightSteps)
+      #selection.$el.css
+        #width: width
+        #height: e.offsetY - selection.anchorY
 
-    @eventCaptureScreen.bind 'mouseup', (e) =>
-      @eventCaptureScreen.unbind('mousemove')
-      @eventCaptureScreen.unbind('mouseup')
+    #@coverLayerView.bind 'mouseup', (e) =>
+      #@coverLayerView.unbind('mousemove')
+      #@coverLayerView.unbind('mouseup')

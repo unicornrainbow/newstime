@@ -33,7 +33,7 @@
     #contentRegionModal = $(".add-content-region"),
     #contentItemModal = $(".add-content-item").contentModal();
 
-    @eventCaptureScreen = new Newstime.EventCaptureScreen
+    @coverLayerView = new Newstime.CoverLayerView
       topOffset: @topOffset
 
     headlineProperties = new Newstime.HeadlinePropertiesView()
@@ -86,7 +86,7 @@
     $("[page-compose]").each (i, el) =>
       new Newstime.PageComposeView(
         el: el
-        eventCaptureScreen: @eventCaptureScreen
+        coverLayerView: @coverLayerView
       )
       return
 
@@ -126,10 +126,10 @@
     Newstime.Composer.ctrlZoomHandler = ctrlZoomHandeler
 
     # Wire Up events
-    @eventCaptureScreen.bind 'mousedown', (e) =>
+    @coverLayerView.bind 'mousedown', (e) =>
       @mousedown(e)
 
-    @eventCaptureScreen.bind 'mousemove', (e) =>
+    @coverLayerView.bind 'mousemove', (e) =>
       @mousemove(e)
 
 
@@ -142,17 +142,16 @@
     return
 
   hideCursor: ->
-    @eventCaptureScreen.hideCursor()
+    @coverLayerView.hideCursor()
 
   showCursor: ->
-    @eventCaptureScreen.showCursor()
+    @coverLayerView.showCursor()
 
   changeCursor: (cursor) ->
-    @eventCaptureScreen.changeCursor(cursor)
+    @coverLayerView.changeCursor(cursor)
 
 
   mousemove: (e) ->
-
 
     e = {
       x: e.x
@@ -181,7 +180,6 @@
       # idea.
 
       return true
-
 
 
   mousedown: (e) ->
