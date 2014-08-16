@@ -114,15 +114,17 @@
     #console.log("Tapping into console.log");
 
     @gridOverlay = $(".grid-overlay").hide()
-    toolboxView = new Newstime.ToolboxView
-      composer: this
 
-    # Tool box is a panel, and needs to be attached to the panels view for
-    # display and interaction.
-    @panelLayerView.attachPanel(toolboxView)
+    #@toolboxView = new Newstime.ToolboxView
+      #composer: this
+    #@panelLayerView.attachPanel(@toolboxView)
+    #@toolboxView.show()
 
-    # Show the toolbox panel
-    toolboxView.show()
+
+    #@propertiresPanelView = new Newstime.PropertiesPanelView
+      #composer: this
+    #@panelLayerView.attachPanel(@propertiesPanelView)
+    #@propertiesPanelView.show()
 
 
     #var zoomHandeler = new Newstime.ZoomHandler()
