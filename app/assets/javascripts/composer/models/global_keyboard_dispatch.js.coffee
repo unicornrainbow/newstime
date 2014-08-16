@@ -3,6 +3,7 @@
 class @Newstime.GlobalKeyboardDispatch extends Backbone.Model
 
   initialize: (options) ->
+    @composer = options.composer
 
     @optDown = false
 
@@ -25,11 +26,11 @@ class @Newstime.GlobalKeyboardDispatch extends Backbone.Model
       when 18 # opt
         @optDown = true
 
-        zoomMouseWheel = (e) ->
+        zoomMouseWheel = (e) =>
           if e.wheelDeltaY < 0
-            Newstime.Composer.ctrlZoomHandler.zoomInPoint(e.x, e.y)
+            @composer.zoomInPoint(e.x, e.y)
           else if e.wheelDeltaY > 0
-            Newstime.Composer.ctrlZoomHandler.zoomOut()
+            @composer.zoomOut()
 
         zoomMouseWheel = _.throttle(zoomMouseWheel, 100)
 
@@ -39,15 +40,15 @@ class @Newstime.GlobalKeyboardDispatch extends Backbone.Model
 
       when 187 # +
         if e.altKey
-          Newstime.Composer.ctrlZoomHandler.zoomIn()
+          @composer.zoomIn()
 
       when 189 # -
         if e.altKey
-          Newstime.Composer.ctrlZoomHandler.zoomOut()
+          @composer.zoomOut()
 
       when 48 # 0
         if e.altKey
-          Newstime.Composer.ctrlZoomHandler.zoomReset()
+          @composer.zoomReset()
 
       when 32 # space
         e.stopPropagation()
