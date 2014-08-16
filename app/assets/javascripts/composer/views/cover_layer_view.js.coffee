@@ -10,16 +10,18 @@ class @Newstime.CoverLayerView extends Backbone.View
   initialize: (options) ->
     @$el.addClass "cover-layer-view"
 
-    # Apply top offset (Allows room for menu)
-    @topOffset = options.topOffset
+    @topOffset = options.topOffset # Apply top offset (Allows room for menu)
+    @composer = options.composer
+
     @$el.css top: "#{@topOffset}px"
 
 
   mousedown: (e) ->
     e.stopPropagation()
-    switch e.which
-      when 1 # Left button
-        @trigger 'mousedown', e
+    @composer.mousemove(e)
+    #switch e.which
+      #when 1 # Left button
+        #@trigger 'mousedown', e
 
   #mouseup: (e) ->
     #e.stopPropagation()
@@ -27,7 +29,7 @@ class @Newstime.CoverLayerView extends Backbone.View
 
   mousemove: (e) ->
     e.stopPropagation()
-    @trigger 'mousemove', e
+    @composer.mousemove(e)
 
   #click: (e) ->
     #e.stopPropagation()

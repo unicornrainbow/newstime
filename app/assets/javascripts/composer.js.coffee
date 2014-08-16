@@ -25,6 +25,7 @@
 
     # Create application layers
     @coverLayerView = new Newstime.CoverLayerView
+      composer: this
       topOffset: @topOffset
     @$body.append(@coverLayerView.el)
 
@@ -130,12 +131,11 @@
     Newstime.Composer.ctrlZoomHandler = ctrlZoomHandeler
 
     # Wire Up events
-    @coverLayerView.bind 'mousedown', (e) =>
-      @mousedown(e)
+    #@coverLayerView.bind 'mousedown', (e) =>
+      #@mousedown(e)
 
-    @coverLayerView.bind 'mousemove', (e) =>
-      @mousemove(e)
-
+    #@coverLayerView.bind 'mousemove', (e) =>
+      #@mousemove(e)
 
   captureAuthenticityToken: ->
     @authenticityToken = $("input[name=authenticity_token]").first().val()
@@ -165,23 +165,6 @@
     panel = @panelLayerView.findPanel(e.x, e.y)
     if panel
       console.log "Over panel", panel
-
-      # Mousemove on this object needs to be smart enough to trigger a mouseover
-      # at the right times on the panel, and what is considered to be the moused
-      # over object changes.
-      #panel.mousemove(e)
-
-      # Now that we have an object, in this case a panel that match the corrds,
-      # we can trigger the mousedown on the panel.
-      #panel.mousedown(e)
-      #
-
-      # Keep in mind, there are dom event, object events, and possible a new
-      # type of event.
-      #
-      # Dom == Document Object Model
-      # Iom == Interface Object Model ? Or something like that could be a useful
-      # idea.
 
       return true
 
