@@ -30,11 +30,15 @@
     @$body.append(@coverLayerView.el)
 
     @panelLayerView = new Newstime.PanelLayerView
+      composer: this
       topOffset: @topOffset
     @$body.append(@panelLayerView.el)
 
+    @canvasLayerView = new Newstime.CanvasLayerView
+      composer: this
+      topOffset: @topOffset
+    @$body.append(@canvasLayerView.el)
 
-    headlineProperties = new Newstime.HeadlinePropertiesView()
 
     @globalKeyboardDispatch = new Newstime.GlobalKeyboardDispatch() # Handler
 
@@ -63,64 +67,54 @@
     # Initialize Plugins
     $("#edition-toolbar").editionToolbar()
     $("#section-nav").sectionNav()
-    $("[headline-control]").headlineControl headlineProperties
-    storyPropertiesView = new Newstime.StoryPropertiesView()
-    $("[story-text-control]").each (i, el) ->
-      new Newstime.StoryTextControlView(
-        el: el
-        toolPalette: storyPropertiesView
-      )
-      return
 
-    contentRegionPropertiesView = new Newstime.ContentRegionPropertiesView()
-    $("[content-region-control]").each (i, el) ->
-      new Newstime.ContentRegionControlView(
-        el: el
-        propertiesView: contentRegionPropertiesView
-      )
-      return
+    #$("[headline-control]").headlineControl headlineProperties
+    #storyPropertiesView = new Newstime.StoryPropertiesView()
+    #$("[story-text-control]").each (i, el) ->
+      #new Newstime.StoryTextControlView(
+        #el: el
+        #toolPalette: storyPropertiesView
+      #)
+      #return
 
-    photoPropertiesView = new Newstime.PhotoPropertiesView()
-    $("[photo-control]").each (i, el) ->
-      new Newstime.PhotoControlView(
-        el: el
-        propertiesView: photoPropertiesView
-      )
-      return
+    #contentRegionPropertiesView = new Newstime.ContentRegionPropertiesView()
+    #$("[content-region-control]").each (i, el) ->
+      #new Newstime.ContentRegionControlView(
+        #el: el
+        #propertiesView: contentRegionPropertiesView
+      #)
+      #return
 
-    $("[page-compose]").each (i, el) =>
-      new Newstime.PageComposeView(
-        el: el
-        coverLayerView: @coverLayerView
-      )
-      return
+    #photoPropertiesView = new Newstime.PhotoPropertiesView()
+    #$("[photo-control]").each (i, el) ->
+      #new Newstime.PhotoControlView(
+        #el: el
+        #propertiesView: photoPropertiesView
+      #)
+      #return
 
+    #$("[page-compose]").each (i, el) =>
+      #new Newstime.PageComposeView(
+        #el: el
+        #coverLayerView: @coverLayerView
+      #)
+      #return
 
-    @gridOverlay = $(".grid-overlay").hide()
+    #@gridOverlay = $(".grid-overlay").hide()
 
+    ## Init panels
     #@toolboxView = new Newstime.ToolboxView
       #composer: this
     #@panelLayerView.attachPanel(@toolboxView)
     #@toolboxView.show()
-
 
     #@propertiresPanelView = new Newstime.PropertiesPanelView
       #composer: this
     #@panelLayerView.attachPanel(@propertiesPanelView)
     #@propertiesPanelView.show()
 
-
-    #var zoomHandeler = new Newstime.ZoomHandler()
-    #Newstime.Composer.zoomHandler = zoomHandeler
     ctrlZoomHandeler = new Newstime.CtrlZoomHandler()
     Newstime.Composer.ctrlZoomHandler = ctrlZoomHandeler
-
-    # Wire Up events
-    #@coverLayerView.bind 'mousedown', (e) =>
-      #@mousedown(e)
-
-    #@coverLayerView.bind 'mousemove', (e) =>
-      #@mousemove(e)
 
   captureAuthenticityToken: ->
     @authenticityToken = $("input[name=authenticity_token]").first().val()
