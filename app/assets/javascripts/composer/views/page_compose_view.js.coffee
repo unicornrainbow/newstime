@@ -12,6 +12,25 @@ class @Newstime.PageComposeView extends Backbone.View
 
     #@coverLayerView.bind 'mousedown', @mousedown
 
+  width: ->
+    parseInt(@$el.css('width'))
+
+  height: ->
+    parseInt(@$el.css('height'))
+
+  x: ->
+    #console.log @$el.offset()
+    parseInt(@$el.css('left'))
+
+  y: ->
+    parseInt(@$el.css('top'))
+
+  geometry: ->
+    x: @x()
+    y: @y()
+    width: @width()
+    height: @height()
+
   mousedown: (e) =>
     @trackingSelection = true
 

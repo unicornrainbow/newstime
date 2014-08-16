@@ -96,13 +96,6 @@
       #)
       #return
 
-    #$("[page-compose]").each (i, el) =>
-      #new Newstime.PageComposeView(
-        #el: el
-        #coverLayerView: @coverLayerView
-      #)
-      #return
-
     #@gridOverlay = $(".grid-overlay").hide()
 
     ## Init panels
@@ -158,11 +151,11 @@
       return
 
     # Check for hit on canvas layer
-    #hit = @canvasLayerView.hit(e.x, e.y)
+    hit = @canvasLayerView.hit(e.x, e.y)
 
-    #if hit
-      #@mousemoveHit(hit)
-      #return
+    if hit
+      @mousemoveHit(hit)
+      return
 
 
   mousemoveHit: (hit) ->
@@ -185,14 +178,16 @@
 
       # Clear cursor state
       @changeCursor('')
-      mousedown: (e) ->
 
+
+  mousedown: (e) ->
     e =
       x: @mouseX
       y: @mouseY
 
     if @hoveredObject
       @hoveredObject.trigger 'mousedown'
+
 
   zoomIn: ->
     @canvasLayerView.zoomIn()

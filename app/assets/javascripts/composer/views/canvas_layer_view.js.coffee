@@ -10,6 +10,50 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
     @zoomLevels = [100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
 
+    # Capture and Init pages
+    @pages = []
+    $("[page-compose]", @$el).each (i, el) =>
+      @pages.push new Newstime.PageComposeView(
+        el: el
+        coverLayerView: this
+      )
+    console.log @pages
+
+  hit: (x, y) ->
+    page = _.find @pages, (page) =>
+      @detectHit page, x, y
+
+    return page
+
+  detectHit: (page, x, y) ->
+
+    # TODO: Implement
+
+    # TODO: This is where scroll offset and zoom is going to come into play.
+
+    # Get panel geometry
+    geometry = page.geometry()
+    console.log geometry
+
+    ## Adjust for top offset, which currently isn't considered in panel gemotry
+    ## (but should be)
+    #geometry.y = geometry.y - @topOffset
+
+    ## Expand the geometry by buffer distance in each direction to extend
+    ## clickable area.
+    #buffer = 4 # 2px
+    #geometry.x -= buffer
+    #geometry.y -= buffer
+    #geometry.width += buffer*2
+    #geometry.height += buffer*2
+
+    ## Detect if corrds lie within the geometry
+    #if x >= geometry.x && x <= geometry.x + geometry.width
+      #if y >= geometry.y && y <= geometry.y + geometry.height
+        #return true
+
+    #return false
+
 
   ## Zoom stuff below for the moment
 
