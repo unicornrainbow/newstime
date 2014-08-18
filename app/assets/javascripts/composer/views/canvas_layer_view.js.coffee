@@ -10,6 +10,10 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
     @zoomLevels = [100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
 
+    # Measure and set eaxct width (Needed for getting exact locations when
+    # zooming.
+    #@$el.css(width: @$el.width())
+
     # Capture and Init pages
     @pages = []
     $("[page-compose]", @$el).each (i, el) =>
@@ -17,7 +21,6 @@ class @Newstime.CanvasLayerView extends Backbone.View
         el: el
         coverLayerView: this
       )
-    #console.log @pages
 
     @$trackingBox = $("<div class='tracking-box'></div>")
     @$el.append @$trackingBox[0]
@@ -33,47 +36,51 @@ class @Newstime.CanvasLayerView extends Backbone.View
       x = Math.round(x/@zoomLevel)
       y = Math.round(y/@zoomLevel)
 
+    # Now that we have the relative corrdinates, we need to match against the
+    # corrdinates of the pages, which should be ignorant of zoom, and relative
+    # to the 0,0 point of the canvas layer.
 
-    # For testing, draw a box that follows the cursor on the canvas layer.
-    @$trackingBox.css(top: "#{y-150}px", left: "#{x-150}px")
+    page = _.find @pages, (page) =>
+      @detectHit page, x, y
 
-    console.log x, y
-
-    # This method is called, telling me where on the canvas layer the mouse is
-    # hovering.
-    # This is an exact pixel location, relative to the 0,0 location in the top
-    # right of the canvas layer. When something is zoomed in, we will need to
-    # reduce these down the the actually pixels. That should be fine. So, we
-    # need to apply zoom, and make sure offsets are considered, then we should
-    # be able to simply detect againt the array of pages.
-    #
-    # The mouse will be at a certian corrdinate from the CoverLayer, the
-    # composer should do the mapping, and pass the value into here that
-    # corrilates with where it should be registered on the canvas view layer,
-    # without the zoom applied. Zoom should be ignored from a programtic point
-    # of view, it is for display on.
-    #
-    #
-    #
-
-
-
-
-
-    #page = _.find @pages, (page) =>
-      #@detectHit page, x, y
-
-    #return page
+    return page
 
   detectHit: (page, x, y) ->
 
-    # TODO: Implement
-
-    # TODO: This is where scroll offset and zoom is going to come into play.
+    # We need to know where the element is relative to the canvas, but can not
+    # rely on relative position between elements.
+    #
+    # We will therefore need position relative to the document.
+    #
+    # Applying zoom if nessecary
+    #
+    # Applying scroll if needed, but certianly won't be.
+    #
+    # Will need to be recaluated, each time, or at specific events, to ensure
+    # accroacy.
 
     # Get panel geometry
-    #geometry = page.geometry()
-    #console.log geometry
+    #console.log @zoomLevel, $(window).scrollLeft()
+    #console.log $(window).scrollLeft()/@zoomLevel
+
+    if @zoomLevel
+      xCorrection = Math.round(($(window).scrollLeft()/@zoomLevel) * (@zoomLevel - 1))
+    else
+      xCorrection = 0
+
+    #console.log Math.round(($(window).scrollLeft()/@zoomLevel) * (@zoomLevel - 1))
+
+    geometry = page.geometry()
+    geometry.x -= xCorrection
+
+    #if @zoomLevel
+      #console.log Math.round($(window).scrollLeft())
+      #console.log @zoomLevel
+      ##geometry.x -= $(window).scrollLeft() / @zoomLevel
+    #else
+      #geometry.x -= $(window).scrollLeft()
+
+    console.log geometry
 
     ## Adjust for top offset, which currently isn't considered in panel gemotry
     ## (but should be)
@@ -158,7 +165,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
       @scrollLeft = (documentWidth - windowWidth) * x/windowWidth
 
 
-      $(window).scrollLeft(scrollLeft)
+      $(window).scrollLeft(@scrollLeft)
 
     # Lock scroll vertically
 
@@ -226,7 +233,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
     else
       # Apply scroll position
       @scrollLeft = (documentWidth - windowWidth) * (@horizontalScrollPosition/100)
-      @$window.scrollLeft(scrollLeft)
+      @$window.scrollLeft(@scrollLeft)
 
     # Lock scroll vertically
 
