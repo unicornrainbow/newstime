@@ -10,8 +10,6 @@ class @Newstime.PageComposeView extends Backbone.View
     @gridLines = new Newstime.GridLines()
     @$el.append(@gridLines.el)
 
-    #@coverLayerView.bind 'mousedown', @mousedown
-
   width: ->
     parseInt(@$el.css('width'))
 
@@ -19,7 +17,6 @@ class @Newstime.PageComposeView extends Backbone.View
     parseInt(@$el.css('height'))
 
   x: ->
-    #console.log @$el.offset()
     parseInt(@$el.css('left'))
 
   y: ->

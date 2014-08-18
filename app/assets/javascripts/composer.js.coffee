@@ -137,21 +137,20 @@
 
     # Store current cursor location.
     @mouseX = e.x
-    @mouseY = e.y - @topOffset
+    @mouseY = e.y
 
-    e =
-      x: @mouseX
-      y: @mouseY
+    # Compistae for top offset to allow room for menu
+    @mouseY -= @topOffset
 
     # Check for a hit on panel layer
-    hit = @panelLayerView.hit(e.x, e.y)
+    hit = @panelLayerView.hit(@mouseX, @mouseY)
 
     if hit
       @mousemoveHit(hit)
       return
 
     # Check for hit on canvas layer
-    hit = @canvasLayerView.hit(e.x, e.y)
+    hit = @canvasLayerView.hit(@mouseX, @mouseY)
 
     if hit
       @mousemoveHit(hit)
