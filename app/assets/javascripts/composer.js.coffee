@@ -182,8 +182,11 @@
       x: @mouseX
       y: @mouseY
 
+    # TODO: Rather than tracking an relying to the hovered object, we need to track
+    # which if the layers gets the hit, and pass down to it for delegation to
+    # the individual object.
     if @hoveredObject
-      @hoveredObject.trigger 'mousedown'
+      @hoveredObject.trigger 'mousedown', e
 
 
   zoomIn: ->
