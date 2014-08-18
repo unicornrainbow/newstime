@@ -2,6 +2,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
   initialize: (options) ->
     @composer = options.composer
+    @topOffset = options.topOffset
 
     # Capture Elements
     @$window = $(window)
@@ -47,59 +48,38 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
   detectHit: (page, x, y) ->
 
-    # We need to know where the element is relative to the canvas, but can not
-    # rely on relative position between elements.
-    #
-    # We will therefore need position relative to the document.
-    #
-    # Applying zoom if nessecary
-    #
-    # Applying scroll if needed, but certianly won't be.
-    #
-    # Will need to be recaluated, each time, or at specific events, to ensure
-    # accroacy.
+    geometry = page.geometry()
 
-    # Get panel geometry
-    #console.log @zoomLevel, $(window).scrollLeft()
-    #console.log $(window).scrollLeft()/@zoomLevel
-
+    # The x value that comes back needs to have this xCorrection value applied
+    # to it to make it right. Seems to be due to a bug in jQuery that has to do
+    # with the zoom property. This works for now to get the correct offset
+    # value.
     if @zoomLevel
       xCorrection = Math.round(($(window).scrollLeft()/@zoomLevel) * (@zoomLevel - 1))
     else
       xCorrection = 0
 
-    #console.log Math.round(($(window).scrollLeft()/@zoomLevel) * (@zoomLevel - 1))
-
-    geometry = page.geometry()
     geometry.x -= xCorrection
 
-    #if @zoomLevel
-      #console.log Math.round($(window).scrollLeft())
-      #console.log @zoomLevel
-      ##geometry.x -= $(window).scrollLeft() / @zoomLevel
-    #else
-      #geometry.x -= $(window).scrollLeft()
-
-    console.log geometry
-
-    ## Adjust for top offset, which currently isn't considered in panel gemotry
-    ## (but should be)
-    #geometry.y = geometry.y - @topOffset
 
     ## Expand the geometry by buffer distance in each direction to extend
     ## clickable area.
-    #buffer = 4 # 2px
-    #geometry.x -= buffer
-    #geometry.y -= buffer
-    #geometry.width += buffer*2
-    #geometry.height += buffer*2
+    buffer = 4 # 2px
+    geometry.x -= buffer
+    geometry.y -= buffer
+    geometry.width += buffer*2
+    geometry.height += buffer*2
+
+
+    #console.log x, y
+    #console.log geometry
 
     ## Detect if corrds lie within the geometry
-    #if x >= geometry.x && x <= geometry.x + geometry.width
-      #if y >= geometry.y && y <= geometry.y + geometry.height
-        #return true
+    if x >= geometry.x && x <= geometry.x + geometry.width
+      if y >= geometry.y && y <= geometry.y + geometry.height
+        return true
 
-    #return false
+    return false
 
 
   ## Zoom stuff below for the moment

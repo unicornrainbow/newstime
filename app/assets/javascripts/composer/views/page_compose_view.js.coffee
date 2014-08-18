@@ -10,6 +10,9 @@ class @Newstime.PageComposeView extends Backbone.View
     @gridLines = new Newstime.GridLines()
     @$el.append(@gridLines.el)
 
+    @bind 'mouseover', @mouseover
+    @bind 'mouseout', @mouseout
+
   width: ->
     parseInt(@$el.css('width'))
 
@@ -36,7 +39,14 @@ class @Newstime.PageComposeView extends Backbone.View
     width: @width()
     height: @height()
 
-  mousedown: (e) =>
+  mouseover: (e) ->
+    @$el.css border: "solid 1px red"
+
+  mouseout: (e) ->
+    @$el.css border: "none"
+
+  mousedown: (e) ->
+
     @trackingSelection = true
 
     # We need to create and activate a selection region (Marching ants would be nice)

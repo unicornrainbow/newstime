@@ -152,9 +152,7 @@
     # Check for hit on canvas layer
     hit = @canvasLayerView.hit(@mouseX, @mouseY)
 
-    if hit
-      @mousemoveHit(hit)
-      return
+    @mousemoveHit(hit)
 
 
   mousemoveHit: (hit) ->
