@@ -9,14 +9,36 @@ class @Newstime.PageComposeView extends Backbone.View
 
     @canvasLayerView = options.canvasLayerView
 
-    @gridLines = new Newstime.GridLines()
-    @$el.append(@gridLines.el)
+    #@gridLines = new Newstime.GridLines()
+    #@$el.append(@gridLines.el)
+
+    # Configure Grid
+    @gridInit()
 
     @bind 'mouseover',   @mouseover
     @bind 'mouseout',    @mouseout
     @bind 'mousedown',   @mousedown
     @bind 'mouseup',     @mouseup
     @bind 'mousemove',   @mousemove
+
+
+  # Sets up and compute grid steps
+  gridInit: ->
+    ## TODO: Get the offset to be on the grid steps
+    columnWidth = 34
+    gutterWidth = 16
+    columns = 24
+
+    ## Compute Left Steps
+    firstStep = gutterWidth/2
+    columnStep = columnWidth + gutterWidth
+    @leftSteps = _(columns).times (i) ->
+      columnStep * i + firstStep
+
+    firstStep = columnWidth
+    columnStep = columnWidth + gutterWidth
+    @rightSteps = _(columns).times (i) ->
+      columnStep * i + firstStep
 
   width: ->
     parseInt(@$el.css('width'))
@@ -70,76 +92,30 @@ class @Newstime.PageComposeView extends Backbone.View
     @activeSelection = selection
     @$el.append(selection.el)
 
-
-    closestFn = (goal, ary) ->
-      closest = null
-      $.each ary, (i, val) ->
-        if closest == null || Math.abs(val - goal) < Math.abs(closest - goal)
-          closest = val
-      closest
-
-    ## TODO: Get the offset to be on the grid steps
-    columnWidth = 34
-    gutterWidth = 16
-    columns = 24
-
-    ## Compute Left Steps
-    firstStep = gutterWidth/2
-    columnStep = columnWidth + gutterWidth
-    leftSteps = _(columns).times (i) ->
-      columnStep * i + firstStep
-
-    firstStep = columnWidth
-    columnStep = columnWidth + gutterWidth
-    rightSteps = _(columns).times (i) ->
-      columnStep * i + firstStep
-
-
-    x = closestFn(e.x, leftSteps)
-    selection.beginSelection(x, e.y)
+    selection.beginSelection(@snapToGridLeft(e.x), e.y)
 
     @trigger 'tracking', this # Enters into tracking mode.
+
+  # Utility function
+  closest: (goal, ary) ->
+    closest = null
+    $.each ary, (i, val) ->
+      if closest == null || Math.abs(val - goal) < Math.abs(closest - goal)
+        closest = val
+    closest
+
+  snapToGridLeft: (value) ->
+    @closest(value , @leftSteps)
+
+  snapToGridRight: (value) ->
+    @closest(value , @rightSteps)
 
   mousemove: (e) ->
     @adjustEventXY(e) # Could be nice to abstract this one layer up...
 
-    closestFn = (goal, ary) ->
-      closest = null
-      $.each ary, (i, val) ->
-        if closest == null || Math.abs(val - goal) < Math.abs(closest - goal)
-          closest = val
-      closest
-
-    ## TODO: Get the offset to be on the grid steps
-    columnWidth = 34
-    gutterWidth = 16
-    columns = 24
-
-    ## Compute Left Steps
-    firstStep = gutterWidth/2
-    columnStep = columnWidth + gutterWidth
-    leftSteps = _(columns).times (i) ->
-      columnStep * i + firstStep
-
-    firstStep = columnWidth
-    columnStep = columnWidth + gutterWidth
-    rightSteps = _(columns).times (i) ->
-      columnStep * i + firstStep
-
-
-    width = closestFn(e.x - @activeSelection.anchorX , rightSteps)
-
     @activeSelection.$el.css
-      width: width
+      width: @snapToGridRight(e.x - @activeSelection.anchorX)
       height: e.y - @activeSelection.anchorY
-
-    #@coverLayerView.bind 'mousemove', (e) ->
-      ## TODO: Width needs to be one of certain allowable values
-
-      #width = closestFn(e.offsetX - selection.anchorX, rightSteps)
-      #selection.$el.css
-        #width: width
-        #height: e.offsetY - selection.anchorY
 
   mouseup: (e) ->
     if @activeSelection
