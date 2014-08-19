@@ -5,6 +5,18 @@ class @Newstime.Selection extends Backbone.View
   initialize: (options) ->
     @$el.addClass 'selection'
 
+    # Add draw handles
+    @$el.html """
+      <div class="draw-handle top"></div>
+      <div class="draw-handle bottom"></div>
+      <div class="draw-handle right"></div>
+      <div class="draw-handle left"></div>
+      <div class="draw-handle top-left"></div>
+      <div class="draw-handle bottom-left"></div>
+      <div class="draw-handle top-right"></div>
+      <div class="draw-handle bottom-right"></div>
+    """
+
   activate: ->
     @active = true
     @$el.addClass 'resizable'
