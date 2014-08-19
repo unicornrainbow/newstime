@@ -7,14 +7,15 @@ class @Newstime.PageComposeView extends Backbone.View
 
     @composer = options.composer
 
-    @coverLayerView = options.coverLayerView
+    @canvasLayerView = options.canvasLayerView
 
     @gridLines = new Newstime.GridLines()
     @$el.append(@gridLines.el)
 
     @bind 'mouseover', @mouseover
-    @bind 'mouseout', @mouseout
+    @bind 'mouseout',  @mouseout
     @bind 'mousedown', @mousedown
+    @bind 'mouseup',   @mouseup
 
   width: ->
     parseInt(@$el.css('width'))
@@ -63,10 +64,9 @@ class @Newstime.PageComposeView extends Backbone.View
     @adjustEventXY(e) # Could be nice to abstract this one layer up...
     console.log "mousedown", e
 
-    @trackingSelection = true
-
     ## We need to create and activate a selection region (Marching ants would be nice)
     selection = new Newstime.Selection() # Needs to be local to the "page"
+    @activeSelection = selection
     @$el.append(selection.el)
 
 
@@ -97,8 +97,13 @@ class @Newstime.PageComposeView extends Backbone.View
     x = closestFn(e.x, leftSteps)
     selection.beginSelection(x, e.y)
 
-    # So now, we need to receive mouse move events until released.
+    @trigger 'tracking', this # Enters into tracking mode.
 
+  mousemove: (e) ->
+    console.log "mousemove on it"
+    @activeSelection.$el.css
+      width: e.x - @activeSelection.anchorX
+      height: e.y - @activeSelection.anchorY
 
     #@coverLayerView.bind 'mousemove', (e) ->
       ## TODO: Width needs to be one of certain allowable values
@@ -108,6 +113,8 @@ class @Newstime.PageComposeView extends Backbone.View
         #width: width
         #height: e.offsetY - selection.anchorY
 
-    #@coverLayerView.bind 'mouseup', (e) =>
-      #@coverLayerView.unbind('mousemove')
-      #@coverLayerView.unbind('mouseup')
+  mouseup: (e) ->
+    if @activeSelection
+      console.log "tracking releases"
+      @activeSelection = null # TODO: Should still be active, just not tracking
+      @trigger 'tracking-release', this

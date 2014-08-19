@@ -20,15 +20,37 @@ class @Newstime.CanvasLayerView extends Backbone.View
     $("[page-compose]", @$el).each (i, el) =>
       @pages.push new Newstime.PageComposeView(
         el: el
-        coverLayerView: this
+        canvasLayerView: this
       )
 
-    @$trackingBox = $("<div class='tracking-box'></div>")
-    @$el.append @$trackingBox[0]
+    _.each @pages, (page) =>
+      page.bind 'tracking', @tracking, this
+      page.bind 'tracking-release', @trackingRelease, this
+
+    #@$trackingBox = $("<div class='tracking-box'></div>")
+    #@$el.append @$trackingBox[0]
 
     @bind 'mouseover',  @mouseover
     @bind 'mouseout',   @mouseout
     @bind 'mousedown',  @mousedown
+    @bind 'mouseup',    @mouseup
+
+
+  tracking: (page) ->
+    @trackingPage = page
+    @trigger 'tracking', this
+
+  trackingRelease: (page) ->
+    @trackingPage = null
+    @trigger 'tracking-release', this
+
+  mousemove: (e) ->
+    @adjustEventXY(e)
+
+    if @trackingPage
+      @trackingPage.mousemove(e)
+      return true
+
 
   hit: (x, y) ->
     e = { x: x, y: y }
@@ -94,6 +116,14 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
     if @hoveredObject
       @hoveredObject.trigger 'mousedown', e
+
+
+  mouseup: (e) ->
+    @adjustEventXY(e)
+
+    if @trackingPage
+      @trackingPage.trigger 'mouseup', e
+      return true
 
 
   detectHit: (page, x, y) ->

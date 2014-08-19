@@ -23,9 +23,10 @@ class @Newstime.CoverLayerView extends Backbone.View
       #when 1 # Left button
         #@trigger 'mousedown', e
 
-  #mouseup: (e) ->
-    #e.stopPropagation()
+  mouseup: (e) ->
+    e.stopPropagation()
     #@trigger 'mouseup', e
+    @composer.mouseup(e) # TODO: Should be events
 
   mousemove: (e) ->
     e.stopPropagation()

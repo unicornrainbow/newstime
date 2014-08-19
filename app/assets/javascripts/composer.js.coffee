@@ -71,6 +71,9 @@
     $("#edition-toolbar").editionToolbar()
     $("#section-nav").sectionNav()
 
+    @canvasLayerView.bind 'tracking',         @tracking, this
+    @canvasLayerView.bind 'tracking-release', @trackingRelease, this
+
     #$("[headline-control]").headlineControl headlineProperties
     #storyPropertiesView = new Newstime.StoryPropertiesView()
     #$("[story-text-control]").each (i, el) ->
@@ -114,6 +117,14 @@
     # Events
     #$(window).scroll(@captureScrollPosition)
 
+  tracking: (layer) ->
+    @trackingLayer = layer
+
+
+  trackingRelease: (layer) ->
+    @trackingLayer = null
+
+
   captureAuthenticityToken: ->
     @authenticityToken = $("input[name=authenticity_token]").first().val()
     return
@@ -142,6 +153,13 @@
     # Compistae for top offset to allow room for menu
     @mouseY -= @topOffset
 
+    if @trackingLayer
+      e =
+        x: e.x
+        y: e.y
+
+      @trackingLayer.mousemove(e)
+      return true
 
     hit = if @panelLayerView.hit(@mouseX, @mouseY)
       @panelLayerView
@@ -174,6 +192,23 @@
     # the individual object.
     if @hitLayer
       @hitLayer.trigger 'mousedown', e
+
+
+  mouseup: (e) ->
+
+    e =
+      x: @mouseX
+      y: @mouseY
+
+    if @trackingLayer
+      @trackingLayer.trigger 'mouseup', e
+      return true
+
+    # TODO: Rather than tracking an relying to the hovered object, we need to track
+    # which if the layers gets the hit, and pass down to it for delegation to
+    # the individual object.
+    if @hitLayer
+      @hitLayer.trigger 'mouseup', e
 
   zoomIn: ->
     @canvasLayerView.zoomIn()
