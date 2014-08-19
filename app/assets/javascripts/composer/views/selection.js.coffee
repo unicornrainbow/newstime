@@ -109,9 +109,17 @@ class @Newstime.Selection extends Backbone.View
   mousemove: (e) ->
     if @resizing
       if @resizeMode == 'top-left'
-        @$el.css
-          left: e.x
-          top: e.y
+        @dragTopLeft(e.x, e.y)
+
+
+  dragTopLeft: (x, y) ->
+    geometry = @geometry()
+
+    @$el.css
+      left: x
+      top: y
+      width: geometry.x - x + geometry.width
+      height: geometry.y - y + geometry.height
 
   mouseup: (e) ->
     @trigger 'tracking-release', this
