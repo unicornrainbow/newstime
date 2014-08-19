@@ -61,6 +61,20 @@ class @Newstime.Selection extends Backbone.View
 
     geometry = @geometry()
 
+    # If active, check against the drag handles
+    if @active
+      # top-left drag handle hit?
+      if x >= geometry.x - 8 && x <= geometry.x + 8
+        if y >= geometry.y - 8 && y <= geometry.y + 8
+          console.log "Top left drag handle hit"
+          return true
+
+      # top-right drag handle hit?
+      if x >= geometry.x + geometry.width - 8 && x <= geometry.x + geometry.width + 8
+        if y >= geometry.y - 8 && y <= geometry.y + 8
+          console.log "Top right drag handle hit"
+          return true
+
     ## Expand the geometry by buffer distance in each direction to extend
     ## clickable area.
     buffer = 4 # 2px

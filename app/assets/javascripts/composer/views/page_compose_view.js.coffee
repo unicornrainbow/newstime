@@ -96,10 +96,11 @@ class @Newstime.PageComposeView extends Backbone.View
     # not, but resizing would be relevant. So, for now, either change selection
     # of draw new box. Hit detection on selection is what we need to consider.
 
-    #if @activeSelection
-      ## Forward to active selection if it hits.
-      #if @activeSelection.hit(e.x, e.y)
-        #@activeSelection.trigger 'mousedown', e
+    if @activeSelection
+      # Forward to active selection if it hits.
+      if @activeSelection.hit(e.x, e.y)
+        @activeSelection.trigger 'mousedown', e
+        return true
 
     hitSelection = _.find @selections, (selection) ->
       selection.hit(e.x, e.y)
