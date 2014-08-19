@@ -21,6 +21,8 @@ class @Newstime.PageComposeView extends Backbone.View
     @bind 'mouseup',     @mouseup
     @bind 'mousemove',   @mousemove
 
+    @selections = []
+
 
   # Sets up and compute grid steps
   gridInit: ->
@@ -87,8 +89,15 @@ class @Newstime.PageComposeView extends Backbone.View
     @adjustEventXY(e) # Could be nice to abstract this one layer up...
     #console.log "mousedown", e
 
+    console.log @activeSelection
+    if @activeSelection
+      @activeSelection.deactivate()
+
     ## We need to create and activate a selection region (Marching ants would be nice)
     selection = new Newstime.Selection() # Needs to be local to the "page"
+
+    @selections.push selection
+
     @activeSelection = selection
     @trackingSelection = selection
     @$el.append(selection.el)
@@ -122,6 +131,5 @@ class @Newstime.PageComposeView extends Backbone.View
 
   mouseup: (e) ->
     if @trackingSelection
-      #console.log "tracking releases"
       @trackingSelection = null # TODO: Should still be active, just not tracking
       @trigger 'tracking-release', this

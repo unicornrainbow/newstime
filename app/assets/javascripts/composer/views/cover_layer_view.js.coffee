@@ -35,7 +35,6 @@ class @Newstime.CoverLayerView extends Backbone.View
     #e.stopPropagation()
     #@trigger 'click', e
 
-
   hideCursor: ->
     #console.log "Hide Cursor"
     @$el.css
