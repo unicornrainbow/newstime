@@ -109,6 +109,15 @@ class @Newstime.Selection extends Backbone.View
 
     # If active, check against the drag handles
     if @active
+
+      # top drag handle hit?
+      if x >= geometry.x + geometry.width/2 - 8 && x <= geometry.x + geometry.width/2  + 8
+        if y >= geometry.y - 8 && y <= geometry.y + 8
+          @resizing = true
+          @resizeMode = "top"
+          @trigger 'tracking', this
+          return false # Cancel event
+
       # top-left drag handle hit?
       if x >= geometry.x - 8 && x <= geometry.x + 8
         if y >= geometry.y - 8 && y <= geometry.y + 8
@@ -145,6 +154,9 @@ class @Newstime.Selection extends Backbone.View
 
   mousemove: (e) ->
     if @resizing
+      if @resizeMode == 'top'
+        @dragTop(e.x, e.y)
+
       if @resizeMode == 'top-left'
         @dragTopLeft(e.x, e.y)
 
@@ -170,6 +182,13 @@ class @Newstime.Selection extends Backbone.View
       if closest == null || Math.abs(val - goal) < Math.abs(closest - goal)
         closest = val
     closest
+
+
+  dragTop: (x, y) ->
+    geometry = @geometry()
+    @$el.css
+      top: y
+      height: geometry.y - y + geometry.height
 
   dragTopLeft: (x, y) ->
     geometry = @geometry()
