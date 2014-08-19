@@ -125,6 +125,22 @@ class @Newstime.Selection extends Backbone.View
           @trigger 'tracking', this
           return false # Cancel event
 
+      # bottom-left drag handle hit?
+      if x >= geometry.x - 8 && x <= geometry.x + 8
+        if y >= geometry.y + geometry.height - 8 && y <= geometry.y + geometry.height + 8
+          @resizing = true
+          @resizeMode = "bottom-left"
+          @trigger 'tracking', this
+          return false # Cancel event
+
+      # bottom-right drag handle hit?
+      if x >= geometry.x + geometry.width - 8 && x <= geometry.x + geometry.width + 8
+        if y >= geometry.y + geometry.height - 8 && y <= geometry.y + geometry.height + 8
+          @resizing = true
+          @resizeMode = "bottom-right"
+          @trigger 'tracking', this
+          return false # Cancel event
+
     return true
 
   mousemove: (e) ->
@@ -134,6 +150,12 @@ class @Newstime.Selection extends Backbone.View
 
       if @resizeMode == 'top-right'
         @dragTopRight(e.x, e.y)
+
+      if @resizeMode == 'bottom-left'
+        @dragBottomLeft(e.x, e.y)
+
+      if @resizeMode == 'bottom-right'
+        @dragBottomRight(e.x, e.y)
 
   snapToGridLeft: (value) ->
     @closest(value , @leftSteps)
@@ -158,7 +180,6 @@ class @Newstime.Selection extends Backbone.View
       width: geometry.x - x + geometry.width
       height: geometry.y - y + geometry.height
 
-
   dragTopRight: (x, y) ->
     geometry = @geometry()
     x = @snapToGridRight(x)
@@ -166,6 +187,21 @@ class @Newstime.Selection extends Backbone.View
       top: y
       width: x - geometry.x
       height: geometry.y - y + geometry.height
+
+  dragBottomLeft: (x, y) ->
+    geometry = @geometry()
+    x = @snapToGridLeft(x)
+    @$el.css
+      left: x
+      width: geometry.x - x + geometry.width
+      height: y - geometry.y
+
+  dragBottomRight: (x, y) ->
+    geometry = @geometry()
+    x = @snapToGridRight(x)
+    @$el.css
+      width: x - geometry.x
+      height: y - geometry.y
 
   mouseup: (e) ->
     @trigger 'tracking-release', this
