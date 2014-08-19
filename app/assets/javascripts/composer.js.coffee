@@ -142,36 +142,23 @@
     # Compistae for top offset to allow room for menu
     @mouseY -= @topOffset
 
-    # Check for a hit on panel layer
-    hit = @panelLayerView.hit(@mouseX, @mouseY)
+
+    hit = if @panelLayerView.hit(@mouseX, @mouseY)
+      @panelLayerView
+    else if @canvasLayerView.hit(@mouseX, @mouseY)
+      @canvasLayerView
 
     if hit
-      @mousemoveHit(hit)
-      return
-
-    # Check for hit on canvas layer
-    hit = @canvasLayerView.hit(@mouseX, @mouseY)
-
-    @mousemoveHit(hit)
-
-
-  mousemoveHit: (hit) ->
-
-    if hit
-      # Store as hoveredObject and trigger mouseout, mouseover events
-      if @hoveredObject != hit
-        if @hoveredObject
-          @hoveredObject.trigger 'mouseout', {}
-
-        @hoveredObject = hit
-        @hoveredObject.trigger 'mouseover', {}
+      if @hitLayer != hit
+        if @hitLayer
+          @hitLayer.trigger 'mouseout', {}
+        @hitLayer = hit
+        @hitLayer.trigger 'mouseover', {}
 
     else
-
-      # Clear hovered object, if there is one.
-      if @hoveredObject
-        @hoveredObject.trigger 'mouseout', {}
-        @hoveredObject = null
+      if @hitLayer
+        @hitLayer.trigger 'mouseout', {}
+        @hitLayer = null
 
       # Clear cursor state
       @changeCursor('')
@@ -185,9 +172,8 @@
     # TODO: Rather than tracking an relying to the hovered object, we need to track
     # which if the layers gets the hit, and pass down to it for delegation to
     # the individual object.
-    if @hoveredObject
-      @hoveredObject.trigger 'mousedown', e
-
+    if @hitLayer
+      @hitLayer.trigger 'mousedown', e
 
   zoomIn: ->
     @canvasLayerView.zoomIn()

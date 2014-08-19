@@ -26,27 +26,70 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @$trackingBox = $("<div class='tracking-box'></div>")
     @$el.append @$trackingBox[0]
 
-  hit: (x, y) ->
+    @bind 'mouseover', @mouseover
+    @bind 'mouseout',  @mouseout
 
+  hit: (x, y) ->
+    e = { x: x, y: y }
+    @adjustEventXY(e)
+
+    page = _.find @pages, (page) =>
+      @detectHit page, e.x, e.y
+
+
+    if @hovered # Only process events if hovered.
+      if page
+        if @hoveredObject != page
+          if @hoveredObject
+            @hoveredObject.trigger 'mouseout', e
+          @hoveredObject = page
+          @hoveredObject.trigger 'mouseover', e
+
+        return true
+      else
+        if @hoveredObject
+          @hoveredObject.trigger 'mouseout', e
+          @hoveredObject = null
+
+        return false
+
+    else
+      # Defer processing of events until we are declared the hovered object.
+      @hoveredObject = page
+      return true
+
+
+  # Calibrates xy to the canvas layer.
+  adjustEventXY: (e) ->
     # Apply scroll offset
-    x += $(window).scrollLeft()
-    y += $(window).scrollTop()
+    e.x += $(window).scrollLeft()
+    e.y += $(window).scrollTop()
 
     # Apply zoom
     if @zoomLevel
-      x = Math.round(x/@zoomLevel)
-      y = Math.round(y/@zoomLevel)
+      e.x = Math.round(e.x/@zoomLevel)
+      e.y = Math.round(e.y/@zoomLevel)
 
-    # Now that we have the relative corrdinates, we need to match against the
-    # corrdinates of the pages, which should be ignorant of zoom, and relative
-    # to the 0,0 point of the canvas layer.
+  mouseover: (e) ->
+    @hovered = true
 
-    page = _.find @pages, (page) =>
-      @detectHit page, x, y
+    @adjustEventXY(e)
 
-    return page
+    if @hoveredObject
+      @hoveredObject.trigger 'mouseover', e
+
+
+  mouseout: (e) ->
+    @adjustEventXY(e)
+
+    if @hoveredObject
+      @hoveredObject.trigger 'mouseover', e
+      @hoveredObject = null
+
 
   detectHit: (page, x, y) ->
+
+    # TODO: Need to refactor this to avoid to much recaluculating.
 
     geometry = page.geometry()
 
