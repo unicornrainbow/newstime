@@ -106,10 +106,10 @@
     #@gridOverlay = $(".grid-overlay").hide()
 
     ## Init panels
-    #@toolboxView = new Newstime.ToolboxView
-      #composer: this
-    #@panelLayerView.attachPanel(@toolboxView)
-    #@toolboxView.show()
+    @toolboxView = new Newstime.ToolboxView
+      composer: this
+    @panelLayerView.attachPanel(@toolboxView)
+    @toolboxView.show()
 
     #@propertiresPanelView = new Newstime.PropertiesPanelView
       #composer: this

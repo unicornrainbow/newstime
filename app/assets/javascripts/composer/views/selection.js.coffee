@@ -252,10 +252,10 @@ class @Newstime.Selection extends Backbone.View
 
   dragTopRight: (x, y) ->
     geometry = @geometry()
-    x = @snapToGridRight(x)
+    width = @snapToGridRight(x - geometry.x)
     @$el.css
       top: y
-      width: x - geometry.x
+      width: width
       height: geometry.y - y + geometry.height
 
   dragBottomLeft: (x, y) ->
@@ -268,9 +268,9 @@ class @Newstime.Selection extends Backbone.View
 
   dragBottomRight: (x, y) ->
     geometry = @geometry()
-    x = @snapToGridRight(x)
+    width = @snapToGridRight(x - geometry.x)
     @$el.css
-      width: x - geometry.x
+      width: width
       height: y - geometry.y
 
   mouseup: (e) ->
