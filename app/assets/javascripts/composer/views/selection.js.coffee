@@ -17,9 +17,30 @@ class @Newstime.Selection extends Backbone.View
       <div class="draw-handle bottom-right"></div>
     """
 
+    @gridInit()
+
     @bind 'mousedown', @mousedown
     @bind 'mousemove', @mousemove
     @bind 'mouseup',   @mouseup
+
+
+  # Sets up and compute grid steps
+  gridInit: ->
+    ## TODO: Get the offset to be on the grid steps
+    columnWidth = 34
+    gutterWidth = 16
+    columns = 24
+
+    ## Compute Left Steps
+    firstStep = gutterWidth/2
+    columnStep = columnWidth + gutterWidth
+    @leftSteps = _(columns).times (i) ->
+      columnStep * i + firstStep
+
+    firstStep = columnWidth
+    columnStep = columnWidth + gutterWidth
+    @rightSteps = _(columns).times (i) ->
+      columnStep * i + firstStep
 
   activate: ->
     @active = true
@@ -111,9 +132,25 @@ class @Newstime.Selection extends Backbone.View
       if @resizeMode == 'top-left'
         @dragTopLeft(e.x, e.y)
 
+  snapToGridLeft: (value) ->
+    @closest(value , @leftSteps)
+
+  snapToGridRight: (value) ->
+    @closest(value , @rightSteps)
+
+  # Utility function
+  closest: (goal, ary) ->
+    closest = null
+    $.each ary, (i, val) ->
+      if closest == null || Math.abs(val - goal) < Math.abs(closest - goal)
+        closest = val
+    closest
+
 
   dragTopLeft: (x, y) ->
     geometry = @geometry()
+
+    x = @snapToGridLeft(x)
 
     @$el.css
       left: x
