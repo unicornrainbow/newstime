@@ -96,8 +96,13 @@ class @Newstime.PageComposeView extends Backbone.View
     # not, but resizing would be relevant. So, for now, either change selection
     # of draw new box. Hit detection on selection is what we need to consider.
 
-    hitSelection = _.find @selections, (selection) =>
-      @detectHit selection, e.x, e.y
+    #if @activeSelection
+      ## Forward to active selection if it hits.
+      #if @activeSelection.hit(e.x, e.y)
+        #@activeSelection.trigger 'mousedown', e
+
+    hitSelection = _.find @selections, (selection) ->
+      selection.hit(e.x, e.y)
 
     if hitSelection
       if @activeSelection
@@ -124,26 +129,6 @@ class @Newstime.PageComposeView extends Backbone.View
 
     @trigger 'tracking', this # Enters into tracking mode.
 
-
-  detectHit: (selection, x, y) ->
-
-    geometry = selection.geometry()
-
-    ## Expand the geometry by buffer distance in each direction to extend
-    ## clickable area.
-    buffer = 4 # 2px
-    geometry.x -= buffer
-    geometry.y -= buffer
-    geometry.width += buffer*2
-    geometry.height += buffer*2
-
-    ## Detect if corrds lie within the geometry
-    if x >= geometry.x && x <= geometry.x + geometry.width
-      if y >= geometry.y && y <= geometry.y + geometry.height
-        return true
-
-    return false
-
   # Utility function
   closest: (goal, ary) ->
     closest = null
@@ -162,6 +147,8 @@ class @Newstime.PageComposeView extends Backbone.View
     @adjustEventXY(e) # Could be nice to abstract this one layer up...
 
     if @trackingSelection
+
+
       @trackingSelection.$el.css
         width: @snapToGridRight(e.x - @trackingSelection.anchorX)
         height: e.y - @trackingSelection.anchorY

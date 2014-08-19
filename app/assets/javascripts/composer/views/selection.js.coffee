@@ -55,3 +55,23 @@ class @Newstime.Selection extends Backbone.View
     y: @y()
     width: @width()
     height: @height()
+
+  # Detects a hit of the selection
+  hit: (x, y) ->
+
+    geometry = @geometry()
+
+    ## Expand the geometry by buffer distance in each direction to extend
+    ## clickable area.
+    buffer = 4 # 2px
+    geometry.x -= buffer
+    geometry.y -= buffer
+    geometry.width += buffer*2
+    geometry.height += buffer*2
+
+    ## Detect if corrds lie within the geometry
+    if x >= geometry.x && x <= geometry.x + geometry.width
+      if y >= geometry.y && y <= geometry.y + geometry.height
+        return true
+
+    return false
