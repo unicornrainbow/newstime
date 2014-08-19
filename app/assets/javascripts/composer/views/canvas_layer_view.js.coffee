@@ -26,8 +26,9 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @$trackingBox = $("<div class='tracking-box'></div>")
     @$el.append @$trackingBox[0]
 
-    @bind 'mouseover', @mouseover
-    @bind 'mouseout',  @mouseout
+    @bind 'mouseover',  @mouseover
+    @bind 'mouseout',   @mouseout
+    @bind 'mousedown',  @mousedown
 
   hit: (x, y) ->
     e = { x: x, y: y }
@@ -80,11 +81,19 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
 
   mouseout: (e) ->
+    @hovered = false
+
     @adjustEventXY(e)
 
     if @hoveredObject
       @hoveredObject.trigger 'mouseover', e
       @hoveredObject = null
+
+  mousedown: (e) ->
+    @adjustEventXY(e)
+
+    if @hoveredObject
+      @hoveredObject.trigger 'mousedown', e
 
 
   detectHit: (page, x, y) ->

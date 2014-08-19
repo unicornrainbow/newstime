@@ -46,7 +46,15 @@ class @Newstime.PageComposeView extends Backbone.View
   mouseout: (e) ->
     @$el.css border: "none"
 
+  # Applies offset (sort of a hack for now)
+  adjustEventXY: (e) ->
+    # Apply scroll offset
+    e.x -= @x()
+    e.y -= @y()
+
+
   mousedown: (e) ->
+    @adjustEventXY(e) # Could be nice to abstract this one layer up...
     console.log "mousedown", e
 
     #@trackingSelection = true
