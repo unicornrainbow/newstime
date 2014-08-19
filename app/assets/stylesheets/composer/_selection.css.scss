@@ -1,5 +1,10 @@
 .selection {
   position: absolute;
 
+  border: 1px dashed #ccc;
+
+  &.resizable {
+    border: 1px dashed gray;
+  }
 
 }

@@ -25,5 +25,21 @@ class @Newstime.Selection extends Backbone.View
       left: @anchorX
       top: @anchorY
 
-    # Track mouse
-    #$(window).bind('mousemove', @trackSelection)
+
+  width: ->
+    parseInt(@$el.css('width'))
+
+  height: ->
+    parseInt(@$el.css('height'))
+
+  x: ->
+    parseInt(@$el.css('left'))
+
+  y: ->
+    parseInt(@$el.css('top'))
+
+  geometry: ->
+    x: @x()
+    y: @y()
+    width: @width()
+    height: @height()
