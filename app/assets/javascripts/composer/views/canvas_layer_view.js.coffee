@@ -49,7 +49,6 @@ class @Newstime.CanvasLayerView extends Backbone.View
     page = _.find @pages, (page) =>
       @detectHit page, e.x, e.y
 
-
     if @hovered # Only process events if hovered.
       if page
         if @hoveredObject != page

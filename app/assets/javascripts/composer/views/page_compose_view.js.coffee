@@ -87,9 +87,18 @@ class @Newstime.PageComposeView extends Backbone.View
 
   mousedown: (e) ->
     @adjustEventXY(e) # Could be nice to abstract this one layer up...
-    #console.log "mousedown", e
 
-    console.log @activeSelection
+
+    # Receiving a mousedown, is this hitting an existing selection?
+    # If it is, make that the active selection, otherwise, draw a new selection.
+    # Tool mode would be decent edition here, to avoid drawing on random clicks.
+    # If there is an active selection, we first need to check with it if there
+    # is something it would like to do with the mouse down, right now there is
+    # not, but resizing would be relevant. So, for now, either change selection
+    # of draw new box. Hit detection on selection is what we need to consider.
+
+
+
     if @activeSelection
       @activeSelection.deactivate()
 
