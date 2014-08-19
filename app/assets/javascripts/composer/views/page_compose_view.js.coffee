@@ -103,8 +103,34 @@ class @Newstime.PageComposeView extends Backbone.View
   mousemove: (e) ->
     @adjustEventXY(e) # Could be nice to abstract this one layer up...
 
+    closestFn = (goal, ary) ->
+      closest = null
+      $.each ary, (i, val) ->
+        if closest == null || Math.abs(val - goal) < Math.abs(closest - goal)
+          closest = val
+      closest
+
+    ## TODO: Get the offset to be on the grid steps
+    columnWidth = 34
+    gutterWidth = 16
+    columns = 24
+
+    ## Compute Left Steps
+    firstStep = gutterWidth/2
+    columnStep = columnWidth + gutterWidth
+    leftSteps = _(columns).times (i) ->
+      columnStep * i + firstStep
+
+    firstStep = columnWidth
+    columnStep = columnWidth + gutterWidth
+    rightSteps = _(columns).times (i) ->
+      columnStep * i + firstStep
+
+
+    width = closestFn(e.x - @activeSelection.anchorX , rightSteps)
+
     @activeSelection.$el.css
-      width: e.x - @activeSelection.anchorX
+      width: width
       height: e.y - @activeSelection.anchorY
 
     #@coverLayerView.bind 'mousemove', (e) ->
