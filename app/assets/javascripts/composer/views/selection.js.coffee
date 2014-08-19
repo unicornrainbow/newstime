@@ -225,9 +225,9 @@ class @Newstime.Selection extends Backbone.View
 
   dragRight: (x, y) ->
     geometry = @geometry()
-    x = @snapToGridRight(x)
+    width = @snapToGridRight(x - geometry.x)
     @$el.css
-      width: x - geometry.x
+      width: width
 
   dragBottom: (x, y) ->
     geometry = @geometry()
