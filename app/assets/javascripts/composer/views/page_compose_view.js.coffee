@@ -102,6 +102,13 @@ class @Newstime.PageComposeView extends Backbone.View
       unless @activeSelection.trigger 'mousedown', e
         return false # Exit early, event canceled
 
+      # Deactivate if there wasn't anything hit. I know this is a hair ball...
+      #@activeSelection.deactivate()
+      #@activeSelection = null
+      #return true
+
+
+
     hitSelection = _.find @selections, (selection) ->
       selection.hit(e.x, e.y)
 
