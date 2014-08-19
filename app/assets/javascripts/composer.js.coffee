@@ -71,6 +71,10 @@
     $("#edition-toolbar").editionToolbar()
     $("#section-nav").sectionNav()
 
+    @coverLayerView.bind 'mouseup', @mouseup, this
+    @coverLayerView.bind 'mousemove', @mousemove, this
+    @coverLayerView.bind 'mousedown', @mousedown, this
+
     @canvasLayerView.bind 'tracking',         @tracking, this
     @canvasLayerView.bind 'tracking-release', @trackingRelease, this
 
