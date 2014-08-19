@@ -159,10 +159,11 @@
 
     if @trackingLayer
       e =
-        x: e.x
-        y: e.y
+        x: @mouseX
+        y: @mouseY
 
-      @trackingLayer.mousemove(e)
+
+      @trackingLayer.trigger 'mousemove', e
       return true
 
     hit = if @panelLayerView.hit(@mouseX, @mouseY)
@@ -173,13 +174,13 @@
     if hit
       if @hitLayer != hit
         if @hitLayer
-          @hitLayer.trigger 'mouseout', {}
+          @hitLayer.trigger 'mouseout', e
         @hitLayer = hit
-        @hitLayer.trigger 'mouseover', {}
+        @hitLayer.trigger 'mouseover', e
 
     else
       if @hitLayer
-        @hitLayer.trigger 'mouseout', {}
+        @hitLayer.trigger 'mouseout', e
         @hitLayer = null
 
       # Clear cursor state

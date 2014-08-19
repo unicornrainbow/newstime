@@ -12,10 +12,11 @@ class @Newstime.PageComposeView extends Backbone.View
     @gridLines = new Newstime.GridLines()
     @$el.append(@gridLines.el)
 
-    @bind 'mouseover', @mouseover
-    @bind 'mouseout',  @mouseout
-    @bind 'mousedown', @mousedown
-    @bind 'mouseup',   @mouseup
+    @bind 'mouseover',   @mouseover
+    @bind 'mouseout',    @mouseout
+    @bind 'mousedown',   @mousedown
+    @bind 'mouseup',     @mouseup
+    @bind 'mousemove',   @mousemove
 
   width: ->
     parseInt(@$el.css('width'))
@@ -58,11 +59,11 @@ class @Newstime.PageComposeView extends Backbone.View
 
   mouseup: (e) ->
     @adjustEventXY(e) # Could be nice to abstract this one layer up...
-    console.log "mouseup", e
+    #console.log "mouseup", e
 
   mousedown: (e) ->
     @adjustEventXY(e) # Could be nice to abstract this one layer up...
-    console.log "mousedown", e
+    #console.log "mousedown", e
 
     ## We need to create and activate a selection region (Marching ants would be nice)
     selection = new Newstime.Selection() # Needs to be local to the "page"
@@ -100,7 +101,8 @@ class @Newstime.PageComposeView extends Backbone.View
     @trigger 'tracking', this # Enters into tracking mode.
 
   mousemove: (e) ->
-    console.log "mousemove on it"
+    @adjustEventXY(e) # Could be nice to abstract this one layer up...
+
     @activeSelection.$el.css
       width: e.x - @activeSelection.anchorX
       height: e.y - @activeSelection.anchorY
@@ -115,6 +117,6 @@ class @Newstime.PageComposeView extends Backbone.View
 
   mouseup: (e) ->
     if @activeSelection
-      console.log "tracking releases"
+      #console.log "tracking releases"
       @activeSelection = null # TODO: Should still be active, just not tracking
       @trigger 'tracking-release', this

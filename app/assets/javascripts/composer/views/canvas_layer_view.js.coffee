@@ -27,13 +27,11 @@ class @Newstime.CanvasLayerView extends Backbone.View
       page.bind 'tracking', @tracking, this
       page.bind 'tracking-release', @trackingRelease, this
 
-    #@$trackingBox = $("<div class='tracking-box'></div>")
-    #@$el.append @$trackingBox[0]
-
     @bind 'mouseover',  @mouseover
     @bind 'mouseout',   @mouseout
     @bind 'mousedown',  @mousedown
     @bind 'mouseup',    @mouseup
+    @bind 'mousemove',  @mousemove
 
 
   tracking: (page) ->
@@ -43,14 +41,6 @@ class @Newstime.CanvasLayerView extends Backbone.View
   trackingRelease: (page) ->
     @trackingPage = null
     @trigger 'tracking-release', this
-
-  mousemove: (e) ->
-    @adjustEventXY(e)
-
-    if @trackingPage
-      @trackingPage.mousemove(e)
-      return true
-
 
   hit: (x, y) ->
     e = { x: x, y: y }
@@ -125,6 +115,13 @@ class @Newstime.CanvasLayerView extends Backbone.View
       @trackingPage.trigger 'mouseup', e
       return true
 
+
+  mousemove: (e) ->
+    @adjustEventXY(e)
+
+    if @trackingPage
+      @trackingPage.trigger 'mousemove', e
+      return true
 
   detectHit: (page, x, y) ->
 
@@ -274,7 +271,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @zoomLevelIndex ?= 0
     @zoomLevelIndex = @zoomLevelIndex+1
     @zoomLevel = @zoomLevels[@zoomLevelIndex]/100
-    console.log "zooming here"
+    #console.log "zooming here"
 
     # And apply zoom level to the zoom target (page)
     @$el.css

@@ -37,12 +37,12 @@ class @Newstime.CoverLayerView extends Backbone.View
 
 
   hideCursor: ->
-    console.log "Hide Cursor"
+    #console.log "Hide Cursor"
     @$el.css
       cursor: 'none'
 
   showCursor: ->
-    console.log "Show Cursor"
+    #console.log "Show Cursor"
     @$el.css
       cursor: ''
 
