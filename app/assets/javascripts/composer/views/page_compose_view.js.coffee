@@ -122,6 +122,7 @@ class @Newstime.PageComposeView extends Backbone.View
 
     # Bind to events
     selection.bind 'tracking', @resizeSelection, this
+    selection.bind 'tracking-release', @resizeSelectionRelease, this
 
     @selections.push selection
 
@@ -150,6 +151,10 @@ class @Newstime.PageComposeView extends Backbone.View
   resizeSelection: (selection) ->
     @resizeSelectionTarget = selection
     @trigger 'tracking', this
+
+  resizeSelectionRelease: (selection) ->
+    @resizeSelectionTarget = null
+    @trigger 'tracking-release', this
 
   mousemove: (e) ->
     @adjustEventXY(e) # Could be nice to abstract this one layer up...

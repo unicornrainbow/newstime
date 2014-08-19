@@ -19,6 +19,7 @@ class @Newstime.Selection extends Backbone.View
 
     @bind 'mousedown', @mousedown
     @bind 'mousemove', @mousemove
+    @bind 'mouseup',   @mouseup
 
   activate: ->
     @active = true
@@ -111,3 +112,6 @@ class @Newstime.Selection extends Backbone.View
         @$el.css
           left: e.x
           top: e.y
+
+  mouseup: (e) ->
+    @trigger 'tracking-release', this
