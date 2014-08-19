@@ -97,10 +97,10 @@ class @Newstime.PageComposeView extends Backbone.View
     # of draw new box. Hit detection on selection is what we need to consider.
 
     if @activeSelection
-      # Forward to active selection if it hits.
-      if @activeSelection.hit(e.x, e.y)
-        @activeSelection.trigger 'mousedown', e
-        return true
+      # Forward mousedown to active selection
+      #if @activeSelection.hit(e.x, e.y)
+      unless @activeSelection.trigger 'mousedown', e
+        return false # Exit early, event canceled
 
     hitSelection = _.find @selections, (selection) ->
       selection.hit(e.x, e.y)
