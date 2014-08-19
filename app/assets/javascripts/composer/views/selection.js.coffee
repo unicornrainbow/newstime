@@ -112,8 +112,6 @@ class @Newstime.Selection extends Backbone.View
       # top-left drag handle hit?
       if x >= geometry.x - 8 && x <= geometry.x + 8
         if y >= geometry.y - 8 && y <= geometry.y + 8
-          console.log "Top left drag handle hit"
-          # TODO: Begin dragging
           @resizing = true
           @resizeMode = "top-left"
           @trigger 'tracking', this
@@ -122,7 +120,9 @@ class @Newstime.Selection extends Backbone.View
       # top-right drag handle hit?
       if x >= geometry.x + geometry.width - 8 && x <= geometry.x + geometry.width + 8
         if y >= geometry.y - 8 && y <= geometry.y + 8
-          console.log "Top right drag handle hit"
+          @resizing = true
+          @resizeMode = "top-right"
+          @trigger 'tracking', this
           return false # Cancel event
 
     return true
@@ -131,6 +131,9 @@ class @Newstime.Selection extends Backbone.View
     if @resizing
       if @resizeMode == 'top-left'
         @dragTopLeft(e.x, e.y)
+
+      if @resizeMode == 'top-right'
+        @dragTopRight(e.x, e.y)
 
   snapToGridLeft: (value) ->
     @closest(value , @leftSteps)
@@ -146,16 +149,22 @@ class @Newstime.Selection extends Backbone.View
         closest = val
     closest
 
-
   dragTopLeft: (x, y) ->
     geometry = @geometry()
-
     x = @snapToGridLeft(x)
-
     @$el.css
       left: x
       top: y
       width: geometry.x - x + geometry.width
+      height: geometry.y - y + geometry.height
+
+
+  dragTopRight: (x, y) ->
+    geometry = @geometry()
+    x = @snapToGridRight(x)
+    @$el.css
+      top: y
+      width: x - geometry.x
       height: geometry.y - y + geometry.height
 
   mouseup: (e) ->
