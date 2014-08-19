@@ -18,6 +18,7 @@ class @Newstime.Selection extends Backbone.View
     """
 
     @bind 'mousedown', @mousedown
+    @bind 'mousemove', @mousemove
 
   activate: ->
     @active = true
@@ -91,6 +92,9 @@ class @Newstime.Selection extends Backbone.View
         if y >= geometry.y - 8 && y <= geometry.y + 8
           console.log "Top left drag handle hit"
           # TODO: Begin dragging
+          @resizing = true
+          @resizeMode = "top-left"
+          @trigger 'tracking', this
           return false # Cancel event
 
       # top-right drag handle hit?
@@ -100,3 +104,10 @@ class @Newstime.Selection extends Backbone.View
           return false # Cancel event
 
     return true
+
+  mousemove: (e) ->
+    if @resizing
+      if @resizeMode == 'top-left'
+        @$el.css
+          left: e.x
+          top: e.y

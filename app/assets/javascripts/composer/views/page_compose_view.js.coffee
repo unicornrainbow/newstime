@@ -120,6 +120,9 @@ class @Newstime.PageComposeView extends Backbone.View
     ## We need to create and activate a selection region (Marching ants would be nice)
     selection = new Newstime.Selection() # Needs to be local to the "page"
 
+    # Bind to events
+    selection.bind 'tracking', @resizeSelection, this
+
     @selections.push selection
 
     @activeSelection = selection
@@ -144,18 +147,29 @@ class @Newstime.PageComposeView extends Backbone.View
   snapToGridRight: (value) ->
     @closest(value , @rightSteps)
 
+  resizeSelection: (selection) ->
+    @resizeSelectionTarget = selection
+    @trigger 'tracking', this
+
   mousemove: (e) ->
     @adjustEventXY(e) # Could be nice to abstract this one layer up...
 
+    if @resizeSelectionTarget
+      @resizeSelectionTarget.trigger 'mousemove', e
+      return true
+
+    # Need to abstract and move this down into the selection. Kludgy for now.
     if @trackingSelection
-
-
       @trackingSelection.$el.css
         width: @snapToGridRight(e.x - @trackingSelection.anchorX)
         height: e.y - @trackingSelection.anchorY
       return true
 
   mouseup: (e) ->
+    if @resizeSelectionTarget
+      @resizeSelectionTarget.trigger 'mouseup', e
+      return true
+
     if @trackingSelection
       @trackingSelection = null # TODO: Should still be active, just not tracking
       @trigger 'tracking-release', this
