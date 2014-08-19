@@ -118,6 +118,30 @@ class @Newstime.Selection extends Backbone.View
           @trigger 'tracking', this
           return false # Cancel event
 
+      # right drag handle hit?
+      if x >= geometry.x + geometry.width - 8 && x <= geometry.x + geometry.width + 8
+        if y >= geometry.y + geometry.height/2 - 8 && y <= geometry.y + geometry.height/2 + 8
+          @resizing = true
+          @resizeMode = "right"
+          @trigger 'tracking', this
+          return false # Cancel event
+
+      # left drag handle hit?
+      if x >= geometry.x - 8 && x <= geometry.x + 8
+        if y >= geometry.y + geometry.height/2 - 8 && y <= geometry.y + geometry.height/2 + 8
+          @resizing = true
+          @resizeMode = "left"
+          @trigger 'tracking', this
+          return false # Cancel event
+
+      # bottom drag handle hit?
+      if x >= geometry.x + geometry.width/2 - 8 && x <= geometry.x + geometry.width/2 + 8
+        if y >= geometry.y + geometry.height - 8 && y <= geometry.y + geometry.height + 8
+          @resizing = true
+          @resizeMode = "bottom"
+          @trigger 'tracking', this
+          return false # Cancel event
+
       # top-left drag handle hit?
       if x >= geometry.x - 8 && x <= geometry.x + 8
         if y >= geometry.y - 8 && y <= geometry.y + 8
@@ -157,6 +181,15 @@ class @Newstime.Selection extends Backbone.View
       if @resizeMode == 'top'
         @dragTop(e.x, e.y)
 
+      if @resizeMode == 'right'
+        @dragRight(e.x, e.y)
+
+      if @resizeMode == 'bottom'
+        @dragBottom(e.x, e.y)
+
+      if @resizeMode == 'left'
+        @dragLeft(e.x, e.y)
+
       if @resizeMode == 'top-left'
         @dragTopLeft(e.x, e.y)
 
@@ -189,6 +222,24 @@ class @Newstime.Selection extends Backbone.View
     @$el.css
       top: y
       height: geometry.y - y + geometry.height
+
+  dragRight: (x, y) ->
+    geometry = @geometry()
+    x = @snapToGridRight(x)
+    @$el.css
+      width: x - geometry.x
+
+  dragBottom: (x, y) ->
+    geometry = @geometry()
+    @$el.css
+      height: y - geometry.y
+
+  dragLeft: (x, y) ->
+    geometry = @geometry()
+    x = @snapToGridLeft(x)
+    @$el.css
+      left: x
+      width: geometry.x - x + geometry.width
 
   dragTopLeft: (x, y) ->
     geometry = @geometry()
