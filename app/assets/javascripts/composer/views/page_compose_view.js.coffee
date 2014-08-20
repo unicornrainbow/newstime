@@ -178,8 +178,14 @@ class @Newstime.PageComposeView extends Backbone.View
       return true
 
     # Check for hit inorder to highlight hovered selection
-    selection = _.find @selections, (selection) ->
-      selection.hit(e.x, e.y)
+    if @activeSelection # Check active selection first.
+      selection = @activeSelection if @activeSelection.hit(e.x, e.y)
+
+    unless selection
+      # NOTE: Would be nice to skip active selection here, since already
+      # checked, but no biggie.
+      selection = _.find @selections, (selection) ->
+        selection.hit(e.x, e.y)
 
     if @hovered # Only process events if hovered.
       if selection

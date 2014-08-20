@@ -308,7 +308,6 @@ class @Newstime.Selection extends Backbone.View
     @trigger 'tracking-release', this
 
   mouseover: (e) ->
-    console.log 'ad'
     @$el.addClass 'hovered'
 
   mouseout: (e) ->
