@@ -111,6 +111,9 @@ class @Newstime.Selection extends Backbone.View
     x = e.x
     y = e.y
 
+    unless @active
+      @activate()
+
     geometry = @geometry()
 
     # If active, check against the drag handles

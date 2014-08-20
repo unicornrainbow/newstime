@@ -98,14 +98,11 @@ class @Newstime.PageComposeView extends Backbone.View
     @adjustEventXY(e) # Could be nice to abstract this one layer up...
 
     if @hoveredObject
-      if @activeSelection != @hoveredObject
-        @hoveredObject.activate()
-
+      # Pass on mousedown to hovered object
       @hoveredObject.trigger 'mousedown', e
-      return true
-
-    # Begin selection
-    @beginSelection(e.x, e.y)
+    else
+      # Or begin new selection
+      @beginSelection(e.x, e.y)
 
   beginSelection: (x, y) ->
     ## We need to create and activate a selection region (Marching ants would be nice)
