@@ -169,8 +169,7 @@ class @Newstime.PageComposeView extends Backbone.View
       return true
 
     # Check for hit inorder to highlight hovered selection
-    # TODO: Implement
-    #
+    console.log 'mousemove on page'
 
 
 

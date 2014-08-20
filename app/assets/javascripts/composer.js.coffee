@@ -182,9 +182,13 @@
         @hitLayer.trigger 'mouseout', e
         @hitLayer = null
 
-      # Clear cursor state
-      @changeCursor('')
 
+    # Pass mousemove through to the hit layer
+    if @hitLayer
+      @hitLayer.trigger 'mousemove', e
+
+      # Clear cursor state
+      #@changeCursor('')
 
   mousedown: (e) ->
     e =

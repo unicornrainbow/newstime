@@ -123,6 +123,10 @@ class @Newstime.CanvasLayerView extends Backbone.View
       @trackingPage.trigger 'mousemove', e
       return true
 
+    if @hoveredObject
+      @hoveredObject.trigger 'mousemove', e
+
+
   detectHit: (page, x, y) ->
 
     # TODO: Need to refactor this to avoid to much recaluculating.
