@@ -88,14 +88,6 @@ class @Newstime.PageComposeView extends Backbone.View
   mousedown: (e) ->
     @adjustEventXY(e) # Could be nice to abstract this one layer up...
 
-    # Receiving a mousedown, is this hitting an existing selection?
-    # If it is, make that the active selection, otherwise, draw a new selection.
-    # Tool mode would be decent edition here, to avoid drawing on random clicks.
-    # If there is an active selection, we first need to check with it if there
-    # is something it would like to do with the mouse down, right now there is
-    # not, but resizing would be relevant. So, for now, either change selection
-    # of draw new box. Hit detection on selection is what we need to consider.
-
     if @activeSelection
       # Forward mousedown to active selection
       #if @activeSelection.hit(e.x, e.y)
@@ -175,6 +167,12 @@ class @Newstime.PageComposeView extends Backbone.View
         width: @snapToGridRight(e.x - @trackingSelection.anchorX)
         height: e.y - @trackingSelection.anchorY
       return true
+
+    # Check for hit inorder to highlight hovered selection
+    # TODO: Implement
+    #
+
+
 
   mouseup: (e) ->
     if @resizeSelectionTarget

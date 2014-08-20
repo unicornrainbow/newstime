@@ -174,6 +174,23 @@ class @Newstime.Selection extends Backbone.View
           @trigger 'tracking', this
           return false # Cancel event
 
+      ## Expand the geometry by buffer distance in each direction to extend
+      ## clickable area.
+      #buffer = 4 # 2px
+      #geometry.x -= buffer
+      #geometry.y -= buffer
+      #geometry.width += buffer*2
+      #geometry.height += buffer*2
+
+      ## Detect if corrds lie within the geometry
+      if x >= geometry.x && x <= geometry.x + geometry.width
+        if y >= geometry.y && y <= geometry.y + geometry.height
+          @moving = true
+          @moveOffsetX = x - geometry.x
+          @moveOffsetY = y - geometry.y
+          @trigger 'tracking', this
+          return true
+
     return true
 
   mousemove: (e) ->
@@ -202,6 +219,9 @@ class @Newstime.Selection extends Backbone.View
       if @resizeMode == 'bottom-right'
         @dragBottomRight(e.x, e.y)
 
+    if @moving
+      @move(e.x, e.y)
+
   snapToGridLeft: (value) ->
     @closest(value , @leftSteps)
 
@@ -216,9 +236,16 @@ class @Newstime.Selection extends Backbone.View
         closest = val
     closest
 
+  move: (x, y) ->
+    geometry = @geometry()
+    x = @snapToGridLeft(x - @moveOffsetX)
+    @$el.css
+      left: x
+      top: y - @moveOffsetY
 
   dragTop: (x, y) ->
     geometry = @geometry()
+    y = Math.max(y, 10) # Example of limiting in the y direction
     @$el.css
       top: y
       height: geometry.y - y + geometry.height
@@ -274,4 +301,6 @@ class @Newstime.Selection extends Backbone.View
       height: y - geometry.y
 
   mouseup: (e) ->
+    @resizing = false
+    @moving = false
     @trigger 'tracking-release', this
