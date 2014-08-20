@@ -98,7 +98,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @adjustEventXY(e)
 
     if @hoveredObject
-      @hoveredObject.trigger 'mouseover', e
+      @hoveredObject.trigger 'mouseout', e
       @hoveredObject = null
 
   mousedown: (e) ->

@@ -1,6 +1,12 @@
 .selection {
   position: absolute;
 
+  transition: border-color .2s;
+
+  &.hovered {
+    border-color: #aaa;
+  }
+
   border: 1px dashed #ccc;
 
   &.resizable {

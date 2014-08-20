@@ -69,10 +69,19 @@ class @Newstime.PageComposeView extends Backbone.View
     height: @height()
 
   mouseover: (e) ->
-    #@$el.css border: "solid 1px red"
+    @adjustEventXY(e)
+    @hovered = true
+    if @hoveredObject
+      @hoveredObject.trigger 'mouseover', e
 
   mouseout: (e) ->
-    #@$el.css border: "none"
+    @adjustEventXY(e)
+
+    @hovered = false
+
+    if @hoveredObject
+      @hoveredObject.trigger 'mouseout', e
+      @hoveredObject = null
 
   # Applies offset (sort of a hack for now)
   adjustEventXY: (e) ->
@@ -169,8 +178,34 @@ class @Newstime.PageComposeView extends Backbone.View
       return true
 
     # Check for hit inorder to highlight hovered selection
-    console.log 'mousemove on page'
+    selection = _.find @selections, (selection) ->
+      selection.hit(e.x, e.y)
 
+    if @hovered # Only process events if hovered.
+      if selection
+        if @hoveredObject != selection
+          if @hoveredObject
+            @hoveredObject.trigger 'mouseout', e
+          @hoveredObject = selection
+          @hoveredObject.trigger 'mouseover', e
+
+        return true
+      else
+        if @hoveredObject
+          @hoveredObject.trigger 'mouseout', e
+          @hoveredObject = null
+
+        return false
+
+    else
+      # Defer processing of events until we are declared the hovered object.
+      @hoveredObject = page
+      return true
+
+      #if @activeSelection.hit(e.x, e.y)
+    #
+
+    #console.log 'mousemove on page'
 
 
   mouseup: (e) ->

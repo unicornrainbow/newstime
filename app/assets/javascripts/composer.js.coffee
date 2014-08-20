@@ -157,10 +157,11 @@
     # Compistae for top offset to allow room for menu
     @mouseY -= @topOffset
 
+    e =
+      x: @mouseX
+      y: @mouseY
+
     if @trackingLayer
-      e =
-        x: @mouseX
-        y: @mouseY
 
       @trackingLayer.trigger 'mousemove', e
       return true

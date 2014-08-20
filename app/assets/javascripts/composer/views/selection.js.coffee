@@ -22,6 +22,8 @@ class @Newstime.Selection extends Backbone.View
     @bind 'mousedown', @mousedown
     @bind 'mousemove', @mousemove
     @bind 'mouseup',   @mouseup
+    @bind 'mouseover', @mouseover
+    @bind 'mouseout',  @mouseout
 
 
   # Sets up and compute grid steps
@@ -304,3 +306,10 @@ class @Newstime.Selection extends Backbone.View
     @resizing = false
     @moving = false
     @trigger 'tracking-release', this
+
+  mouseover: (e) ->
+    console.log 'ad'
+    @$el.addClass 'hovered'
+
+  mouseout: (e) ->
+    @$el.removeClass 'hovered'
