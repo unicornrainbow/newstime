@@ -62,7 +62,6 @@ class @Newstime.PanelLayerView extends Backbone.View
       else
         return false
 
-
   detectHit: (panel, x, y) ->
     # Get panel geometry
     geometry = panel.geometry()

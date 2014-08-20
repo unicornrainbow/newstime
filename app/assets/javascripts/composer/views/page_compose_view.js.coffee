@@ -117,8 +117,6 @@ class @Newstime.PageComposeView extends Backbone.View
       # Deactivate active selection if there was a mousedown and it wasn't
       # hovered.
       @activeSelection.deactivate()
-      @activeSelection = null
-
 
     # Otherwise, draw...
 
@@ -130,13 +128,23 @@ class @Newstime.PageComposeView extends Backbone.View
     # Bind to events
     selection.bind 'tracking', @resizeSelection, this
     selection.bind 'tracking-release', @resizeSelectionRelease, this
+    selection.bind 'activate', @selectionActivated, this
+    selection.bind 'deactivate', @selectionDeactivated, this
 
+    selection.beginSelection(e.x, e.y)
+
+    #@activeSelection.activate()
+    #@activeSelection.activate()
+    #@activeSelection = selection
+    #@trackingSelection = selection
+    #@trigger 'tracking', this # Enters into tracking mode.
+
+  selectionActivated: (selection) ->
+    @activeSelection.deactivate() if @activeSelection
     @activeSelection = selection
-    @trackingSelection = selection
 
-    selection.beginSelection(@snapToGridLeft(e.x), e.y)
-
-    @trigger 'tracking', this # Enters into tracking mode.
+  selectionDeactivated: (selection) ->
+    @activeSelection = null
 
   # Utility function
   closest: (goal, ary) ->

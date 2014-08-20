@@ -45,25 +45,29 @@ class @Newstime.Selection extends Backbone.View
       columnStep * i + firstStep
 
   activate: ->
+    @trigger 'activate', this
     @active = true
     @$el.addClass 'resizable'
 
   deactivate: ->
+    @trigger 'deactivate', this
     @active = false
     @$el.removeClass 'resizable'
 
-  beginSelection: (anchorX, anchorY) ->
-    #@trackingSelection = true
-
-    @activate()
-
-    @anchorX = anchorX
-    @anchorY = anchorY
+  beginSelection: (x, y) ->
+    @anchorX = @snapToGridLeft(x)
+    @anchorY = y
 
     @$el.css
       left: @anchorX
       top: @anchorY
 
+    @activate()
+
+    # Begin tracking for size
+    @resizing = true
+    @resizeMode = "bottom-right"
+    @trigger 'tracking', this
 
   width: ->
     parseInt(@$el.css('width'))
