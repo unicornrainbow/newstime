@@ -9,7 +9,8 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @$document = $(document)
     @$body = $('body')
 
-    @zoomLevels = [25, 33, 50, 67, 75, 90, 100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
+    #@zoomLevels = [25, 33, 50, 67, 75, 90, 100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
+    @zoomLevels = [100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
 
     # Measure and set eaxct width (Needed for getting exact locations when
     # zooming.
@@ -255,7 +256,8 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @repositionScroll()
 
   zoomReset: ->
-    @zoomLevelIndex = 6
+    #@zoomLevelIndex = 6
+    @zoomLevelIndex = 0
     @zoomLevel = @zoomLevels[@zoomLevelIndex]/100
 
     # And apply zoom level to the zoom target (page)
