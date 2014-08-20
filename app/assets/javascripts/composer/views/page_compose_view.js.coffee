@@ -97,11 +97,33 @@ class @Newstime.PageComposeView extends Backbone.View
   mousedown: (e) ->
     @adjustEventXY(e) # Could be nice to abstract this one layer up...
 
+    if @hoveredObject
+      # TODO: This needs to be pushed down into the selection
+      if @activeSelection
+        if @activeSelection != @hoveredObject
+          # Activate hovered object if not activated.
+          @activeSelection.deactivate()
+          @activeSelection = @hoveredObject
+          @hoveredObject.activate()
+      else
+        @activeSelection = @hoveredObject
+        @hoveredObject.activate()
+
+
+      @hoveredObject.trigger 'mousedown', e
+      return true
+
     if @activeSelection
-      # Forward mousedown to active selection
-      #if @activeSelection.hit(e.x, e.y)
-      unless @activeSelection.trigger 'mousedown', e
-        return false # Exit early, event canceled
+      # Deactivate active selection if there was a mousedown and it wasn't
+      # hovered.
+      @activeSelection.deactivate()
+      @activeSelection = null
+      #return true
+
+      ## Forward mousedown to active selection
+      ##if @activeSelection.hit(e.x, e.y)
+      #unless @activeSelection.trigger 'mousedown', e
+        #return false # Exit early, event canceled
 
       # Deactivate if there wasn't anything hit. I know this is a hair ball...
       #@activeSelection.deactivate()
