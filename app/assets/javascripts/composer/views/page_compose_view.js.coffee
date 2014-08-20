@@ -98,28 +98,16 @@ class @Newstime.PageComposeView extends Backbone.View
     @adjustEventXY(e) # Could be nice to abstract this one layer up...
 
     if @hoveredObject
-      # TODO: This needs to be pushed down into the selection
-      if @activeSelection
-        if @activeSelection != @hoveredObject
-          # Activate hovered object if not activated.
-          @activeSelection.deactivate()
-          @activeSelection = @hoveredObject
-          @hoveredObject.activate()
-      else
-        @activeSelection = @hoveredObject
+      if @activeSelection != @hoveredObject
         @hoveredObject.activate()
-
 
       @hoveredObject.trigger 'mousedown', e
       return true
 
-    if @activeSelection
-      # Deactivate active selection if there was a mousedown and it wasn't
-      # hovered.
-      @activeSelection.deactivate()
+    # Begin selection
+    @beginSelection(e.x, e.y)
 
-    # Otherwise, draw...
-
+  beginSelection: (x, y) ->
     ## We need to create and activate a selection region (Marching ants would be nice)
     selection = new Newstime.Selection() # Needs to be local to the "page"
     @$el.append(selection.el)
@@ -131,13 +119,7 @@ class @Newstime.PageComposeView extends Backbone.View
     selection.bind 'activate', @selectionActivated, this
     selection.bind 'deactivate', @selectionDeactivated, this
 
-    selection.beginSelection(e.x, e.y)
-
-    #@activeSelection.activate()
-    #@activeSelection.activate()
-    #@activeSelection = selection
-    #@trackingSelection = selection
-    #@trigger 'tracking', this # Enters into tracking mode.
+    selection.beginSelection(x, y)
 
   selectionActivated: (selection) ->
     @activeSelection.deactivate() if @activeSelection
