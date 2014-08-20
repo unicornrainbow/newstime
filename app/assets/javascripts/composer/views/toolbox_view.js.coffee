@@ -82,7 +82,7 @@ class @Newstime.ToolboxView extends Backbone.View
 
   mouseover: ->
     @$el.addClass 'hovered'
-    @composer.changeCursor('-webkit-grab')
+    #@composer.changeCursor('-webkit-grab')
 
   mouseout: ->
     @$el.removeClass 'hovered'

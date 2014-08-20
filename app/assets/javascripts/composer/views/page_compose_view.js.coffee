@@ -108,7 +108,6 @@ class @Newstime.PageComposeView extends Backbone.View
       #return true
 
 
-
     hitSelection = _.find @selections, (selection) ->
       selection.hit(e.x, e.y)
 

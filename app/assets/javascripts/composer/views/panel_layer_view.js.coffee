@@ -10,6 +10,9 @@ class @Newstime.PanelLayerView extends Backbone.View
     @topOffset = options.topOffset
     @$el.css top: "#{@topOffset}px"
 
+    @bind 'mouseover',  @mouseover
+    @bind 'mouseout',   @mouseout
+
 
   attachPanel: (panel) ->
     # Push onto the panels collection.
@@ -20,6 +23,10 @@ class @Newstime.PanelLayerView extends Backbone.View
 
   # Registers hit, and returns hit panel, should there be one.
   hit: (x, y) ->
+
+    e =
+      x: x
+      y: y
     # Received a mousedown event, check for a hit and to see if we need to pass
     # on to a panel.
 
@@ -30,7 +37,31 @@ class @Newstime.PanelLayerView extends Backbone.View
     panel = _.find @panels, (panel) =>
       @detectHit panel, x, y
 
-    return panel
+
+    if @hovered # Only process events if hovered.
+      if panel
+        if @hoveredObject != panel
+          if @hoveredObject
+            @hoveredObject.trigger 'mouseout', e
+          @hoveredObject = panel
+          @hoveredObject.trigger 'mouseover', e
+
+        return true
+      else
+        if @hoveredObject
+          @hoveredObject.trigger 'mouseout', e
+          @hoveredObject = null
+
+        return false
+
+    else
+      if panel
+        # Defer processing of events until we are declared the hovered object.
+        @hoveredObject = panel
+        return true
+      else
+        return false
+
 
   detectHit: (panel, x, y) ->
     # Get panel geometry
@@ -57,3 +88,17 @@ class @Newstime.PanelLayerView extends Backbone.View
 
     #console.log panel.x(), panel.y() - @topOffset
     #console.log panel.width(), panel.height()
+
+  mouseover: (e) ->
+    console.log 'over panel'
+    @hovered = true
+
+    if @hoveredObject
+      @hoveredObject.trigger 'mouseover', e
+
+  mouseout: (e) ->
+    @hovered = false
+
+    if @hoveredObject
+      @hoveredObject.trigger 'mouseover', e
+      @hoveredObject = null

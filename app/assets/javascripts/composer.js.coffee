@@ -162,7 +162,6 @@
         x: @mouseX
         y: @mouseY
 
-
       @trackingLayer.trigger 'mousemove', e
       return true
 
