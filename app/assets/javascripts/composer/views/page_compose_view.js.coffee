@@ -118,46 +118,21 @@ class @Newstime.PageComposeView extends Backbone.View
       # hovered.
       @activeSelection.deactivate()
       @activeSelection = null
-      #return true
 
-      ## Forward mousedown to active selection
-      ##if @activeSelection.hit(e.x, e.y)
-      #unless @activeSelection.trigger 'mousedown', e
-        #return false # Exit early, event canceled
-
-      # Deactivate if there wasn't anything hit. I know this is a hair ball...
-      #@activeSelection.deactivate()
-      #@activeSelection = null
-      #return true
-
-
-    hitSelection = _.find @selections, (selection) ->
-      selection.hit(e.x, e.y)
-
-    if hitSelection
-      if @activeSelection
-        @activeSelection.deactivate()
-      @activeSelection = hitSelection
-      @activeSelection.activate()
-      return true
 
     # Otherwise, draw...
 
-    if @activeSelection
-      @activeSelection.deactivate()
-
     ## We need to create and activate a selection region (Marching ants would be nice)
     selection = new Newstime.Selection() # Needs to be local to the "page"
+    @$el.append(selection.el)
+    @selections.push selection
 
     # Bind to events
     selection.bind 'tracking', @resizeSelection, this
     selection.bind 'tracking-release', @resizeSelectionRelease, this
 
-    @selections.push selection
-
     @activeSelection = selection
     @trackingSelection = selection
-    @$el.append(selection.el)
 
     selection.beginSelection(@snapToGridLeft(e.x), e.y)
 
