@@ -2,21 +2,28 @@ class Section
   include Mongoid::Document
   include Mongoid::Timestamps
 
+  embedded_in  :edition
+
+  ## Attributes
   field :name, type: String
   field :page_title, type: String
   field :path, type: String
   field :sequence, type: Integer
   field :letter, type: String
-
   field :template_name, type: String
+  field :ordinal, type: Integer
 
-  belongs_to :edition
-  belongs_to :layout
-  belongs_to :organization
-  has_many   :pages, order: :number.asc
-  field      :ordinal, type: Integer
+  def pages
+    edition.pages.where(section_id: id)
+  end
 
-  accepts_nested_attributes_for :pages
+  def content_items
+    edition.content_items.where(page_id: pages.map(&:id))
+  end
+
+  def edition_id
+    edition.id
+  end
 
   ## Methods
 

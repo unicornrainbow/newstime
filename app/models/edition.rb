@@ -32,7 +32,14 @@ class Edition
   field :default_section_template_name, type: String, default: "sections/default"
 
   ## Relationships
-  has_many :sections, :order => :sequence.asc
+  embeds_many  :sections
+  embeds_many  :pages
+  embeds_many  :content_items
+
+  accepts_nested_attributes_for :sections
+  accepts_nested_attributes_for :pages
+  accepts_nested_attributes_for :content_items
+
   has_many :prints, :order => :created_at.desc
   belongs_to :organization
   belongs_to :publication, inverse_of: :editions

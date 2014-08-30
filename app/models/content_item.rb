@@ -6,6 +6,8 @@ class ContentItem
   include Mongoid::Timestamps
   include Mongoid::Attributes::Dynamic
 
+  embedded_in :edition
+
   TYPE_COLLECTION = content_item_types = [
     ["Headline", "HeadlineContentItem"],
     ["Story", "StoryTextContentItem"],
@@ -14,23 +16,18 @@ class ContentItem
     ["Horizontal Rule", "HorizontalRuleContentItem"]
   ]
 
+  ## Attributes
   field    :_type,          type: String
   field    :sequence,       type: Integer
   field    :height,         type: Integer
-
-  belongs_to :organization
-  belongs_to :content_region
+  field    :page_id,        type: BSON::ObjectId
 
   def page
-    @page ||= content_region.page
+    @page ||= page_id && edition.pages.find(page_id)
   end
 
   def section
     @section ||= page.section
-  end
-
-  def edition
-    @edition ||= section.edition
   end
 
   # Returns the computed with of the content region

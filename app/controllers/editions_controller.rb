@@ -48,8 +48,8 @@ class EditionsController < ApplicationController
     # Reconstruct path with extension
     @path = "#{params['path']}.html"
 
-    # Find section by path off of edtion.
-    @section       = @edition.sections.where(path: @path).first
+    # Find section by path of edition.
+    @section       = @edition.sections.find_by(path: @path)
 
     @pages         = @section.pages || []
     @layout_name   = @edition.layout_name

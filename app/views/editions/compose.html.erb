@@ -1,7 +1,7 @@
 <% wrap_with template_name -%>
 
 <% @pages.each do |page| %>
-  <%= render "page", page: page, grid_composition: page.grid_composition %>
+  <%= render "page", page: page %>
 <% end -%>
 
 <% if composing? %>

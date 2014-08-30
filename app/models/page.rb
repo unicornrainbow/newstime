@@ -2,16 +2,21 @@ class Page
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  belongs_to :section
-  belongs_to :organization
-  belongs_to :layout
-
-  has_many :content_regions
+  embedded_in :edition
 
   field      :name,         type: String
   field      :source,       type: String
   field      :number,       type: Integer
   field      :pixel_height, type: Integer
+  field      :section_id,   type: BSON::ObjectId
+
+  def section
+    section_id && edition.sections.find(section_id)
+  end
+
+  def content_items
+    edition.content_items.where(page_id: id)
+  end
 
   def pixel_height
     self[:pixel_height] || 1200
