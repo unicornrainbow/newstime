@@ -15,31 +15,16 @@ class ContentItemsController < ApplicationController
   end
 
   def create
-     @content_region_id = params[:content_region_id] || content_item_params[:content_region_id]
-    if @content_region_id
-      # TODO: [security] User must have access to the section.
-      @content_region = ContentRegion.find(@content_region_id)
-    end
+    @edition = Edition.find(params[:edition_id])
 
-    # HACK: Needed to do this weird magic so that mongoid would pickup on the
-    # logic for the relations of the sub type.
+    # HACK: So Mongoid pickups logic for the sub type relations.
     @content_item = content_item_params['_type'].constantize.new(content_item_params)
 
-    if @content_region
-      @content_region.content_items << @content_item
-    end
-
-    # Set content_item numbers
-    @content_item.sequence = @content_region.next_content_item_sequence
-
-    # All section must have an organization
-    @content_item.organization = current_user.organization
+    @edition.content_items << @content_item
 
     @content_item.save
 
-    @content_region.resequence_content_items!
-
-    @content_item.typeset! if @content_item.is_a?(StoryTextContentItem)
+    #@content_item.typeset! if @content_item.is_a?(StoryTextContentItem)
 
     redirect_to :back
   end

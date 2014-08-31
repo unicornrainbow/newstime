@@ -57,40 +57,48 @@ module EditionsHelper
     content << javascript_include_tag("composer") + "\n"
   end
 
-  def render_content_items(content_region, options={})
-    column_width = options[:column_width] || 34 # Standin values
-    gutter_width = options[:gutter_width] || 16
-
+  def render_content_item(content_item, options={})
     content = ""
-    content_region.content_items.each do |content_item|
 
-      content << case content_item
-      when HeadlineContentItem then
-        render "content/headline", id: content_item.id,
-          text: content_item.text,
-          style: content_item.style
-      when StoryTextContentItem then
-        render "content/story", id: content_item.id, anchor: content_item.id, rendered_html: content_item.rendered_html
-      when PhotoContentItem then
-        options = {}
-        options[:id]            = content_item.id
-        options[:photo_url]     = content_item.edition_relative_url_path
-        options[:photo_width]   = content_region.width
-        options[:photo_height]  = content_region.width / content_item.photo.aspect_ratio
-        render "content/photo", options
-      when VideoContentItem then
-        options = {}
-        options[:id]                = content_item.id
-        options[:video_url]         = content_item.video_url
-        options[:video_thumbnail]   = content_item.cover_image_url
+    content << case content_item
+    when HeadlineContentItem then
+      render "content/headline", id: content_item.id,
+        text: content_item.text,
+        style: content_item.style
+    when StoryTextContentItem then
+      render "content/story", id: content_item.id, anchor: content_item.id, rendered_html: content_item.rendered_html
+    when PhotoContentItem then
+      options = {}
+      options[:id]            = content_item.id
+      options[:photo_url]     = content_item.edition_relative_url_path
+      options[:photo_width]   = content_item.width
+      #options[:photo_height]  = content_region.width / content_item.photo.aspect_ratio
+      options[:photo_height]  = content_item.height
+      options[:top]  = content_item.top
+      options[:left]  = content_item.left
+      render "content/photo", options
+    when VideoContentItem then
+      options = {}
+      options[:id]                = content_item.id
+      options[:video_url]         = content_item.video_url
+      options[:video_thumbnail]   = content_item.cover_image_url
 
-        render "content/video", options
-      when HorizontalRuleContentItem then
-        options = {}
-        options[:style_class]  = content_item.style_class # short-hr, news-column-double-rule
+      render "content/video", options
+    when HorizontalRuleContentItem then
+      options = {}
+      options[:style_class]  = content_item.style_class # short-hr, news-column-double-rule
 
-        render "content/horizontal_rule", options
-      end
+      render "content/horizontal_rule", options
+
+    when BoxContentItem then
+      options = {}
+      options[:id]     = content_item.id
+      options[:width]  = content_item.width
+      options[:height] = content_item.height
+      options[:top]    = content_item.top
+      options[:left]   = content_item.left
+
+      render "content/box", options
     end
     content
   end

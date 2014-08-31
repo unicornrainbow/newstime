@@ -1,5 +1,4 @@
 class Edition
-  @layout =
   include Mongoid::Document
   include Mongoid::Timestamps
   include Mongoid::Paperclip

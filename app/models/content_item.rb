@@ -19,20 +19,23 @@ class ContentItem
   ## Attributes
   field    :_type,          type: String
   field    :sequence,       type: Integer
-  field    :height,         type: Integer
   field    :page_id,        type: BSON::ObjectId
+  field    :top,            type: Integer
+  field    :left,           type: Integer
+  field    :width,          type: Integer
+  field    :height,         type: Integer
 
   def page
     @page ||= page_id && edition.pages.find(page_id)
   end
 
-  def section
-    @section ||= page.section
+  def page=(page)
+    @page        = page
+    self.page_id = @page.id
   end
 
-  # Returns the computed with of the content region
-  def width
-    content_region.width
+  def section
+    @section ||= page.section
   end
 
 end
