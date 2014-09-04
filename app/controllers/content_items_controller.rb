@@ -2,6 +2,7 @@ class ContentItemsController < ApplicationController
 
   before_filter :authenticate_user!
   skip_before_filter :verify_authenticity_token, only: :update
+  respond_to :html, :json
 
   def index
     @content_items = ContentItem.asc(:path)
@@ -38,10 +39,12 @@ class ContentItemsController < ApplicationController
   end
 
   def update
-    @content_item = ContentItem.find(params[:id])
+    @edition = Edition.find(params[:edition_id])
+    @content_item = @edition.content_items.find(params[:id])
     @content_item.update_attributes(content_item_params)
     @content_item.typeset! if @content_item.is_a?(StoryTextContentItem)
-    render text: 'ok'
+    #render text: 'ok'
+    respond_with @content_item
   end
 
   def destroy

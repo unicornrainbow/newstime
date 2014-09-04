@@ -91,7 +91,7 @@ class EditionsController < ApplicationController
 
   def compile
     @path = "#{params['path']}.html"
-    @section       = @edition.sections.where(path: @path).first
+    @section = @edition.sections.where(path: @path).first
     section_compiler = SectionCompiler.new(@section)
     section_compiler.compile!
     render text: section_compiler.html
