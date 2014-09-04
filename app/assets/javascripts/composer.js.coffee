@@ -121,6 +121,13 @@
 
     # Events
     #$(window).scroll(@captureScrollPosition)
+    #
+    #
+
+    # Get the edition, mostly for development purposes right now.
+    edition_id = document.URL.match(/editions\/(\w*)/)[1] # Hack to get edition id from url string
+    window.edition = new Newstime.Edition({_id: edition_id})
+    edition.fetch()
 
   tracking: (layer) ->
     @trackingLayer = layer
@@ -245,10 +252,4 @@
 
 $ ->
   Newstime.Composer.init()
-
-  # For testing purposes
-  edition_id = document.URL.match(/editions\/(\w*)/)[1] # Hack to get edition id from url string
-  window.edition = new Newstime.Edition({_id: edition_id})
-  edition.fetch()
-
   return
