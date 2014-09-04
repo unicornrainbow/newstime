@@ -247,7 +247,8 @@ $ ->
   Newstime.Composer.init()
 
   # For testing purposes
-  window.edition = new Newstime.Edition({_id: '53e39a8c6f7263a582040000'})
+  edition_id = document.URL.match(/editions\/(\w*)/)[1] # Hack to get edition id from url string
+  window.edition = new Newstime.Edition({_id: edition_id})
   edition.fetch()
 
   return
