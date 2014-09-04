@@ -1,5 +1,5 @@
 class EditionsController < ApplicationController
-  wrap_parameters include: [*Edition.attribute_names, :content_items_attributes]
+  wrap_parameters include: [*Edition.attribute_names, :sections_attributes, :pages_attributes, :content_items_attributes]
 
   before_filter :authenticate_user!, except: :index
   before_filter :find_edition, only: [:compose, :preview, :compile, :download]
@@ -111,6 +111,8 @@ private
              :_id, :created_at, :updated_at, :page_pixel_height,
              :organization_id, :state_event,
              #:content_items_attributes => [:_id, :height, :left, :top, :width, :page_id, :_type, :created_at, :updated_at]
+             :sections_attributes => [Section.attribute_names],
+             :pages_attributes => [Page.attribute_names],
              :content_items_attributes => [ContentItem.attribute_names]
             )
   end
