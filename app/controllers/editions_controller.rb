@@ -73,7 +73,11 @@ class EditionsController < ApplicationController
   end
 
   def show
-    redirect_to action: :compose
+    @edition = Edition.find(params[:id])
+    respond_to do |format|
+      format.html { redirect_to action: :compose }
+      format.json { render json: @edition }
+    end
   end
 
   def destroy
