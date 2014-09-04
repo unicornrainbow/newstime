@@ -313,6 +313,40 @@ class @Newstime.Selection extends Backbone.View
     @resizing = false
     @moving = false
     @trigger 'tracking-release', this
+    @save()
+
+  save: ->
+
+    new Newstime.Edition()
+    # TODO: Need to think about save versus create... Will need to move to
+    # backbone models and collections.
+    # Save the selection as a box to the backend
+    # NOTE: For testing purposes, using ajax. Will probably move to
+    # model/collection
+    #editionId = "53e39a8c6f7263a582040000" # Example edition ID
+    #$.ajax
+      #type: "PUT"  # OR POST
+      #url: "editions/#{editionId}/content_items/#{@storyTextId}.json"
+      ##url: "editions/53e39a8c6f7263a582040000/content_items/#{@storyTextId}.json"
+      #url: "/content_items/#{@storyTextId}.json"
+      #data:
+        #authenticity_token: Newstime.Composer.authenticityToken
+        #content_item:
+          #columns: @$columnsSelect.val()
+          #height: @$heightInput.val()
+
+    #$.ajax
+      #type: "PUT"  # OR POST
+      #url: "editions/#{editionId}/content_items/#{@storyTextId}.json"
+      ##url: "editions/53e39a8c6f7263a582040000/content_items/#{@storyTextId}.json"
+      #url: "/content_items/#{@storyTextId}.json"
+      #data:
+        #authenticity_token: Newstime.Composer.authenticityToken
+        #content_item:
+          #columns: @$columnsSelect.val()
+          #height: @$heightInput.val()
+
+
 
   mouseover: (e) ->
     @$el.addClass 'hovered'

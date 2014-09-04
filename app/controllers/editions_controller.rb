@@ -1,10 +1,12 @@
 class EditionsController < ApplicationController
+  wrap_parameters include: [*Edition.attribute_names, :content_items_attributes]
+
   before_filter :authenticate_user!, except: :index
   before_filter :find_edition, only: [:compose, :preview, :compile, :download]
 
-  skip_filter :verify_authenticity_token, only: :delete
+  skip_filter :verify_authenticity_token, only: [:delete, :update] # TODO: Should remove this
 
-  respond_to :html
+  respond_to :html, :json
 
   def index
     redirect_to new_user_session_path and return unless current_user
@@ -66,7 +68,8 @@ class EditionsController < ApplicationController
   def update
     @edition = Edition.find(params[:id])
     @edition.update_attributes(edition_params)
-    redirect_to :back
+    #redirect_to :back
+    respond_with @edition.to_json
   end
 
   def show
@@ -100,9 +103,12 @@ private
     params.require(:edition).
       permit(:name, :source, :page_title, :masthead_id, :layout_id,
              :layout_name, :default_section_template_name, :publish_date,
-             :store_link, :fmt_price, :volume_label, :publication_id,
-             :price,
-             :state_event)
+             :store_link, :fmt_price, :volume_label, :publication_id, :price,
+             :_id, :created_at, :updated_at, :page_pixel_height,
+             :organization_id, :state_event,
+             #:content_items_attributes => [:_id, :height, :left, :top, :width, :page_id, :_type, :created_at, :updated_at]
+             :content_items_attributes => [ContentItem.attribute_names]
+            )
   end
 
 end

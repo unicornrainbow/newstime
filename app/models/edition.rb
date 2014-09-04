@@ -7,7 +7,6 @@ class Edition
   field :name,         type: String
   field :page_title,   type: String
   field :path,         type: String
-  field :created_at,   type: Time
   field :html,         type: String     # The render html source markup
   field :layout_name,  type: String
   field :publish_date, type: Date
@@ -40,11 +39,9 @@ class Edition
   accepts_nested_attributes_for :content_items
 
   has_many :prints, :order => :created_at.desc
+
   belongs_to :organization
   belongs_to :publication, inverse_of: :editions
-
-  accepts_nested_attributes_for :sections
-
 
   # Methods
 

@@ -2,6 +2,7 @@
 #= require lib/zepto
 #= require lib/underscore
 #= require lib/backbone
+#= require lib/backbone-relational
 #= require faye
 #
 # ## App
@@ -244,4 +245,79 @@
 
 $ ->
   Newstime.Composer.init()
+
+
+  window.edition = new Newstime.Edition(
+    {
+      "_id":"53e39a8c6f7263a582040000",
+      "content_items_attributes":[
+        {
+          "_id":"540266236f7263e8ec020000",
+          "_type":"BoxContentItem",
+          "created_at":"2014-08-31T00:02:43Z",
+          "height":405,
+          "left":8,
+          "page_id":"5402675e6f7263e8ec050000",
+          "top":15,
+          "updated_at":"2014-08-31T00:13:03Z",
+          "width":734
+        }
+      ],
+      "created_at":"2014-08-07T15:26:04Z",
+      "default_section_template_name":"sections/default",
+      "layout_name":"volusia_democratic_caucus",
+      "name":"Edition No. 3",
+      "organization_id":"52d45f216f72633639080000",
+      "page_pixel_height":1200,
+      "page_title":"Edition No. 3",
+      "pages":[
+        {
+          "_id":"5402395a6f7263e0b0040000",
+          "updated_at":"2014-08-30T20:51:38Z",
+          "created_at":"2014-08-30T20:51:38Z"
+        },
+        {
+          "_id":"54025e626f7263e8ec000000",
+          "updated_at":"2014-08-30T23:29:50Z",
+          "created_at":"2014-08-30T23:29:50Z"
+        },
+        {
+          "_id":"5402670c6f7263e8ec040000",
+          "updated_at":"2014-08-31T00:06:36Z",
+          "created_at":"2014-08-31T00:06:36Z"
+        },
+        {
+          "_id":"5402675e6f7263e8ec050000",
+          "created_at":"2014-08-31T00:07:58Z",
+          "number":1,
+          "section_id":"54022ede6f7263de6f000000",
+          "updated_at":"2014-08-31T00:08:41Z"
+        }
+      ],
+      "price":0.0,
+      "publication_id":"53d91ef16f726342ac000000",
+      "publish_date":"2014-08-07T00:00:00Z",
+      "sections":[
+        {
+          "_id":"54022ede6f7263de6f000000",
+          "created_at":"2014-08-30T20:06:54Z",
+          "pages":[
+            {
+              "_id":"540231816f7263ded3010000",
+              "created_at":"2014-08-30T20:18:09Z",
+              "number":1,
+              "pixel_height":1200,
+              "updated_at":"2014-08-30T20:18:39Z"
+            }
+          ],
+          "path":"main.html",
+          "updated_at":"2014-08-30T20:08:07Z"
+        }
+      ],
+      "store_link":"http://store.newstime.io/volusia-democratic-caucus-newsletter/edition-no-3",
+      "updated_at":"2014-08-07T15:26:04Z",
+      "volume_label":"Edition No. 3"
+    }
+  )
+
   return
