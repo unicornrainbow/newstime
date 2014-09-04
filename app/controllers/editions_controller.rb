@@ -76,7 +76,7 @@ class EditionsController < ApplicationController
     @edition = Edition.find(params[:id])
     respond_to do |format|
       format.html { redirect_to action: :compose }
-      format.json { render json: @edition }
+      format.json { respond_with @edition }
     end
   end
 
