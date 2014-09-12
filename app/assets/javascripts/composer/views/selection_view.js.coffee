@@ -31,6 +31,8 @@ class @Newstime.SelectionView extends Backbone.View
     @bind 'mouseover', @mouseover
     @bind 'mouseout',  @mouseout
 
+    @$el.css _.pick @model.attributes, 'top', 'left', 'width', 'height'
+
   modelChanged: ->
     @$el.css _.pick @model.changedAttributes(), 'top', 'left', 'width', 'height'
 

@@ -4,6 +4,7 @@ class @Newstime.PageComposeView extends Backbone.View
 
   initialize: (options) ->
     @edition = options.edition
+    @contentItemCollection = @edition.get('content_items')
     @$el.addClass 'page-compose'
 
     @composer = options.composer
@@ -24,6 +25,21 @@ class @Newstime.PageComposeView extends Backbone.View
     @bind 'mousemove',   @mousemove
 
     @selectionViews = []
+
+    $("[data-content-item-id]", @$el).each (i, el) =>
+      console.log 'as'
+      id = $(el).data('content-item-id')
+      contentItem = @contentItemCollection.findWhere(_id: id)
+
+      selectionView = new Newstime.SelectionView(model: contentItem) # Needs to be local to the "page"
+      @selectionViews.push selectionView
+      @$el.append(selectionView.el)
+
+      # Bind to events
+      selectionView.bind 'activate', @selectionActivated, this
+      selectionView.bind 'deactivate', @selectionDeactivated, this
+      selectionView.bind 'tracking', @resizeSelection, this
+      selectionView.bind 'tracking-release', @resizeSelectionRelease, this
 
   # Sets up and compute grid steps
   gridInit: ->
