@@ -62,9 +62,15 @@ class @Newstime.GlobalKeyboardDispatch extends Backbone.Model
         if e.ctrlKey # ctrl+s
           edition.save() # Save edition
 
+      when 8 # del
+        #e.stopPropagation()
+        #e.preventDefault()
+
+
   keyup: (e) ->
     #console.log "up", e.keyCode
     switch e.keyCode
+
       when 18 # opt
         @optDown = false
         window.onmousewheel = null
