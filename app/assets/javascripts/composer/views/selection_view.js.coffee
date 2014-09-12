@@ -47,7 +47,7 @@ class @Newstime.SelectionView extends Backbone.View
   # Detects a hit of the selection
   hit: (x, y) ->
 
-    geometry = @model.getGeometry()
+    geometry = @getGeometry()
 
     ## Expand the geometry by buffer distance in each direction to extend
     ## clickable area.
@@ -106,6 +106,9 @@ class @Newstime.SelectionView extends Backbone.View
     @model.get('height')
     #parseInt(@$el.css('height'))
 
+  getGeometry: ->
+    @model.pick('top', 'left', 'height', 'width')
+
   # Does an x,y corrdinate intersect a bounding box
   hitBox: (hitX, hitY, boxX, boxY, boxSize) ->
     boxLeft   = boxX - boxSize
@@ -123,7 +126,7 @@ class @Newstime.SelectionView extends Backbone.View
     unless @active
       @activate()
 
-    geometry = @model.getGeometry()
+    geometry = @getGeometry()
 
     # If active, check against the drag handles
     # TODO: Drag handels need to become a hovered target, then if there is
@@ -237,39 +240,39 @@ class @Newstime.SelectionView extends Backbone.View
     closest
 
   move: (x, y) ->
-    geometry = @model.getGeometry()
+    geometry = @getGeometry()
     x = @snapToGridLeft(x - @moveOffsetX)
     @model.set
       left: x
       top: y - @moveOffsetY
 
   dragTop: (x, y) ->
-    geometry = @model.getGeometry()
+    geometry = @getGeometry()
     y = Math.max(y, 10) # Example of limiting in the y direction
     @model.set
       top: y
       height: geometry.top - y + geometry.height
 
   dragRight: (x, y) ->
-    geometry = @model.getGeometry()
+    geometry = @getGeometry()
     width = @snapToGridRight(x - geometry.left)
     @model.set
       width: width
 
   dragBottom: (x, y) ->
-    geometry = @model.getGeometry()
+    geometry = @getGeometry()
     @model.set
       height: y - geometry.top
 
   dragLeft: (x, y) ->
-    geometry = @model.getGeometry()
+    geometry = @getGeometry()
     x        = @snapToGridLeft(x)
     @model.set
       left: x
       width: geometry.left - x + geometry.width
 
   dragTopLeft: (x, y) ->
-    geometry = @model.getGeometry()
+    geometry = @getGeometry()
     x        = @snapToGridLeft(x)
     @model.set
       left: x
@@ -278,7 +281,7 @@ class @Newstime.SelectionView extends Backbone.View
       height: geometry.top - y + geometry.height
 
   dragTopRight: (x, y) ->
-    geometry = @model.getGeometry()
+    geometry = @getGeometry()
     width = @snapToGridRight(x - geometry.left)
     @model.set
       top: y
@@ -286,7 +289,7 @@ class @Newstime.SelectionView extends Backbone.View
       height: geometry.top - y + geometry.height
 
   dragBottomLeft: (x, y) ->
-    geometry = @model.getGeometry()
+    geometry = @getGeometry()
     x = @snapToGridLeft(x)
     @model.set
       left: x
@@ -294,7 +297,7 @@ class @Newstime.SelectionView extends Backbone.View
       height: y - geometry.top
 
   dragBottomRight: (x, y) ->
-    geometry = @model.getGeometry()
+    geometry = @getGeometry()
     width = @snapToGridRight(x - geometry.left)
     @model.set
       width: width

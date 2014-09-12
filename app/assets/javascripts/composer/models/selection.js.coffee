@@ -8,6 +8,3 @@
 class @Newstime.Selection extends Backbone.RelationalModel
 
   initialize: (attributes, options) ->
-
-  getGeometry: ->
-    @pick('top', 'left', 'height', 'width')
