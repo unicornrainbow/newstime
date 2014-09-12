@@ -3,6 +3,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
   initialize: (options) ->
     @composer = options.composer
     @topOffset = options.topOffset
+    @edition =  options.edition
 
     # Capture Elements
     @$window = $(window)
@@ -15,12 +16,17 @@ class @Newstime.CanvasLayerView extends Backbone.View
     # Measure and set eaxct width (Needed for getting exact locations when
     # zooming.
     #@$el.css(width: @$el.width())
+    #
+
+    @pageCollection = @edition.get('pages')
 
     # Capture and Init pages
     @pages = []
     $("[page-compose]", @$el).each (i, el) =>
+      pageModel = @pageCollection.findWhere(_id: $(el).data('page-id'))
       @pages.push new Newstime.PageComposeView(
         el: el
+        page: pageModel
         canvasLayerView: this
       )
 

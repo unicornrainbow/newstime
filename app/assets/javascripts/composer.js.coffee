@@ -41,6 +41,7 @@
       el: @canvas
       composer: this
       topOffset: @topOffset
+      edition: window.edition
     @$body.append(@canvasLayerView.el)
 
 
@@ -124,10 +125,6 @@
     #
     #
 
-    # Get the edition, mostly for development purposes right now.
-    edition_id = document.URL.match(/editions\/(\w*)/)[1] # Hack to get edition id from url string
-    window.edition = new Newstime.Edition({_id: edition_id})
-    edition.fetch()
 
   tracking: (layer) ->
     @trackingLayer = layer
@@ -251,5 +248,12 @@
     @canvasLayerView.repositionScroll()
 
 $ ->
-  Newstime.Composer.init()
+
+  # Get the edition, mostly for development purposes right now.
+  edition_id = document.URL.match(/editions\/(\w*)/)[1] # Hack to get edition id from url string
+  window.edition = new Newstime.Edition({_id: edition_id})
+  edition.fetch
+    success: ->
+      Newstime.Composer.init() # This is a hack, just making sure we have the edition json first before initializing the view
+
   return
