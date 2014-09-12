@@ -21,8 +21,7 @@ class @Newstime.PageComposeView extends Backbone.View
     @bind 'mouseup',     @mouseup
     @bind 'mousemove',   @mousemove
 
-    @selections = []
-
+    @selectionViews = []
 
   # Sets up and compute grid steps
   gridInit: ->
@@ -89,7 +88,6 @@ class @Newstime.PageComposeView extends Backbone.View
     e.x -= @x()
     e.y -= @y()
 
-
   mouseup: (e) ->
     @adjustEventXY(e) # Could be nice to abstract this one layer up...
     #console.log "mouseup", e
@@ -106,17 +104,20 @@ class @Newstime.PageComposeView extends Backbone.View
 
   beginSelection: (x, y) ->
     ## We need to create and activate a selection region (Marching ants would be nice)
-    selection = new Newstime.Selection() # Needs to be local to the "page"
-    @$el.append(selection.el)
-    @selections.push selection
+
+    selection = new Newstime.Selection()
+
+    selectionView = new Newstime.SelectionView(model: selection) # Needs to be local to the "page"
+    @selectionViews.push selectionView
+    @$el.append(selectionView.el)
 
     # Bind to events
-    selection.bind 'tracking', @resizeSelection, this
-    selection.bind 'tracking-release', @resizeSelectionRelease, this
-    selection.bind 'activate', @selectionActivated, this
-    selection.bind 'deactivate', @selectionDeactivated, this
+    selectionView.bind 'activate', @selectionActivated, this
+    selectionView.bind 'deactivate', @selectionDeactivated, this
+    selectionView.bind 'tracking', @resizeSelection, this
+    selectionView.bind 'tracking-release', @resizeSelectionRelease, this
 
-    selection.beginSelection(x, y)
+    selectionView.beginSelection(x, y)
 
   selectionActivated: (selection) ->
     @activeSelection.deactivate() if @activeSelection
@@ -168,7 +169,7 @@ class @Newstime.PageComposeView extends Backbone.View
     unless selection
       # NOTE: Would be nice to skip active selection here, since already
       # checked, but no biggie.
-      selection = _.find @selections, (selection) ->
+      selection = _.find @selectionViews, (selection) ->
         selection.hit(e.x, e.y)
 
     if @hovered # Only process events if hovered.
