@@ -39,21 +39,11 @@ class @Newstime.Edition extends Backbone.RelationalModel
   initialize: (attributes, options) ->
 
 
-class @Newstime.ContentItem extends Backbone.RelationalModel
-  idAttribute: '_id'
-  url: ->
-    "#{@get('edition').url()}/content_items/#{@get('_id')}"
-
-class @Newstime.ContentItemCollection extends Backbone.Collection
-  model: Newstime.ContentItem
-
-
 class @Newstime.Section extends Backbone.RelationalModel
 
 
 class @Newstime.SectionCollection extends Backbone.Collection
   model: Newstime.Section
-
 
 class @Newstime.Page extends Backbone.RelationalModel
 

@@ -105,9 +105,15 @@ class @Newstime.PageComposeView extends Backbone.View
   beginSelection: (x, y) ->
     ## We need to create and activate a selection region (Marching ants would be nice)
 
-    selection = new Newstime.Selection()
+    pageId = window.edition.get('pages').last().get('_id')
 
-    selectionView = new Newstime.SelectionView(model: selection) # Needs to be local to the "page"
+    contentItem = new Newstime.ContentItem
+      _type: 'BoxContentItem'
+      page_id: pageId
+
+    window.edition.get('content_items').add contentItem
+
+    selectionView = new Newstime.SelectionView(model: contentItem) # Needs to be local to the "page"
     @selectionViews.push selectionView
     @$el.append(selectionView.el)
 
