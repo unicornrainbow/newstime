@@ -58,6 +58,9 @@ class @Newstime.GlobalKeyboardDispatch extends Backbone.Model
         # Engage Drag Mode.
         @trigger 'dragModeEngaged'
 
+      when 83 # s
+        if e.ctrlKey # ctrl+s
+          edition.save() # Save edition
 
   keyup: (e) ->
     #console.log "up", e.keyCode
