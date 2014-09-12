@@ -3,6 +3,7 @@
 class @Newstime.PageComposeView extends Backbone.View
 
   initialize: (options) ->
+    @edition = options.edition
     @$el.addClass 'page-compose'
 
     @composer = options.composer
@@ -110,7 +111,7 @@ class @Newstime.PageComposeView extends Backbone.View
       _type: 'BoxContentItem'
       page_id: @page.get('_id')
 
-    edition.get('content_items').add contentItem
+    @edition.get('content_items').add(contentItem)
 
     selectionView = new Newstime.SelectionView(model: contentItem) # Needs to be local to the "page"
     @selectionViews.push selectionView

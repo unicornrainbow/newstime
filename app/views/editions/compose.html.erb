@@ -11,6 +11,8 @@
         editionID: "<%= @edition.id %>",
         sectionID: "<%= @section.id %>"
       }
+
+      var editionJSON = <%= raw render(template: "editions/show.json") %>
     </script>
   <% end %>
   <% content_for :toolbar do %>

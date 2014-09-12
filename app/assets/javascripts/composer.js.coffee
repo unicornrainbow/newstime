@@ -14,7 +14,8 @@
 @Newstime = @Newstime or {}
 
 @Newstime.Composer =
-  init: ->
+  init: (options) ->
+    @edition = options.edition
     @captureAuthenticityToken()
 
     # Capture Elements
@@ -41,7 +42,7 @@
       el: @canvas
       composer: this
       topOffset: @topOffset
-      edition: window.edition
+      edition: @edition
     @$body.append(@canvasLayerView.el)
 
 
@@ -248,12 +249,11 @@
     @canvasLayerView.repositionScroll()
 
 $ ->
-
   # Get the edition, mostly for development purposes right now.
-  edition_id = document.URL.match(/editions\/(\w*)/)[1] # Hack to get edition id from url string
-  window.edition = new Newstime.Edition({_id: edition_id})
-  edition.fetch
-    success: ->
-      Newstime.Composer.init() # This is a hack, just making sure we have the edition json first before initializing the view
+  #edition_id = document.URL.match(/editions\/(\w*)/)[1] # Hack to get edition id from url string
+  #window.edition = new Newstime.Edition({_id: edition_id})
+
+  window.edition = new Newstime.Edition(editionJSON)
+  Newstime.Composer.init(edition: edition)
 
   return
