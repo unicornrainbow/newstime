@@ -169,12 +169,21 @@ class @Newstime.SelectionView extends Backbone.View
   trackResize: (mode) ->
     @resizing   = true
     @resizeMode = mode
+
+    switch @resizeMode
+      when 'top', 'top-left', 'top-right'
+        @page.computeTopSnapPoints()
+
+      when 'bottom', 'bottom-left', 'bottom-right'
+        @page.computeBottomSnapPoints()
+
     @trigger 'tracking', this
 
   trackMove: (offsetX, offsetY) ->
     @moving      = true
     @moveOffsetX = offsetX
     @moveOffsetY = offsetY
+    @page.computeTopSnapPoints()
     @trigger 'tracking', this
 
   mousemove: (e) ->
@@ -196,14 +205,15 @@ class @Newstime.SelectionView extends Backbone.View
   move: (x, y) ->
     geometry = @getGeometry()
     x = @page.snapLeft(x - @moveOffsetX)
+    y = @page.snapTop(y - @moveOffsetY)
     @model.set
       left: x
-      top: y - @moveOffsetY
+      top: y
 
   # Resizes based on a top drag
   dragTop: (x, y) ->
     geometry = @getGeometry()
-    y = @page.snapTop(y) # Example of limiting in the y direction
+    y = @page.snapTop(y)
     @model.set
       top: y
       height: geometry.top - y + geometry.height
@@ -217,7 +227,7 @@ class @Newstime.SelectionView extends Backbone.View
   dragBottom: (x, y) ->
     geometry = @getGeometry()
     @model.set
-      height: y - geometry.top
+      height: @page.snapBottom(y) - geometry.top
 
   dragLeft: (x, y) ->
     geometry = @getGeometry()
@@ -229,6 +239,7 @@ class @Newstime.SelectionView extends Backbone.View
   dragTopLeft: (x, y) ->
     geometry = @getGeometry()
     x        = @page.snapLeft(x)
+    y        = @page.snapTop(y)
     @model.set
       left: x
       top: y
@@ -238,6 +249,7 @@ class @Newstime.SelectionView extends Backbone.View
   dragTopRight: (x, y) ->
     geometry = @getGeometry()
     width = @page.snapRight(x - geometry.left)
+    y = @page.snapTop(y)
     @model.set
       top: y
       width: width
@@ -246,6 +258,7 @@ class @Newstime.SelectionView extends Backbone.View
   dragBottomLeft: (x, y) ->
     geometry = @getGeometry()
     x = @page.snapLeft(x)
+    y = @page.snapBottom(y)
     @model.set
       left: x
       width: geometry.left - x + geometry.width
@@ -254,6 +267,7 @@ class @Newstime.SelectionView extends Backbone.View
   dragBottomRight: (x, y) ->
     geometry = @getGeometry()
     width = @page.snapRight(x - geometry.left)
+    y = @page.snapBottom(y)
     @model.set
       width: width
       height: y - geometry.top

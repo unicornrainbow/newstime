@@ -20,8 +20,12 @@ class @Newstime.GridView extends Backbone.View
     @rightSteps = _(columns).times (i) ->
       columnStep * i + firstStep
 
+    @snapDistance = 10
+
   snapLeft: (value) ->
-    Newstime.closest(value , @leftSteps)
+    closest = Newstime.closest(value , @leftSteps)
+    #if Math.abs(closest - value) < @snapDistance then closest else value
 
   snapRight: (value) ->
-    Newstime.closest(value , @rightSteps)
+    closest = Newstime.closest(value , @rightSteps)
+    #if Math.abs(closest - value) < @snapDistance then closest else value

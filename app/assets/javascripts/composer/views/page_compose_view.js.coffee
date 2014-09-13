@@ -16,12 +16,7 @@ class @Newstime.PageComposeView extends Backbone.View
     #@$el.append(@gridLines.el)
 
     @grid = new Newstime.GridView
-
-    @verticalGrid = new Newstime.VerticalGridView
-      height: @page.get('pixel_height')
-
     @$el.append(@grid.el)
-    @$el.append(@verticalGrid.el)
 
     @bind 'mouseover',   @mouseover
     @bind 'mouseout',    @mouseout
@@ -224,7 +219,19 @@ class @Newstime.PageComposeView extends Backbone.View
     @grid.snapRight(value)
 
   snapTop: (value) ->
-    @verticalGrid.snapTop(value)
+    closest = Newstime.closest(value, @topSnapPoints)
+    if Math.abs(closest - value) < 10 then closest else value
 
   snapBottom: (value) ->
-    @verticalGrid.snapBottom(value)
+    closest = Newstime.closest(value, @bottomSnapPoints)
+    if Math.abs(closest - value) < 10 then closest else value
+
+  # Computes top snap points
+  computeTopSnapPoints: ->
+    @topSnapPoints = _.map @selectionViews, (view) ->
+      view.getTop()
+
+  computeBottomSnapPoints: ->
+    @bottomSnapPoints = _.map @selectionViews, (view) ->
+      view.getTop() + view.getHeight()
+    console.log(@bottomSnapPoints)
