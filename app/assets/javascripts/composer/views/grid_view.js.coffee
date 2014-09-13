@@ -3,10 +3,11 @@
 class @Newstime.GridView extends Backbone.View
 
   initialize: (options) ->
-    ## TODO: Get the offset to be on the grid steps
-    columnWidth = 34
-    gutterWidth = 16
+    pageWidth = 1184
     columns = 24
+    gutterWidth = 16
+
+    columnWidth = (pageWidth - (gutterWidth * (columns - 1))) / columns
 
     ## Compute Left Steps
     firstStep = gutterWidth/2
@@ -24,12 +25,6 @@ class @Newstime.GridView extends Backbone.View
 
   snapRight: (value) ->
     @closest(value , @rightSteps)
-
-  snapTop: (value) ->
-    @closest(value , @topSteps)
-
-  snapBottom: (value) ->
-    @closest(value , @bottomSteps)
 
   # Finds closest numeric value to goal out of a list.
   closest: (goal, ary) ->
