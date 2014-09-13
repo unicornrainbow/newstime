@@ -203,7 +203,7 @@ class @Newstime.SelectionView extends Backbone.View
   # Resizes based on a top drag
   dragTop: (x, y) ->
     geometry = @getGeometry()
-    y = Math.max(y, 10) # Example of limiting in the y direction
+    y = @page.snapTop(y) # Example of limiting in the y direction
     @model.set
       top: y
       height: geometry.top - y + geometry.height

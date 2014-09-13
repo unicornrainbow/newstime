@@ -21,15 +21,7 @@ class @Newstime.GridView extends Backbone.View
       columnStep * i + firstStep
 
   snapLeft: (value) ->
-    @closest(value , @leftSteps)
+    Newstime.closest(value , @leftSteps)
 
   snapRight: (value) ->
-    @closest(value , @rightSteps)
-
-  # Finds closest numeric value to goal out of a list.
-  closest: (goal, ary) ->
-    closest = null
-    $.each ary, (i, val) ->
-      if closest == null || Math.abs(val - goal) < Math.abs(closest - goal)
-        closest = val
-    closest
+    Newstime.closest(value , @rightSteps)

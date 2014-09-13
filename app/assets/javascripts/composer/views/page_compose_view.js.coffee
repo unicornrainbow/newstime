@@ -15,8 +15,13 @@ class @Newstime.PageComposeView extends Backbone.View
     #@gridLines = new Newstime.GridLines()
     #@$el.append(@gridLines.el)
 
-    @grid = new Newstime.GridView()
+    @grid = new Newstime.GridView
+
+    @verticalGrid = new Newstime.VerticalGridView
+      height: @page.get('pixel_height')
+
     @$el.append(@grid.el)
+    @$el.append(@verticalGrid.el)
 
     @bind 'mouseover',   @mouseover
     @bind 'mouseout',    @mouseout
@@ -219,7 +224,7 @@ class @Newstime.PageComposeView extends Backbone.View
     @grid.snapRight(value)
 
   snapTop: (value) ->
-    value # TODO: Implement
+    @verticalGrid.snapTop(value)
 
   snapBottom: (value) ->
-    value # TODO: Implement
+    @verticalGrid.snapBottom(value)
