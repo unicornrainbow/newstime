@@ -4,23 +4,17 @@ class @Newstime.SelectionView extends Backbone.View
 
   initialize: (options) ->
     @$el.addClass 'selection-view'
+    @page = options.page
+    console.log @page
 
     # Add drag handles
-    @dragHandles = []
-    @dragHandles.push new Newstime.DragHandle(selection: this, type: 'top')
-    @dragHandles.push new Newstime.DragHandle(selection: this, type: 'top-right')
-    @dragHandles.push new Newstime.DragHandle(selection: this, type: 'right')
-    @dragHandles.push new Newstime.DragHandle(selection: this, type: 'bottom-right')
-    @dragHandles.push new Newstime.DragHandle(selection: this, type: 'bottom')
-    @dragHandles.push new Newstime.DragHandle(selection: this, type: 'bottom-left')
-    @dragHandles.push new Newstime.DragHandle(selection: this, type: 'left')
-    @dragHandles.push new Newstime.DragHandle(selection: this, type: 'top-left')
+    @dragHandles = ['top', 'top-right', 'right', 'bottom-right', 'bottom', 'bottom-left', 'left', 'top-left']
+    @dragHandles = _.map @dragHandles, (type) ->
+      new Newstime.DragHandle(selection: this, type: type)
 
     # Attach handles
     handleEls = _.map @dragHandles, (handle) -> handle.el
     @$el.append(handleEls)
-
-    @gridInit()
 
     # Listen for model changes
     @model.bind 'change', @modelChanged, this
@@ -63,27 +57,9 @@ class @Newstime.SelectionView extends Backbone.View
     geometry.left <= x <= geometry.left + geometry.width &&
       geometry.top <= y <= geometry.top + geometry.height
 
-  # Sets up and compute grid steps
-  gridInit: ->
-    ## TODO: Get the offset to be on the grid steps
-    columnWidth = 34
-    gutterWidth = 16
-    columns = 24
-
-    ## Compute Left Steps
-    firstStep = gutterWidth/2
-    columnStep = columnWidth + gutterWidth
-    @leftSteps = _(columns).times (i) ->
-      columnStep * i + firstStep
-
-    firstStep = columnWidth
-    columnStep = columnWidth + gutterWidth
-    @rightSteps = _(columns).times (i) ->
-      columnStep * i + firstStep
-
   beginSelection: (x, y) ->
     # Snap x to grid
-    x = @snapToGridLeft(x)
+    x = @page.snapLeft(x)
 
     @model.set
       left: x
@@ -110,16 +86,6 @@ class @Newstime.SelectionView extends Backbone.View
 
   getGeometry: ->
     @model.pick('top', 'left', 'height', 'width')
-
-  # Does an x,y corrdinate intersect a bounding box
-  hitBox: (hitX, hitY, boxX, boxY, boxSize) ->
-    boxLeft   = boxX - boxSize
-    boxRight  = boxX + boxSize
-    boxTop    = boxY - boxSize
-    boxBottom = boxY + boxSize
-
-    boxLeft <= hitX <= boxRight &&
-      boxTop <= hitY <= boxBottom
 
   mousedown: (e) ->
     x = e.x
@@ -227,12 +193,6 @@ class @Newstime.SelectionView extends Backbone.View
     else if @moving
       @move(e.x, e.y)
 
-  snapToGridLeft: (value) ->
-    @closest(value , @leftSteps)
-
-  snapToGridRight: (value) ->
-    @closest(value , @rightSteps)
-
   # Finds closest numeric value to goal out of a list.
   closest: (goal, ary) ->
     closest = null
@@ -241,13 +201,15 @@ class @Newstime.SelectionView extends Backbone.View
         closest = val
     closest
 
+  # Moves based on corrdinates and starting offset
   move: (x, y) ->
     geometry = @getGeometry()
-    x = @snapToGridLeft(x - @moveOffsetX)
+    x = @page.snapLeft(x - @moveOffsetX)
     @model.set
       left: x
       top: y - @moveOffsetY
 
+  # Resizes based on a top drag
   dragTop: (x, y) ->
     geometry = @getGeometry()
     y = Math.max(y, 10) # Example of limiting in the y direction
@@ -257,7 +219,7 @@ class @Newstime.SelectionView extends Backbone.View
 
   dragRight: (x, y) ->
     geometry = @getGeometry()
-    width = @snapToGridRight(x - geometry.left)
+    width = @page.snapRight(x - geometry.left)
     @model.set
       width: width
 
@@ -268,14 +230,14 @@ class @Newstime.SelectionView extends Backbone.View
 
   dragLeft: (x, y) ->
     geometry = @getGeometry()
-    x        = @snapToGridLeft(x)
+    x        = @page.snapLeft(x)
     @model.set
       left: x
       width: geometry.left - x + geometry.width
 
   dragTopLeft: (x, y) ->
     geometry = @getGeometry()
-    x        = @snapToGridLeft(x)
+    x        = @page.snapLeft(x)
     @model.set
       left: x
       top: y
@@ -284,7 +246,7 @@ class @Newstime.SelectionView extends Backbone.View
 
   dragTopRight: (x, y) ->
     geometry = @getGeometry()
-    width = @snapToGridRight(x - geometry.left)
+    width = @page.snapRight(x - geometry.left)
     @model.set
       top: y
       width: width
@@ -292,7 +254,7 @@ class @Newstime.SelectionView extends Backbone.View
 
   dragBottomLeft: (x, y) ->
     geometry = @getGeometry()
-    x = @snapToGridLeft(x)
+    x = @page.snapLeft(x)
     @model.set
       left: x
       width: geometry.left - x + geometry.width
@@ -300,7 +262,7 @@ class @Newstime.SelectionView extends Backbone.View
 
   dragBottomRight: (x, y) ->
     geometry = @getGeometry()
-    width = @snapToGridRight(x - geometry.left)
+    width = @page.snapRight(x - geometry.left)
     @model.set
       width: width
       height: y - geometry.top
@@ -309,38 +271,6 @@ class @Newstime.SelectionView extends Backbone.View
     @resizing = false
     @moving = false
     @trigger 'tracking-release', this
-    @save()
-
-  save: ->
-
-    #new Newstime.Edition()
-    # TODO: Need to think about save versus create... Will need to move to
-    # backbone models and collections.
-    # Save the selection as a box to the backend
-    # NOTE: For testing purposes, using ajax. Will probably move to
-    # model/collection
-    #editionId = "53e39a8c6f7263a582040000" # Example edition ID
-    #$.ajax
-      #type: "PUT"  # OR POST
-      #url: "editions/#{editionId}/content_items/#{@storyTextId}.json"
-      ##url: "editions/53e39a8c6f7263a582040000/content_items/#{@storyTextId}.json"
-      #url: "/content_items/#{@storyTextId}.json"
-      #data:
-        #authenticity_token: Newstime.Composer.authenticityToken
-        #content_item:
-          #columns: @$columnsSelect.val()
-          #height: @$heightInput.val()
-
-    #$.ajax
-      #type: "PUT"  # OR POST
-      #url: "editions/#{editionId}/content_items/#{@storyTextId}.json"
-      ##url: "editions/53e39a8c6f7263a582040000/content_items/#{@storyTextId}.json"
-      #url: "/content_items/#{@storyTextId}.json"
-      #data:
-        #authenticity_token: Newstime.Composer.authenticityToken
-        #content_item:
-          #columns: @$columnsSelect.val()
-          #height: @$heightInput.val()
 
   mouseover: (e) ->
     @hovered = true
@@ -349,3 +279,13 @@ class @Newstime.SelectionView extends Backbone.View
   mouseout: (e) ->
     @hovered = false
     @$el.removeClass 'hovered'
+
+  # Does an x,y corrdinate intersect a bounding box
+  hitBox: (hitX, hitY, boxX, boxY, boxSize) ->
+    boxLeft   = boxX - boxSize
+    boxRight  = boxX + boxSize
+    boxTop    = boxY - boxSize
+    boxBottom = boxY + boxSize
+
+    boxLeft <= hitX <= boxRight &&
+      boxTop <= hitY <= boxBottom

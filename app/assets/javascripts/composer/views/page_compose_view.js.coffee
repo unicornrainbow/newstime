@@ -26,12 +26,12 @@ class @Newstime.PageComposeView extends Backbone.View
 
     @selectionViews = []
 
+    # Initialize content items from page
     $("[data-content-item-id]", @$el).each (i, el) =>
-      console.log 'as'
       id = $(el).data('content-item-id')
       contentItem = @contentItemCollection.findWhere(_id: id)
 
-      selectionView = new Newstime.SelectionView(model: contentItem) # Needs to be local to the "page"
+      selectionView = new Newstime.SelectionView(model: contentItem, page: this) # Needs to be local to the "page"
       @selectionViews.push selectionView
       @$el.append(selectionView.el)
 
@@ -129,7 +129,7 @@ class @Newstime.PageComposeView extends Backbone.View
 
     @edition.get('content_items').add(contentItem)
 
-    selectionView = new Newstime.SelectionView(model: contentItem) # Needs to be local to the "page"
+    selectionView = new Newstime.SelectionView(model: contentItem, page: this) # Needs to be local to the "page"
     @selectionViews.push selectionView
     @$el.append(selectionView.el)
 
@@ -215,11 +215,6 @@ class @Newstime.PageComposeView extends Backbone.View
       @hoveredObject = page
       return true
 
-      #if @activeSelection.hit(e.x, e.y)
-    #
-
-    #console.log 'mousemove on page'
-
 
   mouseup: (e) ->
     if @resizeSelectionTarget
@@ -229,3 +224,16 @@ class @Newstime.PageComposeView extends Backbone.View
     if @trackingSelection
       @trackingSelection = null # TODO: Should still be active, just not tracking
       @trigger 'tracking-release', this
+
+
+  snapLeft: (value) ->
+    @closest(value , @leftSteps)
+
+  snapRight: (value) ->
+    @closest(value , @rightSteps)
+
+  snapTop: (value) ->
+    @closest(value , @topSteps)
+
+  snapBottom: (value) ->
+    @closest(value , @bottomSteps)
