@@ -5,7 +5,6 @@ class @Newstime.SelectionView extends Backbone.View
   initialize: (options) ->
     @$el.addClass 'selection-view'
     @page = options.page
-    console.log @page
 
     # Add drag handles
     @dragHandles = ['top', 'top-right', 'right', 'bottom-right', 'bottom', 'bottom-left', 'left', 'top-left']
@@ -192,14 +191,6 @@ class @Newstime.SelectionView extends Backbone.View
 
     else if @moving
       @move(e.x, e.y)
-
-  # Finds closest numeric value to goal out of a list.
-  closest: (goal, ary) ->
-    closest = null
-    $.each ary, (i, val) ->
-      if closest == null || Math.abs(val - goal) < Math.abs(closest - goal)
-        closest = val
-    closest
 
   # Moves based on corrdinates and starting offset
   move: (x, y) ->

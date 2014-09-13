@@ -15,8 +15,8 @@ class @Newstime.PageComposeView extends Backbone.View
     #@gridLines = new Newstime.GridLines()
     #@$el.append(@gridLines.el)
 
-    # Configure Grid
-    @gridInit()
+    @grid = new Newstime.GridView()
+    @$el.append(@grid.el)
 
     @bind 'mouseover',   @mouseover
     @bind 'mouseout',    @mouseout
@@ -148,20 +148,6 @@ class @Newstime.PageComposeView extends Backbone.View
   selectionDeactivated: (selection) ->
     @activeSelection = null
 
-  # Utility function
-  closest: (goal, ary) ->
-    closest = null
-    $.each ary, (i, val) ->
-      if closest == null || Math.abs(val - goal) < Math.abs(closest - goal)
-        closest = val
-    closest
-
-  snapToGridLeft: (value) ->
-    @closest(value , @leftSteps)
-
-  snapToGridRight: (value) ->
-    @closest(value , @rightSteps)
-
   resizeSelection: (selection) ->
     @resizeSelectionTarget = selection
     @trigger 'tracking', this
@@ -227,13 +213,13 @@ class @Newstime.PageComposeView extends Backbone.View
 
 
   snapLeft: (value) ->
-    @closest(value , @leftSteps)
+    @grid.snapLeft(value)
 
   snapRight: (value) ->
-    @closest(value , @rightSteps)
+    @grid.snapRight(value)
 
   snapTop: (value) ->
-    @closest(value , @topSteps)
+    value # TODO: Implement
 
   snapBottom: (value) ->
-    @closest(value , @bottomSteps)
+    value # TODO: Implement
