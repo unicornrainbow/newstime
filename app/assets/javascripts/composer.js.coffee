@@ -17,6 +17,11 @@
 @Newstime.Composer =
   init: (options) ->
     @edition = options.edition
+
+    window.onbeforeunload = ->
+      if @edition.isDirty()
+        return "You have unsaved changes."
+
     @captureAuthenticityToken()
 
     # Capture Elements
@@ -255,6 +260,7 @@ $ ->
   #window.edition = new Newstime.Edition({_id: edition_id})
 
   window.edition = new Newstime.Edition(editionJSON)
+  window.edition.dirty = false # HACK: To make sure isn't considered dirty after initial creation
   Newstime.Composer.init(edition: edition)
 
   return

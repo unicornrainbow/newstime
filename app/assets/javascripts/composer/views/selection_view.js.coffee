@@ -180,10 +180,10 @@ class @Newstime.SelectionView extends Backbone.View
     @trigger 'tracking', this
 
   trackMove: (offsetX, offsetY) ->
+    @page.computeTopSnapPoints()
     @moving      = true
     @moveOffsetX = offsetX
     @moveOffsetY = offsetY
-    @page.computeTopSnapPoints()
     @trigger 'tracking', this
 
   mousemove: (e) ->

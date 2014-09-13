@@ -37,6 +37,21 @@ class @Newstime.Edition extends Backbone.RelationalModel
   }]
 
   initialize: (attributes, options) ->
+    # Bind to change on collections for dirty tracking
+    @get('sections').bind 'change', @change, this
+    @get('pages').bind 'change', @change, this
+    @get('content_items').bind 'change', @change, this
+
+  change: ->
+    @dirty = true
+
+  save: ->
+    success = super()
+    if success
+      @dirty = false
+
+  isDirty: ->
+    @dirty
 
 
 class @Newstime.Section extends Backbone.RelationalModel
