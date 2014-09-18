@@ -31,6 +31,7 @@ class @Newstime.ToolboxView extends Backbone.View
     @bind 'mouseover', @mouseover
     @bind 'mouseout', @mouseout
     @bind 'mousedown', @mousedown
+    @bind 'mousemove', @mousemove
 
     # Attach to dom
     #$('body').append(@el)
@@ -88,6 +89,8 @@ class @Newstime.ToolboxView extends Backbone.View
     @$el.removeClass 'hovered'
     #@composer.changeCursor('-webkit-grab') # Need to clear cursor
 
+  mousemove: (e) ->
+    #console.log e
 
   # Attachs html or element to body of palette
   attach: (html) ->

@@ -12,7 +12,7 @@ class @Newstime.PanelLayerView extends Backbone.View
 
     @bind 'mouseover',  @mouseover
     @bind 'mouseout',   @mouseout
-
+    @bind 'mousemove',  @mousemove
 
   attachPanel: (panel) ->
     # Push onto the panels collection.
@@ -85,11 +85,7 @@ class @Newstime.PanelLayerView extends Backbone.View
 
     return false
 
-    #console.log panel.x(), panel.y() - @topOffset
-    #console.log panel.width(), panel.height()
-
   mouseover: (e) ->
-    console.log 'over panel'
     @hovered = true
 
     if @hoveredObject
@@ -101,3 +97,8 @@ class @Newstime.PanelLayerView extends Backbone.View
     if @hoveredObject
       @hoveredObject.trigger 'mouseover', e
       @hoveredObject = null
+
+
+  mousemove: (e) ->
+    if @hoveredObject
+      @hoveredObject.trigger 'mousemove', e

@@ -15,10 +15,6 @@ class @Newstime.CanvasLayerView extends Backbone.View
     #@zoomLevels = [25, 33, 50, 67, 75, 90, 100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
     @zoomLevels = [100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
 
-    # Measure and set exact width (Needed for getting exact locations when
-    # zooming.
-    #@$el.css(width: @$el.width())
-
     @pageCollection = @edition.get('pages')
 
     # Capture and Init pages
