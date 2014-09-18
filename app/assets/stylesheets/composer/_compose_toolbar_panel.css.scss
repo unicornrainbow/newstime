@@ -8,6 +8,13 @@
   border-bottom: 2px solid #ccc;
   margin-top: -2px;
 
+  position: fixed;
+  overflow: scroll;
+  top: 62px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
   .container {
     width: 1184px;
     margin: 0 auto;

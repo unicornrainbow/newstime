@@ -10,6 +10,8 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @$document = $(document)
     @$body = $('body')
 
+    @$el.css top: "#{@topOffset}px"
+
     #@zoomLevels = [25, 33, 50, 67, 75, 90, 100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
     @zoomLevels = [100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
 
