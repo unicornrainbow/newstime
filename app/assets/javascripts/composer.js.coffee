@@ -87,6 +87,9 @@
     @canvasLayerView.bind 'tracking',         @tracking, this
     @canvasLayerView.bind 'tracking-release', @trackingRelease, this
 
+    @panelLayerView.bind 'tracking',         @tracking, this
+    @panelLayerView.bind 'tracking-release', @trackingRelease, this
+
     #$("[headline-control]").headlineControl headlineProperties
     #storyPropertiesView = new Newstime.StoryPropertiesView()
     #$("[story-text-control]").each (i, el) ->
@@ -135,7 +138,6 @@
 
   tracking: (layer) ->
     @trackingLayer = layer
-
 
   trackingRelease: (layer) ->
     @trackingLayer = null

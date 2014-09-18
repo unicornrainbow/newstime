@@ -29,9 +29,10 @@ class @Newstime.ToolboxView extends Backbone.View
     @$titleBar = @$el.find('.title-bar')
 
     @bind 'mouseover', @mouseover
-    @bind 'mouseout', @mouseout
+    @bind 'mouseout',  @mouseout
     @bind 'mousedown', @mousedown
     @bind 'mousemove', @mousemove
+    @bind 'mouseup',   @mouseup
 
     # Attach to dom
     #$('body').append(@el)
@@ -39,14 +40,15 @@ class @Newstime.ToolboxView extends Backbone.View
   # This is will be called by the application, if a mousedown event is targeted
   # at the panel
   mousedown: (e) ->
+    @adjustEventXY(e)
 
-    # Did it hit the title bar?
-    titleBarHit = true # Pretend it did.
+    if e.y < 25 # Consider less than 25 y a title bar hit for now
+      @beginDrag(e)
 
-    if titleBarHit
-      console.log "Begin Drag"
-      @beginDrag()
-
+  mouseup: (e) ->
+    if @moving
+      @moving = false
+      @trigger 'tracking-release', this
 
   dismiss: ->
     @trigger 'dismiss'
@@ -58,22 +60,27 @@ class @Newstime.ToolboxView extends Backbone.View
   show: ->
     @$el.show()
 
-  moveHandeler: (e) =>
-    @$el.css('top', event.pageY + @topMouseOffset)
-    @$el.css('left', event.pageX + @leftMouseOffset)
+  #moveHandeler: (e) =>
+    #@$el.css('top', event.pageY + @topMouseOffset)
+    #@$el.css('left', event.pageX + @leftMouseOffset)
 
   beginDrag: (e) ->
     #@$titleBar.addClass('grabbing')
-    @composer.changeCursor('-webkit-grabbing')
+    #@composer.changeCursor('-webkit-grabbing')
+    #
+    #
 
 
     # Calulate offsets
     #@topMouseOffset = parseInt(@$el.css('top')) - event.pageY
     #@leftMouseOffset = parseInt(@$el.css('left')) - event.pageX
 
+    @moving   = true
 
-    @leftMouseOffset = parseInt(@$el.css('left')) - event.x
-    @topMouseOffset = parseInt(@$el.css('top')) - event.y
+    @leftMouseOffset = e.x
+    @topMouseOffset = e.y
+
+    @trigger 'tracking', this
 
     #$(document).bind('mousemove', @moveHandeler)
 
@@ -90,13 +97,20 @@ class @Newstime.ToolboxView extends Backbone.View
     #@composer.changeCursor('-webkit-grab') # Need to clear cursor
 
   adjustEventXY: (e) ->
-    # Apply scroll offset
     e.x -= @x()
     e.y -= @y()
 
   mousemove: (e) ->
-    @adjustEventXY(e)
-    console.log e
+    if @moving
+      @move(e.x, e.y)
+
+  move: (x, y) ->
+    x -= @leftMouseOffset
+    y -= @topMouseOffset
+    @$el.css
+      left: x
+      top: y
+
 
   # Attachs html or element to body of palette
   attach: (html) ->

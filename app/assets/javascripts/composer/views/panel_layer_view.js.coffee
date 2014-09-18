@@ -13,10 +13,15 @@ class @Newstime.PanelLayerView extends Backbone.View
     @bind 'mouseover',  @mouseover
     @bind 'mouseout',   @mouseout
     @bind 'mousemove',  @mousemove
+    @bind 'mousedown',  @mousedown
+    @bind 'mouseup',    @mouseup
 
   attachPanel: (panel) ->
     # Push onto the panels collection.
     @panels.push panel
+
+    panel.bind 'tracking', @tracking, this
+    panel.bind 'tracking-release', @trackingRelease, this
 
     # Attach it to the dom el
     @$el.append(panel.el)
@@ -95,6 +100,23 @@ class @Newstime.PanelLayerView extends Backbone.View
       @hoveredObject = null
 
 
+  mousedown: (e) ->
+    if @hoveredObject
+      @hoveredObject.trigger 'mousedown', e
+
+  mouseup: (e) ->
+    if @hoveredObject
+      @hoveredObject.trigger 'mouseup', e
+
   mousemove: (e) ->
     if @hoveredObject
       @hoveredObject.trigger 'mousemove', e
+
+
+  tracking: (panel) ->
+    @trackingPanel = panel
+    @trigger 'tracking', this
+
+  trackingRelease: (panel) ->
+    @trackingPanel = null
+    @trigger 'tracking-release', this
