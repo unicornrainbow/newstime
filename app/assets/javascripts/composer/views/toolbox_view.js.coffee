@@ -89,8 +89,14 @@ class @Newstime.ToolboxView extends Backbone.View
     @$el.removeClass 'hovered'
     #@composer.changeCursor('-webkit-grab') # Need to clear cursor
 
+  adjustEventXY: (e) ->
+    # Apply scroll offset
+    e.x -= @x()
+    e.y -= @y()
+
   mousemove: (e) ->
-    #console.log e
+    @adjustEventXY(e)
+    console.log e
 
   # Attachs html or element to body of palette
   attach: (html) ->

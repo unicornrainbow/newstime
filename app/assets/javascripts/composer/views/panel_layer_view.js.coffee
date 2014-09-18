@@ -66,10 +66,6 @@ class @Newstime.PanelLayerView extends Backbone.View
     # Get panel geometry
     geometry = panel.geometry()
 
-    # Adjust for top offset, which currently isn't considered in panel gemotry
-    # (but should be)
-    geometry.y = geometry.y - @topOffset
-
     # Expand the geometry by buffer distance in each direction to extend
     # clickable area.
     buffer = 4 # 2px
