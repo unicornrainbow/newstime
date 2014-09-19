@@ -34,7 +34,7 @@ class @Newstime.PageComposeView extends Backbone.View
       id = $(el).data('content-item-id')
       contentItem = @contentItemCollection.findWhere(_id: id)
 
-      selectionView = new Newstime.SelectionView(model: contentItem, page: this) # Needs to be local to the "page"
+      selectionView = new Newstime.SelectionView(model: contentItem, page: this, composer: @composer) # Needs to be local to the "page"
       @selectionViews.push selectionView
       @$el.append(selectionView.el)
 
@@ -93,7 +93,6 @@ class @Newstime.PageComposeView extends Backbone.View
     @hovered = true
     @pushCursor() # Replace with hover stack implementation eventually
     if @hoveredObject
-      #@composer.hoverStackPush(@hoveredObject)
       @hoveredObject.trigger 'mouseover', e
 
   mouseout: (e) ->
@@ -103,13 +102,16 @@ class @Newstime.PageComposeView extends Backbone.View
     @hovered = false
 
     if @hoveredObject
-      #@composer.hoverStackPop(@hoveredObject)
-
       @hoveredObject.trigger 'mouseout', e
       @hoveredObject = null
 
+  getCursor: ->
+    cursor = switch @toolbox.get('selectedTool')
+      when 'select-tool' then 'default'
+      when 'text-tool' then 'text'
+
   pushCursor: ->
-    @composer.pushCursor('pointer')
+    @composer.pushCursor(@getCursor())
 
   popCursor: ->
     @composer.popCursor()
@@ -143,7 +145,7 @@ class @Newstime.PageComposeView extends Backbone.View
 
     @edition.get('content_items').add(contentItem)
 
-    selectionView = new Newstime.SelectionView(model: contentItem, page: this) # Needs to be local to the "page"
+    selectionView = new Newstime.SelectionView(model: contentItem, page: this, composer: @composer) # Needs to be local to the "page"
     @selectionViews.push selectionView
     @$el.append(selectionView.el)
 

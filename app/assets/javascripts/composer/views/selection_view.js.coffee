@@ -5,6 +5,7 @@ class @Newstime.SelectionView extends Backbone.View
   initialize: (options) ->
     @$el.addClass 'selection-view'
     @page = options.page
+    @composer = options.composer
 
     # Add drag handles
     @dragHandles = ['top', 'top-right', 'right', 'bottom-right', 'bottom', 'bottom-left', 'left', 'top-left']
@@ -280,10 +281,15 @@ class @Newstime.SelectionView extends Backbone.View
   mouseover: (e) ->
     @hovered = true
     @$el.addClass 'hovered'
+    @composer.pushCursor @getCursor()
+
+  getCursor: ->
+    'default'
 
   mouseout: (e) ->
     @hovered = false
     @$el.removeClass 'hovered'
+    @composer.popCursor()
 
   # Does an x,y corrdinate intersect a bounding box
   hitBox: (hitX, hitY, boxX, boxY, boxSize) ->
