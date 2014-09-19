@@ -139,7 +139,29 @@ class @Newstime.PageComposeView extends Backbone.View
     else
       switch @toolbox.get('selectedTool')
         when 'text-tool'
-          @beginSelection(e.x, e.y)
+          @drawTextBox(e.x, e.y)
+          #@beginSelection(e.x, e.y)
+
+  drawTextBox: (x, y) ->
+    ## We need to create and activate a selection region (Marching ants would be nice)
+
+    contentItem = new Newstime.ContentItem
+      _type: 'StoryTextContentItem'
+      page_id: @page.get('_id')
+
+    @edition.get('content_items').add(contentItem)
+
+    selectionView = new Newstime.SelectionView(model: contentItem, page: this, composer: @composer) # Needs to be local to the "page"
+    @selectionViews.push selectionView
+    @$el.append(selectionView.el)
+
+    # Bind to events
+    selectionView.bind 'activate', @selectionActivated, this
+    selectionView.bind 'deactivate', @selectionDeactivated, this
+    selectionView.bind 'tracking', @resizeSelection, this
+    selectionView.bind 'tracking-release', @resizeSelectionRelease, this
+
+    selectionView.beginSelection(x, y)
 
   beginSelection: (x, y) ->
     ## We need to create and activate a selection region (Marching ants would be nice)
