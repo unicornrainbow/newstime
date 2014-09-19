@@ -236,4 +236,3 @@ class @Newstime.PageComposeView extends Backbone.View
   computeBottomSnapPoints: ->
     @bottomSnapPoints = _.map @selectionViews, (view) ->
       view.getTop() + view.getHeight()
-    console.log(@bottomSnapPoints)

@@ -77,7 +77,7 @@ class @Newstime.ToolboxView extends Backbone.View
     if @hoveredObject
       @hoveredObject.trigger 'mouseover', e
 
-  mouseout: ->
+  mouseout: (e) ->
     @hovered = false
     @$el.removeClass 'hovered'
     #@composer.changeCursor('-webkit-grab') # Need to clear cursor
