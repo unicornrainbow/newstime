@@ -78,13 +78,17 @@
     border: 1px solid #515560;
     float: left;
     margin: 1px;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: 11px;
   }
 
   .select-tool {
     background-image: asset-url('select_tool.png');
-    background-repeat: no-repeat;
-    background-size: 11px;
-    background-position: 9px;
+  }
+
+  .text-tool {
+    background-image: asset-url('text_tool.png');
   }
 
 }

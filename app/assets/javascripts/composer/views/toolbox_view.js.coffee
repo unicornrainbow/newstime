@@ -14,10 +14,6 @@ class @Newstime.ToolboxView extends Backbone.View
       </div>
     """
 
-    #<div class="toolbox-button select-tool"></div>
-    #<div class="toolbox-button"></div>
-    #<div class="toolbox-button"></div>
-
     @composer = options.composer
 
     # Select Elements
@@ -29,19 +25,22 @@ class @Newstime.ToolboxView extends Backbone.View
       new Newstime.ToolboxButtonView
         type: 'select-tool'
 
+    @textToolButton =
+      new Newstime.ToolboxButtonView
+        type: 'text-tool'
+
     @$body.append @selectToolButton.el
+    @$body.append @textToolButton.el
 
     # Listen for model changes
     @model.bind 'change', @modelChanged, this
 
+    # Bind mouse events
     @bind 'mouseover', @mouseover
     @bind 'mouseout',  @mouseout
     @bind 'mousedown', @mousedown
     @bind 'mousemove', @mousemove
     @bind 'mouseup',   @mouseup
-
-    # Attach to dom
-    #$('body').append(@el)
 
   modelChanged: ->
     @$el.css _.pick @model.changedAttributes(), 'top', 'left'
