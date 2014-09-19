@@ -2,11 +2,6 @@
 
 class @Newstime.ToolboxView extends Backbone.View
 
-  events:
-   'mouseup .title-bar': 'endDrag'
-   'click .dismiss': 'dismiss'
-   #'mousedown .title-bar': 'beginDrag'
-
   initialize: (options) ->
     @$el.hide()
     @$el.addClass('newstime-toolbox')
@@ -16,17 +11,25 @@ class @Newstime.ToolboxView extends Backbone.View
         <span class="dismiss"></span>
       </div>
       <div class="palette-body">
-        <div class="toolbox-button select-tool"></div>
-        <div class="toolbox-button"></div>
-        <div class="toolbox-button"></div>
       </div>
     """
+
+    #<div class="toolbox-button select-tool"></div>
+    #<div class="toolbox-button"></div>
+    #<div class="toolbox-button"></div>
 
     @composer = options.composer
 
     # Select Elements
     @$body = @$el.find('.palette-body')
     @$titleBar = @$el.find('.title-bar')
+
+    # Create and attach buttons to the body.
+    @selectToolButton =
+      new Newstime.ToolboxButtonView
+        type: 'select-tool'
+
+    @$body.append @selectToolButton.el
 
     # Listen for model changes
     @model.bind 'change', @modelChanged, this
@@ -56,6 +59,24 @@ class @Newstime.ToolboxView extends Backbone.View
       @moving = false
       @trigger 'tracking-release', this
 
+  mouseover: ->
+    @hovered = true
+    @$el.addClass 'hovered'
+    #@composer.changeCursor('-webkit-grab')
+
+    if @hoveredObject
+      @hoveredObject.trigger 'mouseover', e
+
+  mouseout: ->
+    @hovered = false
+    @$el.removeClass 'hovered'
+    #@composer.changeCursor('-webkit-grab') # Need to clear cursor
+
+    if @hoveredObject
+      @hoveredObject.trigger 'mouseover', e
+      @hoveredObject = null
+
+
   dismiss: ->
     @trigger 'dismiss'
     @hide()
@@ -73,8 +94,6 @@ class @Newstime.ToolboxView extends Backbone.View
   beginDrag: (e) ->
     #@$titleBar.addClass('grabbing')
     #@composer.changeCursor('-webkit-grabbing')
-    #
-    #
 
 
     # Calulate offsets
@@ -93,14 +112,6 @@ class @Newstime.ToolboxView extends Backbone.View
   endDrag: (e) ->
     @$titleBar.removeClass('grabbing')
     $(document).unbind('mousemove', @moveHandeler)
-
-  mouseover: ->
-    @$el.addClass 'hovered'
-    #@composer.changeCursor('-webkit-grab')
-
-  mouseout: ->
-    @$el.removeClass 'hovered'
-    #@composer.changeCursor('-webkit-grab') # Need to clear cursor
 
   adjustEventXY: (e) ->
     e.x -= @x()
