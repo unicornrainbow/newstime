@@ -28,6 +28,9 @@ class @Newstime.ToolboxView extends Backbone.View
     @$body = @$el.find('.palette-body')
     @$titleBar = @$el.find('.title-bar')
 
+    # Listen for model changes
+    @model.bind 'change', @modelChanged, this
+
     @bind 'mouseover', @mouseover
     @bind 'mouseout',  @mouseout
     @bind 'mousedown', @mousedown
@@ -36,6 +39,9 @@ class @Newstime.ToolboxView extends Backbone.View
 
     # Attach to dom
     #$('body').append(@el)
+
+  modelChanged: ->
+    @$el.css _.pick @model.changedAttributes(), 'top', 'left'
 
   # This is will be called by the application, if a mousedown event is targeted
   # at the panel
@@ -107,9 +113,12 @@ class @Newstime.ToolboxView extends Backbone.View
   move: (x, y) ->
     x -= @leftMouseOffset
     y -= @topMouseOffset
-    @$el.css
+    @model.set
       left: x
       top: y
+    #@$el.css
+      #left: x
+      #top: y
 
 
   # Attachs html or element to body of palette

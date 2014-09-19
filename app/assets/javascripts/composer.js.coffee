@@ -118,8 +118,10 @@
     #@gridOverlay = $(".grid-overlay").hide()
 
     ## Init panels
+    toolbox = new Newstime.Toolbox
     @toolboxView = new Newstime.ToolboxView
       composer: this
+      model: toolbox
     @panelLayerView.attachPanel(@toolboxView)
     @toolboxView.show()
 
@@ -132,9 +134,6 @@
 
     # Events
     #$(window).scroll(@captureScrollPosition)
-    #
-    #
-
 
   tracking: (layer) ->
     @trackingLayer = layer
