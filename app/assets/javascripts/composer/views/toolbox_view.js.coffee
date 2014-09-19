@@ -21,16 +21,17 @@ class @Newstime.ToolboxView extends Backbone.View
     @$titleBar = @$el.find('.title-bar')
 
     # Create and attach buttons to the body.
-    @selectToolButton =
-      new Newstime.ToolboxButtonView
-        type: 'select-tool'
 
-    @textToolButton =
-      new Newstime.ToolboxButtonView
-        type: 'text-tool'
+    @buttons = []
+    @buttons.push new Newstime.ToolboxButtonView
+      type: 'select-tool'
+      position: { top: '24px', left: '2px' }
 
-    @$body.append @selectToolButton.el
-    @$body.append @textToolButton.el
+    @buttons.push new Newstime.ToolboxButtonView
+      type: 'text-tool'
+      position: { top: '24px', left: '34px' }
+
+    @$body.append _.map @buttons, (view) -> view.el
 
     # Listen for model changes
     @model.bind 'change', @modelChanged, this
@@ -86,18 +87,10 @@ class @Newstime.ToolboxView extends Backbone.View
   show: ->
     @$el.show()
 
-  #moveHandeler: (e) =>
-    #@$el.css('top', event.pageY + @topMouseOffset)
-    #@$el.css('left', event.pageX + @leftMouseOffset)
 
   beginDrag: (e) ->
     #@$titleBar.addClass('grabbing')
     #@composer.changeCursor('-webkit-grabbing')
-
-
-    # Calulate offsets
-    #@topMouseOffset = parseInt(@$el.css('top')) - event.pageY
-    #@leftMouseOffset = parseInt(@$el.css('left')) - event.pageX
 
     @moving   = true
 
@@ -119,6 +112,40 @@ class @Newstime.ToolboxView extends Backbone.View
   mousemove: (e) ->
     if @moving
       @move(e.x, e.y)
+    else
+      # Detect a button hit
+      @adjustEventXY(e)
+
+      # Check for hit inorder to highlight hovered button
+      if @hoveredObject # Check active button first.
+        button = @hoveredObject if @hoveredObject.hit(e.x, e.y)
+
+      unless button
+        # NOTE: Would be nice to skip active button here, since already
+        # checked, but no biggie.
+        button = _.find @buttons, (button) ->
+          button.hit(e.x, e.y)
+
+      if @hovered # Only process events if hovered.
+        if button
+          if @hoveredObject != button
+            if @hoveredObject
+              @hoveredObject.trigger 'mouseout', e
+            @hoveredObject = button
+            @hoveredObject.trigger 'mouseover', e
+
+          return true
+        else
+          if @hoveredObject
+            @hoveredObject.trigger 'mouseout', e
+            @hoveredObject = null
+
+          return false
+
+      else
+        # Defer processing of events until we are declared the hovered object.
+        @hoveredObject = button
+        return true
 
   move: (x, y) ->
     x -= @leftMouseOffset
@@ -126,17 +153,6 @@ class @Newstime.ToolboxView extends Backbone.View
     @model.set
       left: x
       top: y
-    #@$el.css
-      #left: x
-      #top: y
-
-
-  # Attachs html or element to body of palette
-  attach: (html) ->
-    @$body.html(html)
-
-  setPosition: (top, left) ->
-    @$el.css(top: top, left: left)
 
   width: ->
     parseInt(@$el.css('width'))

@@ -198,7 +198,7 @@ class @Newstime.PageComposeView extends Backbone.View
 
     else
       # Defer processing of events until we are declared the hovered object.
-      @hoveredObject = page
+      @hoveredObject = selection
       return true
 
 

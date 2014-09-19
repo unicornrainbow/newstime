@@ -25,6 +25,7 @@
   }
 
   .dismiss {
+    display: none;
     float: right;
     padding: 0px;
     cursor: default;
@@ -73,10 +74,15 @@
   }
 
   .toolbox-button {
+    &.hovered {
+      border: 1px solid #5c616f;
+    }
+    transition: border .2s;
     width: 30px;
     height: 30px;
     border: 1px solid #515560;
-    float: left;
+    /*float: left;*/
+    position: absolute;
     margin: 1px;
     background-repeat: no-repeat;
     background-position: 50%;
