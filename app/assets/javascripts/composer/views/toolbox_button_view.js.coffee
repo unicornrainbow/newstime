@@ -3,6 +3,8 @@
 class @Newstime.ToolboxButtonView extends Backbone.View
   initialize: (options) ->
     @type = options.type
+    @toolbox = options.toolbox
+
 
     @$el.addClass "toolbox-button"
     @$el.addClass @type
@@ -15,9 +17,16 @@ class @Newstime.ToolboxButtonView extends Backbone.View
       height: 30
       width: 30
 
+
+    @toolbox.bind 'change:selectedTool', @selectedToolChanged, this
+
     @bind 'mouseover', @mouseover
     @bind 'mouseout',  @mouseout
     @bind 'mousedown', @mousedown
+
+  selectedToolChanged: ->
+    @selected = @toolbox.get('selectedTool') == @type
+    @$el.toggleClass 'selected', @selected
 
   # Detects a hit of the selection
   hit: (x, y) ->
@@ -50,10 +59,4 @@ class @Newstime.ToolboxButtonView extends Backbone.View
     @select()
 
   select: ->
-    @trigger 'select', this
-    @selected = true
-    @$el.addClass 'selected'
-
-  deselect: ->
-    @selected = false
-    @$el.removeClass 'selected'
+    @toolbox.set selectedTool: @type

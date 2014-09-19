@@ -25,19 +25,22 @@ class @Newstime.ToolboxView extends Backbone.View
     @buttons = []
     @buttons.push new Newstime.ToolboxButtonView
       type: 'select-tool'
+      toolbox: @model
       position: { top: '24px', left: '2px' }
 
     @buttons.push new Newstime.ToolboxButtonView
       type: 'text-tool'
+      toolbox: @model
       position: { top: '24px', left: '34px' }
 
-    _.each @buttons, (button) =>
-      button.bind 'select', @selectButton, this
+    #_.each @buttons, (button) =>
+      #button.bind 'select', @selectButton, this
 
     @$body.append _.map @buttons, (view) -> view.el
 
     # Listen for model changes
     @model.bind 'change', @modelChanged, this
+    #@model.bind 'change:selectedTool', @selectedToolChanged, this
 
     # Bind mouse events
     @bind 'mouseover', @mouseover
@@ -46,9 +49,9 @@ class @Newstime.ToolboxView extends Backbone.View
     @bind 'mousemove', @mousemove
     @bind 'mouseup',   @mouseup
 
-  selectButton: (button) ->
-    @selectedButton.deselect() if @selectedButton
-    @selectedButton = button
+  #selectButton: (button) ->
+    #@selectedButton.deselect() if @selectedButton
+    #@selectedButton = button
 
   modelChanged: ->
     @$el.css _.pick @model.changedAttributes(), 'top', 'left'

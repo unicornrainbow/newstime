@@ -118,11 +118,18 @@
     #@gridOverlay = $(".grid-overlay").hide()
 
     ## Init panels
-    toolbox = new Newstime.Toolbox
+    @toolbox = new Newstime.Toolbox
     @toolboxView = new Newstime.ToolboxView
       composer: this
-      model: toolbox
+      model: @toolbox
     @panelLayerView.attachPanel(@toolboxView)
+
+    @toolbox.bind 'change:selectedTool', @selectedToolChanged, this
+
+    # Select default tool
+    @toolbox.set(selectedTool: 'select-tool')
+
+
     @toolboxView.show()
 
     #@propertiresPanelView = new Newstime.PropertiesPanelView
@@ -134,6 +141,9 @@
 
     # Events
     #$(window).scroll(@captureScrollPosition)
+
+  selectedToolChanged: ->
+    @updateCursor()
 
   tracking: (layer) ->
     @trackingLayer = layer
@@ -158,6 +168,14 @@
 
   changeCursor: (cursor) ->
     @coverLayerView.changeCursor(cursor)
+
+  # Sets the UI cursor accoring to a set of rules.
+  updateCursor: ->
+    cursor = switch @toolbox.get('selectedTool')
+      when 'select-tool' then 'default'
+      when 'text-tool' then 'text'
+
+    @changeCursor(cursor)
 
 
   # Public: Handles mousemove events, called by CoverLayerView
