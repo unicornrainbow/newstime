@@ -33,6 +33,8 @@
     ## Config
     @topOffset = 62 # px
 
+    @toolbox = new Newstime.Toolbox
+
     # Create application layers
     @coverLayerView = new Newstime.CoverLayerView
       composer: this
@@ -49,6 +51,7 @@
       composer: this
       topOffset: @topOffset
       edition: @edition
+      toolbox: @toolbox
     @$body.append(@canvasLayerView.el)
 
 
@@ -118,13 +121,12 @@
     #@gridOverlay = $(".grid-overlay").hide()
 
     ## Init panels
-    @toolbox = new Newstime.Toolbox
     @toolboxView = new Newstime.ToolboxView
       composer: this
       model: @toolbox
     @panelLayerView.attachPanel(@toolboxView)
 
-    @toolbox.bind 'change:selectedTool', @selectedToolChanged, this
+    #@toolbox.bind 'change:selectedTool', @selectedToolChanged, this
 
     # Select default tool
     @toolbox.set(selectedTool: 'select-tool')
@@ -138,6 +140,8 @@
     #@propertiesPanelView.show()
 
     @repositionScroll()
+
+    @cursorStack = []
 
     # Events
     #$(window).scroll(@captureScrollPosition)
@@ -167,15 +171,24 @@
     @coverLayerView.showCursor()
 
   changeCursor: (cursor) ->
-    @coverLayerView.changeCursor(cursor)
+    @currentCursor = cursor
+    @coverLayerView.changeCursor(@currentCursor)
+
+  pushCursor: (cursor) ->
+    @cursorStack.push @currentCursor
+    @changeCursor(cursor)
+
+  popCursor: ->
+    cursor = @cursorStack.pop()
+    @changeCursor(cursor)
 
   # Sets the UI cursor accoring to a set of rules.
-  updateCursor: ->
-    cursor = switch @toolbox.get('selectedTool')
-      when 'select-tool' then 'default'
-      when 'text-tool' then 'text'
+  #updateCursor: ->
+    #cursor = switch @toolbox.get('selectedTool')
+      #when 'select-tool' then 'default'
+      #when 'text-tool' then 'text'
 
-    @changeCursor(cursor)
+    #@changeCursor(cursor)
 
 
   # Public: Handles mousemove events, called by CoverLayerView

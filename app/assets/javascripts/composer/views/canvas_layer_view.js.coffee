@@ -4,6 +4,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @composer = options.composer
     @topOffset = options.topOffset
     @edition = options.edition
+    @toolbox = options.toolbox
 
     # Capture Elements
     @$window = $(window)
@@ -26,6 +27,8 @@ class @Newstime.CanvasLayerView extends Backbone.View
         page: pageModel
         edition: @edition
         canvasLayerView: this
+        composer: @composer
+        toolbox: @toolbox
       )
 
     _.each @pages, (page) =>

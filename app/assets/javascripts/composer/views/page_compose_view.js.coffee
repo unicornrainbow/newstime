@@ -4,8 +4,11 @@ class @Newstime.PageComposeView extends Backbone.View
 
   initialize: (options) ->
     @edition = options.edition
+    @composer = options.composer
     @contentItemCollection = @edition.get('content_items')
+    @toolbox = options.toolbox
     @$el.addClass 'page-compose'
+
 
     @composer = options.composer
     @page = options.page
@@ -88,17 +91,28 @@ class @Newstime.PageComposeView extends Backbone.View
   mouseover: (e) ->
     @adjustEventXY(e)
     @hovered = true
+    @pushCursor() # Replace with hover stack implementation eventually
     if @hoveredObject
+      #@composer.hoverStackPush(@hoveredObject)
       @hoveredObject.trigger 'mouseover', e
 
   mouseout: (e) ->
     @adjustEventXY(e)
+    @popCursor()
 
     @hovered = false
 
     if @hoveredObject
+      #@composer.hoverStackPop(@hoveredObject)
+
       @hoveredObject.trigger 'mouseout', e
       @hoveredObject = null
+
+  pushCursor: ->
+    @composer.pushCursor('pointer')
+
+  popCursor: ->
+    @composer.popCursor()
 
   # Applies offset (sort of a hack for now)
   adjustEventXY: (e) ->
