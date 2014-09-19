@@ -108,7 +108,11 @@ class @Newstime.PageComposeView extends Backbone.View
   getCursor: ->
     cursor = switch @toolbox.get('selectedTool')
       when 'select-tool' then 'default'
-      when 'text-tool' then 'text'
+      #when 'text-tool' then "url(/assets/text_tool_cursor.gif), auto"
+      when 'text-tool' then "-webkit-image-set(url('/assets/text_tool_cursor.gif') 2x), auto"
+
+    #when 'text-tool' then 'pointer'
+    #when 'text-tool' then 'text'
 
   pushCursor: ->
     @composer.pushCursor(@getCursor())
