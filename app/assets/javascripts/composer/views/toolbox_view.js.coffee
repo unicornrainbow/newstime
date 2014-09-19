@@ -31,6 +31,9 @@ class @Newstime.ToolboxView extends Backbone.View
       type: 'text-tool'
       position: { top: '24px', left: '34px' }
 
+    _.each @buttons, (button) =>
+      button.bind 'select', @selectButton, this
+
     @$body.append _.map @buttons, (view) -> view.el
 
     # Listen for model changes
@@ -43,6 +46,10 @@ class @Newstime.ToolboxView extends Backbone.View
     @bind 'mousemove', @mousemove
     @bind 'mouseup',   @mouseup
 
+  selectButton: (button) ->
+    @selectedButton.deselect() if @selectedButton
+    @selectedButton = button
+
   modelChanged: ->
     @$el.css _.pick @model.changedAttributes(), 'top', 'left'
 
@@ -53,6 +60,9 @@ class @Newstime.ToolboxView extends Backbone.View
 
     if e.y < 25 # Consider less than 25 y a title bar hit for now
       @beginDrag(e)
+
+    else if @hoveredObject
+      @hoveredObject.trigger 'mousedown', e
 
   mouseup: (e) ->
     if @moving

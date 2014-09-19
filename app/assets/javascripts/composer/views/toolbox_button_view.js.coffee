@@ -17,7 +17,7 @@ class @Newstime.ToolboxButtonView extends Backbone.View
 
     @bind 'mouseover', @mouseover
     @bind 'mouseout',  @mouseout
-
+    @bind 'mousedown', @mousedown
 
   # Detects a hit of the selection
   hit: (x, y) ->
@@ -35,7 +35,6 @@ class @Newstime.ToolboxButtonView extends Backbone.View
     geometry.left <= x <= geometry.left + geometry.width &&
       geometry.top <= y <= geometry.top + geometry.height
 
-
   getGeometry: ->
     _.pick @geometry , 'top', 'left', 'width', 'height'
 
@@ -46,3 +45,15 @@ class @Newstime.ToolboxButtonView extends Backbone.View
   mouseout: (e) ->
     @hovered = false
     @$el.removeClass 'hovered'
+
+  mousedown: (e) ->
+    @select()
+
+  select: ->
+    @trigger 'select', this
+    @selected = true
+    @$el.addClass 'selected'
+
+  deselect: ->
+    @selected = false
+    @$el.removeClass 'selected'
