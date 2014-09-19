@@ -137,8 +137,9 @@ class @Newstime.PageComposeView extends Backbone.View
       # Pass on mousedown to hovered object
       @hoveredObject.trigger 'mousedown', e
     else
-      # Or begin new selection
-      @beginSelection(e.x, e.y)
+      switch @toolbox.get('selectedTool')
+        when 'text-tool'
+          @beginSelection(e.x, e.y)
 
   beginSelection: (x, y) ->
     ## We need to create and activate a selection region (Marching ants would be nice)
