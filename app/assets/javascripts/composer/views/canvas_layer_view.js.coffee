@@ -35,6 +35,12 @@ class @Newstime.CanvasLayerView extends Backbone.View
       page.bind 'tracking', @tracking, this
       page.bind 'tracking-release', @trackingRelease, this
 
+
+    # Add an add page button
+    @addPageButton = new Newstime.AddPageButton()
+    @$el.append(@addPageButton.el)
+
+    # Bind mouse events
     @bind 'mouseover',  @mouseover
     @bind 'mouseout',   @mouseout
     @bind 'mousedown',  @mousedown
