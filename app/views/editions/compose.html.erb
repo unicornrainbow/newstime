@@ -6,6 +6,7 @@
 
 <% if composing? %>
   <% content_for :composer_variables do %>
+    <%= csrf_meta_tags %>
     <script type="text/javascript" charset="utf-8">
       var composer = {
         editionID: "<%= @edition.id %>",

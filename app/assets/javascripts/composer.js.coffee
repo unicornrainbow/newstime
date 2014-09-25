@@ -3,6 +3,7 @@
 #= require lib/underscore
 #= require lib/backbone
 #= require lib/backbone-relational
+#= require lib/backbone.authtokenadapter
 #= require faye
 #
 # ## App
@@ -262,9 +263,9 @@
       @trackingLayer.trigger 'mouseup', e
       return true
 
-    # TODO: Rather than tracking an relying to the hovered object, we need to track
-    # which if the layers gets the hit, and pass down to it for delegation to
-    # the individual object.
+    # TODO: Rather than tracking an relaying to the hovered object, we need to
+    # track which of the layers gets the hit, and pass down to it for delegation
+    # to the individual object.
     if @hitLayer
       @hitLayer.trigger 'mouseup', e
 

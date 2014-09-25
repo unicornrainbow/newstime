@@ -53,15 +53,5 @@ class @Newstime.Edition extends Backbone.RelationalModel
   isDirty: ->
     @dirty
 
-
-class @Newstime.Section extends Backbone.RelationalModel
-
-
-class @Newstime.SectionCollection extends Backbone.Collection
-  model: Newstime.Section
-
-class @Newstime.Page extends Backbone.RelationalModel
-
-
-class @Newstime.PageCollection extends Backbone.Collection
-  model: Newstime.Page
+  createPage: (attributes, options) ->
+    get('pages').create(attributes, options)
