@@ -35,6 +35,7 @@ class PagesController < ApplicationController
     head :no_content
   end
 
+
   #def create
     #if params[:section_id]
       ## TODO: [security] User must have access to the section.
@@ -69,7 +70,15 @@ class PagesController < ApplicationController
   end
 
   def show
-    @page = Page.find(params[:id])
+    @edition = Edition.find(params[:edition_id])
+    @page = @edition.pages.find(params[:id])
+
+    if params[:format]
+      @layout_name   = @edition.layout_name
+      @layout_module = LayoutModule.new(@layout_name) # TODO: Rename to MediaModule
+    end
+
+    respond_with @page, layout: false
   end
 
   def update
