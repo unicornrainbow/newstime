@@ -24,6 +24,17 @@ class PagesController < ApplicationController
     respond_with @page
   end
 
+
+  def destroy
+    @edition = Edition.find(params[:edition_id])
+
+    @page = @edition.pages.find(params[:id])
+
+    @page.destroy
+
+    head :no_content
+  end
+
   #def create
     #if params[:section_id]
       ## TODO: [security] User must have access to the section.
@@ -81,7 +92,7 @@ private
 
   def page_params
     #params.require(:page).permit(:name, :section_id, :source, :layout_id)
-    params.fetch(:page, {}).permit(:name, :section_id, :source, :layout_id)
+    params.fetch(:page, {}).permit(:name, :section_id, :source, :layout_id, :number)
   end
 
 end
