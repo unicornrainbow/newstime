@@ -9,6 +9,7 @@ Press::Application.routes.draw do
     resources :sections
     resources :content_items
     resources :pages
+    resources :sections
     resources :prints, only: ['index', 'create'] do
       member do
         get '(*path)' => :show, as: 'show'

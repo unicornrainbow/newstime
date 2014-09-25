@@ -294,6 +294,10 @@ $ ->
 
   window.edition = new Newstime.Edition(editionJSON)
   window.edition.dirty = false # HACK: To make sure isn't considered dirty after initial creation
+
+  # Global reference to current section model
+  window.section =  edition.get('sections').findWhere(_id: composer.sectionID)
+
   Newstime.Composer.init(edition: edition)
 
   return
