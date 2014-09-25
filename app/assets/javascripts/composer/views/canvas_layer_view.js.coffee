@@ -23,7 +23,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @pages = []
     $("[page-compose]", @$el).each (i, el) =>
       pageModel = @pageCollection.findWhere(_id: $(el).data('page-id'))
-      @pages.push new Newstime.PageComposeView(
+      pageView = new Newstime.PageComposeView(
         el: el
         page: pageModel
         edition: @edition
@@ -31,6 +31,8 @@ class @Newstime.CanvasLayerView extends Backbone.View
         composer: @composer
         toolbox: @toolbox
       )
+
+      @pages.push pageView
 
     _.each @pages, (page) =>
       page.bind 'tracking', @tracking, this
@@ -51,7 +53,8 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
   addPage: (pageModel) ->
     pageModel.getHTML (html) =>
-      el = @$grid.append(html)
+      el = $(html)[0]
+      @$grid.append(el)
 
       pageView = new Newstime.PageComposeView(
         el: el
@@ -61,11 +64,11 @@ class @Newstime.CanvasLayerView extends Backbone.View
         composer: @composer
         toolbox: @toolbox
       )
+      @pages.push pageView
 
       pageView.bind 'tracking', @tracking, this
       pageView.bind 'tracking-release', @trackingRelease, this
 
-      @pages.push pageView
 
 
   tracking: (page) ->
