@@ -18,6 +18,7 @@
 @Newstime.Composer =
   init: (options) ->
     @edition = options.edition
+    @section = options.section
 
     window.onbeforeunload = ->
       if @edition.isDirty()
@@ -287,6 +288,11 @@
   repositionScroll: ->
     @canvasLayerView.repositionScroll()
 
+  # Adds a new page
+  addPage: ->
+    @section.addPage (page) =>
+      @canvasLayerView.addPage(page)
+
 $ ->
   # Get the edition, mostly for development purposes right now.
   #edition_id = document.URL.match(/editions\/(\w*)/)[1] # Hack to get edition id from url string
@@ -298,6 +304,6 @@ $ ->
   # Global reference to current section model
   window.section =  edition.get('sections').findWhere(_id: composer.sectionID)
 
-  Newstime.Composer.init(edition: edition)
+  Newstime.Composer.init(edition: edition, section: section)
 
   return

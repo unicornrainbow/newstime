@@ -74,6 +74,8 @@ class PagesController < ApplicationController
     @page = @edition.pages.find(params[:id])
 
     if params[:format]
+      @composing = params[:composing]
+      @section       = @page.section
       @layout_name   = @edition.layout_name
       @layout_module = LayoutModule.new(@layout_name) # TODO: Rename to MediaModule
     end

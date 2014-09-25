@@ -1,12 +1,15 @@
 class @Newstime.Page extends Backbone.RelationalModel
   idAttribute: '_id'
 
-  getHTML: ->
+  getHTML: (success) ->
     # Example of get html for page
     $.ajax
       url: "#{@url()}.html"
-      success: (data) ->
-        console.log data
+      data:
+        composing: true
+      success: success
+      #success: (data) ->
+        #console.log data
 
 
 class @Newstime.PageCollection extends Backbone.Collection

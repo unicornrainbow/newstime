@@ -11,12 +11,13 @@ class @Newstime.Section extends Backbone.RelationalModel
   getNextPageNumber: ->
     _.last(@getPages()).get('number') + 1
 
-  addPage: ->
+  addPage: (success) ->
     pageAttributes =
       section_id: @get('_id')
       number: @getNextPageNumber()
 
-    @get('edition').get('pages').create(pageAttributes)
+    @get('edition').get('pages').create pageAttributes,
+      success: success
 
 
 class @Newstime.SectionCollection extends Backbone.Collection

@@ -10,6 +10,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @$window = $(window)
     @$document = $(document)
     @$body = $('body')
+    @$grid = @$('.grid') # Where to append pages to (HACK)
 
     @$el.css top: "#{@topOffset}px"
 
@@ -46,6 +47,25 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @bind 'mousedown',  @mousedown
     @bind 'mouseup',    @mouseup
     @bind 'mousemove',  @mousemove
+
+
+  addPage: (pageModel) ->
+    pageModel.getHTML (html) =>
+      el = @$grid.append(html)
+
+      pageView = new Newstime.PageComposeView(
+        el: el
+        page: pageModel
+        edition: @edition
+        canvasLayerView: this
+        composer: @composer
+        toolbox: @toolbox
+      )
+
+      pageView.bind 'tracking', @tracking, this
+      pageView.bind 'tracking-release', @trackingRelease, this
+
+      @pages.push pageView
 
 
   tracking: (page) ->
