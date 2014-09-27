@@ -162,8 +162,13 @@
   blur: ->
     @hasFocus = false
 
+  # Called when keydown and composer hasFocus
   keydown: (e) ->
-    console.log "keydown", event: e, hasFocus: @hasFocus
+    if @focusedLayer
+      @focusedLayer.trigger 'keydown', e
+
+    unless e.isPropagationStopped()
+      # Handle keyboard events at this level
 
   selectedToolChanged: ->
     @updateCursor()
