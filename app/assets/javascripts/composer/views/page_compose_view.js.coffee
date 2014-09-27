@@ -13,6 +13,9 @@ class @Newstime.PageComposeView extends Backbone.View
     @composer = options.composer
     @page = options.page
 
+    @contextMenu = new Newstime.PageContextMenu()
+    @$el.append(@contextMenu.el)
+
     @canvasLayerView = options.canvasLayerView
 
     #@gridLines = new Newstime.GridLines()
@@ -155,8 +158,9 @@ class @Newstime.PageComposeView extends Backbone.View
   contextmenu: (e) ->
     e.preventDefault() # Cancel default context menu
 
-    # Show page context menu
-    console.log "Show context menu", e
+    @adjustEventXY(e) # Could be nice to abstract this one layer up...
+
+    @contextMenu.show(e.x, e.y)
 
   drawTextBox: (x, y) ->
     ## We need to create and activate a selection region (Marching ants would be nice)
