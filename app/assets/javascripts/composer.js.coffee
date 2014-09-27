@@ -175,7 +175,7 @@
     unless e.isPropagationStopped()
       switch e.keyCode
         when 83 # s
-          if e.ctrlKey # ctrl+s
+          if e.ctrlKey || e.altKey # ctrl+s
             @edition.save() # Save edition
 
 

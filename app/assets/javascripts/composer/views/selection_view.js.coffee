@@ -119,6 +119,9 @@ class @Newstime.SelectionView extends Backbone.View
         @model.set top: @model.get('top') + offset
         e.stopPropagation()
         e.preventDefault()
+      when 27 # ESC
+        @deactivate()
+
 
   stepLeft: ->
     @model.set left: @page.stepLeft(@model.get('left'))
