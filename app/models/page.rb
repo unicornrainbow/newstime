@@ -14,6 +14,11 @@ class Page
     section_id && edition.sections.find(section_id)
   end
 
+  def section=(section)
+    self.section_id = section.id
+    #&& edition.sections.find(section_id)
+  end
+
   def content_items
     edition.content_items.where(page_id: id)
   end

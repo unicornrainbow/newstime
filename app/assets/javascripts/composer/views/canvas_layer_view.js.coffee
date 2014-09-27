@@ -40,8 +40,8 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
 
     # Add an add page button
-    #@addPageButton = new Newstime.AddPageButton()
-    #@$el.append(@addPageButton.el)
+    @addPageButton = new Newstime.AddPageButton()
+    @$el.append(@addPageButton.el)
 
     # Bind mouse events
     @bind 'mouseover',  @mouseover

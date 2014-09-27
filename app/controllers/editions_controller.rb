@@ -20,8 +20,23 @@ class EditionsController < ApplicationController
 
   def create
     @publication = Publication.find(edition_params[:publication_id])
-    @edition = Edition.new(edition_params.merge(sections_attributes: JSON.parse(@publication.default_section_attributes)))
+
+
+    # Construct new edition with sections and pages
+    @edition = Edition.new(edition_params)
     @edition.organization = @publication.organization
+
+    sections_attributes = JSON.parse(@publication.default_section_attributes)
+    sections_attributes.each do |section_attributes|
+      pages_attributes = section_attributes.delete("pages_attributes")
+      section = @edition.sections.build(section_attributes)
+      if pages_attributes
+        pages_attributes.each do |page_attributes|
+          page = @edition.pages.build(page_attributes)
+          page.section = section
+        end
+      end
+    end
 
     if @edition.save
       #redirect_to @edition, notice: "Edition created successfully."

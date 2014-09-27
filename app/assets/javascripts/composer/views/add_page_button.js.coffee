@@ -10,3 +10,5 @@ class @Newstime.AddPageButton extends Backbone.View
         </div>
       </div>
     """
+
+    console.log "me"
