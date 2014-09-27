@@ -1,9 +1,13 @@
 @Newstime = @Newstime || {}
 
-class @Newstime.GlobalKeyboardDispatch extends Backbone.Model
+class @Newstime.KeyboardHandler extends Backbone.Model
 
   initialize: (options) ->
     @composer = options.composer
+
+    $(document).keypress(@keypress)
+    $(document).keydown(@keydown)
+    $(document).keyup(@keyup)
 
     @optDown = false
 
@@ -12,7 +16,9 @@ class @Newstime.GlobalKeyboardDispatch extends Backbone.Model
       @optDown = false
       window.onmousewheel = null
 
-  keypress: (e) ->
+  keypress: (e) =>
+    return unless @composer.hasFocus # Ignore unless composer has focus
+
     switch e.charCode
       when 116 # t
         # Toggle grid (State should persist across reloads, this is workspace
@@ -21,7 +27,9 @@ class @Newstime.GlobalKeyboardDispatch extends Backbone.Model
       #else
         #console.log e
 
-  keydown: (e) ->
+  keydown: (e) =>
+    return unless @composer.hasFocus # Ignore unless composer has focus
+
     switch e.keyCode
       when 18 # opt
         @optDown = true
@@ -67,7 +75,9 @@ class @Newstime.GlobalKeyboardDispatch extends Backbone.Model
         #e.preventDefault()
 
 
-  keyup: (e) ->
+  keyup: (e) =>
+    return unless @composer.hasFocus # Ignore unless composer has focus
+
     #console.log "up", e.keyCode
     switch e.keyCode
 

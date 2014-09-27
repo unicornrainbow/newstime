@@ -56,28 +56,22 @@
       toolbox: @toolbox
     @$body.append(@canvasLayerView.el)
 
+
     @hasFocus = true # By default, composer has focus
 
-    # Need to use bindall to get correct focus on this events which are attached
-    # to the document. Would be neccessary if this were an instantiated object
-    # probably, just noting.
-    _.bindAll this, 'keydown' #, 'keypress', 'keyup'
-
-    $(document).keydown(@keydown)
-
-    #@globalKeyboardDispatch = new Newstime.GlobalKeyboardDispatch
-      #composer: this
+    @keyboardHandler = new Newstime.KeyboardHandler
+      composer: this
 
     #canvasDragView = new Newstime.CanvasDragView
       #composer: this
 
-    #@globalKeyboardDispatch.bind 'dragModeEngaged', ->
+    #@KeyboardHandler.bind 'dragModeEngaged', ->
       #canvasDragView.engage()
 
-    #@globalKeyboardDispatch.bind 'dragModeDisengaged', ->
+    #@KeyboardHandler.bind 'dragModeDisengaged', ->
       #canvasDragView.disengage()
 
-    Newstime.Composer.globalKeyboardDispatch = @globalKeyboardDispatch
+    #Newstime.Composer.composerKeyboardHandler = @composerKeyboardHandler
 
     #$(document).keypress(@keypress)
     #$(document).keyup(@keyup)
@@ -167,10 +161,6 @@
     #$(window).scroll(@captureScrollPosition)
     #
 
-  keydown: (e) ->
-    if @hasFocus # Ignore if composer doesn't have focus
-
-      console.log e
 
   selectedToolChanged: ->
     @updateCursor()
@@ -260,14 +250,6 @@
 
       # Clear cursor state
       #@changeCursor('')
-
-
-
-  #keypress: (e) ->
-    #console.log e
-
-  #keyup: (e) ->
-    #console.log e
 
 
   mousedown: (event) ->
