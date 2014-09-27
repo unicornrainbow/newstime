@@ -13,6 +13,8 @@ class @Newstime.PageComposeView extends Backbone.View
     @composer = options.composer
     @page = options.page
 
+    @page.bind 'destroy', @pageDestroyed, this
+
     @contextMenu = new Newstime.PageContextMenu
       page: @page
     @$el.append(@contextMenu.el)
@@ -303,6 +305,10 @@ class @Newstime.PageComposeView extends Backbone.View
     #closest = Newstime.closest(value, @bottomSnapPoints)
     #if Math.abs(closest - value) < 10 then closest else value
     value
+
+  pageDestroyed: ->
+    # TODO: Need to properly unbind events and allow destruction of view
+    @$el.remove()
 
   # Computes top snap points
   computeTopSnapPoints: ->
