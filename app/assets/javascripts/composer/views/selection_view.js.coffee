@@ -252,7 +252,12 @@ class @Newstime.SelectionView extends Backbone.View
   # Moves based on corrdinates and starting offset
   move: (x, y) ->
     geometry = @getGeometry()
-    x = @page.snapLeft(x - @moveOffsetX)
+
+    # Adjust x corrdinate
+    x -= @moveOffsetX
+    x = Math.min(x, @page.getWidth() - @model.get('width')) # Keep on page
+    x = @page.snapLeft(x) # Snap
+
     y = @page.snapTop(y - @moveOffsetY)
     @model.set
       left: x

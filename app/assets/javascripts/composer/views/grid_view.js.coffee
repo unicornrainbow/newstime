@@ -3,11 +3,11 @@
 class @Newstime.GridView extends Backbone.View
 
   initialize: (options) ->
-    pageWidth = 1184
+    @pageWidth = 1184
     columns = 24
     gutterWidth = 16
 
-    columnWidth = (pageWidth - (gutterWidth * (columns - 1))) / columns
+    columnWidth = (@pageWidth - (gutterWidth * (columns - 1))) / columns
 
     @stepWidth = columnWidth + gutterWidth
 
