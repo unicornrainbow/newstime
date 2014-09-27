@@ -50,7 +50,6 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @bind 'mouseup',    @mouseup
     @bind 'mousemove',  @mousemove
 
-
   addPage: (pageModel) ->
     pageModel.getHTML (html) =>
       el = $(html)[0]

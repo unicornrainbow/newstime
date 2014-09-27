@@ -5,6 +5,7 @@ class @Newstime.CoverLayerView extends Backbone.View
     'mousedown': 'mousedown'
     'mouseup': 'mouseup'
     'mousemove': 'mousemove'
+    'mouseout': 'mouseout'
     'click': 'click'
 
   initialize: (options) ->
@@ -30,6 +31,10 @@ class @Newstime.CoverLayerView extends Backbone.View
   mousemove: (e) ->
     e.stopPropagation()
     @trigger 'mousemove', e
+
+  mouseout: (e) ->
+    e.stopPropagation()
+    @trigger 'mouseout', e
 
   #click: (e) ->
     #e.stopPropagation()

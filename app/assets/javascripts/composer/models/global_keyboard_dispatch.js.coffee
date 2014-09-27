@@ -62,9 +62,9 @@ class @Newstime.GlobalKeyboardDispatch extends Backbone.Model
         if e.ctrlKey # ctrl+s
           edition.save() # Save edition
 
-      when 8 # del
-        e.stopPropagation()
-        e.preventDefault()
+      #when 8 # del
+        #e.stopPropagation()
+        #e.preventDefault()
 
 
   keyup: (e) ->

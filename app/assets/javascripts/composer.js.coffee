@@ -56,18 +56,37 @@
       toolbox: @toolbox
     @$body.append(@canvasLayerView.el)
 
+    @hasFocus = true # By default, composer has focus
 
-    @globalKeyboardDispatch = new Newstime.GlobalKeyboardDispatch
-      composer: this
+    # Need to use bindall to get correct focus on this events which are attached
+    # to the document. Would be neccessary if this were an instantiated object
+    # probably, just noting.
+    _.bindAll this, 'keydown' #, 'keypress', 'keyup'
 
-    canvasDragView = new Newstime.CanvasDragView
-      composer: this
+    $(document).keydown(@keydown)
 
-    @globalKeyboardDispatch.bind 'dragModeEngaged', ->
-      canvasDragView.engage()
+    #@globalKeyboardDispatch = new Newstime.GlobalKeyboardDispatch
+      #composer: this
 
-    @globalKeyboardDispatch.bind 'dragModeDisengaged', ->
-      canvasDragView.disengage()
+    #canvasDragView = new Newstime.CanvasDragView
+      #composer: this
+
+    #@globalKeyboardDispatch.bind 'dragModeEngaged', ->
+      #canvasDragView.engage()
+
+    #@globalKeyboardDispatch.bind 'dragModeDisengaged', ->
+      #canvasDragView.disengage()
+
+    Newstime.Composer.globalKeyboardDispatch = @globalKeyboardDispatch
+
+    #$(document).keypress(@keypress)
+    #$(document).keyup(@keyup)
+
+
+    # Focus on any form element, takes focus from the composer.
+    $(document).delegate "input", "focus", =>
+      console.log @hasFocus
+      @hasFocus = false
 
     #@eventEmitter = new Newstime.EventEmitter (Mouse events, Keyboard Events,
     #Scroll Events)
@@ -77,8 +96,6 @@
     #contentItemModal = $(".add-content-item").contentModal();
 
 
-    Newstime.Composer.globalKeyboardDispatch = @globalKeyboardDispatch
-    Newstime.Composer.keyboard = new Newstime.Keyboard(defaultFocus: @globalKeyboardDispatch)
     #keyboard.pushFocus(textRegion) // example
 
     # Initialize Plugins
@@ -94,6 +111,7 @@
 
     @panelLayerView.bind 'tracking',         @tracking, this
     @panelLayerView.bind 'tracking-release', @trackingRelease, this
+
 
     #$("[headline-control]").headlineControl headlineProperties
     #storyPropertiesView = new Newstime.StoryPropertiesView()
@@ -147,6 +165,12 @@
 
     # Events
     #$(window).scroll(@captureScrollPosition)
+    #
+
+  keydown: (e) ->
+    if @hasFocus # Ignore if composer doesn't have focus
+
+      console.log e
 
   selectedToolChanged: ->
     @updateCursor()
@@ -237,7 +261,17 @@
       # Clear cursor state
       #@changeCursor('')
 
+
+
+  #keypress: (e) ->
+    #console.log e
+
+  #keyup: (e) ->
+    #console.log e
+
+
   mousedown: (event) ->
+    @hasFocus = true
     e =
       x: @mouseX
       y: @mouseY

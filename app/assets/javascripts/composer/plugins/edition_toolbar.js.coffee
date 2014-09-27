@@ -6,6 +6,11 @@ $ ->
     printsTab = $("#prints-tab", this)
 
     editionPanel = $("#edition-tab-panel", this)
+    #editionform  = $("#edition-tab-panel form", this)
+    #editionform.delegate "input", "focus", ->
+      #console.log "touch"
+
+
     sectionPanel = $("#section-tab-panel", this)
     printsPanel = $("#prints-tab-panel", this)
 
