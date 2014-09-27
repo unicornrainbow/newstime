@@ -6,6 +6,7 @@ class @Newstime.CoverLayerView extends Backbone.View
     'mouseup': 'mouseup'
     'mousemove': 'mousemove'
     'mouseout': 'mouseout'
+    'contextmenu': 'contextmenu'
     'click': 'click'
 
   initialize: (options) ->
@@ -16,6 +17,8 @@ class @Newstime.CoverLayerView extends Backbone.View
 
     @$el.css top: "#{@topOffset}px"
 
+  contextmenu: (e) ->
+    @trigger "contextmenu", e
 
   mousedown: (e) ->
     e.stopPropagation()

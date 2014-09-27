@@ -27,6 +27,7 @@ class @Newstime.PageComposeView extends Backbone.View
     @bind 'mouseup',     @mouseup
     @bind 'mousemove',   @mousemove
     @bind 'keydown',     @keydown
+    @bind 'contextmenu', @contextmenu
 
     @selectionViews = []
 
@@ -150,6 +151,12 @@ class @Newstime.PageComposeView extends Backbone.View
           @beginSelection(e.x, e.y)
         when 'select-tool'
           @activeSelection.deactivate() if @activeSelection
+
+  contextmenu: (e) ->
+    e.preventDefault() # Cancel default context menu
+
+    # Show page context menu
+    console.log "Show context menu", e
 
   drawTextBox: (x, y) ->
     ## We need to create and activate a selection region (Marching ants would be nice)

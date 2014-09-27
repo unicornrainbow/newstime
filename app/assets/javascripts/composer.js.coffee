@@ -94,6 +94,7 @@
     @coverLayerView.bind 'mouseup', @mouseup, this
     @coverLayerView.bind 'mousemove', @mousemove, this
     @coverLayerView.bind 'mousedown', @mousedown, this
+    @coverLayerView.bind 'contextmenu', @contextmenu, this
 
     @canvasLayerView.bind 'tracking',         @tracking, this
     @canvasLayerView.bind 'tracking-release', @trackingRelease, this
@@ -284,6 +285,18 @@
     # the individual object.
     if @hitLayer
       @hitLayer.trigger 'mousedown', e
+
+
+  contextmenu: (e) ->
+    event = e
+    e =
+      x: @mouseX
+      y: @mouseY
+      preventDefault: ->
+        event.preventDefault()
+
+    if @hitLayer
+      @hitLayer.trigger 'contextmenu', e
 
 
   mouseup: (e) ->

@@ -51,6 +51,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @bind 'mouseup',    @mouseup
     @bind 'mousemove',  @mousemove
     @bind 'keydown',    @keydown
+    @bind 'contextmenu', @contextmenu
 
   handlePageFocus: (page) ->
     @focusedPage = page
@@ -152,6 +153,11 @@ class @Newstime.CanvasLayerView extends Backbone.View
     if @hoveredObject
       @hoveredObject.trigger 'mousedown', e
 
+  contextmenu: (e) ->
+    @adjustEventXY(e)
+
+    if @hoveredObject
+      @hoveredObject.trigger 'contextmenu', e
 
   mouseup: (e) ->
     @adjustEventXY(e)
