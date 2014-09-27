@@ -291,7 +291,7 @@ class @Newstime.PageComposeView extends Backbone.View
   snapTop: (value) ->
     #closest = Newstime.closest(value, @topSnapPoints)
     #if Math.abs(closest - value) < 10 then closest else value
-    value
+    Math.max value, 0
 
   snapBottom: (value) ->
     #closest = Newstime.closest(value, @bottomSnapPoints)
