@@ -122,7 +122,7 @@ class @Newstime.SelectionView extends Backbone.View
     @model.set left: @page.stepRight(@model.get('left'))
 
   delete: ->
-    console.log "Delete content item", this
+    @model.destroy()
 
   mousedown: (e) ->
     return unless e.button == 0 # Only respond to left button mousedown.

@@ -47,9 +47,14 @@ class ContentItemsController < ApplicationController
     respond_with @content_item
   end
 
+
   def destroy
-    @content_item = ContentItem.find(params[:id]).destroy
-    render text: 'ok'
+    @edition = Edition.find(params[:edition_id])
+    @content_item = @edition.content_items.find(params[:id])
+    @content_item.destroy
+    @edition.save
+
+    head :no_content
   end
 
   # Returns an html form for creating a content item for consumption over ajax.

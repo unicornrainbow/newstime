@@ -27,10 +27,9 @@ class PagesController < ApplicationController
 
   def destroy
     @edition = Edition.find(params[:edition_id])
-
     @page = @edition.pages.find(params[:id])
-
     @page.destroy
+    @edition.save
 
     head :no_content
   end

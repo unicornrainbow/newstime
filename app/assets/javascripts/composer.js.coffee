@@ -171,8 +171,13 @@
     if @focusedLayer
       @focusedLayer.trigger 'keydown', e
 
-    #unless e.isPropagationStopped()
-      # Handle keyboard events at this level
+    unless e.isPropagationStopped()
+      console.log 'as'
+      switch e.keyCode
+        when 83 # s
+          if e.ctrlKey # ctrl+s
+            @edition.save() # Save edition
+
 
   selectedToolChanged: ->
     @updateCursor()
