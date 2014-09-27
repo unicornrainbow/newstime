@@ -18,6 +18,7 @@ class @Newstime.SelectionView extends Backbone.View
 
     # Listen for model changes
     @model.bind 'change', @modelChanged, this
+    @model.bind 'destroy', @modelDestroyed, this
 
     @bind 'mousedown', @mousedown
     @bind 'mousemove', @mousemove
@@ -30,6 +31,10 @@ class @Newstime.SelectionView extends Backbone.View
 
   modelChanged: ->
     @$el.css _.pick @model.changedAttributes(), 'top', 'left', 'width', 'height'
+
+  modelDestroyed: ->
+    # TODO: Need to properly unbind events and allow destruction of view
+    @$el.remove()
 
   activate: ->
     @active = true
