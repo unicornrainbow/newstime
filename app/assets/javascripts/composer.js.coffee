@@ -178,6 +178,8 @@
           if e.ctrlKey || e.altKey # ctrl+s
             @edition.save() # Save edition
 
+  displayContextMenu: (contextMenu) ->
+    @currentContextMenu = contextMenu
 
   selectedToolChanged: ->
     @updateCursor()
@@ -275,6 +277,10 @@
       x: @mouseX
       y: @mouseY
       button: event.button
+
+    if @currentContextMenu
+      @currentContextMenu.hide()
+      @currentContextMenu = null
 
     if @trackingLayer
       # For the time being, block mousedowns while tracking

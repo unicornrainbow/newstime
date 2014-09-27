@@ -160,6 +160,8 @@ class @Newstime.PageComposeView extends Backbone.View
 
     @adjustEventXY(e) # Could be nice to abstract this one layer up...
 
+    @composer.displayContextMenu @contextMenu
+
     @contextMenu.show(e.x, e.y)
 
   drawTextBox: (x, y) ->
