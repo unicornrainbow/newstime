@@ -15,8 +15,9 @@ class @Newstime.PageContextMenu extends Backbone.View
     """
 
   deletePage: ->
-    @page.destroy()
     @hide()
+    if confirm("Are you sure you would like to delete the page?")
+      @page.destroy()
 
   show: (x, y) ->
     @$el.css left: x, top: y
