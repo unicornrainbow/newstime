@@ -6,7 +6,7 @@ class @Newstime.PageContextMenu extends Backbone.View
     @$el.addClass "newstime-context-menu"
     @$el.hide()
     @$el.html """
-      Context Menu
+      <li>Delete Page</li>
     """
 
   show: (x, y) ->
