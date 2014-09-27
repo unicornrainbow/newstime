@@ -273,7 +273,10 @@ class @Newstime.SelectionView extends Backbone.View
 
   dragRight: (x, y) ->
     geometry = @getGeometry()
-    width = @page.snapRight(x - geometry.left)
+    width = x - geometry.left
+    width = Math.min(width, @page.getWidth() - @model.get('left')) # Keep on page
+    width = @page.snapRight(width) # Snap
+
     @model.set
       width: width
 
