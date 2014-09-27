@@ -79,8 +79,7 @@
 
     # Focus on any form element, takes focus from the composer.
     $(document).delegate "input", "focus", =>
-      console.log @hasFocus
-      @hasFocus = false
+      @blur()
 
     #@eventEmitter = new Newstime.EventEmitter (Mouse events, Keyboard Events,
     #Scroll Events)
@@ -105,7 +104,6 @@
 
     @panelLayerView.bind 'tracking',         @tracking, this
     @panelLayerView.bind 'tracking-release', @trackingRelease, this
-
 
     #$("[headline-control]").headlineControl headlineProperties
     #storyPropertiesView = new Newstime.StoryPropertiesView()
@@ -161,6 +159,16 @@
     #$(window).scroll(@captureScrollPosition)
     #
 
+  # Focus on composer
+  focus: ->
+    $(document.activeElement).blur()
+    @hasFocus = true
+
+  blur: ->
+    @hasFocus = false
+
+  keydown: (e) ->
+    console.log "keydown", event: e, hasFocus: @hasFocus
 
   selectedToolChanged: ->
     @updateCursor()

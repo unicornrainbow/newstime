@@ -28,51 +28,53 @@ class @Newstime.KeyboardHandler extends Backbone.Model
         #console.log e
 
   keydown: (e) =>
-    return unless @composer.hasFocus # Ignore unless composer has focus
+    if @composer.hasFocus
+      @composer.keydown(e)
 
-    switch e.keyCode
-      when 18 # opt
-        @optDown = true
 
-        zoomMouseWheel = (e) =>
-          if e.wheelDeltaY < 0
-            @composer.zoomInPoint(e.x, e.y)
-          else if e.wheelDeltaY > 0
-            @composer.zoomOut()
+    #switch e.keyCode
+      #when 18 # opt
+        #@optDown = true
 
-        zoomMouseWheel = _.throttle(zoomMouseWheel, 100)
+        #zoomMouseWheel = (e) =>
+          #if e.wheelDeltaY < 0
+            #@composer.zoomInPoint(e.x, e.y)
+          #else if e.wheelDeltaY > 0
+            #@composer.zoomOut()
 
-        window.onmousewheel = (e) ->
-          e.preventDefault()
-          zoomMouseWheel(e)
+        #zoomMouseWheel = _.throttle(zoomMouseWheel, 100)
 
-      when 187 # +
-        if e.altKey
-          @composer.zoomIn()
+        #window.onmousewheel = (e) ->
+          #e.preventDefault()
+          #zoomMouseWheel(e)
 
-      when 189 # -
-        if e.altKey
-          @composer.zoomOut()
+      #when 187 # +
+        #if e.altKey
+          #@composer.zoomIn()
 
-      when 48 # 0
-        if e.altKey
-          @composer.zoomReset()
+      #when 189 # -
+        #if e.altKey
+          #@composer.zoomOut()
 
-      when 32 # space
-        e.stopPropagation()
-        e.preventDefault()
-        #console.log "handle grab tool"
+      #when 48 # 0
+        #if e.altKey
+          #@composer.zoomReset()
 
-        # Engage Drag Mode.
-        @trigger 'dragModeEngaged'
-
-      when 83 # s
-        if e.ctrlKey # ctrl+s
-          edition.save() # Save edition
-
-      #when 8 # del
+      #when 32 # space
         #e.stopPropagation()
         #e.preventDefault()
+        ##console.log "handle grab tool"
+
+        ## Engage Drag Mode.
+        #@trigger 'dragModeEngaged'
+
+      #when 83 # s
+        #if e.ctrlKey # ctrl+s
+          #edition.save() # Save edition
+
+      ##when 8 # del
+        ##e.stopPropagation()
+        ##e.preventDefault()
 
 
   keyup: (e) =>
