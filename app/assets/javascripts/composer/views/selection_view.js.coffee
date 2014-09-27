@@ -90,8 +90,14 @@ class @Newstime.SelectionView extends Backbone.View
 
 
   keydown: (e) ->
-    console.log "Selection got keydown", e
+    switch e.keyCode
+      when 8 # del
+        @delete()
+        e.stopPropagation()
+        e.preventDefault()
 
+  delete: ->
+    console.log "Delete content item", this
 
   mousedown: (e) ->
     return unless e.button == 0 # Only respond to left button mousedown.
