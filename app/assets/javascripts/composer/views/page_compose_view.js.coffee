@@ -131,6 +131,8 @@ class @Newstime.PageComposeView extends Backbone.View
     #console.log "mouseup", e
 
   mousedown: (e) ->
+    return unless e.button == 0 # Only respond to left button mousedown.
+
     @adjustEventXY(e) # Could be nice to abstract this one layer up...
 
     if @hoveredObject

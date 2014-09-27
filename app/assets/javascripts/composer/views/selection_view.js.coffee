@@ -88,6 +88,8 @@ class @Newstime.SelectionView extends Backbone.View
     @model.pick('top', 'left', 'height', 'width')
 
   mousedown: (e) ->
+    return unless e.button == 0 # Only respond to left button mousedown.
+
     x = e.x
     y = e.y
 

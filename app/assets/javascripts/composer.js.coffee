@@ -237,11 +237,11 @@
       # Clear cursor state
       #@changeCursor('')
 
-  mousedown: (e) ->
+  mousedown: (event) ->
     e =
       x: @mouseX
       y: @mouseY
-
+      button: event.button
 
     if @trackingLayer
       # For the time being, block mousedowns while tracking
