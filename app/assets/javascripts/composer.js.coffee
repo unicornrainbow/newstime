@@ -97,6 +97,7 @@
 
     @canvasLayerView.bind 'tracking',         @tracking, this
     @canvasLayerView.bind 'tracking-release', @trackingRelease, this
+    @canvasLayerView.bind 'focus',            @handleLayerFocus, this
 
     @panelLayerView.bind 'tracking',         @tracking, this
     @panelLayerView.bind 'tracking-release', @trackingRelease, this
@@ -162,12 +163,15 @@
   blur: ->
     @hasFocus = false
 
+  handleLayerFocus: (layer) =>
+    @focusedLayer = layer
+
   # Called when keydown and composer hasFocus
-  keydown: (e) ->
+  keydown: (e) =>
     if @focusedLayer
       @focusedLayer.trigger 'keydown', e
 
-    unless e.isPropagationStopped()
+    #unless e.isPropagationStopped()
       # Handle keyboard events at this level
 
   selectedToolChanged: ->

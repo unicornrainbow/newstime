@@ -24,6 +24,7 @@ class @Newstime.SelectionView extends Backbone.View
     @bind 'mouseup',   @mouseup
     @bind 'mouseover', @mouseover
     @bind 'mouseout',  @mouseout
+    @bind 'keydown',   @keydown
 
     @$el.css _.pick @model.attributes, 'top', 'left', 'width', 'height'
 
@@ -86,6 +87,11 @@ class @Newstime.SelectionView extends Backbone.View
 
   getGeometry: ->
     @model.pick('top', 'left', 'height', 'width')
+
+
+  keydown: (e) ->
+    console.log "Selection got keydown", e
+
 
   mousedown: (e) ->
     return unless e.button == 0 # Only respond to left button mousedown.

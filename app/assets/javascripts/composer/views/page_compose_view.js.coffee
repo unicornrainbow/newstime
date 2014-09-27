@@ -26,6 +26,7 @@ class @Newstime.PageComposeView extends Backbone.View
     @bind 'mousedown',   @mousedown
     @bind 'mouseup',     @mouseup
     @bind 'mousemove',   @mousemove
+    @bind 'keydown',     @keydown
 
     @selectionViews = []
 
@@ -130,6 +131,10 @@ class @Newstime.PageComposeView extends Backbone.View
     @adjustEventXY(e) # Could be nice to abstract this one layer up...
     #console.log "mouseup", e
 
+  keydown: (e) ->
+    if @activeSelection
+      @activeSelection.trigger 'keydown', e
+
   mousedown: (e) ->
     return unless e.button == 0 # Only respond to left button mousedown.
 
@@ -189,6 +194,7 @@ class @Newstime.PageComposeView extends Backbone.View
   selectionActivated: (selection) ->
     @activeSelection.deactivate() if @activeSelection
     @activeSelection = selection
+    @trigger 'focus', this # Trigger focus event to get keyboard events
 
   selectionDeactivated: (selection) ->
     @activeSelection = null

@@ -36,6 +36,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
     _.each @pages, (page) =>
       page.bind 'tracking', @tracking, this
+      page.bind 'focus', @handlePageFocus, this
       page.bind 'tracking-release', @trackingRelease, this
 
 
@@ -49,6 +50,15 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @bind 'mousedown',  @mousedown
     @bind 'mouseup',    @mouseup
     @bind 'mousemove',  @mousemove
+    @bind 'keydown',    @keydown
+
+  handlePageFocus: (page) ->
+    @focusedPage = page
+    @trigger 'focus', this
+
+  keydown: (e) ->
+    if @focusedPage
+      @focusedPage.trigger 'keydown', e
 
   addPage: (pageModel) ->
     pageModel.getHTML (html) =>
