@@ -23,14 +23,14 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @pages = []
     $("[page-compose]", @$el).each (i, el) =>
       pageModel = @pageCollection.findWhere(_id: $(el).data('page-id'))
-      pageView = new Newstime.PageComposeView(
+      pageView = new Newstime.PageComposeView
         el: el
         page: pageModel
         edition: @edition
         canvasLayerView: this
         composer: @composer
         toolbox: @toolbox
-      )
+
 
       @pages.push pageView
 
@@ -41,8 +41,11 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
 
     # Add an add page button
-    @addPageButton = new Newstime.AddPageButton()
+    @addPageButton = new Newstime.AddPageButton
+      composer: @composer
+
     @$el.append(@addPageButton.el)
+    #console.log @addPageButton.geometry()
 
     # Bind mouse events
     @bind 'mouseover',  @mouseover
@@ -95,6 +98,11 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
     page = _.find @pages, (page) =>
       @detectHit page, e.x, e.y
+
+    # TODO: page here is misnomber, should realy just be a local hovered object
+    unless page # If no page, check for button hit
+      if @detectHit @addPageButton, e.x, e.y
+        page = @addPageButton
 
     if @hovered # Only process events if hovered.
       if page

@@ -43,7 +43,7 @@ body {
     outline: 0;
   }
 
-  &:hover {
+  &:hover, &.hovered {
     background-color: #bbb;
   }
 
