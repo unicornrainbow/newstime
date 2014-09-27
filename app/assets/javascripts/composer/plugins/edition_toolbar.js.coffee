@@ -1,11 +1,16 @@
 $ ->
-  $.fn.editionToolbar = ->
+  $.fn.editionToolbar = (options) ->
+    #@composer = options.composer
 
     editionTab = $("#edition-tab", this)
     sectionTab = $("#section-tab", this)
     printsTab = $("#prints-tab", this)
 
     editionPanel = $("#edition-tab-panel", this)
+
+    # Blur composer when any part of edition form gains focus
+    #editionPanel.delegate "input", "focus", =>
+      #@composer.blur()
 
     sectionPanel = $("#section-tab-panel", this)
     printsPanel = $("#prints-tab-panel", this)

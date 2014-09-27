@@ -81,6 +81,9 @@
     $(document).delegate "input", "focus", =>
       @blur()
 
+    $(document).delegate "input", "blur", =>
+      @focus()
+
     #@eventEmitter = new Newstime.EventEmitter (Mouse events, Keyboard Events,
     #Scroll Events)
 
@@ -142,7 +145,6 @@
 
     # Select default tool
     @toolbox.set(selectedTool: 'select-tool')
-
 
     @toolboxView.show()
 
