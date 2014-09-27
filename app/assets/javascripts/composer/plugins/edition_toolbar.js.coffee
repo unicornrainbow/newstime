@@ -1,16 +1,12 @@
 $ ->
   $.fn.editionToolbar = (options) ->
-    #@composer = options.composer
+    composer = options.composer
 
     editionTab = $("#edition-tab", this)
     sectionTab = $("#section-tab", this)
     printsTab = $("#prints-tab", this)
 
     editionPanel = $("#edition-tab-panel", this)
-
-    # Blur composer when any part of edition form gains focus
-    #editionPanel.delegate "input", "focus", =>
-      #@composer.blur()
 
     sectionPanel = $("#section-tab-panel", this)
     printsPanel = $("#prints-tab-panel", this)
@@ -30,6 +26,10 @@ $ ->
 
       editionTab.toggleClass "active"
       editionPanel.toggle()
+      if editionTab.hasClass("active")
+        composer.blur()
+      else
+        composer.focus()
 
     sectionTab.click ->
       editionTab.removeClass "active"
@@ -39,6 +39,10 @@ $ ->
 
       sectionTab.toggleClass "active"
       sectionPanel.toggle()
+      if sectionTab.hasClass("active")
+        composer.blur()
+      else
+        composer.focus()
 
     printsTab.click ->
       editionTab.removeClass "active"
@@ -53,8 +57,10 @@ $ ->
       e.preventDefault()
       editionTab.removeClass "active"
       editionPanel.hide()
+      composer.focus()
 
     sectionCancel.click (e) ->
       e.preventDefault()
       sectionTab.removeClass "active"
       sectionPanel.hide()
+      composer.focus()

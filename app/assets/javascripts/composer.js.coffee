@@ -77,13 +77,6 @@
     #$(document).keyup(@keyup)
 
 
-    # Focus on any form element, takes focus from the composer.
-    $(document).delegate "input", "focus", =>
-      @blur()
-
-    $(document).delegate "input", "blur", =>
-      @focus()
-
     #@eventEmitter = new Newstime.EventEmitter (Mouse events, Keyboard Events,
     #Scroll Events)
 
@@ -95,7 +88,7 @@
     #keyboard.pushFocus(textRegion) // example
 
     # Initialize Plugins
-    $("#edition-toolbar").editionToolbar()
+    $("#edition-toolbar").editionToolbar(composer: this)
     $("#section-nav").sectionNav()
 
     @coverLayerView.bind 'mouseup', @mouseup, this
