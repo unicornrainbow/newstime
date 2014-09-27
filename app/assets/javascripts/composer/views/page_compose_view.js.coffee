@@ -148,6 +148,8 @@ class @Newstime.PageComposeView extends Backbone.View
         when 'text-tool'
           #@drawTextBox(e.x, e.y)
           @beginSelection(e.x, e.y)
+        when 'select-tool'
+          @activeSelection.deactivate() if @activeSelection
 
   drawTextBox: (x, y) ->
     ## We need to create and activate a selection region (Marching ants would be nice)
