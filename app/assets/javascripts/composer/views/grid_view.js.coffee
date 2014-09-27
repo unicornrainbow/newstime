@@ -9,6 +9,8 @@ class @Newstime.GridView extends Backbone.View
 
     columnWidth = (pageWidth - (gutterWidth * (columns - 1))) / columns
 
+    @stepWidth = columnWidth + gutterWidth
+
     ## Compute Left Steps
     firstStep = gutterWidth/2
     columnStep = columnWidth + gutterWidth
@@ -29,3 +31,9 @@ class @Newstime.GridView extends Backbone.View
   snapRight: (value) ->
     closest = Newstime.closest(value , @rightSteps)
     #if Math.abs(closest - value) < @snapDistance then closest else value
+
+  stepLeft: (value) ->
+    closest = Newstime.closest(value - @stepWidth, @leftSteps)
+
+  stepRight: (value) ->
+    closest = Newstime.closest(value + @stepWidth, @rightSteps)

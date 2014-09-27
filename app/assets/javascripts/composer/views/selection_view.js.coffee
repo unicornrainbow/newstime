@@ -89,12 +89,37 @@ class @Newstime.SelectionView extends Backbone.View
     @model.pick('top', 'left', 'height', 'width')
 
 
-  keydown: (e) ->
+  keydown: (e) =>
     switch e.keyCode
       when 8 # del
         @delete()
         e.stopPropagation()
         e.preventDefault()
+      when 37 # left arrow
+        @stepLeft()
+        e.stopPropagation()
+        e.preventDefault()
+      when 38 # up arrow
+        # TODO: Should handle acceleration
+        offset = if e.shiftKey then 20 else 1
+        @model.set top: @model.get('top') - offset
+        e.stopPropagation()
+        e.preventDefault()
+      when 39 # right arrow
+        @stepRight()
+        e.stopPropagation()
+        e.preventDefault()
+      when 40 # down arrow
+        offset = if e.shiftKey then 20 else 1
+        @model.set top: @model.get('top') + offset
+        e.stopPropagation()
+        e.preventDefault()
+
+  stepLeft: ->
+    @model.set left: @page.stepLeft(@model.get('left'))
+
+  stepRight: ->
+    @model.set left: @page.stepRight(@model.get('left'))
 
   delete: ->
     console.log "Delete content item", this
