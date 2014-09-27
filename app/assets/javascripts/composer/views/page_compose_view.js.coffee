@@ -13,7 +13,8 @@ class @Newstime.PageComposeView extends Backbone.View
     @composer = options.composer
     @page = options.page
 
-    @contextMenu = new Newstime.PageContextMenu()
+    @contextMenu = new Newstime.PageContextMenu
+      page: @page
     @$el.append(@contextMenu.el)
 
     @canvasLayerView = options.canvasLayerView
