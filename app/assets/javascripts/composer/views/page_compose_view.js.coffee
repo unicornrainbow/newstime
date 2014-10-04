@@ -210,11 +210,13 @@ class @Newstime.PageComposeView extends Backbone.View
     selectionView.beginSelection(x, y)
 
   selectionActivated: (selection) ->
-    @activeSelection.deactivate() if @activeSelection
+    @composer.setSelection(selection)
+    #@activeSelection.deactivate() if @activeSelection
     @activeSelection = selection
     @trigger 'focus', this # Trigger focus event to get keyboard events
 
   selectionDeactivated: (selection) ->
+    @composer.clearSelection()
     @activeSelection = null
 
   resizeSelection: (selection) ->

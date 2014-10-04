@@ -149,7 +149,6 @@
     @propertiesPanelView.setPosition(50, 20)
     @panelLayerView.attachPanel(@propertiesPanelView)
     @propertiesPanelView.show()
-    console.log @propertiesPanelView.geometry()
 
     @repositionScroll()
 
@@ -346,6 +345,16 @@
   addPage: ->
     @section.addPage (page) =>
       @canvasLayerView.addPage(page)
+
+  setSelection: (selection) ->
+    @activeSelection.deactivate() if @activeSelection
+    @activeSelection = selection
+    console.log "Update Properties Panel"
+
+    #@trigger 'focus', this # Trigger focus event to get keyboard events
+
+  clearSelection: () ->
+    @activeSelection = null
 
 $ ->
   # Get the edition, mostly for development purposes right now.
