@@ -349,7 +349,9 @@
   setSelection: (selection) ->
     @activeSelection.deactivate() if @activeSelection
     @activeSelection = selection
-    console.log "Update Properties Panel"
+    #console.log "Update Properties Panel"
+    # NOTE: This should be using a model, and the properties panel should be listening
+    # for changes on the model
 
     #@trigger 'focus', this # Trigger focus event to get keyboard events
 
