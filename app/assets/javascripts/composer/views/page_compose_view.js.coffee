@@ -117,7 +117,7 @@ class @Newstime.PageComposeView extends Backbone.View
     cursor = switch @toolbox.get('selectedTool')
       when 'select-tool' then 'default'
       #when 'text-tool' then "url(/assets/text_tool_cursor.gif), auto"
-      when 'text-tool' then "-webkit-image-set(url('/assets/text_tool_cursor.gif') 2x), auto"
+      when 'type-tool' then "-webkit-image-set(url('/assets/text_tool_cursor.gif') 2x), auto"
 
     #when 'text-tool' then 'pointer'
     #when 'text-tool' then 'text'
@@ -152,7 +152,7 @@ class @Newstime.PageComposeView extends Backbone.View
       @hoveredObject.trigger 'mousedown', e
     else
       switch @toolbox.get('selectedTool')
-        when 'text-tool'
+        when 'type-tool'
           #@drawTextBox(e.x, e.y)
           @beginSelection(e.x, e.y)
         when 'select-tool'

@@ -34,7 +34,7 @@ class @Newstime.ToolboxView extends Backbone.View
       position: { top: '24px', left: '34px' }
 
     @buttons.push new Newstime.ToolboxButtonView
-      type: 'text-tool'
+      type: 'type-tool'
       toolbox: @model
       position: { top: '56px', left: '2px' }
 
