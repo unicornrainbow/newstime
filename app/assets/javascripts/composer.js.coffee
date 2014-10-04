@@ -143,10 +143,12 @@
 
     @toolboxView.show()
 
-    #@propertiresPanelView = new Newstime.PropertiesPanelView
-      #composer: this
-    #@panelLayerView.attachPanel(@propertiesPanelView)
-    #@propertiesPanelView.show()
+    @propertiesPanelView = new Newstime.PropertiesPanelView
+      composer: this
+
+    @propertiesPanelView.setPosition(560, 1180)
+    @panelLayerView.attachPanel(@propertiesPanelView)
+    @propertiesPanelView.show()
 
     @repositionScroll()
 
