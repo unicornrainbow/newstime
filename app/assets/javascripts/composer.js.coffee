@@ -146,7 +146,7 @@
     @propertiesPanelView = new Newstime.PropertiesPanelView
       composer: this
 
-    @propertiesPanelView.setPosition(560, 1180)
+    @propertiesPanelView.setPosition(50, 20)
     @panelLayerView.attachPanel(@propertiesPanelView)
     @propertiesPanelView.show()
 

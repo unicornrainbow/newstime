@@ -56,8 +56,9 @@ class @Newstime.PropertiesPanelView extends Backbone.View
   attach: (html) ->
     @$body.html(html)
 
-  setPosition: (top, left) ->
-    @$el.css(top: top, left: left)
+  setPosition: (bottom, right) ->
+    #@$el.css(top: top, left: left)
+    @$el.css(bottom: bottom, right: right)
 
   width: ->
     parseInt(@$el.css('width'))
