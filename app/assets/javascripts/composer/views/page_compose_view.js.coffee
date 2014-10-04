@@ -154,11 +154,10 @@ class @Newstime.PageComposeView extends Backbone.View
     else
       switch @toolbox.get('selectedTool')
         when 'type-tool'
-          #@drawTextBox(e.x, e.y)
-          @beginSelection(e.x, e.y)
+          @drawTypeArea(e.x, e.y)
         when 'headline-tool'
-          #@drawTextBox(e.x, e.y)
-          @beginSelection(e.x, e.y)
+          @drawHeadline(e.x, e.y)
+          #@beginSelection(e.x, e.y)
         when 'select-tool'
           @activeSelection.deactivate() if @activeSelection
 
@@ -171,11 +170,31 @@ class @Newstime.PageComposeView extends Backbone.View
 
     @contextMenu.show(e.x, e.y)
 
-  drawTextBox: (x, y) ->
+  drawTypeArea: (x, y) ->
     ## We need to create and activate a selection region (Marching ants would be nice)
 
     contentItem = new Newstime.ContentItem
       _type: 'StoryTextContentItem'
+      page_id: @page.get('_id')
+
+    @edition.get('content_items').add(contentItem)
+
+    selectionView = new Newstime.SelectionView(model: contentItem, page: this, composer: @composer) # Needs to be local to the "page"
+    @selectionViews.push selectionView
+    @$el.append(selectionView.el)
+
+    # Bind to events
+    selectionView.bind 'activate', @selectionActivated, this
+    selectionView.bind 'deactivate', @selectionDeactivated, this
+    selectionView.bind 'tracking', @resizeSelection, this
+    selectionView.bind 'tracking-release', @resizeSelectionRelease, this
+
+    selectionView.beginSelection(x, y)
+
+  drawHeadline: (x, y) ->
+
+    contentItem = new Newstime.ContentItem
+      _type: 'HeadlineContentItem'
       page_id: @page.get('_id')
 
     @edition.get('content_items').add(contentItem)
