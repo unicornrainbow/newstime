@@ -25,9 +25,27 @@ class @Newstime.PropertiesPanelView extends Backbone.View
     # Attach to dom
     $('body').append(@el)
 
+    @bind 'mouseover', @mouseover
+    @bind 'mouseout',  @mouseout
+
   dismiss: ->
     @trigger 'dismiss'
     @hide()
+
+  mouseover: ->
+    @hovered = true
+    @$el.addClass 'hovered'
+
+    if @hoveredObject
+      @hoveredObject.trigger 'mouseover', e
+
+  mouseout: (e) ->
+    @hovered = false
+    @$el.removeClass 'hovered'
+
+    if @hoveredObject
+      @hoveredObject.trigger 'mouseover', e
+      @hoveredObject = null
 
   hide: ->
     @$el.hide()
@@ -66,11 +84,24 @@ class @Newstime.PropertiesPanelView extends Backbone.View
   height: ->
     parseInt(@$el.css('height'))
 
+  #x: ->
+    #parseInt(@$el.css('left'))
+
+  #y: ->
+    #parseInt(@$el.css('top'))
+
+
   x: ->
-    parseInt(@$el.css('left'))
+    #parseInt(@$el.css('left'))
+    #@$el[0].offsetLeft
+    #Math.round(@$el.position().left)
+    #Math.round(
+    Math.round(@$el.offset().left)
+    #@$el[0].getBoundingClientRect()
+
 
   y: ->
-    parseInt(@$el.css('top'))
+    @$el[0].offsetTop
 
   geometry: ->
     x: @x()

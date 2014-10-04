@@ -149,6 +149,7 @@
     @propertiesPanelView.setPosition(50, 20)
     @panelLayerView.attachPanel(@propertiesPanelView)
     @propertiesPanelView.show()
+    console.log @propertiesPanelView.geometry()
 
     @repositionScroll()
 
