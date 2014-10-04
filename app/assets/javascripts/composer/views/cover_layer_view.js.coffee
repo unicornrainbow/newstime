@@ -6,6 +6,8 @@ class @Newstime.CoverLayerView extends Backbone.View
     'mouseup': 'mouseup'
     'mousemove': 'mousemove'
     'mouseout': 'mouseout'
+    'dblclick': 'dblclick'
+    'click': 'click'
     'contextmenu': 'contextmenu'
     'click': 'click'
 
@@ -35,21 +37,23 @@ class @Newstime.CoverLayerView extends Backbone.View
     e.stopPropagation()
     @trigger 'mousemove', e
 
+  click: (e) ->
+    e.stopPropagation()
+    @trigger 'click', e
+
+  dblclick: (e) ->
+    e.stopPropagation()
+    @trigger 'dblclick', e
+
   mouseout: (e) ->
     e.stopPropagation()
     @trigger 'mouseout', e
 
-  #click: (e) ->
-    #e.stopPropagation()
-    #@trigger 'click', e
-
   hideCursor: ->
-    #console.log "Hide Cursor"
     @$el.css
       cursor: 'none'
 
   showCursor: ->
-    #console.log "Show Cursor"
     @$el.css
       cursor: ''
 
