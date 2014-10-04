@@ -100,7 +100,12 @@
   }
 
   .text-tool {
-    background-image: asset-url('text_tool.png');
+    background-image: asset-url('type_tool.gif');
+    background-size: 16px;
+  }
+
+  .headline-tool {
+    background-image: asset-url('headline_tool.png');
   }
 
 }
