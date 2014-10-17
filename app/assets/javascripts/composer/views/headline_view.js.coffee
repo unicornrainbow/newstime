@@ -115,6 +115,14 @@ class @Newstime.HeadlineView extends Backbone.View
           e.stopPropagation()
           e.preventDefault()
           @clearEditMode()
+        when 37 # left arrow
+          @moveCursorLeft()
+          e.stopPropagation()
+          e.preventDefault()
+        when 39 # right arrow
+          @moveCursorRight()
+          e.stopPropagation()
+          e.preventDefault()
         else
           unless e.ctrlKey || e.altKey # Skip ctrl and alt
             char = @getEventChar(e)
@@ -155,6 +163,24 @@ class @Newstime.HeadlineView extends Backbone.View
           @startEditMode()
         when 27 # ESC
           @deactivate()
+
+  moveCursorLeft: ->
+    if @cursorPosition?
+      @cursorPosition = Math.max(@cursorPosition - 1, 0)
+    else
+      @cursorPosition = @model.get('text').length - 1
+
+    console.log @cursorPosition
+
+
+  moveCursorRight: ->
+    if @cursorPosition?
+      @cursorPosition = Math.min(@cursorPosition+1, @model.get('text').length)
+    else
+      @cursorPosition = @model.get('text').length
+
+    console.log @cursorPosition
+
 
   getEventChar: (e) ->
     if e.shiftKey
