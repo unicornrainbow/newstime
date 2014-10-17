@@ -35,6 +35,7 @@ class @Newstime.HeadlineView extends Backbone.View
   modelChanged: ->
     @$el.css _.pick @model.changedAttributes(), 'top', 'left', 'width', 'height'
     if @$headlineEl
+      @$headlineEl.css _.pick @model.changedAttributes(), 'top', 'left', 'width', 'height'
       @$headlineEl.text(@model.get('text'))
 
 
