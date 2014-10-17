@@ -98,7 +98,11 @@ class @Newstime.HeadlineView extends Backbone.View
 
   keydown: (e) =>
     if @editMode
-      console.log @getEventChar(e)
+      char = @getEventChar(e)
+      console.log char
+      if char
+        @model.set('text', @model.get('text') + char)
+      console.log @model
     else
       switch e.keyCode
         when 8 # del
