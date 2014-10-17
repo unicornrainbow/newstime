@@ -43,7 +43,7 @@ class @Newstime.PageComposeView extends Backbone.View
       id = $(el).data('content-item-id')
       contentItem = @contentItemCollection.findWhere(_id: id)
 
-      selectionView = new Newstime.HeadlineView(model: contentItem, page: this, composer: @composer) # Needs to be local to the "page"
+      selectionView = new Newstime.HeadlineView(model: contentItem, page: this, composer: @composer, headlineEl: el) # Needs to be local to the "page"
       @selectionViews.push selectionView
       @$el.append(selectionView.el)
 

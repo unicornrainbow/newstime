@@ -4,6 +4,7 @@ class @Newstime.HeadlineView extends Backbone.View
 
   initialize: (options) ->
     @$el.addClass 'selection-view headline-view'
+    @$headlineEl = $(options.headlineEl)
     @page = options.page
     @composer = options.composer
 
@@ -33,6 +34,9 @@ class @Newstime.HeadlineView extends Backbone.View
 
   modelChanged: ->
     @$el.css _.pick @model.changedAttributes(), 'top', 'left', 'width', 'height'
+    if @$headlineEl
+      @$headlineEl.text(@model.get('text'))
+
 
   modelDestroyed: ->
     # TODO: Need to properly unbind events and allow destruction of view
@@ -45,6 +49,7 @@ class @Newstime.HeadlineView extends Backbone.View
 
   deactivate: ->
     @active = false
+    @clearEditMode()
     @trigger 'deactivate', this
     @$el.removeClass 'resizable'
 
@@ -98,11 +103,27 @@ class @Newstime.HeadlineView extends Backbone.View
 
   keydown: (e) =>
     if @editMode
-      char = @getEventChar(e)
-      console.log char
-      if char
-        @model.set('text', @model.get('text') + char)
-      console.log @model
+
+      switch e.keyCode
+        when 8 # del
+          e.stopPropagation()
+          e.preventDefault()
+          @model.set('text', @model.get('text').slice(0,-1))
+        when 27 # ESC
+          e.stopPropagation()
+          e.preventDefault()
+          @clearEditMode()
+        else
+          console.log e.keyCode
+          char = @getEventChar(e)
+          if char?
+            console.log 'got it'
+            e.stopPropagation()
+            e.preventDefault()
+            if @model.get('text')
+              @model.set('text', @model.get('text') + char)
+            else
+              @model.set('text', char)
     else
       switch e.keyCode
         when 8 # del
@@ -128,6 +149,8 @@ class @Newstime.HeadlineView extends Backbone.View
           @model.set top: @model.get('top') + offset
           e.stopPropagation()
           e.preventDefault()
+        when 13 # Enter
+          @startEditMode()
         when 27 # ESC
           @deactivate()
 
@@ -154,7 +177,15 @@ class @Newstime.HeadlineView extends Backbone.View
     @model.destroy()
 
   dblclick: ->
+    @startEditMode()
+
+  startEditMode: ->
+    @$el.addClass 'edit-mode'
     @editMode = true
+
+  clearEditMode: ->
+    @$el.removeClass 'edit-mode'
+    @editMode = false
 
   mousedown: (e) ->
     return unless e.button == 0 # Only respond to left button mousedown.

@@ -71,4 +71,8 @@
 .headline-view {
   border-color: green !important;
 
+  &.edit-mode {
+    border-color: red !important;
+  }
+
 }

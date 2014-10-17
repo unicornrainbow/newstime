@@ -1,6 +1,7 @@
 @Newstime = @Newstime || {}
 
 @Newstime.charKeycodes =
+  32: ' '
   48: '0'
   49: '1'
   50: '2'
@@ -62,6 +63,7 @@
   222: '\''
 
 @Newstime.shiftCharKeycodes =
+  32: ' '
   48: ')'
   49: '!'
   50: '@'
