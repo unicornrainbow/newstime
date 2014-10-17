@@ -20,10 +20,10 @@ class @Newstime.KeyboardHandler extends Backbone.Model
     return unless @composer.hasFocus # Ignore unless composer has focus
 
     switch e.charCode
-      when 116 # t
-        # Toggle grid (State should persist across reloads, this is workspace
-        # and should be user specific.
-        Newstime.Composer.toggleGridOverlay()
+      #when 116 # t
+        ## Toggle grid (State should persist across reloads, this is workspace
+        ## and should be user specific.
+        #Newstime.Composer.toggleGridOverlay()
       #else
         #console.log e
 
