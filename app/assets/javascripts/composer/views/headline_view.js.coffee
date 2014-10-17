@@ -32,11 +32,21 @@ class @Newstime.HeadlineView extends Backbone.View
     @$el.css _.pick @model.attributes, 'top', 'left', 'width', 'height'
 
 
+    # Duplicate headline el for measuring cursor placement
+    @$headlineElForCursor = @$headlineEl.clone()
+    @$headlineElForCursor.addClass('cursor-position')
+    @$headlineElForCursor.css(width: '', height: '')
+    @$headlineElForCursor.insertAfter(@$headlineEl)
+
   modelChanged: ->
     @$el.css _.pick @model.changedAttributes(), 'top', 'left', 'width', 'height'
     if @$headlineEl
       @$headlineEl.css _.pick @model.changedAttributes(), 'top', 'left', 'width', 'height'
       @$headlineEl.text(@model.get('text'))
+
+    if @$headlineElForCursor
+      @$headlineElForCursor.css _.pick @model.changedAttributes(), 'top', 'left'
+      @$headlineElForCursor.text(@model.get('text').slice(0, @model.get('cursorPosition')))
 
 
   modelDestroyed: ->
