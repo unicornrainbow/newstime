@@ -32,6 +32,7 @@ class @Newstime.PageComposeView extends Backbone.View
     @bind 'mousedown',   @mousedown
     @bind 'mouseup',     @mouseup
     @bind 'mousemove',   @mousemove
+    @bind 'dblclick',    @dblclick
     @bind 'keydown',     @keydown
     @bind 'contextmenu', @contextmenu
 
@@ -174,6 +175,16 @@ class @Newstime.PageComposeView extends Backbone.View
           #@beginSelection(e.x, e.y)
         when 'select-tool'
           @activeSelection.deactivate() if @activeSelection
+
+
+  dblclick: (e) ->
+    return unless e.button == 0 # Only respond to left button mousedown.
+
+    @adjustEventXY(e) # Could be nice to abstract this one layer up...
+
+    if @hoveredObject
+      # Pass on mousedown to hovered object
+      @hoveredObject.trigger 'dblclick', e
 
   contextmenu: (e) ->
     e.preventDefault() # Cancel default context menu

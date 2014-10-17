@@ -53,6 +53,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @bind 'mousedown',  @mousedown
     @bind 'mouseup',    @mouseup
     @bind 'mousemove',  @mousemove
+    @bind 'dblclick',   @dblclick
     @bind 'keydown',    @keydown
     @bind 'contextmenu', @contextmenu
 
@@ -160,6 +161,12 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
     if @hoveredObject
       @hoveredObject.trigger 'mousedown', e
+
+  dblclick: (e) ->
+    @adjustEventXY(e)
+
+    if @hoveredObject
+      @hoveredObject.trigger 'dblclick', e
 
   contextmenu: (e) ->
     @adjustEventXY(e)

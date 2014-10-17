@@ -95,6 +95,7 @@
     @coverLayerView.bind 'mousemove', @mousemove, this
     @coverLayerView.bind 'mousedown', @mousedown, this
     @coverLayerView.bind 'contextmenu', @contextmenu, this
+    @coverLayerView.bind 'dblclick', @dblclick, this
 
     @canvasLayerView.bind 'tracking',         @tracking, this
     @canvasLayerView.bind 'tracking-release', @trackingRelease, this
@@ -293,6 +294,19 @@
     # the individual object.
     if @hitLayer
       @hitLayer.trigger 'mousedown', e
+
+  dblclick: (event) ->
+    e =
+      x: @mouseX
+      y: @mouseY
+      button: event.button
+
+    if @trackingLayer
+      # For the time being, block dblclicks while tracking
+      return true
+
+    if @hitLayer
+      @hitLayer.trigger 'dblclick', e
 
 
   contextmenu: (e) ->

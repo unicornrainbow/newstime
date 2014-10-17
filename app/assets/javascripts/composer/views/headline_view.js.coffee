@@ -25,6 +25,7 @@ class @Newstime.HeadlineView extends Backbone.View
     @bind 'mouseup',   @mouseup
     @bind 'mouseover', @mouseover
     @bind 'mouseout',  @mouseout
+    @bind 'dblclick',  @dblclick
     @bind 'keydown',   @keydown
 
     @$el.css _.pick @model.attributes, 'top', 'left', 'width', 'height'
@@ -131,6 +132,9 @@ class @Newstime.HeadlineView extends Backbone.View
 
   delete: ->
     @model.destroy()
+
+  dblclick: ->
+    console.log "Double clicked"
 
   mousedown: (e) ->
     return unless e.button == 0 # Only respond to left button mousedown.
