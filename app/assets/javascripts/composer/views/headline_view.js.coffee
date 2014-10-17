@@ -165,21 +165,17 @@ class @Newstime.HeadlineView extends Backbone.View
           @deactivate()
 
   moveCursorLeft: ->
-    if @cursorPosition?
-      @cursorPosition = Math.max(@cursorPosition - 1, 0)
+    if @model.get('cursorPosition')?
+      @model.set('cursorPosition', Math.max(@model.get('cursorPosition') - 1, 0))
     else
-      @cursorPosition = @model.get('text').length - 1
-
-    console.log @cursorPosition
+      @model.set('cursorPosition', @model.get('text').length - 1)
 
 
   moveCursorRight: ->
-    if @cursorPosition?
-      @cursorPosition = Math.min(@cursorPosition+1, @model.get('text').length)
+    if @model.get('cursorPosition')?
+      @model.set('cursorPosition', Math.min(@model.get('cursorPosition')+1, @model.get('text').length))
     else
-      @cursorPosition = @model.get('text').length
-
-    console.log @cursorPosition
+      @model.get('cursorPosition', @model.get('text').length)
 
 
   getEventChar: (e) ->
