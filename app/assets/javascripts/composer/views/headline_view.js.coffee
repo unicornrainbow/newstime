@@ -105,6 +105,7 @@ class @Newstime.HeadlineView extends Backbone.View
   keydown: (e) =>
     if @editMode
 
+
       switch e.keyCode
         when 8 # del
           e.stopPropagation()
@@ -115,16 +116,16 @@ class @Newstime.HeadlineView extends Backbone.View
           e.preventDefault()
           @clearEditMode()
         else
-          console.log e.keyCode
-          char = @getEventChar(e)
-          if char?
-            console.log 'got it'
-            e.stopPropagation()
-            e.preventDefault()
-            if @model.get('text')
-              @model.set('text', @model.get('text') + char)
-            else
-              @model.set('text', char)
+          unless e.ctrlKey || e.altKey # Skip ctrl and alt
+            char = @getEventChar(e)
+            if char?
+              console.log 'got it'
+              e.stopPropagation()
+              e.preventDefault()
+              if @model.get('text')
+                @model.set('text', @model.get('text') + char)
+              else
+                @model.set('text', char)
     else
       switch e.keyCode
         when 8 # del
