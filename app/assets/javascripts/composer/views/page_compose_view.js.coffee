@@ -37,8 +37,23 @@ class @Newstime.PageComposeView extends Backbone.View
 
     @selectionViews = []
 
-    # Initialize content items from page
-    $("[data-content-item-id]", @$el).each (i, el) =>
+    # Initialize Headline Controls
+    $("[headline-control]", @$el).each (i, el) =>
+      id = $(el).data('content-item-id')
+      contentItem = @contentItemCollection.findWhere(_id: id)
+
+      selectionView = new Newstime.HeadlineView(model: contentItem, page: this, composer: @composer) # Needs to be local to the "page"
+      @selectionViews.push selectionView
+      @$el.append(selectionView.el)
+
+      # Bind to events
+      selectionView.bind 'activate', @selectionActivated, this
+      selectionView.bind 'deactivate', @selectionDeactivated, this
+      selectionView.bind 'tracking', @resizeSelection, this
+      selectionView.bind 'tracking-release', @resizeSelectionRelease, this
+
+    # Initilize Text Areas Controls
+    $("[story-text-control]", @$el).each (i, el) =>
       id = $(el).data('content-item-id')
       contentItem = @contentItemCollection.findWhere(_id: id)
 
@@ -51,6 +66,7 @@ class @Newstime.PageComposeView extends Backbone.View
       selectionView.bind 'deactivate', @selectionDeactivated, this
       selectionView.bind 'tracking', @resizeSelection, this
       selectionView.bind 'tracking-release', @resizeSelectionRelease, this
+
 
   # Sets up and compute grid steps
   gridInit: ->
@@ -89,7 +105,6 @@ class @Newstime.PageComposeView extends Backbone.View
     parseInt(@$el.css('top'))
     @$el[0].offsetTop
 
-
   geometry: ->
     x: @x()
     y: @y()
@@ -116,7 +131,6 @@ class @Newstime.PageComposeView extends Backbone.View
   getCursor: ->
     cursor = switch @toolbox.get('selectedTool')
       when 'select-tool' then 'default'
-      #when 'text-tool' then "url(/assets/text_tool_cursor.gif), auto"
       when 'type-tool' then "-webkit-image-set(url('/assets/type_tool_cursor.png') 2x), auto"
       when 'headline-tool' then "-webkit-image-set(url('/assets/headline_tool_cursor.png') 2x), auto"
 
@@ -199,7 +213,7 @@ class @Newstime.PageComposeView extends Backbone.View
 
     @edition.get('content_items').add(contentItem)
 
-    selectionView = new Newstime.SelectionView(model: contentItem, page: this, composer: @composer) # Needs to be local to the "page"
+    selectionView = new Newstime.HeadlineView(model: contentItem, page: this, composer: @composer) # Needs to be local to the "page"
     @selectionViews.push selectionView
     @$el.append(selectionView.el)
 
