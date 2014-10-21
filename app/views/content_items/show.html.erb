@@ -1,8 +1,1 @@
-<div class="container">
-  <%= @content_item.name %>
-  <br>
-  <pre><%= @content_item.source %></pre>
-  <br>
-  <%= link_to "Edit", edit_content_item_path(@content_item) %> |
-  <%= link_to "Preview", preview_content_item_path(@content_item) %>
-</div>
+<%= raw render_content_item @content_item %>

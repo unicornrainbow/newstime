@@ -4,7 +4,7 @@ class @Newstime.HeadlineView extends Backbone.View
 
   initialize: (options) ->
     @$el.addClass 'selection-view headline-view'
-    @$headlineEl = $(options.headlineEl) if options.headlineEl
+
     @page = options.page
     @composer = options.composer
 
@@ -31,6 +31,10 @@ class @Newstime.HeadlineView extends Backbone.View
 
     @$el.css _.pick @model.attributes, 'top', 'left', 'width', 'height'
 
+    @setHeadlineEl(options.headlineEl) if options.headlineEl
+
+  setHeadlineEl: (headlineEl) ->
+    @$headlineEl = $(headlineEl)
 
     if @$headlineEl?
       # Duplicate headline el for measuring cursor placement

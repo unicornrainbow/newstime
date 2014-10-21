@@ -28,7 +28,6 @@ class ContentItemsController < ApplicationController
     #@content_item.typeset! if @content_item.is_a?(StoryTextContentItem)
 
     respond_with :editions, @content_item, location: edition_content_item_url(@edition, @content_item)
-    #
 
   end
 
@@ -37,7 +36,16 @@ class ContentItemsController < ApplicationController
   end
 
   def show
-    @content_item = ContentItem.find(params[:id])
+    @edition = Edition.find(params[:edition_id])
+    @content_item = @edition.content_items.find(params[:id])
+
+    if params[:format] == 'html'
+      @composing = params[:composing]
+      @layout_name   = @edition.layout_name
+      @layout_module = LayoutModule.new(@layout_name) # TODO: Rename to MediaModule
+    end
+
+    respond_with @content_item, layout: false
   end
 
   def update

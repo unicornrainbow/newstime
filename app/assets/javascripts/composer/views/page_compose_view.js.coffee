@@ -234,6 +234,9 @@ class @Newstime.PageComposeView extends Backbone.View
 
     @edition.get('content_items').add(contentItem)
 
+    # Get the headline templte, and inject it.
+    #headlineEl = @edition.getHeadlineElTemplate()
+    #headlineEl: el
 
     selectionView = new Newstime.HeadlineView(model: contentItem, page: this, composer: @composer) # Needs to be local to the "page"
     @selectionViews.push selectionView
@@ -248,8 +251,21 @@ class @Newstime.PageComposeView extends Backbone.View
 
     selectionView.beginSelection(x, y)
 
-    contentItem.save ->
-      console.log "Saved"
+    attachHeadlineEl = (response) =>
+      $headlineEl = $(response)
+      $headlineEl.insertBefore(selectionView.$el)
+      selectionView.setHeadlineEl($headlineEl)
+
+    contentItem.save {},
+      success: (model) ->
+        $.ajax
+          url: "#{model.url()}.html"
+          data:
+            composing: true
+          success: attachHeadlineEl
+        # Append and set headline el.
+        #
+        #selectionView.setHeadlineEl
 
   beginSelection: (x, y) ->
     ## We need to create and activate a selection region (Marching ants would be nice)
