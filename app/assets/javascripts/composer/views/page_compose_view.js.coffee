@@ -98,8 +98,8 @@ class @Newstime.PageComposeView extends Backbone.View
     #@$el[0].offsetLeft
     #Math.round(@$el.position().left)
     #Math.round(
-    Math.round(@$el.offset().left)
     #@$el[0].getBoundingClientRect()
+    Math.round(@$el.offset().left)
 
 
   y: ->
@@ -217,6 +217,16 @@ class @Newstime.PageComposeView extends Backbone.View
     selectionView.beginSelection(x, y)
 
   drawHeadline: (x, y) ->
+
+    # Because the content items are rendered on the backend, I need to go to the
+    # backend to render the version to be displayed. In reality, the headline as
+    # it stands in string interpolation, and can easily be rendered front end
+    # with something like mustache. Doing it on the backend is a quirk of my
+    # application design. We should be able to request the content, but draw the
+    # box right away. This hoever does complicate the design, but the
+    # asyncronous nature should be fine. I think I will look to fecth the inards
+    # asyncronously, knowning that I don't need the content for sizing, and this
+    # will leave the design intact as such.
 
     contentItem = new Newstime.ContentItem
       _type: 'HeadlineContentItem'
