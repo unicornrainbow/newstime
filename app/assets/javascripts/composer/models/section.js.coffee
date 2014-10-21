@@ -9,7 +9,12 @@ class @Newstime.Section extends Backbone.RelationalModel
     _.sortBy(@get('edition').get('pages').where(section_id: @get('_id')), 'number')
 
   getNextPageNumber: ->
-    _.last(@getPages()).get('number') + 1
+    lastPage = _.last(@getPages())
+    if lastPage?
+        lastPage.get('number') + 1
+    else
+      1
+
 
   addPage: (success) ->
     pageAttributes =

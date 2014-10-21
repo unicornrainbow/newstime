@@ -48,6 +48,25 @@ class ContentItemsController < ApplicationController
     respond_with @content_item, layout: false
   end
 
+
+  def render_content_item
+
+    @edition = Edition.find(params[:id])
+
+    @content_item = content_item_params['_type'].constantize.new(content_item_params)
+
+    @edition.content_items << @content_item
+
+    if params[:format] == 'html'
+      @composing = params[:composing]
+      @layout_name   = @edition.layout_name
+      @layout_module = LayoutModule.new(@layout_name) # TODO: Rename to MediaModule
+    end
+
+    render 'show', layout: false
+
+  end
+
   def update
     @edition = Edition.find(params[:edition_id])
     @content_item = @edition.content_items.find(params[:id])

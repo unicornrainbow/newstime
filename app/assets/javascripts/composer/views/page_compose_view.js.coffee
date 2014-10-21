@@ -9,7 +9,6 @@ class @Newstime.PageComposeView extends Backbone.View
     @toolbox = options.toolbox
     @$el.addClass 'page-compose'
 
-
     @composer = options.composer
     @page = options.page
 
@@ -218,16 +217,6 @@ class @Newstime.PageComposeView extends Backbone.View
 
   drawHeadline: (x, y) ->
 
-    # Because the content items are rendered on the backend, I need to go to the
-    # backend to render the version to be displayed. In reality, the headline as
-    # it stands in string interpolation, and can easily be rendered front end
-    # with something like mustache. Doing it on the backend is a quirk of my
-    # application design. We should be able to request the content, but draw the
-    # box right away. This hoever does complicate the design, but the
-    # asyncronous nature should be fine. I think I will look to fecth the inards
-    # asyncronously, knowning that I don't need the content for sizing, and this
-    # will leave the design intact as such.
-
     contentItem = new Newstime.ContentItem
       _type: 'HeadlineContentItem'
       page_id: @page.get('_id')
@@ -256,13 +245,24 @@ class @Newstime.PageComposeView extends Backbone.View
       $headlineEl.insertBefore(selectionView.$el)
       selectionView.setHeadlineEl($headlineEl)
 
-    contentItem.save {},
-      success: (model) ->
-        $.ajax
-          url: "#{model.url()}.html"
-          data:
-            composing: true
-          success: attachHeadlineEl
+    console.log "#{@edition.url()}/render_content_item.html"
+
+    $.ajax
+      method: 'GET'
+      url: "#{@edition.url()}/render_content_item.html"
+      data:
+        composing: true
+        content_item: contentItem.toJSON()
+      success: attachHeadlineEl
+
+
+    #contentItem.save {},
+      #success: (model) ->
+        #$.ajax
+          #url: "#{model.url()}.html"
+          #data:
+            #composing: true
+          #success: attachHeadlineEl
         # Append and set headline el.
         #
         #selectionView.setHeadlineEl

@@ -50,6 +50,7 @@ class EditionsController < ApplicationController
     @edition = Edition.find(params[:id])
   end
 
+
   def compose
     flash[:notice] # Clear flash, since it's not currently displayed anywhere
 
