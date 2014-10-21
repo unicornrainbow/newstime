@@ -159,9 +159,10 @@ class @Newstime.HeadlineView extends Backbone.View
     else
       switch e.keyCode
         when 8 # del
-          @delete()
-          e.stopPropagation()
-          e.preventDefault()
+          if confirm "Are you sure you wish to delete this headline?"
+            @delete()
+            e.stopPropagation()
+            e.preventDefault()
         when 37 # left arrow
           @stepLeft()
           e.stopPropagation()
