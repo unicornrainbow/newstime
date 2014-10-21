@@ -47,11 +47,18 @@ class @Newstime.HeadlineView extends Backbone.View
     @$el.css _.pick @model.changedAttributes(), 'top', 'left', 'width', 'height'
     if @$headlineEl?
       @$headlineEl.css _.pick @model.changedAttributes(), 'top', 'left', 'width', 'height'
-      @$headlineEl.text(@model.get('text'))
+      if @model.get('text')?
+        @$headlineEl.text(@model.get('text'))
+      else
+        @$headlineEl.text("")
+
 
     if @$headlineElForCursor?
       @$headlineElForCursor.css _.pick @model.changedAttributes(), 'top', 'left'
-      @$headlineElForCursor.text(@model.get('text').slice(0, @model.get('cursorPosition')))
+      if @model.get('text')?
+        @$headlineElForCursor.text(@model.get('text').slice(0, @model.get('cursorPosition')))
+      else
+        @$headlineEl.text("")
 
 
   modelDestroyed: ->
