@@ -36,34 +36,35 @@ class @Newstime.HeadlineView extends Backbone.View
   setHeadlineEl: (headlineEl) ->
     @$headlineEl = $(headlineEl)
 
-    if @$headlineEl?
-      # Duplicate headline el for measuring cursor placement
-      @$headlineElForCursor = @$headlineEl.clone()
-      @$headlineElForCursor.addClass('cursor-position')
-      @$headlineElForCursor.css(width: '', height: '')
-      @$headlineElForCursor.insertAfter(@$headlineEl)
-
   modelChanged: ->
     @$el.css _.pick @model.changedAttributes(), 'top', 'left', 'width', 'height'
+
     if @$headlineEl?
       @$headlineEl.css _.pick @model.changedAttributes(), 'top', 'left', 'width', 'height'
       if @model.get('text')?
-        @$headlineEl.text(@model.get('text'))
+        #@model.get('text')
+        spanWrapped = _.map @model.get('text'), (char) ->
+          #if char == ' '
+            #char = "&nbsp;"
+          "<span>#{char}</span>"
+          #@model.get('text')
+        @$headlineEl.html(spanWrapped)
       else
         @$headlineEl.text("")
 
+    # Highlight cursor position
 
-    if @$headlineElForCursor?
-      @$headlineElForCursor.css _.pick @model.changedAttributes(), 'top', 'left'
-      if @model.get('text')?
-        @$headlineElForCursor.text(@model.get('text').slice(0, @model.get('cursorPosition')))
-      else
-        @$headlineEl.text("")
+    #console.log $('span', @$headlineEl)[
+    #cursorPosition
+    @model.get('cursorPosition')
+    console.log "cursor" , @model.get('cursorPosition')
 
 
   modelDestroyed: ->
     # TODO: Need to properly unbind events and allow destruction of view
     @$el.remove()
+
+    @$headlineEl.remove() if @$headlineEl?
 
   activate: ->
     @active = true
@@ -132,7 +133,7 @@ class @Newstime.HeadlineView extends Backbone.View
         when 8 # del
           e.stopPropagation()
           e.preventDefault()
-          @model.set('text', @model.get('text').slice(0,-1))
+          @model.backspace()
         when 27 # ESC
           e.stopPropagation()
           e.preventDefault()
@@ -152,10 +153,8 @@ class @Newstime.HeadlineView extends Backbone.View
               console.log 'got it'
               e.stopPropagation()
               e.preventDefault()
-              if @model.get('text')
-                @model.set('text', @model.get('text') + char)
-              else
-                @model.set('text', char)
+              @model.typeCharacter(char)
+
     else
       switch e.keyCode
         when 8 # del
