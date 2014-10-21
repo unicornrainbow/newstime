@@ -4,7 +4,7 @@ class @Newstime.HeadlineView extends Backbone.View
 
   initialize: (options) ->
     @$el.addClass 'selection-view headline-view'
-    @$headlineEl = $(options.headlineEl)
+    @$headlineEl = $(options.headlineEl) if options.headlineEl
     @page = options.page
     @composer = options.composer
 
@@ -32,19 +32,20 @@ class @Newstime.HeadlineView extends Backbone.View
     @$el.css _.pick @model.attributes, 'top', 'left', 'width', 'height'
 
 
-    # Duplicate headline el for measuring cursor placement
-    @$headlineElForCursor = @$headlineEl.clone()
-    @$headlineElForCursor.addClass('cursor-position')
-    @$headlineElForCursor.css(width: '', height: '')
-    @$headlineElForCursor.insertAfter(@$headlineEl)
+    if @$headlineEl?
+      # Duplicate headline el for measuring cursor placement
+      @$headlineElForCursor = @$headlineEl.clone()
+      @$headlineElForCursor.addClass('cursor-position')
+      @$headlineElForCursor.css(width: '', height: '')
+      @$headlineElForCursor.insertAfter(@$headlineEl)
 
   modelChanged: ->
     @$el.css _.pick @model.changedAttributes(), 'top', 'left', 'width', 'height'
-    if @$headlineEl
+    if @$headlineEl?
       @$headlineEl.css _.pick @model.changedAttributes(), 'top', 'left', 'width', 'height'
       @$headlineEl.text(@model.get('text'))
 
-    if @$headlineElForCursor
+    if @$headlineElForCursor?
       @$headlineElForCursor.css _.pick @model.changedAttributes(), 'top', 'left'
       @$headlineElForCursor.text(@model.get('text').slice(0, @model.get('cursorPosition')))
 

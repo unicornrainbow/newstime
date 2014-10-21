@@ -27,7 +27,9 @@ class ContentItemsController < ApplicationController
 
     #@content_item.typeset! if @content_item.is_a?(StoryTextContentItem)
 
-    redirect_to :back
+    respond_with :editions, @content_item, location: edition_content_item_url(@edition, @content_item)
+    #
+
   end
 
   def edit
@@ -82,7 +84,8 @@ private
     shared_params = [
       :content_region_id, :_type, :text, :columns, :story_id, :caption,
       :font_size, :font_weight, :font_family, :font_style, :text_align,
-      :margin_top, :margin_bottom, :padding_top, :padding_bottom, :height
+      :margin_top, :margin_bottom, :padding_top, :padding_bottom, :height,
+      :page_id, :top, :left
     ]
     video_params = [:video_id]
     photo_params = [:photo_id]

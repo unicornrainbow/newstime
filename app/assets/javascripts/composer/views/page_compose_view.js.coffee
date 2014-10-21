@@ -234,9 +234,11 @@ class @Newstime.PageComposeView extends Backbone.View
 
     @edition.get('content_items').add(contentItem)
 
+
     selectionView = new Newstime.HeadlineView(model: contentItem, page: this, composer: @composer) # Needs to be local to the "page"
     @selectionViews.push selectionView
     @$el.append(selectionView.el)
+
 
     # Bind to events
     selectionView.bind 'activate', @selectionActivated, this
@@ -245,6 +247,9 @@ class @Newstime.PageComposeView extends Backbone.View
     selectionView.bind 'tracking-release', @resizeSelectionRelease, this
 
     selectionView.beginSelection(x, y)
+
+    contentItem.save ->
+      console.log "Saved"
 
   beginSelection: (x, y) ->
     ## We need to create and activate a selection region (Marching ants would be nice)
