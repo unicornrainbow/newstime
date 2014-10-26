@@ -4,6 +4,7 @@ object @content_item
 attributes *%w(
   sequence
   height
+  font_size
 )
 
 # Story Text Attributes

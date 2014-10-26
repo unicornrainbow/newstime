@@ -41,8 +41,10 @@ class @Newstime.HeadlineView extends Backbone.View
   modelChanged: ->
     @$el.css _.pick @model.changedAttributes(), 'top', 'left', 'width', 'height'
 
+
     if @$headlineEl?
       @$headlineEl.css _.pick @model.changedAttributes(), 'top', 'left', 'width', 'height'
+      @$headlineEl.css 'font-size': @model.get('font_size')
       if @model.get('text')?
         #@model.get('text')
         spanWrapped = _.map @model.get('text'), (char) ->
@@ -190,6 +192,23 @@ class @Newstime.HeadlineView extends Backbone.View
           @startEditMode()
         when 27 # ESC
           @deactivate()
+        when 187 # +
+          @increaseFont()
+        when 189 # -
+          @decreaseFont()
+
+  increaseFont: ->
+    if @model.get('font_size')
+      @model.set('font_size', parseInt(@model.get('font_size')) + 1 + "px")
+    else
+      @model.set('font_size', @$headlineEl.css('font-size'))
+
+
+  decreaseFont: ->
+    if @model.get('font_size')
+      @model.set('font_size', parseInt(@model.get('font_size')) - 1 + "px")
+    else
+      @model.set('font_size', @$headlineEl.css('font-size'))
 
   moveCursorLeft: ->
     if @model.get('cursorPosition')?
