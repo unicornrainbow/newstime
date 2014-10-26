@@ -363,7 +363,11 @@
   setSelection: (selection) ->
     @activeSelection.deactivate() if @activeSelection
     @activeSelection = selection
-    #console.log "Update Properties Panel"
+
+    # Update Properties Panel
+    @updatePropertiesPanel(selection)
+
+
     # NOTE: This should be using a model, and the properties panel should be listening
     # for changes on the model
 
@@ -371,6 +375,12 @@
 
   clearSelection: () ->
     @activeSelection = null
+    @propertiesPanelView.clear()
+
+  updatePropertiesPanel: (target) ->
+    propertiesView = target.getPropertiesView()
+    @propertiesPanelView.mount(propertiesView)
+
 
 $ ->
   # Get the edition, mostly for development purposes right now.

@@ -33,6 +33,8 @@ class @Newstime.HeadlineView extends Backbone.View
 
     @setHeadlineEl(options.headlineEl) if options.headlineEl
 
+    @propertiesView = new Newstime.HeadlineProperties2View(target: this)
+
   setHeadlineEl: (headlineEl) ->
     @$headlineEl = $(headlineEl)
 
@@ -65,6 +67,9 @@ class @Newstime.HeadlineView extends Backbone.View
     @$el.remove()
 
     @$headlineEl.remove() if @$headlineEl?
+
+  getPropertiesView: ->
+    @propertiesView
 
   activate: ->
     @active = true

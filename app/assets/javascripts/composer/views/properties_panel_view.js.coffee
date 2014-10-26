@@ -108,3 +108,9 @@ class @Newstime.PropertiesPanelView extends Backbone.View
     y: @y()
     width: @width()
     height: @height()
+
+  mount: (propertiesView) ->
+    @$body.html propertiesView.el
+
+  clear: ->
+    @$body.empty()
