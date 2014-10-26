@@ -4,6 +4,8 @@ class @Newstime.HeadlineProperties2View extends Backbone.View
 
   initialize: ->
 
+    @$el.addClass('headline-properties')
+
     @$el.html """
       <select class="font-family-select">
         <option value="Exo, sans-serif">Exo</option>
