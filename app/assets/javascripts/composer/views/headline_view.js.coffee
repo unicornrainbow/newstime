@@ -61,7 +61,7 @@ class @Newstime.HeadlineView extends Backbone.View
     #console.log $('span', @$headlineEl)[
     #cursorPosition
     @model.get('cursorPosition')
-    console.log "cursor" , @model.get('cursorPosition')
+    #console.log "cursor" , @model.get('cursorPosition')
 
 
   modelDestroyed: ->
