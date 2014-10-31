@@ -51,7 +51,7 @@ class TextAreaTypesetter
       column_height = render_precedent_link ? column_height - 20 : column_height
       column_height = has_text_overrun ? column_height - 20 : column_height
 
-      typesetter_service = HtmlTypesetter.new(html, width: text_column_width, height: column_height)
+      typesetter_service = HtmlTypesetter.new(html, width: text_column_width, height: column_height, line_height: '22px')
       typesetter_service.typeset # Invoke Service
       content = typesetter_service.typeset_html
       html    = typesetter_service.overrun_html
@@ -85,7 +85,7 @@ private
       view = Object.new #ActionController::Base.new.view_context
       #view.extend ApplicationHelper
       view.extend EditionsHelper
-      view.instance_variable_set(:@layout_module, LayoutModule.new('sfrecord'))
+      view.instance_variable_set(:@layout_module, LayoutModule.new('volusia_democratic_caucus'))
       LayoutModule::View.new(view)
     end
   end
