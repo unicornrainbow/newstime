@@ -32,10 +32,18 @@ class @Newstime.TextAreaView extends Backbone.View
 
     @$el.css _.pick @model.attributes, 'top', 'left', 'width', 'height'
 
+    @setContentEl(options.contentEl) if options.contentEl
+
     @propertiesView = new Newstime.TextAreaPropertiesView(target: this)
+
+  setContentEl: (contentEl) ->
+    @$contentEl = $(contentEl)
 
   modelChanged: ->
     @$el.css _.pick @model.changedAttributes(), 'top', 'left', 'width', 'height'
+
+    if @$contentEl?
+      @$contentEl.css _.pick @model.changedAttributes(), 'top', 'left', 'width', 'height'
 
   modelDestroyed: ->
     # TODO: Need to properly unbind events and allow destruction of view

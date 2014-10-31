@@ -54,11 +54,11 @@ class @Newstime.PageComposeView extends Backbone.View
       selectionView.bind 'tracking-release', @resizeSelectionRelease, this
 
     # Initilize Text Areas Controls
-    $("[story-text-control]", @$el).each (i, el) =>
+    $("[text-area-control]", @$el).each (i, el) =>
       id = $(el).data('content-item-id')
       contentItem = @contentItemCollection.findWhere(_id: id)
 
-      selectionView = new Newstime.TextAreaView(model: contentItem, page: this, composer: @composer) # Needs to be local to the "page"
+      selectionView = new Newstime.TextAreaView(model: contentItem, page: this, composer: @composer, contentEl: el) # Needs to be local to the "page"
       @selectionViews.push selectionView
       @$el.append(selectionView.el)
 
@@ -203,7 +203,7 @@ class @Newstime.PageComposeView extends Backbone.View
     ## We need to create and activate a selection region (Marching ants would be nice)
 
     contentItem = new Newstime.ContentItem
-      _type: 'StoryTextContentItem'
+      _type: 'TextAreaContentItem'
       page_id: @page.get('_id')
 
     @edition.get('content_items').add(contentItem)
@@ -219,6 +219,19 @@ class @Newstime.PageComposeView extends Backbone.View
     selectionView.bind 'tracking-release', @resizeSelectionRelease, this
 
     selectionView.beginSelection(x, y)
+
+    attachContentEl = (response) =>
+      $contentEl = $(response)
+      $contentEl.insertBefore(selectionView.$el)
+      selectionView.setHeadlineEl($contentEl)
+
+    $.ajax
+      method: 'GET'
+      url: "#{@edition.url()}/render_content_item.html"
+      data:
+        composing: true
+        content_item: contentItem.toJSON()
+      success: attachContentEl
 
   drawHeadline: (x, y) ->
 

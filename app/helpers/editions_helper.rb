@@ -74,6 +74,17 @@ module EditionsHelper
       render "content/headline", options
     when StoryTextContentItem then
       render "content/story", id: content_item.id, anchor: content_item.id, rendered_html: content_item.rendered_html
+    when TextAreaContentItem then
+      options = {}
+      options[:id]     = content_item.id
+      options[:text]   = content_item.text
+      options[:width]  = content_item.width
+      options[:height] = content_item.height
+      options[:top]    = content_item.top
+      options[:left]   = content_item.left
+      options[:anchor]  =  content_item.id
+      options[:rendered_html] = content_item.rendered_html
+      render "content/text_area", options
     when PhotoContentItem then
       options = {}
       options[:id]            = content_item.id
