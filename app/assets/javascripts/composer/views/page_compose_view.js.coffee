@@ -203,7 +203,7 @@ class @Newstime.PageComposeView extends Backbone.View
 
     @edition.get('content_items').add(contentItem)
 
-    selectionView = new Newstime.SelectionView(model: contentItem, page: this, composer: @composer) # Needs to be local to the "page"
+    selectionView = new Newstime.TextAreaView(model: contentItem, page: this, composer: @composer) # Needs to be local to the "page"
     @selectionViews.push selectionView
     @$el.append(selectionView.el)
 
@@ -231,7 +231,6 @@ class @Newstime.PageComposeView extends Backbone.View
     @selectionViews.push selectionView
     @$el.append(selectionView.el)
 
-
     # Bind to events
     selectionView.bind 'activate', @selectionActivated, this
     selectionView.bind 'deactivate', @selectionDeactivated, this
@@ -254,7 +253,6 @@ class @Newstime.PageComposeView extends Backbone.View
         composing: true
         content_item: contentItem.toJSON()
       success: attachHeadlineEl
-
 
     #contentItem.save {},
       #success: (model) ->
