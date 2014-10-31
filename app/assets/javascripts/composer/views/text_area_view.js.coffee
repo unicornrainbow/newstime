@@ -108,7 +108,7 @@ class @Newstime.TextAreaView extends Backbone.View
     # Retreive pasted text. Not cross browser compliant. (Webkit)
     pastedText = e.originalEvent.clipboardData.getData('text/plain')
 
-    @model.set('text', pastedtext)
+    @model.set('text', pastedText)
 
     # Now that we have the desired text, need to save this as the text with the
     # story text-content item, should that be our target. Also need to grab and
