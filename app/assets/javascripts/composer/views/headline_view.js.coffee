@@ -236,7 +236,6 @@ class @Newstime.HeadlineView extends Backbone.View
       #char.toLowerCase()
 
 
-
   stepLeft: ->
     @model.set left: @page.stepLeft(@model.get('left'))
 
