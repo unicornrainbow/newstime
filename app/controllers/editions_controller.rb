@@ -84,10 +84,6 @@ class EditionsController < ApplicationController
   def update
     @edition = Edition.find(params[:id])
     @edition.update_attributes(edition_params)
-
-    # Traverse to update nested attributes
-
-
     respond_with @edition.to_json
   end
 
