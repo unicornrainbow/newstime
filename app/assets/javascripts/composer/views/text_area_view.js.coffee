@@ -108,7 +108,11 @@ class @Newstime.TextAreaView extends Backbone.View
     # Retreive pasted text. Not cross browser compliant. (Webkit)
     pastedText = e.originalEvent.clipboardData.getData('text/plain')
 
-    console.log pastedText
+    @model.set('text', pastedtext)
+
+    # Now that we have the desired text, need to save this as the text with the
+    # story text-content item, should that be our target. Also need to grab and
+    # rerender the contents of the pasted text after it has been reflowed.
 
   keydown: (e) =>
     if @editMode
