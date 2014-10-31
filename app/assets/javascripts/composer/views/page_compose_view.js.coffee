@@ -57,7 +57,7 @@ class @Newstime.PageComposeView extends Backbone.View
       id = $(el).data('content-item-id')
       contentItem = @contentItemCollection.findWhere(_id: id)
 
-      selectionView = new Newstime.SelectionView(model: contentItem, page: this, composer: @composer) # Needs to be local to the "page"
+      selectionView = new Newstime.TextAreaView(model: contentItem, page: this, composer: @composer) # Needs to be local to the "page"
       @selectionViews.push selectionView
       @$el.append(selectionView.el)
 
