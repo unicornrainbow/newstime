@@ -55,6 +55,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @bind 'mousemove',  @mousemove
     @bind 'dblclick',   @dblclick
     @bind 'keydown',    @keydown
+    @bind 'paste',      @paste
     @bind 'contextmenu', @contextmenu
 
   handlePageFocus: (page) ->
@@ -64,6 +65,10 @@ class @Newstime.CanvasLayerView extends Backbone.View
   keydown: (e) ->
     if @focusedPage
       @focusedPage.trigger 'keydown', e
+
+  paste: (e) ->
+    if @focusedPage
+      @focusedPage.trigger 'paste', e
 
   addPage: (pageModel) ->
     pageModel.getHTML (html) =>

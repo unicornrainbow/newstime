@@ -158,6 +158,9 @@
     # Events
     #$(window).scroll(@captureScrollPosition)
     #
+    #
+    #
+    $(document).on "paste", @paste
 
   # Focus on composer
   focus: ->
@@ -180,6 +183,10 @@
         when 83 # s
           if e.ctrlKey || e.altKey # ctrl+s
             @edition.save() # Save edition
+
+  paste: (e) =>
+    if @focusedLayer
+      @focusedLayer.trigger 'paste', e
 
   displayContextMenu: (contextMenu) ->
     @currentContextMenu = contextMenu

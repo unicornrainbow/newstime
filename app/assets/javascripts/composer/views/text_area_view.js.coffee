@@ -28,6 +28,7 @@ class @Newstime.TextAreaView extends Backbone.View
     @bind 'mouseout',  @mouseout
     @bind 'dblclick',  @dblclick
     @bind 'keydown',   @keydown
+    @bind 'paste',     @paste
 
     @$el.css _.pick @model.attributes, 'top', 'left', 'width', 'height'
 
@@ -103,6 +104,11 @@ class @Newstime.TextAreaView extends Backbone.View
   getGeometry: ->
     @model.pick('top', 'left', 'height', 'width')
 
+  paste: (e) =>
+    # Retreive pasted text. Not cross browser compliant. (Webkit)
+    pastedText = e.originalEvent.clipboardData.getData('text/plain')
+
+    console.log pastedText
 
   keydown: (e) =>
     if @editMode

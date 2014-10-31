@@ -33,6 +33,7 @@ class @Newstime.PageComposeView extends Backbone.View
     @bind 'mousemove',   @mousemove
     @bind 'dblclick',    @dblclick
     @bind 'keydown',     @keydown
+    @bind 'paste',       @paste
     @bind 'contextmenu', @contextmenu
 
     @selectionViews = []
@@ -156,6 +157,10 @@ class @Newstime.PageComposeView extends Backbone.View
   keydown: (e) ->
     if @activeSelection
       @activeSelection.trigger 'keydown', e
+
+  paste: (e) ->
+    if @activeSelection
+      @activeSelection.trigger 'paste', e
 
   mousedown: (e) ->
     return unless e.button == 0 # Only respond to left button mousedown.
