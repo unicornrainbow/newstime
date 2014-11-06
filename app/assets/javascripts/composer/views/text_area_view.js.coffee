@@ -122,6 +122,8 @@ class @Newstime.TextAreaView extends Backbone.View
     # story text-content item, should that be our target. Also need to grab and
     # rerender the contents of the pasted text after it has been reflowed.
 
+    @reflow()
+
   keydown: (e) =>
     if @editMode
 
@@ -443,11 +445,13 @@ class @Newstime.TextAreaView extends Backbone.View
       height: y - geometry.top
 
   mouseup: (e) ->
-    @resizing = false
+    if @resizing
+      @resizing = false
+      @reflow() # Reflow at the end of resize.
+
     @moving = false
     @trigger 'tracking-release', this
 
-    @reflow() # Reflow text here for development purposes.
 
   mouseover: (e) ->
     @hovered = true
