@@ -1,13 +1,14 @@
 .selection-view {
   position: absolute;
 
-  transition: border-color .2s;
+  transition: border-color .5s;
 
   &.hovered {
-    border-color: #aaa;
+    border: 1px dashed #ccc;
   }
 
-  border: 1px dashed #ccc;
+  border: 1px dashed transparent;
+
 
   &.resizable {
     border: 1px dashed gray;
