@@ -42,7 +42,8 @@ class TextAreaTypesetter
 
 
       # Has text overrun, should be determined on the
-      is_last_column = column_index + 1 == column_count
+      #is_last_column = column_index + 1 == column_count
+      is_last_column = false # HACK
       has_text_overrun = html && !render_continuation && is_last_column
 
       column_height = height
@@ -75,7 +76,6 @@ class TextAreaTypesetter
 
     text_area.rendered_html = result
     text_area.overrun_html  = html
-    text_area.save
   end
 
 private

@@ -67,6 +67,27 @@ class ContentItemsController < ApplicationController
 
   end
 
+  def render_text_area
+
+    @edition = Edition.find(params[:id])
+
+    @content_item = content_item_params['_type'].constantize.new(content_item_params)
+
+    #@edition.content_items << @content_item
+    @content_item.edition = @edition
+
+    if params[:format] == 'html'
+      @composing = params[:composing]
+      @layout_name   = @edition.layout_name
+      @layout_module = LayoutModule.new(@layout_name) # TODO: Rename to MediaModule
+    end
+
+    @content_item.typeset!
+
+    render 'show', layout: false
+
+  end
+
   def update
     @edition = Edition.find(params[:edition_id])
     @content_item = @edition.content_items.find(params[:id])
@@ -112,7 +133,7 @@ private
       :content_region_id, :_type, :text, :columns, :story_id, :caption,
       :font_size, :font_weight, :font_family, :font_style, :text_align,
       :margin_top, :margin_bottom, :padding_top, :padding_bottom, :height,
-      :page_id, :top, :left
+      :page_id, :top, :left, :width
     ]
     video_params = [:video_id]
     photo_params = [:photo_id]

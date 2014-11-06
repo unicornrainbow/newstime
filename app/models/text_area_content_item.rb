@@ -17,4 +17,5 @@ class TextAreaContentItem < ContentItem
   def typeset!
     TextAreaTypesetter.new(self).typeset!
   end
+
 end

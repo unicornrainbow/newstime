@@ -155,10 +155,10 @@ class @Newstime.TextAreaView extends Backbone.View
     else
       switch e.keyCode
         when 8 # del
-          if confirm "Are you sure you wish to delete this headline?"
+          e.stopPropagation()
+          e.preventDefault()
+          if confirm "Are you sure you wish to delete this text area?"
             @delete()
-            e.stopPropagation()
-            e.preventDefault()
         when 37 # left arrow
           @stepLeft()
           e.stopPropagation()
@@ -234,6 +234,7 @@ class @Newstime.TextAreaView extends Backbone.View
 
   delete: ->
     @model.destroy()
+    @$contentEl.remove()
 
   dblclick: ->
     @startEditMode()
@@ -446,6 +447,7 @@ class @Newstime.TextAreaView extends Backbone.View
     @resizing = false
     @moving = false
     @trigger 'tracking-release', this
+    @reflow() # Reflow text here for development purposes.
 
   mouseover: (e) ->
     @hovered = true
@@ -469,3 +471,14 @@ class @Newstime.TextAreaView extends Backbone.View
 
     boxLeft <= hitX <= boxRight &&
       boxTop <= hitY <= boxBottom
+
+  reflow: ->
+    $.ajax
+      method: 'POST'
+      url: "#{@composer.edition.url()}/render_text_area.html"
+      data:
+        composing: true
+        content_item: @model.toJSON()
+      success: (response) =>
+        if @$contentEl
+          @$contentEl.html $(response).html()

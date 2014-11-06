@@ -223,7 +223,7 @@ class @Newstime.PageComposeView extends Backbone.View
     attachContentEl = (response) =>
       $contentEl = $(response)
       $contentEl.insertBefore(selectionView.$el)
-      selectionView.setHeadlineEl($contentEl)
+      selectionView.setContentEl($contentEl)
 
     $.ajax
       method: 'GET'
