@@ -171,8 +171,8 @@ class @Newstime.HeadlineView extends Backbone.View
         when 8 # del
           if confirm "Are you sure you wish to delete this headline?"
             @delete()
-            e.stopPropagation()
-            e.preventDefault()
+          e.stopPropagation()
+          e.preventDefault()
         when 37 # left arrow
           @stepLeft()
           e.stopPropagation()
@@ -523,6 +523,8 @@ class @Newstime.HeadlineView extends Backbone.View
 
   fitToBorderBox: ->
     if @$headlineEl
+
+
       # Get the width and height of the headline element.
       headlineWidth = @$headlineEl.width()
       headlineHeight =  @$headlineEl.height()
@@ -540,6 +542,3 @@ class @Newstime.HeadlineView extends Backbone.View
         # Match Width
         fontSize *= width/headlineWidth
         @model.set('font_size', fontSize + 'px')
-
-
-      # Determine if we need to match height or width.
