@@ -485,5 +485,22 @@ class @Newstime.HeadlineView extends Backbone.View
   fitToBorderBox: ->
     if @$headlineEl
       # Get the width and height of the headline element.
-      console.log @$headlineEl.width()
-      console.log @$headlineEl.height()
+      headlineWidth = @$headlineEl.width()
+      headlineHeight =  @$headlineEl.height()
+
+      width = @$el.width()
+      height = @$el.height()
+
+      fontSize = parseInt(@$headlineEl.css('font-size'))
+
+      if width/height > headlineWidth/headlineHeight
+        # Match Height
+        fontSize = height/headlineHeight*fontSize
+        @model.set('font_size', fontSize + 'px')
+      else
+        # Match Width
+        fontSize = width/headlineWidth*fontSize
+        @model.set('font_size', fontSize + 'px')
+
+
+      # Determine if we need to match height or width.
