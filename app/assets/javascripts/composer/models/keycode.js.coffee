@@ -1,6 +1,7 @@
 @Newstime = @Newstime || {}
 
 @Newstime.charKeycodes =
+  13: '\n'
   32: ' '
   48: '0'
   49: '1'

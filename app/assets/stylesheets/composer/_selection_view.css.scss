@@ -71,7 +71,10 @@
 
 .headline-view {
   &.edit-mode {
-    border-color: #d900f9 !important;
+
+    .drag-handle {
+      background-color: gray;
+    }
   }
 }
 

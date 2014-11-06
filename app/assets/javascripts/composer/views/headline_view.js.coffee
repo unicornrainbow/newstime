@@ -43,13 +43,13 @@ class @Newstime.HeadlineView extends Backbone.View
 
 
     if @$headlineEl?
-      @$headlineEl.css _.pick @model.changedAttributes(), 'top', 'left', 'width', 'height'
+      @$headlineEl.css _.pick @model.changedAttributes(), 'top', 'left'
       @$headlineEl.css 'font-size': @model.get('font_size')
       if @model.get('text')?
         #@model.get('text')
         spanWrapped = _.map @model.get('text'), (char) ->
-          #if char == ' '
-            #char = "&nbsp;"
+          if char == '\n'
+            char = "<br>"
           "<span>#{char}</span>"
           #@model.get('text')
         @$headlineEl.html(spanWrapped)
@@ -134,8 +134,6 @@ class @Newstime.HeadlineView extends Backbone.View
 
   keydown: (e) =>
     if @editMode
-
-
       switch e.keyCode
         when 8 # del
           e.stopPropagation()
@@ -452,10 +450,13 @@ class @Newstime.HeadlineView extends Backbone.View
       width: width
       height: y - geometry.top
 
+
   mouseup: (e) ->
     @resizing = false
     @moving = false
     @trigger 'tracking-release', this
+
+    @fitToBorderBox() # HACK: Just resize content on mouseup now for dev.
 
   mouseover: (e) ->
     @hovered = true
@@ -479,3 +480,10 @@ class @Newstime.HeadlineView extends Backbone.View
 
     boxLeft <= hitX <= boxRight &&
       boxTop <= hitY <= boxBottom
+
+
+  fitToBorderBox: ->
+    if @$headlineEl
+      # Get the width and height of the headline element.
+      console.log @$headlineEl.width()
+      console.log @$headlineEl.height()

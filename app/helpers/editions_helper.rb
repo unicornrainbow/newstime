@@ -64,7 +64,14 @@ module EditionsHelper
     when HeadlineContentItem then
       options = {}
       options[:id]     = content_item.id
-      options[:text]   = content_item.text
+
+      options[:text] = if content_item.text
+        text = content_item.text.dup
+        text.gsub(/(?:\n\r?|\r\n?)/, '<br>') # Convert newlines into linebreaks
+      else
+        ''
+      end
+
       options[:style]  = content_item.style
       options[:width]  = content_item.width
       options[:height] = content_item.height
