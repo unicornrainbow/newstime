@@ -7,6 +7,7 @@ class @Newstime.TextAreaView extends Backbone.View
 
     @page = options.page
     @composer = options.composer
+    @lineHeight = 22 # TODO: Read from media module
 
     # Add drag handles
     @dragHandles = ['top', 'top-right', 'right', 'bottom-right', 'bottom', 'bottom-left', 'left', 'top-left']
@@ -35,6 +36,7 @@ class @Newstime.TextAreaView extends Backbone.View
     @setContentEl(options.contentEl) if options.contentEl
 
     @propertiesView = new Newstime.TextAreaPropertiesView(target: this)
+
 
   setContentEl: (contentEl) ->
     @$contentEl = $(contentEl)
@@ -399,8 +401,10 @@ class @Newstime.TextAreaView extends Backbone.View
 
   dragBottom: (x, y) ->
     geometry = @getGeometry()
+    height = @page.snapBottom(y) - geometry.top
+    height = Math.floor(height / @lineHeight) * @lineHeight # Snap to Increments of line height
     @model.set
-      height: @page.snapBottom(y) - geometry.top
+      height: height
 
   dragLeft: (x, y) ->
     geometry = @getGeometry()
@@ -432,18 +436,24 @@ class @Newstime.TextAreaView extends Backbone.View
     geometry = @getGeometry()
     x = @page.snapLeft(x)
     y = @page.snapBottom(y)
+
+    height = y - geometry.top
+    height = Math.floor(height / @lineHeight) * @lineHeight # Snap to Increments of line height
     @model.set
       left: x
       width: geometry.left - x + geometry.width
-      height: y - geometry.top
+      height: height
 
   dragBottomRight: (x, y) ->
     geometry = @getGeometry()
     width = @page.snapRight(x - geometry.left)
     y = @page.snapBottom(y)
+
+    height = y - geometry.top
+    height = Math.floor(height / @lineHeight) * @lineHeight # Snap to Increments of line height
     @model.set
       width: width
-      height: y - geometry.top
+      height: height
 
   mouseup: (e) ->
     if @resizing
