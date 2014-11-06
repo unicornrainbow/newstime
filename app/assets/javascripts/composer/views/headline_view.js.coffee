@@ -45,6 +45,7 @@ class @Newstime.HeadlineView extends Backbone.View
     if @$headlineEl?
       @$headlineEl.css _.pick @model.changedAttributes(), 'top', 'left'
       @$headlineEl.css 'font-size': @model.get('font_size')
+      @$headlineEl.css 'font-weight': @model.get('font_weight')
       if @model.get('text')?
         #@model.get('text')
         spanWrapped = _.map @model.get('text'), (char) ->
@@ -139,6 +140,7 @@ class @Newstime.HeadlineView extends Backbone.View
           e.stopPropagation()
           e.preventDefault()
           @model.backspace()
+          @fitToBorderBox()
         when 27 # ESC
           e.stopPropagation()
           e.preventDefault()
@@ -159,6 +161,8 @@ class @Newstime.HeadlineView extends Backbone.View
               e.stopPropagation()
               e.preventDefault()
               @model.typeCharacter(char)
+
+          @fitToBorderBox()
 
     else
       switch e.keyCode
@@ -191,22 +195,22 @@ class @Newstime.HeadlineView extends Backbone.View
         when 27 # ESC
           @deactivate()
         when 187 # +
-          @increaseFont()
+          @increaseFontWeight()
         when 189 # -
-          @decreaseFont()
+          @decreaseFontWeight()
 
-  increaseFont: ->
-    if @model.get('font_size')
-      @model.set('font_size', parseInt(@model.get('font_size')) + 1 + "px")
+  increaseFontWeight: ->
+    if @model.get('font_weight')
+      @model.set('font_weight', parseInt(@model.get('font_weight')) + 100)
     else
-      @model.set('font_size', @$headlineEl.css('font-size'))
+      @model.set('font_weight', @$headlineEl.css('font-weight'))
 
 
-  decreaseFont: ->
-    if @model.get('font_size')
-      @model.set('font_size', parseInt(@model.get('font_size')) - 1 + "px")
+  decreaseFontWeight: ->
+    if @model.get('font_weight')
+      @model.set('font_weight', parseInt(@model.get('font_weight')) - 100)
     else
-      @model.set('font_size', @$headlineEl.css('font-size'))
+      @model.set('font_weight', @$headlineEl.css('font-weight'))
 
   moveCursorLeft: ->
     if @model.get('cursorPosition')?
@@ -393,6 +397,9 @@ class @Newstime.HeadlineView extends Backbone.View
       top: y
       height: geometry.top - y + geometry.height
 
+    @fitToBorderBox()
+
+
   dragRight: (x, y) ->
     geometry = @getGeometry()
     width = x - geometry.left
@@ -402,10 +409,14 @@ class @Newstime.HeadlineView extends Backbone.View
     @model.set
       width: width
 
+    @fitToBorderBox()
+
   dragBottom: (x, y) ->
     geometry = @getGeometry()
     @model.set
       height: @page.snapBottom(y) - geometry.top
+
+    @fitToBorderBox()
 
   dragLeft: (x, y) ->
     geometry = @getGeometry()
@@ -413,6 +424,8 @@ class @Newstime.HeadlineView extends Backbone.View
     @model.set
       left: x
       width: geometry.left - x + geometry.width
+
+    @fitToBorderBox()
 
   dragTopLeft: (x, y) ->
     geometry = @getGeometry()
@@ -424,6 +437,8 @@ class @Newstime.HeadlineView extends Backbone.View
       width: geometry.left - x + geometry.width
       height: geometry.top - y + geometry.height
 
+    @fitToBorderBox()
+
   dragTopRight: (x, y) ->
     geometry = @getGeometry()
     width = @page.snapRight(x - geometry.left)
@@ -432,6 +447,8 @@ class @Newstime.HeadlineView extends Backbone.View
       top: y
       width: width
       height: geometry.top - y + geometry.height
+
+    @fitToBorderBox()
 
   dragBottomLeft: (x, y) ->
     geometry = @getGeometry()
@@ -442,6 +459,8 @@ class @Newstime.HeadlineView extends Backbone.View
       width: geometry.left - x + geometry.width
       height: y - geometry.top
 
+    @fitToBorderBox()
+
   dragBottomRight: (x, y) ->
     geometry = @getGeometry()
     width = @page.snapRight(x - geometry.left)
@@ -450,13 +469,13 @@ class @Newstime.HeadlineView extends Backbone.View
       width: width
       height: y - geometry.top
 
+    @fitToBorderBox()
+
 
   mouseup: (e) ->
     @resizing = false
     @moving = false
     @trigger 'tracking-release', this
-
-    @fitToBorderBox() # HACK: Just resize content on mouseup now for dev.
 
   mouseover: (e) ->
     @hovered = true
@@ -495,11 +514,11 @@ class @Newstime.HeadlineView extends Backbone.View
 
       if width/height > headlineWidth/headlineHeight
         # Match Height
-        fontSize = height/headlineHeight*fontSize
+        fontSize *= height/headlineHeight
         @model.set('font_size', fontSize + 'px')
       else
         # Match Width
-        fontSize = width/headlineWidth*fontSize
+        fontSize *= width/headlineWidth
         @model.set('font_size', fontSize + 'px')
 
 
