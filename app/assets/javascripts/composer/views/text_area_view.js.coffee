@@ -331,6 +331,7 @@ class @Newstime.TextAreaView extends Backbone.View
     return true
 
   trackResize: (mode) ->
+    @$contentEl.hide()
     @resizing   = true
     @resizeMode = mode
 
@@ -486,3 +487,4 @@ class @Newstime.TextAreaView extends Backbone.View
       success: (response) =>
         if @$contentEl
           @$contentEl.html $(response).html()
+          @$contentEl.show()
