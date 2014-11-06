@@ -35,6 +35,8 @@ class @Newstime.HeadlineView extends Backbone.View
 
     @propertiesView = new Newstime.HeadlineProperties2View(target: this)
 
+    @fontWeights = [100, 200, 300, 400, 500, 700, 800, 900] # Should be pulled from media module
+
   setHeadlineEl: (headlineEl) ->
     @$headlineEl = $(headlineEl)
 
@@ -201,16 +203,34 @@ class @Newstime.HeadlineView extends Backbone.View
 
   increaseFontWeight: ->
     if @model.get('font_weight')
-      @model.set('font_weight', parseInt(@model.get('font_weight')) + 100)
+      # Find current font weight
+      fontWeight = parseInt(@model.get('font_weight'))
+
+      index = _.indexOf(@fontWeights, fontWeight)
+
+      fontWeight = @fontWeights[index+1] if index < @fontWeights.length
+
+      @model.set('font_weight', fontWeight)
     else
       @model.set('font_weight', @$headlineEl.css('font-weight'))
+
+    @fitToBorderBox()
 
 
   decreaseFontWeight: ->
     if @model.get('font_weight')
-      @model.set('font_weight', parseInt(@model.get('font_weight')) - 100)
+      # Find current font weight
+      fontWeight = parseInt(@model.get('font_weight'))
+
+      index = _.indexOf(@fontWeights, fontWeight)
+
+      fontWeight = @fontWeights[index-1] if index > 0
+
+      @model.set('font_weight', fontWeight)
     else
       @model.set('font_weight', @$headlineEl.css('font-weight'))
+
+    @fitToBorderBox()
 
   moveCursorLeft: ->
     if @model.get('cursorPosition')?
