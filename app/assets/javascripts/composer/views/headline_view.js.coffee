@@ -43,11 +43,12 @@ class @Newstime.HeadlineView extends Backbone.View
   modelChanged: ->
     @$el.css _.pick @model.changedAttributes(), 'top', 'left', 'width', 'height'
 
-
     if @$headlineEl?
-      @$headlineEl.css _.pick @model.changedAttributes(), 'top', 'left'
+      @$headlineEl.css _.pick @model.changedAttributes(), 'top', 'left', 'margin-top', 'margin-right', 'margin-bottom', 'margin-left'
       @$headlineEl.css 'font-size': @model.get('font_size')
       @$headlineEl.css 'font-weight': @model.get('font_weight')
+
+      @$headlineEl.css _.pick @model.changedAttributes(),
       if @model.get('text')?
         #@model.get('text')
         spanWrapped = _.map @model.get('text'), (char) ->
@@ -545,7 +546,11 @@ class @Newstime.HeadlineView extends Backbone.View
       headlineWidth  = @$headlineEl.width()
       headlineHeight = @$headlineEl.height()
 
-      verticalMargin = (height - headlineHeight)/2
-      horizontalMargin = (width - headlineWidth)/2
+      verticalMargin = (height - headlineHeight)/2 + 'px'
+      horizontalMargin = (width - headlineWidth)/2 + 'px'
 
-      @$headlineEl.css('margin', "#{verticalMargin}px #{horizontalMargin}px")
+      @model.set
+        'margin-top': verticalMargin
+        'margin-right': horizontalMargin
+        'margin-bottom': verticalMargin
+        'margin-left': horizontalMargin
