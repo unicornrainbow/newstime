@@ -182,23 +182,22 @@ class @Newstime.TextAreaView extends Backbone.View
           @startEditMode()
         when 27 # ESC
           @deactivate()
-        when 187 # +
-          @increaseFont()
-        when 189 # -
-          @decreaseFont()
+        when 49 # 1
+          @model.set('columns', 1)
+          @reflow()
+          e.stopPropagation()
+          e.preventDefault()
+        when 50 # 2
+          @model.set('columns', 2)
+          @reflow()
+          e.stopPropagation()
+          e.preventDefault()
+        when 51 # 3
+          @model.set('columns', 3)
+          @reflow()
+          e.stopPropagation()
+          e.preventDefault()
 
-  increaseFont: ->
-    if @model.get('font_size')
-      @model.set('font_size', parseInt(@model.get('font_size')) + 1 + "px")
-    else
-      @model.set('font_size', @$headlineEl.css('font-size'))
-
-
-  decreaseFont: ->
-    if @model.get('font_size')
-      @model.set('font_size', parseInt(@model.get('font_size')) - 1 + "px")
-    else
-      @model.set('font_size', @$headlineEl.css('font-size'))
 
   moveCursorLeft: ->
     if @model.get('cursorPosition')?
@@ -447,6 +446,7 @@ class @Newstime.TextAreaView extends Backbone.View
     @resizing = false
     @moving = false
     @trigger 'tracking-release', this
+
     @reflow() # Reflow text here for development purposes.
 
   mouseover: (e) ->

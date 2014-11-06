@@ -233,6 +233,18 @@ class @Newstime.HeadlineView extends Backbone.View
 
     @fitToBorderBox()
 
+  increaseFont: ->
+    if @model.get('font_size')
+      @model.set('font_size', parseInt(@model.get('font_size')) + 1 + "px")
+    else
+      @model.set('font_size', @$headlineEl.css('font-size'))
+
+  decreaseFont: ->
+    if @model.get('font_size')
+      @model.set('font_size', parseInt(@model.get('font_size')) - 1 + "px")
+    else
+      @model.set('font_size', @$headlineEl.css('font-size'))
+
   moveCursorLeft: ->
     if @model.get('cursorPosition')?
       @model.set('cursorPosition', Math.max(@model.get('cursorPosition') - 1, 0))
