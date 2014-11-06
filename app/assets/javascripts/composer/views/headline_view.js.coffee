@@ -201,6 +201,9 @@ class @Newstime.HeadlineView extends Backbone.View
           @increaseFontWeight()
         when 189 # -
           @decreaseFontWeight()
+        when 84 # t
+          # Trim excess margin from top and bottom
+          @trimVerticalMargin()
 
   increaseFontWeight: ->
     if @model.get('font_weight')
@@ -532,6 +535,13 @@ class @Newstime.HeadlineView extends Backbone.View
 
     boxLeft <= hitX <= boxRight &&
       boxTop <= hitY <= boxBottom
+
+  trimVerticalMargin: ->
+    headlineHeight = @$headlineEl.height()
+    @model.set
+      height: headlineHeight
+      'margin-top': 0
+      'margin-bottom': 0
 
 
   fitToBorderBox: ->

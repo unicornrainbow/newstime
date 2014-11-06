@@ -129,7 +129,6 @@ class @Newstime.TextAreaView extends Backbone.View
   keydown: (e) =>
     if @editMode
 
-
       switch e.keyCode
         when 8 # del
           e.stopPropagation()
