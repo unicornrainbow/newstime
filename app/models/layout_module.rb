@@ -8,4 +8,9 @@ class LayoutModule
     @root = MEDIA_MODULES[@name]["path"]
     @templates = TemplateAccessor.new(self)
   end
+
+  def config
+    @config ||= YAML.load_file(File.join(@root, 'config.yml'))
+  end
+
 end
