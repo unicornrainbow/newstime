@@ -3,34 +3,23 @@ class @Newstime.HeadlineView extends @Newstime.BoundedBoxView
 
   initialize: (options) ->
     super()
-    @$el.addClass 'selection-view headline-view'
-
     @page = options.page
     @composer = options.composer
     @placeholder = "Type Headline" # Text to show when there is no headline
-
     @fontWeights = Newstime.config.headlineFontWeights
 
-    # Add drag handles
-    @dragHandles = ['top', 'top-right', 'right', 'bottom-right', 'bottom', 'bottom-left', 'left', 'top-left']
-    @dragHandles = _.map @dragHandles, (type) ->
-      new Newstime.DragHandle(selection: this, type: type)
+    @$el.addClass 'headline-view'
 
-    # Attach handles
-    handleEls = _.map @dragHandles, (handle) -> handle.el
-    @$el.append(handleEls)
+    # Bind View Events
+    @bind 'dblclick',  @dblclick
 
-    # Listen for model changes
+    # Bind Model Events
     @model.bind 'change', @modelChanged, this
     @model.bind 'destroy', @modelDestroyed, this
-
-
-    @$el.css _.pick @model.attributes, 'top', 'left', 'width', 'height'
 
     @setHeadlineEl(options.headlineEl) if options.headlineEl
 
     @propertiesView = new Newstime.HeadlineProperties2View(target: this)
-
 
     @modelChanged()
 
@@ -73,48 +62,6 @@ class @Newstime.HeadlineView extends @Newstime.BoundedBoxView
   getPropertiesView: ->
     @propertiesView
 
-  activate: ->
-    @active = true
-    @trigger 'activate', this
-    @$el.addClass 'resizable'
-
-  deactivate: ->
-    @active = false
-    @clearEditMode()
-    @trigger 'deactivate', this
-    @$el.removeClass 'resizable'
-
-
-  beginSelection: (x, y) ->
-    # Snap x to grid
-    x = @page.snapLeft(x)
-
-    @model.set
-      left: x
-      top: y
-
-    @activate()
-    @trackResize("bottom-right") # Begin tracking for size
-
-  getLeft: ->
-    @model.get('left')
-    #parseInt(@$el.css('left'))
-
-  getTop: ->
-    @model.get('top')
-    #parseInt(@$el.css('top'))
-
-  getWidth: ->
-    @model.get('width')
-    #parseInt(@$el.css('width'))
-
-  getHeight: ->
-    @model.get('height')
-    #parseInt(@$el.css('height'))
-
-  getGeometry: ->
-    @model.pick('top', 'left', 'height', 'width')
-
 
   keydown: (e) =>
     if @editMode
@@ -149,34 +96,8 @@ class @Newstime.HeadlineView extends @Newstime.BoundedBoxView
 
     else
       switch e.keyCode
-        when 8 # del
-          if confirm "Are you sure you wish to delete this headline?"
-            @delete()
-          e.stopPropagation()
-          e.preventDefault()
-        when 37 # left arrow
-          @stepLeft()
-          e.stopPropagation()
-          e.preventDefault()
-        when 38 # up arrow
-          # TODO: Should handle acceleration
-          offset = if e.shiftKey then 20 else 1
-          @model.set top: @model.get('top') - offset
-          e.stopPropagation()
-          e.preventDefault()
-        when 39 # right arrow
-          @stepRight()
-          e.stopPropagation()
-          e.preventDefault()
-        when 40 # down arrow
-          offset = if e.shiftKey then 20 else 1
-          @model.set top: @model.get('top') + offset
-          e.stopPropagation()
-          e.preventDefault()
         when 13 # Enter
           @startEditMode()
-        when 27 # ESC
-          @deactivate()
         when 187 # +
           @increaseFontWeight()
         when 189 # -
@@ -184,6 +105,8 @@ class @Newstime.HeadlineView extends @Newstime.BoundedBoxView
         when 84 # t
           # Trim excess margin from top and bottom
           @trimVerticalMargin()
+        else
+          super(e)
 
   increaseFontWeight: ->
     if @model.get('font_weight')
@@ -199,7 +122,6 @@ class @Newstime.HeadlineView extends @Newstime.BoundedBoxView
       @model.set('font_weight', @$headlineEl.css('font-weight'))
 
     @fitToBorderBox()
-
 
   decreaseFontWeight: ->
     if @model.get('font_weight')
@@ -247,11 +169,6 @@ class @Newstime.HeadlineView extends @Newstime.BoundedBoxView
       Newstime.shiftCharKeycodes[e.keyCode]
     else
       Newstime.charKeycodes[e.keyCode]
-
-    #char = String.fromCharCode(e.keyCode)
-      #char
-    #else
-      #char.toLowerCase()
 
 
   stepLeft: ->
