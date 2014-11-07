@@ -421,6 +421,10 @@ class @Newstime.CanvasItemView extends Backbone.View
     'default'
 
   mouseout: (e) ->
+    if @hoveredHandle
+      @hoveredHandle.trigger 'mouseout', e
+      @hoveredHandle = null
+
     @hovered = false
     @$el.removeClass 'hovered'
     @composer.popCursor()
