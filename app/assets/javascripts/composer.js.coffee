@@ -391,6 +391,15 @@
   togglePanelLayer: ->
     @panelLayerView.toggle()
 
+  # Sets toolbox tool
+  #
+  # Example:
+  #
+  #   @composer.setTool('select-tool')
+  #
+  setTool: (tool) ->
+    @toolbox.set(selectedTool: tool)
+
 
 $ ->
   # Get the edition, mostly for development purposes right now.

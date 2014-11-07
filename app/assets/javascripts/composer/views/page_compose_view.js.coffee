@@ -176,9 +176,9 @@ class @Newstime.PageComposeView extends Backbone.View
           @drawTypeArea(e.x, e.y)
         when 'headline-tool'
           @drawHeadline(e.x, e.y)
-          #@beginSelection(e.x, e.y)
         when 'select-tool'
           @activeSelection.deactivate() if @activeSelection
+          #@beginSelection(e.x, e.y)
 
 
   dblclick: (e) ->
