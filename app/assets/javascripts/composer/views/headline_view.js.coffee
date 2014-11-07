@@ -100,6 +100,9 @@ class @Newstime.HeadlineView extends @Newstime.CanvasItemView
         when 84 # t
           # Trim excess margin from top and bottom
           @trimVerticalMargin()
+        when 70 # f
+          # Fits the headline to match with with zero margins
+          @fit()
         else
           super(e)
 
@@ -175,6 +178,30 @@ class @Newstime.HeadlineView extends @Newstime.CanvasItemView
       height: headlineHeight
       'margin-top': 0
       'margin-bottom': 0
+
+  # Fits headline to vertical width, vertical margins.
+  fit: ->
+    headlineHeight = @$headlineEl.height()
+    height = @$el.height()
+
+    if headlineHeight < height
+      @model.set
+        height: headlineHeight
+        'margin-top': 0
+        'margin-bottom': 0
+    else
+      headlineWidth  = @$headlineEl.width()
+      width = @$el.width()
+      fontSize = parseInt(@$headlineEl.css('font-size'))
+      fontSize *= width/headlineWidth
+      @model.set
+        'font_size': fontSize + 'px',
+        'margin-left': 0
+        'margin-right': 0
+        'margin-top': 0
+        'margin-bottom': 0
+
+      @model.set height: @$headlineEl.height()
 
   fitToBorderBox: ->
     if @$headlineEl
