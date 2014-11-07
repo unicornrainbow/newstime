@@ -293,21 +293,19 @@ class @Newstime.PageComposeView extends Backbone.View
 
     selectionView.beginSelection(x, y)
 
-    #attachHeadlineEl = (response) =>
-      #$headlineEl = $(response)
-      #$headlineEl.insertBefore(selectionView.$el)
-      #selectionView.setHeadlineEl($headlineEl)
 
-    #console.log "#{@edition.url()}/render_content_item.html"
+    attachContentEl = (response) =>
+      $contentEl = $(response)
+      $contentEl.insertBefore(selectionView.$el)
+      selectionView.setContentEl($contentEl)
 
-    #$.ajax
-      #method: 'GET'
-      #url: "#{@edition.url()}/render_content_item.html"
-      #data:
-        #composing: true
-        #content_item: contentItem.toJSON()
-      #success: attachHeadlineEl
-
+    $.ajax
+      method: 'GET'
+      url: "#{@edition.url()}/render_content_item.html"
+      data:
+        composing: true
+        content_item: contentItem.toJSON()
+      success: attachContentEl
 
   drawVideo: (x, y) ->
 
