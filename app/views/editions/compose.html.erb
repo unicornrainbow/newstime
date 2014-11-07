@@ -10,7 +10,9 @@
     <script type="text/javascript" charset="utf-8">
       var composer = {
         editionID: "<%= @edition.id %>",
-        sectionID: "<%= @section.id %>"
+        sectionID: "<%= @section.id %>",
+        headlineFontWeights: <%= @layout_module.config["headline_font_weights"].to_json %>,
+        storyTextLineHeight: "<%= @layout_module.config["story_text_line_height"] %>"
       }
 
       var editionJSON = <%= raw render(template: "editions/show.json") %>
