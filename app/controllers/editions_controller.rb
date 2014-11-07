@@ -76,6 +76,9 @@ class EditionsController < ApplicationController
     @layout_module = LayoutModule.new(@layout_name) # TODO: Rename to MediaModule
     @content_item = ContentItem.new
 
+    # Sets values which are avialable client-side at `window.composer`.
+    set_composer_values
+
     render 'compose', layout: 'layout_module'
   end
 
@@ -116,6 +119,15 @@ private
 
   def find_edition
     @edition = Edition.find(params[:id])
+  end
+
+  def set_composer_values
+    @composer_values = {
+      editionID:  @edition.id,
+      sectionID: @section.id,
+      headlineFontWeights: @layout_module.config["headline_font_weights"],
+      storyTextLineHeight: @layout_module.config["story_text_line_height"]
+    }
   end
 
   def edition_params
