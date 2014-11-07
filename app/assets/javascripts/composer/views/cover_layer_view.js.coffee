@@ -17,6 +17,9 @@ class @Newstime.CoverLayerView extends Backbone.View
     @topOffset = options.topOffset # Apply top offset (Allows room for menu)
     @composer = options.composer
 
+    # Capture mouseups that happen off screen http://stackoverflow.com/a/5419564/32384
+    $(window).mouseup @mouseup
+
     @$el.css top: "#{@topOffset}px"
 
   contextmenu: (e) ->
@@ -29,7 +32,7 @@ class @Newstime.CoverLayerView extends Backbone.View
       #when 1 # Left button
         #@trigger 'mousedown', e
 
-  mouseup: (e) ->
+  mouseup: (e) =>
     e.stopPropagation()
     @trigger 'mouseup', e
 

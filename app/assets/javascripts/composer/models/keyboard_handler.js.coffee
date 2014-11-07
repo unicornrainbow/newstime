@@ -12,7 +12,6 @@ class @Newstime.KeyboardHandler extends Backbone.Model
     @optDown = false
 
     $(window).blur ->
-      #console.log "canceled"
       @optDown = false
       window.onmousewheel = null
 
