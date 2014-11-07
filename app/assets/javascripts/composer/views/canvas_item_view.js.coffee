@@ -1,8 +1,7 @@
 class @Newstime.CanvasItemView extends Backbone.View
 
   initialize: (options) ->
-
-    @$el.addClass 'selection-view'
+    @$el.addClass 'canvas-item-view'
 
     # Add drag handles
     @dragHandles = ['top', 'top-right', 'right', 'bottom-right', 'bottom', 'bottom-left', 'left', 'top-left']
