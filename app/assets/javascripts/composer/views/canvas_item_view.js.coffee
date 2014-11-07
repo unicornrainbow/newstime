@@ -258,6 +258,8 @@ class @Newstime.CanvasItemView extends Backbone.View
 
     else if @moving
       @move(e.x, e.y)
+    #else
+      #console.log "Highlight"
 
   # Moves based on corrdinates and starting offset
   move: (x, y) ->

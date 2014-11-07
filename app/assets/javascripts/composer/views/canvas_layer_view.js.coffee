@@ -103,37 +103,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @trigger 'tracking-release', this
 
   hit: (x, y) ->
-    e = { x: x, y: y }
-    @adjustEventXY(e)
-
-    page = _.find @pages, (page) =>
-      @detectHit page, e.x, e.y
-
-    # TODO: page here is misnomber, should realy just be a local hovered object
-    unless page # If no page, check for button hit
-      if @detectHit @addPageButton, e.x, e.y
-        page = @addPageButton
-
-    if @hovered # Only process events if hovered.
-      if page
-        if @hoveredObject != page
-          if @hoveredObject
-            @hoveredObject.trigger 'mouseout', e
-          @hoveredObject = page
-          @hoveredObject.trigger 'mouseover', e
-
-        return true
-      else
-        if @hoveredObject
-          @hoveredObject.trigger 'mouseout', e
-          @hoveredObject = null
-
-        return false
-
-    else
-      # Defer processing of events until we are declared the hovered object.
-      @hoveredObject = page
-      return true
+    return true # Since canvas is the bottom-most layer, we assume everything hits it if asked.
 
 
   # Calibrates xy to the canvas layer.
@@ -198,8 +168,29 @@ class @Newstime.CanvasLayerView extends Backbone.View
       @trackingPage.trigger 'mousemove', e
       return true
 
+    page = _.find @pages, (page) =>
+      @detectHit page, e.x, e.y
+
+    # TODO: page here is misnomber, should realy just be a local hovered object
+    unless page # If no page, check for button hit
+      if @detectHit @addPageButton, e.x, e.y
+        page = @addPageButton
+
+    if page
+      if @hoveredObject != page
+        if @hoveredObject
+          @hoveredObject.trigger 'mouseout', e
+        @hoveredObject = page
+        @hoveredObject.trigger 'mouseover', e
+
+    else
+      if @hoveredObject
+        @hoveredObject.trigger 'mouseout', e
+        @hoveredObject = null
+
     if @hoveredObject
       @hoveredObject.trigger 'mousemove', e
+
 
 
   detectHit: (page, x, y) ->
@@ -227,7 +218,6 @@ class @Newstime.CanvasLayerView extends Backbone.View
     geometry.y -= buffer
     geometry.width += buffer*2
     geometry.height += buffer*2
-
 
     #console.log x, y
     #console.log geometry

@@ -346,26 +346,19 @@ class @Newstime.PageComposeView extends Backbone.View
       selection = _.find @selectionViews, (selection) ->
         selection.hit(e.x, e.y)
 
-    if @hovered # Only process events if hovered.
-      if selection
-        if @hoveredObject != selection
-          if @hoveredObject
-            @hoveredObject.trigger 'mouseout', e
-          @hoveredObject = selection
-          @hoveredObject.trigger 'mouseover', e
-
-        return true
-      else
+    if selection
+      if @hoveredObject != selection
         if @hoveredObject
           @hoveredObject.trigger 'mouseout', e
-          @hoveredObject = null
-
-        return false
-
+        @hoveredObject = selection
+        @hoveredObject.trigger 'mouseover', e
     else
-      # Defer processing of events until we are declared the hovered object.
-      @hoveredObject = selection
-      return true
+      if @hoveredObject
+        @hoveredObject.trigger 'mouseout', e
+        @hoveredObject = null
+
+    if @hoveredObject
+      @hoveredObject.trigger 'mousemove', e
 
 
   mouseup: (e) ->
