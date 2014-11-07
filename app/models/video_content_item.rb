@@ -4,10 +4,10 @@ class VideoContentItem < ContentItem
 
   def video_url
     # Note: Edition relative
-    video.video_url
+    video.try(:video_url)
   end
 
   def cover_image_url
-    video.cover_image_url
+    video.try(:cover_image_url)
   end
 end
