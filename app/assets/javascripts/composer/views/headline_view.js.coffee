@@ -1,5 +1,6 @@
+#= require ./canvas_item_view
 
-class @Newstime.HeadlineView extends @Newstime.BoundedBoxView
+class @Newstime.HeadlineView extends @Newstime.CanvasItemView
 
   initialize: (options) ->
     super()

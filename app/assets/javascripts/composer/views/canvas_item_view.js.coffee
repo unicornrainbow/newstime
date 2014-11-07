@@ -1,5 +1,4 @@
-
-class @Newstime.BoundedBoxView extends Backbone.View # ItemView?
+class @Newstime.CanvasItemView extends Backbone.View
 
   initialize: (options) ->
 
@@ -80,7 +79,6 @@ class @Newstime.BoundedBoxView extends Backbone.View # ItemView?
 
   getGeometry: ->
     @model.pick('top', 'left', 'height', 'width')
-
 
   keydown: (e) =>
       switch e.keyCode
