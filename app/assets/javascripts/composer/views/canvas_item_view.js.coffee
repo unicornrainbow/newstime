@@ -142,84 +142,14 @@ class @Newstime.CanvasItemView extends Backbone.View
   mousedown: (e) ->
     return unless e.button == 0 # Only respond to left button mousedown.
 
-    x = e.x
-    y = e.y
-
     unless @active
       @activate()
 
-    geometry = @getGeometry()
-
-    # If active, check against the drag handles
-    # TODO: Drag handels need to become a hovered target, then if there is
-    # hovered object, we can delegate down, or handle locally by entering a
-    # move.
-    if @active
-
-      width   = geometry.width
-      height  = geometry.height
-      top     = geometry.top
-      left    = geometry.left
-
-      right   = left + width
-      bottom  = top + height
-      centerX = left + width/2
-      centerY = top + height/2
-
-      if @hitBox x, y, centerX, top, 8
-        @trackResize "top"
-        return false # Cancel event
-
-      # right drag handle hit?
-      if @hitBox x, y, right, centerY, 8
-        @trackResize "right"
-        return false # Cancel event
-
-      # left drag handle hit?
-      if @hitBox x, y, left, centerY, 8
-        @trackResize "left"
-        return false # Cancel event
-
-      # bottom drag handle hit?
-      if @hitBox x, y, centerX, bottom, 8
-        @trackResize "bottom"
-        return false # Cancel event
-
-      # top-left drag handle hit?
-      if @hitBox x, y, left, top, 8
-        @trackResize "top-left"
-        return false # Cancel event
-
-      # top-right drag handle hit?
-      if @hitBox x, y, right, top, 8
-        @trackResize "top-right"
-        return false # Cancel event
-
-      # bottom-left drag handle hit?
-      if @hitBox x, y, left, bottom, 8
-        @trackResize "bottom-left"
-        return false # Cancel event
-
-      # bottom-right drag handle hit?
-      if @hitBox x, y, right, bottom, 8
-        @trackResize "bottom-right"
-        return false # Cancel event
-
-      ## Expand the geometry by buffer distance in each direction to extend
-      ## clickable area.
-      buffer = 4 # 2px
-      geometry.left -= buffer
-      geometry.top -= buffer
-      geometry.width += buffer*2
-      geometry.height += buffer*2
-
-      ## Detect if corrds lie within the geometry
-      if geometry.left <= x <= geometry.left + geometry.width &&
-        geometry.top <= y <= geometry.top + geometry.height
-          @trackMove(x - geometry.left, y - geometry.top)
-          return false
-
-    return true
+    if @hoveredHandle
+      @trackResize @hoveredHandle.type
+    else
+      geometry = @getGeometry()
+      @trackMove(e.x - geometry.left, e.y - geometry.top)
 
   trackResize: (mode) ->
     @resizing   = true
@@ -271,6 +201,7 @@ class @Newstime.CanvasItemView extends Backbone.View
       else if @hoveredHandle
         @hoveredHandle.trigger 'mouseout', e
         @hoveredHandle = null
+
       else if hit
         @hoveredHandle = hit
         @hoveredHandle.trigger 'mouseover', e
