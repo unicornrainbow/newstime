@@ -203,6 +203,39 @@ class @Newstime.HeadlineView extends @Newstime.CanvasItemView
 
       @model.set height: @$headlineEl.height()
 
+
+  dragTop: (x, y) ->
+    super
+    @fitToBorderBox()
+
+  dragRight: (x, y) ->
+    super
+    @fitToBorderBox()
+
+  dragBottom: (x, y) ->
+    super
+    @fitToBorderBox()
+
+  dragLeft: (x, y) ->
+    super
+    @fitToBorderBox()
+
+  dragTopLeft: (x, y) ->
+    super
+    @fitToBorderBox()
+
+  dragTopRight: (x, y) ->
+    super
+    @fitToBorderBox()
+
+  dragBottomLeft: (x, y) ->
+    super
+    @fitToBorderBox()
+
+  dragBottomRight: (x, y) ->
+    super
+    @fitToBorderBox()
+
   fitToBorderBox: ->
     if @$headlineEl
       # Get the width and height of the headline element.

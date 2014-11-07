@@ -278,9 +278,6 @@ class @Newstime.CanvasItemView extends Backbone.View
       top: y
       height: geometry.top - y + geometry.height
 
-    @fitToBorderBox()
-
-
   dragRight: (x, y) ->
     geometry = @getGeometry()
     width = x - geometry.left
@@ -290,14 +287,10 @@ class @Newstime.CanvasItemView extends Backbone.View
     @model.set
       width: width
 
-    @fitToBorderBox()
-
   dragBottom: (x, y) ->
     geometry = @getGeometry()
     @model.set
       height: @page.snapBottom(y) - geometry.top
-
-    @fitToBorderBox()
 
   dragLeft: (x, y) ->
     geometry = @getGeometry()
@@ -305,8 +298,6 @@ class @Newstime.CanvasItemView extends Backbone.View
     @model.set
       left: x
       width: geometry.left - x + geometry.width
-
-    @fitToBorderBox()
 
   dragTopLeft: (x, y) ->
     geometry = @getGeometry()
@@ -318,8 +309,6 @@ class @Newstime.CanvasItemView extends Backbone.View
       width: geometry.left - x + geometry.width
       height: geometry.top - y + geometry.height
 
-    @fitToBorderBox()
-
   dragTopRight: (x, y) ->
     geometry = @getGeometry()
     width = @page.snapRight(x - geometry.left)
@@ -328,8 +317,6 @@ class @Newstime.CanvasItemView extends Backbone.View
       top: y
       width: width
       height: geometry.top - y + geometry.height
-
-    @fitToBorderBox()
 
   dragBottomLeft: (x, y) ->
     geometry = @getGeometry()
@@ -340,8 +327,6 @@ class @Newstime.CanvasItemView extends Backbone.View
       width: geometry.left - x + geometry.width
       height: y - geometry.top
 
-    @fitToBorderBox()
-
   dragBottomRight: (x, y) ->
     geometry = @getGeometry()
     width = @page.snapRight(x - geometry.left)
@@ -349,9 +334,6 @@ class @Newstime.CanvasItemView extends Backbone.View
     @model.set
       width: width
       height: y - geometry.top
-
-    @fitToBorderBox()
-
 
   mouseup: (e) ->
     @resizing = false
