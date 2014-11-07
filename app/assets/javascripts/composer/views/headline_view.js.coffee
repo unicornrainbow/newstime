@@ -1,12 +1,15 @@
-@Newstime = @Newstime || {}
 
-class @Newstime.HeadlineView extends Backbone.View
+class @Newstime.HeadlineView extends @Newstime.BoundedBoxView
 
   initialize: (options) ->
+    super()
     @$el.addClass 'selection-view headline-view'
 
     @page = options.page
     @composer = options.composer
+    @placeholder = "Type Headline" # Text to show when there is no headline
+
+    @fontWeights = [100, 200, 300, 400, 500, 700, 800, 900] # Should be pulled from media module
 
     # Add drag handles
     @dragHandles = ['top', 'top-right', 'right', 'bottom-right', 'bottom', 'bottom-left', 'left', 'top-left']
@@ -21,13 +24,6 @@ class @Newstime.HeadlineView extends Backbone.View
     @model.bind 'change', @modelChanged, this
     @model.bind 'destroy', @modelDestroyed, this
 
-    @bind 'mousedown', @mousedown
-    @bind 'mousemove', @mousemove
-    @bind 'mouseup',   @mouseup
-    @bind 'mouseover', @mouseover
-    @bind 'mouseout',  @mouseout
-    @bind 'dblclick',  @dblclick
-    @bind 'keydown',   @keydown
 
     @$el.css _.pick @model.attributes, 'top', 'left', 'width', 'height'
 
@@ -35,7 +31,8 @@ class @Newstime.HeadlineView extends Backbone.View
 
     @propertiesView = new Newstime.HeadlineProperties2View(target: this)
 
-    @fontWeights = [100, 200, 300, 400, 500, 700, 800, 900] # Should be pulled from media module
+
+    @modelChanged()
 
   setHeadlineEl: (headlineEl) ->
     @$headlineEl = $(headlineEl)
@@ -49,7 +46,7 @@ class @Newstime.HeadlineView extends Backbone.View
       @$headlineEl.css 'font-weight': @model.get('font_weight')
 
       @$headlineEl.css _.pick @model.changedAttributes(),
-      if @model.get('text')?
+      if !!@model.get('text')
         #@model.get('text')
         spanWrapped = _.map @model.get('text'), (char) ->
           if char == '\n'
@@ -58,7 +55,7 @@ class @Newstime.HeadlineView extends Backbone.View
           #@model.get('text')
         @$headlineEl.html(spanWrapped)
       else
-        @$headlineEl.text("")
+        @$headlineEl.text(@placeholder)
 
     # Highlight cursor position
 
@@ -66,7 +63,6 @@ class @Newstime.HeadlineView extends Backbone.View
     #cursorPosition
     @model.get('cursorPosition')
     #console.log "cursor" , @model.get('cursorPosition')
-
 
   modelDestroyed: ->
     # TODO: Need to properly unbind events and allow destruction of view
@@ -88,22 +84,6 @@ class @Newstime.HeadlineView extends Backbone.View
     @trigger 'deactivate', this
     @$el.removeClass 'resizable'
 
-  # Detects a hit of the selection
-  hit: (x, y) ->
-
-    geometry = @getGeometry()
-
-    ## Expand the geometry by buffer distance in each direction to extend
-    ## clickable area.
-    buffer = 4 # 2px
-    geometry.top -= buffer
-    geometry.left -= buffer
-    geometry.width += buffer*2
-    geometry.height += buffer*2
-
-    ## Detect if corrds lie within the geometry
-    geometry.left <= x <= geometry.left + geometry.width &&
-      geometry.top <= y <= geometry.top + geometry.height
 
   beginSelection: (x, y) ->
     # Snap x to grid
