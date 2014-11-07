@@ -33,12 +33,10 @@ class @Newstime.HeadlineView extends @Newstime.CanvasItemView
 
       @$headlineEl.css _.pick @model.changedAttributes(),
       if !!@model.get('text')
-        #@model.get('text')
         spanWrapped = _.map @model.get('text'), (char) ->
           if char == '\n'
             char = "<br>"
           "<span>#{char}</span>"
-          #@model.get('text')
         @$headlineEl.html(spanWrapped)
       else
         @$headlineEl.text(@placeholder)
