@@ -8,12 +8,13 @@
   <% content_for :composer_variables do %>
     <%= csrf_meta_tags %>
     <script type="text/javascript" charset="utf-8">
-      var composer = {
-        editionID: "<%= @edition.id %>",
-        sectionID: "<%= @section.id %>",
-        headlineFontWeights: <%= @layout_module.config["headline_font_weights"].to_json %>,
-        storyTextLineHeight: "<%= @layout_module.config["story_text_line_height"] %>"
-      }
+
+      var composer = <%= raw({
+        editionID:  @edition.id,
+        sectionID: @section.id,
+        headlineFontWeights: @layout_module.config["headline_font_weights"],
+        storyTextLineHeight: @layout_module.config["story_text_line_height"]
+      }.to_json) %>
 
       var editionJSON = <%= raw render(template: "editions/show.json") %>
     </script>
