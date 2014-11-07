@@ -13,6 +13,8 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
 
     @bind 'paste', @paste
 
+    @bind 'resized', @reflow, this  # Reflow text on resize
+
     @setContentEl(options.contentEl) if options.contentEl
 
     @propertiesView = new Newstime.TextAreaPropertiesView(target: this)
@@ -94,14 +96,6 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
     @model.set
       width: width
       height: height
-
-  mouseup: (e) ->
-    if @resizing
-      @resizing = false
-      @reflow() # Reflow at the end of resize.
-
-    @moving = false
-    @trigger 'tracking-release', this
 
   reflow: ->
     $.ajax

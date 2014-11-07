@@ -225,6 +225,9 @@ class @Newstime.CanvasItemView extends Backbone.View
     @resizing   = true
     @resizeMode = mode
 
+    # Highlight the drag handle
+    _.find(@dragHandles, (h) -> h.type == mode).selected()
+
     switch @resizeMode
       when 'top', 'top-left', 'top-right'
         @page.computeTopSnapPoints()
@@ -336,7 +339,13 @@ class @Newstime.CanvasItemView extends Backbone.View
       height: y - geometry.top
 
   mouseup: (e) ->
-    @resizing = false
+    if @resizing
+      @resizing = false
+      @resizeMode = null
+      # Reset drag handles, clearing if they where active
+      _.each @dragHandles, (h) -> h.reset()
+      @trigger 'resized'
+
     @moving = false
     @trigger 'tracking-release', this
 

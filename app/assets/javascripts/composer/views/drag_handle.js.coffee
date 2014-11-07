@@ -24,3 +24,9 @@ class @Newstime.DragHandle extends Backbone.View
           x <= geometry.x + geometry.width/2 + 8 &&
           y >= geometry.y - 8 &&
           y <= geometry.y + 8
+
+  selected: ->
+    @$el.addClass 'selected'
+
+  reset: ->
+    @$el.removeClass 'selected'

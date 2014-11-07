@@ -19,6 +19,12 @@
       width: 8px; height: 8px;
       position: absolute;
       background-color: white;
+      box-shadow: 0 0 1px #ccc;
+
+      &.selected {
+        background-color: #efefef;
+        border-color: #777;
+      }
 
 
       &.top {
