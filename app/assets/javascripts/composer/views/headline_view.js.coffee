@@ -38,8 +38,10 @@ class @Newstime.HeadlineView extends @Newstime.CanvasItemView
             char = "<br>"
           "<span>#{char}</span>"
         @$headlineEl.html(spanWrapped)
+        @$headlineEl.removeClass 'placeholder'
       else
         @$headlineEl.text(@placeholder)
+        @$headlineEl.addClass 'placeholder'
 
     # Highlight cursor position
 
