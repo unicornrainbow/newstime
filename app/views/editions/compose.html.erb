@@ -8,8 +8,10 @@
   <% content_for :composer_variables do %>
     <%= csrf_meta_tags %>
     <script type="text/javascript" charset="utf-8">
-      var composer = <%= raw(@composer_values.to_json) %>
-      var editionJSON = <%= raw render(template: "editions/show.json") %>
+      var Newstime = Newstime || {};
+      Newstime.config = <%= raw(@client_config.to_json) %>;
+      var composer = Newstime.config;
+      var editionJSON = <%= raw render(template: "editions/show.json") %>;
     </script>
   <% end %>
   <% content_for :toolbar do %>

@@ -9,7 +9,7 @@ class @Newstime.HeadlineView extends @Newstime.BoundedBoxView
     @composer = options.composer
     @placeholder = "Type Headline" # Text to show when there is no headline
 
-    @fontWeights = composer.headlineFontWeights
+    @fontWeights = Newstime.config.headlineFontWeights
 
     # Add drag handles
     @dragHandles = ['top', 'top-right', 'right', 'bottom-right', 'bottom', 'bottom-left', 'left', 'top-left']
