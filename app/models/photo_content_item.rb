@@ -8,7 +8,7 @@ class PhotoContentItem < ContentItem
   end
 
   def edition_relative_url_path
-    photo.edition_relative_url_path
+    photo.try(:edition_relative_url_path)
   end
 
 end

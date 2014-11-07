@@ -68,6 +68,21 @@ class @Newstime.PageComposeView extends Backbone.View
       selectionView.bind 'tracking', @resizeSelection, this
       selectionView.bind 'tracking-release', @resizeSelectionRelease, this
 
+    # Initilize Text Areas Controls
+    $("[photo-control]", @$el).each (i, el) =>
+      id = $(el).data('content-item-id')
+      contentItem = @contentItemCollection.findWhere(_id: id)
+
+      selectionView = new Newstime.PhotoView(model: contentItem, page: this, composer: @composer, contentEl: el) # Needs to be local to the "page"
+      @selectionViews.push selectionView
+      @$el.append(selectionView.el)
+
+      # Bind to events
+      selectionView.bind 'activate', @selectionActivated, this
+      selectionView.bind 'deactivate', @selectionDeactivated, this
+      selectionView.bind 'tracking', @resizeSelection, this
+      selectionView.bind 'tracking-release', @resizeSelectionRelease, this
+
 
   # Sets up and compute grid steps
   gridInit: ->
@@ -134,6 +149,7 @@ class @Newstime.PageComposeView extends Backbone.View
       when 'select-tool' then 'default'
       when 'type-tool' then "-webkit-image-set(url('/assets/type_tool_cursor.png') 2x), auto"
       when 'headline-tool' then "-webkit-image-set(url('/assets/headline_tool_cursor.png') 2x), auto"
+      when 'photo-tool' then "-webkit-image-set(url('/assets/photo_tool_cursor.png') 2x), auto"
 
     #when 'text-tool' then 'pointer'
     #when 'text-tool' then 'text'
@@ -176,6 +192,8 @@ class @Newstime.PageComposeView extends Backbone.View
           @drawTypeArea(e.x, e.y)
         when 'headline-tool'
           @drawHeadline(e.x, e.y)
+        when 'photo-tool'
+          @drawPhoto(e.x, e.y)
         when 'select-tool'
           @activeSelection.deactivate() if @activeSelection
           #@beginSelection(e.x, e.y)
@@ -232,6 +250,46 @@ class @Newstime.PageComposeView extends Backbone.View
         composing: true
         content_item: contentItem.toJSON()
       success: attachContentEl
+
+  drawPhoto: (x, y) ->
+
+    contentItem = new Newstime.ContentItem
+      _type: 'PhotoContentItem'
+      page_id: @page.get('_id')
+
+    @edition.get('content_items').add(contentItem)
+
+    # Get the headline templte, and inject it.
+    #headlineEl = @edition.getHeadlineElTemplate()
+    #headlineEl: el
+
+    selectionView = new Newstime.PhotoView(model: contentItem, page: this, composer: @composer) # Needs to be local to the "page"
+    @selectionViews.push selectionView
+    @$el.append(selectionView.el)
+
+    # Bind to events
+    selectionView.bind 'activate', @selectionActivated, this
+    selectionView.bind 'deactivate', @selectionDeactivated, this
+    selectionView.bind 'tracking', @resizeSelection, this
+    selectionView.bind 'tracking-release', @resizeSelectionRelease, this
+
+    selectionView.beginSelection(x, y)
+
+    #attachHeadlineEl = (response) =>
+      #$headlineEl = $(response)
+      #$headlineEl.insertBefore(selectionView.$el)
+      #selectionView.setHeadlineEl($headlineEl)
+
+    #console.log "#{@edition.url()}/render_content_item.html"
+
+    #$.ajax
+      #method: 'GET'
+      #url: "#{@edition.url()}/render_content_item.html"
+      #data:
+        #composing: true
+        #content_item: contentItem.toJSON()
+      #success: attachHeadlineEl
+
 
   drawHeadline: (x, y) ->
 

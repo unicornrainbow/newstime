@@ -3,7 +3,7 @@
 class @Newstime.HeadlineView extends @Newstime.CanvasItemView
 
   initialize: (options) ->
-    super()
+    super
     @page = options.page
     @composer = options.composer
     @placeholder = "Type Headline" # Text to show when there is no headline
