@@ -28,6 +28,7 @@ class @Newstime.PanelLayerView extends Backbone.View
 
   # Registers hit, and returns hit panel, should there be one.
   hit: (x, y) ->
+    return false if @hidden # Can't be hit if hidden.
 
     e =
       x: x
@@ -112,7 +113,6 @@ class @Newstime.PanelLayerView extends Backbone.View
     if @hoveredObject
       @hoveredObject.trigger 'mousemove', e
 
-
   tracking: (panel) ->
     @trackingPanel = panel
     @trigger 'tracking', this
@@ -123,4 +123,5 @@ class @Newstime.PanelLayerView extends Backbone.View
 
   # Toggles Visibility
   toggle: ->
-    @$el.toggle()
+    @hidden = !@hidden
+    @$el.toggle(!@hidden)
