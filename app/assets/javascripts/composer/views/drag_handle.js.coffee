@@ -9,6 +9,8 @@ class @Newstime.DragHandle extends Backbone.View
     @$el.addClass 'drag-handle'
     @$el.addClass @type
 
+    @bind 'mouseover', @mouseover
+    @bind 'mouseout', @mouseout
 
   # Detects a hit of the selection
   hit: (x, y) ->
@@ -30,3 +32,9 @@ class @Newstime.DragHandle extends Backbone.View
 
   reset: ->
     @$el.removeClass 'selected'
+
+  mouseover: ->
+    @$el.addClass 'hovered'
+
+  mouseout: ->
+    @$el.removeClass 'hovered'

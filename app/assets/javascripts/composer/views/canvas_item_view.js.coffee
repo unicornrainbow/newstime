@@ -258,8 +258,69 @@ class @Newstime.CanvasItemView extends Backbone.View
 
     else if @moving
       @move(e.x, e.y)
-    #else
-      #console.log "Highlight"
+
+    else if @active
+      # Check for hit handles
+      hit = @hitsDragHandle(e.x, e.y)
+      hit = _.find(@dragHandles, (h) -> h.type == hit)
+      if @hoveredHandle && hit
+        if @hoveredHandle != hit
+          @hoveredHandle.trigger 'mouseout', e
+          @hoveredHandle = hit
+          @hoveredHandle.trigger 'mouseover', e
+      else if @hoveredHandle
+        @hoveredHandle.trigger 'mouseout', e
+        @hoveredHandle = null
+      else if hit
+        @hoveredHandle = hit
+        @hoveredHandle.trigger 'mouseover', e
+
+
+  hitsDragHandle: (x, y) ->
+    geometry = @getGeometry()
+
+    # TODO: This should all be precalulated
+    width   = geometry.width
+    height  = geometry.height
+    top     = geometry.top
+    left    = geometry.left
+
+    right   = left + width
+    bottom  = top + height
+    centerX = left + width/2
+    centerY = top + height/2
+
+    if @hitBox x, y, centerX, top, 8
+      return "top"
+
+    # right drag handle hit?
+    if @hitBox x, y, right, centerY, 8
+      return "right"
+
+    # left drag handle hit?
+    if @hitBox x, y, left, centerY, 8
+      return "left"
+
+    # bottom drag handle hit?
+    if @hitBox x, y, centerX, bottom, 8
+      return "bottom"
+
+    # top-left drag handle hit?
+    if @hitBox x, y, left, top, 8
+      return "top-left"
+
+    # top-right drag handle hit?
+    if @hitBox x, y, right, top, 8
+      return "top-right"
+
+    # bottom-left drag handle hit?
+    if @hitBox x, y, left, bottom, 8
+      return "bottom-left"
+
+    # bottom-right drag handle hit?
+    if @hitBox x, y, right, bottom, 8
+      return "bottom-right"
+
 
   # Moves based on corrdinates and starting offset
   move: (x, y) ->

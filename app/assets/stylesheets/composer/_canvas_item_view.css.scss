@@ -21,8 +21,13 @@
       background-color: white;
       box-shadow: 0 0 1px #ccc;
 
-      &.selected {
+      &.hovered {
         background-color: #efefef;
+        border-color: #777;
+      }
+
+      &.selected {
+        background-color: #eee;
         border-color: #777;
       }
 
