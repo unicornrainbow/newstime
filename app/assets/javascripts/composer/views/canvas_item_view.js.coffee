@@ -57,7 +57,6 @@ class @Newstime.CanvasItemView extends Backbone.View
 
   deactivate: ->
     @active = false
-    @clearEditMode()
     @trigger 'deactivate', this
     @$el.removeClass 'resizable'
 

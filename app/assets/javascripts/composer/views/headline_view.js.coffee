@@ -54,6 +54,10 @@ class @Newstime.HeadlineView extends @Newstime.CanvasItemView
     @super()
     @$headlineEl.remove() if @$headlineEl?
 
+  deactivate: ->
+    @clearEditMode()
+    super()
+
   keydown: (e) =>
     if @editMode
       switch e.keyCode
