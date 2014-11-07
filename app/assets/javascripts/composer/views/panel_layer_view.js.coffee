@@ -120,3 +120,7 @@ class @Newstime.PanelLayerView extends Backbone.View
   trackingRelease: (panel) ->
     @trackingPanel = null
     @trigger 'tracking-release', this
+
+  # Toggles Visibility
+  toggle: ->
+    @$el.toggle()

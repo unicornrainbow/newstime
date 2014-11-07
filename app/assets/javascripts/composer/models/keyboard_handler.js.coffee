@@ -75,6 +75,11 @@ class @Newstime.KeyboardHandler extends Backbone.Model
             edition.save() # Save edition
 
 
+        when 80 # p
+          # Toggle panel layer visibility
+          @composer.togglePanelLayer()
+
+
   keyup: (e) =>
     return unless @composer.hasFocus # Ignore unless composer has focus
 

@@ -388,6 +388,9 @@
     propertiesView = target.getPropertiesView()
     @propertiesPanelView.mount(propertiesView)
 
+  togglePanelLayer: ->
+    @panelLayerView.toggle()
+
 
 $ ->
   # Get the edition, mostly for development purposes right now.
