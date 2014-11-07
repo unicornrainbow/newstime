@@ -9,9 +9,9 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
 
     @page = options.page
     @composer = options.composer
-    @lineHeight = 22 # TODO: Read from media module
+    @lineHeight = parseInt(Newstime.config.storyTextLineHeight)
 
-    @bind 'paste',     @paste
+    @bind 'paste', @paste
 
     @setContentEl(options.contentEl) if options.contentEl
 
