@@ -52,7 +52,19 @@ class @Newstime.PhotoView extends @Newstime.CanvasItemView
         source = URLObj.createObjectURL(blob)
 
         # The URL can then be used as the source of an image
-        @createImage(source)
+        #@createImage(source)
+
+
+        pastedImage = new Image()
+        el = @$el
+        pastedImage.onload = ->
+          el.css "background-image": "url('#{this.src}');"
+
+          #$("body").append(this)
+          #console.log this.src
+          #$(this).appendTo(document)
+        pastedImage.src = source
+
 
     #if items
       ## Loop through all items, looking for any kind of image
