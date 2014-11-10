@@ -20,6 +20,9 @@
     @edition = options.edition
     @section = options.section
 
+    # Create application vent for aggregating events.
+    Newstime.vent = _.extend({}, Backbone.Events)
+
     window.onbeforeunload = ->
       if @edition.isDirty()
         return "You have unsaved changes."
@@ -103,6 +106,15 @@
 
     @panelLayerView.bind 'tracking',         @tracking, this
     @panelLayerView.bind 'tracking-release', @trackingRelease, this
+
+
+    Newstime.vent.on "edit-text", (model) ->
+      Newstime.Composer.textEditor.show()
+      # Display Text Area Editor
+      # Attach model
+      # Copy over values into a local model for the editor.
+      # When they exit, save changes back to model, which will update view.
+
 
     #$("[headline-control]").headlineControl headlineProperties
     #storyPropertiesView = new Newstime.StoryPropertiesView()

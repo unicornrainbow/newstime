@@ -10,6 +10,7 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
     @lineHeight = parseInt(Newstime.config.storyTextLineHeight)
 
     @bind 'paste', @paste
+    @bind 'dblclick',  @dblclick
 
     @bind 'resized', @reflow, this  # Reflow text on resize
 
@@ -43,6 +44,9 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
     # rerender the contents of the pasted text after it has been reflowed.
 
     @reflow()
+
+  dblclick: (e) ->
+    Newstime.vent.trigger 'edit-text', @model
 
   keydown: (e) =>
     switch e.keyCode
