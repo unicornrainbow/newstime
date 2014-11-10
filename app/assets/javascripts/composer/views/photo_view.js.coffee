@@ -42,11 +42,11 @@ class @Newstime.PhotoView extends @Newstime.CanvasItemView
     item = items[0]
     if item
       type = item.type
-      console.log type
+      #console.log type
       if type.indexOf "image" != -1
         # We have image
         blob = item.getAsFile()
-        console.log blob
+        #console.log blob
 
         URLObj = window.URL || window.webkitURL
         source = URLObj.createObjectURL(blob)
@@ -56,15 +56,17 @@ class @Newstime.PhotoView extends @Newstime.CanvasItemView
 
 
         pastedImage = new Image()
-        el = @$el
-        pastedImage.onload = ->
-          el.css "background-image": "url('#{this.src}');"
+        #el = @$el
+        #pastedImage.onload = ->
+          #el.css "background-image": "url('#{this.src}');"
 
           #$("body").append(this)
           #console.log this.src
           #$(this).appendTo(document)
-        pastedImage.src = source
+        #pastedImage.src = source
+        console.log source
 
+        @$contentEl.css "background-image": "url('#{source}')"
 
     #if items
       ## Loop through all items, looking for any kind of image
