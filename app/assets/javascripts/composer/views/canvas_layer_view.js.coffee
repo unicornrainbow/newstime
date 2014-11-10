@@ -18,8 +18,10 @@ class @Newstime.CanvasLayerView extends Backbone.View
     # solidness of the ui)
     @$el.css "-webkit-user-select": "none"
 
-    #@zoomLevels = [25, 33, 50, 67, 75, 90, 100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
-    @zoomLevels = [100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
+
+    @zoomLevels = [25, 33, 50, 67, 75, 90, 100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
+    @zoomLevelIndex = 6
+    #@zoomLevels = [100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
 
     @pageCollection = @edition.get('pages')
 
@@ -261,8 +263,12 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @zoomLevel = @zoomLevels[@zoomLevelIndex]/100
 
     # And apply zoom level to the zoom target (page)
+    #@$el.css
+      #zoom: "#{@zoomLevel * 100}%"
+
     @$el.css
-      zoom: "#{@zoomLevel * 100}%"
+      'transform-origin': '50% 0'
+      'transform': "scale(#{@zoomLevel})"
 
     @repositionScroll()
 
@@ -274,8 +280,12 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @zoomLevel = @zoomLevels[@zoomLevelIndex]/100
 
     # And apply zoom level to the zoom target (page)
+    #@$el.css
+      #zoom: "#{@zoomLevel * 100}%"
+
     @$el.css
-      zoom: "#{@zoomLevel * 100}%"
+      'transform-origin': '50% 0'
+      'transform': "scale(#{@zoomLevel})"
 
     # Lock scroll horizontally
     #documentWidth = document.body.scrollWidth # scroll width give the correct width, considering auto margins on resize, versus document width
@@ -319,19 +329,29 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @zoomLevel = @zoomLevels[@zoomLevelIndex]/100
 
     # And apply zoom level to the zoom target (page)
+    #@$el.css
+      #zoom: "#{@zoomLevel * 100}%"
+
     @$el.css
-      zoom: "#{@zoomLevel * 100}%"
+      'transform-origin': '50% 0'
+      'transform': "scale(#{@zoomLevel})"
+
 
     @repositionScroll()
 
   zoomReset: ->
-    #@zoomLevelIndex = 6
-    @zoomLevelIndex = 0
+    @zoomLevelIndex = 6
+    #@zoomLevelIndex = 0
     @zoomLevel = @zoomLevels[@zoomLevelIndex]/100
 
     # And apply zoom level to the zoom target (page)
+    #@$el.css
+      #zoom: "#{@zoomLevel * 100}%"
+
+
     @$el.css
-      zoom: "#{@zoomLevel * 100}%"
+      'transform-origin': '50% 0'
+      'transform': "scale(#{@zoomLevel})"
 
     @repositionScroll()
 
@@ -344,8 +364,13 @@ class @Newstime.CanvasLayerView extends Backbone.View
     #console.log "zooming here"
 
     # And apply zoom level to the zoom target (page)
+    #@$el.css
+      #zoom: "#{@zoomLevel * 100}%"
+
     @$el.css
-      zoom: "#{@zoomLevel * 100}%"
+      'transform-origin': '50% 0'
+      'transform': "scale(#{@zoomLevel})"
+
 
 
   repositionScroll: ->
