@@ -15,13 +15,14 @@
 
 @Newstime = @Newstime or {}
 
-@Newstime.Composer =
-  init: (options) ->
+class @Newstime.Composer extends Backbone.View
+
+  initialize: (options) ->
     @edition = options.edition
     @section = options.section
 
     # Create application vent for aggregating events.
-    Newstime.vent = _.extend({}, Backbone.Events)
+    @vent = _.extend({}, Backbone.Events)
 
     window.onbeforeunload = ->
       if @edition.isDirty()
@@ -108,7 +109,7 @@
     @panelLayerView.bind 'tracking-release', @trackingRelease, this
 
 
-    Newstime.vent.on "edit-text", (model) ->
+    @vent.on "edit-text", (model) ->
       Newstime.Composer.textEditor.show()
       # Display Text Area Editor
       # Attach model
@@ -424,6 +425,8 @@ $ ->
   # Global reference to current section model
   window.section =  edition.get('sections').findWhere(_id: composer.sectionID)
 
-  Newstime.Composer.init(edition: edition, section: section)
+  #Newstime.Composer.init(edition: edition, section: section)
+
+  window.composer = new Newstime.Composer(edition: edition, section: section)
 
   return

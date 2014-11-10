@@ -46,7 +46,7 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
     @reflow()
 
   dblclick: (e) ->
-    Newstime.vent.trigger 'edit-text', @model
+    Newstime.composer.vent.trigger 'edit-text', @model
 
   keydown: (e) =>
     switch e.keyCode
