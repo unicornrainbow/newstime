@@ -1,5 +1,6 @@
 class PhotosController < ApplicationController
   before_filter :authenticate_user!
+  respond_to :json, :html
 
   def index
     @photos = Photo.all
@@ -11,11 +12,8 @@ class PhotosController < ApplicationController
 
   def create
     @photo = Photo.new(photo_params)
-    if @photo.save
-      redirect_to @photo, notice: "Photo created successfully."
-    else
-      render "new"
-    end
+    @photo.save
+    render :show
   end
 
   def edit

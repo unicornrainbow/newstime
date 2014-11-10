@@ -23,7 +23,6 @@ class Photo
     attachment_content_type =~ %r{^(image|(x-)?application)/(bmp|gif|jpeg|jpg|pjpeg|png|x-png)$}
   end
 
-
   def edition_relative_url_path
     "images/#{name}#{File.extname(attachment.path)}"
   end
