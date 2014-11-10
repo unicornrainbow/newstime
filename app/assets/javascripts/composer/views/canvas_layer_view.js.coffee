@@ -267,7 +267,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
       #zoom: "#{@zoomLevel * 100}%"
 
     @$el.css
-      'transform-origin': '50% 0'
+      'transform-origin': '0 0'
       'transform': "scale(#{@zoomLevel})"
 
     @repositionScroll()
@@ -284,7 +284,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
       #zoom: "#{@zoomLevel * 100}%"
 
     @$el.css
-      'transform-origin': '50% 0'
+      'transform-origin': '0 0'
       'transform': "scale(#{@zoomLevel})"
 
     # Lock scroll horizontally
@@ -333,7 +333,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
       #zoom: "#{@zoomLevel * 100}%"
 
     @$el.css
-      'transform-origin': '50% 0'
+      'transform-origin': '0 0'
       'transform': "scale(#{@zoomLevel})"
 
 
@@ -350,7 +350,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
 
     @$el.css
-      'transform-origin': '50% 0'
+      'transform-origin': '0 0'
       'transform': "scale(#{@zoomLevel})"
 
     @repositionScroll()
@@ -368,9 +368,8 @@ class @Newstime.CanvasLayerView extends Backbone.View
       #zoom: "#{@zoomLevel * 100}%"
 
     @$el.css
-      'transform-origin': '50% 0'
+      'transform-origin': '0 0'
       'transform': "scale(#{@zoomLevel})"
-
 
 
   repositionScroll: ->
