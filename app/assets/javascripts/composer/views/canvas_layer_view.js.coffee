@@ -13,6 +13,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @$grid = @$('.grid') # Where to append pages to (HACK)
 
     @$el.css top: "#{@topOffset}px"
+    @$el.addClass 'canvas-view-layer'
 
     # Ensure nothing can be highlighted with a user drag (Which breaks the
     # solidness of the ui)
@@ -267,7 +268,6 @@ class @Newstime.CanvasLayerView extends Backbone.View
       #zoom: "#{@zoomLevel * 100}%"
 
     @$el.css
-      'transform-origin': '0 0'
       'transform': "scale(#{@zoomLevel})"
 
     @repositionScroll()
@@ -284,7 +284,6 @@ class @Newstime.CanvasLayerView extends Backbone.View
       #zoom: "#{@zoomLevel * 100}%"
 
     @$el.css
-      'transform-origin': '0 0'
       'transform': "scale(#{@zoomLevel})"
 
     # Lock scroll horizontally
@@ -333,7 +332,6 @@ class @Newstime.CanvasLayerView extends Backbone.View
       #zoom: "#{@zoomLevel * 100}%"
 
     @$el.css
-      'transform-origin': '0 0'
       'transform': "scale(#{@zoomLevel})"
 
 
@@ -350,7 +348,6 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
 
     @$el.css
-      'transform-origin': '0 0'
       'transform': "scale(#{@zoomLevel})"
 
     @repositionScroll()
@@ -368,7 +365,6 @@ class @Newstime.CanvasLayerView extends Backbone.View
       #zoom: "#{@zoomLevel * 100}%"
 
     @$el.css
-      'transform-origin': '0 0'
       'transform': "scale(#{@zoomLevel})"
 
 
