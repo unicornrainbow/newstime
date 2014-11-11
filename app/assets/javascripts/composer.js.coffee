@@ -109,13 +109,7 @@ class @Newstime.Composer extends Backbone.View
     @panelLayerView.bind 'tracking-release', @trackingRelease, this
 
 
-    @vent.on "edit-text", (model) ->
-      Newstime.Composer.textEditor.show()
-      # Display Text Area Editor
-      # Attach model
-      # Copy over values into a local model for the editor.
-      # When they exit, save changes back to model, which will update view.
-
+    @vent.on "edit-text", @editText, this
 
     #$("[headline-control]").headlineControl headlineProperties
     #storyPropertiesView = new Newstime.StoryPropertiesView()
@@ -174,6 +168,20 @@ class @Newstime.Composer extends Backbone.View
     #
     #
     $(document).on "paste", @paste
+
+    @textEditor = new Newstime.TextAreaEditorView()
+    @$body.append(@textEditor.el)
+
+
+  editText: (model) ->
+    @textEditor.show()
+    #console.log this
+    #Newstime.Composer.textEditor.show()
+    # Display Text Area Editor
+    # Attach model
+    # Copy over values into a local model for the editor.
+    # When they exit, save changes back to model, which will update view.
+
 
   # Focus on composer
   focus: ->
@@ -425,8 +433,7 @@ $ ->
   # Global reference to current section model
   window.section =  edition.get('sections').findWhere(_id: composer.sectionID)
 
-  #Newstime.Composer.init(edition: edition, section: section)
-
-  window.composer = new Newstime.Composer(edition: edition, section: section)
+  Newstime.composer = new Newstime.Composer(edition: edition, section: section)
+  window.composer   = Newstime.composer
 
   return
