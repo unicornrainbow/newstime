@@ -51,7 +51,7 @@ class @Newstime.HeadlineView extends @Newstime.CanvasItemView
     #console.log "cursor" , @model.get('cursorPosition')
 
   modelDestroyed: ->
-    @super()
+    super()
     @$headlineEl.remove() if @$headlineEl?
 
   deactivate: ->
