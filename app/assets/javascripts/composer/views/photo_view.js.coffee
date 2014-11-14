@@ -24,7 +24,11 @@ class @Newstime.PhotoView extends @Newstime.CanvasItemView
     super()
 
     if @$contentEl?
-      @$contentEl.css _.pick @model.changedAttributes(), 'top', 'left', 'width', 'height'
+      @$contentEl.css
+        top: @model.get('top') + @pageTop
+        left: @model.get('left') + @pageLeft
+
+      @$contentEl.css _.pick @model.changedAttributes(), 'width', 'height'
 
   photoChanged: ->
     if @$contentEl?

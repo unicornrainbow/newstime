@@ -27,7 +27,11 @@ class @Newstime.HeadlineView extends @Newstime.CanvasItemView
     super()
 
     if @$headlineEl?
-      @$headlineEl.css _.pick @model.changedAttributes(), 'top', 'left', 'margin-top', 'margin-right', 'margin-bottom', 'margin-left'
+      @$headlineEl.css
+        top: @model.get('top') + @pageTop
+        left: @model.get('left') + @pageLeft
+
+      @$headlineEl.css _.pick @model.changedAttributes(), 'margin-top', 'margin-right', 'margin-bottom', 'margin-left'
       @$headlineEl.css 'font-size': @model.get('font_size')
       @$headlineEl.css 'font-weight': @model.get('font_weight')
 

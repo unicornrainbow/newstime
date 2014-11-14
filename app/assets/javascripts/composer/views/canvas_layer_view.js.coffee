@@ -24,6 +24,10 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @zoomLevelIndex = 6
     #@zoomLevels = [100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
 
+
+    ### Pages
+    #########
+
     @pageCollection = @edition.get('pages')
 
     # Capture and Init pages
@@ -38,7 +42,6 @@ class @Newstime.CanvasLayerView extends Backbone.View
         composer: @composer
         toolbox: @toolbox
 
-
       @pages.push pageView
 
     _.each @pages, (page) =>
@@ -52,7 +55,83 @@ class @Newstime.CanvasLayerView extends Backbone.View
       composer: @composer
 
     @$el.append(@addPageButton.el)
-    #console.log @addPageButton.geometry()
+
+    ### ItemViews
+    #############
+
+    @contentItemCollection = @edition.get('content_items')
+    @selectionViews = []
+
+    # For each page, extract and place the content items onto the canvas view
+    # layer in association with the page.
+
+
+    _.each @pages, (page) =>
+
+      $("[headline-control]", page.$el).each (i, el) =>
+        id = $(el).data('content-item-id')
+        contentItem = @contentItemCollection.findWhere(_id: id)
+
+        selectionView = new Newstime.HeadlineView(model: contentItem, page: page, composer: @composer, headlineEl: el) # Needs to be local to the "page"
+        @selectionViews.push selectionView
+        @$el.append(el) # Move element from page to canvas layer
+        @$el.append(selectionView.el)
+
+        # Bind to events
+        selectionView.bind 'activate', @selectionActivated, this
+        selectionView.bind 'deactivate', @selectionDeactivated, this
+        selectionView.bind 'tracking', @resizeSelection, this
+        selectionView.bind 'tracking-release', @resizeSelectionRelease, this
+
+      # Initilize Text Areas Controls
+      $("[text-area-control]", page.$el).each (i, el) =>
+        id = $(el).data('content-item-id')
+        contentItem = @contentItemCollection.findWhere(_id: id)
+
+        selectionView = new Newstime.TextAreaView(model: contentItem, page: page, composer: @composer, contentEl: el) # Needs to be local to the "page"
+        @selectionViews.push selectionView
+        @$el.append(el) # Move element from page to canvas layer
+        @$el.append(selectionView.el)
+
+        # Bind to events
+        selectionView.bind 'activate', @selectionActivated, this
+        selectionView.bind 'deactivate', @selectionDeactivated, this
+        selectionView.bind 'tracking', @resizeSelection, this
+        selectionView.bind 'tracking-release', @resizeSelectionRelease, this
+
+      # Initilize Text Areas Controls
+      $("[photo-control]", page.$el).each (i, el) =>
+        id = $(el).data('content-item-id')
+        contentItem = @contentItemCollection.findWhere(_id: id)
+
+        selectionView = new Newstime.PhotoView(model: contentItem, page: page, composer: @composer, contentEl: el) # Needs to be local to the "page"
+        @selectionViews.push selectionView
+        @$el.append(el) # Move element from page to canvas layer
+        @$el.append(selectionView.el)
+
+
+        # Bind to events
+        selectionView.bind 'activate', @selectionActivated, this
+        selectionView.bind 'deactivate', @selectionDeactivated, this
+        selectionView.bind 'tracking', @resizeSelection, this
+        selectionView.bind 'tracking-release', @resizeSelectionRelease, this
+
+      # Initilize Text Areas Controls
+      $("[video-control]", page.$el).each (i, el) =>
+        id = $(el).data('content-item-id')
+        contentItem = @contentItemCollection.findWhere(_id: id)
+
+        selectionView = new Newstime.VideoView(model: contentItem, page: page, composer: @composer, contentEl: el) # Needs to be local to the "page"
+        @selectionViews.push selectionView
+        @$el.append(el) # Move element from page to canvas layer
+        @$el.append(selectionView.el)
+
+        # Bind to events
+        selectionView.bind 'activate', @selectionActivated, this
+        selectionView.bind 'deactivate', @selectionDeactivated, this
+        selectionView.bind 'tracking', @resizeSelection, this
+        selectionView.bind 'tracking-release', @resizeSelectionRelease, this
+
 
     # Bind mouse events
     @bind 'mouseover',  @mouseover
@@ -69,9 +148,14 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @focusedPage = page
     @trigger 'focus', this
 
+  #keydown: (e) ->
+    #if @focusedPage
+      #@focusedPage.trigger 'keydown', e
+
+
   keydown: (e) ->
-    if @focusedPage
-      @focusedPage.trigger 'keydown', e
+    if @activeSelection
+      @activeSelection.trigger 'keydown', e
 
   paste: (e) ->
     if @focusedPage
@@ -122,18 +206,13 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
   mouseover: (e) ->
     @hovered = true
-
     @adjustEventXY(e)
-
     if @hoveredObject
       @hoveredObject.trigger 'mouseover', e
 
-
   mouseout: (e) ->
     @hovered = false
-
     @adjustEventXY(e)
-
     if @hoveredObject
       @hoveredObject.trigger 'mouseout', e
       @hoveredObject = null
@@ -143,6 +222,34 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
     if @hoveredObject
       @hoveredObject.trigger 'mousedown', e
+    else
+      switch @toolbox.get('selectedTool')
+        when 'type-tool'
+          @drawTypeArea(e.x, e.y)
+        when 'headline-tool'
+          @drawHeadline(e.x, e.y)
+        when 'photo-tool'
+          @drawPhoto(e.x, e.y)
+        when 'video-tool'
+          @drawVideo(e.x, e.y)
+        when 'select-tool'
+          @activeSelection.deactivate() if @activeSelection
+          #@beginSelection(e.x, e.y)
+
+  mouseup: (e) ->
+    @adjustEventXY(e)
+
+    if @resizeSelectionTarget
+      @resizeSelectionTarget.trigger 'mouseup', e
+      return true
+
+    if @trackingSelection
+      @trackingSelection = null # TODO: Should still be active, just not tracking
+      @trigger 'tracking-release', this
+
+    #if @trackingPage
+      #@trackingPage.trigger 'mouseup', e
+      #return true
 
   dblclick: (e) ->
     @adjustEventXY(e)
@@ -156,36 +263,37 @@ class @Newstime.CanvasLayerView extends Backbone.View
     if @hoveredObject
       @hoveredObject.trigger 'contextmenu', e
 
-  mouseup: (e) ->
-    @adjustEventXY(e)
-
-    if @trackingPage
-      @trackingPage.trigger 'mouseup', e
-      return true
-
 
   mousemove: (e) ->
     @adjustEventXY(e)
 
-    if @trackingPage
-      @trackingPage.trigger 'mousemove', e
+    if @resizeSelectionTarget
+      @resizeSelectionTarget.trigger 'mousemove', e
       return true
 
-    page = _.find @pages, (page) =>
-      @detectHit page, e.x, e.y
+    # Need to abstract and move this down into the selection. Kludgy for now.
+    if @trackingSelection
+      @trackingSelection.$el.css
+        width: @snapToGridRight(e.x - @trackingSelection.anchorX)
+        height: e.y - @trackingSelection.anchorY
+      return true
 
-    # TODO: page here is misnomber, should realy just be a local hovered object
-    unless page # If no page, check for button hit
-      if @detectHit @addPageButton, e.x, e.y
-        page = @addPageButton
+    # Check for hit inorder to highlight hovered selection
+    if @activeSelection # Check active selection first.
+      selection = @activeSelection if @activeSelection.hit(e.x, e.y)
 
-    if page
-      if @hoveredObject != page
+    unless selection
+      # NOTE: Would be nice to skip active selection here, since already
+      # checked, but no biggie.
+      selection = _.find @selectionViews, (selection) ->
+        selection.hit(e.x, e.y)
+
+    if selection
+      if @hoveredObject != selection
         if @hoveredObject
           @hoveredObject.trigger 'mouseout', e
-        @hoveredObject = page
+        @hoveredObject = selection
         @hoveredObject.trigger 'mouseover', e
-
     else
       if @hoveredObject
         @hoveredObject.trigger 'mouseout', e
@@ -194,6 +302,34 @@ class @Newstime.CanvasLayerView extends Backbone.View
     if @hoveredObject
       @hoveredObject.trigger 'mousemove', e
 
+
+    # Old mousemove code for pages
+    #if @trackingPage
+      #@trackingPage.trigger 'mousemove', e
+      #return true
+
+    #page = _.find @pages, (page) =>
+      #@detectHit page, e.x, e.y
+
+    ## TODO: page here is misnomber, should realy just be a local hovered object
+    #unless page # If no page, check for button hit
+      #if @detectHit @addPageButton, e.x, e.y
+        #page = @addPageButton
+
+    #if page
+      #if @hoveredObject != page
+        #if @hoveredObject
+          #@hoveredObject.trigger 'mouseout', e
+        #@hoveredObject = page
+        #@hoveredObject.trigger 'mouseover', e
+
+    #else
+      #if @hoveredObject
+        #@hoveredObject.trigger 'mouseout', e
+        #@hoveredObject = null
+
+    #if @hoveredObject
+      #@hoveredObject.trigger 'mousemove', e
 
 
   detectHit: (page, x, y) ->
@@ -397,3 +533,205 @@ class @Newstime.CanvasLayerView extends Backbone.View
       # Apply scroll position
       @scrollTop = (documentHeight - windowHeight) * (@verticalScrollPosition/100)
       $(window).scrollTop(@scrollTop)
+
+
+  drawTypeArea: (x, y) ->
+    ## We need to create and activate a selection region (Marching ants would be nice)
+
+    contentItem = new Newstime.ContentItem
+      _type: 'TextAreaContentItem'
+      page_id: @page.get('_id')
+
+    @edition.get('content_items').add(contentItem)
+
+    selectionView = new Newstime.TextAreaView(model: contentItem, page: this, composer: @composer) # Needs to be local to the "page"
+    @selectionViews.push selectionView
+    @$el.append(selectionView.el)
+
+    # Bind to events
+    selectionView.bind 'activate', @selectionActivated, this
+    selectionView.bind 'deactivate', @selectionDeactivated, this
+    selectionView.bind 'tracking', @resizeSelection, this
+    selectionView.bind 'tracking-release', @resizeSelectionRelease, this
+
+    selectionView.beginSelection(x, y)
+
+    attachContentEl = (response) =>
+      $contentEl = $(response)
+      $contentEl.insertBefore(selectionView.$el)
+      selectionView.setContentEl($contentEl)
+
+    $.ajax
+      method: 'GET'
+      url: "#{@edition.url()}/render_content_item.html"
+      data:
+        composing: true
+        content_item: contentItem.toJSON()
+      success: attachContentEl
+
+  drawPhoto: (x, y) ->
+
+    contentItem = new Newstime.ContentItem
+      _type: 'PhotoContentItem'
+      page_id: @page.get('_id')
+
+    @edition.get('content_items').add(contentItem)
+
+    # Get the headline templte, and inject it.
+    #headlineEl = @edition.getHeadlineElTemplate()
+    #headlineEl: el
+
+    selectionView = new Newstime.PhotoView(model: contentItem, page: this, composer: @composer) # Needs to be local to the "page"
+    @selectionViews.push selectionView
+    @$el.append(selectionView.el)
+
+    # Bind to events
+    selectionView.bind 'activate', @selectionActivated, this
+    selectionView.bind 'deactivate', @selectionDeactivated, this
+    selectionView.bind 'tracking', @resizeSelection, this
+    selectionView.bind 'tracking-release', @resizeSelectionRelease, this
+
+    selectionView.beginSelection(x, y)
+
+
+    attachContentEl = (response) =>
+      $contentEl = $(response)
+      $contentEl.insertBefore(selectionView.$el)
+      selectionView.setContentEl($contentEl)
+
+    $.ajax
+      method: 'GET'
+      url: "#{@edition.url()}/render_content_item.html"
+      data:
+        composing: true
+        content_item: contentItem.toJSON()
+      success: attachContentEl
+
+  drawVideo: (x, y) ->
+
+    contentItem = new Newstime.ContentItem
+      _type: 'VideoContentItem'
+      page_id: @page.get('_id')
+
+    @edition.get('content_items').add(contentItem)
+
+    # Get the headline templte, and inject it.
+    #headlineEl = @edition.getHeadlineElTemplate()
+    #headlineEl: el
+
+    selectionView = new Newstime.VideoView(model: contentItem, page: this, composer: @composer) # Needs to be local to the "page"
+    @selectionViews.push selectionView
+    @$el.append(selectionView.el)
+
+    # Bind to events
+    selectionView.bind 'activate', @selectionActivated, this
+    selectionView.bind 'deactivate', @selectionDeactivated, this
+    selectionView.bind 'tracking', @resizeSelection, this
+    selectionView.bind 'tracking-release', @resizeSelectionRelease, this
+
+    selectionView.beginSelection(x, y)
+
+    #attachHeadlineEl = (response) =>
+      #$headlineEl = $(response)
+      #$headlineEl.insertBefore(selectionView.$el)
+      #selectionView.setHeadlineEl($headlineEl)
+
+    #console.log "#{@edition.url()}/render_content_item.html"
+
+    #$.ajax
+      #method: 'GET'
+      #url: "#{@edition.url()}/render_content_item.html"
+      #data:
+        #composing: true
+        #content_item: contentItem.toJSON()
+      #success: attachHeadlineEl
+
+
+  drawHeadline: (x, y) ->
+
+    contentItem = new Newstime.ContentItem
+      _type: 'HeadlineContentItem'
+      page_id: @page.get('_id')
+
+    @edition.get('content_items').add(contentItem)
+
+    # Get the headline templte, and inject it.
+    #headlineEl = @edition.getHeadlineElTemplate()
+    #headlineEl: el
+
+    selectionView = new Newstime.HeadlineView(model: contentItem, page: this, composer: @composer) # Needs to be local to the "page"
+    @selectionViews.push selectionView
+    @$el.append(selectionView.el)
+
+    # Bind to events
+    selectionView.bind 'activate', @selectionActivated, this
+    selectionView.bind 'deactivate', @selectionDeactivated, this
+    selectionView.bind 'tracking', @resizeSelection, this
+    selectionView.bind 'tracking-release', @resizeSelectionRelease, this
+
+    selectionView.beginSelection(x, y)
+
+    attachHeadlineEl = (response) =>
+      $headlineEl = $(response)
+      $headlineEl.insertBefore(selectionView.$el)
+      selectionView.setHeadlineEl($headlineEl)
+
+    console.log "#{@edition.url()}/render_content_item.html"
+
+    $.ajax
+      method: 'GET'
+      url: "#{@edition.url()}/render_content_item.html"
+      data:
+        composing: true
+        content_item: contentItem.toJSON()
+      success: attachHeadlineEl
+
+    #contentItem.save {},
+      #success: (model) ->
+        #$.ajax
+          #url: "#{model.url()}.html"
+          #data:
+            #composing: true
+          #success: attachHeadlineEl
+        # Append and set headline el.
+        #
+        #selectionView.setHeadlineEl
+
+  beginSelection: (x, y) ->
+    ## We need to create and activate a selection region (Marching ants would be nice)
+
+    contentItem = new Newstime.ContentItem
+      _type: 'BoxContentItem'
+      page_id: @page.get('_id')
+
+    @edition.get('content_items').add(contentItem)
+
+    selectionView = new Newstime.SelectionView(model: contentItem, page: this, composer: @composer) # Needs to be local to the "page"
+    @selectionViews.push selectionView
+    @$el.append(selectionView.el)
+
+    # Bind to events
+    selectionView.bind 'activate', @selectionActivated, this
+    selectionView.bind 'deactivate', @selectionDeactivated, this
+    selectionView.bind 'tracking', @resizeSelection, this
+    selectionView.bind 'tracking-release', @resizeSelectionRelease, this
+
+    selectionView.beginSelection(x, y)
+
+  selectionActivated: (selection) ->
+    @composer.setSelection(selection)
+    #@activeSelection.deactivate() if @activeSelection
+    @activeSelection = selection
+    @trigger 'focus', this # Trigger focus event to get keyboard events
+
+  selectionDeactivated: (selection) ->
+    @composer.clearSelection()
+    @activeSelection = null
+
+  resizeSelection: (selection) ->
+    @resizeSelectionTarget = selection
+    @trigger 'tracking', this
+
+  resizeSelectionRelease: (selection) ->
+    @resizeSelectionTarget = null
+    @trigger 'tracking-release', this

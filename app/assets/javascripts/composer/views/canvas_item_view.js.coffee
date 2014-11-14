@@ -7,6 +7,10 @@ class @Newstime.CanvasItemView extends Backbone.View
     @page = options.page
     @composer = options.composer
 
+    # Get page offsets
+    @pageLeft = @page.x()
+    @pageTop = @page.y()
+
     # Add drag handles
     @dragHandles = ['top', 'top-right', 'right', 'bottom-right', 'bottom', 'bottom-left', 'left', 'top-left']
     @dragHandles = _.map @dragHandles, (type) ->
@@ -16,7 +20,10 @@ class @Newstime.CanvasItemView extends Backbone.View
     handleEls = _.map @dragHandles, (handle) -> handle.el
     @$el.append(handleEls)
 
-    @$el.css _.pick @model.attributes, 'top', 'left', 'width', 'height'
+    @$el.css
+      top: @model.get('top') + @pageTop
+      left: @model.get('left') + @pageLeft
+    @$el.css _.pick @model.attributes, 'width', 'height'
 
     @bind 'mousedown', @mousedown
     @bind 'mousemove', @mousemove
@@ -30,7 +37,12 @@ class @Newstime.CanvasItemView extends Backbone.View
     @model.bind 'destroy', @modelDestroyed, this
 
   modelChanged: ->
-    @$el.css _.pick @model.changedAttributes(), 'top', 'left', 'width', 'height'
+    #@$el.css _.pick @model.changedAttributes(), 'top', 'left', 'width', 'height'
+
+    @$el.css
+      top: @model.get('top') + @pageTop
+      left: @model.get('left') + @pageLeft
+    @$el.css _.pick @model.changedAttributes(), 'width', 'height'
 
   modelDestroyed: ->
     # TODO: Need to properly unbind events and allow destruction of view
@@ -38,6 +50,8 @@ class @Newstime.CanvasItemView extends Backbone.View
 
   # Detects a hit of the selection
   hit: (x, y) ->
+    x = x - @pageLeft
+    y = y - @pageTop
 
     geometry = @getGeometry()
 
@@ -144,6 +158,8 @@ class @Newstime.CanvasItemView extends Backbone.View
 
 
   mousedown: (e) ->
+    @adjustEventXY(e)
+
     return unless e.button == 0 # Only respond to left button mousedown.
 
     unless @active
@@ -179,6 +195,7 @@ class @Newstime.CanvasItemView extends Backbone.View
     @trigger 'tracking', this
 
   mousemove: (e) ->
+    @adjustEventXY(e)
     if @resizing
       switch @resizeMode
         when 'top'          then @dragTop(e.x, e.y)
@@ -256,6 +273,10 @@ class @Newstime.CanvasItemView extends Backbone.View
     if @hitBox x, y, right, bottom, 8
       return "bottom-right"
 
+  adjustEventXY: (e) ->
+    # Apply page offset
+    e.x -= @pageLeft
+    e.y -= @pageTop
 
   # Moves based on corrdinates and starting offset
   move: (x, y) ->
@@ -337,6 +358,8 @@ class @Newstime.CanvasItemView extends Backbone.View
       height: y - geometry.top
 
   mouseup: (e) ->
+    @adjustEventXY(e)
+
     if @resizing
       @resizing = false
       @resizeMode = null
@@ -356,6 +379,8 @@ class @Newstime.CanvasItemView extends Backbone.View
     'default'
 
   mouseout: (e) ->
+    @adjustEventXY(e)
+
     if @hoveredHandle
       @hoveredHandle.trigger 'mouseout', e
       @hoveredHandle = null
