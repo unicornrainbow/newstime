@@ -649,9 +649,15 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
   drawHeadline: (x, y) ->
 
+    # Determined which page was hit...
+    pageView = _.find @pages, (page) =>
+      @detectHit page, x, y
+
+    pageModel = pageView.page
+
     contentItem = new Newstime.ContentItem
       _type: 'HeadlineContentItem'
-      page_id: @page.get('_id')
+      page_id: pageModel.get('_id')
 
     @edition.get('content_items').add(contentItem)
 
@@ -659,7 +665,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
     #headlineEl = @edition.getHeadlineElTemplate()
     #headlineEl: el
 
-    selectionView = new Newstime.HeadlineView(model: contentItem, page: this, composer: @composer) # Needs to be local to the "page"
+    selectionView = new Newstime.HeadlineView(model: contentItem, page: pageView, composer: @composer) # Needs to be local to the "page"
     @selectionViews.push selectionView
     @$el.append(selectionView.el)
 
