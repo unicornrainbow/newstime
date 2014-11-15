@@ -1,4 +1,4 @@
-<% wrap_with template_name -%>
+<% wrap_with "sections/#{template_name}" -%>
 
 <% @pages.each do |page| %>
   <%= render "page", page: page %>
