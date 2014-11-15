@@ -24,7 +24,7 @@ class Page
   end
 
   def pixel_height
-    self[:pixel_height] || 1200
+    self[:pixel_height] || 1552
   end
 
   def gutter_width

@@ -7,9 +7,9 @@ class LayoutModule
       layout_module.templates[name].render(self, *args, &block)
     end
 
-    def stylesheet_link_tag(name)
+    def stylesheet_link_tag(name, options={})
       asset_recorder.try(:stylesheet, "#{name}.css")
-      %Q{<link href="#{name}.css" rel="stylesheet" media="screen" />}
+      %Q{<link href="#{name}.css" rel="stylesheet" media="all" />}
     end
 
     def javascript_include_tag(name)
