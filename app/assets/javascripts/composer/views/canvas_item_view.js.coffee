@@ -284,8 +284,8 @@ class @Newstime.CanvasItemView extends Backbone.View
 
     # Adjust x corrdinate
     x -= @moveOffsetX
-    x = Math.min(x, @page.getWidth() - @model.get('width')) # Keep on page
-    x = @page.snapLeft(x) # Snap
+    #x = Math.min(x, @page.getWidth() - @model.get('width')) # Keep on page
+    #x = @page.snapLeft(x) # Snap
 
     y = @page.snapTop(y - @moveOffsetY)
     @model.set

@@ -369,6 +369,22 @@ class @Newstime.CanvasLayerView extends Backbone.View
     return false
 
 
+  detectHitY: (page, y) ->
+    geometry = page.geometry()
+
+    ## Expand the geometry by buffer distance in each direction to extend
+    ## clickable area.
+    buffer = 4 # 2px
+    geometry.y -= buffer
+    geometry.height += buffer*2
+
+    ## Detect if corrds lie within the geometry
+    if y >= geometry.y && y <= geometry.y + geometry.height
+      return true
+
+    return false
+
+
   ## Zoom stuff below for the moment
 
   captureScrollPosition: (e) =>
@@ -651,7 +667,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
     # Determined which page was hit...
     pageView = _.find @pages, (page) =>
-      @detectHit page, x, y
+      @detectHitY page, y
 
     pageModel = pageView.page
 
