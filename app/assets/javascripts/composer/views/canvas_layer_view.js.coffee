@@ -65,7 +65,6 @@ class @Newstime.CanvasLayerView extends Backbone.View
     # For each page, extract and place the content items onto the canvas view
     # layer in association with the page.
 
-
     _.each @pages, (page) =>
 
       $("[headline-control]", page.$el).each (i, el) =>
@@ -152,7 +151,6 @@ class @Newstime.CanvasLayerView extends Backbone.View
     #if @focusedPage
       #@focusedPage.trigger 'keydown', e
 
-
   keydown: (e) ->
     if @activeSelection
       @activeSelection.trigger 'keydown', e
@@ -207,15 +205,34 @@ class @Newstime.CanvasLayerView extends Backbone.View
   mouseover: (e) ->
     @hovered = true
     @adjustEventXY(e)
+    @pushCursor() # Replace with hover stack implementation eventually
     if @hoveredObject
       @hoveredObject.trigger 'mouseover', e
 
   mouseout: (e) ->
     @hovered = false
     @adjustEventXY(e)
+    @popCursor()
     if @hoveredObject
       @hoveredObject.trigger 'mouseout', e
       @hoveredObject = null
+
+  getCursor: ->
+    cursor = switch @toolbox.get('selectedTool')
+      when 'select-tool' then 'default'
+      when 'type-tool' then "-webkit-image-set(url('/assets/type_tool_cursor.png') 2x), auto"
+      when 'headline-tool' then "-webkit-image-set(url('/assets/headline_tool_cursor.png') 2x), auto"
+      when 'photo-tool' then "-webkit-image-set(url('/assets/photo_tool_cursor.png') 2x), auto"
+      when 'video-tool' then "-webkit-image-set(url('/assets/video_tool_cursor.png') 2x), auto"
+
+    #when 'text-tool' then 'pointer'
+    #when 'text-tool' then 'text'
+
+  pushCursor: ->
+    @composer.pushCursor(@getCursor())
+
+  popCursor: ->
+    @composer.popCursor()
 
   mousedown: (e) ->
     @adjustEventXY(e)

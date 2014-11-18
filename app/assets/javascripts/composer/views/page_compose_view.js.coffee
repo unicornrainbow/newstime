@@ -82,23 +82,6 @@ class @Newstime.PageComposeView extends Backbone.View
     height: @height()
 
 
-  getCursor: ->
-    cursor = switch @toolbox.get('selectedTool')
-      when 'select-tool' then 'default'
-      when 'type-tool' then "-webkit-image-set(url('/assets/type_tool_cursor.png') 2x), auto"
-      when 'headline-tool' then "-webkit-image-set(url('/assets/headline_tool_cursor.png') 2x), auto"
-      when 'photo-tool' then "-webkit-image-set(url('/assets/photo_tool_cursor.png') 2x), auto"
-      when 'video-tool' then "-webkit-image-set(url('/assets/video_tool_cursor.png') 2x), auto"
-
-    #when 'text-tool' then 'pointer'
-    #when 'text-tool' then 'text'
-
-  pushCursor: ->
-    @composer.pushCursor(@getCursor())
-
-  popCursor: ->
-    @composer.popCursor()
-
   # Applies offset (sort of a hack for now)
   adjustEventXY: (e) ->
     # Apply scroll offset
@@ -141,14 +124,11 @@ class @Newstime.PageComposeView extends Backbone.View
   #mouseover: (e) ->
     #@adjustEventXY(e)
     ##@hovered = true
-    ##@pushCursor() # Replace with hover stack implementation eventually
     ##if @hoveredObject
       ##@hoveredObject.trigger 'mouseover', e
 
   #mouseout: (e) ->
     #@adjustEventXY(e)
-    #@popCursor()
-
     #@hovered = false
 
     #if @hoveredObject
