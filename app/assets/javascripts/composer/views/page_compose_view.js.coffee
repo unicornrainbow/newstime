@@ -192,8 +192,24 @@ class @Newstime.PageComposeView extends Backbone.View
       #@trigger 'tracking-release', this
 
   snapLeft: (value) ->
-    @grid.snapLeft(value)
+    #@grid.snapLeft(value)
     #value
+
+    # Snapping the left edge.
+    # Snap to things are
+    #  - The left edge of the page (Derived from the page border model)
+    #    @pageBorder.model.get('left') (This needs to be computed relative to
+    #    our received x and y.
+    #  - The left edge of anything considered to be on the page (Smart Guides)
+    #  - The left edge of a grid column, if grid activated
+    #
+    #  Out of these three sources, will snap to the closest one, or random if
+    #  tied.
+    #
+    #  Smart guide will displayed during snap, this is a feature of the canvas
+    #  view layer, will disappear when snap is broken or accepted with mouseup.
+
+
 
   snapRight: (value) ->
     @grid.snapRight(value)
