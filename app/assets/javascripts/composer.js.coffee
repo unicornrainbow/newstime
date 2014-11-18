@@ -108,11 +108,6 @@ class @Newstime.Composer extends Backbone.View
     @panelLayerView.bind 'tracking',         @tracking, this
     @panelLayerView.bind 'tracking-release', @trackingRelease, this
 
-
-    @vent.bind 'tracking',         @tracking, this # Experiment with event bus
-    @vent.bind 'tracking-release', @trackingRelease, this # Experiment with event bus
-
-
     @vent.on "edit-text", @editText, this
 
     #$("[headline-control]").headlineControl headlineProperties

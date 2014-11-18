@@ -682,6 +682,10 @@ class @Newstime.CanvasLayerView extends Backbone.View
   drawSelection: (x, y) ->
     selectionView = new Newstime.Selection()
     @$el.append(selectionView.el)
+
+    selectionView.bind 'tracking', @resizeSelection, this
+    selectionView.bind 'tracking-release', @resizeSelectionRelease, this
+
     selectionView.beginSelection(x, y)
 
   drawHeadline: (x, y) ->

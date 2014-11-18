@@ -16,7 +16,7 @@ class @Newstime.Selection extends Backbone.View
 
   beginSelection: (x, y) -> # TODO: rename beginDraw
     @model.set(left: x, top: y)
-    @vent.trigger("tracking", this)
+    @trigger("tracking", this)
 
   mousemove: (e) ->
     @model.set
@@ -24,4 +24,4 @@ class @Newstime.Selection extends Backbone.View
       height: e.y - @model.get('top')
 
   mouseup: (e) ->
-    @vent.trigger("tracking-release", this)
+    @trigger("tracking-release", this)
