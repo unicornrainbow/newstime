@@ -200,12 +200,12 @@ class @Newstime.PageComposeView extends Backbone.View
     pageLeftEdge = @pageBorder.model.get('pageLeftMargin')
 
     #@canvasItemLeftEdges = @collectLeftEdges() # TODO: This should be precalulated
-                                               # whenever as drag begins.
-                                               # Must exclude current object
-                                               # edge as a snapping point.
+                                                # whenever as drag begins.
+                                                # Must exclude current object
+                                                # edge as a snapping point.
 
     # Get canvas item left edges
-    #@page.
+    #canvasItem @page.
 
     #canvasItemSnap = Newstime.closest(value , @canvasItemLeftEdges)
 
@@ -215,16 +215,11 @@ class @Newstime.PageComposeView extends Backbone.View
 
     # Only use snap if snap is within tolerance
     if Math.abs(snapTo - value) < 10
-      console.log snapTo
       snapTo
     else
-      console.log value
-      value
-
+      null
 
     # TODO: checking for snapping enabled
-
-
 
     #value
 

@@ -66,6 +66,10 @@ class @Newstime.Composer extends Backbone.View
     @keyboardHandler = new Newstime.KeyboardHandler
       composer: this
 
+    @verticalSnapLine = new Newstime.VerticalSnapLine()
+    @canvasLayerView.$el.append @verticalSnapLine.el
+    @verticalSnapLine.hide()
+
     #canvasDragView = new Newstime.CanvasDragView
       #composer: this
 
@@ -419,6 +423,13 @@ class @Newstime.Composer extends Backbone.View
   #
   setTool: (tool) ->
     @toolbox.set(selectedTool: tool)
+
+  showVerticalSnapLine: (x) ->
+    @verticalSnapLine.set(x)
+    @verticalSnapLine.show()
+
+  hideVerticalSnapLine: ->
+    @verticalSnapLine.hide()
 
 
 $ ->
