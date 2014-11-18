@@ -192,7 +192,40 @@ class @Newstime.PageComposeView extends Backbone.View
       #@trigger 'tracking-release', this
 
   snapLeft: (value) ->
-    #@grid.snapLeft(value)
+    tolerance = 20
+
+    # Get snap values
+    #gridSnap = @grid.snapLeft(value)
+    #pageLeftEdge = @pageBorder.getLeft()
+    pageLeftEdge = @pageBorder.model.get('pageLeftMargin')
+
+    #@canvasItemLeftEdges = @collectLeftEdges() # TODO: This should be precalulated
+                                               # whenever as drag begins.
+                                               # Must exclude current object
+                                               # edge as a snapping point.
+
+    # Get canvas item left edges
+    #@page.
+
+    #canvasItemSnap = Newstime.closest(value , @canvasItemLeftEdges)
+
+    # Find closest of snaps
+    snapTo = Newstime.closest(value , [pageLeftEdge])
+
+
+    # Only use snap if snap is within tolerance
+    if Math.abs(snapTo - value) < 10
+      console.log snapTo
+      snapTo
+    else
+      console.log value
+      value
+
+
+    # TODO: checking for snapping enabled
+
+
+
     #value
 
     # Snapping the left edge.

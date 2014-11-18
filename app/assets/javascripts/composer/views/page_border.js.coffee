@@ -10,9 +10,20 @@ class @Newstime.PageBorder extends Backbone.View
     @model.bind 'change', @modelChanged, this
 
   modelChanged: ->
-    css = {}
-    css.top = @model.get('pageY') + @model.get('pageTopMargin')
-    css.left = @model.get('pageX') + @model.get('pageLeftMargin')
-    css.width = @model.get('pageWidth') - @model.get('pageLeftMargin') - @model.get('pageRightMargin')
-    css.height = @model.get('pageHeight') - @model.get('pageTopMargin') - @model.get('pageBottomMargin')
-    @$el.css(css)
+    @$el.css
+      top: @getTop()
+      left: @getLeft()
+      width: @getWidth()
+      height: @getHeight()
+
+  getLeft: ->
+    @model.get('pageX') + @model.get('pageLeftMargin')
+
+  getTop: ->
+    @model.get('pageY') + @model.get('pageTopMargin')
+
+  getWidth: ->
+    @model.get('pageWidth') - @model.get('pageLeftMargin') - @model.get('pageRightMargin')
+
+  getHeight: ->
+    @model.get('pageHeight') - @model.get('pageTopMargin') - @model.get('pageBottomMargin')
