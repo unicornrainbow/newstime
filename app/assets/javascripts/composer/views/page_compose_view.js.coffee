@@ -5,6 +5,7 @@ class @Newstime.PageComposeView extends Backbone.View
   initialize: (options) ->
     @edition = options.edition
     @composer = options.composer
+    @canvasLayerView = options.canvasLayerView
     @toolbox = options.toolbox
     @$el.addClass 'page-compose'
 
@@ -22,6 +23,10 @@ class @Newstime.PageComposeView extends Backbone.View
     #@gridLines = new Newstime.GridLines()
     #@$el.append(@gridLines.el)
 
+    @pageBorder = new Newstime.PageBorder(page: this)
+    @canvasLayerView.append(@pageBorder.el)
+    @setPageBorderDimensions()
+
     @grid = new Newstime.GridView
     @$el.append(@grid.el)
 
@@ -37,6 +42,24 @@ class @Newstime.PageComposeView extends Backbone.View
 
 
     # Initialize Headline Controls
+
+  setPageBorderDimensions: ->
+    # The page border needs to no the x and y location of the page. It also
+    # needs to know the page width and height, and finally it needs to know the
+    # margins for each of the four sides, from this is can compute it's top,
+    # left, right and bottom dimensions for rendering relative to the canvas
+    # view layer.
+    geometry = @geometry()
+    @pageBorder.model.set
+      pageX: geometry.x
+      pageY: geometry.y
+      pageWidth:  geometry.width
+      pageHeight: geometry.height
+      pageTopMargin: 190
+      pageLeftMargin: 8
+      pageRightMargin: 8
+      pageBottomMargin: 4
+
 
   # Sets up and compute grid steps
   gridInit: ->

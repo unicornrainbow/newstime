@@ -782,3 +782,6 @@ class @Newstime.CanvasLayerView extends Backbone.View
   resizeSelectionRelease: (selection) ->
     @resizeSelectionTarget = null
     @trigger 'tracking-release', this
+
+  append: (el) ->
+    @$el.append(el)
