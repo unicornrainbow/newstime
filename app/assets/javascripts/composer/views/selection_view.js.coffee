@@ -16,12 +16,30 @@ class @Newstime.Selection extends Backbone.View
 
   beginSelection: (x, y) -> # TODO: rename beginDraw
     @model.set(left: x, top: y)
+    @originX = x
+    @originY = y
     @trigger("tracking", this)
 
   mousemove: (e) ->
+    if e.x < @originX
+      left = e.x
+      width = @originX - e.x
+    else
+      left = @originX
+      width = e.x - @model.get('left')
+
+    if e.y < @originY
+      top = e.y
+      height = @originY - e.y
+    else
+      top = @originY
+      height = e.y - @model.get('top')
+
     @model.set
-      width: e.x - @model.get('left')
-      height: e.y - @model.get('top')
+      left: left
+      width: width
+      top: top
+      height: height
 
   mouseup: (e) ->
     @trigger("tracking-release", this)
