@@ -191,7 +191,8 @@ class @Newstime.PageComposeView extends Backbone.View
       #@trackingSelection = null # TODO: Should still be active, just not tracking
       #@trigger 'tracking-release', this
 
-  snapLeft: (value) ->
+  snapLeft: (value, options={}) ->
+    exclude = options.exclude # Content Item to exclude from snap
     tolerance = 20
 
     # Get snap values
@@ -204,13 +205,23 @@ class @Newstime.PageComposeView extends Backbone.View
                                                 # Must exclude current object
                                                 # edge as a snapping point.
 
-    # Get canvas item left edges
-    #canvasItem @page.
+    # Get canvas items on the page
+    #canvasItems
+    #console.log _.findWhere(@edition.get('content_items'), page_id: @page.get('_id'))
+    #pageContentItems = @edition.get('content_items').where(page_id: @page.get('_id'))
+    page_id = @page.get('_id')
+    pageContentItems = @edition.get('content_items').select (item) -> item.get('page_id') == page_id  && item.get('_id') != exclude.get('_id')
+    pageCanvasItemLeftEdges = _.map(pageContentItems, (item) -> item.get('left'))
+    canvasItemSnap = Newstime.closest(value, pageCanvasItemLeftEdges)
+    console.log canvasItemSnap
+
+      #_.pluck(
+      #, 'left')
 
     #canvasItemSnap = Newstime.closest(value , @canvasItemLeftEdges)
 
     # Find closest of snaps
-    snapTo = Newstime.closest(value , [pageLeftEdge])
+    snapTo = Newstime.closest(value , [pageLeftEdge, canvasItemSnap])
 
 
     # Only use snap if snap is within tolerance

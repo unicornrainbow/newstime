@@ -316,7 +316,7 @@ class @Newstime.CanvasItemView extends Backbone.View
 
   dragLeft: (x, y) ->
     geometry = @getGeometry()
-    snapLeft = @page.snapLeft(x)
+    snapLeft = @page.snapLeft(x, exclude: @model)
     if snapLeft
       @composer.showVerticalSnapLine(snapLeft + @page.x())
       x = snapLeft
@@ -369,6 +369,8 @@ class @Newstime.CanvasItemView extends Backbone.View
     if @resizing
       @resizing = false
       @resizeMode = null
+
+      @composer.hideVerticalSnapLine() # Ensure vertical snaps aren't showing.
       # Reset drag handles, clearing if they where active
       _.each @dragHandles, (h) -> h.reset()
       @trigger 'resized'
