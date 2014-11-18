@@ -43,3 +43,4 @@ class @Newstime.Selection extends Backbone.View
 
   mouseup: (e) ->
     @trigger("tracking-release", this)
+    @remove() # Mostly for effect for the time being, immediatly removing the view.
