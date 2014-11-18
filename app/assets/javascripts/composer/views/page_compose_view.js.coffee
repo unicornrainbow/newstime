@@ -55,7 +55,7 @@ class @Newstime.PageComposeView extends Backbone.View
       pageY: geometry.y
       pageWidth:  geometry.width
       pageHeight: geometry.height
-      pageTopMargin: 190
+      pageTopMargin: 190 # TODO: These values need to be set and read from the page model.
       pageLeftMargin: 8
       pageRightMargin: 8
       pageBottomMargin: 4
