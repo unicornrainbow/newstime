@@ -251,7 +251,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
           @drawVideo(e.x, e.y)
         when 'select-tool'
           @activeSelection.deactivate() if @activeSelection
-          #@beginSelection(e.x, e.y)
+          @drawSelection(e.x, e.y)
 
   mouseup: (e) ->
     @adjustEventXY(e)
@@ -679,6 +679,10 @@ class @Newstime.CanvasLayerView extends Backbone.View
         #content_item: contentItem.toJSON()
       #success: attachHeadlineEl
 
+  drawSelection: (x, y) ->
+    selectionView = new Newstime.Selection()
+    @$el.append(selectionView.el)
+    selectionView.beginSelection(x, y)
 
   drawHeadline: (x, y) ->
 

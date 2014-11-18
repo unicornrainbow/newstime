@@ -109,6 +109,10 @@ class @Newstime.Composer extends Backbone.View
     @panelLayerView.bind 'tracking-release', @trackingRelease, this
 
 
+    @vent.bind 'tracking',         @tracking, this # Experiment with event bus
+    @vent.bind 'tracking-release', @trackingRelease, this # Experiment with event bus
+
+
     @vent.on "edit-text", @editText, this
 
     #$("[headline-control]").headlineControl headlineProperties
@@ -260,6 +264,7 @@ class @Newstime.Composer extends Backbone.View
   # Public: Handles mousemove events, called by CoverLayerView
   mousemove: (e) ->
 
+
     # Store current cursor location.
     @mouseX = e.x
     @mouseY = e.y
@@ -272,7 +277,6 @@ class @Newstime.Composer extends Backbone.View
       y: @mouseY
 
     if @trackingLayer
-
       @trackingLayer.trigger 'mousemove', e
       return true
 
