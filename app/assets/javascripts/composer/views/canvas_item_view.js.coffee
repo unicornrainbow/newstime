@@ -43,7 +43,7 @@ class @Newstime.CanvasItemView extends Backbone.View
     @$el.css
       top: @model.get('top') + @pageTop
       left: @model.get('left') + @pageLeft
-    @$el.css _.pick @model.changedAttributes(), 'width', 'height'
+    @$el.css _.pick @model.attributes, 'width', 'height'
 
   modelDestroyed: ->
     # TODO: Need to properly unbind events and allow destruction of view

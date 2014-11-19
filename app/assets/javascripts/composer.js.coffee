@@ -60,7 +60,7 @@ class @Newstime.Composer extends Backbone.View
     @canvasLayerView = new Newstime.CanvasLayerView
       el: @canvas
       composer: this
-      topOffset: @topOffset
+      topOffset: @topOffset + 20
       edition: @edition
       toolbox: @toolbox
     @$body.append(@canvasLayerView.el)
