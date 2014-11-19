@@ -42,10 +42,15 @@ class @Newstime.Composer extends Backbone.View
     @toolbox = new Newstime.Toolbox
 
     # Create application layers
-    @coverLayerView = new Newstime.CoverLayerView
+    @coverLayerView = new Newstime.CoverLayerView # TODO: Rename Capture Layer
       composer: this
       topOffset: @topOffset
     @$body.append(@coverLayerView.el)
+
+    @menuLayerView = new Newstime.MenuLayerView
+      composer: this
+      topOffset: @topOffset
+    @$body.append(@menuLayerView.el)
 
     @panelLayerView = new Newstime.PanelLayerView
       composer: this
@@ -267,13 +272,12 @@ class @Newstime.Composer extends Backbone.View
   # Public: Handles mousemove events, called by CoverLayerView
   mousemove: (e) ->
 
-
     # Store current cursor location.
     @mouseX = e.x
     @mouseY = e.y
 
     # Compistae for top offset to allow room for menu
-    @mouseY -= @topOffset
+    #@mouseY -= @topOffset
 
     e =
       x: @mouseX
@@ -283,7 +287,9 @@ class @Newstime.Composer extends Backbone.View
       @trackingLayer.trigger 'mousemove', e
       return true
 
-    hit = if @panelLayerView.hit(@mouseX, @mouseY)
+    hit = if @menuLayerView.hit(@mouseX, @mouseY)
+      @menuLayerView
+    else if @panelLayerView.hit(@mouseX, @mouseY)
       @panelLayerView
     else if @canvasLayerView.hit(@mouseX, @mouseY)
       @canvasLayerView

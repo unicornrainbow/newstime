@@ -199,6 +199,9 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
   # Calibrates xy to the canvas layer.
   adjustEventXY: (e) ->
+    # Apply top offset
+    e.y -= @topOffset
+
     # Apply scroll offset
     e.x += $(window).scrollLeft()
     e.y += $(window).scrollTop()

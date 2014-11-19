@@ -19,7 +19,6 @@ class @Newstime.AddPageButton extends Backbone.View
     @bind 'mouseout', @mouseout
     @bind 'mousedown', @mousedown
 
-
   top: ->
     @$el.position()['top']
 

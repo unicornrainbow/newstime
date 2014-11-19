@@ -30,6 +30,8 @@ class @Newstime.PanelLayerView extends Backbone.View
   hit: (x, y) ->
     return false if @hidden # Can't be hit if hidden.
 
+    y -= @topOffset
+
     e =
       x: x
       y: y
@@ -88,12 +90,16 @@ class @Newstime.PanelLayerView extends Backbone.View
     return false
 
   mouseover: (e) ->
+    @adjustEventXY(e) # This should be localized to corrds, and isolated to this view. Since this is modifying a shared object, this leaks
+
     @hovered = true
 
     if @hoveredObject
       @hoveredObject.trigger 'mouseover', e
 
   mouseout: (e) ->
+    @adjustEventXY(e)
+
     @hovered = false
 
     if @hoveredObject
@@ -102,16 +108,25 @@ class @Newstime.PanelLayerView extends Backbone.View
 
 
   mousedown: (e) ->
+    @adjustEventXY(e)
+
     if @hoveredObject
       @hoveredObject.trigger 'mousedown', e
 
   mouseup: (e) ->
+    @adjustEventXY(e)
+
     if @hoveredObject
       @hoveredObject.trigger 'mouseup', e
 
   mousemove: (e) ->
+    @adjustEventXY(e)
+
     if @hoveredObject
       @hoveredObject.trigger 'mousemove', e
+
+  adjustEventXY: (e) ->
+    e.y -= @topOffset
 
   tracking: (panel) ->
     @trackingPanel = panel
