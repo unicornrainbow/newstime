@@ -37,7 +37,8 @@ class @Newstime.Composer extends Backbone.View
     @canvas = $('.page')[0]
 
     ## Config
-    @topOffset = 62 # px
+    @topOffset = 61 # px
+    @menuHeight = 25
 
     @toolbox = new Newstime.Toolbox
 
@@ -54,13 +55,13 @@ class @Newstime.Composer extends Backbone.View
 
     @panelLayerView = new Newstime.PanelLayerView
       composer: this
-      topOffset: @topOffset
+      topOffset: @topOffset + @menuHeight
     @$body.append(@panelLayerView.el)
 
     @canvasLayerView = new Newstime.CanvasLayerView
       el: @canvas
       composer: this
-      topOffset: @topOffset + 20
+      topOffset: @topOffset + @menuHeight
       edition: @edition
       toolbox: @toolbox
     @$body.append(@canvasLayerView.el)
@@ -277,7 +278,6 @@ class @Newstime.Composer extends Backbone.View
     @mouseY = e.y
 
     # Compistae for top offset to allow room for menu
-    #@mouseY -= @topOffset
 
     e =
       x: @mouseX

@@ -9,5 +9,8 @@ class @Newstime.MenuLayerView extends Backbone.View
     @topOffset = options.topOffset
     @$el.css top: "#{@topOffset}px"
 
+    @menuView = new Newstime.MenuView()
+    @$el.append(@menuView.el)
+
   hit: (x, y) ->
     false
