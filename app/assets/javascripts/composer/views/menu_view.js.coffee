@@ -6,5 +6,7 @@ class @Newstime.MenuView extends Backbone.View
     @$el.html """
       <div class="container">
         <span class="menu-title">View</menu>
+        <span class="menu-title">Section</menu>
+        <span class="menu-title">Edition</menu>
       </div>
     """
