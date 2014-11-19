@@ -37,7 +37,7 @@ class @Newstime.Composer extends Backbone.View
     @canvas = $('.page')[0]
 
     ## Config
-    @topOffset = 61 # px
+    @topOffset = 0 # 61 # px
     @menuHeight = 25
 
     @toolbox = new Newstime.Toolbox
@@ -103,6 +103,7 @@ class @Newstime.Composer extends Backbone.View
 
     # Initialize Plugins
     $("#edition-toolbar").editionToolbar(composer: this)
+    $("#edition-toolbar").hide() # Hiding for now while testing.
     $("#section-nav").sectionNav()
 
     @coverLayerView.bind 'mouseup', @mouseup, this
