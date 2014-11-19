@@ -3,7 +3,6 @@ class @Newstime.PageBorder extends Backbone.View
 
   initialize: (options) ->
     @page = options.page
-    console.log @page.geometry()
     @model = new Backbone.Model()
     @$el.addClass "page-border"
 

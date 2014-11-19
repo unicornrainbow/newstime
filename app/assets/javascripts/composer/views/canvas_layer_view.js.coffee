@@ -23,7 +23,6 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @zoomLevelIndex = 6
     #@zoomLevels = [100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
 
-
     ### Pages
     #########
 

@@ -86,7 +86,6 @@ class @Newstime.HeadlineView extends @Newstime.CanvasItemView
           unless e.ctrlKey || e.altKey # Skip ctrl and alt
             char = @getEventChar(e)
             if char?
-              console.log 'got it'
               e.stopPropagation()
               e.preventDefault()
               @model.typeCharacter(char)

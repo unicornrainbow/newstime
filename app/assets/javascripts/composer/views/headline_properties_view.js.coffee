@@ -180,7 +180,6 @@ class @Newstime.HeadlinePropertiesView extends Backbone.View
     @$headline.css 'text-align': $(e.currentTarget).val()
 
   changePaddingTop: (e) ->
-    console.log('asd')
     @$headline.css 'padding-top': $(e.currentTarget).val()
 
   changePaddingBottom: (e) ->
