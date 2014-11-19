@@ -31,6 +31,7 @@ class @Newstime.CanvasItemView extends Backbone.View
     @bind 'mouseover', @mouseover
     @bind 'mouseout',  @mouseout
     @bind 'keydown',   @keydown
+    @bind 'windowResize', @windowResize
 
     # Bind Model Events
     @model.bind 'change', @modelChanged, this
@@ -394,6 +395,11 @@ class @Newstime.CanvasItemView extends Backbone.View
 
   getCursor: ->
     'default'
+
+  windowResize: ->
+    @pageLeft = @page.x()
+    @pageTop = @page.y()
+    @modelChanged() # Better name would be @refresh()
 
   mouseout: (e) ->
     @adjustEventXY(e)
