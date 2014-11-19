@@ -142,10 +142,15 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @bind 'keydown',    @keydown
     @bind 'paste',      @paste
     @bind 'contextmenu', @contextmenu
+    @bind 'windowResize', @windowResize
 
   handlePageFocus: (page) ->
     @focusedPage = page
     @trigger 'focus', this
+
+  windowResize: ->
+    _.each @pages, (page) =>
+      page.trigger 'windowResize'
 
   #keydown: (e) ->
     #if @focusedPage

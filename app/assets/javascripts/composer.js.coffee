@@ -165,6 +165,8 @@ class @Newstime.Composer extends Backbone.View
 
     @cursorStack = []
 
+    @$window.resize => @windowResize()
+
     # Events
     #$(window).scroll(@captureScrollPosition)
     #
@@ -185,6 +187,8 @@ class @Newstime.Composer extends Backbone.View
     # Copy over values into a local model for the editor.
     # When they exit, save changes back to model, which will update view.
 
+  windowResize: ->
+    @canvasLayerView.trigger 'windowResize'
 
   # Focus on composer
   focus: ->

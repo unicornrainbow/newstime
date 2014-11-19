@@ -11,6 +11,9 @@ class @Newstime.Page extends Backbone.RelationalModel
       #success: (data) ->
         #console.log data
 
+  getContentItems: ->
+    @get('edition').get('content_items').where(page_id: @get('_id'))
+
 
 class @Newstime.PageCollection extends Backbone.Collection
   model: Newstime.Page

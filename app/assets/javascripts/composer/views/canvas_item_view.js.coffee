@@ -185,6 +185,15 @@ class @Newstime.CanvasItemView extends Backbone.View
       when 'bottom', 'bottom-left', 'bottom-right'
         @page.computeBottomSnapPoints()
 
+
+    switch @resizeMode
+      when 'left', 'top-left', 'bottom-left'
+        @page.collectLeftEdges(@model)
+
+      #when 'right', 'top-right', 'bottom-right'
+        #@page.collectRightEdges(this)
+
+
     @trigger 'tracking', this
 
   trackMove: (offsetX, offsetY) ->
@@ -316,7 +325,7 @@ class @Newstime.CanvasItemView extends Backbone.View
 
   dragLeft: (x, y) ->
     geometry = @getGeometry()
-    snapLeft = @page.snapLeft(x, exclude: @model)
+    snapLeft = @page.snapLeft(x)
     if snapLeft
       @composer.showVerticalSnapLine(snapLeft + @page.x())
       x = snapLeft
@@ -357,8 +366,8 @@ class @Newstime.CanvasItemView extends Backbone.View
 
   dragBottomRight: (x, y) ->
     geometry = @getGeometry()
-    width = @page.snapRight(x - geometry.left)
-    y = @page.snapBottom(y)
+    width    = @page.snapRight(x - geometry.left)
+    y        = @page.snapBottom(y)
     @model.set
       width: width
       height: y - geometry.top

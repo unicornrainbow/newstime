@@ -25,6 +25,7 @@ class @Newstime.PageComposeView extends Backbone.View
 
     @pageBorder = new Newstime.PageBorder(page: this)
     @canvasLayerView.append(@pageBorder.el)
+
     @setPageBorderDimensions()
 
     @grid = new Newstime.GridView
@@ -39,9 +40,11 @@ class @Newstime.PageComposeView extends Backbone.View
     @bind 'keydown',     @keydown
     @bind 'paste',       @paste
     @bind 'contextmenu', @contextmenu
+    @bind 'windowResize', @windowResize # Fired when window is resized
 
+  windowResize: ->
+    @setPageBorderDimensions()
 
-    # Initialize Headline Controls
 
   setPageBorderDimensions: ->
     # The page border needs to no the x and y location of the page. It also
@@ -191,64 +194,21 @@ class @Newstime.PageComposeView extends Backbone.View
       #@trackingSelection = null # TODO: Should still be active, just not tracking
       #@trigger 'tracking-release', this
 
-  snapLeft: (value, options={}) ->
-    exclude = options.exclude # Content Item to exclude from snap
-    tolerance = 20
-
+  snapLeft: (value) ->
+    snapTolerance  = 20
     # Get snap values
     #gridSnap = @grid.snapLeft(value)
-    #pageLeftEdge = @pageBorder.getLeft()
     pageLeftEdge = @pageBorder.model.get('pageLeftMargin')
-
-    #@canvasItemLeftEdges = @collectLeftEdges() # TODO: This should be precalulated
-                                                # whenever as drag begins.
-                                                # Must exclude current object
-                                                # edge as a snapping point.
-
-    # Get canvas items on the page
-    #canvasItems
-    #console.log _.findWhere(@edition.get('content_items'), page_id: @page.get('_id'))
-    #pageContentItems = @edition.get('content_items').where(page_id: @page.get('_id'))
-    page_id = @page.get('_id')
-    pageContentItems = @edition.get('content_items').select (item) -> item.get('page_id') == page_id  && item.get('_id') != exclude.get('_id')
-    pageCanvasItemLeftEdges = _.map(pageContentItems, (item) -> item.get('left'))
-    canvasItemSnap = Newstime.closest(value, pageCanvasItemLeftEdges)
-    console.log canvasItemSnap
-
-      #_.pluck(
-      #, 'left')
-
-    #canvasItemSnap = Newstime.closest(value , @canvasItemLeftEdges)
+    canvasItemSnap = Newstime.closest(value, @pageContentItemLeftEdges)
 
     # Find closest of snaps
     snapTo = Newstime.closest(value , [pageLeftEdge, canvasItemSnap])
 
-
     # Only use snap if snap is within tolerance
-    if Math.abs(snapTo - value) < 10
+    if Math.abs(snapTo - value) < snapTolerance
       snapTo
     else
       null
-
-    # TODO: checking for snapping enabled
-
-    #value
-
-    # Snapping the left edge.
-    # Snap to things are
-    #  - The left edge of the page (Derived from the page border model)
-    #    @pageBorder.model.get('left') (This needs to be computed relative to
-    #    our received x and y.
-    #  - The left edge of anything considered to be on the page (Smart Guides)
-    #  - The left edge of a grid column, if grid activated
-    #
-    #  Out of these three sources, will snap to the closest one, or random if
-    #  tied.
-    #
-    #  Smart guide will displayed during snap, this is a feature of the canvas
-    #  view layer, will disappear when snap is broken or accepted with mouseup.
-
-
 
   snapRight: (value) ->
     @grid.snapRight(value)
@@ -286,3 +246,23 @@ class @Newstime.PageComposeView extends Backbone.View
   computeBottomSnapPoints: ->
     @bottomSnapPoints = _.map @selectionViews, (view) ->
       view.getTop() + view.getHeight()
+
+
+  # Collects left edges of canvas items on page
+  #
+  # If item passed as exclude, it will be excluded
+  collectLeftEdges: (exclude=null) ->
+    items = @page.getContentItems()
+    if exclude
+      items = _.reject items, (item) -> item.get('_id') == exclude.get('_id')
+    @pageContentItemLeftEdges = _.map(items, (item) -> item.get('left'))
+
+
+  # Collects right edges of canvas items on page
+  #
+  # If item passed as exclude, it will be excluded
+  collectRightEdges: (exclude=null) ->
+    items = @page.getContentItems()
+    if exclude
+      items = _.reject items, (item) -> item.get('_id') == exclude.get('_id')
+    @pageContentItemRightEdges = _.map(items, (item) -> item.get('left') + item.get('width'))
