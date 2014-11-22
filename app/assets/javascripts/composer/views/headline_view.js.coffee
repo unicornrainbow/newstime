@@ -97,9 +97,11 @@ class @Newstime.HeadlineView extends @Newstime.CanvasItemView
         when 13 # Enter
           @startEditMode()
         when 187 # +
-          @increaseFontWeight()
+          unless e.altKey
+            @increaseFontWeight()
         when 189 # -
-          @decreaseFontWeight()
+          unless e.altKey
+            @decreaseFontWeight()
         when 84 # t
           # Trim excess margin from top and bottom
           @trimVerticalMargin()
