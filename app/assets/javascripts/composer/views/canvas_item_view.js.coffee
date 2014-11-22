@@ -80,7 +80,10 @@ class @Newstime.CanvasItemView extends Backbone.View
 
   beginSelection: (x, y) -> # TODO: rename beginDraw
     # Snap x to grid
-    x = @page.snapLeft(x)
+    @page.collectLeftEdges(@model)
+    snapX = @page.snapLeft(x)
+    if snapX
+      x = snapX
 
     @model.set
       left: x
