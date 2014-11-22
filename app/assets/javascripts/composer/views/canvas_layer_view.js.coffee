@@ -184,7 +184,6 @@ class @Newstime.CanvasLayerView extends Backbone.View
       pageView.bind 'tracking-release', @trackingRelease, this
 
 
-
   tracking: (page) ->
     @trackingPage = page
     @trigger 'tracking', this
@@ -725,7 +724,11 @@ class @Newstime.CanvasLayerView extends Backbone.View
     selectionView.bind 'tracking', @resizeSelection, this
     selectionView.bind 'tracking-release', @resizeSelectionRelease, this
 
-    selectionView.beginSelection(x, y)
+    # Adjust x and y relative to page for drawing.
+    pageRelX = x - pageView.x()
+    pageRelY = y - pageView.y()
+
+    selectionView.beginSelection(pageRelX, pageRelY)
 
     attachHeadlineEl = (response) =>
       $headlineEl = $(response)
