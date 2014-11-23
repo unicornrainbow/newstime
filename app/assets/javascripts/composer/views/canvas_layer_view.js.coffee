@@ -641,9 +641,15 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
   drawPhoto: (x, y) ->
 
+    # Determined which page was hit...
+    pageView = _.find @pages, (page) =>
+      @detectHitY page, y
+
+    pageModel = pageView.page
+
     contentItem = new Newstime.ContentItem
       _type: 'PhotoContentItem'
-      page_id: @page.get('_id')
+      page_id: pageModel.get('_id')
 
     @edition.get('content_items').add(contentItem)
 
@@ -651,7 +657,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
     #headlineEl = @edition.getHeadlineElTemplate()
     #headlineEl: el
 
-    selectionView = new Newstime.PhotoView(model: contentItem, page: this, composer: @composer) # Needs to be local to the "page"
+    selectionView = new Newstime.PhotoView(model: contentItem, page: pageView, composer: @composer) # Needs to be local to the "page"
     @selectionViews.push selectionView
     @$el.append(selectionView.el)
 
@@ -661,8 +667,10 @@ class @Newstime.CanvasLayerView extends Backbone.View
     selectionView.bind 'tracking', @resizeSelection, this
     selectionView.bind 'tracking-release', @resizeSelectionRelease, this
 
-    selectionView.beginSelection(x, y)
+    pageRelX = x - pageView.x()
+    pageRelY = y - pageView.y()
 
+    selectionView.beginSelection(pageRelX, pageRelY)
 
     attachContentEl = (response) =>
       $contentEl = $(response)
