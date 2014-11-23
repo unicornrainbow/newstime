@@ -130,6 +130,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
         selectionView.bind 'tracking-release', @resizeSelectionRelease, this
 
 
+
     # Bind mouse events
     @bind 'mouseover',  @mouseover
     @bind 'mouseout',   @mouseout
@@ -141,6 +142,13 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @bind 'paste',      @paste
     @bind 'contextmenu', @contextmenu
     @bind 'windowResize', @windowResize
+
+    # Create link area, to enable clicking through on links.
+    activateLinks = =>
+      @linkAreas = _.map @$el.find('a'), (link) =>
+        new Newstime.LinkArea(link, topOffset: @topOffset, composer: @composer)
+    setTimeout activateLinks, 1000
+
 
   handlePageFocus: (page) ->
     @focusedPage = page
@@ -312,6 +320,12 @@ class @Newstime.CanvasLayerView extends Backbone.View
       # checked, but no biggie.
       selection = _.find @selectionViews, (selection) ->
         selection.hit(e.x, e.y)
+
+    unless selection
+      # NOTE: Would be nice to skip active selection here, since already
+      # checked, but no biggie.
+      selection = _.find @linkAreas, (linkArea) ->
+        linkArea.hit(e.x, e.y)
 
     if selection
       if @hoveredObject != selection
