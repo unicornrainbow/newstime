@@ -144,11 +144,17 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @bind 'windowResize', @windowResize
 
     # Create link area, to enable clicking through on links.
-    activateLinks = =>
-      @linkAreas = _.map @$el.find('a'), (link) =>
-        new Newstime.LinkArea(link, topOffset: @topOffset, composer: @composer)
-    setTimeout activateLinks, 1000
+    @linkAreas = _.map @$el.find('a'), (link) =>
+      new Newstime.LinkArea(link, topOffset: @topOffset, composer: @composer)
 
+    setTimeout @measureLinks, 200 # Set timer to remeasure links, a hiccup to get the right positions.
+
+  # Measure link areas. Right now, need to do this after render to ensure we get
+  # to correct values. Should be improved.
+  measureLinks: =>
+    _.each @linkAreas, (linkArea) ->
+      console.log 'asas'
+      linkArea.measure()
 
   handlePageFocus: (page) ->
     @focusedPage = page
