@@ -42,13 +42,13 @@ class @Newstime.Edition extends Backbone.RelationalModel
     @get('pages').bind 'change', @change, this
     @get('content_items').bind 'change', @change, this
 
+    @bind 'sync', @clearIsDirty
+
+  clearIsDirty: ->
+    @dirty = false
+
   change: ->
     @dirty = true
-
-  save: ->
-    success = super()
-    if success
-      @dirty = false
 
   isDirty: ->
     @dirty

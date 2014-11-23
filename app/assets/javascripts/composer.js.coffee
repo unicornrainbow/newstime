@@ -115,7 +115,7 @@ class @Newstime.Composer extends Backbone.View
     @panelLayerView.bind 'tracking',         @tracking, this
     @panelLayerView.bind 'tracking-release', @trackingRelease, this
 
-    window.onbeforeunload = ->
+    window.onbeforeunload = =>
       if @edition.isDirty()
         return "You have unsaved changes."
 
