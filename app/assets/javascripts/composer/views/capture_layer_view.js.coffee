@@ -1,5 +1,5 @@
 # Covers and capture mouse events for relay to interested objects.
-class @Newstime.CoverLayerView extends Backbone.View
+class @Newstime.CaptureLayerView extends Backbone.View
 
   events:
     'mousedown': 'mousedown'
@@ -12,7 +12,7 @@ class @Newstime.CoverLayerView extends Backbone.View
     'click': 'click'
 
   initialize: (options) ->
-    @$el.addClass "cover-layer-view"
+    @$el.addClass "capture-layer-view"
 
     @topOffset = options.topOffset # Apply top offset (Allows room for menu)
     @composer = options.composer

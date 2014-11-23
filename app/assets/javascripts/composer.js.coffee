@@ -43,10 +43,10 @@ class @Newstime.Composer extends Backbone.View
     @toolbox = new Newstime.Toolbox
 
     # Create application layers
-    @coverLayerView = new Newstime.CoverLayerView # TODO: Rename Capture Layer
+    @captureLayerView = new Newstime.CaptureLayerView
       composer: this
       topOffset: @topOffset
-    @$body.append(@coverLayerView.el)
+    @$body.append(@captureLayerView.el)
 
     @menuLayerView = new Newstime.MenuLayerView
       composer: this
@@ -106,11 +106,11 @@ class @Newstime.Composer extends Backbone.View
     $("#edition-toolbar").hide() # Hiding for now while testing.
     $("#section-nav").sectionNav()
 
-    @coverLayerView.bind 'mouseup', @mouseup, this
-    @coverLayerView.bind 'mousemove', @mousemove, this
-    @coverLayerView.bind 'mousedown', @mousedown, this
-    @coverLayerView.bind 'contextmenu', @contextmenu, this
-    @coverLayerView.bind 'dblclick', @dblclick, this
+    @captureLayerView.bind 'mouseup', @mouseup, this
+    @captureLayerView.bind 'mousemove', @mousemove, this
+    @captureLayerView.bind 'mousedown', @mousedown, this
+    @captureLayerView.bind 'contextmenu', @contextmenu, this
+    @captureLayerView.bind 'dblclick', @dblclick, this
 
     @canvasLayerView.bind 'tracking',         @tracking, this
     @canvasLayerView.bind 'tracking-release', @trackingRelease, this
@@ -245,14 +245,14 @@ class @Newstime.Composer extends Backbone.View
     return
 
   hideCursor: ->
-    @coverLayerView.hideCursor()
+    @captureLayerView.hideCursor()
 
   showCursor: ->
-    @coverLayerView.showCursor()
+    @captureLayerView.showCursor()
 
   changeCursor: (cursor) ->
     @currentCursor = cursor
-    @coverLayerView.changeCursor(@currentCursor)
+    @captureLayerView.changeCursor(@currentCursor)
 
   pushCursor: (cursor) ->
     @cursorStack.push @currentCursor
@@ -271,7 +271,7 @@ class @Newstime.Composer extends Backbone.View
     #@changeCursor(cursor)
 
 
-  # Public: Handles mousemove events, called by CoverLayerView
+  # Public: Handles mousemove events, called by CaptureLayerView
   mousemove: (e) ->
 
     # Store current cursor location.
