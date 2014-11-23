@@ -38,7 +38,6 @@ class @Newstime.PageComposeView extends Backbone.View
     #@bind 'mouseup',     @mouseup
     @bind 'dblclick',    @dblclick
     @bind 'keydown',     @keydown
-    @bind 'paste',       @paste
     @bind 'contextmenu', @contextmenu
     @bind 'windowResize', @windowResize # Fired when window is resized
 
@@ -116,11 +115,6 @@ class @Newstime.PageComposeView extends Backbone.View
 
 
   ## Event Handlers
-
-  paste: (e) ->
-    if @activeSelection
-      @activeSelection.trigger 'paste', e
-
 
   dblclick: (e) ->
     return unless e.button == 0 # Only respond to left button mousedown.

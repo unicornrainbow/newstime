@@ -162,8 +162,8 @@ class @Newstime.CanvasLayerView extends Backbone.View
       @activeSelection.trigger 'keydown', e
 
   paste: (e) ->
-    if @focusedPage
-      @focusedPage.trigger 'paste', e
+    if @activeSelection
+      @activeSelection.trigger 'paste', e
 
   addPage: (pageModel) ->
     pageModel.getHTML (html) =>
@@ -579,13 +579,19 @@ class @Newstime.CanvasLayerView extends Backbone.View
   drawTypeArea: (x, y) ->
     ## We need to create and activate a selection region (Marching ants would be nice)
 
+    # Determined which page was hit...
+    pageView = _.find @pages, (page) =>
+      @detectHitY page, y
+
+    pageModel = pageView.page
+
     contentItem = new Newstime.ContentItem
       _type: 'TextAreaContentItem'
-      page_id: @page.get('_id')
+      page_id: pageModel.get('_id')
 
     @edition.get('content_items').add(contentItem)
 
-    selectionView = new Newstime.TextAreaView(model: contentItem, page: this, composer: @composer) # Needs to be local to the "page"
+    selectionView = new Newstime.TextAreaView(model: contentItem, page: pageView, composer: @composer) # Needs to be local to the "page"
     @selectionViews.push selectionView
     @$el.append(selectionView.el)
 
@@ -595,7 +601,10 @@ class @Newstime.CanvasLayerView extends Backbone.View
     selectionView.bind 'tracking', @resizeSelection, this
     selectionView.bind 'tracking-release', @resizeSelectionRelease, this
 
-    selectionView.beginSelection(x, y)
+    pageRelX = x - pageView.x()
+    pageRelY = y - pageView.y()
+
+    selectionView.beginSelection(pageRelX, pageRelY)
 
     attachContentEl = (response) =>
       $contentEl = $(response)
