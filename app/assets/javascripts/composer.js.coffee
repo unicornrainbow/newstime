@@ -24,10 +24,6 @@ class @Newstime.Composer extends Backbone.View
     # Create application vent for aggregating events.
     @vent = _.extend({}, Backbone.Events)
 
-    window.onbeforeunload = ->
-      if @edition.isDirty()
-        return "You have unsaved changes."
-
     @captureAuthenticityToken()
 
     # Capture Elements
@@ -66,7 +62,6 @@ class @Newstime.Composer extends Backbone.View
       toolbox: @toolbox
     @$body.append(@canvasLayerView.el)
 
-
     @hasFocus = true # By default, composer has focus
 
     @keyboardHandler = new Newstime.KeyboardHandler
@@ -76,35 +71,36 @@ class @Newstime.Composer extends Backbone.View
     @canvasLayerView.$el.append @verticalSnapLine.el
     @verticalSnapLine.hide()
 
-    #canvasDragView = new Newstime.CanvasDragView
-      #composer: this
-
-    #@KeyboardHandler.bind 'dragModeEngaged', ->
-      #canvasDragView.engage()
-
-    #@KeyboardHandler.bind 'dragModeDisengaged', ->
-      #canvasDragView.disengage()
-
-    #Newstime.Composer.composerKeyboardHandler = @composerKeyboardHandler
-
-    #$(document).keypress(@keypress)
-    #$(document).keyup(@keyup)
-
-
-    #@eventEmitter = new Newstime.EventEmitter (Mouse events, Keyboard Events,
-    #Scroll Events)
-
-    #var composerModals = $(".composer-modal"),
-    #contentRegionModal = $(".add-content-region"),
-    #contentItemModal = $(".add-content-item").contentModal();
-
-
-    #keyboard.pushFocus(textRegion) // example
-
     # Initialize Plugins
     $("#edition-toolbar").editionToolbar(composer: this)
     $("#edition-toolbar").hide() # Hiding for now while testing.
     $("#section-nav").sectionNav()
+
+
+    ## Build Panels
+    @toolboxView = new Newstime.ToolboxView
+      composer: this
+      model: @toolbox
+    @panelLayerView.attachPanel(@toolboxView)
+
+    @propertiesPanelView = new Newstime.PropertiesPanelView
+      composer: this
+
+    @propertiesPanelView.setPosition(50, 20)
+    @panelLayerView.attachPanel(@propertiesPanelView)
+    @propertiesPanelView.show()
+
+
+    @cursorStack = []
+
+
+    ## Bind events
+
+    @$window.resize => @windowResize()
+    $(document).on "paste", @paste
+
+    @textEditor = new Newstime.TextAreaEditorView()
+    @$body.append(@textEditor.el)
 
     @captureLayerView.bind 'mouseup', @mouseup, this
     @captureLayerView.bind 'mousemove', @mousemove, this
@@ -119,70 +115,17 @@ class @Newstime.Composer extends Backbone.View
     @panelLayerView.bind 'tracking',         @tracking, this
     @panelLayerView.bind 'tracking-release', @trackingRelease, this
 
+    window.onbeforeunload = ->
+      if @edition.isDirty()
+        return "You have unsaved changes."
+
     @vent.on "edit-text", @editText, this
 
-    #$("[headline-control]").headlineControl headlineProperties
-    #storyPropertiesView = new Newstime.StoryPropertiesView()
-    #$("[story-text-control]").each (i, el) ->
-      #new Newstime.StoryTextControlView(
-        #el: el
-        #toolPalette: storyPropertiesView
-      #)
-      #return
-
-    #contentRegionPropertiesView = new Newstime.ContentRegionPropertiesView()
-    #$("[content-region-control]").each (i, el) ->
-      #new Newstime.ContentRegionControlView(
-        #el: el
-        #propertiesView: contentRegionPropertiesView
-      #)
-      #return
-
-    #photoPropertiesView = new Newstime.PhotoPropertiesView()
-    #$("[photo-control]").each (i, el) ->
-      #new Newstime.PhotoControlView(
-        #el: el
-        #propertiesView: photoPropertiesView
-      #)
-      #return
-
-    #@gridOverlay = $(".grid-overlay").hide()
-
-    ## Init panels
-    @toolboxView = new Newstime.ToolboxView
-      composer: this
-      model: @toolbox
-    @panelLayerView.attachPanel(@toolboxView)
-
-    #@toolbox.bind 'change:selectedTool', @selectedToolChanged, this
-
-    # Select default tool
-    @toolbox.set(selectedTool: 'select-tool')
-
-    @toolboxView.show()
-
-    @propertiesPanelView = new Newstime.PropertiesPanelView
-      composer: this
-
-    @propertiesPanelView.setPosition(50, 20)
-    @panelLayerView.attachPanel(@propertiesPanelView)
-    @propertiesPanelView.show()
+    # Intialize App
 
     @repositionScroll()
-
-    @cursorStack = []
-
-    @$window.resize => @windowResize()
-
-    # Events
-    #$(window).scroll(@captureScrollPosition)
-    #
-    #
-    #
-    $(document).on "paste", @paste
-
-    @textEditor = new Newstime.TextAreaEditorView()
-    @$body.append(@textEditor.el)
+    @toolbox.set(selectedTool: 'select-tool')
+    @toolboxView.show()
 
 
   editText: (model) ->
