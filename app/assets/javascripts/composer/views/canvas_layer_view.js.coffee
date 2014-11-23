@@ -49,10 +49,10 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
 
     # Add an add page button
-    @addPageButton = new Newstime.AddPageButton
-      composer: @composer
+    #@addPageButton = new Newstime.AddPageButton
+      #composer: @composer
 
-    @$el.append(@addPageButton.el)
+    #@$el.append(@addPageButton.el)
 
     ### ItemViews
     #############
