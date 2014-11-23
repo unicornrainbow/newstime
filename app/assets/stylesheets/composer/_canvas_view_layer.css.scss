@@ -1,4 +1,5 @@
 .canvas-view-layer {
-  transform-origin: 0 0;
-  top: 62px;
+  .grid {
+    transform-origin: top;
+  }
 }
