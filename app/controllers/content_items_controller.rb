@@ -56,7 +56,7 @@ class ContentItemsController < ApplicationController
     @content_item = content_item_params['_type'].constantize.new(content_item_params)
 
     #@edition.content_items << @content_item
-    @content_item.edition = @edition
+    @content_item.edition = @edition # This is a work around to avoid actually creating the item. Better isolation should be provided in the future
 
     if params[:format] == 'html'
       @composing = params[:composing]
@@ -75,7 +75,7 @@ class ContentItemsController < ApplicationController
     @content_item = content_item_params['_type'].constantize.new(content_item_params)
 
     #@edition.content_items << @content_item
-    @content_item.edition = @edition
+    @content_item.edition = @edition # This is a work around to avoid actually creating the item. Better isolation should be provided in the future
 
     if params[:format] == 'html'
       @composing = params[:composing]
