@@ -9,6 +9,8 @@ class @Newstime.PageComposeView extends Backbone.View
     @toolbox = options.toolbox
     @$el.addClass 'page-compose'
 
+    @contentItemsSelector = "[headline-control], [text-area-control], [photo-control], [video-control]"
+
     @composer = options.composer
     @page = options.page
 
@@ -23,10 +25,10 @@ class @Newstime.PageComposeView extends Backbone.View
     #@gridLines = new Newstime.GridLines()
     #@$el.append(@gridLines.el)
 
-    @pageBorder = new Newstime.PageBorder(page: this)
-    @canvasLayerView.append(@pageBorder.el)
+    #@pageBorder = new Newstime.PageBorder(page: this)
+    #@canvasLayerView.append(@pageBorder.el)
 
-    @setPageBorderDimensions()
+    #@setPageBorderDimensions()
 
     @grid = new Newstime.GridView
     @$el.append(@grid.el)
@@ -42,7 +44,7 @@ class @Newstime.PageComposeView extends Backbone.View
     @bind 'windowResize', @windowResize # Fired when window is resized
 
   windowResize: ->
-    @setPageBorderDimensions()
+    #@setPageBorderDimensions()
 
 
   setPageBorderDimensions: ->
@@ -250,6 +252,11 @@ class @Newstime.PageComposeView extends Backbone.View
     if exclude
       items = _.reject items, (item) -> item.get('_id') == exclude.get('_id')
     @pageContentItemLeftEdges = _.map(items, (item) -> item.get('left'))
+
+  # Extracts all content items from the page. Useful in decomposing the views.
+  extractContentItems: ->
+    @$(@contentItemsSelector).detach()
+
 
 
   # Collects right edges of canvas items on page

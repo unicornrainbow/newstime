@@ -10,7 +10,6 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @$window = $(window)
     @$document = $(document)
     @$body = $('body')
-    @$grid = @$('.grid') # Where to append pages to (HACK)
 
     @$el.css top: "#{@topOffset}px"
     @$el.addClass 'canvas-view-layer'
@@ -23,117 +22,20 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @zoomLevelIndex = 6
     #@zoomLevels = [100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
 
+    @$pagesEl = @$('[pages]')
     @pagesView = new Newstime.PagesView
-      el: @$grid
+      edition: @edition
+      el: @$pagesEl
 
     @canvasItemsView = new Newstime.CanvasItemsView
-      pagesView: @pagesView
+      edition: @edition
+    @$body.append(@canvasItemsView.el)
 
-    ### Pages ###
-    #############
+    @canvasItemsView.setPosition(@pagesView.getPosition())
 
-    @pageCollection = @edition.get('pages')
-
-    # Capture and Init pages
-    @pages = []
-    $("[page-compose]", @$el).each (i, el) =>
-      pageModel = @pageCollection.findWhere(_id: $(el).data('page-id'))
-      pageView = new Newstime.PageComposeView
-        el: el
-        page: pageModel
-        edition: @edition
-        canvasLayerView: this
-        composer: @composer
-        toolbox: @toolbox
-
-      @pages.push pageView
-
-    _.each @pages, (page) =>
-      page.bind 'tracking', @tracking, this
-      page.bind 'focus', @handlePageFocus, this
-      page.bind 'tracking-release', @trackingRelease, this
-
-
-    # Add an add page button
-    #@addPageButton = new Newstime.AddPageButton
-      #composer: @composer
-
-    #@$el.append(@addPageButton.el)
-
-    ### ItemViews
-    #############
-
-    @contentItemCollection = @edition.get('content_items')
-    @selectionViews = []
-
-    # For each page, extract and place the content items onto the canvas view
-    # layer in association with the page.
-
-    _.each @pages, (page) =>
-
-      $("[headline-control]", page.$el).each (i, el) =>
-        id = $(el).data('content-item-id')
-        contentItem = @contentItemCollection.findWhere(_id: id)
-
-        selectionView = new Newstime.HeadlineView(model: contentItem, page: page, composer: @composer, headlineEl: el) # Needs to be local to the "page"
-        @selectionViews.push selectionView
-        @$el.append(el) # Move element from page to canvas layer
-        @$el.append(selectionView.el)
-
-        # Bind to events
-        selectionView.bind 'activate', @selectionActivated, this
-        selectionView.bind 'deactivate', @selectionDeactivated, this
-        selectionView.bind 'tracking', @resizeSelection, this
-        selectionView.bind 'tracking-release', @resizeSelectionRelease, this
-
-      # Initilize Text Areas Controls
-      $("[text-area-control]", page.$el).each (i, el) =>
-        id = $(el).data('content-item-id')
-        contentItem = @contentItemCollection.findWhere(_id: id)
-
-        selectionView = new Newstime.TextAreaView(model: contentItem, page: page, composer: @composer, contentEl: el) # Needs to be local to the "page"
-        @selectionViews.push selectionView
-        @$el.append(el) # Move element from page to canvas layer
-        @$el.append(selectionView.el)
-
-        # Bind to events
-        selectionView.bind 'activate', @selectionActivated, this
-        selectionView.bind 'deactivate', @selectionDeactivated, this
-        selectionView.bind 'tracking', @resizeSelection, this
-        selectionView.bind 'tracking-release', @resizeSelectionRelease, this
-
-      # Initilize Text Areas Controls
-      $("[photo-control]", page.$el).each (i, el) =>
-        id = $(el).data('content-item-id')
-        contentItem = @contentItemCollection.findWhere(_id: id)
-
-        selectionView = new Newstime.PhotoView(model: contentItem, page: page, composer: @composer, contentEl: el) # Needs to be local to the "page"
-        @selectionViews.push selectionView
-        @$el.append(el) # Move element from page to canvas layer
-        @$el.append(selectionView.el)
-
-
-        # Bind to events
-        selectionView.bind 'activate', @selectionActivated, this
-        selectionView.bind 'deactivate', @selectionDeactivated, this
-        selectionView.bind 'tracking', @resizeSelection, this
-        selectionView.bind 'tracking-release', @resizeSelectionRelease, this
-
-      # Initilize Text Areas Controls
-      $("[video-control]", page.$el).each (i, el) =>
-        id = $(el).data('content-item-id')
-        contentItem = @contentItemCollection.findWhere(_id: id)
-
-        selectionView = new Newstime.VideoView(model: contentItem, page: page, composer: @composer, contentEl: el) # Needs to be local to the "page"
-        @selectionViews.push selectionView
-        @$el.append(el) # Move element from page to canvas layer
-        @$el.append(selectionView.el)
-
-        # Bind to events
-        selectionView.bind 'activate', @selectionActivated, this
-        selectionView.bind 'deactivate', @selectionDeactivated, this
-        selectionView.bind 'tracking', @resizeSelection, this
-        selectionView.bind 'tracking-release', @resizeSelectionRelease, this
+    @pagesView.eachPage (pageView) =>
+      contentItems = pageView.extractContentItems()
+      console.log contentItems
 
 
     # Bind mouse events
@@ -165,11 +67,12 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @trigger 'focus', this
 
   windowResize: ->
-    _.each @pages, (page) =>
-      page.trigger 'windowResize'
+    @canvasItemsView.setPosition(@pagesView.getPosition())
+    #_.each @pages, (page) =>
+      #page.trigger 'windowResize'
 
-    _.each @selectionViews, (item) =>
-      item.trigger 'windowResize'
+    #_.each @selectionViews, (item) =>
+      #item.trigger 'windowResize'
 
   #keydown: (e) ->
     #if @focusedPage
