@@ -127,6 +127,8 @@ class @Newstime.Composer extends Backbone.View
     @toolbox.set(selectedTool: 'select-tool')
     @toolboxView.show()
 
+  render: ->
+    @canvasLayerView.render()
 
   editText: (model) ->
     @textEditor.show()
@@ -399,5 +401,7 @@ $ ->
 
   Newstime.composer = new Newstime.Composer(edition: edition, section: section)
   window.composer   = Newstime.composer
+
+  composer.render()
 
   return
