@@ -79,3 +79,8 @@ class @Newstime.CanvasItemsView extends Backbone.View
 
   setPosition: (position) ->
     @$el.css(position)
+
+  addCanvasItems: (canvasItems) ->
+    _.each canvasItems, (item) =>
+      @canvasItems.push item
+      @$el.append item.el

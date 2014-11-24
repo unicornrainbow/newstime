@@ -22,6 +22,9 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @zoomLevelIndex = 6
     #@zoomLevels = [100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
 
+
+    @contentItemCollection = @edition.get('content_items')
+
     @$pagesEl = @$('[pages]')
     @pagesView = new Newstime.PagesView
       edition: @edition
@@ -33,9 +36,18 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
     @canvasItemsView.setPosition(@pagesView.getPosition())
 
-    @pagesView.eachPage (pageView) =>
-      contentItems = pageView.extractContentItems()
-      console.log contentItems
+    headlineViews = @extractHeadlinesViews(@pagesView.el)
+
+    @canvasItemsView.addCanvasItems(headlineViews)
+
+    #@pagesView.eachPage (pageView) =>
+      #Newstime.HeadlineView.extract(pageView
+      #contentItems = pageView.extractContentItems()
+
+      #Newstime.HeadlineView.
+      #contentItems.each (contentItem) =>
+        #@canvasItemsView.add
+      #_.each contentItems, (contentItem) ->
 
 
     # Bind mouse events
@@ -53,6 +65,16 @@ class @Newstime.CanvasLayerView extends Backbone.View
     # Create link area, to enable clicking through on links.
     @linkAreas = _.map @$el.find('a'), (link) =>
       new Newstime.LinkArea(link, topOffset: @topOffset, composer: @composer)
+
+  extractHeadlinesViews: (el) ->
+    els = $('[headline-control]', el).detach()
+    _.map els, (el) =>
+      id = $(el).data('content-item-id')
+      model = @contentItemCollection.findWhere(_id: id)
+      new Newstime.HeadlineView
+        el: el
+        model: model
+        composer: @composer
 
   render: ->
     @measureLinks()
