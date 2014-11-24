@@ -12,10 +12,6 @@ class @Newstime.LinkArea
 
     @measure()
 
-
-
-
-
   # Detects a hit of the selection
   hit: (x, y) ->
     ## Detect if corrds lie within the geometry
@@ -32,7 +28,6 @@ class @Newstime.LinkArea
     @composer.popCursor()
 
   measure: ->
-    console.log 'as'
     # Get area
     @position = @$link.offset()
     @top = @position.top - @topOffset

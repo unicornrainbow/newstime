@@ -23,8 +23,14 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @zoomLevelIndex = 6
     #@zoomLevels = [100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
 
-    ### Pages
-    #########
+    @pagesView = new Newstime.PagesView
+      el: @$grid
+
+    @canvasItemsView = new Newstime.CanvasItemsView
+      pagesView: @pagesView
+
+    ### Pages ###
+    #############
 
     @pageCollection = @edition.get('pages')
 
@@ -152,8 +158,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
   # Measure link areas. Right now, need to do this after render to ensure we get
   # to correct values. Should be improved.
   measureLinks: =>
-    _.each @linkAreas, (linkArea) ->
-      linkArea.measure()
+    _.invoke @linkAreas, 'measure'
 
   handlePageFocus: (page) ->
     @focusedPage = page

@@ -76,7 +76,6 @@ class @Newstime.Composer extends Backbone.View
     $("#edition-toolbar").hide() # Hiding for now while testing.
     $("#section-nav").sectionNav()
 
-
     ## Build Panels
     @toolboxView = new Newstime.ToolboxView
       composer: this
@@ -402,6 +401,10 @@ $ ->
   Newstime.composer = new Newstime.Composer(edition: edition, section: section)
   window.composer   = Newstime.composer
 
-  composer.render()
+  # Delay render by 200 millisecond. This is mostly because of time needed for
+  # fonts to load in order to measure. Need to properly handle events in the
+  # future o detect loading of fonts, to avoid hacks like this. This will work
+  # for now.
+  setTimeout _.bind(composer.render, composer), 200
 
   return
