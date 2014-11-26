@@ -25,20 +25,54 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
     @contentItemCollection = @edition.get('content_items')
 
+
+    # Capture all the pages & content items
+    @contentItemSelector = '[data-content-item-id]'
+    @pageSelector        = '[data-page-id]'
+
+    contentItemEls     = @$(@contentItemSelector).detach()
+    pageEls            = @$(@pageSelector).detach()
+
     @$pagesEl = @$('[pages]')
-    @pagesView = new Newstime.PagesView
-      edition: @edition
-      el: @$pagesEl
 
-    @canvasItemsView = new Newstime.CanvasItemsView
-      edition: @edition
-    @$body.append(@canvasItemsView.el)
+    @pageViews = []
 
-    @canvasItemsView.setPosition(@pagesView.getPosition())
+    ## Add each of the pages back, rebuilding the view in the correct order.
+    ## Need pages for this section, ordered by page number.
+    @pages = new Backbone.Collection(section.getPages())
+    @pages.each (page) =>
+      id = page.get('_id')
+      el = pageEls.filter("[data-page-id='#{id}']")
 
-    headlineViews = @extractHeadlinesViews(@pagesView.el)
+      view = new Newstime.PageComposeView
+        el: el
+        page: page
+        edition: @edition
 
-    @canvasItemsView.addCanvasItems(headlineViews)
+      @$pagesEl.append(el)
+      @pageViews.push view
+
+
+    # Instantiate content items
+    @contentItems = @pages.map (page) ->
+      page.getContentItems()
+
+    @contentItems = new Backbone.Collection(_.flatten(@contentItems))
+
+    @contentItems.each (contentItem) ->
+      # Construct and add in each content item.
+
+
+
+    #@canvasItemsView = new Newstime.CanvasItemsView
+      #edition: @edition
+    #@$body.append(@canvasItemsView.el)
+
+    #@canvasItemsView.setPosition(@pagesView.getPosition())
+
+    #headlineViews = @extractHeadlinesViews(@pagesView.el)
+
+    #@canvasItemsView.addCanvasItems(headlineViews)
 
 
     # Bind mouse events

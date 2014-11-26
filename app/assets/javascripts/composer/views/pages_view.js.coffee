@@ -2,10 +2,12 @@ class @Newstime.PagesView extends Backbone.View
 
   initialize: (options) ->
     @edition = options.edition
-    @pageCollection = @edition.get('pages')
+    @section = options.section
+    @pages = @section.getPages()
+
 
     ## Capture and Init pages
-    @pages = []
+    @pageViews = []
 
     # The direct childern of the pages view object should be the pages, this
     # enables decomposition and adding.
