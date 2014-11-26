@@ -4,10 +4,10 @@ class @Newstime.CanvasItemsView extends Backbone.View
     @edition = options.edition
     @$el.addClass 'canvas-items-view'
 
-    @contentItemCollection = @edition.get('content_items')
-    @canvasItems = []
+    #@contentItemCollection = @edition.get('content_items')
+    #@canvasItems = []
 
-    @bind 'mousemove', @mousemove
+    #@bind 'mousemove', @mousemove
 
     ## For each page, extract and place the content items onto the canvas view
     ## layer in association with the page.

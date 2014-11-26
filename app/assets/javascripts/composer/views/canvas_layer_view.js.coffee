@@ -33,7 +33,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
     contentItemEls     = @$(@contentItemSelector).detach()
     pageEls            = @$(@pageSelector).detach()
 
-    @$pagesEl = @$('[pages]')
+    @$pages = @$('[pages]')
 
     @pageViews = []
 
@@ -49,7 +49,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
         page: page
         edition: @edition
 
-      @$pagesEl.append(el)
+      @$pages.append(el)
       @pageViews.push view
 
 
@@ -59,8 +59,35 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
     @contentItems = new Backbone.Collection(_.flatten(@contentItems))
 
-    @contentItems.each (contentItem) ->
+    @$canvasItems = $('<div class="canvas-items"></div>')
+    @$canvasItems.appendTo(@$body)
+
+    # Position canvas items div layer
+    position = @$pages.offset()
+    position.height = @$pages.height()
+    position.width = @$pages.width()
+    @$canvasItems.css position
+
+    @contentItems.each (contentItem) =>
       # Construct and add in each content item.
+      id = contentItem.get('_id')
+      el = contentItemEls.filter("[data-content-item-id='#{id}")
+
+      @$canvasItems.append(el)
+
+        #id = $(el).data('content-item-id')
+        #contentItem = @contentItemCollection.findWhere(_id: id)
+
+        #selectionView = new Newstime.HeadlineView(model: contentItem, page: page, composer: @composer, headlineEl: el) # Needs to be local to the "page"
+        #@selectionViews.push selectionView
+        #@$el.append(el) # Move element from page to canvas layer
+        #@$el.append(selectionView.el)
+
+        ## Bind to events
+        #selectionView.bind 'activate', @selectionActivated, this
+        #selectionView.bind 'deactivate', @selectionDeactivated, this
+        #selectionView.bind 'tracking', @resizeSelection, this
+        #selectionView.bind 'tracking-release', @resizeSelectionRelease, this
 
 
 
