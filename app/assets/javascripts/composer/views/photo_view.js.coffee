@@ -1,21 +1,21 @@
 #= require ./canvas_item_view
 
-class @Newstime.PhotoView extends @Newstime.CanvasItemView
+class @Newstime.PhotoView extends Backbone.View
 
   initialize: (options) ->
-    super
-    @$el.addClass 'photo-view'
+    #super
+    #@$el.addClass 'photo-view'
 
-    @setContentEl(options.contentEl) if options.contentEl
+    #@setContentEl(options.contentEl) if options.contentEl
 
-    @bind 'paste', @paste
+    #@bind 'paste', @paste
 
-    @propertiesView = new Newstime.PhotoPropertiesView(target: this)
+    #@propertiesView = new Newstime.PhotoPropertiesView(target: this)
 
 
-    @model.bind 'change:photo_id', @photoChanged, this
+    #@model.bind 'change:photo_id', @photoChanged, this
 
-    @modelChanged()
+    #@modelChanged()
 
   setContentEl: (contentEl) ->
     @$contentEl = $(contentEl)

@@ -1,24 +1,24 @@
 #= require ./canvas_item_view
 
-class @Newstime.TextAreaView extends Newstime.CanvasItemView
+class @Newstime.TextAreaView extends Backbone.View
 
   initialize: (options) ->
-    super
+    #super
 
-    @$el.addClass 'text-area-view'
+    #@$el.addClass 'text-area-view'
 
-    @lineHeight = parseInt(Newstime.config.storyTextLineHeight)
+    #@lineHeight = parseInt(Newstime.config.storyTextLineHeight)
 
-    @bind 'paste', @paste
-    @bind 'dblclick',  @dblclick
+    #@bind 'paste', @paste
+    #@bind 'dblclick',  @dblclick
 
-    @bind 'resized', @reflow, this  # Reflow text on resize
+    #@bind 'resized', @reflow, this  # Reflow text on resize
 
-    @setContentEl(options.contentEl) if options.contentEl
+    #@setContentEl(options.contentEl) if options.contentEl
 
-    @propertiesView = new Newstime.TextAreaPropertiesView(target: this)
+    #@propertiesView = new Newstime.TextAreaPropertiesView(target: this)
 
-    @modelChanged()
+    #@modelChanged()
 
   setContentEl: (contentEl) ->
     @$contentEl = $(contentEl)

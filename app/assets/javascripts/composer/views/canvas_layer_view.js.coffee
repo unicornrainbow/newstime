@@ -79,13 +79,9 @@ class @Newstime.CanvasLayerView extends Backbone.View
           when 'PhotoContentItem' then Newstime.PhotoView
           when 'VideoContentItem' then Newstime.VideoView
 
-      page = contentItem.getPage()
-
       view = new viewType
         model: contentItem
         el: el
-        composer: @composer
-        page: page
 
 
       #selectionView.bind 'activate', @selectionActivated, this
