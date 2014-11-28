@@ -58,6 +58,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
       page.getContentItems()
 
     @contentItems = new Backbone.Collection(_.flatten(@contentItems))
+    @contentItemViews = []
 
     @$canvasItems = $('<div class="canvas-items"></div>')
     @$canvasItems.appendTo(@$body)
@@ -70,7 +71,42 @@ class @Newstime.CanvasLayerView extends Backbone.View
       id = contentItem.get('_id')
       el = contentItemEls.filter("[data-content-item-id='#{id}")
 
+      # What is the content items type?
+      viewType =
+        switch contentItem.get('_type')
+          when 'HeadlineContentItem' then Newstime.HeadlineView
+          when 'TextAreaContentItem' then Newstime.TextAreaView
+          when 'PhotoContentItem' then Newstime.PhotoView
+          when 'VideoContentItem' then Newstime.VideoView
+
+      page = contentItem.getPage()
+
+      view = new viewType
+        model: contentItem
+        el: el
+        composer: @composer
+        page: page
+
+
+      #selectionView.bind 'activate', @selectionActivated, this
+      #selectionView.bind 'deactivate', @selectionDeactivated, this
+      #selectionView.bind 'tracking', @resizeSelection, this
+      #selectionView.bind 'tracking-release', @resizeSelectionRelease, this
+
+      @contentItemViews.push(view)
       @$canvasItems.append(el)
+
+        #selectionView = new Newstime.HeadlineView(model: contentItem, page: page, composer: @composer, headlineEl: el) # Needs to be local to the "page"
+        #@selectionViews.push selectionView
+        #@$el.append(el) # Move element from page to canvas layer
+        #@$el.append(selectionView.el)
+
+        ## Bind to events
+        #selectionView.bind 'activate', @selectionActivated, this
+        #selectionView.bind 'deactivate', @selectionDeactivated, this
+        #selectionView.bind 'tracking', @resizeSelection, this
+        #selectionView.bind 'tracking-release', @resizeSelectionRelease, this
+
 
         #id = $(el).data('content-item-id')
         #contentItem = @contentItemCollection.findWhere(_id: id)
