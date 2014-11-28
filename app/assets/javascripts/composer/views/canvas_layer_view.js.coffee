@@ -63,10 +63,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @$canvasItems.appendTo(@$body)
 
     # Position canvas items div layer
-    position = @$pages.offset()
-    position.height = @$pages.height()
-    position.width = @$pages.width()
-    @$canvasItems.css position
+    @positionCanvasItemsContainer()
 
     @contentItems.each (contentItem) =>
       # Construct and add in each content item.
@@ -140,8 +137,17 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @focusedPage = page
     @trigger 'focus', this
 
+  # Update canvas item container to overlay pages.
+  positionCanvasItemsContainer: ->
+    position = @$pages.offset()
+    position.height = @$pages.height()
+    position.width = @$pages.width()
+    @$canvasItems.css position
+
   windowResize: ->
-    @canvasItemsView.setPosition(@pagesView.getPosition())
+    @positionCanvasItemsContainer()
+
+    #@canvasItemsView.setPosition(@pagesView.getPosition())
     #_.each @pages, (page) =>
       #page.trigger 'windowResize'
 
