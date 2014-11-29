@@ -78,6 +78,11 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @pages.each (page) =>
       pageID = page.get('_id')
       pageView = @pageViews[pageID]
+
+      # Get page offsets to pass to content items
+      pageOffsetLeft = pageView.getOffsetLeft()
+      pageOffsetTop  = pageView.getOffsetTop()
+
       contentItems = @pageContentItems[pageID]
 
       _.each contentItems, (contentItem) =>
@@ -100,9 +105,11 @@ class @Newstime.CanvasLayerView extends Backbone.View
         contentItemView = new contentItemViewType
           model: contentItem
           el: el
-          page: page
-          pageID: pageID
-          pageView: pageView
+          pageOffsetLeft: pageOffsetLeft
+          pageOffsetTop: pageOffsetTop
+          #page: page
+          #pageID: pageID
+          #pageView: pageView
 
         #selectionView.bind 'activate', @selectionActivated, this
         #selectionView.bind 'deactivate', @selectionDeactivated, this

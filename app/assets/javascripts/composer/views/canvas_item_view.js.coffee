@@ -7,14 +7,9 @@ class @Newstime.CanvasItemView extends Backbone.View
     @canvasLayerView = options.canvasLayerView
     @composer = window.composer
 
-    @pageView = options.pageView
-
-    # Get page offsets
-    #@pageLeft = @model.get('page_left')
-    #@pageTop = @model.get('page_top')
-
-    @pageLeft = @pageView.getLeft()
-    @pageTop = @pageView.getTop()
+    # Page offsets for positioning.
+    @pageOffsetLeft = options.pageOffsetLeft
+    @pageOffsetTop  = options.pageOffsetTop
 
     # Add drag handles
     @dragHandles = ['top', 'top-right', 'right', 'bottom-right', 'bottom', 'bottom-left', 'left', 'top-left']
@@ -26,8 +21,8 @@ class @Newstime.CanvasItemView extends Backbone.View
     @$el.append(handleEls)
 
     @$el.css
-      top: @model.get('top') + @pageTop
-      left: @model.get('left') + @pageLeft
+      top: @model.get('top') + @pageOffsetTop
+      left: @model.get('left') + @pageOffsetLeft
     @$el.css _.pick @model.attributes, 'width', 'height'
 
     @bind 'mousedown', @mousedown
@@ -36,7 +31,6 @@ class @Newstime.CanvasItemView extends Backbone.View
     @bind 'mouseover', @mouseover
     @bind 'mouseout',  @mouseout
     @bind 'keydown',   @keydown
-    @bind 'windowResize', @windowResize
 
     # Bind Model Events
     @model.bind 'change', @modelChanged, this
@@ -46,8 +40,8 @@ class @Newstime.CanvasItemView extends Backbone.View
     #@$el.css _.pick @model.changedAttributes(), 'top', 'left', 'width', 'height'
 
     @$el.css
-      top: @model.get('top') + @pageTop
-      left: @model.get('left') + @pageLeft
+      top: @model.get('top') + @pageOffsetTop
+      left: @model.get('left') + @pageOffsetLeft
     @$el.css _.pick @model.attributes, 'width', 'height'
 
   modelDestroyed: ->
@@ -56,8 +50,8 @@ class @Newstime.CanvasItemView extends Backbone.View
 
   # Detects a hit of the selection
   hit: (x, y) ->
-    x = x - @pageLeft
-    y = y - @pageTop
+    x = x - @pageOffsetLeft
+    y = y - @pageOffsetTop
 
     geometry = @getGeometry()
 
@@ -293,8 +287,8 @@ class @Newstime.CanvasItemView extends Backbone.View
 
   adjustEventXY: (e) ->
     # Apply page offset
-    e.x -= @pageLeft
-    e.y -= @pageTop
+    e.x -= @pageOffsetLeft
+    e.y -= @pageOffsetTop
 
   # Moves based on corrdinates and starting offset
   move: (x, y) ->
@@ -403,11 +397,6 @@ class @Newstime.CanvasItemView extends Backbone.View
 
   getCursor: ->
     'default'
-
-  windowResize: ->
-    @pageLeft = @page.x()
-    @pageTop = @page.y()
-    @modelChanged() # Better name would be @refresh()
 
   mouseout: (e) ->
     @adjustEventXY(e)

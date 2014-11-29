@@ -89,6 +89,7 @@ class @Newstime.PageComposeView extends Backbone.View
   height: ->
     parseInt(@$el.css('height'))
 
+  # Relative to screen
   x: ->
     #parseInt(@$el.css('left'))
     #@$el[0].offsetLeft
@@ -97,17 +98,16 @@ class @Newstime.PageComposeView extends Backbone.View
     #@$el[0].getBoundingClientRect()
     Math.round(@$el.offset().left)
 
-  getLeft: ->
-    parseInt(@$el.css('left')) || 0
-
-
   y: ->
-    parseInt(@$el.css('top'))
-    @$el[0].offsetTop
+    @el.offsetTop
 
-  getTop: ->
-    #@y()
-    parseInt(@$el.css('top')) || 0
+  # Return top relative offset from containing element
+  getOffsetTop: ->
+    @el.offsetTop
+
+  # Return left relative offset from containing element
+  getOffsetLeft: ->
+    @el.offsetLeft
 
   geometry: ->
     x: @x()
