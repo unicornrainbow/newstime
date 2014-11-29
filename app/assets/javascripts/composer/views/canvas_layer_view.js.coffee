@@ -252,10 +252,10 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
   # Update canvas item container to overlay pages.
   positionCanvasItemsContainer: ->
-    position = @$pages.offset()
-    position.height = @$pages.height()
-    position.width = @$pages.width()
-    @$canvasItems.css position
+    @pagesOffset = @$pages.offset()
+    @pagesOffset.height = @$pages.height()
+    @pagesOffset.width = @$pages.width()
+    @$canvasItems.css @pagesOffset
 
   windowResize: ->
     @positionCanvasItemsContainer()
@@ -311,8 +311,9 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
   # Coverts external to internal coordinates.
   mapExternalCoords: (x, y) ->
-    # Apply top offset
-    y -= @topOffset
+    # Apply pages offset, to focus on draw surface.
+    y -= @pagesOffset.top
+    x -= @pagesOffset.left
 
     # Apply scroll offset
     x += $(window).scrollLeft()
@@ -415,16 +416,16 @@ class @Newstime.CanvasLayerView extends Backbone.View
     # Create a new event with corrdinates relative to the canvasItemsView
     #
     e = @getMappedEvent(e)
+    console.log e
     #adjustedEvent = new Newstime.Event
       #x: e.x - @canvasItemsView.left
       #y: e.y - @canvasItemsView.top
 
     #mappedEvent = @canvasItemsView.mapEvent(e)
-    @canvasItemsView.trigger 'mousemove', e
+    #@canvasItemsView.trigger 'mousemove', e
 
     #@canvasItemsView.trigger 'mousemove', @canvasItemsView.getMappedEvent(adjustedEvent)
 
-    e = @getMappedEvent(e)
 
     #if @resizeSelectionTarget
       #@resizeSelectionTarget.trigger 'mousemove', e
