@@ -1,9 +1,9 @@
 #= require ./canvas_item_view
 
-class @Newstime.PhotoView extends Backbone.View
+class @Newstime.PhotoView extends Newstime.CanvasItemView
 
   initialize: (options) ->
-    #super
+    super
     #@$el.addClass 'photo-view'
 
     #@setContentEl(options.contentEl) if options.contentEl

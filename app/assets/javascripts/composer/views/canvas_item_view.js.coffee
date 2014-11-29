@@ -4,12 +4,11 @@ class @Newstime.CanvasItemView extends Backbone.View
     @$el.addClass 'canvas-item-view'
 
     # Options
-    @page = options.page
-    @composer = options.composer
+    @composer = window.composer
 
     # Get page offsets
-    @pageLeft = @page.x()
-    @pageTop = @page.y()
+    @pageLeft = @model.get('page_left')
+    @pageTop = @model.get('page_top')
 
     # Add drag handles
     @dragHandles = ['top', 'top-right', 'right', 'bottom-right', 'bottom', 'bottom-left', 'left', 'top-left']

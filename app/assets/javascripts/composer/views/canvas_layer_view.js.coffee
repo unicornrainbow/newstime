@@ -66,6 +66,19 @@ class @Newstime.CanvasLayerView extends Backbone.View
     # Position canvas items div layer
     @positionCanvasItemsContainer()
 
+
+    #console.log groupedPages
+    #console.log groupedPages
+
+
+    #@pages.each (page) =>
+      #contentItems = page.getContentItems()
+      #_.each contentItems, (item) =>
+
+
+      #page.each (
+
+
     @contentItems.each (contentItem) =>
       # Construct and add in each content item.
       id = contentItem.get('_id')
@@ -83,7 +96,6 @@ class @Newstime.CanvasLayerView extends Backbone.View
         model: contentItem
         el: el
 
-
       #selectionView.bind 'activate', @selectionActivated, this
       #selectionView.bind 'deactivate', @selectionDeactivated, this
       #selectionView.bind 'tracking', @resizeSelection, this
@@ -91,6 +103,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
       @contentItemViews.push(view)
       @$canvasItems.append(el)
+
 
         #selectionView = new Newstime.HeadlineView(model: contentItem, page: page, composer: @composer, headlineEl: el) # Needs to be local to the "page"
         #@selectionViews.push selectionView

@@ -1,9 +1,9 @@
 #= require ./canvas_item_view
 
-class @Newstime.TextAreaView extends Backbone.View
+class @Newstime.TextAreaView extends Newstime.CanvasItemView
 
   initialize: (options) ->
-    #super
+    super
 
     #@$el.addClass 'text-area-view'
 

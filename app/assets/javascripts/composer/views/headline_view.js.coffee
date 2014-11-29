@@ -1,6 +1,9 @@
-class @Newstime.HeadlineView extends Backbone.View
+#= require ./canvas_item_view
+
+class @Newstime.HeadlineView extends Newstime.CanvasItemView
 
   initialize: (options) ->
+    super
     #@composer = options.composer
     #@placeholder = "Type Headline" # Text to show when there is no headline
     #@fontWeights = Newstime.config.headlineFontWeights

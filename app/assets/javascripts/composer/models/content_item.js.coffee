@@ -5,7 +5,7 @@ class @Newstime.ContentItem extends Backbone.RelationalModel
     @set('cursorPosition', (@get('text') || ' ').length, silent: true)
 
   getPage: ->
-    @get('edition').get('pages').findWhere(_id: @get('page_id'))
+    @page ?= @get('edition').get('pages').findWhere(_id: @get('page_id'))
 
   # Specific to the HeadlineContentItem
   typeCharacter: (char) ->
