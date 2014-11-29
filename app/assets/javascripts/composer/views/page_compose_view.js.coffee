@@ -97,10 +97,17 @@ class @Newstime.PageComposeView extends Backbone.View
     #@$el[0].getBoundingClientRect()
     Math.round(@$el.offset().left)
 
+  getLeft: ->
+    parseInt(@$el.css('left')) || 0
+
 
   y: ->
     parseInt(@$el.css('top'))
     @$el[0].offsetTop
+
+  getTop: ->
+    #@y()
+    parseInt(@$el.css('top')) || 0
 
   geometry: ->
     x: @x()

@@ -35,30 +35,29 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
     @$pages = @$('[pages]')
 
-    @pageViews = []
+    @pageViews = {}
+    @pageContentItems = {}
 
     ## Add each of the pages back, rebuilding the view in the correct order.
     ## Need pages for this section, ordered by page number.
     @pages = new Backbone.Collection(section.getPages())
     @pages.each (page) =>
-      id = page.get('_id')
-      el = pageEls.filter("[data-page-id='#{id}']")
+      page_id = page.get('_id')
+      el = pageEls.filter("[data-page-id='#{page_id}']")
 
       view = new Newstime.PageComposeView
         el: el
-        page: page
+        page: page # TODO: Rename to model
         edition: @edition
 
       @$pages.append(el)
-      @pageViews.push view
 
+      @pageViews[page_id] = view
+      @pageContentItems[page_id] = page.getContentItems()
 
     # Instantiate content items
-    @contentItems = @pages.map (page) ->
-      page.getContentItems()
-
-    @contentItems = new Backbone.Collection(_.flatten(@contentItems))
-    @contentItemViews = []
+    #@contentItems = new Backbone.Collection(section.getContentItems())
+    #@contentItems = new Backbone.Collection(_.flatten(@pageContentItems))
 
     @$canvasItems = $('<div class="canvas-items"></div>')
     @$canvasItems.appendTo(@$body)
@@ -66,9 +65,53 @@ class @Newstime.CanvasLayerView extends Backbone.View
     # Position canvas items div layer
     @positionCanvasItemsContainer()
 
+    #console.log groupedPages
+    #console.log groupedPages
 
-    #console.log groupedPages
-    #console.log groupedPages
+    #_.each @pageViews, (pageView) =>
+      #page = pageView.page
+
+      #content_items = page.getContentItems()
+
+    @contentItemViews = {}
+
+    @pages.each (page) =>
+      pageID = page.get('_id')
+      pageView = @pageViews[pageID]
+      contentItems = @pageContentItems[pageID]
+
+      _.each contentItems, (contentItem) =>
+
+        # Construct and add in each content item.
+        id = contentItem.get('_id')
+        el = contentItemEls.filter("[data-content-item-id='#{id}")
+
+        contentItemType = contentItem.get('_type')
+
+        # What is the content items type?
+        contentItemViewType =
+          switch contentItemType
+            when 'HeadlineContentItem' then Newstime.HeadlineView
+            when 'TextAreaContentItem' then Newstime.TextAreaView
+            when 'PhotoContentItem' then Newstime.PhotoView
+            when 'VideoContentItem' then Newstime.VideoView
+
+
+        contentItemView = new contentItemViewType
+          model: contentItem
+          el: el
+          page: page
+          pageID: pageID
+          pageView: pageView
+
+        #selectionView.bind 'activate', @selectionActivated, this
+        #selectionView.bind 'deactivate', @selectionDeactivated, this
+        #selectionView.bind 'tracking', @resizeSelection, this
+        #selectionView.bind 'tracking-release', @resizeSelectionRelease, this
+
+        contentItemID = contentItem.get('_id')
+        @contentItemViews[contentItemID] = contentItem
+        @$canvasItems.append(el)
 
 
     #@pages.each (page) =>
@@ -78,31 +121,49 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
       #page.each (
 
+    # Intialize page offset on content items.
+    #@contentItems.each (contentItem) =>
+      #page = contentItem.getPage()
+      #pageView = @pageViews(page)
+      ##pageView = _.findWhere @pageViews, page: page
 
-    @contentItems.each (contentItem) =>
-      # Construct and add in each content item.
-      id = contentItem.get('_id')
-      el = contentItemEls.filter("[data-content-item-id='#{id}")
+      #page_left = contentItem.get('page_left') || 0
+      #page_left = contentItem.get('page_top') || 0
+      #contentItem.set
+        #page_left: 0
+        #page_top: 0
 
-      # What is the content items type?
-      viewType =
-        switch contentItem.get('_type')
-          when 'HeadlineContentItem' then Newstime.HeadlineView
-          when 'TextAreaContentItem' then Newstime.TextAreaView
-          when 'PhotoContentItem' then Newstime.PhotoView
-          when 'VideoContentItem' then Newstime.VideoView
 
-      view = new viewType
-        model: contentItem
-        el: el
 
-      #selectionView.bind 'activate', @selectionActivated, this
-      #selectionView.bind 'deactivate', @selectionDeactivated, this
-      #selectionView.bind 'tracking', @resizeSelection, this
-      #selectionView.bind 'tracking-release', @resizeSelectionRelease, this
+    #@contentItems.each (contentItem) =>
+      #page = contentItem.getPage()
+      #pageView = @pageViews(page)
 
-      @contentItemViews.push(view)
-      @$canvasItems.append(el)
+      ## Construct and add in each content item.
+      #id = contentItem.get('_id')
+      #el = contentItemEls.filter("[data-content-item-id='#{id}")
+
+      ## What is the content items type?
+      #viewType =
+        #switch contentItem.get('_type')
+          #when 'HeadlineContentItem' then Newstime.HeadlineView
+          #when 'TextAreaContentItem' then Newstime.TextAreaView
+          #when 'PhotoContentItem' then Newstime.PhotoView
+          #when 'VideoContentItem' then Newstime.VideoView
+
+
+
+      #view = new viewType
+        #model: contentItem
+        #el: el
+
+      ##selectionView.bind 'activate', @selectionActivated, this
+      ##selectionView.bind 'deactivate', @selectionDeactivated, this
+      ##selectionView.bind 'tracking', @resizeSelection, this
+      ##selectionView.bind 'tracking-release', @resizeSelectionRelease, this
+
+      #@contentItemViews.push(view)
+      #@$canvasItems.append(el)
 
 
         #selectionView = new Newstime.HeadlineView(model: contentItem, page: page, composer: @composer, headlineEl: el) # Needs to be local to the "page"

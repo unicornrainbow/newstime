@@ -15,6 +15,9 @@ class @Newstime.Section extends Backbone.RelationalModel
     else
       1
 
+  #getContentItems: ->
+
+
 
   addPage: (success) ->
     pageAttributes =
