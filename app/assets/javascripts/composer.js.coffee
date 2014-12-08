@@ -386,7 +386,6 @@ class @Newstime.Composer extends Backbone.View
   hideVerticalSnapLine: ->
     @verticalSnapLine.hide()
 
-
 $ ->
   # Get the edition, mostly for development purposes right now.
   #edition_id = document.URL.match(/editions\/(\w*)/)[1] # Hack to get edition id from url string

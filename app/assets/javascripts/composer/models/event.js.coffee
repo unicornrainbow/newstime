@@ -5,6 +5,7 @@ class @Newstime.Event
     if @orginalEvent?
       @x = @orginalEvent.x
       @y = @orginalEvent.y
+      @button = @orginalEvent.button
 
   stopPropagation: ->
     # Pass call through to orginal event
