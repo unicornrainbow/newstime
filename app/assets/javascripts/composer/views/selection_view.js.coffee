@@ -24,3 +24,11 @@ class @Newstime.SelectionView extends Backbone.View
       top: @contentItem.get('top') + @pageOffsetTop
       left: @contentItem.get('left') + @pageOffsetLeft
     @$el.css _.pick @contentItem.attributes, 'width', 'height'
+
+    @contentItem.bind 'change', @modelChanged, this
+
+  modelChanged: ->
+    @$el.css
+      top: @contentItem.get('top') + @pageOffsetTop
+      left: @contentItem.get('left') + @pageOffsetLeft
+    @$el.css _.pick @contentItem.attributes, 'width', 'height'
