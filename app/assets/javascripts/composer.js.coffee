@@ -54,6 +54,9 @@ class @Newstime.Composer extends Backbone.View
       topOffset: @topOffset + @menuHeight
     @$body.append(@panelLayerView.el)
 
+    @selectionLayerView = new Newstime.SelectionLayerView
+    @$body.append(@selectionLayerView.el)
+
     @outlineLayerView = new Newstime.OutlineLayerView
     @$body.append(@outlineLayerView.el)
 
@@ -357,7 +360,7 @@ class @Newstime.Composer extends Backbone.View
     # Update Properties Panel
     @updatePropertiesPanel(selection)
 
-    #@selectionLayer.setSelection(selection)
+    @selectionLayerView.setSelection(selection)
 
     # NOTE: This should be using a model, and the properties panel should be listening
     # for changes on the model

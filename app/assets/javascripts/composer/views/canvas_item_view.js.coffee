@@ -74,7 +74,10 @@ class @Newstime.CanvasItemView extends Backbone.View
 
   activate: ->
     @active = true
-    @trigger 'activate', this
+    @trigger 'activate',
+      contentItemView: this
+      contentItem: @model
+
     #@$el.addClass 'resizable'
 
   deactivate: ->

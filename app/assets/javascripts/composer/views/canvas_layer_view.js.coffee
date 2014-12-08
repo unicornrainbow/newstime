@@ -263,11 +263,13 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
   # Update canvas item container to overlay pages.
   positionCanvasItemsContainer: ->
+    # TODO: Move this functionality up to the composer
     @pagesOffset = @$pages.offset()
     @pagesOffset.height = @$pages.height()
     @pagesOffset.width = @$pages.width()
     @$canvasItems.css @pagesOffset
     @composer.outlineLayerView.$el.css @pagesOffset
+    @composer.selectionLayerView.$el.css @pagesOffset
 
   windowResize: ->
     @positionCanvasItemsContainer()
@@ -906,8 +908,13 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
     selectionView.beginSelection(x, y)
 
-  selectContentItem: (contentItemView) ->
-    @composer.setSelection(contentItemView)
+  selectContentItem: (e) ->
+
+    selection = new Newstime.ContentItemSelection
+      contentItem: e.contentItem
+      contentItemView: e.contentItemView
+
+    @composer.setSelection(selection)
     @trigger 'focus', this # Trigger focus event to get keyboard events
 
   selectionDeactivated: (selection) ->

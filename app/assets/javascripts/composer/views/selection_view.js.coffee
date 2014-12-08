@@ -1,46 +1,26 @@
-#= require ./canvas_item_view
-
-class @Newstime.Selection extends Backbone.View
+class @Newstime.SelectionView extends Backbone.View
 
   initialize: (options) ->
-    @$el.addClass 'selection-view'
-    @vent = Newstime.composer.vent
-    @model = new Backbone.Model()
-    @model.bind 'change', @modelChanged, this
+    @$el.addClass 'selection-view resizable'
+    @selection = options.selection
 
-    @bind 'mousemove', @mousemove, this
-    @bind 'mouseup', @mouseup, this
+    # Add drag handles
+    @dragHandles = ['top', 'top-right', 'right', 'bottom-right', 'bottom', 'bottom-left', 'left', 'top-left']
+    @dragHandles = _.map @dragHandles, (type) ->
+      new Newstime.DragHandle(selection: this, type: type)
 
-  modelChanged: ->
-    @$el.css _.pick @model.changedAttributes(), 'top', 'left', 'width', 'height'
+    # Attach handles
+    handleEls = _.map @dragHandles, (handle) -> handle.el
+    @$el.append(handleEls)
 
-  beginSelection: (x, y) -> # TODO: rename beginDraw
-    @model.set(left: x, top: y)
-    @originX = x
-    @originY = y
-    @trigger("tracking", this)
+    # HACK: Shouldn't be binding direct to the content item model and view
+    @contentItem = @selection.contentItem
+    @contentItemView = @selection.contentItemView
 
-  mousemove: (e) ->
-    if e.x < @originX
-      left = e.x
-      width = @originX - e.x
-    else
-      left = @originX
-      width = e.x - @model.get('left')
+    @pageOffsetLeft = @contentItemView.pageOffsetLeft
+    @pageOffsetTop  = @contentItemView.pageOffsetTop
 
-    if e.y < @originY
-      top = e.y
-      height = @originY - e.y
-    else
-      top = @originY
-      height = e.y - @model.get('top')
-
-    @model.set
-      left: left
-      width: width
-      top: top
-      height: height
-
-  mouseup: (e) ->
-    @trigger("tracking-release", this)
-    @remove() # Mostly for effect for the time being, immediatly removing the view.
+    @$el.css
+      top: @contentItem.get('top') + @pageOffsetTop
+      left: @contentItem.get('left') + @pageOffsetLeft
+    @$el.css _.pick @contentItem.attributes, 'width', 'height'
