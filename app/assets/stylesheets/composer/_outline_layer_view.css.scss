@@ -1,0 +1,15 @@
+.outline-layer-view {
+  position: absolute;
+  z-index: 2;
+
+  .content-item-outline-view {
+    position: absolute;
+    transition: border-color .5s;
+    border: 1px dashed transparent;
+
+    &.outline {
+      border-color: #ccc;
+    }
+  }
+
+}

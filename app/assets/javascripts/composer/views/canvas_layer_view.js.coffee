@@ -74,6 +74,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
       #content_items = page.getContentItems()
 
     @contentItemViews = {}
+    @contentItemOutlineViews = {}
 
     @pages.each (page) =>
       pageID = page.get('_id')
@@ -102,12 +103,20 @@ class @Newstime.CanvasLayerView extends Backbone.View
             when 'VideoContentItem' then Newstime.VideoView
 
 
+        contentItemOutlineView = new Newstime.ContentItemOutlineView
+          model: contentItem
+          pageOffsetLeft: pageOffsetLeft
+          pageOffsetTop: pageOffsetTop
+        @composer.outlineLayerView.attach(contentItemOutlineView)
+
+
         contentItemView = new contentItemViewType
           model: contentItem
           el: el
           pageOffsetLeft: pageOffsetLeft
           pageOffsetTop: pageOffsetTop
           composer: @composer
+          outlineView: contentItemOutlineView
           page: page
           pageID: pageID
           pageView: pageView
@@ -119,6 +128,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
         contentItemID = contentItem.get('_id')
         @contentItemViews[contentItemID] = contentItemView
+        @contentItemOutlineViews[contentItemID] = contentItemOutlineView
         @$canvasItems.append(el)
 
 
@@ -257,6 +267,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @pagesOffset.height = @$pages.height()
     @pagesOffset.width = @$pages.width()
     @$canvasItems.css @pagesOffset
+    @composer.outlineLayerView.$el.css @pagesOffset
 
   windowResize: ->
     @positionCanvasItemsContainer()

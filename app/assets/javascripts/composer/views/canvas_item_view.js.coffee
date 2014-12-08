@@ -10,6 +10,8 @@ class @Newstime.CanvasItemView extends Backbone.View
     @page = options.page
     @pageView = options.pageView
 
+    @outlineView = options.outlineView
+
     # Page offsets for positioning.
     @pageOffsetLeft = options.pageOffsetLeft
     @pageOffsetTop  = options.pageOffsetTop
@@ -395,7 +397,8 @@ class @Newstime.CanvasItemView extends Backbone.View
 
   mouseover: (e) ->
     @hovered = true
-    @$el.addClass 'hovered'
+    #@$el.addClass 'hovered'
+    @outlineView.show()
     @composer.pushCursor @getCursor()
 
   getCursor: ->
@@ -409,7 +412,8 @@ class @Newstime.CanvasItemView extends Backbone.View
       @hoveredHandle = null
 
     @hovered = false
-    @$el.removeClass 'hovered'
+    #@$el.removeClass 'hovered'
+    @outlineView.hide()
     @composer.popCursor()
 
   # Does an x,y corrdinate intersect a bounding box
