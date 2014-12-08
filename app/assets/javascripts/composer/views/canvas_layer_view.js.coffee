@@ -112,7 +112,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
           pageID: pageID
           pageView: pageView
 
-        contentItemView.bind 'activate', @selectionActivated, this
+        contentItemView.bind 'activate', @selectContentItem, this
         contentItemView.bind 'deactivate', @selectionDeactivated, this
         contentItemView.bind 'tracking', @resizeSelection, this
         contentItemView.bind 'tracking-release', @resizeSelectionRelease, this
@@ -165,7 +165,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
         #model: contentItem
         #el: el
 
-      ##selectionView.bind 'activate', @selectionActivated, this
+      ##selectionView.bind 'activate', @selectContentItem, this
       ##selectionView.bind 'deactivate', @selectionDeactivated, this
       ##selectionView.bind 'tracking', @resizeSelection, this
       ##selectionView.bind 'tracking-release', @resizeSelectionRelease, this
@@ -180,7 +180,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
         #@$el.append(selectionView.el)
 
         ## Bind to events
-        #selectionView.bind 'activate', @selectionActivated, this
+        #selectionView.bind 'activate', @selectContentItem, this
         #selectionView.bind 'deactivate', @selectionDeactivated, this
         #selectionView.bind 'tracking', @resizeSelection, this
         #selectionView.bind 'tracking-release', @resizeSelectionRelease, this
@@ -195,7 +195,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
         #@$el.append(selectionView.el)
 
         ## Bind to events
-        #selectionView.bind 'activate', @selectionActivated, this
+        #selectionView.bind 'activate', @selectContentItem, this
         #selectionView.bind 'deactivate', @selectionDeactivated, this
         #selectionView.bind 'tracking', @resizeSelection, this
         #selectionView.bind 'tracking-release', @resizeSelectionRelease, this
@@ -273,12 +273,12 @@ class @Newstime.CanvasLayerView extends Backbone.View
       #@focusedPage.trigger 'keydown', e
 
   keydown: (e) ->
-    if @activeSelection
-      @activeSelection.trigger 'keydown', e
+    if @composer.activeSelection
+      @composer.activeSelection.trigger 'keydown', e
 
   paste: (e) ->
-    if @activeSelection
-      @activeSelection.trigger 'paste', e
+    if @composer.activeSelection
+      @composer.activeSelection.trigger 'paste', e
 
   addPage: (pageModel) ->
     pageModel.getHTML (html) =>
@@ -383,7 +383,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
         when 'video-tool'
           @drawVideo(e.x, e.y)
         when 'select-tool'
-          @activeSelection.deactivate() if @activeSelection
+          @composer.activeSelection.deactivate() if @composer.activeSelection
           @drawSelection(e.x, e.y)
 
   mouseup: (e) ->
@@ -428,8 +428,8 @@ class @Newstime.CanvasLayerView extends Backbone.View
       #return true
 
     ## Check for hit inorder to highlight hovered selection
-    if @activeSelection # Check active selection first.
-      selection = @activeSelection if @activeSelection.hit(e.x, e.y)
+    if @composer.activeSelection # Check active selection first.
+      selection = @composer.activeSelection if @composer.activeSelection.hit(e.x, e.y)
 
     unless selection
       # NOTE: Would be nice to skip active selection here, since already
@@ -697,7 +697,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @$el.append(selectionView.el)
 
     # Bind to events
-    selectionView.bind 'activate', @selectionActivated, this
+    selectionView.bind 'activate', @selectContentItem, this
     selectionView.bind 'deactivate', @selectionDeactivated, this
     selectionView.bind 'tracking', @resizeSelection, this
     selectionView.bind 'tracking-release', @resizeSelectionRelease, this
@@ -743,7 +743,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @$el.append(selectionView.el)
 
     # Bind to events
-    selectionView.bind 'activate', @selectionActivated, this
+    selectionView.bind 'activate', @selectContentItem, this
     selectionView.bind 'deactivate', @selectionDeactivated, this
     selectionView.bind 'tracking', @resizeSelection, this
     selectionView.bind 'tracking-release', @resizeSelectionRelease, this
@@ -783,7 +783,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @$el.append(selectionView.el)
 
     # Bind to events
-    selectionView.bind 'activate', @selectionActivated, this
+    selectionView.bind 'activate', @selectContentItem, this
     selectionView.bind 'deactivate', @selectionDeactivated, this
     selectionView.bind 'tracking', @resizeSelection, this
     selectionView.bind 'tracking-release', @resizeSelectionRelease, this
@@ -837,7 +837,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @$el.append(selectionView.el)
 
     # Bind to events
-    selectionView.bind 'activate', @selectionActivated, this
+    selectionView.bind 'activate', @selectContentItem, this
     selectionView.bind 'deactivate', @selectionDeactivated, this
     selectionView.bind 'tracking', @resizeSelection, this
     selectionView.bind 'tracking-release', @resizeSelectionRelease, this
@@ -888,22 +888,19 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @$el.append(selectionView.el)
 
     # Bind to events
-    selectionView.bind 'activate', @selectionActivated, this
+    selectionView.bind 'activate', @selectContentItem, this
     selectionView.bind 'deactivate', @selectionDeactivated, this
     selectionView.bind 'tracking', @resizeSelection, this
     selectionView.bind 'tracking-release', @resizeSelectionRelease, this
 
     selectionView.beginSelection(x, y)
 
-  selectionActivated: (selection) ->
-    @composer.setSelection(selection)
-    #@activeSelection.deactivate() if @activeSelection
-    @activeSelection = selection
+  selectContentItem: (contentItemView) ->
+    @composer.setSelection(contentItemView)
     @trigger 'focus', this # Trigger focus event to get keyboard events
 
   selectionDeactivated: (selection) ->
     @composer.clearSelection()
-    @activeSelection = null
 
   resizeSelection: (selection) ->
     @resizeSelectionTarget = selection

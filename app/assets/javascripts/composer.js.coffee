@@ -348,6 +348,7 @@ class @Newstime.Composer extends Backbone.View
 
   setSelection: (selection) ->
     @activeSelection.deactivate() if @activeSelection
+
     @activeSelection = selection
 
     # Update Properties Panel
