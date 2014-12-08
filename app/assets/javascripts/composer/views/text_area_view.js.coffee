@@ -74,15 +74,15 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
 
   dragBottom: (x, y) ->
     geometry = @getGeometry()
-    height = @page.snapBottom(y) - geometry.top
+    height = @pageView.snapBottom(y) - geometry.top
     height = Math.floor(height / @lineHeight) * @lineHeight # Snap to Increments of line height
     @model.set
       height: height
 
   dragBottomLeft: (x, y) ->
     geometry = @getGeometry()
-    x = @page.snapLeft(x)
-    y = @page.snapBottom(y)
+    x = @pageView.snapLeft(x)
+    y = @pageView.snapBottom(y)
 
     height = y - geometry.top
     height = Math.floor(height / @lineHeight) * @lineHeight # Snap to Increments of line height
@@ -93,8 +93,8 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
 
   dragBottomRight: (x, y) ->
     geometry = @getGeometry()
-    width = @page.snapRight(x - geometry.left)
-    y = @page.snapBottom(y)
+    width = @pageView.snapRight(x - geometry.left)
+    y = @pageView.snapBottom(y)
 
     height = y - geometry.top
     height = Math.floor(height / @lineHeight) * @lineHeight # Snap to Increments of line height
