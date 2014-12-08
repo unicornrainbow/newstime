@@ -23,7 +23,7 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
     #@$headlineEl = $(headlineEl)
 
   modelChanged: ->
-    #super()
+    super()
 
     #if @$headlineEl?
       #@$headlineEl.css

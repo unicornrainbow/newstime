@@ -8,6 +8,7 @@ class @Newstime.CanvasItemView extends Backbone.View
     @composer = options.composer
 
     @page = options.page
+    @pageView = options.pageView
 
     # Page offsets for positioning.
     @pageOffsetLeft = options.pageOffsetLeft
@@ -81,8 +82,8 @@ class @Newstime.CanvasItemView extends Backbone.View
 
   beginSelection: (x, y) -> # TODO: rename beginDraw
     # Snap x to grid
-    @page.collectLeftEdges(@model)
-    snapX = @page.snapLeft(x)
+    @pageView.collectLeftEdges(@model)
+    snapX = @pageView.snapLeft(x)
     if snapX
       x = snapX
 
@@ -153,10 +154,10 @@ class @Newstime.CanvasItemView extends Backbone.View
       Newstime.charKeycodes[e.keyCode]
 
   stepLeft: ->
-    @model.set left: @page.stepLeft(@model.get('left'))
+    @model.set left: @pageView.stepLeft(@model.get('left'))
 
   stepRight: ->
-    @model.set left: @page.stepRight(@model.get('left'))
+    @model.set left: @pageView.stepRight(@model.get('left'))
 
   delete: ->
     @model.destroy()
@@ -185,24 +186,24 @@ class @Newstime.CanvasItemView extends Backbone.View
 
     switch @resizeMode
       when 'top', 'top-left', 'top-right'
-        @page.computeTopSnapPoints()
+        @pageView.computeTopSnapPoints()
 
       when 'bottom', 'bottom-left', 'bottom-right'
-        @page.computeBottomSnapPoints()
+        @pageView.computeBottomSnapPoints()
 
 
     switch @resizeMode
       when 'left', 'top-left', 'bottom-left'
-        @page.collectLeftEdges(@model)
+        @pageView.collectLeftEdges(@model)
 
       #when 'right', 'top-right', 'bottom-right'
-        #@page.collectRightEdges(this)
+        #@pageView.collectRightEdges(this)
 
 
     @trigger 'tracking', this
 
   trackMove: (offsetX, offsetY) ->
-    @page.computeTopSnapPoints()
+    @pageView.computeTopSnapPoints()
     @moving      = true
     @moveOffsetX = offsetX
     @moveOffsetY = offsetY
@@ -298,10 +299,10 @@ class @Newstime.CanvasItemView extends Backbone.View
 
     # Adjust x corrdinate
     x -= @moveOffsetX
-    #x = Math.min(x, @page.getWidth() - @model.get('width')) # Keep on page
-    #x = @page.snapLeft(x) # Snap
+    #x = Math.min(x, @pageView.getWidth() - @model.get('width')) # Keep on page
+    #x = @pageView.snapLeft(x) # Snap
 
-    y = @page.snapTop(y - @moveOffsetY)
+    y = @pageView.snapTop(y - @moveOffsetY)
     @model.set
       left: x
       top: y
@@ -309,7 +310,7 @@ class @Newstime.CanvasItemView extends Backbone.View
   # Resizes based on a top drag
   dragTop: (x, y) ->
     geometry = @getGeometry()
-    y = @page.snapTop(y)
+    y = @pageView.snapTop(y)
     @model.set
       top: y
       height: geometry.top - y + geometry.height
@@ -317,8 +318,8 @@ class @Newstime.CanvasItemView extends Backbone.View
   dragRight: (x, y) ->
     geometry = @getGeometry()
     width = x - geometry.left
-    width = Math.min(width, @page.getWidth() - @model.get('left')) # Keep on page
-    width = @page.snapRight(width) # Snap
+    width = Math.min(width, @pageView.getWidth() - @model.get('left')) # Keep on page
+    width = @pageView.snapRight(width) # Snap
 
     @model.set
       width: width
@@ -326,13 +327,13 @@ class @Newstime.CanvasItemView extends Backbone.View
   dragBottom: (x, y) ->
     geometry = @getGeometry()
     @model.set
-      height: @page.snapBottom(y) - geometry.top
+      height: @pageView.snapBottom(y) - geometry.top
 
   dragLeft: (x, y) ->
     geometry = @getGeometry()
-    snapLeft = @page.snapLeft(x)
+    snapLeft = @pageView.snapLeft(x)
     if snapLeft
-      @composer.showVerticalSnapLine(snapLeft + @page.x())
+      @composer.showVerticalSnapLine(snapLeft + @pageView.x())
       x = snapLeft
     else
       @composer.hideVerticalSnapLine()
@@ -343,8 +344,8 @@ class @Newstime.CanvasItemView extends Backbone.View
 
   dragTopLeft: (x, y) ->
     geometry = @getGeometry()
-    x        = @page.snapLeft(x)
-    y        = @page.snapTop(y)
+    x        = @pageView.snapLeft(x)
+    y        = @pageView.snapTop(y)
     @model.set
       left: x
       top: y
@@ -353,8 +354,8 @@ class @Newstime.CanvasItemView extends Backbone.View
 
   dragTopRight: (x, y) ->
     geometry = @getGeometry()
-    width = @page.snapRight(x - geometry.left)
-    y = @page.snapTop(y)
+    width = @pageView.snapRight(x - geometry.left)
+    y = @pageView.snapTop(y)
     @model.set
       top: y
       width: width
@@ -362,8 +363,8 @@ class @Newstime.CanvasItemView extends Backbone.View
 
   dragBottomLeft: (x, y) ->
     geometry = @getGeometry()
-    x = @page.snapLeft(x)
-    y = @page.snapBottom(y)
+    x = @pageView.snapLeft(x)
+    y = @pageView.snapBottom(y)
     @model.set
       left: x
       width: geometry.left - x + geometry.width
@@ -371,8 +372,8 @@ class @Newstime.CanvasItemView extends Backbone.View
 
   dragBottomRight: (x, y) ->
     geometry = @getGeometry()
-    width    = @page.snapRight(x - geometry.left)
-    y        = @page.snapBottom(y)
+    width    = @pageView.snapRight(x - geometry.left)
+    y        = @pageView.snapBottom(y)
     @model.set
       width: width
       height: y - geometry.top
