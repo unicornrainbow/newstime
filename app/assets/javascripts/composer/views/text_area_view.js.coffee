@@ -16,7 +16,7 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
 
     #@setContentEl(options.contentEl) if options.contentEl
 
-    #@propertiesView = new Newstime.TextAreaPropertiesView(target: this)
+    @propertiesView = new Newstime.TextAreaPropertiesView(target: this)
 
     #@modelChanged()
 

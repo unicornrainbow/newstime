@@ -15,7 +15,7 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
 
     #@setHeadlineEl(options.headlineEl) if options.headlineEl
 
-    #@propertiesView = new Newstime.HeadlineProperties2View(target: this)
+    @propertiesView = new Newstime.HeadlineProperties2View(target: this)
 
     #@modelChanged()
 

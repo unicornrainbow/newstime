@@ -403,6 +403,6 @@ $ ->
   # fonts to load in order to measure. Need to properly handle events in the
   # future o detect loading of fonts, to avoid hacks like this. This will work
   # for now.
-  setTimeout _.bind(Newstime.composer.render, composer), 200
+  setTimeout _.bind(Newstime.composer.render, Newstime.composer), 200
 
   return

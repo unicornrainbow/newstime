@@ -10,7 +10,7 @@ class @Newstime.PhotoView extends Newstime.CanvasItemView
 
     #@bind 'paste', @paste
 
-    #@propertiesView = new Newstime.PhotoPropertiesView(target: this)
+    @propertiesView = new Newstime.PhotoPropertiesView(target: this)
 
 
     #@model.bind 'change:photo_id', @photoChanged, this

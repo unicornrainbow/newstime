@@ -7,6 +7,8 @@ class @Newstime.CanvasItemView extends Backbone.View
     @canvasLayerView = options.canvasLayerView
     @composer = options.composer
 
+    @page = options.page
+
     # Page offsets for positioning.
     @pageOffsetLeft = options.pageOffsetLeft
     @pageOffsetTop  = options.pageOffsetTop

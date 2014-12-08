@@ -108,14 +108,14 @@ class @Newstime.CanvasLayerView extends Backbone.View
           pageOffsetLeft: pageOffsetLeft
           pageOffsetTop: pageOffsetTop
           composer: @composer
-          #page: page
-          #pageID: pageID
-          #pageView: pageView
+          page: page
+          pageID: pageID
+          pageView: pageView
 
-        #selectionView.bind 'activate', @selectionActivated, this
-        #selectionView.bind 'deactivate', @selectionDeactivated, this
-        #selectionView.bind 'tracking', @resizeSelection, this
-        #selectionView.bind 'tracking-release', @resizeSelectionRelease, this
+        contentItemView.bind 'activate', @selectionActivated, this
+        contentItemView.bind 'deactivate', @selectionDeactivated, this
+        contentItemView.bind 'tracking', @resizeSelection, this
+        contentItemView.bind 'tracking-release', @resizeSelectionRelease, this
 
         contentItemID = contentItem.get('_id')
         @contentItemViews[contentItemID] = contentItemView
