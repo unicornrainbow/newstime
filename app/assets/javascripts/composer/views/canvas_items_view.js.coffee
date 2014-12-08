@@ -89,7 +89,6 @@ class @Newstime.CanvasItemsView extends Backbone.View
     # calculate the offset.
     e = @getMappedEvent(e)
 
-    console.log e
 
   setPosition: (position) ->
     @left   = position.left

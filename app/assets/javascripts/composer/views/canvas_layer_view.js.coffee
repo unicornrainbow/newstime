@@ -107,6 +107,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
           el: el
           pageOffsetLeft: pageOffsetLeft
           pageOffsetTop: pageOffsetTop
+          composer: @composer
           #page: page
           #pageID: pageID
           #pageView: pageView
@@ -117,7 +118,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
         #selectionView.bind 'tracking-release', @resizeSelectionRelease, this
 
         contentItemID = contentItem.get('_id')
-        @contentItemViews[contentItemID] = contentItem
+        @contentItemViews[contentItemID] = contentItemView
         @$canvasItems.append(el)
 
 
@@ -414,24 +415,12 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
   mousemove: (e) ->
     # Create a new event with corrdinates relative to the canvasItemsView
-    #
     e = @getMappedEvent(e)
-    console.log e
-    #adjustedEvent = new Newstime.Event
-      #x: e.x - @canvasItemsView.left
-      #y: e.y - @canvasItemsView.top
 
-    #mappedEvent = @canvasItemsView.mapEvent(e)
-    #@canvasItemsView.trigger 'mousemove', e
+    if @resizeSelectionTarget
+      @resizeSelectionTarget.trigger 'mousemove', e
+      return true
 
-    #@canvasItemsView.trigger 'mousemove', @canvasItemsView.getMappedEvent(adjustedEvent)
-
-
-    #if @resizeSelectionTarget
-      #@resizeSelectionTarget.trigger 'mousemove', e
-      #return true
-
-    ## Need to abstract and move this down into the selection. Kludgy for now.
     #if @trackingSelection
       #@trackingSelection.$el.css
         #width: @snapToGridRight(e.x - @trackingSelection.anchorX)
@@ -439,34 +428,34 @@ class @Newstime.CanvasLayerView extends Backbone.View
       #return true
 
     ## Check for hit inorder to highlight hovered selection
-    #if @activeSelection # Check active selection first.
-      #selection = @activeSelection if @activeSelection.hit(e.x, e.y)
+    if @activeSelection # Check active selection first.
+      selection = @activeSelection if @activeSelection.hit(e.x, e.y)
 
-    #unless selection
-      ## NOTE: Would be nice to skip active selection here, since already
-      ## checked, but no biggie.
-      #selection = _.find @selectionViews, (selection) ->
-        #selection.hit(e.x, e.y)
+    unless selection
+      # NOTE: Would be nice to skip active selection here, since already
+      # checked, but no biggie.
+      selection = _.find @contentItemViews, (contentItem, id) ->
+        contentItem.hit(e.x, e.y)
 
-    #unless selection
-      ## NOTE: Would be nice to skip active selection here, since already
-      ## checked, but no biggie.
-      #selection = _.find @linkAreas, (linkArea) ->
-        #linkArea.hit(e.x, e.y)
+    unless selection
+      # NOTE: Would be nice to skip active selection here, since already
+      # checked, but no biggie.
+      selection = _.find @linkAreas, (linkArea) ->
+        linkArea.hit(e.x, e.y)
 
-    #if selection
-      #if @hoveredObject != selection
-        #if @hoveredObject
-          #@hoveredObject.trigger 'mouseout', e
-        #@hoveredObject = selection
-        #@hoveredObject.trigger 'mouseover', e
-    #else
-      #if @hoveredObject
-        #@hoveredObject.trigger 'mouseout', e
-        #@hoveredObject = null
+    if selection
+      if @hoveredObject != selection
+        if @hoveredObject
+          @hoveredObject.trigger 'mouseout', e
+        @hoveredObject = selection
+        @hoveredObject.trigger 'mouseover', e
+    else
+      if @hoveredObject
+        @hoveredObject.trigger 'mouseout', e
+        @hoveredObject = null
 
-    #if @hoveredObject
-      #@hoveredObject.trigger 'mousemove', e
+    if @hoveredObject
+      @hoveredObject.trigger 'mousemove', e
 
 
   detectHit: (page, x, y) ->
