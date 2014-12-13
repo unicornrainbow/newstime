@@ -167,7 +167,6 @@ class @Newstime.CanvasItemView extends Backbone.View
   delete: ->
     @model.destroy()
 
-
   mousedown: (e) ->
     @adjustEventXY(e)
 
