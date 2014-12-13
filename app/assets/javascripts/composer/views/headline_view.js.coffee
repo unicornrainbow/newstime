@@ -62,53 +62,53 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
     super()
 
   keydown: (e) =>
-    #if @editMode
-      #switch e.keyCode
-        #when 8 # del
-          #e.stopPropagation()
-          #e.preventDefault()
-          #@model.backspace()
-          #@fitToBorderBox()
-        #when 27 # ESC
-          #e.stopPropagation()
-          #e.preventDefault()
-          #@clearEditMode()
-        #when 37 # left arrow
-          #@moveCursorLeft()
-          #e.stopPropagation()
-          #e.preventDefault()
-        #when 39 # right arrow
-          #@moveCursorRight()
-          #e.stopPropagation()
-          #e.preventDefault()
-        #else
-          #unless e.ctrlKey || e.altKey # Skip ctrl and alt
-            #char = @getEventChar(e)
-            #if char?
-              #e.stopPropagation()
-              #e.preventDefault()
-              #@model.typeCharacter(char)
+    if @editMode
+      switch e.keyCode
+        when 8 # del
+          e.stopPropagation()
+          e.preventDefault()
+          @model.backspace()
+          @fitToBorderBox()
+        when 27 # ESC
+          e.stopPropagation()
+          e.preventDefault()
+          @clearEditMode()
+        when 37 # left arrow
+          @moveCursorLeft()
+          e.stopPropagation()
+          e.preventDefault()
+        when 39 # right arrow
+          @moveCursorRight()
+          e.stopPropagation()
+          e.preventDefault()
+        else
+          unless e.ctrlKey || e.altKey # Skip ctrl and alt
+            char = @getEventChar(e)
+            if char?
+              e.stopPropagation()
+              e.preventDefault()
+              @model.typeCharacter(char)
 
-          #@fitToBorderBox()
+          @fitToBorderBox()
 
-    #else
-      #switch e.keyCode
-        #when 13 # Enter
-          #@startEditMode()
-        #when 187 # +
-          #unless e.altKey
-            #@increaseFontWeight()
-        #when 189 # -
-          #unless e.altKey
-            #@decreaseFontWeight()
-        #when 84 # t
-          ## Trim excess margin from top and bottom
-          #@trimVerticalMargin()
-        #when 70 # f
-          ## Fits the headline to match with with zero margins
-          #@fit()
-        #else
-          #super(e)
+    else
+      switch e.keyCode
+        when 13 # Enter
+          @startEditMode()
+        when 187 # +
+          unless e.altKey
+            @increaseFontWeight()
+        when 189 # -
+          unless e.altKey
+            @decreaseFontWeight()
+        when 84 # t
+          # Trim excess margin from top and bottom
+          @trimVerticalMargin()
+        when 70 # f
+          # Fits the headline to match with with zero margins
+          @fit()
+        else
+          super(e)
 
   increaseFontWeight: ->
     if @model.get('font_weight')

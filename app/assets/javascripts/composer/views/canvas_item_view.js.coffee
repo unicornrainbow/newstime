@@ -119,33 +119,33 @@ class @Newstime.CanvasItemView extends Backbone.View
     @model.pick('top', 'left', 'height', 'width')
 
   keydown: (e) =>
-      switch e.keyCode
-        when 8 # del
-          if confirm "Are you sure you wish to delete this item?"
-            @delete()
-          e.stopPropagation()
-          e.preventDefault()
-        when 37 # left arrow
-          @stepLeft()
-          e.stopPropagation()
-          e.preventDefault()
-        when 38 # up arrow
-          # TODO: Should handle acceleration
-          offset = if e.shiftKey then 20 else 1
-          @model.set top: @model.get('top') - offset
-          e.stopPropagation()
-          e.preventDefault()
-        when 39 # right arrow
-          @stepRight()
-          e.stopPropagation()
-          e.preventDefault()
-        when 40 # down arrow
-          offset = if e.shiftKey then 20 else 1
-          @model.set top: @model.get('top') + offset
-          e.stopPropagation()
-          e.preventDefault()
-        when 27 # ESC
-          @deactivate()
+    switch e.keyCode
+      when 8 # del
+        if confirm "Are you sure you wish to delete this item?"
+          @delete()
+        e.stopPropagation()
+        e.preventDefault()
+      when 37 # left arrow
+        @stepLeft()
+        e.stopPropagation()
+        e.preventDefault()
+      when 38 # up arrow
+        # TODO: Should handle acceleration
+        offset = if e.shiftKey then 20 else 1
+        @model.set top: @model.get('top') - offset
+        e.stopPropagation()
+        e.preventDefault()
+      when 39 # right arrow
+        @stepRight()
+        e.stopPropagation()
+        e.preventDefault()
+      when 40 # down arrow
+        offset = if e.shiftKey then 20 else 1
+        @model.set top: @model.get('top') + offset
+        e.stopPropagation()
+        e.preventDefault()
+      when 27 # ESC
+        @deactivate()
 
 
   getPropertiesView: ->

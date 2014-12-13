@@ -302,9 +302,6 @@ class @Newstime.CanvasLayerView extends Backbone.View
     #_.each @selectionViews, (item) =>
       #item.trigger 'windowResize'
 
-  #keydown: (e) ->
-    #if @focusedPage
-      #@focusedPage.trigger 'keydown', e
 
   keydown: (e) ->
     if @composer.activeSelection
