@@ -72,18 +72,17 @@ class @Newstime.CanvasItemView extends Backbone.View
     geometry.left <= x <= geometry.left + geometry.width &&
       geometry.top <= y <= geometry.top + geometry.height
 
-  activate: ->
-    @active = true
-    @trigger 'activate',
-      contentItemView: this
-      contentItem: @model
+  activate: ->  # TODO: Rename to select
+    unless @active
+      @active = true # TODO: Rename to selected
+      @trigger 'activate',
+        contentItemView: this
+        contentItem: @model
 
-    #@$el.addClass 'resizable'
-
-  deactivate: ->
-    @active = false
-    @trigger 'deactivate', this
-    @$el.removeClass 'resizable'
+  deactivate: -> # TODO: Rename to deselect
+    if @active
+      @active = false
+      @trigger 'deactivate', this
 
   beginSelection: (x, y) -> # TODO: rename beginDraw
     # Snap x to grid
@@ -172,8 +171,8 @@ class @Newstime.CanvasItemView extends Backbone.View
 
     return unless e.button == 0 # Only respond to left button mousedown.
 
-    unless @active
-      @activate()
+    unless @selected
+      @composer.select(@model) # TODO: Shift+click with add to selection. alt-click will remove from.
 
     if @hoveredHandle
       @trackResize @hoveredHandle.type

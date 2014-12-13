@@ -462,6 +462,11 @@ class @Newstime.Composer extends Backbone.View
     @section.addPage (page) =>
       @canvasLayerView.addPage(page)
 
+  select: (contentItem) ->
+    view = @canvasLayerView.contentItemViews[contentItem.get('_id')]
+    # TODO: Finish impementation of selection
+
+
   setSelection: (selection) ->
     @activeSelection.deactivate() if @activeSelection
 
