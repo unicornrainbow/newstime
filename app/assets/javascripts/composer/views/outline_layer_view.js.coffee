@@ -12,32 +12,33 @@ class @Newstime.OutlineLayerView extends Backbone.View
 
   zoom: ->
     @zoomLevel = @composer.zoomLevel
+    @computeZoomedPosition()
     @render()
 
-    # Recalulate a position the containing div.
-    #
-    # Render all outline views.
-
-  setPosition: (position) ->
-    @position = position
-    @render()
-
-  render: ->
-    _position = _.clone(@position)
+  # Computes and sets the zoomed position.
+  computeZoomedPosition: ->
+    position = _.clone(@position)
 
     # Apply zoom
     if @zoomLevel
-      rawHeight = _position.height
-      rawWidth = _position.width
+      rawHeight = position.height
+      rawWidth = position.width
 
-      _position.height = rawHeight*@zoomLevel
-      _position.width = rawWidth*@zoomLevel
+      position.height = rawHeight*@zoomLevel
+      position.width = rawWidth*@zoomLevel
 
-      _position.left -= (_position.width - rawWidth)/2
+      position.left -= (position.width - rawWidth)/2.0
+
+    @zoomedPosition = position
 
 
-    @$el.css _position
+  setPosition: (position) ->
+    @position = position
+    @computeZoomedPosition()
+    @render()
 
+  render: ->
+    @$el.css @zoomedPosition
     _.each @outlineViews, (view) -> view.render()
 
   attach: (outlineView) ->
