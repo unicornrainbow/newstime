@@ -1,5 +1,8 @@
 .canvas-view-layer {
   transform-origin: top;
-  .grid {
-  }
+
+  // Ensure nothing can be highlighted with a user drag (Which breaks the
+  // solidness of the ui)
+  -webkit-user-select: none;
+
 }

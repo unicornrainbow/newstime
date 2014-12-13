@@ -14,13 +14,8 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @$el.css top: "#{@topOffset}px"
     @$el.addClass 'canvas-view-layer'
 
-    # Ensure nothing can be highlighted with a user drag (Which breaks the
-    # solidness of the ui)
-    @$el.css "-webkit-user-select": "none"
-
 
     @contentItemCollection = @edition.get('content_items')
-
 
     # Capture all the pages & content items
     @contentItemSelector = '[data-content-item-id]'
@@ -51,23 +46,12 @@ class @Newstime.CanvasLayerView extends Backbone.View
       @pageViews[page_id] = view
       @pageContentItems[page_id] = page.getContentItems()
 
-    # Instantiate content items
-    #@contentItems = new Backbone.Collection(section.getContentItems())
-    #@contentItems = new Backbone.Collection(_.flatten(@pageContentItems))
-
     @$canvasItems = $('<div class="canvas-items"></div>')
     @$canvasItems.appendTo(@$body)
 
     # Position canvas items div layer
     @positionCanvasItemsContainer()
 
-    #console.log groupedPages
-    #console.log groupedPages
-
-    #_.each @pageViews, (pageView) =>
-      #page = pageView.page
-
-      #content_items = page.getContentItems()
 
     @contentItemViews = {}
     @contentItemOutlineViews = {}
@@ -98,14 +82,12 @@ class @Newstime.CanvasLayerView extends Backbone.View
             when 'PhotoContentItem' then Newstime.PhotoView
             when 'VideoContentItem' then Newstime.VideoView
 
-
         contentItemOutlineView = new Newstime.ContentItemOutlineView
           composer: @composer
           model: contentItem
           pageOffsetLeft: pageOffsetLeft
           pageOffsetTop: pageOffsetTop
         @composer.outlineLayerView.attach(contentItemOutlineView)
-
 
         contentItemView = new contentItemViewType
           model: contentItem
