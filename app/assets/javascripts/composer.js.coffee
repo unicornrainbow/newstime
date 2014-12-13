@@ -463,24 +463,20 @@ class @Newstime.Composer extends Backbone.View
       @canvasLayerView.addPage(page)
 
   select: (contentItem) ->
-    view = @canvasLayerView.contentItemViews[contentItem.get('_id')]
-    # TODO: Finish impementation of selection
+    contentItemID = contentItem.get('_id')
+    contentItemView = @canvasLayerView.contentItemViews[contentItemID]
 
+    selection = new Newstime.ContentItemSelection
+      contentItem: contentItem
+      contentItemView: contentItemView
 
-  setSelection: (selection) ->
     @activeSelection.deactivate() if @activeSelection
 
     @activeSelection = selection
 
-    # Update Properties Panel
-    @updatePropertiesPanel(selection)
+    @updatePropertiesPanel(@activeSelection)
 
     @selectionLayerView.setSelection(selection)
-
-    # NOTE: This should be using a model, and the properties panel should be listening
-    # for changes on the model
-
-    #@trigger 'focus', this # Trigger focus event to get keyboard events
 
   clearSelection: () ->
     @activeSelection = null
