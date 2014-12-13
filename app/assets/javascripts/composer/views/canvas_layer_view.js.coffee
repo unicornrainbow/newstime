@@ -266,24 +266,32 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @pagesOffset = @$pages.offset()
     @pagesOffset.height = @$pages.height()
     @pagesOffset.width = @$pages.width()
+    @position = _.clone(@pagesOffset)
 
 
     # Dezoom
     if @zoomLevel
-      zoomedHeight = @pagesOffset.height
-      zoomedWidth = @pagesOffset.width
+      @position.height = @pagesOffset.height/@zoomLevel
+      @position.width = @pagesOffset.width/@zoomLevel
 
-      @pagesOffset.height = zoomedHeight/@zoomLevel
-      @pagesOffset.width = zoomedWidth/@zoomLevel
+      @position.left -= (@position.width - @pagesOffset.width)/2
 
-      @pagesOffset.left -= (@pagesOffset.width - zoomedWidth)/2
+    @$canvasItems.css(@position)
+
+    @composer.outlineLayerView.setPosition @position
+
+    @composer.selectionLayerView.$el.css @position
 
 
-    @$canvasItems.css @pagesOffset
+  # Handler for updating view after a zoom change.
+  zoom: ->
+    @zoomLevel = @composer.zoomLevel
+    @$el.css
+      'transform': "scale(#{@zoomLevel})"
+    @$canvasItems.css
+      'transform': "scale(#{@zoomLevel})"
 
-    @composer.outlineLayerView.setPosition @pagesOffset
-
-    @composer.selectionLayerView.$el.css @pagesOffset
+    @positionCanvasItemsContainer()
 
   windowResize: ->
     @positionCanvasItemsContainer()
@@ -351,6 +359,9 @@ class @Newstime.CanvasLayerView extends Backbone.View
     if @zoomLevel
       x = Math.round(x/@zoomLevel)
       y = Math.round(y/@zoomLevel)
+
+    #console.log @pagesOffset.left
+
 
     return [x, y]
 
@@ -536,15 +547,6 @@ class @Newstime.CanvasLayerView extends Backbone.View
       return true
 
     return false
-
-  # Handler for updating view after a zoom change.
-  zoom: ->
-    @zoomLevel = @composer.zoomLevel
-    @$el.css
-      'transform': "scale(#{@zoomLevel})"
-
-    @$canvasItems.css
-      'transform': "scale(#{@zoomLevel})"
 
   drawTypeArea: (x, y) ->
     ## We need to create and activate a selection region (Marching ants would be nice)
