@@ -36,6 +36,8 @@ class @Newstime.Composer extends Backbone.View
     @topOffset = 0 # 61 # px
     @menuHeight = 25
 
+    @contentItemViews = {}
+
     @toolbox = new Newstime.Toolbox
 
     # Create application layers
@@ -68,6 +70,7 @@ class @Newstime.Composer extends Backbone.View
       topOffset: @topOffset + @menuHeight
       edition: @edition
       toolbox: @toolbox
+      contentItemViews: @contentItemViews
     @$body.append(@canvasLayerView.el)
 
     @hasFocus = true # By default, composer has focus
@@ -464,7 +467,7 @@ class @Newstime.Composer extends Backbone.View
 
   select: (contentItem) ->
     contentItemID = contentItem.get('_id')
-    contentItemView = @canvasLayerView.contentItemViews[contentItemID]
+    contentItemView = @contentItemViews[contentItemID]
 
     selection = new Newstime.ContentItemSelection
       contentItem: contentItem

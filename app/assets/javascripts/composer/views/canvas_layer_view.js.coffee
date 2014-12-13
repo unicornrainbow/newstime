@@ -53,7 +53,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @positionCanvasItemsContainer()
 
 
-    @contentItemViews = {}
+    @contentItemViews = options.contentItemViews
     @contentItemOutlineViews = {}
 
     @pages.each (page) =>
