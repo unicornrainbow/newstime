@@ -279,17 +279,16 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @$canvasItems.css(@position)
 
     @composer.outlineLayerView.setPosition @position
-
-    @composer.selectionLayerView.$el.css @position
+    @composer.selectionLayerView.setPosition @position
 
 
   # Handler for updating view after a zoom change.
   zoom: ->
     @zoomLevel = @composer.zoomLevel
-    @$el.css
-      'transform': "scale(#{@zoomLevel})"
-    @$canvasItems.css
-      'transform': "scale(#{@zoomLevel})"
+
+    transform = 'transform': "scale(#{@zoomLevel})"
+    @$el.css(transform)
+    @$canvasItems.css(transform)
 
     @positionCanvasItemsContainer()
 

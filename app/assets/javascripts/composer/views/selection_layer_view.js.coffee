@@ -7,17 +7,43 @@ class @Newstime.SelectionLayerView extends Backbone.View
 
     @composer.bind 'zoom', @zoom, this
 
+  setPosition: (position) ->
+    @position = position
+    @computeZoomedPosition()
+    @render()
 
   zoom: ->
     @zoomLevel = @composer.zoomLevel
-    console.log @zoomLevel
+    @computeZoomedPosition()
+    @render()
+
+  # Computes and sets the zoomed position.
+  computeZoomedPosition: ->
+    position = _.clone(@position)
+
+    # Apply zoom
+    if @zoomLevel
+      rawHeight = position.height
+      rawWidth = position.width
+
+      position.height = rawHeight*@zoomLevel
+      position.width = rawWidth*@zoomLevel
+
+      position.left -= (position.width - rawWidth)/2.0
+
+    @zoomedPosition = position
+
+  render: ->
+    @$el.css @zoomedPosition
+    if @currentSelectionView
+      @currentSelectionView.render()
 
 
   setSelection: (selection) ->
     @currentSelection = selection
-
-    selectionView = new Newstime.SelectionView
-      selection: selection
+    @currentSelectionView = new Newstime.SelectionView
+      composer: @composer
+      selection: @currentSelection
 
     @$el.empty()
-    @$el.append selectionView.el
+    @$el.append @currentSelectionView.el
