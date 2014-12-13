@@ -100,6 +100,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
 
         contentItemOutlineView = new Newstime.ContentItemOutlineView
+          composer: @composer
           model: contentItem
           pageOffsetLeft: pageOffsetLeft
           pageOffsetTop: pageOffsetTop
@@ -279,7 +280,9 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
 
     @$canvasItems.css @pagesOffset
-    @composer.outlineLayerView.$el.css @pagesOffset
+
+    @composer.outlineLayerView.setPosition @pagesOffset
+
     @composer.selectionLayerView.$el.css @pagesOffset
 
   windowResize: ->
