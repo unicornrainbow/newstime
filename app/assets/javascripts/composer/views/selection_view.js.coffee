@@ -20,7 +20,6 @@ class @Newstime.SelectionView extends Backbone.View
     @model = @contentItem = @selection.contentItem
     @canvasItemView = @contentItemView = @selection.contentItemView # TODO: Should be canvasItemSelection (As the selection type)
 
-
     @page = @contentItemView.page
     @pageView = @contentItemView.pageView
 
@@ -62,7 +61,6 @@ class @Newstime.SelectionView extends Backbone.View
 
   paste: (e) ->
     @canvasItemView.trigger 'paste', e
-
 
   getLeft: ->
     @model.get('left')
@@ -276,8 +274,10 @@ class @Newstime.SelectionView extends Backbone.View
 
   dragBottom: (x, y) ->
     geometry = @getGeometry()
-    @model.set
-      height: @pageView.snapBottom(y) - geometry.top
+
+    height = @pageView.snapBottom(y) - geometry.top
+
+    @canvasItemView.setHeight(height)
 
   dragLeft: (x, y) ->
     geometry = @getGeometry()

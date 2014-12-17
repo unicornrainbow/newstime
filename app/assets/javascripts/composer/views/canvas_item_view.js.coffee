@@ -403,6 +403,9 @@ class @Newstime.CanvasItemView extends Backbone.View
   setWidth: (width) ->
     @model.set(width: width)
 
+  setHeight: (height) ->
+    @model.set(height: height)
+
   # Does an x,y corrdinate intersect a bounding box
   hitBox: (hitX, hitY, boxX, boxY, boxSize) ->
     boxLeft   = boxX - boxSize

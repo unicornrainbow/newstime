@@ -10,3 +10,5 @@ class @Newstime.ContentItemSelection
 
   deactivate: ->
     @contentItemView.deactivate()
+
+  destroy: ->

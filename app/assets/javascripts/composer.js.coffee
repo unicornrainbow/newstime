@@ -478,7 +478,10 @@ class @Newstime.Composer extends Backbone.View
       contentItem: contentItem
       contentItemView: contentItemView
 
-    @activeSelection.deactivate() if @activeSelection
+    if @activeSelection # TODO: Would currentSelection be a better name?
+      @activeSelection.deactivate()
+      @activeSelection.destroy()
+
     @activeSelection = selection
 
     @updatePropertiesPanel(@activeSelection)

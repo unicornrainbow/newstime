@@ -160,7 +160,7 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
     @editMode = false
 
   trimVerticalMargin: ->
-    headlineHeight = @$headlineEl.height()
+    headlineHeight = @$el.height()
     @model.set
       height: headlineHeight
       'margin-top': 0
@@ -168,8 +168,8 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
 
   # Fits headline to vertical width, vertical margins.
   fit: ->
-    headlineHeight = @$headlineEl.height()
-    height = @$el.height()
+    headlineHeight = @$el.height()
+    height = @model.get('height')
 
     if headlineHeight < height
       @model.set
@@ -177,9 +177,9 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
         'margin-top': 0
         'margin-bottom': 0
     else
-      headlineWidth  = @$headlineEl.width()
-      width = @$el.width()
-      fontSize = parseInt(@$headlineEl.css('font-size'))
+      headlineWidth  = @$el.width()
+      width = @model.get('width')
+      fontSize = parseInt(@$el.css('font-size'))
       fontSize *= width/headlineWidth
       @model.set
         'font_size': fontSize + 'px',
@@ -188,7 +188,7 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
         'margin-top': 0
         'margin-bottom': 0
 
-      @model.set height: @$headlineEl.height()
+      @model.set height: @$el.height()
 
 
   dragTop: (x, y) ->
@@ -270,5 +270,9 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
 
 
   setWidth: (width) ->
+    super
+    @fitToBorderBox()
+
+  setHeight: (height) ->
     super
     @fitToBorderBox()
