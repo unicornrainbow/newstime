@@ -62,7 +62,7 @@ class @Newstime.KeyboardHandler extends Backbone.Model
 
         when 49, 50, 51, 52, 53, 54 # 1-6
           if e.altKey
-            level = parseInt(String.fromCharCode(e.keyCode)) - 1
+            level = 6 - parseInt(String.fromCharCode(e.keyCode))
             @composer.setZoomLevelIndex(level)
 
         when 32 # space

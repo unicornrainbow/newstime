@@ -322,7 +322,6 @@ class @Newstime.Composer extends Backbone.View
 
 
   mouseup: (e) ->
-
     e =
       x: @mouseX
       y: @mouseY
@@ -336,7 +335,6 @@ class @Newstime.Composer extends Backbone.View
     # to the individual object.
     if @hitLayer
       @hitLayer.trigger 'mouseup', e
-
 
   zoomIn: ->
     @zoomLevelIndex ?= 0
