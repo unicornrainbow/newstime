@@ -15,12 +15,12 @@ class @Newstime.PhotoView extends Newstime.CanvasItemView
 
     #@model.bind 'change:photo_id', @photoChanged, this
 
-    #@modelChanged()
+    @render()
 
   setContentEl: (contentEl) ->
     @$contentEl = $(contentEl)
 
-  modelChanged: ->
+  render: ->
     super()
 
     if @$contentEl?
@@ -34,7 +34,7 @@ class @Newstime.PhotoView extends Newstime.CanvasItemView
     if @$contentEl?
       @$contentEl.css "background-image": "url('#{@model.get('edition_relative_url_path')}')"
 
-  modelDestroyed: ->
+  destroy: ->
     super()
     @$contentEl.remove() if @$contentEl?
 

@@ -16,15 +16,6 @@ class @Newstime.CanvasItemView extends Backbone.View
     @pageOffsetLeft = options.pageOffsetLeft
     @pageOffsetTop  = options.pageOffsetTop
 
-    # Add drag handles
-    @dragHandles = ['top', 'top-right', 'right', 'bottom-right', 'bottom', 'bottom-left', 'left', 'top-left']
-    @dragHandles = _.map @dragHandles, (type) ->
-      new Newstime.DragHandle(selection: this, type: type)
-
-    # Attach handles
-    handleEls = _.map @dragHandles, (handle) -> handle.el
-    @$el.append(handleEls)
-
     @$el.css
       top: @model.get('top') + @pageOffsetTop
       left: @model.get('left') + @pageOffsetLeft

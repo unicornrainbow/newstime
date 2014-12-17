@@ -18,12 +18,12 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
 
     @propertiesView = new Newstime.TextAreaPropertiesView(target: this)
 
-    #@modelChanged()
+    @render()
 
   setContentEl: (contentEl) ->
     @$contentEl = $(contentEl)
 
-  modelChanged: ->
+  render: ->
     super()
 
     if @$contentEl?
@@ -32,7 +32,7 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
         left: @model.get('left') + @pageLeft
       @$contentEl.css _.pick @model.changedAttributes(), 'width', 'height'
 
-  modelDestroyed: ->
+  destroy: ->
     super()
     @$contentEl.remove() if @$contentEl?
 

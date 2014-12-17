@@ -41,10 +41,6 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
       @$el.addClass 'placeholder'
 
 
-  destroy: ->
-    super()
-    @$headlineEl.remove() if @$headlineEl?
-
   deactivate: ->
     @clearEditMode()
     super()
