@@ -229,6 +229,13 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
     headlineWidth  = @$el.width()
     headlineHeight = @$el.height()
 
+    # Dezoom
+    if @composer.zoomLevel
+      zoomLevel = @composer.zoomLevel
+      headlineWidth  /= zoomLevel
+      headlineHeight /= zoomLevel
+
+
     width = @model.get('width')
     height = @model.get('height')
 
@@ -246,6 +253,12 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
     # Compute and set margins
     headlineWidth  = @$el.width()
     headlineHeight = @$el.height()
+
+    # Dezoom
+    if @composer.zoomLevel
+      zoomLevel = @composer.zoomLevel
+      headlineWidth  /= zoomLevel
+      headlineHeight /= zoomLevel
 
     verticalMargin = (height - headlineHeight)/2 + 'px'
     horizontalMargin = (width - headlineWidth)/2 + 'px'
