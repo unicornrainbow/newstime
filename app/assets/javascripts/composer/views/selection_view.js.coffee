@@ -34,6 +34,7 @@ class @Newstime.SelectionView extends Backbone.View
     @bind 'mouseover', @mouseover
     @bind 'mouseout', @mouseout
     @bind 'mouseup', @mouseup
+    @bind 'paste', @paste
     @bind 'keydown',   @keydown
     @bind 'dblclick',  @dblclick
 
@@ -58,6 +59,9 @@ class @Newstime.SelectionView extends Backbone.View
       position.left *= zoomLevel
 
     @$el.css(position)
+
+  paste: (e) ->
+    @canvasItemView.trigger 'paste', e
 
 
   getLeft: ->

@@ -4,39 +4,23 @@ class @Newstime.PhotoView extends Newstime.CanvasItemView
 
   initialize: (options) ->
     super
-    #@$el.addClass 'photo-view'
+    @$el.addClass 'photo-view'
 
-    #@setContentEl(options.contentEl) if options.contentEl
-
-    #@bind 'paste', @paste
+    @bind 'paste', @paste
 
     @propertiesView = new Newstime.PhotoPropertiesView(target: this)
 
 
-    #@model.bind 'change:photo_id', @photoChanged, this
+    @model.bind 'change:photo_id', @photoChanged, this
 
     @render()
 
-  setContentEl: (contentEl) ->
-    @$contentEl = $(contentEl)
-
-  render: ->
-    super()
-
-    if @$contentEl?
-      @$contentEl.css
-        top: @model.get('top') + @pageTop
-        left: @model.get('left') + @pageLeft
-
-      @$contentEl.css _.pick @model.changedAttributes(), 'width', 'height'
 
   photoChanged: ->
-    if @$contentEl?
-      @$contentEl.css "background-image": "url('#{@model.get('edition_relative_url_path')}')"
+    @$el.css "background-image": "url('#{@model.get('edition_relative_url_path')}')"
 
   destroy: ->
     super()
-    @$contentEl.remove() if @$contentEl?
 
   createImage: (source) ->
    pastedImage = new Image()
@@ -58,7 +42,6 @@ class @Newstime.PhotoView extends Newstime.CanvasItemView
 
     # Now we should upload and save this image to the server. When it has been
     # saved, we should update the image linkes. Perhaps we should simply upload.
-    #
 
     item = e.originalEvent.clipboardData.items[0]
     if item && item.type.indexOf "image" != -1
