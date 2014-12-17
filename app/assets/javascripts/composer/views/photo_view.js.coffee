@@ -10,11 +10,9 @@ class @Newstime.PhotoView extends Newstime.CanvasItemView
 
     @propertiesView = new Newstime.PhotoPropertiesView(target: this)
 
-
     @model.bind 'change:photo_id', @photoChanged, this
 
     @render()
-
 
   photoChanged: ->
     @$el.css "background-image": "url('#{@model.get('edition_relative_url_path')}')"
@@ -29,7 +27,6 @@ class @Newstime.PhotoView extends Newstime.CanvasItemView
      console.log this.src
      #$(this).appendTo(document)
    pastedImage.src = source
-
 
   paste: (e) =>
     # Note: Code derived http://joelb.me/blog/2011/code-snippet-accessing-clipboard-images-with-javascript/
