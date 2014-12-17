@@ -225,34 +225,33 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
     @fitToBorderBox()
 
   fitToBorderBox: ->
-    if @$headlineEl
-      # Get the width and height of the headline element.
-      headlineWidth  = @$headlineEl.width()
-      headlineHeight = @$headlineEl.height()
+    # Get the width and height of the headline element.
+    headlineWidth  = @$el.width()
+    headlineHeight = @$el.height()
 
-      width = @$el.width()
-      height = @$el.height()
+    width = @model.get('width')
+    height = @model.get('height')
 
-      fontSize = parseInt(@$headlineEl.css('font-size'))
+    fontSize = parseInt(@$el.css('font-size'))
 
-      if width/height > headlineWidth/headlineHeight
-        # Match Height
-        fontSize *= height/headlineHeight
-        @model.set('font_size', fontSize + 'px')
-      else
-        # Match Width
-        fontSize *= width/headlineWidth
-        @model.set('font_size', fontSize + 'px')
+    if width/height > headlineWidth/headlineHeight
+      # Match Height
+      fontSize *= height/headlineHeight
+      @model.set('font_size', fontSize + 'px')
+    else
+      # Match Width
+      fontSize *= width/headlineWidth
+      @model.set('font_size', fontSize + 'px')
 
-      # Compute and set margins
-      headlineWidth  = @$headlineEl.width()
-      headlineHeight = @$headlineEl.height()
+    # Compute and set margins
+    headlineWidth  = @$el.width()
+    headlineHeight = @$el.height()
 
-      verticalMargin = (height - headlineHeight)/2 + 'px'
-      horizontalMargin = (width - headlineWidth)/2 + 'px'
+    verticalMargin = (height - headlineHeight)/2 + 'px'
+    horizontalMargin = (width - headlineWidth)/2 + 'px'
 
-      @model.set
-        'margin-top': verticalMargin
-        'margin-right': horizontalMargin
-        'margin-bottom': verticalMargin
-        'margin-left': horizontalMargin
+    @model.set
+      'margin-top': verticalMargin
+      'margin-right': horizontalMargin
+      'margin-bottom': verticalMargin
+      'margin-left': horizontalMargin

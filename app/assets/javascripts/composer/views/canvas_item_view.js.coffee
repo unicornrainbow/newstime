@@ -16,11 +16,6 @@ class @Newstime.CanvasItemView extends Backbone.View
     @pageOffsetLeft = options.pageOffsetLeft
     @pageOffsetTop  = options.pageOffsetTop
 
-    @$el.css
-      top: @model.get('top') + @pageOffsetTop
-      left: @model.get('left') + @pageOffsetLeft
-    @$el.css _.pick @model.attributes, 'width', 'height'
-
     @bind 'mousedown', @mousedown
     @bind 'mousemove', @mousemove
     @bind 'mouseup',   @mouseup
