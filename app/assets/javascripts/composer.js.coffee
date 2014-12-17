@@ -164,12 +164,13 @@ class @Newstime.Composer extends Backbone.View
     @hasFocus = false
 
   handleLayerFocus: (layer) =>
-    @focusedLayer = layer
+    @focusedObject = layer
 
   # Called when keydown and composer hasFocus
-  keydown: (e) =>
-    if @focusedLayer
-      @focusedLayer.trigger 'keydown', e
+  keydown: (e) ->
+
+    if @focusedObject
+      @focusedObject.trigger 'keydown', e
 
     unless e.isPropagationStopped()
       switch e.keyCode
@@ -178,8 +179,8 @@ class @Newstime.Composer extends Backbone.View
             @edition.save() # Save edition
 
   paste: (e) =>
-    if @focusedLayer
-      @focusedLayer.trigger 'paste', e
+    if @focusedObject
+      @focusedObject.trigger 'paste', e
 
   displayContextMenu: (contextMenu) ->
     @currentContextMenu = contextMenu
@@ -484,6 +485,8 @@ class @Newstime.Composer extends Backbone.View
     @updatePropertiesPanel(@activeSelection)
 
     @selectionLayerView.setSelection(selection)
+
+    @focusedObject = selection # Set focus to selection to send keyboard events.
 
   clearSelection: () ->
     @activeSelection = null

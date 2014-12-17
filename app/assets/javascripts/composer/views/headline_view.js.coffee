@@ -17,43 +17,40 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
 
     @propertiesView = new Newstime.HeadlineProperties2View(target: this)
 
-    #@modelChanged()
+    @render()
 
   #setHeadlineEl: (headlineEl) ->
     #@$headlineEl = $(headlineEl)
 
   modelChanged: ->
+    # Hack to call render
     super()
+    @render()
 
-    #if @$headlineEl?
-      #@$headlineEl.css
-        #top: @model.get('top') + @pageTop
-        #left: @model.get('left') + @pageLeft
+  render: ->
+    @$el.css
+      top: @model.get('top') + @pageOffsetTop
+      left: @model.get('left') + @pageOffsetLeft
 
-      #@$headlineEl.css _.pick @model.changedAttributes(), 'margin-top', 'margin-right', 'margin-bottom', 'margin-left'
-      #@$headlineEl.css 'font-size': @model.get('font_size')
-      #@$headlineEl.css 'font-weight': @model.get('font_weight')
+    @$el.css _.pick @model.changedAttributes(), 'margin-top', 'margin-right', 'margin-bottom', 'margin-left'
+    @$el.css 'font-size': @model.get('font_size')
+    @$el.css 'font-weight': @model.get('font_weight')
 
-      #@$headlineEl.css _.pick @model.changedAttributes(),
-      #if !!@model.get('text')
-        #spanWrapped = _.map @model.get('text'), (char) ->
-          #if char == '\n'
-            #char = "<br>"
-          #"<span>#{char}</span>"
-        #@$headlineEl.html(spanWrapped)
-        #@$headlineEl.removeClass 'placeholder'
-      #else
-        #@$headlineEl.text(@placeholder)
-        #@$headlineEl.addClass 'placeholder'
+    @$el.css _.pick @model.changedAttributes(),
+    if !!@model.get('text')
+      spanWrapped = _.map @model.get('text'), (char) ->
+        if char == '\n'
+          char = "<br>"
+        "<span>#{char}</span>"
+      spanWrapped= spanWrapped.join('')
+      @$el.html(spanWrapped)
+      @$el.removeClass 'placeholder'
+    else
+      @$el.text(@placeholder)
+      @$el.addClass 'placeholder'
 
-    # Highlight cursor position
 
-    #console.log $('span', @$headlineEl)[
-    #cursorPosition
-    #@model.get('cursorPosition')
-    #console.log "cursor" , @model.get('cursorPosition')
-
-  modelDestroyed: ->
+  #modelDestroyed: ->
     #super()
     #@$headlineEl.remove() if @$headlineEl?
 

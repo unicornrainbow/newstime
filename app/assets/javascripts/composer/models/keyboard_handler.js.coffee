@@ -29,6 +29,8 @@ class @Newstime.KeyboardHandler extends Backbone.Model
   keydown: (e) =>
     return unless @composer.hasFocus # Ignore unless composer has focus
 
+    @composer.keydown(e)
+
     unless e.isPropagationStopped()
 
       switch e.keyCode
