@@ -2,6 +2,7 @@ class @Newstime.SelectionView extends Backbone.View
 
   initialize: (options) ->
     @$el.addClass 'selection-view resizable'
+
     @selection = options.selection
     @composer = options.composer
 
@@ -22,6 +23,12 @@ class @Newstime.SelectionView extends Backbone.View
     @pageOffsetTop  = @contentItemView.pageOffsetTop
 
     @contentItem.bind 'change', @render, this
+
+    @bind 'mousedown', @mousedown
+    @bind 'mouseover', @mouseover
+    @bind 'mouseout', @mouseout
+    @bind 'keydown',   @keydown
+    @bind 'dblclick',  @dblclick
 
     @render()
 
@@ -45,3 +52,22 @@ class @Newstime.SelectionView extends Backbone.View
       position.left *= zoomLevel
 
     @$el.css(position)
+
+  hit: (x, y) ->
+    @contentItemView.hit(x, y)
+
+
+  mousedown: (e) ->
+    @contentItemView.trigger 'mousedown', e
+
+  mouseover: (e) ->
+    @contentItemView.trigger 'mouseover', e
+
+  mouseout: (e) ->
+    @contentItemView.trigger 'mouseout', e
+
+  keydown: (e) ->
+    @contentItemView.trigger 'keydown', e
+
+  dblclick: (e) ->
+    @contentItemView.trigger 'dblclick', e

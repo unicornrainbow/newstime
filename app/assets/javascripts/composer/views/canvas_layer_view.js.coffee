@@ -353,8 +353,8 @@ class @Newstime.CanvasLayerView extends Backbone.View
       #return true
 
     ## Check for hit inorder to highlight hovered selection
-    if @composer.activeSelection # Check active selection first.
-      selection = @composer.activeSelection if @composer.activeSelection.hit(e.x, e.y)
+    if @composer.activeSelectionView # Check active selection first.
+      selection = @composer.activeSelectionView if @composer.activeSelectionView.hit(e.x, e.y)
 
     unless selection
       # NOTE: Would be nice to skip active selection here, since already

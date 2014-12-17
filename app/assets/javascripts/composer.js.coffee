@@ -479,12 +479,15 @@ class @Newstime.Composer extends Backbone.View
       contentItemView: contentItemView
 
     @activeSelection.deactivate() if @activeSelection
-
     @activeSelection = selection
 
     @updatePropertiesPanel(@activeSelection)
 
-    @selectionLayerView.setSelection(selection)
+    @activeSelectionView = new Newstime.SelectionView
+      composer: this
+      selection: selection
+
+    @selectionLayerView.setSelection(selection, @activeSelectionView)
 
     @focusedObject = selection # Set focus to selection to send keyboard events.
 
