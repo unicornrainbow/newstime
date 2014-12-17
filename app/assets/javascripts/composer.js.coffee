@@ -103,7 +103,8 @@ class @Newstime.Composer extends Backbone.View
 
     @cursorStack = []
 
-    @zoomLevels = [25, 33, 50, 67, 75, 90, 100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
+    #@zoomLevels = [25, 33, 50, 67, 75, 90, 100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
+    @zoomLevels = [25, 33, 50, 67, 75, 90, 100]
     @zoomLevelIndex = 6
 
     ## Bind events
@@ -344,6 +345,11 @@ class @Newstime.Composer extends Backbone.View
     @trigger 'zoom'
     #@repositionScroll()
 
+
+  setZoomLevelIndex: (zoomLevelIndex) ->
+    @zoomLevelIndex = zoomLevelIndex
+    @zoomLevel = @zoomLevels[@zoomLevelIndex]/100
+    @trigger 'zoom'
 
   zoomOut: ->
     @zoomLevelIndex ?= 0

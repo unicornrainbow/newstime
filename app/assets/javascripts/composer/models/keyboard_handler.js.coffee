@@ -29,8 +29,6 @@ class @Newstime.KeyboardHandler extends Backbone.Model
   keydown: (e) =>
     return unless @composer.hasFocus # Ignore unless composer has focus
 
-    @composer.keydown(e)
-
     unless e.isPropagationStopped()
 
       switch e.keyCode
@@ -56,6 +54,26 @@ class @Newstime.KeyboardHandler extends Backbone.Model
         when 189 # -
           if e.altKey
             @composer.zoomOut()
+
+        when 49 # 1
+          if e.altKey
+            @composer.setZoomLevelIndex(0)
+
+        when 50 # 2
+          if e.altKey
+            @composer.setZoomLevelIndex(1)
+
+        when 51 # 3
+          if e.altKey
+            @composer.setZoomLevelIndex(2)
+
+        when 52 # 4
+          if e.altKey
+            @composer.setZoomLevelIndex(3)
+
+        when 53 # 5
+          if e.altKey
+            @composer.setZoomLevelIndex(4)
 
         when 48 # 0
           if e.altKey
