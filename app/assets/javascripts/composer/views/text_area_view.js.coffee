@@ -12,7 +12,7 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
     #@bind 'paste', @paste
     #@bind 'dblclick',  @dblclick
 
-    #@bind 'resized', @reflow, this  # Reflow text on resize
+    @bind 'resized', @reflow, this  # Reflow text on resize
 
     #@setContentEl(options.contentEl) if options.contentEl
 
@@ -110,6 +110,6 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
         composing: true
         content_item: @model.toJSON()
       success: (response) =>
-        if @$contentEl
-          @$contentEl.html $(response).html()
-          @$contentEl.show()
+        if @$el
+          @$el.html $(response).html()
+          @$el.show()

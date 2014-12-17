@@ -196,35 +196,41 @@ class @Newstime.SelectionView extends Backbone.View
     centerX = left + width/2
     centerY = top + height/2
 
-    if @hitBox x, y, centerX, top, 8
+    boxSize = 8
+
+    if @composer.zoomLevel
+      # Compensate box size for zoom level
+      boxSize /= @composer.zoomLevel
+
+    if @hitBox x, y, centerX, top, boxSize
       return "top"
 
     # right drag handle hit?
-    if @hitBox x, y, right, centerY, 8
+    if @hitBox x, y, right, centerY, boxSize
       return "right"
 
     # left drag handle hit?
-    if @hitBox x, y, left, centerY, 8
+    if @hitBox x, y, left, centerY, boxSize
       return "left"
 
     # bottom drag handle hit?
-    if @hitBox x, y, centerX, bottom, 8
+    if @hitBox x, y, centerX, bottom, boxSize
       return "bottom"
 
     # top-left drag handle hit?
-    if @hitBox x, y, left, top, 8
+    if @hitBox x, y, left, top, boxSize
       return "top-left"
 
     # top-right drag handle hit?
-    if @hitBox x, y, right, top, 8
+    if @hitBox x, y, right, top, boxSize
       return "top-right"
 
     # bottom-left drag handle hit?
-    if @hitBox x, y, left, bottom, 8
+    if @hitBox x, y, left, bottom, boxSize
       return "bottom-left"
 
     # bottom-right drag handle hit?
-    if @hitBox x, y, right, bottom, 8
+    if @hitBox x, y, right, bottom, boxSize
       return "bottom-right"
 
 
@@ -328,7 +334,7 @@ class @Newstime.SelectionView extends Backbone.View
       @composer.hideVerticalSnapLine() # Ensure vertical snaps aren't showing.
       # Reset drag handles, clearing if they where active
       _.each @dragHandles, (h) -> h.reset()
-      @trigger 'resized'
+      @canvasItemView.trigger 'resized'
 
     @moving = false
     @trigger 'tracking-release', this
