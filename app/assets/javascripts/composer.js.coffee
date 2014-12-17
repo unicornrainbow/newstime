@@ -489,7 +489,7 @@ class @Newstime.Composer extends Backbone.View
 
     @selectionLayerView.setSelection(selection, @activeSelectionView)
 
-    @focusedObject = selection # Set focus to selection to send keyboard events.
+    @focusedObject = @activeSelectionView  # Set focus to selection to send keyboard events.
 
   clearSelection: () ->
     @activeSelection = null

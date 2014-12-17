@@ -32,7 +32,6 @@ class @Newstime.SelectionView extends Backbone.View
 
     @render()
 
-
   render: ->
     position = _.pick @contentItem.attributes, 'width', 'height'
 
@@ -55,7 +54,6 @@ class @Newstime.SelectionView extends Backbone.View
 
   hit: (x, y) ->
     @contentItemView.hit(x, y)
-
 
   mousedown: (e) ->
     @contentItemView.trigger 'mousedown', e
