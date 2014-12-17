@@ -35,17 +35,18 @@ class @Newstime.KeyboardHandler extends Backbone.Model
         when 18 # opt
           @optDown = true
 
-          zoomMouseWheel = (e) =>
-            if e.wheelDeltaY < 0
-              @composer.zoomInPoint(e.x, e.y)
-            else if e.wheelDeltaY > 0
-              @composer.zoomOut()
+          # Disabled mouse wheel zooming.
+          #zoomMouseWheel = (e) =>
+            #if e.wheelDeltaY < 0
+              #@composer.zoomInPoint(e.x, e.y)
+            #else if e.wheelDeltaY > 0
+              #@composer.zoomOut()
 
-          zoomMouseWheel = _.throttle(zoomMouseWheel, 100)
+          #zoomMouseWheel = _.throttle(zoomMouseWheel, 100)
 
-          window.onmousewheel = (e) ->
-            e.preventDefault()
-            zoomMouseWheel(e)
+          #window.onmousewheel = (e) ->
+            #e.preventDefault()
+            #zoomMouseWheel(e)
 
         when 187 # +
           if e.altKey

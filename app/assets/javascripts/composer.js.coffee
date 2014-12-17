@@ -340,7 +340,7 @@ class @Newstime.Composer extends Backbone.View
 
   zoomIn: ->
     @zoomLevelIndex ?= 0
-    @zoomLevelIndex = Math.min(@zoomLevelIndex+1, 10)
+    @zoomLevelIndex = Math.min(@zoomLevelIndex+1, @zoomLevels.length-1)
     @zoomLevel = @zoomLevels[@zoomLevelIndex]/100
     @trigger 'zoom'
     #@repositionScroll()
