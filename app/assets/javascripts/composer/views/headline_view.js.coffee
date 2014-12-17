@@ -40,7 +40,6 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
       @$el.text(@placeholder)
       @$el.addClass 'placeholder'
 
-
   deactivate: ->
     @clearEditMode()
     super()
@@ -268,3 +267,8 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
       'margin-right': horizontalMargin
       'margin-bottom': verticalMargin
       'margin-left': horizontalMargin
+
+
+  setWidth: (width) ->
+    super
+    @fitToBorderBox()

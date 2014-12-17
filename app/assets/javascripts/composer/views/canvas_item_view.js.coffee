@@ -134,7 +134,6 @@ class @Newstime.CanvasItemView extends Backbone.View
   getPropertiesView: ->
     @propertiesView
 
-
   getEventChar: (e) ->
     if e.shiftKey
       Newstime.shiftCharKeycodes[e.keyCode]
@@ -400,6 +399,9 @@ class @Newstime.CanvasItemView extends Backbone.View
     #@$el.removeClass 'hovered'
     @outlineView.hide()
     @composer.popCursor()
+
+  setWidth: (width) ->
+    @model.set(width: width)
 
   # Does an x,y corrdinate intersect a bounding box
   hitBox: (hitX, hitY, boxX, boxY, boxSize) ->

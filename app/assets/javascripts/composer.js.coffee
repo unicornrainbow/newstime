@@ -487,6 +487,9 @@ class @Newstime.Composer extends Backbone.View
       composer: this
       selection: selection
 
+    @activeSelectionView.bind 'tracking', @canvasLayerView.resizeSelection, @canvasLayerView
+    @activeSelectionView.bind 'tracking-release', @canvasLayerView.resizeSelectionRelease, @canvasLayerView
+
     @selectionLayerView.setSelection(selection, @activeSelectionView)
 
     @focusedObject = @activeSelectionView  # Set focus to selection to send keyboard events.
