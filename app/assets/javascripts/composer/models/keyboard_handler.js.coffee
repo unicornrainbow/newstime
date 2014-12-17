@@ -55,29 +55,14 @@ class @Newstime.KeyboardHandler extends Backbone.Model
           if e.altKey
             @composer.zoomOut()
 
-        when 49 # 1
-          if e.altKey
-            @composer.setZoomLevelIndex(0)
-
-        when 50 # 2
-          if e.altKey
-            @composer.setZoomLevelIndex(1)
-
-        when 51 # 3
-          if e.altKey
-            @composer.setZoomLevelIndex(2)
-
-        when 52 # 4
-          if e.altKey
-            @composer.setZoomLevelIndex(3)
-
-        when 53 # 5
-          if e.altKey
-            @composer.setZoomLevelIndex(4)
-
         when 48 # 0
           if e.altKey
             @composer.zoomReset()
+
+        when 49, 50, 51, 52, 53, 54 # 1-6
+          if e.altKey
+            level = parseInt(String.fromCharCode(e.keyCode)) - 1
+            @composer.setZoomLevelIndex(level)
 
         when 32 # space
           e.stopPropagation()
