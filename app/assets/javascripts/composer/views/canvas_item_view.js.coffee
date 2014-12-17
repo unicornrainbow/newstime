@@ -38,18 +38,16 @@ class @Newstime.CanvasItemView extends Backbone.View
     @bind 'keydown',   @keydown
 
     # Bind Model Events
-    @model.bind 'change', @modelChanged, this
-    @model.bind 'destroy', @modelDestroyed, this
+    @model.bind 'change', @render, this
+    @model.bind 'destroy', @destroy, this
 
-  modelChanged: ->
-    #@$el.css _.pick @model.changedAttributes(), 'top', 'left', 'width', 'height'
-
+  render: ->
     @$el.css
       top: @model.get('top') + @pageOffsetTop
       left: @model.get('left') + @pageOffsetLeft
     @$el.css _.pick @model.attributes, 'width', 'height'
 
-  modelDestroyed: ->
+  destroy: ->
     # TODO: Need to properly unbind events and allow destruction of view
     @$el.remove()
 

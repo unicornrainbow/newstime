@@ -4,27 +4,18 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
 
   initialize: (options) ->
     super
-    #@composer = options.composer
-    #@placeholder = "Type Headline" # Text to show when there is no headline
-    #@fontWeights = Newstime.config.headlineFontWeights
+    @composer = options.composer
 
-    #@$el.addClass 'headline-view'
+    @$el.addClass 'headline-view'
+
+    @placeholder = "Type Headline" # Text to show when there is no headline
+    @fontWeights = Newstime.config.headlineFontWeights
 
     ## Bind View Events
-    #@bind 'dblclick',  @dblclick
-
-    #@setHeadlineEl(options.headlineEl) if options.headlineEl
+    @bind 'dblclick',  @dblclick
 
     @propertiesView = new Newstime.HeadlineProperties2View(target: this)
 
-    @render()
-
-  #setHeadlineEl: (headlineEl) ->
-    #@$headlineEl = $(headlineEl)
-
-  modelChanged: ->
-    # Hack to call render
-    super()
     @render()
 
   render: ->
@@ -50,9 +41,9 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
       @$el.addClass 'placeholder'
 
 
-  #modelDestroyed: ->
-    #super()
-    #@$headlineEl.remove() if @$headlineEl?
+  destroy: ->
+    super()
+    @$headlineEl.remove() if @$headlineEl?
 
   deactivate: ->
     @clearEditMode()

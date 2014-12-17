@@ -6,7 +6,8 @@ class @Newstime.ContentItemSelection
     @contentItemView = options.contentItemView
 
     @bind 'mousedown', @mousedown
-    @bind 'keydown', @keydown
+    @bind 'keydown',   @keydown
+    @bind 'dblclick',  @dblclick
 
   getPropertiesView: ->
     @contentItemView.getPropertiesView()
@@ -22,3 +23,6 @@ class @Newstime.ContentItemSelection
 
   keydown: (e) ->
     @contentItemView.trigger 'keydown', e
+
+  dblclick: (e) ->
+    @contentItemView.trigger 'dblclick', e
