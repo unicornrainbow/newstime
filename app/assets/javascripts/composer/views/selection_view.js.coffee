@@ -252,7 +252,8 @@ class @Newstime.SelectionView extends Backbone.View
     #x = @pageView.snapLeft(x) # Snap
 
     y = @pageView.snapTop(y - @moveOffsetY)
-    @model.set
+
+    @canvasItemView.setSizeAndPosition
       left: x
       top: y
 
@@ -260,7 +261,8 @@ class @Newstime.SelectionView extends Backbone.View
   dragTop: (x, y) ->
     geometry = @getGeometry()
     y = @pageView.snapTop(y)
-    @model.set
+
+    @canvasItemView.setSizeAndPosition
       top: y
       height: geometry.top - y + geometry.height
 
@@ -270,14 +272,16 @@ class @Newstime.SelectionView extends Backbone.View
     width = Math.min(width, @pageView.getWidth() - @model.get('left')) # Keep on page
     width = @pageView.snapRight(width) # Snap
 
-    @canvasItemView.setWidth(width)
+    @canvasItemView.setSizeAndPosition
+      width: width
 
   dragBottom: (x, y) ->
     geometry = @getGeometry()
 
     height = @pageView.snapBottom(y) - geometry.top
 
-    @canvasItemView.setHeight(height)
+    @canvasItemView.setSizeAndPosition
+      height: height
 
   dragLeft: (x, y) ->
     geometry = @getGeometry()
@@ -288,15 +292,16 @@ class @Newstime.SelectionView extends Backbone.View
     else
       @composer.hideVerticalSnapLine()
 
-    @model.set
+    @canvasItemView.setSizeAndPosition
       left: x
       width: geometry.left - x + geometry.width
+
 
   dragTopLeft: (x, y) ->
     geometry = @getGeometry()
     x        = @pageView.snapLeft(x)
     y        = @pageView.snapTop(y)
-    @model.set
+    @canvasItemView.setSizeAndPosition
       left: x
       top: y
       width: geometry.left - x + geometry.width
@@ -306,7 +311,7 @@ class @Newstime.SelectionView extends Backbone.View
     geometry = @getGeometry()
     width = @pageView.snapRight(x - geometry.left)
     y = @pageView.snapTop(y)
-    @model.set
+    @canvasItemView.setSizeAndPosition
       top: y
       width: width
       height: geometry.top - y + geometry.height
@@ -315,7 +320,8 @@ class @Newstime.SelectionView extends Backbone.View
     geometry = @getGeometry()
     x = @pageView.snapLeft(x)
     y = @pageView.snapBottom(y)
-    @model.set
+
+    @canvasItemView.setSizeAndPosition
       left: x
       width: geometry.left - x + geometry.width
       height: y - geometry.top
@@ -324,7 +330,8 @@ class @Newstime.SelectionView extends Backbone.View
     geometry = @getGeometry()
     width    = @pageView.snapRight(x - geometry.left)
     y        = @pageView.snapBottom(y)
-    @model.set
+
+    @canvasItemView.setSizeAndPosition
       width: width
       height: y - geometry.top
 

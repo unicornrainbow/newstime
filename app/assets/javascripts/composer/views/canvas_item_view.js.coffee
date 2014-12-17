@@ -400,11 +400,9 @@ class @Newstime.CanvasItemView extends Backbone.View
     @outlineView.hide()
     @composer.popCursor()
 
-  setWidth: (width) ->
-    @model.set(width: width)
 
-  setHeight: (height) ->
-    @model.set(height: height)
+  setSizeAndPosition: (attributes) ->
+    @model.set(attributes)
 
   # Does an x,y corrdinate intersect a bounding box
   hitBox: (hitX, hitY, boxX, boxY, boxSize) ->

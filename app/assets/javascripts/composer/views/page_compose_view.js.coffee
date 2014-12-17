@@ -25,7 +25,7 @@ class @Newstime.PageComposeView extends Backbone.View
     #@gridLines = new Newstime.GridLines()
     #@$el.append(@gridLines.el)
 
-    #@pageBorder = new Newstime.PageBorder(page: this)
+    @pageBorder = new Newstime.PageBorder(page: this)
     #@canvasLayerView.append(@pageBorder.el)
 
     #@setPageBorderDimensions()

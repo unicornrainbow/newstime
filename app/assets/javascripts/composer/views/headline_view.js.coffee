@@ -268,11 +268,6 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
       'margin-bottom': verticalMargin
       'margin-left': horizontalMargin
 
-
-  setWidth: (width) ->
-    super
-    @fitToBorderBox()
-
-  setHeight: (height) ->
+  setSizeAndPosition: (attributes) ->
     super
     @fitToBorderBox()
