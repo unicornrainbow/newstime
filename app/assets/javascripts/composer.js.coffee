@@ -471,16 +471,14 @@ class @Newstime.Composer extends Backbone.View
       @canvasLayerView.addPage(page)
 
   select: (contentItem) ->
+    @clearSelection()
+
     contentItemID = contentItem.get('_id')
     contentItemView = @contentItemViews[contentItemID]
 
     selection = new Newstime.ContentItemSelection
       contentItem: contentItem
       contentItemView: contentItemView
-
-    if @activeSelection # TODO: Would currentSelection be a better name?
-      @activeSelection.deactivate()
-      @activeSelection.destroy()
 
     @activeSelection = selection
 
@@ -490,16 +488,27 @@ class @Newstime.Composer extends Backbone.View
       composer: this
       selection: selection
 
-    @activeSelectionView.bind 'tracking', @canvasLayerView.resizeSelection, @canvasLayerView
-    @activeSelectionView.bind 'tracking-release', @canvasLayerView.resizeSelectionRelease, @canvasLayerView
+    contentItemView.select(@activeSelectionView)
 
     @selectionLayerView.setSelection(selection, @activeSelectionView)
-
     @focusedObject = @activeSelectionView  # Set focus to selection to send keyboard events.
 
-  clearSelection: () ->
-    @activeSelection = null
-    @propertiesPanelView.clear()
+    @activeSelectionView.bind 'tracking', @canvasLayerView.resizeSelection, @canvasLayerView
+    @activeSelectionView.bind 'tracking-release', @canvasLayerView.resizeSelectionRelease, @canvasLayerView
+    @activeSelectionView.bind 'destroy', @clearSelection, this
+
+
+  clearSelection: ->
+    if @activeSelection
+      @activeSelectionView.bind 'tracking', @canvasLayerView.resizeSelection, @canvasLayerView
+      @activeSelectionView.bind 'tracking-release', @canvasLayerView.resizeSelectionRelease, @canvasLayerView
+      @activeSelectionView.unbind 'destroy', @clearSelection, this
+
+      @activeSelectionView.destroy()
+      @activeSelectionView = null
+      @activeSelection.destroy()
+      @activeSelection = null
+      @propertiesPanelView.clear()
 
   updatePropertiesPanel: (target) ->
     propertiesView = target.getPropertiesView()

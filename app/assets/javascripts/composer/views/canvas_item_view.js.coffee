@@ -56,19 +56,22 @@ class @Newstime.CanvasItemView extends Backbone.View
     geometry.left <= x <= geometry.left + geometry.width &&
       geometry.top <= y <= geometry.top + geometry.height
 
-  activate: ->  # TODO: Rename to select
-    unless @active
-      @active = true # TODO: Rename to selected
-      @trigger 'activate',
+  select: (selectionView) ->
+    unless @selected
+      @selected = true
+      @selectionView = selectionView
+      @trigger 'select',
         contentItemView: this
         contentItem: @model
 
-  deactivate: -> # TODO: Rename to deselect
-    if @active
-      @active = false
-      @trigger 'deactivate', this
+  deselect: ->
+    if @selected
+      @selected = false
+      @selectionView = null
+      @trigger 'deselect', this
 
   beginSelection: (x, y) -> # TODO: rename beginDraw
+    # TODO: Rewrite this with selection
     # Snap x to grid
     @pageView.collectLeftEdges(@model)
     snapX = @pageView.snapLeft(x)
@@ -79,7 +82,7 @@ class @Newstime.CanvasItemView extends Backbone.View
       left: x
       top: y
 
-    @activate()
+    @select()
     @trackResize("bottom-right") # Begin tracking for size
 
   getLeft: ->
@@ -128,7 +131,7 @@ class @Newstime.CanvasItemView extends Backbone.View
         e.stopPropagation()
         e.preventDefault()
       when 27 # ESC
-        @deactivate()
+        @deselect()
 
 
   getPropertiesView: ->
