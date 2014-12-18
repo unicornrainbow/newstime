@@ -105,9 +105,9 @@ class @Newstime.CanvasLayerView extends Backbone.View
         contentItemView.bind 'tracking', @resizeSelection, this
         contentItemView.bind 'tracking-release', @resizeSelectionRelease, this
 
-        contentItemID = contentItem.get('_id')
-        @contentItemViews[contentItemID] = contentItemView
-        @contentItemOutlineViews[contentItemID] = contentItemOutlineView
+        contentItemCID = contentItem.cid
+        @contentItemViews[contentItemCID] = contentItemView
+        @contentItemOutlineViews[contentItemCID] = contentItemOutlineView
         @$canvasItems.append(el)
 
 
@@ -439,36 +439,64 @@ class @Newstime.CanvasLayerView extends Backbone.View
     ## We need to create and activate a selection region (Marching ants would be nice)
 
     # Determined which page was hit...
-    pageView = _.find @pages, (page) =>
-      @detectHitY page, y
+    pageView = _.find @pageViews, (pageView, pageID) =>
+      @detectHitY pageView, y
 
     pageModel = pageView.page
+    pageID = pageModel.get('_id')
+
+    pageOffsetLeft = pageView.getOffsetLeft()
+    pageOffsetTop  = pageView.getOffsetTop()
+
+
+    contentItemType = 'TextAreaContentItem'
 
     contentItem = new Newstime.ContentItem
-      _type: 'TextAreaContentItem'
-      page_id: pageModel.get('_id')
-
+      _type: contentItemType
+      page_id: pageID
     @edition.get('content_items').add(contentItem)
 
-    selectionView = new Newstime.TextAreaView(model: contentItem, page: pageView, composer: @composer) # Needs to be local to the "page"
-    @selectionViews.push selectionView
-    @$el.append(selectionView.el)
+    contentItemOutlineView = new Newstime.ContentItemOutlineView
+      composer: @composer
+      model: contentItem
+      pageOffsetLeft: pageOffsetLeft
+      pageOffsetTop: pageOffsetTop
+    @composer.outlineLayerView.attach(contentItemOutlineView)
 
-    # Bind to events
-    selectionView.bind 'activate', @selectContentItem, this
-    selectionView.bind 'deactivate', @selectionDeactivated, this
-    selectionView.bind 'tracking', @resizeSelection, this
-    selectionView.bind 'tracking-release', @resizeSelectionRelease, this
+    contentItemView = new Newstime.TextAreaView
+      model: contentItem
+      pageOffsetLeft: pageOffsetLeft
+      pageOffsetTop: pageOffsetTop
+      composer: @composer
+      outlineView: contentItemOutlineView
+      page: pageModel
+      pageID: pageID
+      pageView: pageView
 
-    pageRelX = x - pageView.x()
-    pageRelY = y - pageView.y()
 
-    selectionView.beginSelection(pageRelX, pageRelY)
+    contentItemView.bind 'activate', @selectContentItem, this
+    contentItemView.bind 'deactivate', @selectionDeactivated, this
+    contentItemView.bind 'tracking', @resizeSelection, this
+    contentItemView.bind 'tracking-release', @resizeSelectionRelease, this
+
+
+    contentItemCID = contentItem.cid # TODO: Note, using cid, because not saved yet...
+
+    @contentItemViews[contentItemCID] = contentItemView
+    @contentItemOutlineViews[contentItemCID] = contentItemOutlineView
+    @$canvasItems.append(contentItemView.el)
+
+    @composer.select contentItem
+
+    pageRelX = x - pageOffsetLeft
+    pageRelY = y - pageOffsetTop
+
+    @composer.activeSelectionView.beginDraw(pageRelX, pageRelY)
 
     attachContentEl = (response) =>
-      $contentEl = $(response)
-      $contentEl.insertBefore(selectionView.$el)
-      selectionView.setContentEl($contentEl)
+      $el = $(response)
+      contentItemView.$el.replaceWith($el)
+      contentItemView.setElement($el)
 
     $.ajax
       method: 'GET'

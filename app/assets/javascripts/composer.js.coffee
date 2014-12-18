@@ -473,8 +473,8 @@ class @Newstime.Composer extends Backbone.View
   select: (contentItem) ->
     @clearSelection()
 
-    contentItemID = contentItem.get('_id')
-    contentItemView = @contentItemViews[contentItemID]
+    contentItemCID = contentItem.cid
+    contentItemView = @contentItemViews[contentItemCID]
 
     selection = new Newstime.ContentItemSelection
       contentItem: contentItem
@@ -499,16 +499,12 @@ class @Newstime.Composer extends Backbone.View
 
 
   clearSelection: ->
-    if @activeSelection
-      @activeSelectionView.bind 'tracking', @canvasLayerView.resizeSelection, @canvasLayerView
-      @activeSelectionView.bind 'tracking-release', @canvasLayerView.resizeSelectionRelease, @canvasLayerView
-      @activeSelectionView.unbind 'destroy', @clearSelection, this
-
-      @activeSelectionView.destroy()
-      @activeSelectionView = null
+    if @activeSelection?
       @activeSelection.destroy()
-      @activeSelection = null
+      @activeSelectionView.destroy()
       @propertiesPanelView.clear()
+      @activeSelection = null
+      @activeSelectionView = null
 
   updatePropertiesPanel: (target) ->
     propertiesView = target.getPropertiesView()

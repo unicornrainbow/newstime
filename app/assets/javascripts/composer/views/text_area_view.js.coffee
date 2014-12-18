@@ -9,7 +9,7 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
 
     #@lineHeight = parseInt(Newstime.config.storyTextLineHeight)
 
-    #@bind 'paste', @paste
+    @bind 'paste', @paste
     #@bind 'dblclick',  @dblclick
 
     @bind 'resized', @reflow, this  # Reflow text on resize

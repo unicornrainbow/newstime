@@ -45,13 +45,13 @@ class @Newstime.SelectionView extends Backbone.View
   destroy: ->
     unless @destroyed
       @destroyed = true
+      @unbind()
 
       @trigger 'destroy', this
 
       if @canvasItemView
         @canvasItemView.unbind 'deselect', @destroy, this
         @canvasItemView.deselect()
-        @canvasItemView = null
 
       @$el.remove()
 
@@ -133,6 +133,20 @@ class @Newstime.SelectionView extends Backbone.View
       geometry = @getGeometry()
       @trackMove(e.x - geometry.left, e.y - geometry.top)
 
+
+  beginDraw: (x, y) ->
+    # TODO: Rewrite this with selection
+    # Snap x to grid
+    @pageView.collectLeftEdges(@model)
+    snapX = @pageView.snapLeft(x)
+    if snapX
+      x = snapX
+
+    @model.set
+      left: x
+      top: y
+
+    @trackResize("bottom-right") # Begin tracking for size
 
   trackResize: (mode) ->
     @resizing   = true

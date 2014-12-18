@@ -70,21 +70,6 @@ class @Newstime.CanvasItemView extends Backbone.View
       @selectionView = null
       @trigger 'deselect', this
 
-  beginSelection: (x, y) -> # TODO: rename beginDraw
-    # TODO: Rewrite this with selection
-    # Snap x to grid
-    @pageView.collectLeftEdges(@model)
-    snapX = @pageView.snapLeft(x)
-    if snapX
-      x = snapX
-
-    @model.set
-      left: x
-      top: y
-
-    @select()
-    @trackResize("bottom-right") # Begin tracking for size
-
   getLeft: ->
     @model.get('left')
     #parseInt(@$el.css('left'))
@@ -150,6 +135,7 @@ class @Newstime.CanvasItemView extends Backbone.View
     @model.set left: @pageView.stepRight(@model.get('left'))
 
   delete: ->
+    @deselect() if @selected
     @model.destroy()
 
   mousedown: (e) ->
