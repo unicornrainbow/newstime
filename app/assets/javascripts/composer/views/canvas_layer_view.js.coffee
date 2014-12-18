@@ -508,41 +508,67 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
   drawPhoto: (x, y) ->
 
+    ## We need to create and activate a selection region (Marching ants would be nice)
+
     # Determined which page was hit...
-    pageView = _.find @pages, (page) =>
-      @detectHitY page, y
+    pageView = _.find @pageViews, (pageView, pageID) =>
+      @detectHitY pageView, y
 
     pageModel = pageView.page
+    pageID = pageModel.get('_id')
+
+    pageOffsetLeft = pageView.getOffsetLeft()
+    pageOffsetTop  = pageView.getOffsetTop()
+
+
+    contentItemType = 'PhotoContentItem'
 
     contentItem = new Newstime.ContentItem
-      _type: 'PhotoContentItem'
-      page_id: pageModel.get('_id')
-
+      _type: contentItemType
+      page_id: pageID
     @edition.get('content_items').add(contentItem)
 
-    # Get the headline templte, and inject it.
-    #headlineEl = @edition.getHeadlineElTemplate()
-    #headlineEl: el
+    contentItemOutlineView = new Newstime.ContentItemOutlineView
+      composer: @composer
+      model: contentItem
+      pageOffsetLeft: pageOffsetLeft
+      pageOffsetTop: pageOffsetTop
+    @composer.outlineLayerView.attach(contentItemOutlineView)
 
-    selectionView = new Newstime.PhotoView(model: contentItem, page: pageView, composer: @composer) # Needs to be local to the "page"
-    @selectionViews.push selectionView
-    @$el.append(selectionView.el)
+    contentItemView = new Newstime.PhotoView
+      model: contentItem
+      pageOffsetLeft: pageOffsetLeft
+      pageOffsetTop: pageOffsetTop
+      composer: @composer
+      outlineView: contentItemOutlineView
+      page: pageModel
+      pageID: pageID
+      pageView: pageView
 
-    # Bind to events
-    selectionView.bind 'activate', @selectContentItem, this
-    selectionView.bind 'deactivate', @selectionDeactivated, this
-    selectionView.bind 'tracking', @resizeSelection, this
-    selectionView.bind 'tracking-release', @resizeSelectionRelease, this
 
-    pageRelX = x - pageView.x()
-    pageRelY = y - pageView.y()
+    contentItemView.bind 'activate', @selectContentItem, this
+    contentItemView.bind 'deactivate', @selectionDeactivated, this
+    contentItemView.bind 'tracking', @resizeSelection, this
+    contentItemView.bind 'tracking-release', @resizeSelectionRelease, this
 
-    selectionView.beginSelection(pageRelX, pageRelY)
+
+    contentItemCID = contentItem.cid # TODO: Note, using cid, because not saved yet...
+
+    @contentItemViews[contentItemCID] = contentItemView
+    @contentItemOutlineViews[contentItemCID] = contentItemOutlineView
+    @$canvasItems.append(contentItemView.el)
+
+    @composer.select contentItem
+
+    pageRelX = x - pageOffsetLeft
+    pageRelY = y - pageOffsetTop
+
+    @composer.activeSelectionView.beginDraw(pageRelX, pageRelY)
 
     attachContentEl = (response) =>
-      $contentEl = $(response)
-      $contentEl.insertBefore(selectionView.$el)
-      selectionView.setContentEl($contentEl)
+      $el = $(response)
+      contentItemView.$el.replaceWith($el)
+      contentItemView.setElement($el)
 
     $.ajax
       method: 'GET'
