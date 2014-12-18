@@ -136,6 +136,7 @@ class @Newstime.SelectionView extends Backbone.View
 
   trackResize: (mode) ->
     @resizing   = true
+    @canvasItemView.needsReflow = true # TODO: Should use resize event
     @resizeMode = mode
 
     # Highlight the drag handle

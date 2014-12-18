@@ -5,7 +5,7 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
   initialize: (options) ->
     super
 
-    #@$el.addClass 'text-area-view'
+    @$el.addClass 'text-area-view'
 
     #@lineHeight = parseInt(Newstime.config.storyTextLineHeight)
 
@@ -20,17 +20,10 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
 
     @render()
 
-  setContentEl: (contentEl) ->
-    @$contentEl = $(contentEl)
 
-  render: ->
-    super()
-
-    if @$contentEl?
-      @$contentEl.css
-        top: @model.get('top') + @pageTop
-        left: @model.get('left') + @pageLeft
-      @$contentEl.css _.pick @model.changedAttributes(), 'width', 'height'
+  render: =>
+    unless @needsReflow
+      super
 
   destroy: ->
     super()
@@ -110,6 +103,6 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
         composing: true
         content_item: @model.toJSON()
       success: (response) =>
-        if @$el
-          @$el.html $(response).html()
-          @$el.show()
+        @$el.html $(response).html()
+        @needsReflow = false
+        @render()
