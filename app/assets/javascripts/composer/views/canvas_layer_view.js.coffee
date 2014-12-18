@@ -628,44 +628,68 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
   drawHeadline: (x, y) ->
 
+
+    ## We need to create and activate a selection region (Marching ants would be nice)
+
     # Determined which page was hit...
-    pageView = _.find @pages, (page) =>
-      @detectHitY page, y
+    pageView = _.find @pageViews, (pageView, pageID) =>
+      @detectHitY pageView, y
 
     pageModel = pageView.page
+    pageID = pageModel.get('_id')
+
+    pageOffsetLeft = pageView.getOffsetLeft()
+    pageOffsetTop  = pageView.getOffsetTop()
+
+
+    contentItemType = 'HeadlineContentItem'
 
     contentItem = new Newstime.ContentItem
-      _type: 'HeadlineContentItem'
-      page_id: pageModel.get('_id')
-
+      _type: contentItemType
+      page_id: pageID
     @edition.get('content_items').add(contentItem)
 
-    # Get the headline templte, and inject it.
-    #headlineEl = @edition.getHeadlineElTemplate()
-    #headlineEl: el
+    contentItemOutlineView = new Newstime.ContentItemOutlineView
+      composer: @composer
+      model: contentItem
+      pageOffsetLeft: pageOffsetLeft
+      pageOffsetTop: pageOffsetTop
+    @composer.outlineLayerView.attach(contentItemOutlineView)
 
-    selectionView = new Newstime.HeadlineView(model: contentItem, page: pageView, composer: @composer) # Needs to be local to the "page"
-    @selectionViews.push selectionView
-    @$el.append(selectionView.el)
+    contentItemView = new Newstime.HeadlineView
+      model: contentItem
+      pageOffsetLeft: pageOffsetLeft
+      pageOffsetTop: pageOffsetTop
+      composer: @composer
+      outlineView: contentItemOutlineView
+      page: pageModel
+      pageID: pageID
+      pageView: pageView
 
-    # Bind to events
-    selectionView.bind 'activate', @selectContentItem, this
-    selectionView.bind 'deactivate', @selectionDeactivated, this
-    selectionView.bind 'tracking', @resizeSelection, this
-    selectionView.bind 'tracking-release', @resizeSelectionRelease, this
 
-    # Adjust x and y relative to page for drawing.
-    pageRelX = x - pageView.x()
-    pageRelY = y - pageView.y()
+    contentItemView.bind 'activate', @selectContentItem, this
+    contentItemView.bind 'deactivate', @selectionDeactivated, this
+    contentItemView.bind 'tracking', @resizeSelection, this
+    contentItemView.bind 'tracking-release', @resizeSelectionRelease, this
 
-    selectionView.beginSelection(pageRelX, pageRelY)
 
-    attachHeadlineEl = (response) =>
-      $headlineEl = $(response)
-      $headlineEl.insertBefore(selectionView.$el)
-      selectionView.setHeadlineEl($headlineEl)
+    contentItemCID = contentItem.cid # TODO: Note, using cid, because not saved yet...
 
-    console.log "#{@edition.url()}/render_content_item.html"
+    @contentItemViews[contentItemCID] = contentItemView
+    @contentItemOutlineViews[contentItemCID] = contentItemOutlineView
+    @$canvasItems.append(contentItemView.el)
+
+    @composer.select contentItem
+
+    pageRelX = x - pageOffsetLeft
+    pageRelY = y - pageOffsetTop
+
+    @composer.activeSelectionView.beginDraw(pageRelX, pageRelY)
+
+    attachContentEl = (response) =>
+      $el = $(response)
+      contentItemView.$el.replaceWith($el)
+      contentItemView.setElement($el)
 
     $.ajax
       method: 'GET'
@@ -673,18 +697,8 @@ class @Newstime.CanvasLayerView extends Backbone.View
       data:
         composing: true
         content_item: contentItem.toJSON()
-      success: attachHeadlineEl
+      success: attachContentEl
 
-    #contentItem.save {},
-      #success: (model) ->
-        #$.ajax
-          #url: "#{model.url()}.html"
-          #data:
-            #composing: true
-          #success: attachHeadlineEl
-        # Append and set headline el.
-        #
-        #selectionView.setHeadlineEl
 
   beginSelection: (x, y) ->
     ## We need to create and activate a selection region (Marching ants would be nice)
