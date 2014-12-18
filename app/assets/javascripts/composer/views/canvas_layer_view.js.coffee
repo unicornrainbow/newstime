@@ -308,8 +308,8 @@ class @Newstime.CanvasLayerView extends Backbone.View
         when 'video-tool'
           @drawVideo(e.x, e.y)
         when 'select-tool'
-          @composer.activeSelection.deactivate() if @composer.activeSelection
-          @drawSelection(e.x, e.y)
+          @composer.clearSelection() if @composer.activeSelection
+          #@drawSelection(e.x, e.y)
 
   mouseup: (e) ->
     e = @getMappedEvent(e)
