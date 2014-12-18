@@ -40,7 +40,7 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
       @$el.text(@placeholder)
       @$el.addClass 'placeholder'
 
-  deactivate: ->
+  deselect: ->
     @clearEditMode()
     super()
 
@@ -152,11 +152,11 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
     @startEditMode()
 
   startEditMode: ->
-    @$el.addClass 'edit-mode'
+    @selectionView.$el.addClass 'edit-mode'
     @editMode = true
 
   clearEditMode: ->
-    @$el.removeClass 'edit-mode'
+    @selectionView.$el.removeClass 'edit-mode'
     @editMode = false
 
   trimVerticalMargin: ->

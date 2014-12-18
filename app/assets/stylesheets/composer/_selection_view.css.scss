@@ -2,8 +2,15 @@
   border: 1px dotted gray;
   position: absolute;
 
+
   &.resizable {
     border: 1px dashed gray;
+
+    &.edit-mode {
+      .drag-handle {
+        background-color: gray;
+      }
+    }
 
 
     .drag-handle {

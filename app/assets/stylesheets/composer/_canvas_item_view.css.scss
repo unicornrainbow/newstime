@@ -4,14 +4,6 @@
   transition: border-color .5s;
 }
 
-.headline-view {
-  &.edit-mode {
-    .drag-handle {
-      background-color: gray;
-    }
-  }
-}
-
 .cursor-position {
   border-right: 1px solid gray !important;
 }
