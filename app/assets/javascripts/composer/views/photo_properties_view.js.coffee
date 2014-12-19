@@ -5,7 +5,7 @@ class @Newstime.PhotoPropertiesView extends Backbone.View
   tagName: 'ul'
 
   events:
-    'change .caption': 'updateCaption'
+    'change .caption-field': 'updateCaption'
 
   initialize: ->
 
@@ -15,7 +15,7 @@ class @Newstime.PhotoPropertiesView extends Backbone.View
       <li class="property">
         <label>Caption</label>
         <span class="field">
-          <input class='caption' type="checkbox"></input>
+          <input class='caption-field' type="checkbox"></input>
         </span>
       </li>
 
