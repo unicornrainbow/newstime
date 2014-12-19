@@ -119,6 +119,13 @@ class @Newstime.Composer extends Backbone.View
     @textEditor = new Newstime.TextAreaEditorView()
     @$body.append(@textEditor.el)
 
+    # Layers of app, in order from top to bottom
+    @layers = [
+      @menuLayerView
+      @panelLayerView
+      @canvasLayerView
+    ]
+
     @captureLayerView.bind 'mouseup', @mouseup, this
     @captureLayerView.bind 'mousemove', @mousemove, this
     @captureLayerView.bind 'mousedown', @mousedown, this
@@ -270,12 +277,8 @@ class @Newstime.Composer extends Backbone.View
       @trackingLayer.trigger 'mousemove', e
       return true
 
-    hit = if @menuLayerView.hit(@mouseX, @mouseY)
-      @menuLayerView
-    else if @panelLayerView.hit(@mouseX, @mouseY)
-      @panelLayerView
-    else if @canvasLayerView.hit(@mouseX, @mouseY)
-      @canvasLayerView
+    # Test layers of app to determine where to direct the hit.
+    hit = _.find @layers, (layer) => layer.hit(@mouseX, @mouseY)
 
     if hit
       if @hitLayer != hit
