@@ -1,10 +1,18 @@
 class @Newstime.TextAreaEditorView extends Newstime.CanvasItemView
 
+  events:
+    'focus textarea': 'focusTextArea'
+    'blur textarea': 'blurTextArea'
+
   initialize: (options) ->
     @$el.addClass 'text-area-editor'
     @composer = options.composer
 
     @bind 'keydown', @keydown
+
+    @$el.html """
+      <textarea class="basic-textarea">Hello</textarea>
+    """
 
     # Is the editor visibly displayed?
     @hide()
@@ -15,6 +23,12 @@ class @Newstime.TextAreaEditorView extends Newstime.CanvasItemView
       when 27 # ESC
         @hide()
 
+  focusTextArea: ->
+    @composer.blur()
+
+  blurTextArea: ->
+    @composer.focus()
+
   show: ->
     @visible = true
 
@@ -22,7 +36,7 @@ class @Newstime.TextAreaEditorView extends Newstime.CanvasItemView
       @focused = true
       @composer.pushFocus(this)
 
-    #@composer.lockScroll()
+    @composer.lockScroll()
     @$el.show()
 
   hide: ->
@@ -33,7 +47,7 @@ class @Newstime.TextAreaEditorView extends Newstime.CanvasItemView
       @composer.popFocus()
 
     @$el.hide()
-    #@composer.unlockScroll()
+    @composer.unlockScroll()
 
   hit: (x, y) ->
     return false # Above capture layer, so don't need mouse events from composer.
