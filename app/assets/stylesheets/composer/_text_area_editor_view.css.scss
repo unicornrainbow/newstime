@@ -1,10 +1,11 @@
 .text-area-editor {
-	display: none;
-	position: fixed;
-	top: 20px;
-	left: 20px;
-	right: 20px;
-	bottom: 20px;
-	background-color: white;
-	z-index: 3000;
+  display: none;
+  position: fixed;
+  top: 25px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  opacity: .8;
+  background-color: white;
+  z-index: 3000;
 }

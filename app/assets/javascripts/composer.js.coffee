@@ -116,7 +116,8 @@ class @Newstime.Composer extends Backbone.View
     @$window.resize => @windowResize()
     $(document).on "paste", @paste
 
-    @textEditor = new Newstime.TextAreaEditorView()
+    @textEditor = new Newstime.TextAreaEditorView
+      composer: this
     @$body.append(@textEditor.el)
 
     # Layers of app, in order from top to bottom
