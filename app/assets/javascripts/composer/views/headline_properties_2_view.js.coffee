@@ -47,6 +47,19 @@ class @Newstime.HeadlineProperties2View extends Backbone.View
       </li>
     """
 
+    @$fontFamilySelect = @$('.font-family-select')
+    @$headlineStyleSelect = @$('.headline-style')
+    #@$fontSelect = @$('.font-family-select')
+
+    @model.bind 'change', @render, this
+
+    @render()
+
+  render: ->
+    console.log @model.get('font_family')
+    @$fontFamilySelect.val(@model.get('font_family'))
+    @$headlineStyleSelect.val(@model.get('font_style'))
+
   changeFont: (e) ->
     @model.set('font_family': $(e.currentTarget).val())
     @headlineView.fitToBorderBox()
