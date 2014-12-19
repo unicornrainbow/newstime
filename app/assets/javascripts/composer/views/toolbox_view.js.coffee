@@ -191,9 +191,14 @@ class @Newstime.ToolboxView extends Backbone.View
   move: (x, y) ->
     x -= @leftMouseOffset
     y -= @topMouseOffset
+
+    x = Math.max(x, -2)
+    y = Math.max(y, -2)
+
     @model.set
       left: x
       top: y
+
 
   width: ->
     parseInt(@$el.css('width'))
