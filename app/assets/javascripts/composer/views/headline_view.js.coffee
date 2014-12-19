@@ -156,8 +156,9 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
     @editMode = true
 
   clearEditMode: ->
-    @selectionView.$el.removeClass 'edit-mode'
-    @editMode = false
+    if @editMode
+      @editMode = false
+      @selectionView.$el.removeClass 'edit-mode'
 
   trimVerticalMargin: ->
     headlineHeight = @$el.height()
