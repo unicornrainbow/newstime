@@ -78,6 +78,10 @@ class @Newstime.Composer extends Backbone.View
     @keyboardHandler = new Newstime.KeyboardHandler
       composer: this
 
+    @statusIndicator = new Newstime.StatusIndicatorView()
+    @$body.append(@statusIndicator.el)
+
+
     @verticalSnapLine = new Newstime.VerticalSnapLine()
     @canvasLayerView.$el.append @verticalSnapLine.el
     @verticalSnapLine.hide()
@@ -128,6 +132,9 @@ class @Newstime.Composer extends Backbone.View
     @panelLayerView.bind 'tracking',         @tracking, this
     @panelLayerView.bind 'tracking-release', @trackingRelease, this
 
+
+    @edition.bind 'sync', @editionSync, this
+
     window.onbeforeunload = =>
       if @edition.isDirty()
         return "You have unsaved changes."
@@ -139,6 +146,10 @@ class @Newstime.Composer extends Backbone.View
     @repositionScroll()
     @toolbox.set(selectedTool: 'select-tool')
     @toolboxView.show()
+
+
+  editionSync: ->
+    @statusIndicator.showMessage "Saved", 1000
 
   render: ->
     @canvasLayerView.render()
@@ -177,6 +188,7 @@ class @Newstime.Composer extends Backbone.View
         when 83 # s
           if e.ctrlKey || e.altKey # ctrl+s
             @edition.save() # Save edition
+            @statusIndicator.showMessage "Saving"
 
   paste: (e) =>
     if @focusedObject
