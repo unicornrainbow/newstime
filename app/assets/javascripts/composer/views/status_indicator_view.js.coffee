@@ -3,18 +3,28 @@ class @Newstime.StatusIndicatorView extends Backbone.View # Would be better name
 
   initialize: (options) ->
     @$el.addClass 'status-indicator'
+    @$el.html """
+      <div class="unsaved-changes-indicator">&bull;</div>
+      <div class="status-indicator-message"></div>
+    """
+
+    @$unsavedChanges = @$(".unsaved-changes-indicator")
+    @$message = @$(".status-indicator-message")
+
+    @unsavedChanged false
     @hide()
 
+
+
   unsavedChanged: (val) ->
-    @$el.toggleClass 'unsaved-changes', val
-    @show()
+    @$unsavedChanges.toggleClass 'fade-out', !val
 
   showMessage: (msg, hideAfter) ->
     if @hideAfterTimeout
       clearTimeout(@hideAfterTimeout)
       @hideAfterTimeout = null
 
-    @$el.html msg
+    @$message.html msg
     if msg?
       @show()
     else
@@ -30,7 +40,7 @@ class @Newstime.StatusIndicatorView extends Backbone.View # Would be better name
 
 
   show: ->
-    @$el.removeClass 'fade-out'
+    @$message.removeClass 'fade-out'
 
   hide: ->
-    @$el.addClass 'fade-out'
+    @$message.addClass 'fade-out'
