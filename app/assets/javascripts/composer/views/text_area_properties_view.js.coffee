@@ -22,12 +22,12 @@ class @Newstime.TextAreaPropertiesView extends Backbone.View
 
       <li class="property">
         <label>Height</label>
-        <span class="field"><input></input></spa>
+        <span class="field"><input class="height-input"></input></spa>
       </li>
 
       <li class="property">
         <label>Width</label>
-        <span class="field"><input></input></spa>
+        <span class="field"><input class="width-input"></input></spa>
       </li>
 
       <li class="property">
@@ -55,3 +55,14 @@ class @Newstime.TextAreaPropertiesView extends Backbone.View
         </span>
       </li>
     """
+
+    @$heightInput = @$('.height-input')
+    @$widthInput = @$('.width-input')
+
+    @model.bind 'change', @render, this
+
+    @render()
+
+  render: ->
+    @$heightInput.val(@model.get('height') + 'px')
+    @$widthInput.val(@model.get('width') + 'px')
