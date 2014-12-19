@@ -134,6 +134,7 @@ class @Newstime.Composer extends Backbone.View
 
 
     @edition.bind 'sync', @editionSync, this
+    @edition.bind 'change', @editionChange, this
 
     window.onbeforeunload = =>
       if @edition.isDirty()
@@ -150,6 +151,10 @@ class @Newstime.Composer extends Backbone.View
 
   editionSync: ->
     @statusIndicator.showMessage "Saved", 1000
+    @statusIndicator.unsavedChanged(false)
+
+  editionChange: ->
+    @statusIndicator.unsavedChanged(true)
 
   render: ->
     @canvasLayerView.render()

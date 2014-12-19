@@ -65,7 +65,6 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
       else
         super(e)
 
-
   dragBottom: (x, y) ->
     geometry = @getGeometry()
     height = @pageView.snapBottom(y) - geometry.top

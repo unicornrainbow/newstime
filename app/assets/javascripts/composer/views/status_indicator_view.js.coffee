@@ -5,6 +5,10 @@ class @Newstime.StatusIndicatorView extends Backbone.View # Would be better name
     @$el.addClass 'status-indicator'
     @hide()
 
+  unsavedChanged: (val) ->
+    @$el.toggleClass 'unsaved-changes', val
+    @show()
+
   showMessage: (msg, hideAfter) ->
     if @hideAfterTimeout
       clearTimeout(@hideAfterTimeout)

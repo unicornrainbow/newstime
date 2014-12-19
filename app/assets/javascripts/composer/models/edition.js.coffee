@@ -48,6 +48,7 @@ class @Newstime.Edition extends Backbone.RelationalModel
     @dirty = false
 
   change: ->
+    @trigger 'change'
     @dirty = true
 
   isDirty: ->

@@ -9,11 +9,21 @@
   font-size: 8pt;
   color: #eee;
   font-family: 'Raleway';
+  height: 20px;
+  min-width: 20px;
 
 
   &.fade-out {
     -webkit-transition: opacity .5s;
     transition: opacity .5s;
     opacity: 0;
+  }
+
+  &.unsaved-changes {
+    &:before {
+      content: "•";
+      display: inline-block;
+      margin-right: 2px;
+    }
   }
 }
