@@ -76,15 +76,15 @@ class @Newstime.PropertiesPanelView extends Backbone.View
     @$el.show()
 
   moveHandeler: (e) =>
-    @$el.css('top', event.pageY + @topMouseOffset)
-    @$el.css('left', event.pageX + @leftMouseOffset)
+    @$el.css('bottom', $(window).height() - event.clientY - @bottomMouseOffset)
+    @$el.css('right', $(window).width() - event.clientX - @rightMouseOffset)
 
   beginDrag: (e) ->
     @$titleBar.addClass('grabbing')
 
     # Calulate offsets
-    @topMouseOffset = parseInt(@$el.css('top')) - event.pageY
-    @leftMouseOffset = parseInt(@$el.css('left')) - event.pageX
+    @bottomMouseOffset = $(window).height() - event.clientY - parseInt(@$el.css('bottom'))
+    @rightMouseOffset =  $(window).width() - event.clientX - parseInt(@$el.css('right'))
 
     $(document).bind('mousemove', @moveHandeler)
 

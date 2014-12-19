@@ -41,3 +41,5 @@ class @Newstime.HeadlineProperties2View extends Backbone.View
         </span>
       </li>
     """
+
+    @
