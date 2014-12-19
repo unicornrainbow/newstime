@@ -7,6 +7,7 @@ class @Newstime.TextAreaEditorView extends Newstime.CanvasItemView
     @$el.addClass 'text-area-editor'
     @composer = options.composer
 
+    @bind 'keydown', @keydown
 
     # Is the editor visibly displayed?
     @hide()
@@ -15,8 +16,12 @@ class @Newstime.TextAreaEditorView extends Newstime.CanvasItemView
   dblclick: ->
     @hide()
 
+  keydown: (e) ->
+    console.log e
+
   show: ->
     @visible = true
+    @trigger 'focus', this  # Get keyboard focus from composer.
     #@composer.lockScroll()
     @$el.show()
 
@@ -26,11 +31,7 @@ class @Newstime.TextAreaEditorView extends Newstime.CanvasItemView
     #@composer.unlockScroll()
 
   hit: (x, y) ->
-    return false unless @visible
-
-    return true
-
-    #return false # TODO: Implement me.
+    return false # Above capture layer, so don't need mouse events from composer.
 
   mousedown: (e) ->
     @hide()

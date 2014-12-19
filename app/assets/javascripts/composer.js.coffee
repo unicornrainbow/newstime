@@ -122,6 +122,7 @@ class @Newstime.Composer extends Backbone.View
 
     # Layers of app, in order from top to bottom
     @layers = [
+      @textEditor
       @menuLayerView
       @panelLayerView
       @canvasLayerView
@@ -133,13 +134,11 @@ class @Newstime.Composer extends Backbone.View
     @captureLayerView.bind 'contextmenu', @contextmenu, this
     @captureLayerView.bind 'dblclick', @dblclick, this
 
-    @canvasLayerView.bind 'tracking',         @tracking, this
-    @canvasLayerView.bind 'tracking-release', @trackingRelease, this
-    @canvasLayerView.bind 'focus',            @handleLayerFocus, this
 
-    @panelLayerView.bind 'tracking',         @tracking, this
-    @panelLayerView.bind 'tracking-release', @trackingRelease, this
-
+    _.each @layers, (layer) =>
+      layer.bind 'tracking',         @tracking, this
+      layer.bind 'tracking-release', @trackingRelease, this
+      layer.bind 'focus',            @handleLayerFocus, this
 
     @edition.bind 'sync', @editionSync, this
     @edition.bind 'change', @editionChange, this
