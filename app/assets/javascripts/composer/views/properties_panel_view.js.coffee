@@ -5,11 +5,15 @@ class @Newstime.PropertiesPanelView extends Backbone.View
   events:
    'mousedown .title-bar': 'beginDrag'
    'mouseup .title-bar': 'endDrag'
+   'mouseout': 'mouseout'
+
 
   initialize: (options) ->
     @$el.hide()
     @$el.addClass('newstime-properties-panel')
     @$el.addClass('newstime-palette-view')
+
+    @composer = options.composer
 
     @$el.html """
       <div class="title-bar">
@@ -26,26 +30,33 @@ class @Newstime.PropertiesPanelView extends Backbone.View
     $('body').append(@el)
 
     @bind 'mouseover', @mouseover
-    @bind 'mouseout',  @mouseout
 
   dismiss: ->
     @trigger 'dismiss'
     @hide()
 
-  mouseover: ->
+  mouseover: (e) =>
     @hovered = true
     @$el.addClass 'hovered'
 
     if @hoveredObject
       @hoveredObject.trigger 'mouseover', e
 
-  mouseout: (e) ->
-    @hovered = false
-    @$el.removeClass 'hovered'
+    # Disengage capture layer to decieve mouse events directly.
+    @composer.captureLayerView.disengage()
 
-    if @hoveredObject
-      @hoveredObject.trigger 'mouseover', e
-      @hoveredObject = null
+
+  mouseout: (e) ->
+    # Only honer if mousing out to the panel layer view
+    if e.toElement.classList.contains 'panel-layer-view'
+      @hovered = false
+      @$el.removeClass 'hovered'
+
+      if @hoveredObject
+        @hoveredObject.trigger 'mouseover', e
+        @hoveredObject = null
+
+      @composer.captureLayerView.engage()
 
   hide: ->
     @$el.hide()
