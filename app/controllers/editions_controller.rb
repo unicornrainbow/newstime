@@ -140,7 +140,7 @@ private
              #:content_items_attributes => [:_id, :height, :left, :top, :width, :page_id, :_type, :created_at, :updated_at]
              :sections_attributes => [Section.attribute_names],
              :pages_attributes => [Page.attribute_names],
-             :content_items_attributes => [ContentItem.attribute_names + [:text, :font_size, :font_weight, :columns, 'margin-top', 'margin-left', 'margin-bottom', 'margin-right', :edition_relative_url_path]]
+             :content_items_attributes => [ContentItem.attribute_names + [:text, :font_family, :font_size, :font_weight, :columns, 'margin-top', 'margin-left', 'margin-bottom', 'margin-right', :edition_relative_url_path]]
             )
   end
 

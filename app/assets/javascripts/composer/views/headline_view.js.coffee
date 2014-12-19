@@ -14,7 +14,7 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
     ## Bind View Events
     @bind 'dblclick',  @dblclick
 
-    @propertiesView = new Newstime.HeadlineProperties2View(target: this)
+    @propertiesView = new Newstime.HeadlineProperties2View(target: this, model: @model)
 
     @render()
 
@@ -24,6 +24,7 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
       left: @model.get('left') + @pageOffsetLeft
 
     @$el.css _.pick @model.changedAttributes(), 'margin-top', 'margin-right', 'margin-bottom', 'margin-left'
+    @$el.css 'font-family': @model.get('font_family')
     @$el.css 'font-size': @model.get('font_size')
     @$el.css 'font-weight': @model.get('font_weight')
 

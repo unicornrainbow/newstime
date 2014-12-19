@@ -77,12 +77,6 @@ class @Newstime.PropertiesPanelView extends Backbone.View
   show: ->
     @$el.show()
 
-  #moveHandeler: (e) =>
-    #@$el.css('bottom', $(window).height() - event.clientY - @bottomMouseOffset)
-    #@$el.css('right', $(window).width() - event.clientX - @rightMouseOffset)
-
-
-
   mousemove: (e) ->
     e.y += @composer.panelLayerView.topOffset
 

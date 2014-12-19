@@ -3,7 +3,11 @@
 class @Newstime.HeadlineProperties2View extends Backbone.View
   tagName: 'ul'
 
-  initialize: ->
+  events:
+   'change .font-family-select': 'changeFont'
+
+  initialize: (options) ->
+    @headlineView = options.target
 
     @$el.addClass('headline-properties')
 
@@ -42,4 +46,10 @@ class @Newstime.HeadlineProperties2View extends Backbone.View
       </li>
     """
 
-    @
+  changeFont: (e) ->
+    @model.set('font_family': $(e.currentTarget).val())
+    @headlineView.fitToBorderBox()
+
+
+    #console.log @model
+    #@$headline.css
