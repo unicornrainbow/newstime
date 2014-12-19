@@ -37,7 +37,13 @@ class @Newstime.PropertiesPanelView extends Backbone.View
     @hide()
 
   keydown: (e) ->
-    e.stopPropagation()
+    e.stopPropagation() #
+
+    switch e.keyCode
+      when 27 #ESC
+        # Send focus back to composer.
+        @composer.focus()
+
 
 
   mouseover: (e) =>
@@ -52,8 +58,8 @@ class @Newstime.PropertiesPanelView extends Backbone.View
 
 
   mouseout: (e) ->
-    # Only honer if mousing out to the panel layer view
-    if e.toElement.classList.contains 'panel-layer-view'
+    # Only honer if mousing out to parent
+    if e.toElement == @el.parentNode
       @hovered = false
       @$el.removeClass 'hovered'
 
