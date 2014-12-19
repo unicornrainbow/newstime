@@ -1,8 +1,40 @@
 .newstime-properties-panel {
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
   .palette-body {
     min-height: 150px;
     margin: 0;
     padding: 0;
+  }
+
+  li {
+    margin: 0;
+    padding: 4px 10px 2px;
+    border-bottom: 1px solid rgba(255,255,255,.05);
+
+    /*&:last-child{*/
+      /*border-bottom-width: 2px;*/
+    /*}*/
+  }
+
+
+  label {
+    font-weight: normal;
+    width: 50px;
+    margin-right: 20px;
+    text-align: right;
+
+  }
+
+  input {
+    width: 50px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,.1);
   }
 
   &.hovered {
