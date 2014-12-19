@@ -26,6 +26,7 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
     @$el.css _.pick @model.changedAttributes(), 'margin-top', 'margin-right', 'margin-bottom', 'margin-left'
     @$el.css 'font-family': @model.get('font_family')
     @$el.css 'font-size': @model.get('font_size')
+    @$el.css 'font-style': @model.get('font_style')
     @$el.css 'font-weight': @model.get('font_weight')
 
     @$el.css _.pick @model.changedAttributes(),

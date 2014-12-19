@@ -5,6 +5,7 @@ class @Newstime.HeadlineProperties2View extends Backbone.View
 
   events:
    'change .font-family-select': 'changeFont'
+   'change .headline-style': 'changeStyle'
 
   initialize: (options) ->
     @headlineView = options.target
@@ -50,6 +51,5 @@ class @Newstime.HeadlineProperties2View extends Backbone.View
     @model.set('font_family': $(e.currentTarget).val())
     @headlineView.fitToBorderBox()
 
-
-    #console.log @model
-    #@$headline.css
+  changeStyle: (e) ->
+    @model.set('font_style': $(e.currentTarget).val())
