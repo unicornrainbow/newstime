@@ -60,6 +60,7 @@ class @Newstime.HeadlineProperties2View extends Backbone.View
     @$fontFamilySelect.val(@model.get('font_family')) if @model.get('font_family')
     @$headlineStyleSelect.val(@model.get('font_style'))
     @$fontSize.val(@model.get('font_size'))
+    @$fontWeight.val(@model.get('font_weight'))
 
   changeFont: (e) ->
     @model.set('font_family': $(e.currentTarget).val())
