@@ -45,20 +45,23 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
   keydown: (e) =>
     switch e.keyCode
       when 49 # 1
-        @model.set('columns', 1)
-        @reflow()
-        e.stopPropagation()
-        e.preventDefault()
+        unless e.altKey # Don't clash with zoom 1,2,3
+          @model.set('columns', 1)
+          @reflow()
+          e.stopPropagation()
+          e.preventDefault()
       when 50 # 2
-        @model.set('columns', 2)
-        @reflow()
-        e.stopPropagation()
-        e.preventDefault()
+        unless e.altKey
+          @model.set('columns', 2)
+          @reflow()
+          e.stopPropagation()
+          e.preventDefault()
       when 51 # 3
-        @model.set('columns', 3)
-        @reflow()
-        e.stopPropagation()
-        e.preventDefault()
+        unless e.altKey
+          @model.set('columns', 3)
+          @reflow()
+          e.stopPropagation()
+          e.preventDefault()
       else
         super(e)
 
