@@ -3,8 +3,12 @@
 class @Newstime.TextAreaPropertiesView extends Backbone.View
   tagName: 'ul'
 
-  initialize: ->
+  events:
+    'change .story-content-item-columns': 'changeColumns'
+
+  initialize: (options) ->
     @$el.addClass 'text-area-properties'
+    @textAreaView = options.target # Text area view
 
     @$el.html """
       <li class="property">
@@ -56,6 +60,7 @@ class @Newstime.TextAreaPropertiesView extends Backbone.View
       </li>
     """
 
+    @$columns = @$('.story-content-item-columns')
     @$heightInput = @$('.height-input')
     @$widthInput = @$('.width-input')
 
@@ -64,5 +69,10 @@ class @Newstime.TextAreaPropertiesView extends Backbone.View
     @render()
 
   render: ->
+    @$columns.val(@model.get('columns'))
     @$heightInput.val(@model.get('height') + 'px')
     @$widthInput.val(@model.get('width') + 'px')
+
+  changeColumns: ->
+    @model.set 'columns', @$columns.val()
+    @textAreaView.reflow()

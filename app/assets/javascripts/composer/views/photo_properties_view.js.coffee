@@ -31,7 +31,7 @@ class @Newstime.PhotoPropertiesView extends Backbone.View
     """
 
   updateCaption: ->
-    console.log 'Caption'
+    #console.log 'Caption'
 
     #@$caption = @$('caption')
 
