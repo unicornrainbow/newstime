@@ -38,28 +38,19 @@ class @Newstime.TextAreaPropertiesView extends Backbone.View
       </li>
 
       <li class="property">
-        <label>Continued From</label>
+        <label>Lead</label>
         <span class="field">
           <select class="text-area-continued-from">
-            <option value="">Text Ares...</option>
+            <option value="">Text Areas...</option>
           </select>
         </span>
       </li>
 
       <li class="property">
-        <label>Continued From</label>
+        <label>Follow</label>
         <span class="field">
           <select class="text-area-continued-from">
-            <option value="">Text Ares...</option>
-          </select>
-        </span>
-      </li>
-
-      <li class="property">
-        <label>Continued From</label>
-        <span class="field">
-          <select class="text-area-continued-from">
-            <option value="">Text Ares...</option>
+            <option value="">Text Areas...</option>
           </select>
         </span>
       </li>
