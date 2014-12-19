@@ -497,7 +497,6 @@ class @Newstime.Composer extends Backbone.View
     @activeSelectionView.bind 'tracking-release', @canvasLayerView.resizeSelectionRelease, @canvasLayerView
     @activeSelectionView.bind 'destroy', @clearSelection, this
 
-
   clearSelection: ->
     if @activeSelection?
       @activeSelection.destroy()

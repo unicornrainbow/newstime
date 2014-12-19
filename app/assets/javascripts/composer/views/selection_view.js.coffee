@@ -45,14 +45,14 @@ class @Newstime.SelectionView extends Backbone.View
   destroy: ->
     unless @destroyed
       @destroyed = true
-      @unbind()
-
       @trigger 'destroy', this
+
 
       if @canvasItemView
         @canvasItemView.unbind 'deselect', @destroy, this
         @canvasItemView.deselect()
 
+      @unbind()
       @$el.remove()
 
   render: ->
