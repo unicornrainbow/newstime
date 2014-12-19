@@ -26,19 +26,12 @@ class @Newstime.TextAreaEditorView extends Newstime.CanvasItemView
       when 27 # ESC
         @hide()
 
+  setModel: (model) ->
+    @model = model
+    @$textarea.val(model.get('text'))
+
   textareaKeydown: (e) ->
     switch e.keyCode
-      when 83 # s
-        # Update model with the text, trigger reflow on all effects text areas,
-        # and exit editor.
-        e.stopPropagation()
-        e.preventDefault()
-
-        console.log 'save'
-        @hide()
-
-        #@model.set('text')
-
       when 27 # ESC
         e.stopPropagation()
         e.preventDefault()
@@ -49,7 +42,8 @@ class @Newstime.TextAreaEditorView extends Newstime.CanvasItemView
   focusTextArea: ->
     @composer.blur()
 
-  blurTextArea: ->
+  blurTextArea: (e) ->
+    @model.set('text', @$textarea.val())
     @composer.focus()
 
   show: ->

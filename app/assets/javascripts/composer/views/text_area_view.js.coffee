@@ -14,6 +14,8 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
 
     @bind 'resized', @reflow, this  # Reflow text on resize
 
+    @model.bind 'change:text', @reflow, this
+
     @propertiesView = new Newstime.TextAreaPropertiesView(target: this, model: @model)
 
     @render()

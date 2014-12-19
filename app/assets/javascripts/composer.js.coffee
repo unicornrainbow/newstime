@@ -168,6 +168,7 @@ class @Newstime.Composer extends Backbone.View
     @canvasLayerView.render()
 
   editText: (model) ->
+    @textEditor.setModel(model)
     @textEditor.show()
     #console.log this
     #Newstime.Composer.textEditor.show()
