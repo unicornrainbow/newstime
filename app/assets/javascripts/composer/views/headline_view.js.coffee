@@ -101,7 +101,7 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
 
       index = _.indexOf(@fontWeights, fontWeight)
 
-      fontWeight = @fontWeights[index+1] if index < @fontWeights.length
+      fontWeight = @fontWeights[index+1] if index < @fontWeights.length-1
 
       @model.set('font_weight', fontWeight)
     else
@@ -120,7 +120,7 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
 
       @model.set('font_weight', fontWeight)
     else
-      @model.set('font_weight', @$headlineEl.css('font-weight'))
+      @model.set('font_weight', @$el.css('font-weight'))
 
     @fitToBorderBox()
 
