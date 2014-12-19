@@ -106,6 +106,7 @@ class @Newstime.Composer extends Backbone.View
 
 
     @cursorStack = []
+    @focusStack = []
 
     #@zoomLevels = [25, 33, 50, 67, 75, 90, 100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
     @zoomLevels = [25, 33, 50, 67, 75, 90, 100]
@@ -250,6 +251,13 @@ class @Newstime.Composer extends Backbone.View
   popCursor: ->
     cursor = @cursorStack.pop()
     @changeCursor(cursor)
+
+  pushFocus: (target) ->
+    @focusStack.push @focusedObject
+    @focusedObject = target
+
+  popFocus: ->
+    @focusedObject = @focusStack.pop()
 
   # Sets the UI cursor accoring to a set of rules.
   #updateCursor: ->

@@ -21,12 +21,21 @@ class @Newstime.TextAreaEditorView extends Newstime.CanvasItemView
 
   show: ->
     @visible = true
-    @trigger 'focus', this  # Get keyboard focus from composer.
+
+    unless @focused
+      @focused = true
+      @composer.pushFocus(this)
+
     #@composer.lockScroll()
     @$el.show()
 
   hide: ->
     @visible = false
+
+    if @focused
+      @focused = false
+      @composer.popFocus()
+
     @$el.hide()
     #@composer.unlockScroll()
 
