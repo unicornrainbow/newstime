@@ -6,6 +6,7 @@ class @Newstime.PropertiesPanelView extends Backbone.View
    'mousedown .title-bar': 'beginDrag'
    'mouseup .title-bar': 'endDrag'
    'mouseout': 'mouseout'
+   'keydown': 'keydown'
 
 
   initialize: (options) ->
@@ -34,6 +35,10 @@ class @Newstime.PropertiesPanelView extends Backbone.View
   dismiss: ->
     @trigger 'dismiss'
     @hide()
+
+  keydown: (e) ->
+    e.stopPropagation()
+
 
   mouseover: (e) =>
     @hovered = true
