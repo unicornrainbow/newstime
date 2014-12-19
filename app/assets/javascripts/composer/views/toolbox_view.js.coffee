@@ -83,14 +83,15 @@ class @Newstime.ToolboxView extends Backbone.View
       @hoveredObject.trigger 'mousedown', e
 
   mouseup: (e) ->
+
     if @moving
+      @composer.popCursor()
       @moving = false
       @trigger 'tracking-release', this
 
   mouseover: ->
     @hovered = true
     @$el.addClass 'hovered'
-    #@composer.changeCursor('-webkit-grab')
 
     if @hoveredObject
       @hoveredObject.trigger 'mouseover', e
@@ -98,10 +99,13 @@ class @Newstime.ToolboxView extends Backbone.View
   mouseout: (e) ->
     @hovered = false
     @$el.removeClass 'hovered'
-    #@composer.changeCursor('-webkit-grab') # Need to clear cursor
+
+    if @overTitle
+      @overTitle = false
+      @composer.popCursor()
 
     if @hoveredObject
-      @hoveredObject.trigger 'mouseover', e
+      @hoveredObject.trigger 'mouseout', e
       @hoveredObject = null
 
 
@@ -117,8 +121,7 @@ class @Newstime.ToolboxView extends Backbone.View
 
 
   beginDrag: (e) ->
-    #@$titleBar.addClass('grabbing')
-    #@composer.changeCursor('-webkit-grabbing')
+    @composer.pushCursor('-webkit-grabbing')
 
     @moving   = true
 
@@ -130,7 +133,6 @@ class @Newstime.ToolboxView extends Backbone.View
     #$(document).bind('mousemove', @moveHandeler)
 
   endDrag: (e) ->
-    @$titleBar.removeClass('grabbing')
     $(document).unbind('mousemove', @moveHandeler)
 
   adjustEventXY: (e) ->
@@ -138,11 +140,22 @@ class @Newstime.ToolboxView extends Backbone.View
     e.y -= @y()
 
   mousemove: (e) ->
+
+
     if @moving
       @move(e.x, e.y)
     else
       # Detect a button hit
       @adjustEventXY(e)
+
+      if e.y < 25 # Consider less than 25 y a title bar hit for now
+        unless @overTitle
+          @overTitle = true
+          @composer.pushCursor('-webkit-grab')
+      else
+        if @overTitle
+          @overTitle = false
+          @composer.popCursor()
 
       # Check for hit inorder to highlight hovered button
       if @hoveredObject # Check active button first.
