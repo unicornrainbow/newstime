@@ -36,29 +36,30 @@ class @Newstime.HeadlineProperties2View extends Backbone.View
       <li class="property">
         <label>Size</label>
         <span class="field">
-          <input class=""></input>
+          <input class="font-size"></input>
         </span>
       </li>
       <li class="property">
         <label>Weight</label>
         <span class="field">
-          <input class=""></input>
+          <input class="font-weight"></input>
         </span>
       </li>
     """
 
     @$fontFamilySelect = @$('.font-family-select')
     @$headlineStyleSelect = @$('.headline-style')
-    #@$fontSelect = @$('.font-family-select')
+    @$fontSize = @$('.font-size')
+    @$fontWeight = @$('.font-weight')
 
     @model.bind 'change', @render, this
 
     @render()
 
   render: ->
-    console.log @model.get('font_family')
-    @$fontFamilySelect.val(@model.get('font_family'))
+    @$fontFamilySelect.val(@model.get('font_family')) if @model.get('font_family')
     @$headlineStyleSelect.val(@model.get('font_style'))
+    @$fontSize.val(@model.get('font_size'))
 
   changeFont: (e) ->
     @model.set('font_family': $(e.currentTarget).val())
@@ -66,3 +67,5 @@ class @Newstime.HeadlineProperties2View extends Backbone.View
 
   changeStyle: (e) ->
     @model.set('font_style': $(e.currentTarget).val())
+
+  #changeFontSize: (e) ->

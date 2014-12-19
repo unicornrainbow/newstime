@@ -243,14 +243,15 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
 
     fontSize = parseInt(@$el.css('font-size'))
 
-    if width/height > headlineWidth/headlineHeight
+    fontSize *= if width/height > headlineWidth/headlineHeight
       # Match Height
-      fontSize *= height/headlineHeight
-      @model.set('font_size', fontSize + 'px')
+      height/headlineHeight
     else
       # Match Width
-      fontSize *= width/headlineWidth
-      @model.set('font_size', fontSize + 'px')
+      width/headlineWidth
+
+    fontSize = Math.round(fontSize)
+    @model.set('font_size', fontSize + 'px')
 
     # Compute and set margins
     headlineWidth  = @$el.width()
