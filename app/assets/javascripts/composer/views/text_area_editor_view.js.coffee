@@ -1,8 +1,5 @@
 class @Newstime.TextAreaEditorView extends Newstime.CanvasItemView
 
-  events:
-    dblclick: 'dblclick'
-
   initialize: (options) ->
     @$el.addClass 'text-area-editor'
     @composer = options.composer
@@ -13,11 +10,10 @@ class @Newstime.TextAreaEditorView extends Newstime.CanvasItemView
     @hide()
     @visible = false
 
-  dblclick: ->
-    @hide()
-
   keydown: (e) ->
-    console.log e
+    switch e.keyCode
+      when 27 # ESC
+        @hide()
 
   show: ->
     @visible = true
