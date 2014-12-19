@@ -31,6 +31,8 @@ class @Newstime.PropertiesPanelView extends Backbone.View
     $('body').append(@el)
 
     @bind 'mouseover', @mouseover
+    @bind 'mousemove', @mousemove
+    @bind 'mouseup', @mouseup
 
   dismiss: ->
     @trigger 'dismiss'
@@ -75,22 +77,47 @@ class @Newstime.PropertiesPanelView extends Backbone.View
   show: ->
     @$el.show()
 
-  moveHandeler: (e) =>
-    @$el.css('bottom', $(window).height() - event.clientY - @bottomMouseOffset)
-    @$el.css('right', $(window).width() - event.clientX - @rightMouseOffset)
+  #moveHandeler: (e) =>
+    #@$el.css('bottom', $(window).height() - event.clientY - @bottomMouseOffset)
+    #@$el.css('right', $(window).width() - event.clientX - @rightMouseOffset)
+
+
+
+  mousemove: (e) ->
+    e.y += @composer.panelLayerView.topOffset
+
+    if @tracking
+      @$el.css('bottom', $(window).height() - event.y - @bottomMouseOffset)
+      @$el.css('right', $(window).width() - event.x - @rightMouseOffset)
+
+  mouseup: (e) ->
+    if @tracking
+      @tracking = false
+      @trigger 'tracking-release', this
+      @composer.popCursor()
+      @mouseover(e)
+      @endDrag()
+
 
   beginDrag: (e) ->
+    @dragging = true
     @$titleBar.addClass('grabbing')
 
     # Calulate offsets
     @bottomMouseOffset = $(window).height() - event.clientY - parseInt(@$el.css('bottom'))
     @rightMouseOffset =  $(window).width() - event.clientX - parseInt(@$el.css('right'))
 
-    $(document).bind('mousemove', @moveHandeler)
+    # Engage and begin tracking here.
+
+    @tracking = true
+    @composer.pushCursor('-webkit-grabbing')
+    @trigger 'tracking', this
+    @composer.captureLayerView.engage()
 
   endDrag: (e) ->
-    @$titleBar.removeClass('grabbing')
-    $(document).unbind('mousemove', @moveHandeler)
+    if @dragging
+      @dragging = false
+      @$titleBar.removeClass('grabbing')
 
   # Attachs html or element to body of palette
   attach: (html) ->
@@ -120,6 +147,7 @@ class @Newstime.PropertiesPanelView extends Backbone.View
     #Math.round(
     Math.round(@$el.offset().left)
     #@$el[0].getBoundingClientRect()
+    #
 
 
   y: ->

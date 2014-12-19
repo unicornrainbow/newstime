@@ -61,7 +61,7 @@ class @Newstime.CaptureLayerView extends Backbone.View
       cursor: ''
 
   changeCursor: (cursor) ->
-    @$el.css cursor: cursor
+    @$el.css(cursor: cursor)
 
   engage: ->
     @$el.css 'pointer-events': ''

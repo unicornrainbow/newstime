@@ -116,11 +116,19 @@ class @Newstime.PanelLayerView extends Backbone.View
   mouseup: (e) ->
     @adjustEventXY(e)
 
+    if @trackingPanel
+      @trackingPanel.trigger 'mouseup', e
+      return true
+
     if @hoveredObject
       @hoveredObject.trigger 'mouseup', e
 
   mousemove: (e) ->
     @adjustEventXY(e)
+
+    if @trackingPanel
+      @trackingPanel.trigger 'mousemove', e
+      return true
 
     if @hoveredObject
       @hoveredObject.trigger 'mousemove', e
