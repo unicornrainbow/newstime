@@ -2,12 +2,29 @@
 
 
 class @Newstime.PhotoPropertiesView extends Backbone.View
+  tagName: 'ul'
 
   initialize: ->
 
     @$el.addClass('newstime-photo-properties')
 
     @$el.html """
+      <li class="property">
+        <label>Caption</label>
+        <span class="field">
+          <input type="checkbox"></input>
+        </span>
+      </li>
+
+      <li class="property">
+        <label>Height</label>
+        <span class="field"><input></input></spa>
+      </li>
+
+      <li class="property">
+        <label>Width</label>
+        <span class="field"><input></input></spa>
+      </li>
     """
 
 
