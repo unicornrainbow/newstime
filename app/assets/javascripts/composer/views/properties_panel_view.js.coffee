@@ -55,6 +55,8 @@ class @Newstime.PropertiesPanelView extends Backbone.View
     if @hoveredObject
       @hoveredObject.trigger 'mouseover', e
 
+    @composer.lockScroll()
+
     # Disengage capture layer to decieve mouse events directly.
     @composer.captureLayerView.disengage()
 
@@ -70,6 +72,7 @@ class @Newstime.PropertiesPanelView extends Backbone.View
         @hoveredObject = null
 
       @composer.captureLayerView.engage()
+      @composer.unlockScroll()
 
   hide: ->
     @$el.hide()

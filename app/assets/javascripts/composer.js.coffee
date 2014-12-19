@@ -213,6 +213,12 @@ class @Newstime.Composer extends Backbone.View
     @currentCursor = cursor
     @captureLayerView.changeCursor(@currentCursor)
 
+  lockScroll: ->
+    $('body').css({'overflow':'hidden'})
+
+  unlockScroll: ->
+    $('body').css({'overflow':''})
+
   pushCursor: (cursor) ->
     @cursorStack.push @currentCursor
     @changeCursor(cursor)
