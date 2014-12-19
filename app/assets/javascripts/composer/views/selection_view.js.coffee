@@ -307,12 +307,7 @@ class @Newstime.SelectionView extends Backbone.View
       width: width
 
   dragBottom: (x, y) ->
-    geometry = @getGeometry()
-
-    height = @pageView.snapBottom(y) - geometry.top
-
-    @canvasItemView.setSizeAndPosition
-      height: height
+    @canvasItemView.dragBottom(x, y)
 
   dragLeft: (x, y) ->
     geometry = @getGeometry()
@@ -348,23 +343,10 @@ class @Newstime.SelectionView extends Backbone.View
       height: geometry.top - y + geometry.height
 
   dragBottomLeft: (x, y) ->
-    geometry = @getGeometry()
-    x = @pageView.snapLeft(x)
-    y = @pageView.snapBottom(y)
-
-    @canvasItemView.setSizeAndPosition
-      left: x
-      width: geometry.left - x + geometry.width
-      height: y - geometry.top
+    @canvasItemView.dragBottomLeft(x, y)
 
   dragBottomRight: (x, y) ->
-    geometry = @getGeometry()
-    width    = @pageView.snapRight(x - geometry.left)
-    y        = @pageView.snapBottom(y)
-
-    @canvasItemView.setSizeAndPosition
-      width: width
-      height: y - geometry.top
+    @canvasItemView.dragBottomRight(x, y)
 
   mouseup: (e) ->
     @adjustEventXY(e)
