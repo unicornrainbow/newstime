@@ -12,5 +12,12 @@ class @Newstime.MenuLayerView extends Backbone.View
     @menuView = new Newstime.MenuView()
     @$el.append(@menuView.el)
 
+    @bind 'mousedown', @mousedown
+
   hit: (x, y) ->
-    false
+    return true if y <= 25 # Own top 25 px.
+
+    return false
+
+  mousedown: (e) ->
+    # TODO: Implement
