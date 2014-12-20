@@ -4,6 +4,7 @@
 #= require lib/backbone
 #= require lib/backbone-relational
 #= require lib/backbone.authtokenadapter
+#= require lib/jquery.elastic
 #= require faye
 #
 # ## App

@@ -15,7 +15,9 @@ class @Newstime.TextAreaEditorView extends Newstime.CanvasItemView
       <textarea class="basic-textarea">Hello</textarea>
     """
 
+
     @$textarea = @$('textarea')
+    @$textarea.elastic()
 
     # Is the editor visibly displayed?
     @hide()
