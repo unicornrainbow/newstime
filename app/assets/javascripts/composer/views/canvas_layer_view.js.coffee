@@ -6,6 +6,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @edition = options.edition
     @toolbox = options.toolbox
 
+
     # Capture Elements
     @$window = $(window)
     @$document = $(document)
@@ -110,6 +111,9 @@ class @Newstime.CanvasLayerView extends Backbone.View
         @contentItemOutlineViews[contentItemCID] = contentItemOutlineView
         @$canvasItems.append(el)
 
+    # Create link area, to enable clicking through on links.
+    @linkAreas = _.map @$el.find('a'), (link) =>
+      new Newstime.LinkArea(link, topOffset: @topOffset, composer: @composer)
 
     # Bind mouse events
     @bind 'mouseover',  @mouseover
@@ -123,11 +127,13 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @bind 'contextmenu', @contextmenu
     @bind 'windowResize', @windowResize
 
-    @composer.bind 'zoom', @zoom, this
+    @listenTo @composer, 'zoom', @zoom
+    @listenTo @contentItemCollection, 'remove', @removeContentItem
 
-    # Create link area, to enable clicking through on links.
-    @linkAreas = _.map @$el.find('a'), (link) =>
-      new Newstime.LinkArea(link, topOffset: @topOffset, composer: @composer)
+  removeContentItem: (contentItem) =>
+    # Remove from the content items view registry.
+    delete @contentItemViews[contentItem.cid]
+    delete @contentItemOutlineViews[contentItem.cid]
 
   extractHeadlinesViews: (el) ->
     els = $('[headline-control]', el).detach()

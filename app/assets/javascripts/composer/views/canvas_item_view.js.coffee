@@ -25,7 +25,7 @@ class @Newstime.CanvasItemView extends Backbone.View
 
     # Bind Model Events
     @model.bind 'change', @render, this
-    @model.bind 'destroy', @destroy, this
+    @model.bind 'destroy', @remove, this
 
   setElement: (el) ->
     super
@@ -36,11 +36,6 @@ class @Newstime.CanvasItemView extends Backbone.View
       top: @model.get('top') + @pageOffsetTop
       left: @model.get('left') + @pageOffsetLeft
     @$el.css _.pick @model.attributes, 'width', 'height'
-
-  # Destroy this view
-  destroy: ->
-    # TODO: Need to properly unbind events and allow destruction of view
-    @$el.remove()
 
   # Detects a hit of the selection
   hit: (x, y) ->
