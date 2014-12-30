@@ -132,26 +132,25 @@ class @Newstime.Composer extends Backbone.View
       @canvasLayerView
     ]
 
-    @captureLayerView.bind 'mouseup', @mouseup, this
-    @captureLayerView.bind 'mousemove', @mousemove, this
-    @captureLayerView.bind 'mousedown', @mousedown, this
-    @captureLayerView.bind 'contextmenu', @contextmenu, this
-    @captureLayerView.bind 'dblclick', @dblclick, this
-
+    @listenTo @captureLayerView, 'mouseup', @mouseup
+    @listenTo @captureLayerView, 'mousemove', @mousemove
+    @listenTo @captureLayerView, 'mousedown', @mousedown
+    @listenTo @captureLayerView, 'contextmenu', @contextmenu
+    @listenTo @captureLayerView, 'dblclick', @dblclick
 
     _.each @layers, (layer) =>
-      layer.bind 'tracking',         @tracking, this
-      layer.bind 'tracking-release', @trackingRelease, this
-      layer.bind 'focus',            @handleLayerFocus, this
+      @listenTo layer, 'tracking',         @tracking
+      @listenTo layer, 'tracking-release', @trackingRelease
+      @listenTo layer, 'focus',            @handleLayerFocus
 
-    @edition.bind 'sync', @editionSync, this
-    @edition.bind 'change', @editionChange, this
+    @listenTo @edition, 'sync', @editionSync
+    @listenTo @edition, 'change', @editionChange
 
     window.onbeforeunload = =>
       if @edition.isDirty()
         return "You have unsaved changes."
 
-    @vent.on "edit-text", @editText, this
+    @listenTo @vent, "edit-text", @editText
 
     # Intialize App
 
