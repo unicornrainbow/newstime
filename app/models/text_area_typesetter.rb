@@ -20,8 +20,10 @@ class TextAreaTypesetter
     height             = text_area.height
     text_column_width  = text_area.text_column_width
     column_count       = text_area.columns
+    include_by_line    = @text_area.show_by_line
+
     column_count.times do |column_index|
-      render_by_line = false # include_by_line && column_index.zero?
+      render_by_line = include_by_line && column_index.zero?
       render_continuation = false # include_continuation && column_index + 1 == column_count
       render_precedent_link = false # include_precedent_link && column_index.zero?
 
@@ -60,6 +62,7 @@ class TextAreaTypesetter
 
       result << view.render("content/text_column",
         render_by_line: render_by_line,
+        author: @text_area.by_line,
         render_continuation: render_continuation,
         continuation_text: continuation_text,
         continuation_path: continuation_path,
@@ -85,7 +88,7 @@ private
       view = Object.new #ActionController::Base.new.view_context
       #view.extend ApplicationHelper
       view.extend EditionsHelper
-      view.instance_variable_set(:@layout_module, LayoutModule.new('volusia_democratic_caucus'))
+      view.instance_variable_set(:@layout_module, LayoutModule.new('sfrecord'))
       LayoutModule::View.new(view)
     end
   end

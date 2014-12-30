@@ -74,6 +74,9 @@ class ContentItemsController < ApplicationController
 
     @content_item = content_item_params['_type'].constantize.new(content_item_params)
 
+    # HACK: Make sure by line is a bool
+    @content_item.show_by_line = @content_item.show_by_line == 'true' if @content_item.show_by_line.is_a? String
+
     #@edition.content_items << @content_item
     @content_item.edition = @edition # This is a work around to avoid actually creating the item. Better isolation should be provided in the future
 
@@ -138,9 +141,10 @@ private
     ]
     video_params = [:video_id]
     photo_params = [:photo_id]
+    text_area_params = [:show_by_line, :by_line]
     horizontal_rule_params = [:style_class]
 
-    params.fetch(:content_item, {}).permit(*(shared_params + video_params + photo_params + horizontal_rule_params))
+    params.fetch(:content_item, {}).permit(*(shared_params + video_params + photo_params + horizontal_rule_params + text_area_params))
   end
 
 end
