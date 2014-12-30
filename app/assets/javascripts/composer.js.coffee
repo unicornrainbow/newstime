@@ -22,6 +22,8 @@ class @Newstime.Composer extends Backbone.View
     @edition = options.edition
     @section = options.section
 
+    @editionContentItems = @edition.get('content_items')
+
     # Create application vent for aggregating events.
     @vent = _.extend({}, Backbone.Events)
 
@@ -145,6 +147,8 @@ class @Newstime.Composer extends Backbone.View
     @edition.bind 'sync', @editionSync, this
     @edition.bind 'change', @editionChange, this
 
+    @editionContentItems.bind 'remove', @removeContentItem
+
     window.onbeforeunload = =>
       if @edition.isDirty()
         return "You have unsaved changes."
@@ -157,6 +161,9 @@ class @Newstime.Composer extends Backbone.View
     @toolbox.set(selectedTool: 'select-tool')
     @toolboxView.show()
 
+  removeContentItem: (contentItem) =>
+    # Remove from the content items view registry.
+    delete @contentItemViews[contentItem.cid]
 
   editionSync: ->
     @statusIndicator.showMessage "Saved", 1000
