@@ -24,8 +24,8 @@ class @Newstime.CanvasItemView extends Backbone.View
     @bind 'keydown',   @keydown
 
     # Bind Model Events
-    @model.bind 'change', @render, this
-    @model.bind 'destroy', @remove, this
+    @listenTo @model, 'change', @render
+    @listenTo @model, 'destroy', @remove
 
   setElement: (el) ->
     super

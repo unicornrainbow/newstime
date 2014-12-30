@@ -7,7 +7,7 @@ class @Newstime.OutlineLayerView extends Backbone.View
 
     @composer = options.composer
 
-    @composer.bind 'zoom', @zoom, this
+    @listenTo @composer, 'zoom', @zoom
 
 
   zoom: ->

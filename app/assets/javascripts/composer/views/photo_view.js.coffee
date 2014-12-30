@@ -6,19 +6,20 @@ class @Newstime.PhotoView extends Newstime.CanvasItemView
     super
     @$el.addClass 'photo-view'
 
-    @bind 'paste', @paste
-
     @propertiesView = new Newstime.PhotoPropertiesView(target: this)
 
-    @model.bind 'change:photo_id', @photoChanged, this
+    @bind 'paste', @paste
+
+    @listenTo @model, 'change:photo_id', @photoChanged
 
     @render()
 
+  setElement: (el) ->
+    super
+    @$el.addClass 'photo-view'
+
   photoChanged: ->
     @$el.css "background-image": "url('#{@model.get('edition_relative_url_path')}')"
-
-  destroy: ->
-    super()
 
   createImage: (source) ->
    pastedImage = new Image()

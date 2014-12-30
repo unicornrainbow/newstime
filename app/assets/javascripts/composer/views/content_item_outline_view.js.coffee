@@ -12,8 +12,8 @@ class @Newstime.ContentItemOutlineView extends Backbone.View
       left: @model.get('left') + @pageOffsetLeft
     @$el.css _.pick @model.attributes, 'width', 'height'
 
-    @model.bind 'change', @render, this
-    @model.bind 'destroy', @remove, this
+    @listenTo @model, 'change', @render
+    @listenTo @model, 'destroy', @remove
 
   show: ->
     @$el.addClass 'outline'
@@ -22,7 +22,6 @@ class @Newstime.ContentItemOutlineView extends Backbone.View
     @$el.removeClass 'outline'
 
   render: ->
-
     position = _.pick @model.attributes, 'width', 'height'
 
     position.top = @model.get('top')

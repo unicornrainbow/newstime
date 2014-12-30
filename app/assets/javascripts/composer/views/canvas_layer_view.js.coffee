@@ -558,10 +558,10 @@ class @Newstime.CanvasLayerView extends Backbone.View
       pageView: pageView
 
 
-    contentItemView.bind 'activate', @selectContentItem, this
-    contentItemView.bind 'deactivate', @selectionDeactivated, this
-    contentItemView.bind 'tracking', @resizeSelection, this
-    contentItemView.bind 'tracking-release', @resizeSelectionRelease, this
+    @listenTo contentItemView, 'activate', @selectContentItem
+    @listenTo contentItemView, 'deactivate', @selectionDeactivated
+    @listenTo contentItemView, 'tracking', @resizeSelection
+    @listenTo contentItemView, 'tracking-release', @resizeSelectionRelease
 
 
     contentItemCID = contentItem.cid # TODO: Note, using cid, because not saved yet...
@@ -577,10 +577,16 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
     @composer.activeSelectionView.beginDraw(pageRelX, pageRelY)
 
-    attachContentEl = (response) =>
-      $el = $(response)
-      contentItemView.$el.replaceWith($el)
-      contentItemView.setElement($el)
+    successCallback = (response) =>
+      # Parse response into element.
+      div = document.createElement('div')
+      div.innerHTML = response
+      el = div.firstChild
+
+      # Attach and render
+      contentItemView.$el.replaceWith(el)
+      contentItemView.setElement(el)
+      contentItemView.render()
 
     $.ajax
       method: 'GET'
@@ -588,7 +594,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
       data:
         composing: true
         content_item: contentItem.toJSON()
-      success: attachContentEl
+      success: successCallback
 
   drawVideo: (x, y) ->
 

@@ -4,22 +4,23 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
 
   initialize: (options) ->
     super
-
     @$el.addClass 'text-area-view'
 
     @lineHeight = parseInt(Newstime.config.storyTextLineHeight)
 
     @bind 'paste', @paste
-    @bind 'dblclick',  @dblclick
+    @bind 'dblclick', @dblclick
+    @bind 'resized', @reflow  # Reflow text on resize
 
-    @bind 'resized', @reflow, this  # Reflow text on resize
-
-    @model.bind 'change:text', @reflow, this
+    @listenTo @model, 'change:text', @reflow
 
     @propertiesView = new Newstime.TextAreaPropertiesView(target: this, model: @model)
 
     @render()
 
+  setElement: (el) ->
+    super
+    @$el.addClass 'text-area-view'
 
   render: =>
     super unless @needsReflow
@@ -28,7 +29,7 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
     # Retreive pasted text. Not cross browser compliant. (Webkit)
     pastedText = e.originalEvent.clipboardData.getData('text/plain')
 
-    @model.set('text', pastedText)
+    @model.set 'text', pastedText
 
     # Now that we have the desired text, need to save this as the text with the
     # story text-content item, should that be our target. Also need to grab and
