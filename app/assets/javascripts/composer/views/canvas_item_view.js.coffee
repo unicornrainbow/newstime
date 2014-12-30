@@ -27,6 +27,10 @@ class @Newstime.CanvasItemView extends Backbone.View
     @model.bind 'change', @render, this
     @model.bind 'destroy', @destroy, this
 
+  setElement: (el) ->
+    super
+    @$el.addClass 'canvas-item-view'
+
   render: ->
     @$el.css
       top: @model.get('top') + @pageOffsetTop

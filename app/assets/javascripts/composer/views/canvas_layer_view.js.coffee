@@ -687,9 +687,15 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @composer.activeSelectionView.beginDraw(pageRelX, pageRelY)
 
     attachContentEl = (response) =>
-      $el = $(response)
-      contentItemView.$el.replaceWith($el)
-      contentItemView.setElement($el)
+      # Parse response into element.
+      div = document.createElement('div')
+      div.innerHTML = response
+      el = div.firstChild
+
+      # Attach and render
+      contentItemView.$el.replaceWith(el)
+      contentItemView.setElement(el)
+      contentItemView.render()
 
     $.ajax
       method: 'GET'

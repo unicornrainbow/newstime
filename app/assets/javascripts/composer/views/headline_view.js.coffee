@@ -18,6 +18,10 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
 
     @render()
 
+  setElement: (el) ->
+    super
+    @$el.addClass 'headline-view'
+
   render: ->
     @$el.css
       top: @model.get('top') + @pageOffsetTop
