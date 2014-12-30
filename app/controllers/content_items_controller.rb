@@ -80,11 +80,9 @@ class ContentItemsController < ApplicationController
     #@edition.content_items << @content_item
     @content_item.edition = @edition # This is a work around to avoid actually creating the item. Better isolation should be provided in the future
 
-    if params[:format] == 'html'
-      @composing = params[:composing]
-      @layout_name   = @edition.layout_name
-      @layout_module = LayoutModule.new(@layout_name) # TODO: Rename to MediaModule
-    end
+    @composing = params[:composing]
+    @layout_name   = @edition.layout_name
+    @layout_module = LayoutModule.new(@layout_name) # TODO: Rename to MediaModule
 
     @content_item.typeset!
 

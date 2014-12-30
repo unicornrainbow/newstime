@@ -23,7 +23,9 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
     @$el.addClass 'text-area-view'
 
   render: =>
-    super unless @needsReflow
+    unless @needsReflow
+      super
+      @$el.html @model.get('rendered_html')
 
   paste: (e) =>
     # Retreive pasted text. Not cross browser compliant. (Webkit)
@@ -128,16 +130,39 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
     # same, and then the will all be called.
 
 
+    # Must happen in sucessions, since relies on results.
 
+    index = _.indexOf storyContentItems, @model
 
+    if index > 0
+      previousContentItem = storyContentItems[index-1]
+
+    if index+1 < storyContentItems.length
+      nextContentItem = storyContentItems[index+1]
+
+    json = @model.toJSON()
+
+    if previousContentItem
+      json['text'] = previousContentItem.get('overrun_html')
+
+    if nextContentItem
+      nextContentItemView = @composer.contentItemViews[nextContentItem.cid]
 
     $.ajax
       method: 'POST'
-      url: "#{@composer.edition.url()}/render_text_area.html"
+      url: "#{@composer.edition.url()}/render_text_area.json"
+      contentType: 'application/json'
+      dataType: 'json'
       data:
-        composing: true
-        content_item: @model.toJSON()
+        JSON.stringify
+          composing: true
+          content_item: json
       success: (response) =>
-        @$el.html $(response).html()
+        # Need to update the rendered_html & overrun_html and update the view
+        # (With callback)
         @needsReflow = false
-        @render()
+        @model.set _.pick(response, 'rendered_html', 'overrun_html')
+        #@render()
+
+        # Trigger reflow of next content item
+        nextContentItemView.reflow() if nextContentItemView
