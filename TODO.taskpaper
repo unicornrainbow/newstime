@@ -2,14 +2,12 @@ NEWSTIME: A Platform for the People
 
 The Goal: As an editior and newsteam, I would like to be able to create a compiled digital newspaper based on a template, add pages, and to compose content on those pages, so that I can create and prepare an edition for publication and sell it through an online store, without blocking access to the purchasable content.
 
-Publishing:
-	- Implement publish
-	- Build Store
-Softsell:
-	- Implement "inbetween" softsell page
 Audio:
 	- Allow audio attachment and transcription of stories
 Archive:
+	- Implement publish @done @project(Publishing)
+	- Build Store @done @project(Publishing)
+	- Implement "inbetween" softsell page @done @project(Softsell)
 	- Implement Compilation @done @project(Download)
 	- Add button to download compiled version and add section @done @project(Download)
 	- Build download screen, show pubish button once content compiled, signature add, price and store link and other required fields are set. @done @project(Download)
