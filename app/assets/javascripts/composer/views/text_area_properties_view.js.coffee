@@ -5,6 +5,8 @@ class @Newstime.TextAreaPropertiesView extends Backbone.View
 
   events:
     'change .story-content-item-columns': 'changeColumns'
+    'change .by-line-input': 'changeByLine'
+    'change .show-by-line': 'changeShowByLine'
 
   initialize: (options) ->
     @$el.addClass 'text-area-properties'
@@ -37,8 +39,13 @@ class @Newstime.TextAreaPropertiesView extends Backbone.View
       <li class="property">
         <label>By Line</label>
         <span class="field">
-          <input class='caption-field' type="checkbox"></input>
+          <input class='show-by-line' type="checkbox"></input>
         </span>
+      </li>
+
+      <li class="property">
+        <label>By</label>
+        <span class="field"><input class="by-line-input" style="width: 100px;"></input></spa>
       </li>
 
       <li class="property">
@@ -63,8 +70,11 @@ class @Newstime.TextAreaPropertiesView extends Backbone.View
     @$columns = @$('.story-content-item-columns')
     @$heightInput = @$('.height-input')
     @$widthInput = @$('.width-input')
+    @$showByLine = @$('.show-by-line')
+    @$byLineInput = @$('.by-line-input')
 
-    @model.bind 'change', @render, this
+    @listenTo @model, 'change', @render
+    @listenTo @model, 'destroy', @remove
 
     @render()
 
@@ -72,7 +82,17 @@ class @Newstime.TextAreaPropertiesView extends Backbone.View
     @$columns.val(@model.get('columns'))
     @$heightInput.val(@model.get('height') + 'px')
     @$widthInput.val(@model.get('width') + 'px')
+    @$showByLine.prop('checked', @model.get('show_by_line'))
+    @$byLineInput.val(@model.get('by_line'))
 
   changeColumns: ->
     @model.set 'columns', @$columns.val()
+    @textAreaView.reflow()
+
+  changeByLine: ->
+    @model.set 'by_line', @$byLineInput.val()
+    @textAreaView.reflow()
+
+  changeShowByLine: ->
+    @model.set 'show_by_line', @$showByLine.prop('checked')
     @textAreaView.reflow()
