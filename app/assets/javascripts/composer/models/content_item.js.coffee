@@ -4,17 +4,21 @@ class @Newstime.ContentItem extends Backbone.RelationalModel
   initialize: (attributes) ->
     @set('cursorPosition', (@get('text') || ' ').length, silent: true)
 
+    @on 'change:page_id', @clearPage
+
   # Gets page
-  page: ->
-    @_page ?= @getPage()
-
-  # Gets section
-  section: ->
-    @page().section()
-
-  # Gets updated page
   getPage: ->
-    @_page = @get('edition').get('pages').findWhere(_id: @get('page_id'))
+    @page ?= @get('edition').get('pages').findWhere(_id: @get('page_id'))
+
+  setPage: (page) ->
+    @set 'page_id', page.get('_id')
+    @page = page
+
+  clearPage: ->
+    @page = null
+
+  getSection: ->
+    @getPage().getSection()
 
   # Specific to the HeadlineContentItem
   typeCharacter: (char) ->
