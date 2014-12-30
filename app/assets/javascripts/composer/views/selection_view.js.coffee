@@ -145,6 +145,8 @@ class @Newstime.SelectionView extends Backbone.View
     @model.set
       left: x
       top: y
+      width: 1 # HACK: Set some initial value for width and height to avoid it not being set.
+      height: 1
 
     @trackResize("bottom-right") # Begin tracking for size
 

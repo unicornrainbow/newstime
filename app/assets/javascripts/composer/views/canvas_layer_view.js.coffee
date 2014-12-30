@@ -485,7 +485,6 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @listenTo contentItemView, 'tracking', @resizeSelection
     @listenTo contentItemView, 'tracking-release', @resizeSelectionRelease
 
-
     contentItemCID = contentItem.cid # TODO: Note, using cid, because not saved yet...
 
     @contentItemViews[contentItemCID] = contentItemView
@@ -645,7 +644,6 @@ class @Newstime.CanvasLayerView extends Backbone.View
     selectionView.beginSelection(x, y)
 
   drawHeadline: (x, y) ->
-
 
     ## We need to create and activate a selection region (Marching ants would be nice)
 
