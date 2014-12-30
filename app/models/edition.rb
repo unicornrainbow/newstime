@@ -27,7 +27,7 @@ class Edition
   field :page_pixel_height, type: Integer, default: 1200  # Default pixel height of pages in edition
 
   # A default option inherited by the sections when template name isn't set
-  field :default_section_template_name, type: String, default: "sections/default"
+  field :default_section_template_name, type: String, default: "default"
 
   ## Relationships
   embeds_many  :sections

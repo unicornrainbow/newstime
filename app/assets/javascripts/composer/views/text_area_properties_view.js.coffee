@@ -7,6 +7,7 @@ class @Newstime.TextAreaPropertiesView extends Backbone.View
     'change .story-content-item-columns': 'changeColumns'
     'change .by-line-input': 'changeByLine'
     'change .show-by-line': 'changeShowByLine'
+    'change .story-title-input': 'changeStoryTitle'
 
   initialize: (options) ->
     @$el.addClass 'text-area-properties'
@@ -27,16 +28,6 @@ class @Newstime.TextAreaPropertiesView extends Backbone.View
       </li>
 
       <li class="property">
-        <label>Height</label>
-        <span class="field"><input class="height-input"></input></spa>
-      </li>
-
-      <li class="property">
-        <label>Width</label>
-        <span class="field"><input class="width-input"></input></spa>
-      </li>
-
-      <li class="property">
         <label>By Line</label>
         <span class="field">
           <input class='show-by-line' type="checkbox"></input>
@@ -45,25 +36,22 @@ class @Newstime.TextAreaPropertiesView extends Backbone.View
 
       <li class="property">
         <label>By</label>
-        <span class="field"><input class="by-line-input" style="width: 100px;"></input></spa>
+        <span class="field"><input class="by-line-input" style="width: 100px;"></input></span>
       </li>
 
       <li class="property">
-        <label>Lead</label>
-        <span class="field">
-          <select class="text-area-continued-from">
-            <option value="">Text Areas...</option>
-          </select>
-        </span>
+        <label>Story Title</label>
+        <span class="field"><input class="story-title-input" style="width: 100px;"></input></span>
       </li>
 
       <li class="property">
-        <label>Follow</label>
-        <span class="field">
-          <select class="text-area-continued-from">
-            <option value="">Text Areas...</option>
-          </select>
-        </span>
+        <label>Height</label>
+        <span class="field"><input class="height-input"></input></spa>
+      </li>
+
+      <li class="property">
+        <label>Width</label>
+        <span class="field"><input class="width-input"></input></spa>
       </li>
     """
 
@@ -72,6 +60,7 @@ class @Newstime.TextAreaPropertiesView extends Backbone.View
     @$widthInput = @$('.width-input')
     @$showByLine = @$('.show-by-line')
     @$byLineInput = @$('.by-line-input')
+    @$storyTitleInput = @$('.story-title-input')
 
     @listenTo @model, 'change', @render
     @listenTo @model, 'destroy', @remove
@@ -84,6 +73,7 @@ class @Newstime.TextAreaPropertiesView extends Backbone.View
     @$widthInput.val(@model.get('width') + 'px')
     @$showByLine.prop('checked', @model.get('show_by_line'))
     @$byLineInput.val(@model.get('by_line'))
+    @$storyTitleInput.val(@model.get('story_title'))
 
   changeColumns: ->
     @model.set 'columns', @$columns.val()
@@ -95,4 +85,8 @@ class @Newstime.TextAreaPropertiesView extends Backbone.View
 
   changeShowByLine: ->
     @model.set 'show_by_line', @$showByLine.prop('checked')
+    @textAreaView.reflow()
+
+  changeStoryTitle: ->
+    @model.set 'story_title', @$storyTitleInput.val()
     @textAreaView.reflow()

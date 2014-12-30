@@ -94,6 +94,25 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
       height: height
 
   reflow: ->
+    # Decide if we are part of a continuation.
+
+    # Get all content items with matching story title
+    storyTitle = @model.get('story_title')
+    edition = @composer.edition
+    contentItems = edition.get('content_items')
+    storyContentItems = contentItems.where('story_title': storyTitle)
+
+    # Sort content items based on section, page, y, x
+    storyContentItems = storyContentItems.sort (a, b) ->
+      if a.section().get('sequence') != b.section().get('sequence')
+        a.section().get('sequence') - b.section().get('sequence')
+      else if a.page().get('number') != b.page().get('number')
+        a.page().get('number') - b.page().get('number')
+      else if a.get('top') != b.get('top')
+        a.get('top') - b.get('top')
+      else
+        a.get('left') - b.get('left')
+
     $.ajax
       method: 'POST'
       url: "#{@composer.edition.url()}/render_text_area.html"

@@ -28,6 +28,7 @@ class @Newstime.PhotoPropertiesView extends Backbone.View
         <label>Width</label>
         <span class="field"><input></input></spa>
       </li>
+
     """
 
   updateCaption: ->
