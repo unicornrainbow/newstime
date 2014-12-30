@@ -113,6 +113,22 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
       else
         a.get('left') - b.get('left')
 
+    # Now we have the linked text area, so we can reflow the relevent content.
+    # We need to indicate a parent in the reflow, which will be used in place of
+    # the input text on the server end. It will use overflow, and run with the
+    # current parameters.
+    #
+    # We need to up date this and everyflowwing text area that changes and
+    # occurs on this section. We can get corrisponding views.
+    #
+    # We should have a reorder method, that will happen when we need to read the
+    # order again.
+    #
+    # This way, we just all reflow, and the one that follows, and it will do the
+    # same, and then the will all be called.
+
+
+
 
 
     $.ajax
