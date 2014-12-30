@@ -22,12 +22,7 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
 
 
   render: =>
-    unless @needsReflow
-      super
-
-  destroy: ->
-    super()
-    @$contentEl.remove() if @$contentEl?
+    super unless @needsReflow
 
   paste: (e) =>
     # Retreive pasted text. Not cross browser compliant. (Webkit)
