@@ -37,6 +37,7 @@ class @Newstime.CanvasItemView extends Backbone.View
       left: @model.get('left') + @pageOffsetLeft
     @$el.css _.pick @model.attributes, 'width', 'height'
 
+  # Destroy this view
   destroy: ->
     # TODO: Need to properly unbind events and allow destruction of view
     @$el.remove()
@@ -138,6 +139,7 @@ class @Newstime.CanvasItemView extends Backbone.View
   stepRight: ->
     @model.set left: @pageView.stepRight(@model.get('left'))
 
+  # Deletes the content item
   delete: ->
     @deselect() if @selected
     @model.destroy()
