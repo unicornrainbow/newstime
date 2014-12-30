@@ -256,6 +256,7 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
       width/headlineWidth
 
     fontSize = Math.round(fontSize)
+    fontSize = Math.max(fontSize, 1) # 1px min font size.
     @model.set('font_size', fontSize + 'px')
 
     # Compute and set margins
