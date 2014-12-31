@@ -214,8 +214,23 @@ class @Newstime.PageComposeView extends Backbone.View
       null
 
   snapRight: (value) ->
-    @grid.snapRight(value)
-    #value
+
+
+    snapTolerance  = 20
+    # Get snap values
+    gridSnap = @grid.snapRight(value)
+
+    #pageLeftEdge = @pageBorder.model.get('pageLeftMargin')
+    #canvasItemSnap = Newstime.closest(value, @pageContentItemLeftEdges)
+
+    # Find closest of snaps
+    snapTo = Newstime.closest(value , [gridSnap])
+
+    # Only use snap if snap is within tolerance
+    if Math.abs(snapTo - value) < snapTolerance
+      snapTo
+    else
+      null
 
   stepLeft: (value) ->
     @grid.stepLeft(value)

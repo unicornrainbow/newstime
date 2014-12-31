@@ -313,7 +313,14 @@ class @Newstime.SelectionView extends Backbone.View
     geometry = @getGeometry()
     width = x - geometry.left
     width = Math.min(width, @pageView.getWidth() - @model.get('left')) # Keep on page
-    width = @pageView.snapRight(width) # Snap
+    snapRight = @pageView.snapRight(width) # Snap
+
+    if snapRight
+      @composer.showVerticalSnapLine(snapRight + @pageView.x() + geometry.left)
+      width = snapRight
+    else
+      @composer.hideVerticalSnapLine()
+
 
     @canvasItemView.setSizeAndPosition
       width: width
