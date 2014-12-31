@@ -30,7 +30,7 @@ class @Newstime.TextAreaEditorView extends Newstime.CanvasItemView
 
   setModel: (model) ->
     @model = model
-    @$textarea.val(model.get('text'))
+    @$textarea.val(@model.get('text'))
 
   textareaKeydown: (e) ->
     switch e.keyCode
@@ -46,6 +46,7 @@ class @Newstime.TextAreaEditorView extends Newstime.CanvasItemView
 
   blurTextArea: (e) ->
     @model.set('text', @$textarea.val())
+    @model.reflow()
     @composer.focus()
 
   show: ->

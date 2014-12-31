@@ -11,7 +11,10 @@ class TextAreaTypesetter
 
   # Typesets content items.
   def typeset!(force=false)
-    html = $markdown.render(text_area.text)
+    # Override text with overflow_input_text if provided.
+    text = text_area.overflow_input_text.presence || text_area.text
+
+    html = $markdown.render(text)
     doc = Nokogiri::HTML(html)
     elements = doc.css("body > p")
     html = elements.to_html
