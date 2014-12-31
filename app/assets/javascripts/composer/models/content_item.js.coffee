@@ -74,28 +74,34 @@ class @Newstime.ContentItem extends Backbone.RelationalModel
 
     if index > 0
       previousContentItem = storyContentItems[index-1]
+      leading_page = previousContentItem.getPage()
+      leading_section = previousContentItem.getSection()
       @set
         lead_text_area_id: previousContentItem.get('_id')
-        precedent_text: "Preceding fill in"
+        precedent_text: "Continued from Page #{leading_page.get('page_ref')}"
+        precedent_path: "#{leading_section.get('path')}#page-#{leading_page.get('number')}"
 
     else
       @set
         lead_text_area_id: null
         precedent_text: null
-
+        precedent_path: null
 
 
     if index+1 < storyContentItems.length
       nextContentItem = storyContentItems[index+1]
       trailing_page = nextContentItem.getPage()
+      trailing_section = nextContentItem.getSection()
       @set
         follow_text_area_id: nextContentItem.get('_id')
-        continuation_text: "Continued on Page #{trailing_page.get('page_ref')}"
+        continuation_text: "See <strong>#{@get('story_title')}</strong> on Page #{trailing_page.get('page_ref')}"
+        continuation_path: "#{trailing_section.get('path')}#page-#{trailing_page.get('number')}"
 
     else
       @set
         follow_text_area_id: null
         continuation_text: null
+        continuation_path: null
 
 
     if previousContentItem
