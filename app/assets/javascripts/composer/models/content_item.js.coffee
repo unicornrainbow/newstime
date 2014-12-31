@@ -78,7 +78,7 @@ class @Newstime.ContentItem extends Backbone.RelationalModel
       leading_section = previousContentItem.getSection()
       @set
         lead_text_area_id: previousContentItem.get('_id')
-        precedent_text: "Continued from Page #{leading_page.get('page_ref')}"
+        precedent_text: "<strong>#{@get('story_title')}</strong>, from Page #{leading_page.get('page_ref')}"
         precedent_path: "#{leading_section.get('path')}#page-#{leading_page.get('number')}"
 
     else
