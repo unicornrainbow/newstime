@@ -25,10 +25,13 @@ class TextAreaTypesetter
     column_count       = text_area.columns
     include_by_line    = @text_area.show_by_line
 
+    include_continuation = false
+    include_precedent_link = false
+
     column_count.times do |column_index|
       render_by_line = include_by_line && column_index.zero?
-      render_continuation = false # include_continuation && column_index + 1 == column_count
-      render_precedent_link = false # include_precedent_link && column_index.zero?
+      render_continuation = include_continuation && column_index + 1 == column_count
+      render_precedent_link = include_precedent_link && column_index.zero?
 
       if render_continuation
         trailing_page = nxt.page
