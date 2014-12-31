@@ -74,9 +74,27 @@ class @Newstime.ContentItem extends Backbone.RelationalModel
 
     if index > 0
       previousContentItem = storyContentItems[index-1]
+      @set
+        lead_text_area_id: previousContentItem.get('_id')
+        precedent_text: "Preceding fill in"
+
+    else
+      @set
+        lead_text_area_id: null
+        precedent_text: null
+
+
 
     if index+1 < storyContentItems.length
       nextContentItem = storyContentItems[index+1]
+      @set
+        follow_text_area_id: nextContentItem.get('_id')
+        continuation_text: "Continued fill in"
+
+    else
+      @set
+        follow_text_area_id: null
+        continuation_text: null
 
 
     if previousContentItem

@@ -5,8 +5,11 @@ require "uri"
 class TextAreaTypesetter
   attr_reader :text_area
 
-  def initialize(text_area)
+  def initialize(text_area, lead_text_area=nil, follow_text_area=nil)
     @text_area = text_area
+
+    @lead_text_area = lead_text_area
+    @follow_text_area = follow_text_area
   end
 
   # Typesets content items.
@@ -25,8 +28,8 @@ class TextAreaTypesetter
     column_count       = text_area.columns
     include_by_line    = @text_area.show_by_line
 
-    include_continuation = false
-    include_precedent_link = false
+    include_precedent_link = !!@text_area.precedent_text
+    include_continuation = !!@text_area.continuation_text
 
     column_count.times do |column_index|
       render_by_line = include_by_line && column_index.zero?
@@ -34,18 +37,22 @@ class TextAreaTypesetter
       render_precedent_link = include_precedent_link && column_index.zero?
 
       if render_continuation
-        trailing_page = nxt.page
-        trailing_section = trailing_page.section
-        continuation_text = "Continued on Page #{trailing_page.page_ref}"
-        continuation_path = "#{trailing_section.path}#page-#{trailing_page.number}"
+        #trailing_page = @follow_text_area.page
+        #trailing_section = trailing_page.section
+        continuation_text = @text_area.continuation_text
+        #continuation_text = "Continued on Page #{trailing_page.page_ref}"
+        #continuation_path = "#{trailing_section.path}#page-#{trailing_page.number}"
+        continuation_path = "test"
       end
 
       if render_precedent_link
         # stiched could also work
-        leading_page = prev.page
-        leading_section = leading_page.section
-        precedent_text = "Continued from Page #{leading_page.page_ref}"
-        precedent_path = "#{leading_section.path}#page-#{leading_page.number}"
+        #leading_page = @lead_text_area.page
+        #leading_section = leading_page.section
+        precedent_text = @text_area.precedent_text
+        #precedent_text = "Continued from Page #{leading_page.page_ref}"
+        #precedent_path = "#{leading_section.path}#page-#{leading_page.number}"
+        precedent_path = "test"
       end
 
 

@@ -9,9 +9,25 @@ class TextAreaContentItem < ContentItem
   field :story_title,   type: String  # String key used for lacing text areas together
   field :overflow_input_text, type: String
 
+  field :overflow_input_text, type: String
+
+  field :lead_text_area_id,     type: BSON::ObjectId
+  field :follow_text_area_id,     type: BSON::ObjectId
+
+  field :precedent_text, type: String
+  field :continuation_text, type: String
+
   # Width of each text column based on width, column count and gutter width.
   def text_column_width
     (width - (columns - 1) * gutter_width) / columns
+  end
+
+  def lead_text_area
+    @lead_text_area ||= lead_text_area_id && edition.content_items.find(lead_text_area_id)
+  end
+
+  def follow_text_area
+    @follow_text_area ||= follow_text_area_id && edition.content_items.find(follow_text_area_id)
   end
 
   def gutter_width
