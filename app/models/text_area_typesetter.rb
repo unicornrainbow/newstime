@@ -40,9 +40,9 @@ class TextAreaTypesetter
         #trailing_page = @follow_text_area.page
         #trailing_section = trailing_page.section
         continuation_text = @text_area.continuation_text
+        continuation_path = @text_area.continuation_path
         #continuation_text = "Continued on Page #{trailing_page.page_ref}"
         #continuation_path = "#{trailing_section.path}#page-#{trailing_page.number}"
-        continuation_path = @text_area.continuation_path
       end
 
       if render_precedent_link
@@ -50,9 +50,9 @@ class TextAreaTypesetter
         #leading_page = @lead_text_area.page
         #leading_section = leading_page.section
         precedent_text = @text_area.precedent_text
+        precedent_path = @text_area.precedent_path
         #precedent_text = "Continued from Page #{leading_page.page_ref}"
         #precedent_path = "#{leading_section.path}#page-#{leading_page.number}"
-        precedent_path = @text_area.precedent_path
       end
 
 
