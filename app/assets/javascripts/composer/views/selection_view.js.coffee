@@ -178,6 +178,7 @@ class @Newstime.SelectionView extends Backbone.View
 
   trackMove: (offsetX, offsetY) ->
     @pageView.computeTopSnapPoints()
+    @pageView.collectLeftEdges(@model)
     @moving      = true
     @moveOffsetX = offsetX
     @moveOffsetY = offsetY
@@ -282,9 +283,18 @@ class @Newstime.SelectionView extends Backbone.View
     # Adjust x corrdinate
     x -= @moveOffsetX
     #x = Math.min(x, @pageView.getWidth() - @model.get('width')) # Keep on page
-    #x = @pageView.snapLeft(x) # Snap
+    snapLeft = @pageView.snapLeft(x) # Snap
+
+    if snapLeft
+      @composer.showVerticalSnapLine(snapLeft + @pageView.x())
+      x = snapLeft
+    else
+      @composer.hideVerticalSnapLine()
+
 
     y = @pageView.snapTop(y - @moveOffsetY)
+
+
 
     @canvasItemView.setSizeAndPosition
       left: x
