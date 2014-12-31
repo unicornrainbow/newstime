@@ -139,7 +139,7 @@ private
     ]
     video_params = [:video_id]
     photo_params = [:photo_id]
-    text_area_params = [:show_by_line, :by_line]
+    text_area_params = [:show_by_line, :by_line, :overflow_input_text]
     horizontal_rule_params = [:style_class]
 
     params.fetch(:content_item, {}).permit(*(shared_params + video_params + photo_params + horizontal_rule_params + text_area_params))

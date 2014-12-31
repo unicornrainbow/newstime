@@ -80,7 +80,6 @@ class @Newstime.ContentItem extends Backbone.RelationalModel
 
 
     if previousContentItem
-      # NOTE: Can be dangerious for risk of delete user data, but simply over run text with text from previous
       @set 'overflow_input_text', previousContentItem.get('overrun_html')
 
     $.ajax

@@ -40,7 +40,6 @@ class @Newstime.TextAreaEditorView extends Newstime.CanvasItemView
         @$textarea.blur()
         @composer.focus()
 
-
   focusTextArea: ->
     @composer.blur()
 
