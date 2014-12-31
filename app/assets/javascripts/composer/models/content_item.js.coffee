@@ -87,9 +87,10 @@ class @Newstime.ContentItem extends Backbone.RelationalModel
 
     if index+1 < storyContentItems.length
       nextContentItem = storyContentItems[index+1]
+      trailing_page = nextContentItem.getPage()
       @set
         follow_text_area_id: nextContentItem.get('_id')
-        continuation_text: "Continued fill in"
+        continuation_text: "Continued on Page #{trailing_page.get('page_ref')}"
 
     else
       @set
