@@ -48,6 +48,57 @@ class @Newstime.ContentItem extends Backbone.RelationalModel
     @trigger('change')
 
 
+  # HACK: Specific to TextAreaContentItems..
+  reflow: ->
+
+    # Decide if we are part of a continuation.
+    storyTitle = @get('story_title')
+
+    # Get all content items with matching story title
+    edition = @get('edition')
+    contentItems = edition.get('content_items')
+    storyContentItems = contentItems.where('story_title': storyTitle)
+
+    # Sort content items based on section, page, y, x
+    storyContentItems = storyContentItems.sort (a, b) ->
+      if a.getSection().get('sequence') != b.getSection().get('sequence')
+        a.getSection().get('sequence') - b.getSection().get('sequence')
+      else if a.getPage().get('number') != b.getPage().get('number')
+        a.getPage().get('number') - b.getPage().get('number')
+      else if a.get('top') != b.get('top')
+        a.get('top') - b.get('top')
+      else
+        a.get('left') - b.get('left')
+
+    index = _.indexOf storyContentItems, this
+
+    if index > 0
+      previousContentItem = storyContentItems[index-1]
+
+    if index+1 < storyContentItems.length
+      nextContentItem = storyContentItems[index+1]
+
+
+    if previousContentItem
+      # NOTE: Can be dangerious for risk of delete user data, but simply over run text with text from previous
+      @set 'text', previousContentItem.get('overrun_html')
+
+    $.ajax
+      method: 'POST'
+      url: "#{@get('edition').url()}/render_text_area.json"
+      contentType: 'application/json'
+      dataType: 'json'
+      data:
+        JSON.stringify
+          composing: true
+          content_item: @toJSON()
+      success: (response) =>
+        @set _.pick(response, 'rendered_html', 'overrun_html')
+
+        # Trigger reflow of next content item
+        nextContentItem.reflow() if nextContentItem
+
+
 class @Newstime.ContentItemCollection extends Backbone.Collection
   model: Newstime.ContentItem
 

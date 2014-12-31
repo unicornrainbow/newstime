@@ -13,6 +13,7 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
     @bind 'resized', @reflow  # Reflow text on resize
 
     @listenTo @model, 'change:text', @reflow
+    @listenTo @model, 'change:rendered_html', @clearNeedsReflow
 
     @propertiesView = new Newstime.TextAreaPropertiesView(target: this, model: @model)
 
@@ -96,73 +97,7 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
       height: height
 
   reflow: ->
-    # Decide if we are part of a continuation.
-    storyTitle = @model.get('story_title')
+    @model.reflow()
 
-    # Get all content items with matching story title
-    edition = @composer.edition
-    contentItems = edition.get('content_items')
-    storyContentItems = contentItems.where('story_title': storyTitle)
-
-    # Sort content items based on section, page, y, x
-    storyContentItems = storyContentItems.sort (a, b) ->
-      if a.getSection().get('sequence') != b.getSection().get('sequence')
-        a.getSection().get('sequence') - b.getSection().get('sequence')
-      else if a.getPage().get('number') != b.getPage().get('number')
-        a.getPage().get('number') - b.getPage().get('number')
-      else if a.get('top') != b.get('top')
-        a.get('top') - b.get('top')
-      else
-        a.get('left') - b.get('left')
-
-    # Now we have the linked text area, so we can reflow the relevent content.
-    # We need to indicate a parent in the reflow, which will be used in place of
-    # the input text on the server end. It will use overflow, and run with the
-    # current parameters.
-    #
-    # We need to up date this and everyflowwing text area that changes and
-    # occurs on this section. We can get corrisponding views.
-    #
-    # We should have a reorder method, that will happen when we need to read the
-    # order again.
-    #
-    # This way, we just all reflow, and the one that follows, and it will do the
-    # same, and then the will all be called.
-
-
-    # Must happen in sucessions, since relies on results.
-
-    index = _.indexOf storyContentItems, @model
-
-    if index > 0
-      previousContentItem = storyContentItems[index-1]
-
-    if index+1 < storyContentItems.length
-      nextContentItem = storyContentItems[index+1]
-
-    json = @model.toJSON()
-
-    if previousContentItem
-      json['text'] = previousContentItem.get('overrun_html')
-
-    if nextContentItem
-      nextContentItemView = @composer.contentItemViews[nextContentItem.cid]
-
-    $.ajax
-      method: 'POST'
-      url: "#{@composer.edition.url()}/render_text_area.json"
-      contentType: 'application/json'
-      dataType: 'json'
-      data:
-        JSON.stringify
-          composing: true
-          content_item: json
-      success: (response) =>
-        # Need to update the rendered_html & overrun_html and update the view
-        # (With callback)
-        @needsReflow = false
-        @model.set _.pick(response, 'rendered_html', 'overrun_html')
-        #@render()
-
-        # Trigger reflow of next content item
-        nextContentItemView.reflow() if nextContentItemView
+  clearNeedsReflow: ->
+    @needsReflow = false
