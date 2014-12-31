@@ -7,6 +7,7 @@ class @Newstime.Event
       @y = @orginalEvent.y
       @button = @orginalEvent.button
       @altKey = @orginalEvent.altKey
+      @shiftKey = @orginalEvent.shiftKey
 
   stopPropagation: ->
     # Pass call through to orginal event

@@ -320,6 +320,7 @@ class @Newstime.Composer extends Backbone.View
       x: @mouseX
       y: @mouseY
       button: event.button
+      shiftKey: event.shiftKey
 
     if @currentContextMenu
       @currentContextMenu.hide()
@@ -535,6 +536,20 @@ class @Newstime.Composer extends Backbone.View
     @activeSelectionView.bind 'tracking', @canvasLayerView.resizeSelection, @canvasLayerView
     @activeSelectionView.bind 'tracking-release', @canvasLayerView.resizeSelectionRelease, @canvasLayerView
     @activeSelectionView.bind 'destroy', @clearSelection, this
+
+
+  # Adds model to a selection.
+  addToSelection: (model) ->
+    # Ensure we have a multiselection as active selection, otherwise replace.
+    #
+    # Add new model to the multi selection
+    #
+    # TODO: Implement
+
+  # Removes model from selection.
+  removeFromSelection: (model) ->
+    # TODO: Implement.
+
 
   clearSelection: ->
     if @activeSelection?

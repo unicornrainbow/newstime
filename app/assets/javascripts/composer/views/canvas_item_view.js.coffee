@@ -145,7 +145,12 @@ class @Newstime.CanvasItemView extends Backbone.View
     return unless e.button == 0 # Only respond to left button mousedown.
 
     unless @selected
-      @composer.select(@model) # TODO: Shift+click with add to selection. alt-click will remove from.
+      if e.shiftKey
+        # Add to selection
+        @composer.addToSelection(@model)
+      else
+        # Set as selection
+        @composer.select(@model) # TODO: Shift+click with add to selection. alt-click will remove from.
 
     if @hoveredHandle
       @trackResize @hoveredHandle.type
