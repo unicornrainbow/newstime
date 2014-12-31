@@ -152,11 +152,14 @@ class @Newstime.CanvasItemView extends Backbone.View
         # Set as selection
         @composer.select(@model) # TODO: Shift+click with add to selection. alt-click will remove from.
 
-    if @hoveredHandle
-      @trackResize @hoveredHandle.type
-    else
-      geometry = @getGeometry()
-      @trackMove(e.x - geometry.left, e.y - geometry.top)
+    # Pass mouse down to selection
+    @composer.activeSelectionView.trigger 'mousedown', e
+
+    #if @hoveredHandle
+      #@trackResize @hoveredHandle.type
+    #else
+      #geometry = @getGeometry()
+      #@trackMove(e.x - geometry.left, e.y - geometry.top)
 
   trackResize: (mode) ->
     @resizing   = true

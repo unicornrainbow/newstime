@@ -372,7 +372,11 @@ class @Newstime.SelectionView extends Backbone.View
       _.each @dragHandles, (h) -> h.reset()
       @canvasItemView.trigger 'resized'
 
-    @moving = false
+    if @moving
+      @moving = false
+
+      @composer.hideVerticalSnapLine()
+
     @trigger 'tracking-release', this
 
   mouseover: (e) ->
