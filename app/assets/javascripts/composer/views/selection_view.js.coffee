@@ -332,6 +332,7 @@ class @Newstime.SelectionView extends Backbone.View
     geometry = @getGeometry()
     snapLeft = @pageView.snapLeft(x)
     if snapLeft
+      @composer.clearVerticalSnapLines()
       @composer.drawVerticalSnapLine(snapLeft)
       x = snapLeft
     else
