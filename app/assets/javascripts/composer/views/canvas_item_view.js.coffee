@@ -144,7 +144,11 @@ class @Newstime.CanvasItemView extends Backbone.View
 
     return unless e.button == 0 # Only respond to left button mousedown.
 
-    unless @selected
+    if @selected
+      if e.shiftKey
+        # Add to selection
+        @composer.removeFromSelection(@model)
+    else
       if e.shiftKey
         # Add to selection
         @composer.addToSelection(@model)
