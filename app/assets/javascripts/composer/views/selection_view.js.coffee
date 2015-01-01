@@ -20,16 +20,14 @@ class @Newstime.SelectionView extends Backbone.View
     @model = @contentItem = @selection.contentItem
     @canvasItemView = @contentItemView = @selection.contentItemView # TODO: Should be canvasItemSelection (As the selection type)
 
-    @canvasItemView.bind 'deselect', @destroy, this
-
     @page = @contentItemView.page
     @pageView = @contentItemView.pageView
 
     @pageOffsetLeft = @contentItemView.pageOffsetLeft
     @pageOffsetTop  = @contentItemView.pageOffsetTop
 
-
-    @contentItem.bind 'change', @render, this
+    @listenTo @contentItem ,'change', @render
+    @listenTo @canvasItemView, 'deselect', @remove
 
     @bind 'mousedown', @mousedown
     @bind 'mousemove', @mousemove
@@ -42,18 +40,15 @@ class @Newstime.SelectionView extends Backbone.View
 
     @render()
 
-  destroy: ->
+  remove: ->
     unless @destroyed
       @destroyed = true
       @trigger 'destroy', this
 
-
       if @canvasItemView
-        @canvasItemView.unbind 'deselect', @destroy, this
         @canvasItemView.deselect()
 
-      @unbind()
-      @$el.remove()
+    super
 
   render: ->
     position = _.pick @contentItem.attributes, 'width', 'height'

@@ -555,9 +555,9 @@ class @Newstime.Composer extends Backbone.View
       @selectionLayerView.setSelection(@activeSelection, @activeSelectionView)
       @focusedObject = @activeSelectionView  # Set focus to selection to send keyboard events.
 
-      @activeSelectionView.bind 'tracking', @canvasLayerView.resizeSelection, @canvasLayerView
-      @activeSelectionView.bind 'tracking-release', @canvasLayerView.resizeSelectionRelease, @canvasLayerView
-      @activeSelectionView.bind 'destroy', @clearSelection, this
+      @canvasLayerView.listenTo @activeSelectionView, 'tracking', @canvasLayerView.resizeSelection
+      @canvasLayerView.listenTo @activeSelectionView, 'tracking-release', @canvasLayerView.resizeSelectionRelease
+      @listenTo @activeSelectionView, 'destroy', @clearSelection
 
     @activeSelection.add(model)
 
@@ -565,11 +565,10 @@ class @Newstime.Composer extends Backbone.View
   removeFromSelection: (model) ->
     # TODO: Implement.
 
-
   clearSelection: ->
     if @activeSelection?
       @activeSelection.destroy()
-      @activeSelectionView.destroy()
+      @activeSelectionView?.remove()
       @propertiesPanelView.clear()
       @activeSelection = null
       @activeSelectionView = null
