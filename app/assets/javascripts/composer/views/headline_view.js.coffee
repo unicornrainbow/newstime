@@ -178,6 +178,11 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
     headlineHeight = @$el.height()
     height = @model.get('height')
 
+    # Dezoom
+    if @composer.zoomLevel
+      zoomLevel = @composer.zoomLevel
+      headlineHeight /= zoomLevel
+
     if headlineHeight < height
       @model.set
         height: headlineHeight
@@ -185,18 +190,24 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
         'margin-bottom': 0
     else
       headlineWidth  = @$el.width()
+
+      # Dezoom
+      if @composer.zoomLevel
+        zoomLevel = @composer.zoomLevel
+        headlineWidth  /= zoomLevel
+
       width = @model.get('width')
       fontSize = parseInt(@$el.css('font-size'))
       fontSize *= width/headlineWidth
       fontSize = Math.round(fontSize)
+
       @model.set
         'font_size': fontSize + 'px',
         'margin-left': 0
         'margin-right': 0
         'margin-top': 0
         'margin-bottom': 0
-
-      @model.set height: @$el.height()
+        'height': headlineHeight
 
 
   dragTop: (x, y) ->
@@ -241,7 +252,6 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
       zoomLevel = @composer.zoomLevel
       headlineWidth  /= zoomLevel
       headlineHeight /= zoomLevel
-
 
     width = @model.get('width')
     height = @model.get('height')
