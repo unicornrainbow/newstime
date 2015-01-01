@@ -39,6 +39,9 @@ class @Newstime.Composer extends Backbone.View
     @topOffset = 0 # 61 # px
     @menuHeight = 25
 
+    @snapTolerance = 20 # This needs to be extracted to a configuration
+    @snapEnabled = true
+
     @contentItemViews = {}
     @pageViews = {}
 
@@ -594,25 +597,25 @@ class @Newstime.Composer extends Backbone.View
     _.filter pages, (page) ->
       page.collide(top, left, bottom, right)
 
+
+  enableSnap: ->
+    @snapEnabled = true
+    @trigger 'config:snap:enabled'
+
+  disabledSnap: ->
+    @snapEnabled = false
+    @trigger 'config:snap:disabled'
+
+
   moveItem: (target, left, top, orginalLeft, orginalTop, shiftKey=false) ->
     @clearVerticalSnapLines()
 
-    # TODO: Target can and should be at the model layer, move more stuff up from
-    # the view, where the is a model which represents it. i.e. CanvasItem, Selection,
-    # Multi-Selection, etc.
-
-    bounds = target.getBounds()
-
-    # Which pages are we intersecting?
-    pages = @getIntersectingPages(top, left, bounds.bottom, bounds.right)
-
-    # CHEAT for a second, just use one page.
-    page = pages[0]
-    pageView = @pageViews[page.cid]
-
-    # TODO: No work against the intersecting pages to snap and produce guideline
     # TODO: Move guidelines to their own layer (Fixed position, but which
     # handles zooming)
+
+    bounds = target.getBounds()
+    width = bounds.right - bounds.left
+    right = left + width
 
     if shiftKey
       # In which direction has the greatest movement.
@@ -631,25 +634,73 @@ class @Newstime.Composer extends Backbone.View
           top: top
       else
 
-        #x = Math.min(x, @pageView.getWidth() - @model.get('width')) # Keep on page
-        snapLeft = pageView.snapLeft(left) # Snap
+        # Compute snaps against left and right for each intersecting page, and
+        # take closest snap within tolerence.
 
-        if snapLeft
-          left = snapLeft
+        # Which pages are we intersecting?
+        pages = @getIntersectingPages(top, left, bounds.bottom, bounds.right)
+
+        # 1 Get all of the left snap points, and right snap points for each of the
+        # intersecting pages.
+        leftSnapPoints = _.map pages, (page) =>
+          @pageViews[page.cid].getLeftSnapPoints() # Should we know snap points at the model level? Would be useful in this calulation
+        rightSnapPoints = _.map pages, (page) =>
+          @pageViews[page.cid].getRightSnapPoints()
+
+        leftSnapPoints  = _.union(leftSnapPoints)
+        rightSnapPoints = _.union(rightSnapPoints)
+
+        leftSnapPoints = _.flatten(leftSnapPoints)
+        rightSnapPoints = _.flatten(rightSnapPoints)
+
+        leftSnap = Newstime.closest(left, leftSnapPoints)
+        rightSnap = Newstime.closest(right, rightSnapPoints)
+
+        leftSnapDelta = Math.abs(leftSnap - left)
+        rightSnapDelta = Math.abs(rightSnap - right)
+
+        if leftSnapDelta < rightSnapDelta
+          if leftSnapDelta <= @snapTolerance
+            # Snap to left
+            left = leftSnap
+        else
+          if rightSnapDelta <= @snapTolerance
+            # Snap to right
+            left = rightSnap - width
+
+        # Highlight snap lines
+        if _.contains(leftSnapPoints, left)
           @drawVerticalSnapLine(left)
 
-        # Show matching right snap edge
-        right = bounds.right - 8
-        snapRight = pageView.snapRight(right) # Snap
+        right = left + width
+        if _.contains(rightSnapPoints, right)
+          @drawVerticalSnapLine(right)
 
-        if snapRight == right
-          @drawVerticalSnapLine(snapRight + 8)
 
-        top = pageView.snapTop(top)
-
-        target.setSizeAndPosition
+        target.setSizeAndPosition # TODO: See if we can go direct to model
           left: left
           top: top
+
+
+        # CHEAT for a second, just use one page.
+        #page = pages[0]
+        #pageView = @pageViews[page.cid]
+
+        #x = Math.min(x, @pageView.getWidth() - @model.get('width')) # Keep on page
+        #snapLeft = pageView.snapLeft(left) # Snap
+
+        #if snapLeft
+          #left = snapLeft
+          #@drawVerticalSnapLine(left)
+
+        ## Show matching right snap edge
+        #right = bounds.right - 8
+        #snapRight = pageView.snapRight(right) # Snap
+
+        #if snapRight == right
+          #@drawVerticalSnapLine(snapRight + 8)
+
+        #top = pageView.snapTop(top)
 
 
   # Sets toolbox tool

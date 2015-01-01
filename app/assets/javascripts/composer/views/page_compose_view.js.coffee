@@ -229,6 +229,14 @@ class @Newstime.PageComposeView extends Backbone.View
     else
       null
 
+  getLeftSnapPoints: ->
+    # TODO: Consider all snap points, not just grid...
+    @grid.leftSteps
+
+  getRightSnapPoints: ->
+    # TODO: Consider all snap points, not just grid...
+    @grid.rightSnapPoints
+
   snapRight: (value) ->
 
     snapTolerance  = 20
