@@ -281,48 +281,13 @@ class @Newstime.SelectionView extends Backbone.View
 
   # Moves based on corrdinates and starting offset
   move: (x, y, shiftKey=false) ->
-    @composer.clearVerticalSnapLines()
-    geometry = @getGeometry()
+    x -= @moveOffsetX
+    y -= @moveOffsetY
 
-    if shiftKey
-      # In which direction has the greatest movement.
-      lockPlain = if Math.abs((x - @moveOffsetX) - @orginalPositionX) > Math.abs((y - @moveOffsetY) - @orginalPositionY) then 'x' else 'y'
+    @pageView.moveItem(this, x, y, @orginalPositionX, @orginalPositionY, shiftKey)
 
-    switch lockPlain
-      when 'x'
-        # Move only in x direction
-        @canvasItemView.setSizeAndPosition
-          left: x - @moveOffsetX
-          top: @orginalPositionY
-      when 'y'
-        # Move only in y direction
-        @canvasItemView.setSizeAndPosition
-          left: @orginalPositionX
-          top: y - @moveOffsetY
-      else
-        # Adjust x corrdinate
-        x -= @moveOffsetX
-        #x = Math.min(x, @pageView.getWidth() - @model.get('width')) # Keep on page
-        snapLeft = @pageView.snapLeft(x) # Snap
-
-        if snapLeft
-          x = snapLeft
-          @composer.drawVerticalSnapLine(x)
-        else
-          @composer.clearVerticalSnapLines()
-
-        # Show matching right snap edge
-        right = x + geometry.width - 8
-        snapRight = @pageView.snapRight(right) # Snap
-
-        if snapRight == right
-          @composer.drawVerticalSnapLine(snapRight + 8)
-
-        y = @pageView.snapTop(y - @moveOffsetY)
-
-        @canvasItemView.setSizeAndPosition
-          left: x
-          top: y
+  setSizeAndPosition: (value) ->
+    @canvasItemView.setSizeAndPosition(value)
 
 
   # Resizes based on a top drag

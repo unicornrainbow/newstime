@@ -255,6 +255,49 @@ class @Newstime.PageComposeView extends Backbone.View
     # TODO: Need to properly unbind events and allow destruction of view
     @$el.remove()
 
+
+  moveItem: (target, x, y, orginalX, orginalY, shiftKey=false) ->
+    @composer.clearVerticalSnapLines()
+    geometry = target.getGeometry()
+
+    if shiftKey
+      # In which direction has the greatest movement.
+      lockPlain = if Math.abs(x - orginalX) > Math.abs(y - orginalY) then 'x' else 'y'
+
+    switch lockPlain
+      when 'x'
+        # Move only in x direction
+        target.setSizeAndPosition
+          left: x
+          top: orginalY
+      when 'y'
+        # Move only in y direction
+        target.setSizeAndPosition
+          left: orginalX
+          top: y
+      else
+        #x = Math.min(x, @pageView.getWidth() - @model.get('width')) # Keep on page
+        snapLeft = @snapLeft(x) # Snap
+
+        if snapLeft
+          x = snapLeft
+          @composer.drawVerticalSnapLine(x)
+        else
+          @composer.clearVerticalSnapLines()
+
+        # Show matching right snap edge
+        right = x + geometry.width - 8
+        snapRight = @snapRight(right) # Snap
+
+        if snapRight == right
+          @composer.drawVerticalSnapLine(snapRight + 8)
+
+        y = @snapTop(y)
+
+        target.setSizeAndPosition
+          left: x
+          top: y
+
   # Computes top snap points
   computeTopSnapPoints: ->
     @topSnapPoints = _.map @selectionViews, (view) ->

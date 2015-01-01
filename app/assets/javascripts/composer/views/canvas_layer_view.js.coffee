@@ -41,6 +41,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
         el: el
         page: page # TODO: Rename to model
         edition: @edition
+        composer: @composer
 
       @$pages.append(el)
 

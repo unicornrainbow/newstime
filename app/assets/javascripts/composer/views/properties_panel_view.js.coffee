@@ -51,7 +51,6 @@ class @Newstime.PropertiesPanelView extends Backbone.View
           @composer.edition.save()
 
 
-
   mouseover: (e) =>
     @hovered = true
     @$el.addClass 'hovered'
