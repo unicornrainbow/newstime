@@ -3,6 +3,7 @@ class @Newstime.VerticalSnapLine extends Backbone.View
 
   initialize: (options) ->
     @$el.addClass "vertical-snap-line"
+    @zoomLevel = 1
 
   show: ->
     @$el.show()
@@ -10,5 +11,11 @@ class @Newstime.VerticalSnapLine extends Backbone.View
   hide: ->
     @$el.hide()
 
+  render: ->
+    @$el.css left: (@left * @zoomLevel)
+
   set: (left) ->
-    @$el.css left: left
+    @left = left
+
+  setZoomLevel: (zoomLevel) ->
+    @zoomLevel = zoomLevel

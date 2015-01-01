@@ -14,6 +14,11 @@ class @Newstime.OutlineLayerView extends Backbone.View
   zoom: ->
     @zoomLevel = @composer.zoomLevel
     @computeZoomedPosition()
+
+    _.each @verticalSnapLines, (snapLine) =>
+      snapLine.setZoomLevel(@zoomLevel)
+      snapLine.render()
+
     @render()
 
   # Computes and sets the zoomed position.
@@ -51,10 +56,9 @@ class @Newstime.OutlineLayerView extends Backbone.View
     @$el.append snapLine.el
     @verticalSnapLines.push(snapLine)
 
-    # Apply zoom
-    x *= @zoomLevel if @zoomLevel
-
     snapLine.set(x)
+    snapLine.setZoomLevel(@zoomLevel) if @zoomLevel
+    snapLine.render()
 
   clearVerticalSnapLines: ->
     _.each @verticalSnapLines, (snapLine) ->
