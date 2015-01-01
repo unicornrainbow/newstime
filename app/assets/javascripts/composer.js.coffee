@@ -280,6 +280,7 @@ class @Newstime.Composer extends Backbone.View
     e =
       x: @mouseX
       y: @mouseY
+      shiftKey: e.shiftKey
 
     if @trackingLayer
       @trackingLayer.trigger 'mousemove', e

@@ -181,6 +181,8 @@ class @Newstime.SelectionView extends Backbone.View
     @pageView.collectLeftEdges(@model)
     @pageView.collectRightEdges(@model)
     @moving      = true
+    @orginalPositionX = @model.get('left')
+    @orginalPositionY = @model.get('top')
     @moveOffsetX = offsetX
     @moveOffsetY = offsetY
     @trigger 'tracking', this
@@ -199,7 +201,7 @@ class @Newstime.SelectionView extends Backbone.View
         when 'bottom-right' then @dragBottomRight(e.x, e.y)
 
     else if @moving
-      @move(e.x, e.y)
+      @move(e.x, e.y, e.shiftKey)
 
     else
       # Check for hit handles
@@ -278,34 +280,50 @@ class @Newstime.SelectionView extends Backbone.View
 
 
   # Moves based on corrdinates and starting offset
-  move: (x, y) ->
+  move: (x, y, shiftKey=false) ->
     @composer.clearVerticalSnapLines()
-
     geometry = @getGeometry()
 
-    # Adjust x corrdinate
-    x -= @moveOffsetX
-    #x = Math.min(x, @pageView.getWidth() - @model.get('width')) # Keep on page
-    snapLeft = @pageView.snapLeft(x) # Snap
+    if shiftKey
+      # In which direction has the greatest movement.
+      lockPlain = if Math.abs((x - @moveOffsetX) - @orginalPositionX) > Math.abs((y - @moveOffsetY) - @orginalPositionY) then 'x' else 'y'
 
-    if snapLeft
-      x = snapLeft
-      @composer.drawVerticalSnapLine(x)
-    else
-      @composer.clearVerticalSnapLines()
+    switch lockPlain
+      when 'x'
+        # Move only in x direction
+        @canvasItemView.setSizeAndPosition
+          left: x - @moveOffsetX
+          top: @orginalPositionY
+      when 'y'
+        # Move only in y direction
+        @canvasItemView.setSizeAndPosition
+          left: @orginalPositionX
+          top: y - @moveOffsetY
+      else
+        # Adjust x corrdinate
+        x -= @moveOffsetX
+        #x = Math.min(x, @pageView.getWidth() - @model.get('width')) # Keep on page
+        snapLeft = @pageView.snapLeft(x) # Snap
 
-    # Show matching right snap edge
-    right = x + geometry.width - 8
-    snapRight = @pageView.snapRight(right) # Snap
+        if snapLeft
+          x = snapLeft
+          @composer.drawVerticalSnapLine(x)
+        else
+          @composer.clearVerticalSnapLines()
 
-    if snapRight == right
-      @composer.drawVerticalSnapLine(snapRight + 8)
+        # Show matching right snap edge
+        right = x + geometry.width - 8
+        snapRight = @pageView.snapRight(right) # Snap
 
-    y = @pageView.snapTop(y - @moveOffsetY)
+        if snapRight == right
+          @composer.drawVerticalSnapLine(snapRight + 8)
 
-    @canvasItemView.setSizeAndPosition
-      left: x
-      top: y
+        y = @pageView.snapTop(y - @moveOffsetY)
+
+        @canvasItemView.setSizeAndPosition
+          left: x
+          top: y
+
 
   # Resizes based on a top drag
   dragTop: (x, y) ->
