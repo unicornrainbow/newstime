@@ -347,7 +347,9 @@ class @Newstime.CanvasItemView extends Backbone.View
 
   dragBottomLeft: (x, y) ->
     geometry = @getGeometry()
-    x = @pageView.snapLeft(x)
+    snapLeft = @pageView.snapLeft(x)
+    x = snapLeft if snapLeft
+
     y = @pageView.snapBottom(y)
     @model.set
       left: x

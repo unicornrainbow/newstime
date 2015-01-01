@@ -74,8 +74,13 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
       height: height
 
   dragBottomLeft: (x, y) ->
+    @composer.clearVerticalSnapLines()
     geometry = @getGeometry()
-    x = @pageView.snapLeft(x)
+    snapLeft = @pageView.snapLeft(x)
+    if snapLeft
+      x = snapLeft
+      @composer.drawVerticalSnapLine(snapLeft)
+
     y = @pageView.snapBottom(y)
 
     height = y - geometry.top
