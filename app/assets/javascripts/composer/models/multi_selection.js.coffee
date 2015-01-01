@@ -44,18 +44,29 @@ class @Newstime.MultiSelection
       height: bottom - top
       width: right - left
 
+    # TODO: Use top, left, bottom, right for bounding boxes.
+    # Create Bounding box class.
+
+    # And expended position bounding box used for hit detection.
+    @expandedPosition = @addBuffer(@position, 4)
+
   # Detects a hit of the selection
   hit: (x, y) ->
-    position = _.clone(@position)
+    @hitsBoundingBox(@expandedPosition, x, y)
 
-    ## Expand the geometry by buffer distance in each direction to extend
-    ## clickable area.
-    buffer = 4 # 2px
-    position.top -= buffer
-    position.left -= buffer
-    position.width += buffer*2
-    position.height += buffer*2
+  # Expand the bounding box by buffer distance in each direction to extend
+  # clickable area.
+  addBuffer: (box, buffer) ->
+    box = _.clone(box)
 
+    box.top -= buffer
+    box.left -= buffer
+    box.width += buffer*2
+    box.height += buffer*2
+
+    box
+
+  hitsBoundingBox: (box, x, y) ->
     ## Detect if corrds lie within the geometry
-    position.left <= x <= position.left + position.width &&
-      position.top <= y <= position.top + position.height
+    box.left <= x <= box.left + box.width &&
+      box.top <= y <= box.top + box.height
