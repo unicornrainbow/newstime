@@ -4,6 +4,7 @@ class @Newstime.OutlineLayerView extends Backbone.View
     @$el.addClass 'outline-layer-view'
 
     @outlineViews = []
+    @verticalSnapLines = []
 
     @composer = options.composer
 
@@ -44,3 +45,15 @@ class @Newstime.OutlineLayerView extends Backbone.View
   attach: (outlineView) ->
     @outlineViews.push(outlineView)
     @$el.append(outlineView.el)
+
+  drawVerticalSnapLine: (x) ->
+    snapLine = new Newstime.VerticalSnapLine()
+    @$el.append snapLine.el
+    @verticalSnapLines.push(snapLine)
+    snapLine.set(x)
+
+  clearVerticalSnapLines: ->
+    _.each @verticalSnapLines, (snapLine) ->
+      snapLine.remove()
+
+    @verticalSnapLines = []

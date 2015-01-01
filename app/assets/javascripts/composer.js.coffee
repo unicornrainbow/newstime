@@ -84,11 +84,6 @@ class @Newstime.Composer extends Backbone.View
     @statusIndicator = new Newstime.StatusIndicatorView()
     @$body.append(@statusIndicator.el)
 
-
-    @verticalSnapLine = new Newstime.VerticalSnapLine()
-    @canvasLayerView.$el.append @verticalSnapLine.el
-    @verticalSnapLine.hide()
-
     # Initialize Plugins
     $("#edition-toolbar").editionToolbar(composer: this)
     $("#edition-toolbar").hide() # Hiding for now while testing.
@@ -575,12 +570,11 @@ class @Newstime.Composer extends Backbone.View
   setTool: (tool) ->
     @toolbox.set(selectedTool: tool)
 
-  showVerticalSnapLine: (x) ->
-    @verticalSnapLine.set(x)
-    @verticalSnapLine.show()
+  drawVerticalSnapLine: (x) ->
+    @outlineLayerView.drawVerticalSnapLine(x)
 
-  hideVerticalSnapLine: ->
-    @verticalSnapLine.hide()
+  clearVerticalSnapLines: ->
+    @outlineLayerView.clearVerticalSnapLines()
 
 $ ->
   # Get the edition, mostly for development purposes right now.

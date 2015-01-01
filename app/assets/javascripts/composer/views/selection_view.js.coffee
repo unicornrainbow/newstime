@@ -286,10 +286,10 @@ class @Newstime.SelectionView extends Backbone.View
     snapLeft = @pageView.snapLeft(x) # Snap
 
     if snapLeft
-      @composer.showVerticalSnapLine(snapLeft + @pageView.x())
+      @composer.drawVerticalSnapLine(snapLeft)
       x = snapLeft
     else
-      @composer.hideVerticalSnapLine()
+      @composer.clearVerticalSnapLines()
 
 
     y = @pageView.snapTop(y - @moveOffsetY)
@@ -316,10 +316,10 @@ class @Newstime.SelectionView extends Backbone.View
     snapRight = @pageView.snapRight(width) # Snap
 
     if snapRight
-      @composer.showVerticalSnapLine(snapRight + @pageView.x() + geometry.left)
+      @composer.drawVerticalSnapLine(snapRight + geometry.left)
       width = snapRight
     else
-      @composer.hideVerticalSnapLine()
+      @composer.clearVerticalSnapLines()
 
 
     @canvasItemView.setSizeAndPosition
@@ -332,10 +332,10 @@ class @Newstime.SelectionView extends Backbone.View
     geometry = @getGeometry()
     snapLeft = @pageView.snapLeft(x)
     if snapLeft
-      @composer.showVerticalSnapLine(snapLeft + @pageView.x())
+      @composer.drawVerticalSnapLine(snapLeft)
       x = snapLeft
     else
-      @composer.hideVerticalSnapLine()
+      @composer.clearVerticalSnapLines()
 
     @canvasItemView.setSizeAndPosition
       left: x
@@ -374,7 +374,7 @@ class @Newstime.SelectionView extends Backbone.View
       @resizing = false
       @resizeMode = null
 
-      @composer.hideVerticalSnapLine() # Ensure vertical snaps aren't showing.
+      @composer.clearVerticalSnapLines() # Ensure vertical snaps aren't showing.
       # Reset drag handles, clearing if they where active
       _.each @dragHandles, (h) -> h.reset()
       @canvasItemView.trigger 'resized'
@@ -382,7 +382,7 @@ class @Newstime.SelectionView extends Backbone.View
     if @moving
       @moving = false
 
-      @composer.hideVerticalSnapLine()
+      @composer.clearVerticalSnapLines()
 
     @trigger 'tracking-release', this
 
