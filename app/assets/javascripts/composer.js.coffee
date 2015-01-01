@@ -536,11 +536,30 @@ class @Newstime.Composer extends Backbone.View
 
   # Adds model to a selection.
   addToSelection: (model) ->
-    # Ensure we have a multiselection as active selection, otherwise replace.
-    #
-    # Add new model to the multi selection
-    #
-    # TODO: Implement
+    # Just do normal selection if nothing is selected.
+    unless @activeSelection
+      @select(model)
+      return
+
+    # Convert ContentItem selection to multiselection
+    if @activeSelection instanceof Newstime.ContentItemSelection
+      multiSelection = @activeSelection.convertToMultiSelection()
+      @clearSelection()
+      @activeSelection = multiSelection
+      @updatePropertiesPanel(@activeSelection)
+
+      @activeSelectionView = new Newstime.MultiSelectionView
+        composer: this
+        selection: @activeSelection
+
+      @selectionLayerView.setSelection(@activeSelection, @activeSelectionView)
+      @focusedObject = @activeSelectionView  # Set focus to selection to send keyboard events.
+
+      @activeSelectionView.bind 'tracking', @canvasLayerView.resizeSelection, @canvasLayerView
+      @activeSelectionView.bind 'tracking-release', @canvasLayerView.resizeSelectionRelease, @canvasLayerView
+      @activeSelectionView.bind 'destroy', @clearSelection, this
+
+    @activeSelection.add(model)
 
   # Removes model from selection.
   removeFromSelection: (model) ->
