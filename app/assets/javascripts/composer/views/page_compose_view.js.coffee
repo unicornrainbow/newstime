@@ -12,12 +12,12 @@ class @Newstime.PageComposeView extends Backbone.View
     @contentItemsSelector = "[headline-control], [text-area-control], [photo-control], [video-control]"
 
     @composer = options.composer
-    @page = options.page
+    @page = @model
 
-    @page.bind 'destroy', @pageDestroyed, this
+    @listenTo @model, 'destroy', @pageDestroyed
 
     @contextMenu = new Newstime.PageContextMenu
-      page: @page
+      page: @model
     @$el.append(@contextMenu.el)
 
     @canvasLayerView = options.canvasLayerView
@@ -108,6 +108,22 @@ class @Newstime.PageComposeView extends Backbone.View
   # Return left relative offset from containing element
   getOffsetLeft: ->
     @el.offsetLeft
+
+  capturePageBounds: ->
+    @model.set(@calculatePageBounds())
+
+  calculatePageBounds: ->
+    top = @el.offsetTop
+    left = @el.offsetLeft
+    width = @width()
+    height = @height()
+
+    {
+      'top': top
+      'left': left
+      'bottom': top + height
+      'right': left + width
+    }
 
   geometry: ->
     x: @x()
@@ -320,7 +336,6 @@ class @Newstime.PageComposeView extends Backbone.View
   # Extracts all content items from the page. Useful in decomposing the views.
   extractContentItems: ->
     @$(@contentItemsSelector).detach()
-
 
 
   # Collects right edges of canvas items on page

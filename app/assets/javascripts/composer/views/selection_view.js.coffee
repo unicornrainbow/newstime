@@ -117,6 +117,15 @@ class @Newstime.SelectionView extends Backbone.View
   getGeometry: ->
     @model.pick('top', 'left', 'height', 'width')
 
+  getBounds: ->
+    bounds = @model.pick('top', 'left', 'height', 'width')
+    bounds.bottom = bounds.top + bounds.height
+    bounds.right = bounds.left + bounds.width
+    delete bounds.width
+    delete bounds.height
+    bounds
+
+
   mousedown: (e) ->
     @adjustEventXY(e)
 
@@ -279,7 +288,8 @@ class @Newstime.SelectionView extends Backbone.View
     x -= @moveOffsetX
     y -= @moveOffsetY
 
-    @pageView.moveItem(this, x, y, @orginalPositionX, @orginalPositionY, shiftKey)
+    @composer.moveItem(this, x, y, @orginalPositionX, @orginalPositionY, shiftKey)
+    #@pageView.moveItem(this, x, y, @orginalPositionX, @orginalPositionY, shiftKey)
 
   setSizeAndPosition: (value) ->
     @canvasItemView.setSizeAndPosition(value)

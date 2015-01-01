@@ -27,7 +27,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
     @$pages = @$('[pages]')
 
-    @pageViews = {}
+    @pageViews = options.pageViews
     @pageContentItems = {}
 
     ## Add each of the pages back, rebuilding the view in the correct order.
@@ -39,14 +39,16 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
       view = new Newstime.PageComposeView
         el: el
-        page: page # TODO: Rename to model
+        model: page
         edition: @edition
         composer: @composer
 
       @$pages.append(el)
 
-      @pageViews[page_id] = view
-      @pageContentItems[page_id] = page.getContentItems()
+      view.capturePageBounds()
+
+      @pageViews[page.cid] = view
+      @pageContentItems[page.cid] = page.getContentItems()
 
     @$canvasItems = $('<div class="canvas-items"></div>')
     @$canvasItems.appendTo(@$body)
@@ -60,13 +62,13 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
     @pages.each (page) =>
       pageID = page.get('_id')
-      pageView = @pageViews[pageID]
+      pageView = @pageViews[page.cid]
 
       # Get page offsets to pass to content items
       pageOffsetLeft = pageView.getOffsetLeft()
       pageOffsetTop  = pageView.getOffsetTop()
 
-      contentItems = @pageContentItems[pageID]
+      contentItems = @pageContentItems[page.cid]
 
       _.each contentItems, (contentItem) =>
 
@@ -446,7 +448,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
     ## We need to create and activate a selection region (Marching ants would be nice)
 
     # Determined which page was hit...
-    pageView = _.find @pageViews, (pageView, pageID) =>
+    pageView = _.find @pageViews, (pageView, pageCID) =>
       @detectHitY pageView, y
 
     pageModel = pageView.page
@@ -523,7 +525,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
     ## We need to create and activate a selection region (Marching ants would be nice)
 
     # Determined which page was hit...
-    pageView = _.find @pageViews, (pageView, pageID) =>
+    pageView = _.find @pageViews, (pageView, pageCID) =>
       @detectHitY pageView, y
 
     pageModel = pageView.page
@@ -649,7 +651,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
     ## We need to create and activate a selection region (Marching ants would be nice)
 
     # Determined which page was hit...
-    pageView = _.find @pageViews, (pageView, pageID) =>
+    pageView = _.find @pageViews, (pageView, pageCID) =>
       @detectHitY pageView, y
 
     pageModel = pageView.page

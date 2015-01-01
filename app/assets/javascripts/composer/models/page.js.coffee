@@ -23,6 +23,18 @@ class @Newstime.Page extends Backbone.RelationalModel
   getSection: ->
     @_section = @get('edition').get('sections').findWhere(_id: @get('section_id'))
 
+  collide: (top, left, bottom, right) ->
+    bounds = @getBounds()
+
+    # Adapted from http://stackoverflow.com/a/7301852/32384
+    ! (bottom < bounds.top ||
+       top > bounds.bottom ||
+       right < bounds.left ||
+       left > bounds.right )
+
+  getBounds: ->
+    @pick('top', 'left', 'bottom', 'right')
+
 class @Newstime.PageCollection extends Backbone.Collection
   model: Newstime.Page
   url: ->

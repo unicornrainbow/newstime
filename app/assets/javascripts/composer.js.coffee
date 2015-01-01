@@ -40,6 +40,7 @@ class @Newstime.Composer extends Backbone.View
     @menuHeight = 25
 
     @contentItemViews = {}
+    @pageViews = {}
 
     @toolbox = new Newstime.Toolbox
 
@@ -74,6 +75,7 @@ class @Newstime.Composer extends Backbone.View
       edition: @edition
       toolbox: @toolbox
       contentItemViews: @contentItemViews
+      pageViews: @pageViews
     @$body.append(@canvasLayerView.el)
 
     @hasFocus = true # By default, composer has focus
@@ -582,6 +584,73 @@ class @Newstime.Composer extends Backbone.View
 
   togglePanelLayer: ->
     @panelLayerView.toggle()
+
+  # Returns array of pages which intersect with the bounding box.
+  getIntersectingPages: (top, left, bottom, right) ->
+    # Get all pages from section
+    pages = @section.getPages()
+
+    # Return where pages collide.
+    _.filter pages, (page) ->
+      page.collide(top, left, bottom, right)
+
+  moveItem: (target, left, top, orginalLeft, orginalTop, shiftKey=false) ->
+    @clearVerticalSnapLines()
+
+    # TODO: Target can and should be at the model layer, move more stuff up from
+    # the view, where the is a model which represents it. i.e. CanvasItem, Selection,
+    # Multi-Selection, etc.
+
+    bounds = target.getBounds()
+
+    # Which pages are we intersecting?
+    pages = @getIntersectingPages(top, left, bounds.bottom, bounds.right)
+
+    # CHEAT for a second, just use one page.
+    page = pages[0]
+    pageView = @pageViews[page.cid]
+
+    # TODO: No work against the intersecting pages to snap and produce guideline
+    # TODO: Move guidelines to their own layer (Fixed position, but which
+    # handles zooming)
+
+    if shiftKey
+      # In which direction has the greatest movement.
+      lockPlain = if Math.abs(left - orginalLeft) > Math.abs(y - orginalTop) then 'x' else 'y'
+
+    switch lockPlain
+      when 'x'
+        # Move only in x direction
+        target.setSizeAndPosition
+          left: left
+          top: orginalTop
+      when 'y'
+        # Move only in y direction
+        target.setSizeAndPosition
+          left: orginalLeft
+          top: top
+      else
+
+        #x = Math.min(x, @pageView.getWidth() - @model.get('width')) # Keep on page
+        snapLeft = pageView.snapLeft(left) # Snap
+
+        if snapLeft
+          left = snapLeft
+          @drawVerticalSnapLine(left)
+
+        # Show matching right snap edge
+        right = bounds.right - 8
+        snapRight = pageView.snapRight(right) # Snap
+
+        if snapRight == right
+          @drawVerticalSnapLine(snapRight + 8)
+
+        top = pageView.snapTop(top)
+
+        target.setSizeAndPosition
+          left: left
+          top: top
+
 
   # Sets toolbox tool
   #

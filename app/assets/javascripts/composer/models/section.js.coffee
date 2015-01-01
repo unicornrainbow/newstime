@@ -6,7 +6,8 @@ class @Newstime.Section extends Backbone.RelationalModel
   # relational.
 
   getPages: ->
-    _.sortBy(@get('edition').get('pages').where(section_id: @get('_id')), 'number')
+    @pages ?= _.sortBy(@get('edition').get('pages').where(section_id: @get('_id')), 'number')
+
 
   getNextPageNumber: ->
     lastPage = _.last(@getPages())
@@ -16,7 +17,6 @@ class @Newstime.Section extends Backbone.RelationalModel
       1
 
   #getContentItems: ->
-
 
 
   addPage: (success) ->
