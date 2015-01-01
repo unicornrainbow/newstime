@@ -41,5 +41,28 @@ class @Newstime.MultiSelectionView extends Backbone.View
   destroy: ->
     @remove()
 
-  mousedown: ->
-    console.log 'hit me'
+  mousedown: (e) ->
+    #return unless e.button == 0 # Only respond to left button mousedown.
+
+    #if @hoveredHandle
+      #@trackResize @hoveredHandle.type
+    #else
+      #position = @selection.getPosition()
+      #@trackMove(e.x - position.left, e.y - position.top)
+
+      # OK, so just a note, but looks like moveing an object is actually a
+      # feature of the canvas view layer, which should on each move, figure out
+      # which to query into to check against snap points, and infact, can do
+      # this against multi pages, and even other objects, and will also need to
+      # do similar for highlighting snap points.
+
+  #trackMove: (offsetX, offsetY) ->
+    #@pageView.computeTopSnapPoints()
+    #@pageView.collectLeftEdges(@model)
+    #@pageView.collectRightEdges(@model)
+    #@moving      = true
+    #@orginalPositionX = @model.get('left')
+    #@orginalPositionY = @model.get('top')
+    #@moveOffsetX = offsetX
+    #@moveOffsetY = offsetY
+    #@trigger 'tracking', this
