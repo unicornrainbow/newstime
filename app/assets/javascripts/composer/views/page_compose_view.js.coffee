@@ -215,7 +215,6 @@ class @Newstime.PageComposeView extends Backbone.View
 
   snapRight: (value) ->
 
-
     snapTolerance  = 20
     # Get snap values
     gridSnap = @grid.snapRight(value)
