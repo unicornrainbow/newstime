@@ -523,15 +523,16 @@ class @Newstime.Composer extends Backbone.View
     @activeSelectionView = new Newstime.SelectionView
       composer: this
       selection: selection
+    @activeSelectionView.render()
 
     contentItemView.select(@activeSelectionView)
 
     @selectionLayerView.setSelection(selection, @activeSelectionView)
     @focusedObject = @activeSelectionView  # Set focus to selection to send keyboard events.
 
-    @activeSelectionView.bind 'tracking', @canvasLayerView.resizeSelection, @canvasLayerView
-    @activeSelectionView.bind 'tracking-release', @canvasLayerView.resizeSelectionRelease, @canvasLayerView
-    @activeSelectionView.bind 'destroy', @clearSelection, this
+    @canvasLayerView.listenTo @activeSelectionView, 'tracking', @canvasLayerView.resizeSelection
+    @canvasLayerView.listenTo @activeSelectionView, 'tracking-release', @canvasLayerView.resizeSelectionRelease
+    @listenTo @activeSelectionView, 'destroy', @clearSelection
 
 
   # Adds model to a selection.
@@ -551,6 +552,8 @@ class @Newstime.Composer extends Backbone.View
       @activeSelectionView = new Newstime.MultiSelectionView
         composer: this
         selection: @activeSelection
+
+      @activeSelectionView.render()
 
       @selectionLayerView.setSelection(@activeSelection, @activeSelectionView)
       @focusedObject = @activeSelectionView  # Set focus to selection to send keyboard events.

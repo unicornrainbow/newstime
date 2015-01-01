@@ -38,8 +38,6 @@ class @Newstime.SelectionView extends Backbone.View
     @bind 'keydown',   @keydown
     @bind 'dblclick',  @dblclick
 
-    @render()
-
   remove: ->
     unless @destroyed
       @destroyed = true
@@ -69,6 +67,8 @@ class @Newstime.SelectionView extends Backbone.View
       position.left *= zoomLevel
 
     @$el.css(position)
+
+    this
 
   paste: (e) ->
     @canvasItemView.trigger 'paste', e
