@@ -7,6 +7,7 @@ class @Newstime.PropertiesPanelView extends Backbone.View
    'mouseup .title-bar': 'endDrag'
    'mouseout': 'mouseout'
    'keydown': 'keydown'
+   'paste': 'paste'
 
 
   initialize: (options) ->
@@ -49,6 +50,10 @@ class @Newstime.PropertiesPanelView extends Backbone.View
         if e.altKey
           e.preventDefault()
           @composer.edition.save()
+
+
+  paste: (e) ->
+    e.stopPropagation()
 
 
   mouseover: (e) =>
