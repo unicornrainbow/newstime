@@ -17,6 +17,8 @@ class @Newstime.MultiSelectionView extends Backbone.View
 
     @listenTo @selection, 'change', @render
 
+    @bind 'mousedown', @mousedown
+
   render: ->
     position = @selection.getPosition()
 
@@ -32,10 +34,12 @@ class @Newstime.MultiSelectionView extends Backbone.View
     @$el.css(position)
 
 
-
   # Detects a hit of the selection
   hit: (x, y) ->
-    false
+    @selection.hit(x, y)
 
   destroy: ->
     @remove()
+
+  mousedown: ->
+    console.log 'hit me'
