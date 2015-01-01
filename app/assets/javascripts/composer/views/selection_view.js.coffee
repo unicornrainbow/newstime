@@ -286,15 +286,13 @@ class @Newstime.SelectionView extends Backbone.View
     snapLeft = @pageView.snapLeft(x) # Snap
 
     if snapLeft
-      @composer.drawVerticalSnapLine(snapLeft)
       x = snapLeft
+      @composer.clearVerticalSnapLines()
+      @composer.drawVerticalSnapLine(x)
     else
       @composer.clearVerticalSnapLines()
 
-
     y = @pageView.snapTop(y - @moveOffsetY)
-
-
 
     @canvasItemView.setSizeAndPosition
       left: x
@@ -316,6 +314,7 @@ class @Newstime.SelectionView extends Backbone.View
     snapRight = @pageView.snapRight(width) # Snap
 
     if snapRight
+      @composer.clearVerticalSnapLines()
       @composer.drawVerticalSnapLine(snapRight + geometry.left)
       width = snapRight
     else
