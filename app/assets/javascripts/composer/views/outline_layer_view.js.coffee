@@ -50,6 +50,10 @@ class @Newstime.OutlineLayerView extends Backbone.View
     snapLine = new Newstime.VerticalSnapLine()
     @$el.append snapLine.el
     @verticalSnapLines.push(snapLine)
+
+    # Apply zoom
+    x *= @zoomLevel if @zoomLevel
+
     snapLine.set(x)
 
   clearVerticalSnapLines: ->
