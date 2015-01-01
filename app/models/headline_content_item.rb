@@ -10,8 +10,6 @@ class HeadlineContentItem < ContentItem
   field 'margin-right'
   field 'margin-left'
 
-  belongs_to :headline_style
-
   def style
     attributes.slice('font_size', 'font_weight', 'font_family', 'font_style', 'text_align', 'margin-top', 'margin-bottom', 'margin-left', 'margin-right').map do |k, v|
       "#{k.gsub('_', '-')}: #{v};"

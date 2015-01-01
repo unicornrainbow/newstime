@@ -6,7 +6,8 @@ class @Newstime.PhotoView extends Newstime.CanvasItemView
     super
     @$el.addClass 'photo-view'
 
-    @propertiesView = new Newstime.PhotoPropertiesView(target: this)
+    @propertiesView = new Newstime.PhotoPropertiesView(target: this, model: @model).render()
+
 
     @bind 'paste', @paste
 

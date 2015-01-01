@@ -5,39 +5,56 @@ class @Newstime.PhotoPropertiesView extends Backbone.View
   tagName: 'ul'
 
   events:
-    'change .caption-field': 'updateCaption'
+    'change .show-caption-field': 'changeShowCaption'
+    'change .caption-field': 'changeCaption'
 
   initialize: ->
 
     @$el.addClass('newstime-photo-properties')
 
     @$el.html """
+
       <li class="property">
         <label>Caption</label>
         <span class="field">
-          <input class='caption-field' type="checkbox"></input>
+          <textarea class="caption-field" style="width: 100px"></textarea>
+        </span>
+      </li>
+
+      <li class="property">
+        <label>Show Cap</label>
+        <span class="field">
+          <input class='show-caption-field' type="checkbox"></input>
         </span>
       </li>
 
       <li class="property">
         <label>Height</label>
-        <span class="field"><input></input></spa>
+        <span class="field"><input></input></span>
       </li>
 
       <li class="property">
         <label>Width</label>
-        <span class="field"><input></input></spa>
+        <span class="field"><input></input></span>
       </li>
 
     """
 
-  updateCaption: ->
-    #console.log 'Caption'
+    @$captionField = @$('.caption-field')
+    @$showCaptionField = @$('.show-caption-field')
 
-    #@$caption = @$('caption')
+  render: ->
+    @$showCaptionField.prop('checked', @model.get('show_caption'))
+    @$captionField.val(@model.get('caption') || '')
 
+    this
 
+  changeShowCaption: ->
+    @model.set 'show_caption', @$showCaptionField.prop('checked')
 
+  changeCaption: ->
+    @model.set 'caption', @$captionField.val()
+    console.log "yeah"
 
 
 #class @Newstime.PhotoPropertiesView extends Backbone.View

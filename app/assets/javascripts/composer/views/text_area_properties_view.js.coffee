@@ -72,8 +72,8 @@ class @Newstime.TextAreaPropertiesView extends Backbone.View
     @$heightInput.val(@model.get('height') + 'px')
     @$widthInput.val(@model.get('width') + 'px')
     @$showByLine.prop('checked', @model.get('show_by_line'))
-    @$byLineInput.val(@model.get('by_line'))
-    @$storyTitleInput.val(@model.get('story_title'))
+    @$byLineInput.val(@model.get('by_line') || '')
+    @$storyTitleInput.val(@model.get('story_title') || '')
 
   changeColumns: ->
     @model.set 'columns', @$columns.val()

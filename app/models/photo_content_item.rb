@@ -1,5 +1,6 @@
 class PhotoContentItem < ContentItem
   field :caption, type: String
+  field :show_caption, type: Boolean
   field :edition_relative_url_path, type: String
   belongs_to :photo
 

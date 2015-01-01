@@ -45,6 +45,10 @@ class @Newstime.PropertiesPanelView extends Backbone.View
       when 27 #ESC
         # Send focus back to composer.
         @composer.focus()
+      when 83 # s
+        if e.altKey
+          e.preventDefault()
+          @composer.edition.save()
 
 
 

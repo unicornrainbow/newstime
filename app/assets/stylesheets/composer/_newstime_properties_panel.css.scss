@@ -39,14 +39,16 @@
     width: 50px;
     margin-right: 20px;
     text-align: right;
+    vertical-align: top;
 
   }
 
-  input {
+  input, textarea {
     width: 50px;
     background: transparent;
     border: 1px solid rgba(255,255,255,.1);
     padding: 2px 5px;
+    outline: none;
   }
 
   &.hovered {

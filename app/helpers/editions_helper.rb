@@ -101,6 +101,8 @@ module EditionsHelper
       options[:photo_height]  = content_item.height
       options[:top]  = content_item.top
       options[:left]  = content_item.left
+      options[:caption]  = content_item.caption
+      options[:show_caption]  = content_item.show_caption
       render "content/photo", options
     when VideoContentItem then
       options = {}

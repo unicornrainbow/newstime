@@ -131,17 +131,29 @@ private
   end
 
   def edition_params
+    content_item_attributes =
+      ContentItem.attribute_names +
+      PhotoContentItem.attribute_names +
+      TextAreaContentItem.attribute_names +
+      VideoContentItem.attribute_names +
+      HeadlineContentItem.attribute_names
+
+    content_item_attributes.uniq!
+    #throw content_item_attributes
+
+
     params.require(:edition).
       permit(:name, :source, :page_title, :masthead_id, :layout_id,
              :layout_name, :default_section_template_name, :publish_date,
              :store_link, :fmt_price, :volume_label, :publication_id, :price,
              :_id, :created_at, :updated_at, :page_pixel_height,
              :organization_id, :state_event,
-             #:content_items_attributes => [:_id, :height, :left, :top, :width, :page_id, :_type, :created_at, :updated_at]
              :sections_attributes => [Section.attribute_names],
              :pages_attributes => [Page.attribute_names],
-             :content_items_attributes => [ContentItem.attribute_names + [
-               :continuation_path, :precedent_path, :continuation_text, :precedent_text, :lead_text_area_id, :follow_text_area_id, :overflow_input_text, :story_title, :by_line, :show_by_line, :text, :font_family, :font_style, :font_size, :font_weight, :columns, 'margin-top', 'margin-left', 'margin-bottom', 'margin-right', :edition_relative_url_path]]
+             :content_items_attributes => [content_item_attributes]
+             #:content_items_attributes => [:_id, :height, :left, :top, :width, :page_id, :_type, :created_at, :updated_at]
+             #:content_items_attributes => [ContentItem.attribute_names + [
+               #:continuation_path, :precedent_path, :continuation_text, :precedent_text, :lead_text_area_id, :follow_text_area_id, :overflow_input_text, :story_title, :by_line, :show_by_line, :text, :font_family, :font_style, :font_size, :font_weight, :columns, 'margin-top', 'margin-left', 'margin-bottom', 'margin-right', :edition_relative_url_path]]
             )
   end
 
