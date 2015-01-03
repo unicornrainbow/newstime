@@ -33,7 +33,7 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
     @$el.css 'font-style': @model.get('font_style')
     @$el.css 'font-weight': @model.get('font_weight')
 
-    @$el.css _.pick @model.changedAttributes(),
+    #@$el.css _.pick @model.changedAttributes()
     if !!@model.get('text')
       spanWrapped = _.map @model.get('text'), (char) ->
         if char == '\n'
