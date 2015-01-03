@@ -73,4 +73,13 @@ class @Newstime.MultiSelection
 
 
   setSizeAndPosition: (value) ->
+    _.each @models, (model) =>
+      topOffset = model.get('top') - @position.top
+      leftOffset = model.get('left') - @position.left
+
+      model.set
+        top: value.top + topOffset
+        left: value.left + leftOffset
+    @calculatePosition()
+    @trigger 'change'
     # TODO: Update size and position
