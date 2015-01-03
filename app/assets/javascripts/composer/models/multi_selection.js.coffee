@@ -70,3 +70,7 @@ class @Newstime.MultiSelection
     ## Detect if corrds lie within the geometry
     box.left <= x <= box.left + box.width &&
       box.top <= y <= box.top + box.height
+
+
+  setSizeAndPosition: (value) ->
+    # TODO: Update size and position

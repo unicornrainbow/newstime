@@ -676,10 +676,10 @@ class @Newstime.Composer extends Backbone.View
         if _.contains(rightSnapPoints, right)
           @drawVerticalSnapLine(right)
 
-
         target.setSizeAndPosition # TODO: See if we can go direct to model
           left: left
           top: top
+
 
 
   # Sets toolbox tool
