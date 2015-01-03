@@ -682,27 +682,6 @@ class @Newstime.Composer extends Backbone.View
           top: top
 
 
-        # CHEAT for a second, just use one page.
-        #page = pages[0]
-        #pageView = @pageViews[page.cid]
-
-        #x = Math.min(x, @pageView.getWidth() - @model.get('width')) # Keep on page
-        #snapLeft = pageView.snapLeft(left) # Snap
-
-        #if snapLeft
-          #left = snapLeft
-          #@drawVerticalSnapLine(left)
-
-        ## Show matching right snap edge
-        #right = bounds.right - 8
-        #snapRight = pageView.snapRight(right) # Snap
-
-        #if snapRight == right
-          #@drawVerticalSnapLine(snapRight + 8)
-
-        #top = pageView.snapTop(top)
-
-
   # Sets toolbox tool
   #
   # Example:

@@ -2,7 +2,7 @@ class @Newstime.ContentItem extends Backbone.RelationalModel
   idAttribute: '_id'
 
   initialize: (attributes) ->
-    @set('cursorPosition', (@get('text') || ' ').length, silent: true)
+    #@set('cursorPosition', (@get('text') || ' ').length, silent: true)
 
     @on 'change:page_id', @clearPage
 
