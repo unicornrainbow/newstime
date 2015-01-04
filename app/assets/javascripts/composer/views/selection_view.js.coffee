@@ -169,6 +169,9 @@ class @Newstime.SelectionView extends Backbone.View
       when 'bottom', 'bottom-left', 'bottom-right'
         @pageView.computeBottomSnapPoints()
 
+        # Get all objects below object that can be moved up and down in unison.
+        @attachedItems = @pageView.getAttachedItems(@model)
+
 
     switch @resizeMode
       when 'left', 'top-left', 'bottom-left'
@@ -321,6 +324,11 @@ class @Newstime.SelectionView extends Backbone.View
 
   dragBottom: (x, y) ->
     @canvasItemView.dragBottom(x, y)
+
+
+    _.each @attachedItems, (item) ->
+      # TODO: Update location of attach items... Experimental (Need to no
+      # offsets)
 
   dragLeft: (x, y) ->
     geometry = @getGeometry()

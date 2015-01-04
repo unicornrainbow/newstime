@@ -179,7 +179,6 @@ class @Newstime.CanvasItemView extends Backbone.View
       when 'bottom', 'bottom-left', 'bottom-right'
         @pageView.computeBottomSnapPoints()
 
-
     switch @resizeMode
       when 'left', 'top-left', 'bottom-left'
         @pageView.collectLeftEdges(@model)

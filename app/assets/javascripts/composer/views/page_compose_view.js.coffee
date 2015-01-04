@@ -354,3 +354,13 @@ class @Newstime.PageComposeView extends Backbone.View
     if exclude
       items = _.reject items, (item) -> item.get('_id') == exclude.get('_id')
     @pageContentItemRightEdges = _.map(items, (item) -> item.get('left') + item.get('width'))
+
+  # Experimental: Get's attached item that should be move when the vertical
+  # height of an objects is changed.
+  getAttachedItems: (item) ->
+    a = item.getBoundry()
+
+    # Get all items below boundry, but within left to right
+    _.filter @model.getContentItems(), (contentItem) ->
+      b = contentItem.getBoundry()
+      a.bottom < b.top && a.left <= b.left && a.right >= b.right
