@@ -360,7 +360,13 @@ class @Newstime.PageComposeView extends Backbone.View
   getAttachedItems: (item) ->
     a = item.getBoundry()
 
+    attachedItems = []
     # Get all items below boundry, but within left to right
-    _.filter @model.getContentItems(), (contentItem) ->
+    _.each @model.getContentItems(), (contentItem) ->
       b = contentItem.getBoundry()
-      a.bottom < b.top && a.left <= b.left && a.right >= b.right
+      if a.bottom < b.top && a.left <= b.left && a.right >= b.right
+        attachedItems.push [contentItem, {
+          offsetTop: b.top - a.bottom
+        }]
+
+    attachedItems

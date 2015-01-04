@@ -325,10 +325,10 @@ class @Newstime.SelectionView extends Backbone.View
   dragBottom: (x, y) ->
     @canvasItemView.dragBottom(x, y)
 
+    _.each @attachedItems, ([contentItem, offset]) =>
+      contentItem.set
+        top: y + offset.offsetTop
 
-    _.each @attachedItems, (item) ->
-      # TODO: Update location of attach items... Experimental (Need to no
-      # offsets)
 
   dragLeft: (x, y) ->
     geometry = @getGeometry()
