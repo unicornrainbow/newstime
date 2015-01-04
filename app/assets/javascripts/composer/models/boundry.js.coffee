@@ -1,12 +1,8 @@
 
 class @Newstime.Boundry
 
-  constructor: (top, left, width, height) ->
-    @top = top
-    @left = left
-    @width = width
-    @height = height
-
+  constructor: (properties) ->
+    _.extend(this, properties)
 
   Object.defineProperties @prototype,
     top:
@@ -37,10 +33,10 @@ class @Newstime.Boundry
       get: -> @_bottom
       set: (value) ->
         @_bottom = value
-        @_height = @top - @bottom
+        @_height = @bottom - @top
 
-    right: (right) ->
+    right:
       get: -> @_right
       set: (value) ->
         @_right = value
-        @_width = @left - @right
+        @_width = @right - @left
