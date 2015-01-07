@@ -177,6 +177,9 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
 
   # Fits headline to vertical width, vertical margins.
   fit: ->
+    # Collect attached items from page that should be move if height is changed.
+    attachedItems = @pageView.getAttachedItems(@model)
+
     headlineHeight = @$el.height()
     height = @model.get('height')
 
@@ -210,8 +213,16 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
         'margin-top': 0
         'margin-bottom': 0
 
+      headlineHeight = @$el.height()
       @model.set
-        height: @$el.height()
+        height: headlineHeight
+
+
+    # Update attached items location.
+    #delta = headlineHeight - height
+    _.each attachedItems, ([contentItem, offset]) =>
+      contentItem.set
+        top: @model.get('top') + @model.get('height') + offset.offsetTop
 
 
   fitToBorderBox: ->
