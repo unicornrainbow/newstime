@@ -16,12 +16,13 @@ class @Newstime.CanvasItemView extends Backbone.View
     @pageOffsetLeft = options.pageOffsetLeft
     @pageOffsetTop  = options.pageOffsetTop
 
-    @bind 'mousedown', @mousedown
-    @bind 'mousemove', @mousemove
-    @bind 'mouseup',   @mouseup
-    @bind 'mouseover', @mouseover
-    @bind 'mouseout',  @mouseout
-    @bind 'keydown',   @keydown
+    @bind
+      mousedown: @mousedown
+      mousemove: @mousemove
+      mouseup:   @mouseup
+      mouseover: @mouseover
+      mouseout:  @mouseout
+      keydown:   @keydown
 
     # Bind Model Events
     @listenTo @model, 'change', @render

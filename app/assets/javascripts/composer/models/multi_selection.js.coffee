@@ -71,7 +71,6 @@ class @Newstime.MultiSelection
     box.left <= x <= box.left + box.width &&
       box.top <= y <= box.top + box.height
 
-
   setSizeAndPosition: (value) ->
     _.each @models, (model) =>
       topOffset = model.get('top') - @position.top

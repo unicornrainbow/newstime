@@ -25,7 +25,7 @@ class @Newstime.Composer extends Backbone.View
     @editionContentItems = @edition.get('content_items')
 
     # Create application vent for aggregating events.
-    @vent = _.extend({}, Backbone.Events)
+    @vent = _.clone(Backbone.Events)
 
     @captureAuthenticityToken()
 
