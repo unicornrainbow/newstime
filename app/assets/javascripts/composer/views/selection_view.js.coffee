@@ -329,7 +329,6 @@ class @Newstime.SelectionView extends Backbone.View
       contentItem.set
         top: y + offset.offsetTop
 
-
   dragLeft: (x, y) ->
     geometry = @getGeometry()
     snapLeft = @pageView.snapLeft(x)

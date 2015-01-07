@@ -17,7 +17,6 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
     @propertiesView = new Newstime.HeadlineProperties2View(target: this, model: @model)
 
     @listenTo @model, 'change:height change:width change:text change:font_weight change:font_style change:font_family', @fitToBorderBox
-    #@listenTo @model, 'change:height change:width', @fitToBorderBox
 
     @render()
 
@@ -188,7 +187,7 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
 
     if headlineHeight < height
       @model.set
-        height: headlineHeight
+        'height': headlineHeight
         'margin-top': 0
         'margin-bottom': 0
     else
@@ -210,32 +209,10 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
         'margin-right': 0
         'margin-top': 0
         'margin-bottom': 0
-        'height': headlineHeight
 
+      @model.set
+        height: @$el.height()
 
-  dragTop: (x, y) ->
-    super
-
-  dragRight: (x, y) ->
-    super
-
-  dragBottom: (x, y) ->
-    super
-
-  dragLeft: (x, y) ->
-    super
-
-  dragTopLeft: (x, y) ->
-    super
-
-  dragTopRight: (x, y) ->
-    super
-
-  dragBottomLeft: (x, y) ->
-    super
-
-  dragBottomRight: (x, y) ->
-    super
 
   fitToBorderBox: ->
     # Get the width and height of the headline element.
@@ -287,6 +264,3 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
 
     @model.set(margins, silent: true)
     @renderMargins()
-
-  setSizeAndPosition: (attributes) ->
-    super
