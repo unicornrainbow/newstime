@@ -26,11 +26,11 @@ class @Newstime.ContentItem extends Backbone.RelationalModel
     if @get('text')
       @set('text', @get('text') + char, silent: true)
       #@set('cursorPosition', @get('cursorPosition') + 1, silent: true)
-      @trigger('change')
+      @trigger('change change:text')
     else
       @set('text', char, silent: true)
       #@set('cursorPosition', 1, silent: true)
-      @trigger('change')
+      @trigger('change change:text')
 
 
     #if @get('text')
@@ -45,7 +45,7 @@ class @Newstime.ContentItem extends Backbone.RelationalModel
   backspace: ->
     @set('text', @get('text').slice(0,-1), silent: true)
     #@set('cursorPosition', Math.max(0, @get('cursorPosition') - 1), silent: true)
-    @trigger('change')
+    @trigger('change change:text')
 
 
   # HACK: Specific to TextAreaContentItems..

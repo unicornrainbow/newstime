@@ -16,6 +16,9 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
 
     @propertiesView = new Newstime.HeadlineProperties2View(target: this, model: @model)
 
+    @listenTo @model, 'change:height change:width change:text change:font_weight change:font_style change:font_family', @fitToBorderBox
+    #@listenTo @model, 'change:height change:width', @fitToBorderBox
+
     @render()
 
   setElement: (el) ->
@@ -27,7 +30,7 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
       top: @model.get('top') + @pageOffsetTop
       left: @model.get('left') + @pageOffsetLeft
 
-    @$el.css _.pick @model.attributes, 'margin-top', 'margin-right', 'margin-bottom', 'margin-left'
+    @renderMargins()
     @$el.css 'font-family': @model.get('font_family')
     @$el.css 'font-size': @model.get('font_size')
     @$el.css 'font-style': @model.get('font_style')
@@ -46,6 +49,10 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
       @$el.text(@placeholder)
       @$el.addClass 'placeholder'
 
+
+  renderMargins: ->
+    @$el.css _.pick @model.attributes, 'margin-top', 'margin-right', 'margin-bottom', 'margin-left'
+
   deselect: ->
     @clearEditMode()
     super()
@@ -57,7 +64,6 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
           e.stopPropagation()
           e.preventDefault()
           @model.backspace()
-          @fitToBorderBox()
         when 27 # ESC
           e.stopPropagation()
           e.preventDefault()
@@ -77,9 +83,6 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
               e.stopPropagation()
               e.preventDefault()
               @model.typeCharacter(char)
-
-          @fitToBorderBox()
-
     else
       switch e.keyCode
         when 13 # Enter
@@ -212,35 +215,27 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
 
   dragTop: (x, y) ->
     super
-    @fitToBorderBox()
 
   dragRight: (x, y) ->
     super
-    @fitToBorderBox()
 
   dragBottom: (x, y) ->
     super
-    @fitToBorderBox()
 
   dragLeft: (x, y) ->
     super
-    @fitToBorderBox()
 
   dragTopLeft: (x, y) ->
     super
-    @fitToBorderBox()
 
   dragTopRight: (x, y) ->
     super
-    @fitToBorderBox()
 
   dragBottomLeft: (x, y) ->
     super
-    @fitToBorderBox()
 
   dragBottomRight: (x, y) ->
     super
-    @fitToBorderBox()
 
   fitToBorderBox: ->
     # Get the width and height of the headline element.
@@ -267,7 +262,9 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
 
     fontSize = Math.round(fontSize)
     fontSize = Math.max(fontSize, 1) # 1px min font size.
-    @model.set('font_size', fontSize + 'px')
+    @model.set('font_size', fontSize + 'px', silent: true)
+    @$el.css 'font-size': @model.get('font_size')
+
 
     # Compute and set margins
     headlineWidth  = @$el.width()
@@ -282,12 +279,14 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
     verticalMargin = (height - headlineHeight)/2 + 'px'
     horizontalMargin = (width - headlineWidth)/2 + 'px'
 
-    @model.set
+    margins =
       'margin-top': verticalMargin
       'margin-right': horizontalMargin
       'margin-bottom': verticalMargin
       'margin-left': horizontalMargin
 
+    @model.set(margins, silent: true)
+    @renderMargins()
+
   setSizeAndPosition: (attributes) ->
     super
-    @fitToBorderBox()
