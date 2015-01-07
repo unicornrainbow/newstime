@@ -17,9 +17,11 @@ class @Newstime.MultiSelectionView extends Backbone.View
 
     @listenTo @selection, 'change', @render
 
-    @bind 'mousedown', @mousedown
-    @bind 'mousemove', @mousemove
-    @bind 'mouseup', @mouseup
+    @bind
+      'mousedown': @mousedown
+      'mousemove': @mousemove
+      'mouseup': @mouseup
+      'keydown': @keydown
 
   render: ->
     position = @selection.getPosition()
@@ -34,6 +36,13 @@ class @Newstime.MultiSelectionView extends Backbone.View
       position.left *= zoomLevel
 
     @$el.css(position)
+
+  keydown: (e) ->
+    switch e.keyCode
+      when 71 # g
+        if e.altKey
+          # TODO: Create group
+          console.log "Create Group from Multiselection"
 
 
   # Detects a hit of the selection
