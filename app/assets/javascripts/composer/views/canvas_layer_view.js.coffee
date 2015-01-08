@@ -317,7 +317,8 @@ class @Newstime.CanvasLayerView extends Backbone.View
         when 'video-tool'
           @drawVideo(e.x, e.y)
         when 'select-tool'
-          @composer.clearSelection() if @composer.activeSelection
+          if e.button == 0 # Only on left click
+            @composer.clearSelection() if @composer.activeSelection
           #@drawSelection(e.x, e.y)
 
   mouseup: (e) ->
