@@ -619,8 +619,9 @@ class @Newstime.Composer extends Backbone.View
 
     if shiftKey
       # In which direction has the greatest movement.
-      lockPlain = if Math.abs(left - orginalLeft) > Math.abs(y - orginalTop) then 'x' else 'y'
+      lockPlain = if Math.abs(left - orginalLeft) > Math.abs(top - orginalTop) then 'x' else 'y'
 
+    # TODO: Need a better direction lock algorythm.
     switch lockPlain
       when 'x'
         # Move only in x direction
