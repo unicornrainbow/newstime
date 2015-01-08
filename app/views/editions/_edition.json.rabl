@@ -14,3 +14,9 @@ child :content_items => :content_items_attributes do |content_items|
     attributes *content_item.attribute_names
   end
 end
+
+child :groups => :groups_attributes do |groups|
+  groups.map do |group|
+    attributes *group.attribute_names
+  end
+end

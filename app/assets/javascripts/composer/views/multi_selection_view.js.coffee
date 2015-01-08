@@ -40,12 +40,14 @@ class @Newstime.MultiSelectionView extends Backbone.View
   keydown: (e) ->
     switch e.keyCode
       when 71 # g
-        if e.altKey
-          # TODO: Create group
-          console.log "Create Group from Multiselection"
+        @createGroup() if e.altKey
 
       when 27 # ESC
         @composer.clearSelection()
+
+  createGroup: ->
+    # TODO: Create group
+    console.log "Create Group from Multiselection"
 
   # Detects a hit of the selection
   hit: (x, y) ->

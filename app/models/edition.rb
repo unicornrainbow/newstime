@@ -33,10 +33,12 @@ class Edition
   embeds_many  :sections
   embeds_many  :pages
   embeds_many  :content_items
+  embeds_many  :groups
 
   accepts_nested_attributes_for :sections
   accepts_nested_attributes_for :pages
   accepts_nested_attributes_for :content_items
+  accepts_nested_attributes_for :groups
 
   has_many :prints, :order => :created_at.desc
 
