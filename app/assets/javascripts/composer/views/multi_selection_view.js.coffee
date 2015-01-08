@@ -46,25 +46,8 @@ class @Newstime.MultiSelectionView extends Backbone.View
         @composer.clearSelection()
 
   createGroup: ->
-
-    # Create the group
-    group = new Newstime.Group
-      _id: @createGuid()
-
-    # Add selection items to the group.
-    _.each @selection.models, (model) ->
-      group.add(model)
-
-    # Deterimine Edition section and page.
-    # Add group into edition, section and page.
-
-    # Replace multiselection, with selection of group.
-    @composer.select(group)
-
-
-  createGuid: ->
-    _.range(8).map(-> Math.floor((1 + Math.random()) * 0x10000).toString(16).substring 1).join('')
-
+    group = @composer.createGroup(@selection.models)
+    @composer.selectGroup(group)
 
   # Detects a hit of the selection
   hit: (x, y) ->

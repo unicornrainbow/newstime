@@ -9,6 +9,7 @@ Press::Application.routes.draw do
     resources :sections
     resources :content_items
     resources :pages
+    resources :groups
     resources :sections
     resources :prints, only: ['index', 'create'] do
       member do

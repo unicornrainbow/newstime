@@ -511,6 +511,49 @@ class @Newstime.Composer extends Backbone.View
     @section.addPage (page) =>
       @canvasLayerView.addPage(page)
 
+  createGroup: (models) ->
+    group = @edition.get('groups').create {},
+      success: (response) ->
+        console.log response
+
+    #group = new Newstime.Group()
+
+    #@edition.get('groups').add(group)
+    console.log group
+
+    group
+
+    # Create a group on the back end to begin...
+    #page_id = _.first(models).get('page_id')
+
+    ## Create the group
+
+
+    ## Add selection items to the group.
+    #_.each @selection.models, (model) ->
+      #model.set(group_id: group.get('_id')
+
+
+    ## Deterimine Edition section and page.
+    ## Add group into edition, section and page.
+
+
+    #@get('edition').get('pages').create pageAttributes,
+      #success: success
+
+    ## Replace multiselection, with selection of group.
+    #@composer.addGroup(group)
+
+
+  createGuid: ->
+    _.range(8).map(-> Math.floor((1 + Math.random()) * 0x10000).toString(16).substring 1).join('')
+
+
+  # Selects a group
+  selectGroup: (group) ->
+    @clearSelection()
+
+
   select: (contentItem) ->
     @clearSelection()
 

@@ -34,6 +34,17 @@ class @Newstime.Edition extends Backbone.RelationalModel
       key: 'edition'
       includeInJSON: '_id'
     }
+  }
+  {
+    type: Backbone.HasMany
+    key: 'groups'
+    relatedModel: 'Newstime.Group'
+    collectionType: 'Newstime.GroupCollection'
+    keySource: 'groups_attributes'
+    reverseRelation: {
+      key: 'edition'
+      includeInJSON: '_id'
+    }
   }]
 
   initialize: (attributes, options) ->

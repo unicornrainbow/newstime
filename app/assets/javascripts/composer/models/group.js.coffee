@@ -4,4 +4,4 @@ class @Newstime.Group extends Backbone.RelationalModel
 class @Newstime.GroupCollection extends Backbone.Collection
   model: Newstime.Group
   url: ->
-    "#{@edition.url()}/pages"
+    "#{@edition.url()}/groups"

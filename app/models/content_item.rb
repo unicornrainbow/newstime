@@ -20,6 +20,7 @@ class ContentItem
   field    :_type,          type: String
   field    :sequence,       type: Integer
   field    :page_id,        type: BSON::ObjectId
+  field    :group_id,       type: BSON::ObjectId
   field    :top,            type: Integer
   field    :left,           type: Integer
   field    :width,          type: Integer
