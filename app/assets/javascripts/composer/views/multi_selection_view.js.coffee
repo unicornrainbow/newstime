@@ -46,8 +46,8 @@ class @Newstime.MultiSelectionView extends Backbone.View
         @composer.clearSelection()
 
   createGroup: ->
-    group = @composer.createGroup(@selection.models)
-    @composer.selectGroup(group)
+    @composer.createGroup @selection.models, (group) =>
+      @composer.selectGroup(group)
 
   # Detects a hit of the selection
   hit: (x, y) ->

@@ -43,6 +43,7 @@ class @Newstime.Composer extends Backbone.View
     @snapEnabled = true
 
     @contentItemViews = {}
+    @groupViews = {}
     @pageViews = {}
 
     @toolbox = new Newstime.Toolbox
@@ -78,6 +79,7 @@ class @Newstime.Composer extends Backbone.View
       edition: @edition
       toolbox: @toolbox
       contentItemViews: @contentItemViews
+      groupViews: @groupViews
       pageViews: @pageViews
     @$body.append(@canvasLayerView.el)
 
@@ -511,48 +513,45 @@ class @Newstime.Composer extends Backbone.View
     @section.addPage (page) =>
       @canvasLayerView.addPage(page)
 
-  createGroup: (models) ->
+  createGroup: (models, success) ->
     group = @edition.get('groups').create {},
-      success: (response) ->
-        console.log response
+      success: (group) ->
+        _.each models, (model) ->
+          model.group_id = group.get('_id')
 
-    #group = new Newstime.Group()
-
-    #@edition.get('groups').add(group)
-    console.log group
-
-    group
-
-    # Create a group on the back end to begin...
-    #page_id = _.first(models).get('page_id')
-
-    ## Create the group
-
-
-    ## Add selection items to the group.
-    #_.each @selection.models, (model) ->
-      #model.set(group_id: group.get('_id')
-
-
-    ## Deterimine Edition section and page.
-    ## Add group into edition, section and page.
-
-
-    #@get('edition').get('pages').create pageAttributes,
-      #success: success
-
-    ## Replace multiselection, with selection of group.
-    #@composer.addGroup(group)
-
+        success(group) if success
 
   createGuid: ->
     _.range(8).map(-> Math.floor((1 + Math.random()) * 0x10000).toString(16).substring 1).join('')
-
 
   # Selects a group
   selectGroup: (group) ->
     @clearSelection()
 
+    groupCID = group.cid
+    groupView = @groupViews[groupCID]
+
+    selection = new Newstime.GroupSelection
+      group: group
+      groupView: groupView
+
+    @activeSelection = selection
+
+    @updatePropertiesPanel(@activeSelection)
+
+    @activeSelectionView = new Newstime.GroupSelectionView
+      composer: this
+      selection: selection
+    @activeSelectionView.render()
+
+    groupView.select(@activeSelectionView)
+
+    @selectionLayerView.setSelection(selection, @activeSelectionView)
+    @focusedObject = @activeSelectionView  # Set focus to selection to send keyboard events.
+
+    @canvasLayerView.listenTo @activeSelectionView, 'tracking', @canvasLayerView.resizeSelection
+    @canvasLayerView.listenTo @activeSelectionView, 'tracking-release', @canvasLayerView.resizeSelectionRelease
+    @listenTo @activeSelectionView, 'destroy', @clearSelection
 
   select: (contentItem) ->
     @clearSelection()

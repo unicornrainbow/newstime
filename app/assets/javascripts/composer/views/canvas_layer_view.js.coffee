@@ -17,6 +17,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
 
     @contentItemCollection = @edition.get('content_items')
+    @groupCollection       = @edition.get('groups')
 
     # Capture all the pages & content items
     @contentItemSelector = '[data-content-item-id]'
@@ -59,6 +60,8 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
     @contentItemViews = options.contentItemViews
     @contentItemOutlineViews = {}
+
+    @groupViews = options.groupViews
 
     @pages.each (page) =>
       pageID = page.get('_id')
@@ -132,6 +135,12 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
     @listenTo @composer, 'zoom', @zoom
     @listenTo @contentItemCollection, 'remove', @removeContentItem
+    @listenTo @groupCollection, 'add', @addGroup
+
+  addGroup: (group) ->
+    @groupViews[group.cid] =
+      new Newstime.GroupView
+        model: group
 
   removeContentItem: (contentItem) =>
     # Remove from the content items view registry.
