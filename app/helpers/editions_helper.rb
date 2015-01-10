@@ -58,6 +58,7 @@ module EditionsHelper
   end
 
   def render_content_item(content_item, options={})
+    return nil if content_item.group
     content = ""
 
     content << case content_item

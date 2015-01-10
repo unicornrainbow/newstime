@@ -35,6 +35,14 @@ class ContentItem
     self.page_id = @page.id
   end
 
+  def group
+    @group ||= group_id && edition.groups.find(group_id)
+  end
+
+  def group=(value)
+    @group, self.group_id = value, value.id
+  end
+
   def section
     @section ||= page.section
   end

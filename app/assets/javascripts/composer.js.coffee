@@ -517,7 +517,7 @@ class @Newstime.Composer extends Backbone.View
     group = @edition.get('groups').create {},
       success: (group) ->
         _.each models, (model) ->
-          model.group_id = group.get('_id')
+          model.set(group_id: group.get('_id'))
 
         success(group) if success
 
