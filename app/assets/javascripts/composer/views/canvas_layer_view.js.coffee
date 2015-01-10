@@ -21,15 +21,21 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
     # Capture all the pages & content items
     @contentItemSelector = '[data-content-item-id]'
+    @groupSelector       = '[data-group-id]'
     @pageSelector        = '[data-page-id]'
 
     contentItemEls     = @$(@contentItemSelector).detach()
+    groupEls           = @$(@groupSelector).detach()
     pageEls            = @$(@pageSelector).detach()
 
-    @$pages = @$('[pages]')
+    @$pages = @$('[pages]') # Pages container
 
     @pageViews = options.pageViews
-    @pageContentItems = {}
+    @pageContentItems = {}                          # Inventory of content items per each page
+    @pageGroups = {}                                # Inventory of content items per each page
+    @groupViews = options.groupViews                # Group views by group.cid
+    @contentItemViews = options.contentItemViews
+    @contentItemOutlineViews = {}
 
     ## Add each of the pages back, rebuilding the view in the correct order.
     ## Need pages for this section, ordered by page number.
@@ -50,17 +56,18 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
       @pageViews[page.cid] = view
       @pageContentItems[page.cid] = page.getContentItems()
+      @pageGroups[page.cid] = page.getGroups()
+
 
     @$canvasItems = $('<div class="canvas-items"></div>')
     @$canvasItems.appendTo(@$body)
 
+    @$groups = $('<div class="canvas-items"></div>')
+    @$groups.appendTo(@$body)
+
     # Position canvas items div layer
     @positionCanvasItemsContainer()
 
-    @contentItemViews = options.contentItemViews
-    @contentItemOutlineViews = {}
-
-    @groupViews = options.groupViews
 
     @pages.each (page) =>
       pageID = page.get('_id')
@@ -70,7 +77,36 @@ class @Newstime.CanvasLayerView extends Backbone.View
       pageOffsetLeft = pageView.getOffsetLeft()
       pageOffsetTop  = pageView.getOffsetTop()
 
+      groups = @pageGroups[page.cid]
       contentItems = @pageContentItems[page.cid]
+
+      _.each groups, (group) =>
+
+        # Construct and add in each content item.
+        id = group.get('_id')
+        el = groupEls.filter("[data-group-id='#{id}")
+
+        groupView = new Newstime.GroupView
+          model: group
+          el: el
+          pageOffsetLeft: pageOffsetLeft
+          pageOffsetTop: pageOffsetTop
+          composer: @composer
+          #outlineView: contentItemOutlineView
+          page: page
+          pageID: pageID
+          pageView: pageView
+
+        #groupView.bind 'activate', @selectContentItem, this
+        #groupView.bind 'deactivate', @selectionDeactivated, this
+        #groupView.bind 'tracking', @resizeSelection, this
+        #groupView.bind 'tracking-release', @resizeSelectionRelease, this
+
+        groupCID = group.cid
+        @groupViews[groupCID] = groupView
+        #@groupOutlineViews[groupCID] = groupOutlineView
+        @$groups.append(el) # For now a seperate layer, eventually on canvas item div, with z-index coordination
+
 
       _.each contentItems, (contentItem) =>
 

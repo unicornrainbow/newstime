@@ -8,7 +8,6 @@ class @Newstime.Section extends Backbone.RelationalModel
   getPages: ->
     @pages ?= _.sortBy(@get('edition').get('pages').where(section_id: @get('_id')), 'number')
 
-
   getNextPageNumber: ->
     lastPage = _.last(@getPages())
     if lastPage?
