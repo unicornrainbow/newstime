@@ -514,7 +514,8 @@ class @Newstime.Composer extends Backbone.View
       @canvasLayerView.addPage(page)
 
   createGroup: (models, success) ->
-    group = @edition.get('groups').create {},
+    page_id = _.first(models).get('page_id') # HACK: Assign group to page for first item for now.
+    group = @edition.get('groups').create { page_id: page_id },
       success: (group) ->
         _.each models, (model) ->
           model.set(group_id: group.get('_id'))

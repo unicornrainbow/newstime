@@ -29,6 +29,10 @@ class Page
     edition.content_items.where(page_id: id)
   end
 
+  def groups
+    edition.groups.where(page_id: id)
+  end
+
   def pixel_height
     self[:pixel_height] || 1552
   end
