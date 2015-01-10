@@ -57,7 +57,6 @@ class @Newstime.CanvasLayerView extends Backbone.View
     # Position canvas items div layer
     @positionCanvasItemsContainer()
 
-
     @contentItemViews = options.contentItemViews
     @contentItemOutlineViews = {}
 
@@ -364,12 +363,6 @@ class @Newstime.CanvasLayerView extends Backbone.View
     if @resizeSelectionTarget
       @resizeSelectionTarget.trigger 'mousemove', e
       return true
-
-    #if @trackingSelection
-      #@trackingSelection.$el.css
-        #width: @snapToGridRight(e.x - @trackingSelection.anchorX)
-        #height: e.y - @trackingSelection.anchorY
-      #return true
 
     ## Check for hit inorder to highlight hovered selection
     if @composer.activeSelectionView # Check active selection first.

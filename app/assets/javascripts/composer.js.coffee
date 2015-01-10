@@ -282,13 +282,13 @@ class @Newstime.Composer extends Backbone.View
     @mouseX = e.x
     @mouseY = e.y
 
-    # Compistae for top offset to allow room for menu
-
+    # Compensate for top offset to allow room for menu
     e =
       x: @mouseX
       y: @mouseY
       shiftKey: e.shiftKey
 
+    # If tracking layer, pass event there and return.
     if @trackingLayer
       @trackingLayer.trigger 'mousemove', e
       return true
