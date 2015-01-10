@@ -97,10 +97,10 @@ class @Newstime.CanvasLayerView extends Backbone.View
           pageID: pageID
           pageView: pageView
 
-        #groupView.bind 'activate', @selectContentItem, this
-        #groupView.bind 'deactivate', @selectionDeactivated, this
-        #groupView.bind 'tracking', @resizeSelection, this
-        #groupView.bind 'tracking-release', @resizeSelectionRelease, this
+        @listenTo groupView, 'activate', @selectContentItem
+        @listenTo groupView, 'deactivate', @selectionDeactivated
+        @listenTo groupView, 'tracking', @resizeSelection
+        @listenTo groupView, 'tracking-release', @resizeSelectionRelease
 
         groupCID = group.cid
         @groupViews[groupCID] = groupView
@@ -142,10 +142,10 @@ class @Newstime.CanvasLayerView extends Backbone.View
           pageID: pageID
           pageView: pageView
 
-        contentItemView.bind 'activate', @selectContentItem, this
-        contentItemView.bind 'deactivate', @selectionDeactivated, this
-        contentItemView.bind 'tracking', @resizeSelection, this
-        contentItemView.bind 'tracking-release', @resizeSelectionRelease, this
+        @listenTo contentItemView, 'activate', @selectContentItem
+        @listenTo contentItemView, 'deactivate', @selectionDeactivated
+        @listenTo contentItemView, 'tracking', @resizeSelection
+        @listenTo contentItemView, 'tracking-release', @resizeSelectionRelease
 
         contentItemCID = contentItem.cid
         @contentItemViews[contentItemCID] = contentItemView
