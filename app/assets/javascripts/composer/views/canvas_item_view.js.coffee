@@ -147,7 +147,7 @@ class @Newstime.CanvasItemView extends Backbone.View
 
     if @selected
       if e.shiftKey
-        # Add to selection
+        # Remove from selection
         @composer.removeFromSelection(@model)
     else
       if e.shiftKey
@@ -155,7 +155,10 @@ class @Newstime.CanvasItemView extends Backbone.View
         @composer.addToSelection(@model)
       else
         # Set as selection
-        @composer.select(@model) # TODO: Shift+click with add to selection. alt-click will remove from.
+        if @model.get('group_id')?
+          @composer.selectGroup(@model.getGroup()) # TODO: Shift+click with add to selection. alt-click will remove from.
+        else
+          @composer.select(@model) # TODO: Shift+click with add to selection. alt-click will remove from.
 
     # Pass mouse down to selection
     @composer.activeSelectionView.trigger 'mousedown', e
