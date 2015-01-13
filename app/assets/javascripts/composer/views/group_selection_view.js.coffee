@@ -17,17 +17,17 @@ class @Newstime.GroupSelectionView extends Backbone.View
     @$el.append(handleEls)
 
     # HACK: Shouldn't be binding direct to the content item model and view
-    #@model = @contentItem = @selection.contentItem
-    #@canvasItemView = @contentItemView = @selection.contentItemView # TODO: Should be canvasItemSelection (As the selection type)
+    @group = @selection.group
+    @groupView = @selection.groupView # TODO: Should be canvasItemSelection (As the selection type)
 
-    #@page = @contentItemView.page
-    #@pageView = @contentItemView.pageView
+    #@page = @groupView.page
+    #@pageView = @groupView.pageView
 
-    #@pageOffsetLeft = @contentItemView.pageOffsetLeft
-    #@pageOffsetTop  = @contentItemView.pageOffsetTop
+    @pageOffsetLeft = @groupView.pageOffsetLeft
+    @pageOffsetTop  = @groupView.pageOffsetTop
 
-    #@listenTo @contentItem ,'change', @render
-    #@listenTo @canvasItemView, 'deselect', @remove
+    @listenTo @group ,'change', @render
+    @listenTo @groupView, 'deselect', @remove
 
     @bind 'mousedown', @mousedown
     @bind 'mousemove', @mousemove
@@ -49,12 +49,12 @@ class @Newstime.GroupSelectionView extends Backbone.View
     super
 
   render: ->
-    position = _.pick @contentItem.attributes, 'width', 'height'
+    position = _.pick @group.attributes, 'width', 'height'
 
-    position.top = @contentItem.get('top')
+    position.top = @group.get('top')
     position.top += @pageOffsetTop
 
-    position.left = @contentItem.get('left')
+    position.left = @group.get('left')
     position.left += @pageOffsetLeft
 
     # Apply zoom level
@@ -74,19 +74,19 @@ class @Newstime.GroupSelectionView extends Backbone.View
     @canvasItemView.trigger 'paste', e
 
   getLeft: ->
-    @model.get('left')
+    @group.get('left')
     #parseInt(@$el.css('left'))
 
   getTop: ->
-    @model.get('top')
+    @group.get('top')
     #parseInt(@$el.css('top'))
 
   getWidth: ->
-    @model.get('width')
+    @group.get('width')
     #parseInt(@$el.css('width'))
 
   getHeight: ->
-    @model.get('height')
+    @group.get('height')
 
   keydown: (e) ->
     @contentItemView.trigger 'keydown', e
@@ -115,10 +115,10 @@ class @Newstime.GroupSelectionView extends Backbone.View
 
 
   getGeometry: ->
-    @model.pick('top', 'left', 'height', 'width')
+    @group.pick('top', 'left', 'height', 'width')
 
   getBounds: ->
-    bounds = @model.pick('top', 'left', 'height', 'width')
+    bounds = @group.pick('top', 'left', 'height', 'width')
     bounds.bottom = bounds.top + bounds.height
     bounds.right = bounds.left + bounds.width
     delete bounds.width
@@ -184,12 +184,12 @@ class @Newstime.GroupSelectionView extends Backbone.View
     @trigger 'tracking', this
 
   trackMove: (offsetX, offsetY) ->
-    @pageView.computeTopSnapPoints()
-    @pageView.collectLeftEdges(@model)
-    @pageView.collectRightEdges(@model)
+    #@pageView.computeTopSnapPoints()
+    #@pageView.collectLeftEdges(@model)
+    #@pageView.collectRightEdges(@model)
     @moving      = true
-    @orginalPositionX = @model.get('left')
-    @orginalPositionY = @model.get('top')
+    @orginalPositionX = @group.get('left')
+    @orginalPositionY = @group.get('top')
     @moveOffsetX = offsetX
     @moveOffsetY = offsetY
     @trigger 'tracking', this

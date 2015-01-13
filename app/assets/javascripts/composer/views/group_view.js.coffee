@@ -15,6 +15,7 @@ class @Newstime.GroupView extends Backbone.View
     @bind
       mouseover: @mouseover
       mouseout: @mouseout
+      mousedown: @mousedown
 
   render: ->
     @$el.css
@@ -42,6 +43,24 @@ class @Newstime.GroupView extends Backbone.View
 
     boundry = new Newstime.Boundry(top: top, left: left, bottom: bottom, right: right)
     @model.set _.pick boundry, 'top', 'left', 'width', 'height'
+
+
+  mousedown: (e) ->
+    @adjustEventXY(e)
+
+    return unless e.button == 0 # Only respond to left button mousedown.
+
+    unless @selected
+      @composer.selectGroup(@model)
+
+    # Pass mouse down to selection
+    @composer.activeSelectionView.trigger 'mousedown', e
+
+    #if @hoveredHandle
+      #@trackResize @hoveredHandle.type
+    #else
+      #geometry = @getGeometry()
+      #@trackMove(e.x - geometry.left, e.y - geometry.top)
 
 
   getPropertiesView: ->
@@ -97,3 +116,18 @@ class @Newstime.GroupView extends Backbone.View
     # Apply page offset
     e.x -= @pageOffsetLeft
     e.y -= @pageOffsetTop
+
+
+  select: (selectionView) ->
+    unless @selected
+      @selected = true
+      @selectionView = selectionView
+      #@trigger 'select',
+        #contentItemView: this
+        #contentItem: @model
+
+  deselect: ->
+    if @selected
+      @selected = false
+      @selectionView = null
+      #@trigger 'deselect', this
