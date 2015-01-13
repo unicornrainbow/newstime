@@ -62,12 +62,11 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @$canvasItems = $('<div class="canvas-items"></div>')
     @$canvasItems.appendTo(@$body)
 
-    @$groups = $('<div class="canvas-items"></div>')
+    @$groups = $('<div class="groups"></div>')
     @$groups.appendTo(@$body)
 
     # Position canvas items div layer
     @positionCanvasItemsContainer()
-
 
     @pages.each (page) =>
       pageID = page.get('_id')
@@ -221,6 +220,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
       @position.left -= (@position.width - @pagesOffset.width)/2
 
     @$canvasItems.css(@position)
+    @$groups.css(@position)
 
     @composer.outlineLayerView.setPosition @position
     @composer.selectionLayerView.setPosition @position
