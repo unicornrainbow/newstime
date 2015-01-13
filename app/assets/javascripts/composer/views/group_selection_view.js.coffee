@@ -295,7 +295,7 @@ class @Newstime.GroupSelectionView extends Backbone.View
     #@pageView.moveItem(this, x, y, @orginalPositionX, @orginalPositionY, shiftKey)
 
   setSizeAndPosition: (value) ->
-    @canvasItemView.setSizeAndPosition(value)
+    @group.set(value)
 
 
   # Resizes based on a top drag
