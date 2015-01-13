@@ -85,13 +85,20 @@ class @Newstime.CanvasLayerView extends Backbone.View
         id = group.get('_id')
         el = groupEls.filter("[data-group-id='#{id}")
 
+        contentItemOutlineView = new Newstime.ContentItemOutlineView
+          composer: @composer
+          model: group
+          pageOffsetLeft: pageOffsetLeft
+          pageOffsetTop: pageOffsetTop
+        @composer.outlineLayerView.attach(contentItemOutlineView)
+
         groupView = new Newstime.GroupView
           model: group
           el: el
           pageOffsetLeft: pageOffsetLeft
           pageOffsetTop: pageOffsetTop
           composer: @composer
-          #outlineView: contentItemOutlineView
+          outlineView: contentItemOutlineView
           page: page
           pageID: pageID
           pageView: pageView

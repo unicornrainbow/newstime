@@ -8,6 +8,14 @@ class @Newstime.GroupView extends Backbone.View
     @pageOffsetTop = options.pageOffsetTop
     @pageOffsetLeft = options.pageOffsetLeft
 
+    @outlineView = options.outlineView
+
+    @composer = options.composer
+
+    @bind
+      mouseover: @mouseover
+      mouseout: @mouseout
+
   render: ->
     @$el.css
       top: @model.get('top') + @pageOffsetTop
@@ -61,3 +69,31 @@ class @Newstime.GroupView extends Backbone.View
 
   getGeometry: ->
     @model.pick('top', 'left', 'height', 'width')
+
+
+  mouseover: (e) ->
+    @hovered = true
+    @outlineView.show()
+    @composer.pushCursor @getCursor()
+
+
+  getCursor: ->
+    'default'
+
+
+  mouseout: (e) ->
+    @adjustEventXY(e)
+
+    if @hoveredHandle
+      @hoveredHandle.trigger 'mouseout', e
+      @hoveredHandle = null
+
+    @hovered = false
+    @outlineView.hide()
+    @composer.popCursor()
+
+
+  adjustEventXY: (e) ->
+    # Apply page offset
+    e.x -= @pageOffsetLeft
+    e.y -= @pageOffsetTop
