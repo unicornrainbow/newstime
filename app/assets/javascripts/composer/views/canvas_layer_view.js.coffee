@@ -171,6 +171,11 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @listenTo @contentItemCollection, 'remove', @removeContentItem
     @listenTo @groupCollection, 'add', @addGroup
 
+
+    _.each @groupViews, (groupView) ->
+      groupView.measurePosition()
+      groupView.render()
+
   addGroup: (group) ->
     @groupViews[group.cid] =
       new Newstime.GroupView
@@ -403,6 +408,15 @@ class @Newstime.CanvasLayerView extends Backbone.View
     ## Check for hit inorder to highlight hovered selection
     if @composer.activeSelectionView # Check active selection first.
       selection = @composer.activeSelectionView if @composer.activeSelectionView.hit(e.x, e.y)
+
+    # Check against groups for hit.
+    #   Note: Groups groups should not be hit first, and should be impossible to
+    #   hit things within groups. This is going to need to be a point of
+    #   improvment. Should be checking against individual pages, and they should
+    #   be maintaining their own hit graph. (Just thoughts)
+    unless selection
+      selection = _.find @groupViews, (group, id) ->
+        group.hit(e.x, e.y)
 
     unless selection
       # NOTE: Would be nice to skip active selection here, since already
