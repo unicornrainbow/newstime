@@ -158,6 +158,11 @@ class @Newstime.CanvasLayerView extends Backbone.View
         @contentItemOutlineViews[contentItemCID] = contentItemOutlineView
         @$canvasItems.append(el)
 
+    # Add an add page button
+    @addPageButton = new Newstime.AddPageButton
+      composer: @composer
+    @$el.append(@addPageButton.el)
+
     # Create link area, to enable clicking through on links.
     @linkAreas = _.map @$el.find('a'), (link) =>
       new Newstime.LinkArea(link, topOffset: @topOffset, composer: @composer)
@@ -436,6 +441,10 @@ class @Newstime.CanvasLayerView extends Backbone.View
       # checked, but no biggie.
       selection = _.find @linkAreas, (linkArea) ->
         linkArea.hit(e.x, e.y)
+
+    unless selection # If no page, check for button hit
+      if @detectHit @addPageButton, e.x, e.y
+        selection = @addPageButton
 
     if selection
       if @hoveredObject != selection
