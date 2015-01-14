@@ -40,8 +40,8 @@ class @Newstime.GroupSelectionView extends Backbone.View
       @destroyed = true
       @trigger 'destroy', this
 
-      if @canvasItemView
-        @canvasItemView.deselect()
+      if @groupView
+        @groupView.deselect()
 
     super
 
