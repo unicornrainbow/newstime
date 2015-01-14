@@ -5,9 +5,6 @@ class @Newstime.GroupView extends Backbone.View
 
     @propertiesView = new Newstime.GroupPropertiesView(target: this, model: @model)
 
-    @pageOffsetTop = options.pageOffsetTop
-    @pageOffsetLeft = options.pageOffsetLeft
-
     @outlineView = options.outlineView
 
     @composer = options.composer
@@ -18,36 +15,32 @@ class @Newstime.GroupView extends Backbone.View
       mousedown: @mousedown
 
   render: ->
-    @$el.css
-      top: @model.get('top') + @pageOffsetTop
-      left: @model.get('left') + @pageOffsetLeft
-    @$el.css _.pick @model.attributes, 'width', 'height'
+    @$el.css _.pick @model.attributes, 'width', 'height', 'top', 'left'
 
   measurePosition: ->
     @contentItems = @model.getContentItems()
     first = _.first(@contentItems)
-    boundry =  first.getBoundry()
+    if first?
+      boundry =  first.getBoundry()
 
-    top = boundry.top
-    left = boundry.left
-    bottom = boundry.bottom
-    right = boundry.right
+      top = boundry.top
+      left = boundry.left
+      bottom = boundry.bottom
+      right = boundry.right
 
-    _.each @contentItems, (contentItem) ->
-      boundry = contentItem.getBoundry()
+      _.each @contentItems, (contentItem) ->
+        boundry = contentItem.getBoundry()
 
-      top = Math.min(top, boundry.top)
-      left = Math.min(left, boundry.left)
-      bottom = Math.max(bottom, boundry.bottom)
-      right = Math.max(right, boundry.right)
+        top = Math.min(top, boundry.top)
+        left = Math.min(left, boundry.left)
+        bottom = Math.max(bottom, boundry.bottom)
+        right = Math.max(right, boundry.right)
 
-    boundry = new Newstime.Boundry(top: top, left: left, bottom: bottom, right: right)
-    @model.set _.pick boundry, 'top', 'left', 'width', 'height'
+      boundry = new Newstime.Boundry(top: top, left: left, bottom: bottom, right: right)
+      @model.set _.pick boundry, 'top', 'left', 'width', 'height'
 
 
   mousedown: (e) ->
-    @adjustEventXY(e)
-
     return unless e.button == 0 # Only respond to left button mousedown.
 
     unless @selected
@@ -68,9 +61,6 @@ class @Newstime.GroupView extends Backbone.View
 
   # Detects a hit of the selection
   hit: (x, y) ->
-    x = x - @pageOffsetLeft
-    y = y - @pageOffsetTop
-
     geometry = @getGeometry()
 
     ## Expand the geometry by buffer distance in each direction to extend
@@ -101,7 +91,6 @@ class @Newstime.GroupView extends Backbone.View
 
 
   mouseout: (e) ->
-    @adjustEventXY(e)
 
     if @hoveredHandle
       @hoveredHandle.trigger 'mouseout', e
@@ -110,13 +99,6 @@ class @Newstime.GroupView extends Backbone.View
     @hovered = false
     @outlineView.hide()
     @composer.popCursor()
-
-
-  adjustEventXY: (e) ->
-    # Apply page offset
-    e.x -= @pageOffsetLeft
-    e.y -= @pageOffsetTop
-
 
   select: (selectionView) ->
     unless @selected
