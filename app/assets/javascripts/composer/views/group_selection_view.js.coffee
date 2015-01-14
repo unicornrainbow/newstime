@@ -81,10 +81,10 @@ class @Newstime.GroupSelectionView extends Backbone.View
     @group.get('height')
 
   keydown: (e) ->
-    @contentItemView.trigger 'keydown', e
+    @groupView.trigger 'keydown', e
 
   dblclick: (e) ->
-    @contentItemView.trigger 'dblclick', e
+    @groupView.trigger 'dblclick', e
 
   # Detects a hit of the selection
   hit: (x, y) ->

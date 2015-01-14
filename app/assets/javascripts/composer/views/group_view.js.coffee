@@ -13,6 +13,7 @@ class @Newstime.GroupView extends Backbone.View
       mouseover: @mouseover
       mouseout: @mouseout
       mousedown: @mousedown
+      keydown: @keydown
 
   render: ->
     @$el.css _.pick @model.attributes, 'width', 'height', 'top', 'left'
@@ -75,6 +76,16 @@ class @Newstime.GroupView extends Backbone.View
     geometry.left <= x <= geometry.left + geometry.width &&
       geometry.top <= y <= geometry.top + geometry.height
 
+  keydown: (e) =>
+    switch e.keyCode
+      when 85 # u
+        @ungroup() if e.altKey
+      when 27 # ESC
+        @deselect()
+
+  ungroup: ->
+    # TODO: Implement ungroup
+
 
   getGeometry: ->
     @model.pick('top', 'left', 'height', 'width')
@@ -112,4 +123,4 @@ class @Newstime.GroupView extends Backbone.View
     if @selected
       @selected = false
       @selectionView = null
-      #@trigger 'deselect', this
+      @trigger 'deselect', this
