@@ -6,16 +6,36 @@ class @Newstime.ContentItem extends Backbone.RelationalModel
 
     @on 'change:page_id', @clearPage
 
+
+  Object.defineProperties @prototype,
+    top:
+      get: -> @get('top')
+      set: (value) ->
+        @set 'top', value
+
+    left:
+      get: -> @get('left')
+      set: (value) ->
+        @set 'left', value
+
+    #page:
+      #get: ->
+        #@getPage()
+      #set: (value) ->
+        #@_page = value
+        #@set 'page_id', value.id
+
   # Gets page
   getPage: ->
-    @page ?= @get('edition').get('pages').findWhere(_id: @get('page_id'))
+    @_page ?= @get('edition').get('pages').findWhere(_id: @get('page_id'))
+
+  setPage: (page) ->
+    @_page = page
+    @set 'page_id', page.get('_id')
 
   getGroup: ->
     @group ?= @get('edition').get('groups').findWhere(_id: @get('group_id'))
 
-  setPage: (page) ->
-    @set 'page_id', page.get('_id')
-    @page = page
 
   clearPage: ->
     @page = null

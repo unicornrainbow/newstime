@@ -11,6 +11,22 @@ class @Newstime.Page extends Backbone.RelationalModel
       #success: (data) ->
         #console.log data
 
+
+  Object.defineProperties @prototype,
+    #id:
+      #get: -> @get('_id')
+      #set: (value) ->
+        #@set '_id', value
+    top:
+      get: -> @get('top')
+      set: (value) ->
+        @set 'top', value
+
+    left:
+      get: -> @get('left')
+      set: (value) ->
+        @set 'left', value
+
   contentItems: ->
     @_contentItems ?= @getContentItems()
 

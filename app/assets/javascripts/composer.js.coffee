@@ -741,6 +741,28 @@ class @Newstime.Composer extends Backbone.View
   clearVerticalSnapLines: ->
     @outlineLayerView.clearVerticalSnapLines()
 
+  # Ensure item is on correct page, otherwise reassigns page
+  assignPage: (canvasItem) ->
+    y = canvasItem.top
+
+    # Get section pages
+    sectionPages = @section.getPages()
+
+    # Page must have an offset less than or equal to the y position of the page
+    # to be a match foe the page it appears on. Pages are stacked consecutive,
+    # so we are looking for the highest offset, selected in next step.
+    pages = _.filter sectionPages, (page) ->
+      page.top <= y
+
+    # Take the page with the highest offet out of qualifying pages
+    page = _.max pages, (page) -> page.top
+
+    if canvasItem.getPage() != page
+      canvasItem.setPage(page)
+
+
+
+
 $ ->
   # Get the edition, mostly for development purposes right now.
   #edition_id = document.URL.match(/editions\/(\w*)/)[1] # Hack to get edition id from url string

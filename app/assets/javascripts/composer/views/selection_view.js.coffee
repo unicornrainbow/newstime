@@ -370,7 +370,7 @@ class @Newstime.SelectionView extends Backbone.View
 
     if @moving
       @moving = false
-
+      @composer.assignPage(@model)
       @composer.clearVerticalSnapLines()
 
     @trigger 'tracking-release', this

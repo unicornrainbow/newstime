@@ -21,6 +21,7 @@ class @Newstime.CanvasItemView extends Backbone.View
       keydown:   @keydown
 
     # Bind Model Events
+    @listenTo @model, 'change:page_id', @handelChangePage
     @listenTo @model, 'change', @render
     @listenTo @model, 'destroy', @remove
 
@@ -30,6 +31,11 @@ class @Newstime.CanvasItemView extends Backbone.View
 
   render: ->
     @$el.css _.pick @model.attributes, 'width', 'height', 'top', 'left'
+
+  handelChangePage: ->
+    @page = @model.getPage()
+    @pageView = @composer.pageViews[@page.cid]
+    console.log 'changed page', @page
 
   # Detects a hit of the selection
   hit: (x, y) ->
@@ -357,6 +363,8 @@ class @Newstime.CanvasItemView extends Backbone.View
       height: y - geometry.top
 
   mouseup: (e) ->
+    #TODO: Need to remove this code, which is no longer used do to selection
+    #view
 
     if @resizing
       @resizing = false
@@ -367,7 +375,9 @@ class @Newstime.CanvasItemView extends Backbone.View
       _.each @dragHandles, (h) -> h.reset()
       @trigger 'resized'
 
-    @moving = false
+    if @moving?
+      @moving = false
+
     @trigger 'tracking-release', this
 
   mouseover: (e) ->
@@ -393,6 +403,12 @@ class @Newstime.CanvasItemView extends Backbone.View
 
   setSizeAndPosition: (attributes) ->
     @model.set(attributes)
+
+  assignPage: (options) ->
+    @page = options.model
+    @pageView = options.view
+    @model.set('page_id': @page.get('_id'))
+    console.log 'yo'
 
   # Does an x,y corrdinate intersect a bounding box
   hitBox: (hitX, hitY, boxX, boxY, boxSize) ->
