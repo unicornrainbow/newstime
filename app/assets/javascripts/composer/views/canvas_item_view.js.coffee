@@ -12,10 +12,6 @@ class @Newstime.CanvasItemView extends Backbone.View
 
     @outlineView = options.outlineView
 
-    # Page offsets for positioning.
-    @pageOffsetLeft = options.pageOffsetLeft
-    @pageOffsetTop  = options.pageOffsetTop
-
     @bind
       mousedown: @mousedown
       mousemove: @mousemove
@@ -33,16 +29,10 @@ class @Newstime.CanvasItemView extends Backbone.View
     @$el.addClass 'canvas-item-view'
 
   render: ->
-    @$el.css
-      top: @model.get('top') + @pageOffsetTop
-      left: @model.get('left') + @pageOffsetLeft
-    @$el.css _.pick @model.attributes, 'width', 'height'
+    @$el.css _.pick @model.attributes, 'width', 'height', 'top', 'left'
 
   # Detects a hit of the selection
   hit: (x, y) ->
-    x = x - @pageOffsetLeft
-    y = y - @pageOffsetTop
-
     geometry = @getGeometry()
 
     ## Expand the geometry by buffer distance in each direction to extend
@@ -141,7 +131,6 @@ class @Newstime.CanvasItemView extends Backbone.View
     @model.destroy()
 
   mousedown: (e) ->
-    @adjustEventXY(e)
 
     return unless e.button == 0 # Only respond to left button mousedown.
 
@@ -201,7 +190,6 @@ class @Newstime.CanvasItemView extends Backbone.View
     @trigger 'tracking', this
 
   mousemove: (e) ->
-    @adjustEventXY(e)
     if @resizing
       switch @resizeMode
         when 'top'          then @dragTop(e.x, e.y)
@@ -214,6 +202,7 @@ class @Newstime.CanvasItemView extends Backbone.View
         when 'bottom-right' then @dragBottomRight(e.x, e.y)
 
     else if @moving
+      console.log 'hello'
       @move(e.x, e.y)
 
     else if @active
@@ -279,10 +268,6 @@ class @Newstime.CanvasItemView extends Backbone.View
     if @hitBox x, y, right, bottom, 8
       return "bottom-right"
 
-  adjustEventXY: (e) ->
-    # Apply page offset
-    e.x -= @pageOffsetLeft
-    e.y -= @pageOffsetTop
 
   # Moves based on corrdinates and starting offset
   move: (x, y) ->
@@ -372,7 +357,6 @@ class @Newstime.CanvasItemView extends Backbone.View
       height: y - geometry.top
 
   mouseup: (e) ->
-    @adjustEventXY(e)
 
     if @resizing
       @resizing = false
@@ -396,7 +380,6 @@ class @Newstime.CanvasItemView extends Backbone.View
     'default'
 
   mouseout: (e) ->
-    @adjustEventXY(e)
 
     if @hoveredHandle
       @hoveredHandle.trigger 'mouseout', e

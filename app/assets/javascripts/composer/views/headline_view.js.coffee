@@ -25,9 +25,7 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
     @$el.addClass 'headline-view'
 
   render: ->
-    @$el.css
-      top: @model.get('top') + @pageOffsetTop
-      left: @model.get('left') + @pageOffsetLeft
+    @$el.css _.pick @model.attributes, 'top', 'left'
 
     @renderMargins()
     @$el.css 'font-family': @model.get('font_family')

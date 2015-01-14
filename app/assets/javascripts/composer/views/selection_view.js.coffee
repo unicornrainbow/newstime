@@ -23,9 +23,6 @@ class @Newstime.SelectionView extends Backbone.View
     @page = @contentItemView.page
     @pageView = @contentItemView.pageView
 
-    @pageOffsetLeft = @contentItemView.pageOffsetLeft
-    @pageOffsetTop  = @contentItemView.pageOffsetTop
-
     @listenTo @contentItem ,'change', @render
     @listenTo @canvasItemView, 'deselect', @remove
 
@@ -52,10 +49,7 @@ class @Newstime.SelectionView extends Backbone.View
     position = _.pick @contentItem.attributes, 'width', 'height'
 
     position.top = @contentItem.get('top')
-    position.top += @pageOffsetTop
-
     position.left = @contentItem.get('left')
-    position.left += @pageOffsetLeft
 
     # Apply zoom level
     if @composer.zoomLevel
@@ -96,9 +90,6 @@ class @Newstime.SelectionView extends Backbone.View
 
   # Detects a hit of the selection
   hit: (x, y) ->
-    x = x - @pageOffsetLeft
-    y = y - @pageOffsetTop
-
     geometry = @getGeometry()
 
     ## Expand the geometry by buffer distance in each direction to extend
@@ -127,7 +118,6 @@ class @Newstime.SelectionView extends Backbone.View
 
 
   mousedown: (e) ->
-    @adjustEventXY(e)
 
     return unless e.button == 0 # Only respond to left button mousedown.
 
@@ -195,7 +185,6 @@ class @Newstime.SelectionView extends Backbone.View
     @trigger 'tracking', this
 
   mousemove: (e) ->
-    @adjustEventXY(e)
     if @resizing
       switch @resizeMode
         when 'top'          then @dragTop(e.x, e.y)
@@ -278,12 +267,6 @@ class @Newstime.SelectionView extends Backbone.View
     # bottom-right drag handle hit?
     if @hitBox x, y, right, bottom, boxSize
       return "bottom-right"
-
-
-  adjustEventXY: (e) ->
-    # Apply page offset
-    e.x -= @pageOffsetLeft
-    e.y -= @pageOffsetTop
 
 
   # Moves based on corrdinates and starting offset
@@ -376,8 +359,6 @@ class @Newstime.SelectionView extends Backbone.View
     @canvasItemView.dragBottomRight(x, y)
 
   mouseup: (e) ->
-    @adjustEventXY(e)
-
     if @resizing
       @resizing = false
       @resizeMode = null
@@ -402,7 +383,6 @@ class @Newstime.SelectionView extends Backbone.View
     'default'
 
   mouseout: (e) ->
-    @adjustEventXY(e)
 
     if @hoveredHandle
       @hoveredHandle.trigger 'mouseout', e
