@@ -57,13 +57,29 @@ module EditionsHelper
     content << javascript_include_tag("composer") + "\n"
   end
 
+
+  def underscore_key(key)
+    key.to_s.underscore.to_sym
+  end
+
+  def convert_hash_keys(hash)
+    Hash[hash.map { |k, v| [underscore_key(k), v] }]
+  end
+
+  def slice(object, *keys)
+    Hash[keys.map { |key|  [key, object.send(key)] }]
+  end
+
   def render_content_item(content_item, options={})
     content = ""
 
     content << case content_item
     when HeadlineContentItem then
-      options = {}
-      options[:id]     = content_item.id
+      options = content_item.attributes
+      options.merge! slice(content_item, :id, :style)  # Lift off a few extra attributes not contained in the attributes hash
+      options = convert_hash_keys(options) # Clean up keys
+
+      options[:id] = options[:_id]
 
       options[:text] = if content_item.text
         text = content_item.text.dup
@@ -72,25 +88,12 @@ module EditionsHelper
         ''
       end
 
-      options[:style]  = content_item.style
-      options[:width]  = content_item.width
-      options[:height] = content_item.height
-      options[:top]    = content_item.top
-      options[:left]   = content_item.left
-
       render "content/headline", options
     when StoryTextContentItem then
       render "content/story", id: content_item.id, anchor: content_item.id, rendered_html: content_item.rendered_html
     when TextAreaContentItem then
-      options = {}
-      options[:id]     = content_item.id
-      options[:text]   = content_item.text
-      options[:width]  = content_item.width
-      options[:height] = content_item.height
-      options[:top]    = content_item.top
-      options[:left]   = content_item.left
-      options[:anchor]  =  content_item.id
-      options[:rendered_html] = content_item.rendered_html
+      options = slice(content_item, :id, :text, :width, :height, :top, :left, :anchor, :rendered_html)
+      options = convert_hash_keys(options)
       render "content/text_area", options
     when PhotoContentItem then
       options = {}

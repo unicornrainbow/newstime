@@ -41,4 +41,8 @@ class TextAreaContentItem < ContentItem
     TextAreaTypesetter.new(self).typeset!
   end
 
+  def anchor
+    id
+  end
+
 end
