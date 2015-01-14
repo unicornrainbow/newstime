@@ -75,16 +75,10 @@ module EditionsHelper
 
     options = {}
     options[:id]     = content_item.id
-    options[:top]    = content_item.page_relative_top
-    options[:left]   = content_item.page_relative_left
+    options[:top]    = content_item.parent_relative_top
+    options[:left]   = content_item.parent_relative_left
     options[:width]  = content_item.width
     options[:height] = content_item.height
-
-    if content_item.group
-      group = content_item.group
-      options[:top] = options[:top] - group.top
-      options[:left] = options[:left] - group.left
-    end
 
     content << case content_item
     when HeadlineContentItem then

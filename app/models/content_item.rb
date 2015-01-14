@@ -48,13 +48,17 @@ class ContentItem
   end
 
   # Top, relative to page (Underlying value is relative to canvas)
-  def page_relative_top
-    top - page.top
+  def parent_relative_top
+    top - parent.top
   end
 
   # Left, relative to page (Underlying value is relative to canvas)
-  def page_relative_left
-    left - page.left
+  def parent_relative_left
+    left - parent.left
+  end
+
+  def parent
+    group || page
   end
 
 end
