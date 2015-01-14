@@ -47,4 +47,14 @@ class ContentItem
     @section ||= page.section
   end
 
+  # Top, relative to page (Underlying value is relative to canvas)
+  def page_relative_top
+    top - page.top
+  end
+
+  # Left, relative to page (Underlying value is relative to canvas)
+  def page_relative_left
+    left - page.left
+  end
+
 end
