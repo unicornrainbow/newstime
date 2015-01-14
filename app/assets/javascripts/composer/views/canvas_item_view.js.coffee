@@ -35,7 +35,6 @@ class @Newstime.CanvasItemView extends Backbone.View
   handelChangePage: ->
     @page = @model.getPage()
     @pageView = @composer.pageViews[@page.cid]
-    console.log 'changed page', @page
 
   # Detects a hit of the selection
   hit: (x, y) ->
