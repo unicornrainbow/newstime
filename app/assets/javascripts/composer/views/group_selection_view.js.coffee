@@ -23,9 +23,6 @@ class @Newstime.GroupSelectionView extends Backbone.View
     #@page = @groupView.page
     #@pageView = @groupView.pageView
 
-    @pageOffsetLeft = @groupView.pageOffsetLeft
-    @pageOffsetTop  = @groupView.pageOffsetTop
-
     @listenTo @group ,'change', @render
     @listenTo @groupView, 'deselect', @remove
 
@@ -49,13 +46,8 @@ class @Newstime.GroupSelectionView extends Backbone.View
     super
 
   render: ->
-    position = _.pick @group.attributes, 'width', 'height'
+    position = _.pick @group.attributes, 'width', 'height', 'top', 'left'
 
-    position.top = @group.get('top')
-    position.top += @pageOffsetTop
-
-    position.left = @group.get('left')
-    position.left += @pageOffsetLeft
 
     # Apply zoom level
     if @composer.zoomLevel
@@ -127,8 +119,6 @@ class @Newstime.GroupSelectionView extends Backbone.View
 
 
   mousedown: (e) ->
-    @adjustEventXY(e)
-
     return unless e.button == 0 # Only respond to left button mousedown.
 
     if @hoveredHandle
@@ -195,7 +185,6 @@ class @Newstime.GroupSelectionView extends Backbone.View
     @trigger 'tracking', this
 
   mousemove: (e) ->
-    @adjustEventXY(e)
     if @resizing
       switch @resizeMode
         when 'top'          then @dragTop(e.x, e.y)
@@ -278,12 +267,6 @@ class @Newstime.GroupSelectionView extends Backbone.View
     # bottom-right drag handle hit?
     if @hitBox x, y, right, bottom, boxSize
       return "bottom-right"
-
-
-  adjustEventXY: (e) ->
-    # Apply page offset
-    e.x -= @pageOffsetLeft
-    e.y -= @pageOffsetTop
 
 
   # Moves based on corrdinates and starting offset
@@ -376,8 +359,6 @@ class @Newstime.GroupSelectionView extends Backbone.View
     @canvasItemView.dragBottomRight(x, y)
 
   mouseup: (e) ->
-    @adjustEventXY(e)
-
     if @resizing
       @resizing = false
       @resizeMode = null
@@ -402,7 +383,6 @@ class @Newstime.GroupSelectionView extends Backbone.View
     'default'
 
   mouseout: (e) ->
-    @adjustEventXY(e)
 
     if @hoveredHandle
       @hoveredHandle.trigger 'mouseout', e
