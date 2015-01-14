@@ -9,6 +9,9 @@ class @Newstime.GroupView extends Backbone.View
 
     @composer = options.composer
 
+    @page = options.page
+    @pageView = options.pageView
+
     @bind
       mouseover: @mouseover
       mouseout: @mouseout
@@ -124,3 +127,7 @@ class @Newstime.GroupView extends Backbone.View
       @selected = false
       @selectionView = null
       @trigger 'deselect', this
+
+
+  setSizeAndPosition: (attributes) ->
+    @model.set(attributes)

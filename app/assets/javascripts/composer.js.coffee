@@ -532,15 +532,19 @@ class @Newstime.Composer extends Backbone.View
     groupCID = group.cid
     groupView = @groupViews[groupCID]
 
-    selection = new Newstime.GroupSelection
-      group: group
-      groupView: groupView
+    #selection = new Newstime.GroupSelection
+      #group: group
+      #groupView: groupView
+
+    selection = new Newstime.ContentItemSelection
+      contentItem: group
+      contentItemView: groupView
 
     @activeSelection = selection
 
     @updatePropertiesPanel(@activeSelection)
 
-    @activeSelectionView = new Newstime.GroupSelectionView
+    @activeSelectionView = new Newstime.SelectionView
       composer: this
       selection: selection
     @activeSelectionView.render()

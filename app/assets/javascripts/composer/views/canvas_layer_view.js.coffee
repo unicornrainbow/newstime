@@ -72,10 +72,6 @@ class @Newstime.CanvasLayerView extends Backbone.View
       pageID = page.get('_id')
       pageView = @pageViews[page.cid]
 
-      # Get page offsets to pass to content items
-      pageOffsetLeft = pageView.getOffsetLeft()
-      pageOffsetTop  = pageView.getOffsetTop()
-
       groups = @pageGroups[page.cid]
       contentItems = @pageContentItems[page.cid]
 
@@ -88,15 +84,11 @@ class @Newstime.CanvasLayerView extends Backbone.View
         contentItemOutlineView = new Newstime.ContentItemOutlineView
           composer: @composer
           model: group
-          pageOffsetLeft: pageOffsetLeft
-          pageOffsetTop: pageOffsetTop
         @composer.outlineLayerView.attach(contentItemOutlineView)
 
         groupView = new Newstime.GroupView
           model: group
           el: el
-          pageOffsetLeft: pageOffsetLeft
-          pageOffsetTop: pageOffsetTop
           composer: @composer
           outlineView: contentItemOutlineView
           page: page
@@ -133,15 +125,11 @@ class @Newstime.CanvasLayerView extends Backbone.View
         contentItemOutlineView = new Newstime.ContentItemOutlineView
           composer: @composer
           model: contentItem
-          pageOffsetLeft: pageOffsetLeft
-          pageOffsetTop: pageOffsetTop
         @composer.outlineLayerView.attach(contentItemOutlineView)
 
         contentItemView = new contentItemViewType
           model: contentItem
           el: el
-          pageOffsetLeft: pageOffsetLeft
-          pageOffsetTop: pageOffsetTop
           composer: @composer
           outlineView: contentItemOutlineView
           page: page
