@@ -87,7 +87,19 @@ class @Newstime.GroupView extends Backbone.View
         @deselect()
 
   ungroup: ->
-    # TODO: Implement ungroup
+
+    #groupedItems = @model.getContentItems()
+
+    #_.each groupedItems, (item) ->
+      #item.set('group_id', nil)
+
+    #@model.delete()
+
+    ## Delete the group
+    ##
+    ##
+    ## TODO: Implement ungroup
+    #console.log 'ungroup'
 
 
   getGeometry: ->
