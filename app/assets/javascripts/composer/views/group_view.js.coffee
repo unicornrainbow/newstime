@@ -50,6 +50,22 @@ class @Newstime.GroupView extends Backbone.View
     unless @selected
       @composer.selectGroup(@model)
 
+
+    if @selected
+      if e.shiftKey
+        # Remove from selection
+        @composer.removeFromSelection(@model)
+    else
+      if e.shiftKey
+        # Add to selection
+        @composer.addToSelection(@model)
+      else
+        # Set as selection
+        if @model.get('group_id')?
+          @composer.selectGroup(@model.getGroup()) # TODO: Shift+click with add to selection. alt-click will remove from.
+        else
+          @composer.select(@model) # TODO: Shift+click with add to selection. alt-click will remove from.
+
     # Pass mouse down to selection
     @composer.activeSelectionView.trigger 'mousedown', e
 
