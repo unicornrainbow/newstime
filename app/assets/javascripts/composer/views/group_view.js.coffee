@@ -12,6 +12,8 @@ class @Newstime.GroupView extends Backbone.View
     @page = options.page
     @pageView = options.pageView
 
+    @listenTo @model, 'destroy', @remove
+
     @bind
       mouseover: @mouseover
       mouseout: @mouseout
@@ -103,20 +105,13 @@ class @Newstime.GroupView extends Backbone.View
         @deselect()
 
   ungroup: ->
+    # Remove each of the models from the group
+    groupedItems = @model.getContentItems()
 
-    #groupedItems = @model.getContentItems()
+    _.each groupedItems, (item) ->
+      item.set('group_id', null)
 
-    #_.each groupedItems, (item) ->
-      #item.set('group_id', nil)
-
-    #@model.delete()
-
-    ## Delete the group
-    ##
-    ##
-    ## TODO: Implement ungroup
-    #console.log 'ungroup'
-
+    @model.destroy()
 
   getGeometry: ->
     @model.pick('top', 'left', 'height', 'width')

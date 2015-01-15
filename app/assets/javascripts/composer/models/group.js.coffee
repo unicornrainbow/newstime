@@ -14,6 +14,7 @@ class @Newstime.Group extends Backbone.RelationalModel
   getContentItems: -> # TODO: Should be named getGroupedItems
     @_contentItems ?= @get('edition').get('content_items').where(group_id: @id)
 
+
   Object.defineProperties @prototype,
     top:
       get: -> @get('top')

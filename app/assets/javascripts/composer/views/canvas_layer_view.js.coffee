@@ -100,6 +100,9 @@ class @Newstime.CanvasLayerView extends Backbone.View
         @listenTo groupView, 'tracking', @resizeSelection
         @listenTo groupView, 'tracking-release', @resizeSelectionRelease
 
+        @listenTo group, 'destroy', (group) ->
+          @groupViews[group.cid] = null
+
         groupCID = group.cid
         @groupViews[groupCID] = groupView
         #@groupOutlineViews[groupCID] = groupOutlineView
