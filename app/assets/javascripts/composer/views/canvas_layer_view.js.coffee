@@ -65,6 +65,10 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @$groups = $('<div class="groups"></div>')
     @$groups.appendTo(@$body)
 
+    # Attach a view to draw the link
+    @$linkAreas = $('<div class="link-areas"></div>')
+    @$linkAreas.appendTo(@$body)
+
     # Position canvas items div layer
     @positionCanvasItemsContainer()
 
@@ -158,6 +162,12 @@ class @Newstime.CanvasLayerView extends Backbone.View
     @linkAreas = _.map @$el.find('a'), (link) =>
       new Newstime.LinkArea(link, topOffset: @topOffset, composer: @composer)
 
+    _.each @linkAreas, (linkArea) =>
+      view = new Newstime.LinkAreaView
+        model: linkArea
+      view.render()
+      @$linkAreas.append(view.el)
+
     # Bind mouse events
     @bind 'mouseover',  @mouseover
     @bind 'mouseout',   @mouseout
@@ -205,7 +215,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
   # Measure link areas. Right now, need to do this after render to ensure we get
   # to correct values. Should be improved.
   measureLinks: =>
-    _.invoke @linkAreas, 'measure'
+    _.invoke @linkAreas, 'measure', @position
 
   handlePageFocus: (page) ->
     @focusedPage = page
@@ -229,6 +239,7 @@ class @Newstime.CanvasLayerView extends Backbone.View
 
     @$canvasItems.css(@position)
     @$groups.css(@position)
+    @$linkAreas.css(@position)
 
     @composer.outlineLayerView.setPosition @position
     @composer.selectionLayerView.setPosition @position
