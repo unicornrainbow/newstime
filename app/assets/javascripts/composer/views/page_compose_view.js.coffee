@@ -70,6 +70,25 @@ class @Newstime.PageComposeView extends Backbone.View
       _.find @contentItemViewsArray, (contentItemView) ->
         contentItemView.hit(x, y)
 
+  updateZindexs: ->
+    length = @contentItemViewsArray.length - 1
+    _.each @contentItemViewsArray, (view, index) ->
+      view.model.set('z-index', length - index)
+
+  bringForward: (contentItem) ->
+    # Get the view for the model
+    contentItemView = @composer.contentItemViews[contentItem.cid]
+
+    # Discover the index in the contentItemViewsArray
+    index = _.indexOf @contentItemViewsArray, contentItemView
+
+    # Move forward if possible
+    if index > 0
+      [@contentItemViewsArray[index], @contentItemViewsArray[index-1]] = [@contentItemViewsArray[index-1], @contentItemViewsArray[index]]
+
+    # Update z-indexs
+    @updateZindexs()
+
   sendBackward: (contentItem) ->
     # Get the view for the model
     contentItemView = @composer.contentItemViews[contentItem.cid]
@@ -84,24 +103,38 @@ class @Newstime.PageComposeView extends Backbone.View
     # Update z-indexs
     @updateZindexs()
 
-  updateZindexs: ->
-    length = @contentItemViewsArray.length - 1
-    _.each @contentItemViewsArray, (view, index) ->
-      view.model.set('z-index', length - index)
 
-  bringForward: (contentItem) ->
+  bringToFront: (contentItem) ->
     # Get the view for the model
     contentItemView = @composer.contentItemViews[contentItem.cid]
 
     # Discover the index in the contentItemViewsArray
     index = _.indexOf @contentItemViewsArray, contentItemView
 
-    # Move down if possible
-    if index > 0
-      [@contentItemViewsArray[index], @contentItemViewsArray[index-1]] = [@contentItemViewsArray[index-1], @contentItemViewsArray[index]]
+    # Move to front if not already there
+    if index != 0
+      view = @contentItemViewsArray.splice(index, 1)[0]
+      @contentItemViewsArray.unshift(view)
 
     # Update z-indexs
     @updateZindexs()
+
+  sendToBack: (contentItem) ->
+    # Get the view for the model
+    contentItemView = @composer.contentItemViews[contentItem.cid]
+
+    # Discover the index in the contentItemViewsArray
+    index = _.indexOf @contentItemViewsArray, contentItemView
+
+    # Move to front if not already there
+    if index != @contentItemViewsArray.length - 1
+      view = @contentItemViewsArray.splice(index, 1)[0]
+      @contentItemViewsArray.push(view)
+      console.log  @contentItemViewsArray
+
+    # Update z-indexs
+    @updateZindexs()
+
 
   setPageBorderDimensions: ->
     # The page border needs to no the x and y location of the page. It also

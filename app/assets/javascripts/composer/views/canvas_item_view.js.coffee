@@ -115,10 +115,16 @@ class @Newstime.CanvasItemView extends Backbone.View
         @deselect()
       when 219 # [
         if e.altKey
-          @pageView.sendBackward(@model)
+          if e.shiftKey
+            @pageView.sendToBack(@model)
+          else
+            @pageView.sendBackward(@model)
       when 221 # ]
         if e.altKey
-          @pageView.bringForward(@model)
+          if e.shiftKey
+            @pageView.bringToFront(@model)
+          else
+            @pageView.bringForward(@model)
 
 
   getPropertiesView: ->
