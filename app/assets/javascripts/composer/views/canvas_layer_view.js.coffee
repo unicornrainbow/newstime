@@ -15,7 +15,6 @@ class @Newstime.CanvasLayerView extends @Newstime.View
     @$el.css top: "#{@topOffset}px"
     @$el.addClass 'canvas-view-layer'
 
-
     @contentItemCollection = @edition.get('content_items')
     @groupCollection       = @edition.get('groups')
 
@@ -557,7 +556,9 @@ class @Newstime.CanvasLayerView extends @Newstime.View
     @contentItemOutlineViews[contentItemCID] = contentItemOutlineView
     @$canvasItems.append(contentItemView.el)
 
-    @composer.select contentItem
+    pageView.addContentItem(contentItem)
+
+    @composer.select(contentItem)
 
     pageRelX = x - pageOffsetLeft
     pageRelY = y - pageOffsetTop
