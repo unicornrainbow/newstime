@@ -22,9 +22,11 @@ class @Newstime.LinkArea
     window.location = @$link.attr('href')
 
   mouseover: (e) ->
+    @$link.addClass 'hover'
     @composer.pushCursor('pointer')
 
   mouseout: (e) ->
+    @$link.removeClass 'hover'
     @composer.popCursor()
 
   measure: (canvasPosition) ->
