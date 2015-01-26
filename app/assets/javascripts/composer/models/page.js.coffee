@@ -30,11 +30,11 @@ class @Newstime.Page extends Backbone.RelationalModel
   contentItems: ->
     @_contentItems ?= @getContentItems()
 
-  section: ->
-    @_section ?= @getSection()
-
   getContentItems: ->
     @_contentItems = @get('edition').get('content_items').where(page_id: @get('_id'))
+
+  section: ->
+    @_section ?= @getSection()
 
   getGroups: ->
     @_groups = @get('edition').get('groups').where(page_id: @get('_id'))

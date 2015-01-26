@@ -33,7 +33,6 @@ class @Newstime.Group extends Backbone.RelationalModel
     @items.push(item)
     console.log @items
 
-
   # Gets page
   getPage: ->
     @_page ?= @get('edition').get('pages').findWhere(_id: @get('page_id'))

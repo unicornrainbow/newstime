@@ -30,7 +30,7 @@ class @Newstime.CanvasItemView extends Backbone.View
     @$el.addClass 'canvas-item-view'
 
   render: ->
-    @$el.css _.pick @model.attributes, 'width', 'height', 'top', 'left'
+    @$el.css _.pick @model.attributes, 'width', 'height', 'top', 'left', 'z-index'
 
   handelChangePage: ->
     @page = @model.getPage()
@@ -421,7 +421,6 @@ class @Newstime.CanvasItemView extends Backbone.View
     @page = options.model
     @pageView = options.view
     @model.set('page_id': @page.get('_id'))
-    console.log 'yo'
 
   # Does an x,y corrdinate intersect a bounding box
   hitBox: (hitX, hitY, boxX, boxY, boxSize) ->

@@ -40,6 +40,10 @@ class @Newstime.CanvasLayerView extends @Newstime.View
     ## Add each of the pages back, rebuilding the view in the correct order.
     ## Need pages for this section, ordered by page number.
     @pages = new Backbone.Collection(section.getPages())
+
+
+    @pageViewsArray = [] # Order array of the page views.
+
     @pages.each (page) =>
       page_id = page.get('_id')
       el = pageEls.filter("[data-page-id='#{page_id}']")
@@ -55,6 +59,7 @@ class @Newstime.CanvasLayerView extends @Newstime.View
       view.capturePageBounds()
 
       @pageViews[page.cid] = view
+      @pageViewsArray.push(view)
       @pageContentItems[page.cid] = page.getContentItems()
       @pageGroups[page.cid] = page.getGroups()
 
@@ -419,20 +424,9 @@ class @Newstime.CanvasLayerView extends @Newstime.View
     if @composer.activeSelectionView # Check active selection first.
       selection = @composer.activeSelectionView if @composer.activeSelectionView.hit(e.x, e.y)
 
-    # Check against groups for hit.
-    #   Note: Groups groups should not be hit first, and should be impossible to
-    #   hit things within groups. This is going to need to be a point of
-    #   improvment. Should be checking against individual pages, and they should
-    #   be maintaining their own hit graph. (Just thoughts)
     unless selection
-      selection = _.find @groupViews, (group, id) ->
-        group.hit(e.x, e.y)
-
-    unless selection
-      # NOTE: Would be nice to skip active selection here, since already
-      # checked, but no biggie.
-      selection = _.find @contentItemViews, (contentItem, id) ->
-        contentItem.hit(e.x, e.y)
+      _.find @pageViewsArray, (pageView) ->
+        selection = pageView.getHitContentItem(e.x, e.y)
 
     unless selection
       # NOTE: Would be nice to skip active selection here, since already
@@ -756,13 +750,15 @@ class @Newstime.CanvasLayerView extends @Newstime.View
     @listenTo contentItemView, 'tracking', @resizeSelection
     @listenTo contentItemView, 'tracking-release', @resizeSelectionRelease
 
-    contentItemCID = contentItem.cid # TODO: Note, using cid, because not saved yet...
+    contentItemCID = contentItem.cid
 
     @contentItemViews[contentItemCID] = contentItemView
     @contentItemOutlineViews[contentItemCID] = contentItemOutlineView
     @$canvasItems.append(contentItemView.el)
 
-    @composer.select contentItem
+    pageView.addContentItem(contentItem)
+
+    @composer.select(contentItem)
 
     pageRelX = x - pageOffsetLeft
     pageRelY = y - pageOffsetTop

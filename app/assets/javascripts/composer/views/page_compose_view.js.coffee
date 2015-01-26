@@ -9,6 +9,9 @@ class @Newstime.PageComposeView extends Backbone.View
     @toolbox = options.toolbox
     @$el.addClass 'page-compose'
 
+    @boundingBox = new Newstime.Boundry(@model.pick('top', 'left', 'bottom', 'right'))
+    @contentItemViewsArray = []
+
     @contentItemsSelector = "[headline-control], [text-area-control], [photo-control], [video-control]"
 
     @composer = options.composer
@@ -43,9 +46,29 @@ class @Newstime.PageComposeView extends Backbone.View
     @bind 'contextmenu', @contextmenu
     @bind 'windowResize', @windowResize # Fired when window is resized
 
+  addContentItem: (contentItem) ->
+    # Get content item view, and place on top of contentItemsViewArray, update
+    # z-indexs
+    contentItemView = @composer.contentItemViews[contentItem.cid]
+    @contentItemViewsArray.unshift(contentItemView)
+
+    # Set page z-index within page
+    contentItem.set('z-index', @contentItemViewsArray.length)
+
+    # Expand page bounding box if neccessary
+    contentItemBoundry = contentItem.getBoundry()
+    if contentItemBoundry.bottom > @boundingBox.bottom
+      @boundingBox.bottom = contentItemBoundry.bottom
+
+
   windowResize: ->
     #@setPageBorderDimensions()
 
+  getHitContentItem: (x, y) ->
+    if y >= @boundingBox.top && y <= @boundingBox.bottom
+      # If x,y hits the bounding box, check hit against contentItemsArray
+      _.find @contentItemViewsArray, (contentItemView) ->
+        contentItemView.hit(x, y)
 
   setPageBorderDimensions: ->
     # The page border needs to no the x and y location of the page. It also
