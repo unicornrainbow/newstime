@@ -513,16 +513,19 @@ class @Newstime.Composer extends Backbone.View
     @section.addPage (page) =>
       @canvasLayerView.addPage(page)
 
-  createGroup: (models, options) ->
-    success = options.success
+  # Receives a collection of models to group
+  createGroup: (items) ->
+    group = new Newstime.Group()
+    group.addItems(items)
+    return group
 
-    page_id = _.first(models).get('page_id') # HACK: Assign group to page for first item for now.
-    group = @edition.get('groups').create { page_id: page_id },
-      success: (group) ->
-        _.each models, (model) ->
-          model.set(group_id: group.get('_id'))
+    #page_id = _.first(models).get('page_id') # HACK: Assign group to page for first item for now.
+    #group = @edition.get('groups').create { page_id: page_id },
+      #success: (group) ->
+        #_.each models, (model) ->
+          #model.set(group_id: group.get('_id'))
 
-        success(group) if success
+        #success(group) if success
 
   createGuid: ->
     _.range(8).map(-> Math.floor((1 + Math.random()) * 0x10000).toString(16).substring 1).join('')
