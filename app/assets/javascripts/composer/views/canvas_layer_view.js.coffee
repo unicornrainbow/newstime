@@ -1,4 +1,4 @@
-class @Newstime.CanvasLayerView extends Backbone.View
+class @Newstime.CanvasLayerView extends @Newstime.View
 
   initialize: (options) ->
     @composer = options.composer
@@ -168,12 +168,8 @@ class @Newstime.CanvasLayerView extends Backbone.View
       view.render()
       @$linkAreas.append(view.el)
 
-    # Bind mouse events
-    @bind 'mouseover',  @mouseover
-    @bind 'mouseout',   @mouseout
-    @bind 'mousedown',  @mousedown
-    @bind 'mouseup',    @mouseup
-    @bind 'mousemove',  @mousemove
+    @bindMouseEvents()
+
     @bind 'dblclick',   @dblclick
     @bind 'keydown',    @keydown
     @bind 'paste',      @paste
