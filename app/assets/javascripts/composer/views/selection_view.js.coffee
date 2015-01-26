@@ -360,39 +360,11 @@ class @Newstime.SelectionView extends Backbone.View
       height: geometry.top - y + geometry.height
 
   dragBottomLeft: (x, y) ->
-    @composer.clearVerticalSnapLines()
-    geometry = @getGeometry()
-
-    snapLeft = @pageView.snapLeft(x)
-
-    if snapLeft
-      @composer.drawVerticalSnapLine(snapLeft)
-      x = snapLeft
-
-    y = @pageView.snapBottom(y)
-    @model.set
-      left: x
-      width: geometry.left - x + geometry.width
-      height: y - geometry.top
-
+    @canvasItemView.dragBottomLeft(x, y)
 
 
   dragBottomRight: (x, y) ->
-    @composer.clearVerticalSnapLines()
-    geometry = @getGeometry()
-    width     = x - geometry.left
-    y         = @pageView.snapBottom(y)
-
-    snapRight = @pageView.snapRight(width)
-
-    if snapRight
-      @composer.drawVerticalSnapLine(snapRight + geometry.left)
-      width = snapRight
-
-    @model.set
-      width: width
-      height: y - geometry.top
-
+    @canvasItemView.dragBottomRight(x, y)
 
   mouseup: (e) ->
     if @resizing

@@ -343,9 +343,14 @@ class @Newstime.CanvasItemView extends Backbone.View
       height: geometry.top - y + geometry.height
 
   dragBottomLeft: (x, y) ->
+    @composer.clearVerticalSnapLines()
     geometry = @getGeometry()
+
     snapLeft = @pageView.snapLeft(x)
-    x = snapLeft if snapLeft
+
+    if snapLeft
+      @composer.drawVerticalSnapLine(snapLeft)
+      x = snapLeft
 
     y = @pageView.snapBottom(y)
     @model.set
@@ -354,12 +359,21 @@ class @Newstime.CanvasItemView extends Backbone.View
       height: y - geometry.top
 
   dragBottomRight: (x, y) ->
+    @composer.clearVerticalSnapLines()
     geometry = @getGeometry()
-    width    = @pageView.snapRight(x - geometry.left)
-    y        = @pageView.snapBottom(y)
+    width     = x - geometry.left
+    y         = @pageView.snapBottom(y)
+
+    snapRight = @pageView.snapRight(width)
+
+    if snapRight
+      @composer.drawVerticalSnapLine(snapRight + geometry.left)
+      width = snapRight
+
     @model.set
       width: width
       height: y - geometry.top
+
 
   mouseup: (e) ->
     #TODO: Need to remove this code, which is no longer used do to selection
