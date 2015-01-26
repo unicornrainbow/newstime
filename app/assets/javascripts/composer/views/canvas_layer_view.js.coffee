@@ -720,7 +720,6 @@ class @Newstime.CanvasLayerView extends Backbone.View
     pageOffsetLeft = pageView.getOffsetLeft()
     pageOffsetTop  = pageView.getOffsetTop()
 
-
     contentItemType = 'HeadlineContentItem'
 
     contentItem = new Newstime.ContentItem
@@ -745,12 +744,10 @@ class @Newstime.CanvasLayerView extends Backbone.View
       pageID: pageID
       pageView: pageView
 
-
-    contentItemView.bind 'activate', @selectContentItem, this
-    contentItemView.bind 'deactivate', @selectionDeactivated, this
-    contentItemView.bind 'tracking', @resizeSelection, this
-    contentItemView.bind 'tracking-release', @resizeSelectionRelease, this
-
+    @listenTo contentItemView, 'activate', @selectContentItem
+    @listenTo contentItemView, 'deactivate', @selectionDeactivated
+    @listenTo contentItemView, 'tracking', @resizeSelection
+    @listenTo contentItemView, 'tracking-release', @resizeSelectionRelease
 
     contentItemCID = contentItem.cid # TODO: Note, using cid, because not saved yet...
 
