@@ -420,13 +420,10 @@ class @Newstime.CanvasLayerView extends @Newstime.View
       @resizeSelectionTarget.trigger 'mousemove', e
       return true
 
-    ## Check for hit inorder to highlight hovered selection
-    if @composer.activeSelectionView # Check active selection first.
-      selection = @composer.activeSelectionView if @composer.activeSelectionView.hit(e.x, e.y)
+    selection = null
 
-    unless selection
-      _.find @pageViewsArray, (pageView) ->
-        selection = pageView.getHitContentItem(e.x, e.y)
+    _.find @pageViewsArray, (pageView) ->
+      selection = pageView.getHitContentItem(e.x, e.y)
 
     unless selection
       # NOTE: Would be nice to skip active selection here, since already
