@@ -130,7 +130,6 @@ class @Newstime.PageComposeView extends Backbone.View
     if index != @contentItemViewsArray.length - 1
       view = @contentItemViewsArray.splice(index, 1)[0]
       @contentItemViewsArray.push(view)
-      console.log  @contentItemViewsArray
 
     # Update z-indexs
     @updateZindexs()
