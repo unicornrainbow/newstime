@@ -50,7 +50,7 @@ class @Newstime.PageComposeView extends Backbone.View
     # Get content item view, and place on top of contentItemsViewArray, update
     # z-indexs
     contentItemView = @composer.contentItemViews[contentItem.cid]
-    @contentItemViewsArray.push(contentItemView)
+    @contentItemViewsArray.unshift(contentItemView)
 
     # Set page z-index within page
     contentItem.set('z-index', @contentItemViewsArray.length-1)
@@ -78,15 +78,16 @@ class @Newstime.PageComposeView extends Backbone.View
     index = _.indexOf @contentItemViewsArray, contentItemView
 
     # Move down if possible
-    if index > 0
-      [@contentItemViewsArray[index], @contentItemViewsArray[index-1]] = [@contentItemViewsArray[index-1], @contentItemViewsArray[index]]
+    if index + 1 < @contentItemViewsArray.length
+      [@contentItemViewsArray[index], @contentItemViewsArray[index+1]] = [@contentItemViewsArray[index+1], @contentItemViewsArray[index]]
 
     # Update z-indexs
     @updateZindexs()
 
   updateZindexs: ->
+    length = @contentItemViewsArray.length - 1
     _.each @contentItemViewsArray, (view, index) ->
-      view.model.set('z-index', index)
+      view.model.set('z-index', length - index)
 
   bringForward: (contentItem) ->
     # Get the view for the model
@@ -96,8 +97,8 @@ class @Newstime.PageComposeView extends Backbone.View
     index = _.indexOf @contentItemViewsArray, contentItemView
 
     # Move down if possible
-    if index + 1 < @contentItemViewsArray.length
-      [@contentItemViewsArray[index], @contentItemViewsArray[index+1]] = [@contentItemViewsArray[index+1], @contentItemViewsArray[index]]
+    if index > 0
+      [@contentItemViewsArray[index], @contentItemViewsArray[index-1]] = [@contentItemViewsArray[index-1], @contentItemViewsArray[index]]
 
     # Update z-indexs
     @updateZindexs()
