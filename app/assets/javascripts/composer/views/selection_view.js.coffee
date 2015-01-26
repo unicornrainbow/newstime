@@ -328,10 +328,17 @@ class @Newstime.SelectionView extends Backbone.View
 
 
   dragTopLeft: (x, y) ->
+    @composer.clearVerticalSnapLines()
     geometry = @getGeometry()
-    x        = @pageView.snapLeft(x)
     y        = @pageView.snapTop(y)
-    @canvasItemView.setSizeAndPosition
+
+    snapLeft = @pageView.snapLeft(x)
+
+    if snapLeft
+      @composer.drawVerticalSnapLine(snapLeft)
+      x = snapLeft
+
+    @model.set
       left: x
       top: y
       width: geometry.left - x + geometry.width
@@ -347,7 +354,7 @@ class @Newstime.SelectionView extends Backbone.View
       width = snapRight
     y = @pageView.snapTop(y)
 
-    @canvasItemView.setSizeAndPosition
+    @model.set
       top: y
       width: width
       height: geometry.top - y + geometry.height
