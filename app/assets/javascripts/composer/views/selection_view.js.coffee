@@ -1,5 +1,5 @@
 #class @Newstime.CanvasViewItemSelectionView extends Backbone.View
-class @Newstime.SelectionView extends Backbone.View
+class @Newstime.SelectionView extends @Newstime.View
 
   initialize: (options) ->
     @$el.addClass 'selection-view resizable'
@@ -26,11 +26,7 @@ class @Newstime.SelectionView extends Backbone.View
     @listenTo @contentItem ,'change', @render
     @listenTo @canvasItemView, 'deselect', @remove
 
-    @bind 'mousedown', @mousedown
-    @bind 'mousemove', @mousemove
-    @bind 'mouseover', @mouseover
-    @bind 'mouseout', @mouseout
-    @bind 'mouseup', @mouseup
+    @bindMouseEvents()
     @bind 'paste', @paste
     @bind 'keydown',   @keydown
     @bind 'dblclick',  @dblclick

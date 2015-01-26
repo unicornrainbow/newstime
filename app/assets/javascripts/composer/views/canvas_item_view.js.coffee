@@ -1,4 +1,4 @@
-class @Newstime.CanvasItemView extends Backbone.View
+class @Newstime.CanvasItemView extends @Newstime.View
 
   initialize: (options) ->
     @$el.addClass 'canvas-item-view'
@@ -12,12 +12,9 @@ class @Newstime.CanvasItemView extends Backbone.View
 
     @outlineView = options.outlineView
 
+    @bindMouseEvents()
+
     @bind
-      mousedown: @mousedown
-      mousemove: @mousemove
-      mouseup:   @mouseup
-      mouseover: @mouseover
-      mouseout:  @mouseout
       keydown:   @keydown
 
     # Bind Model Events
