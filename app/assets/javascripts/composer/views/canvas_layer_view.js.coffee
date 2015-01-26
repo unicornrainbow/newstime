@@ -633,7 +633,9 @@ class @Newstime.CanvasLayerView extends @Newstime.View
     @contentItemOutlineViews[contentItemCID] = contentItemOutlineView
     @$canvasItems.append(contentItemView.el)
 
-    @composer.select contentItem
+    pageView.addContentItem(contentItem)
+
+    @composer.select(contentItem)
 
     pageRelX = x - pageOffsetLeft
     pageRelY = y - pageOffsetTop
