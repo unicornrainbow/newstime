@@ -113,6 +113,12 @@ class @Newstime.CanvasItemView extends Backbone.View
         e.preventDefault()
       when 27 # ESC
         @deselect()
+      when 219 # [
+        if e.altKey
+          @pageView.sendBackward(@model)
+      when 221 # ]
+        if e.altKey
+          @pageView.bringForward(@model)
 
 
   getPropertiesView: ->

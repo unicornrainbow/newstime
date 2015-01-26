@@ -50,10 +50,10 @@ class @Newstime.PageComposeView extends Backbone.View
     # Get content item view, and place on top of contentItemsViewArray, update
     # z-indexs
     contentItemView = @composer.contentItemViews[contentItem.cid]
-    @contentItemViewsArray.unshift(contentItemView)
+    @contentItemViewsArray.push(contentItemView)
 
     # Set page z-index within page
-    contentItem.set('z-index', @contentItemViewsArray.length)
+    contentItem.set('z-index', @contentItemViewsArray.length-1)
 
     # Expand page bounding box if neccessary
     contentItemBoundry = contentItem.getBoundry()
@@ -69,6 +69,38 @@ class @Newstime.PageComposeView extends Backbone.View
       # If x,y hits the bounding box, check hit against contentItemsArray
       _.find @contentItemViewsArray, (contentItemView) ->
         contentItemView.hit(x, y)
+
+  sendBackward: (contentItem) ->
+    # Get the view for the model
+    contentItemView = @composer.contentItemViews[contentItem.cid]
+
+    # Discover the index in the contentItemViewsArray
+    index = _.indexOf @contentItemViewsArray, contentItemView
+
+    # Move down if possible
+    if index > 0
+      [@contentItemViewsArray[index], @contentItemViewsArray[index-1]] = [@contentItemViewsArray[index-1], @contentItemViewsArray[index]]
+
+    # Update z-indexs
+    @updateZindexs()
+
+  updateZindexs: ->
+    _.each @contentItemViewsArray, (view, index) ->
+      view.model.set('z-index', index)
+
+  bringForward: (contentItem) ->
+    # Get the view for the model
+    contentItemView = @composer.contentItemViews[contentItem.cid]
+
+    # Discover the index in the contentItemViewsArray
+    index = _.indexOf @contentItemViewsArray, contentItemView
+
+    # Move down if possible
+    if index + 1 < @contentItemViewsArray.length
+      [@contentItemViewsArray[index], @contentItemViewsArray[index+1]] = [@contentItemViewsArray[index+1], @contentItemViewsArray[index]]
+
+    # Update z-indexs
+    @updateZindexs()
 
   setPageBorderDimensions: ->
     # The page border needs to no the x and y location of the page. It also
