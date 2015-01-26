@@ -422,12 +422,13 @@ class @Newstime.CanvasLayerView extends @Newstime.View
 
     selection = null
 
-    _.find @pageViewsArray, (pageView) ->
-      selection = pageView.getHitContentItem(e.x, e.y)
+    # Check for hit inorder to highlight hovered selection
+    if @composer.activeSelectionView # Check active selection first.
+      selection = @composer.activeSelectionView if @composer.activeSelectionView.hit(e.x, e.y)
 
-    # If within selection, exchange hovered object for selection (Sort of a hack)
-    if selection?.selectionView
-      selection = selection.selectionView
+    unless selection
+      _.find @pageViewsArray, (pageView) ->
+        selection = pageView.getHitContentItem(e.x, e.y)
 
     unless selection
       # NOTE: Would be nice to skip active selection here, since already
