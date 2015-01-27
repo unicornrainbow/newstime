@@ -46,6 +46,7 @@ class @Newstime.PageComposeView extends Backbone.View
     @bind 'contextmenu', @contextmenu
     @bind 'windowResize', @windowResize # Fired when window is resized
 
+  # Add content item to the top of the page.
   addContentItem: (contentItem) ->
     # Get content item view, and place on top of contentItemsViewArray, update
     # z-indexs
@@ -60,6 +61,12 @@ class @Newstime.PageComposeView extends Backbone.View
     if contentItemBoundry.bottom > @boundingBox.bottom
       @boundingBox.bottom = contentItemBoundry.bottom
 
+  # Inserts content item at specified index
+  insertContentItemAtIndex: (contentItemView, index) ->
+    @contentItemViewsArray.splice(index, 0, contentItemView)
+
+    # Update z-indexs
+    @updateZindexs()
 
   windowResize: ->
     #@setPageBorderDimensions()
@@ -69,6 +76,29 @@ class @Newstime.PageComposeView extends Backbone.View
       # If x,y hits the bounding box, check hit against contentItemsArray
       _.find @contentItemViewsArray, (contentItemView) ->
         contentItemView.hit(x, y)
+
+  # Inserts view before referenceView.
+  insertBefore: (view, referenceView) ->
+    # Find index on view
+    index = _.indexOf @contentItemViewsArray, referenceView
+
+    # Insert View at point.
+    @insertContentItemAtIndex(view, index)
+
+  hasView: (view) ->
+    _.contains(@contentItemViewsArray, view)
+
+  detachView: (view) ->
+    # Find index on view
+    index = _.indexOf @contentItemViewsArray, view
+
+    @contentItemViewsArray.splice(index, 1)
+
+    # Update z-indexs
+    @updateZindexs()
+
+    console.log  @contentItemViewsArray
+
 
   updateZindexs: ->
     length = @contentItemViewsArray.length - 1
@@ -88,6 +118,7 @@ class @Newstime.PageComposeView extends Backbone.View
 
     # Update z-indexs
     @updateZindexs()
+
 
   sendBackward: (contentItem) ->
     # Get the view for the model

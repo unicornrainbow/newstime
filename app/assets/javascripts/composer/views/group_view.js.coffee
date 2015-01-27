@@ -1,7 +1,12 @@
 class @Newstime.GroupView extends Backbone.View
 
-  initialize: (options) ->
+  initialize: (options={}) ->
     @$el.addClass 'group-view'
+
+    # Create group if one was not passed.
+    @model = new Newstime.Group() unless @model
+
+    @contentItemViewsArray = []
 
     @propertiesView = new Newstime.GroupPropertiesView(target: this, model: @model)
 
@@ -154,3 +159,7 @@ class @Newstime.GroupView extends Backbone.View
 
   setSizeAndPosition: (attributes) ->
     @model.set(attributes)
+
+  pushView: (view) ->
+    # TODO: Needs to be attached and positioned according to group...
+    @contentItemViewsArray.push(view)

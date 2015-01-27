@@ -46,8 +46,22 @@ class @Newstime.MultiSelectionView extends Backbone.View
         @composer.clearSelection()
 
   createGroup: ->
-    group = @composer.createGroup(@selection.models)
-    @composer.selectGroup(group)
+    groupView = new Newstime.GroupView()
+
+    # Attach group view into the context.
+    views = _.map @selection.models, @composer.getView
+
+    firstView = _.first(views) # Note: May need to be more clever in determining which view should serve as insertion point.
+    context = @composer.canvasLayerView
+    context.insertBefore(groupView, firstView)
+
+    # Remove views and attach to group in order.
+    _.each views, (view) ->
+      context.detachView(view)
+      groupView.pushView(view)
+
+    @composer.selectView(groupView)
+
 
   # Detects a hit of the selection
   hit: (x, y) ->

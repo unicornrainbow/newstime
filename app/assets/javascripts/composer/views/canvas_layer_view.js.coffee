@@ -194,6 +194,25 @@ class @Newstime.CanvasLayerView extends @Newstime.View
       new Newstime.GroupView
         model: group
 
+
+  # Inserts view before referenceView.
+  insertBefore: (view, referenceView) ->
+    # Find page with view.
+    pageView = _.find @pageViewsArray, (pageView) ->
+      pageView.hasView(referenceView)
+
+    # Insert before on page.
+    pageView.insertBefore(view, referenceView)
+
+  detachView: (view) ->
+    # Find page with view.
+    pageView = _.find @pageViewsArray, (pageView) ->
+      pageView.hasView(view)
+
+    # Detach from page.
+    pageView.detachView(view)
+
+
   removeContentItem: (contentItem) =>
     # Remove from the content items view registry.
     delete @contentItemViews[contentItem.cid]

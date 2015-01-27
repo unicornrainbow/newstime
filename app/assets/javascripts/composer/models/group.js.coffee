@@ -31,7 +31,6 @@ class @Newstime.Group extends Backbone.RelationalModel
 
   addItem: (item) =>
     @items.push(item)
-    console.log @items
 
   # Gets page
   getPage: ->

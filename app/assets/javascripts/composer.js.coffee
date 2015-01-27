@@ -528,6 +528,14 @@ class @Newstime.Composer extends Backbone.View
 
         #success(group) if success
 
+  getView: (model) =>
+    if model instanceof Newstime.ContentItem
+      @contentItemViews[model.cid]
+    else if model instanceof Newstime.Group
+      @groupViews[model.cid]
+    else if model instanceof Newstime.Page
+      @pageViews[model.cid]
+
   createGuid: ->
     _.range(8).map(-> Math.floor((1 + Math.random()) * 0x10000).toString(16).substring 1).join('')
 
@@ -567,11 +575,36 @@ class @Newstime.Composer extends Backbone.View
   select: (contentItem) ->
     @clearSelection()
 
-    contentItemCID = contentItem.cid
-    contentItemView = @contentItemViews[contentItemCID]
+    contentItemView = @getView(contentItem)
 
     selection = new Newstime.ContentItemSelection
       contentItem: contentItem
+      contentItemView: contentItemView
+
+    @activeSelection = selection
+
+    @updatePropertiesPanel(@activeSelection)
+
+    @activeSelectionView = new Newstime.SelectionView
+      composer: this
+      selection: selection
+    @activeSelectionView.render()
+
+    contentItemView.select(@activeSelectionView)
+
+    @selectionLayerView.setSelection(selection, @activeSelectionView)
+    @focusedObject = @activeSelectionView  # Set focus to selection to send keyboard events.
+
+    @canvasLayerView.listenTo @activeSelectionView, 'tracking', @canvasLayerView.resizeSelection
+    @canvasLayerView.listenTo @activeSelectionView, 'tracking-release', @canvasLayerView.resizeSelectionRelease
+    @listenTo @activeSelectionView, 'destroy', @clearSelection
+
+
+  selectView: (contentItemView) ->
+    @clearSelection()
+
+    selection = new Newstime.ContentItemSelection
+      contentItem: contentItemView.model
       contentItemView: contentItemView
 
     @activeSelection = selection
