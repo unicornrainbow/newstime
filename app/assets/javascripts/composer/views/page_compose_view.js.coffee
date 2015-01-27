@@ -97,8 +97,6 @@ class @Newstime.PageComposeView extends Backbone.View
     # Update z-indexs
     @updateZindexs()
 
-    console.log  @contentItemViewsArray
-
 
   updateZindexs: ->
     length = @contentItemViewsArray.length - 1

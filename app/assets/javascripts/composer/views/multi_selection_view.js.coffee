@@ -46,7 +46,8 @@ class @Newstime.MultiSelectionView extends Backbone.View
         @composer.clearSelection()
 
   createGroup: ->
-    groupView = new Newstime.GroupView()
+    groupView = new Newstime.GroupView
+      composer: @composer
 
     # Attach group view into the context.
     views = _.map @selection.models, @composer.getView

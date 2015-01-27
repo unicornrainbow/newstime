@@ -60,3 +60,12 @@ class @Newstime.Boundry
       set: (value) ->
         @_right = value
         @_width = @right - @left
+
+  # Returns a unionized boundry with this boundry.
+  union: (boundry) ->
+    union = new Newstime.Boundry()
+    union.top = Math.min(top, boundry.top)
+    union.left = Math.min(left, boundry.left)
+    union.bottom = Math.max(bottom, boundry.bottom)
+    union.right = Math.max(right, boundry.right)
+    return union

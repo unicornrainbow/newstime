@@ -82,6 +82,9 @@ class @Newstime.CanvasItemView extends @Newstime.View
   getGeometry: ->
     @model.pick('top', 'left', 'height', 'width')
 
+  getBoundry: ->
+    @model.getBoundry()
+
   keydown: (e) =>
     switch e.keyCode
       when 8 # del

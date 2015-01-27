@@ -40,6 +40,9 @@ class @Newstime.Group extends Backbone.RelationalModel
     @_page = page
     @set 'page_id', page.get('_id')
 
+  getBoundry: ->
+    new Newstime.Boundry(@pick 'top', 'left', 'width', 'height')
+
 class @Newstime.GroupCollection extends Backbone.Collection
   model: Newstime.Group
   url: ->

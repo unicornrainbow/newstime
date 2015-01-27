@@ -1,7 +1,9 @@
-class @Newstime.GroupView extends Backbone.View
+class @Newstime.GroupView extends @Newstime.View
 
   initialize: (options={}) ->
     @$el.addClass 'group-view'
+
+    @composer = options.composer
 
     # Create group if one was not passed.
     @model = new Newstime.Group() unless @model
@@ -10,26 +12,52 @@ class @Newstime.GroupView extends Backbone.View
 
     @propertiesView = new Newstime.GroupPropertiesView(target: this, model: @model)
 
-    @outlineView = options.outlineView
+    if options.outlineView
+      @outlineView = options.outlineView
+    else
+      @outlineView = new Newstime.ContentItemOutlineView
+        composer: @composer
+        model: @model
 
-    @composer = options.composer
+      @composer.outlineLayerView.attach(@outlineView)
 
     @page = options.page
     @pageView = options.pageView
 
     @listenTo @model, 'destroy', @remove
 
+    @bindMouseEvents()
+
     @bind
-      mouseover: @mouseover
-      mouseout: @mouseout
-      mousedown: @mousedown
       keydown: @keydown
 
   render: ->
     @$el.css _.pick @model.attributes, 'width', 'height', 'top', 'left'
 
   measurePosition: ->
-    @contentItems = @model.getContentItems()
+    #@contentItems = @model.getContentItems()
+    #first = _.first(@contentItems)
+    #if first?
+      #boundry =  first.getBoundry()
+
+      #top = boundry.top
+      #left = boundry.left
+      #bottom = boundry.bottom
+      #right = boundry.right
+
+      #_.each @contentItems, (contentItem) ->
+        #boundry = contentItem.getBoundry()
+
+        #top = Math.min(top, boundry.top)
+        #left = Math.min(left, boundry.left)
+        #bottom = Math.max(bottom, boundry.bottom)
+        #right = Math.max(right, boundry.right)
+
+      #boundry = new Newstime.Boundry(top: top, left: left, bottom: bottom, right: right)
+      #@model.set _.pick boundry, 'top', 'left', 'width', 'height'
+
+
+    @contentItems = _.pluck @contentItemViewsArray, 'model'
     first = _.first(@contentItems)
     if first?
       boundry =  first.getBoundry()
@@ -55,8 +83,7 @@ class @Newstime.GroupView extends Backbone.View
     return unless e.button == 0 # Only respond to left button mousedown.
 
     unless @selected
-      @composer.selectGroup(@model)
-
+      @composer.selectView(this)
 
     if @selected
       if e.shiftKey
@@ -69,7 +96,7 @@ class @Newstime.GroupView extends Backbone.View
       else
         # Set as selection
         if @model.get('group_id')?
-          @composer.selectGroup(@model.getGroup()) # TODO: Shift+click with add to selection. alt-click will remove from.
+          @composer.selectView(this) # TODO: Shift+click with add to selection. alt-click will remove from.
         else
           @composer.select(@model) # TODO: Shift+click with add to selection. alt-click will remove from.
 
@@ -160,6 +187,40 @@ class @Newstime.GroupView extends Backbone.View
   setSizeAndPosition: (attributes) ->
     @model.set(attributes)
 
+
+  getBoundry: ->
+    @model.getBoundry()
+
   pushView: (view) ->
     # TODO: Needs to be attached and positioned according to group...
+    #console.log view.getBoundry()
+
+    #measurePosition: ->
+      #@contentItems = @model.getContentItems()
+      #first = _.first(@contentItems)
+      #if first?
+        #boundry =  first.getBoundry()
+
+        #top = boundry.top
+        #left = boundry.left
+        #bottom = boundry.bottom
+        #right = boundry.right
+
+        #_.each @contentItems, (contentItem) ->
+          #boundry = contentItem.getBoundry()
+
+          #top = Math.min(top, boundry.top)
+          #left = Math.min(left, boundry.left)
+          #bottom = Math.max(bottom, boundry.bottom)
+          #right = Math.max(right, boundry.right)
+
+        #boundry = new Newstime.Boundry(top: top, left: left, bottom: bottom, right: right)
+        #@model.set _.pick boundry, 'top', 'left', 'width', 'height'
+
+    #getGeometry: ->
+      #@model.pick('top', 'left', 'height', 'width')
+
+    #@$el.append(view.el)
+    @model.addItem(view.model)
     @contentItemViewsArray.push(view)
+    @measurePosition()
