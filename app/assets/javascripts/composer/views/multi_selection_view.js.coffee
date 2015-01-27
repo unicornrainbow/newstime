@@ -149,3 +149,15 @@ class @Newstime.MultiSelectionView extends @Newstime.View
       @composer.clearVerticalSnapLines()
 
     @trigger 'tracking-release', this
+
+
+  mouseover: (e) ->
+    @hovered = true
+    @composer.pushCursor @getCursor()
+
+  mouseout: (e) ->
+    @hovered = false
+    @composer.popCursor()
+
+  getCursor: ->
+    'default'
