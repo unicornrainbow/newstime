@@ -11,9 +11,6 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
     @placeholder = "Type Headline" # Text to show when there is no headline
     @fontWeights = Newstime.config.headlineFontWeights
 
-    ## Bind View Events
-    @bind 'dblclick',  @dblclick
-
     @propertiesView = new Newstime.HeadlineProperties2View(target: this, model: @model)
 
     @listenTo @model, 'change:height change:width change:text change:font_weight change:font_style change:font_family', @fitToBorderBox

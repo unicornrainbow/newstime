@@ -12,10 +12,7 @@ class @Newstime.CanvasItemView extends @Newstime.View
 
     @outlineView = options.outlineView
 
-    @bindMouseEvents()
-
-    @bind
-      keydown:   @keydown
+    @bindUIEvents()
 
     # Bind Model Events
     @listenTo @model, 'change:page_id', @handelChangePage

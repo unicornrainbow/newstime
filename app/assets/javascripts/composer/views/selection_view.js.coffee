@@ -26,10 +26,7 @@ class @Newstime.SelectionView extends @Newstime.View
     @listenTo @contentItem ,'change', @render
     @listenTo @canvasItemView, 'deselect', @remove
 
-    @bindMouseEvents()
-    @bind 'paste', @paste
-    @bind 'keydown',   @keydown
-    @bind 'dblclick',  @dblclick
+    @bindUIEvents()
 
   remove: ->
     unless @destroyed

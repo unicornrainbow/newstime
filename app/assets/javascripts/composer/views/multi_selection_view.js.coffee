@@ -1,4 +1,4 @@
-class @Newstime.MultiSelectionView extends Backbone.View
+class @Newstime.MultiSelectionView extends @Newstime.View
 
   initialize: (options) ->
     @$el.addClass 'selection-view resizable'
@@ -17,11 +17,7 @@ class @Newstime.MultiSelectionView extends Backbone.View
 
     @listenTo @selection, 'change', @render
 
-    @bind
-      'mousedown': @mousedown
-      'mousemove': @mousemove
-      'mouseup': @mouseup
-      'keydown': @keydown
+    @bindUIEvents()
 
   render: ->
     position = @selection.getPosition()
@@ -46,8 +42,7 @@ class @Newstime.MultiSelectionView extends Backbone.View
         @composer.clearSelection()
 
   createGroup: ->
-    groupView = new Newstime.GroupView
-      composer: @composer
+    groupView = new Newstime.GroupView()
 
     # Attach group view into the context.
     views = _.map @selection.models, @composer.getView

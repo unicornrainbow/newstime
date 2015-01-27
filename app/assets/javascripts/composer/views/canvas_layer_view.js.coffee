@@ -172,13 +172,7 @@ class @Newstime.CanvasLayerView extends @Newstime.View
       view.render()
       @$linkAreas.append(view.el)
 
-    @bindMouseEvents()
-
-    @bind 'dblclick',   @dblclick
-    @bind 'keydown',    @keydown
-    @bind 'paste',      @paste
-    @bind 'contextmenu', @contextmenu
-    @bind 'windowResize', @windowResize
+    @bindUIEvents()
 
     @listenTo @composer, 'zoom', @zoom
     @listenTo @contentItemCollection, 'remove', @removeContentItem

@@ -3,33 +3,25 @@ class @Newstime.GroupView extends @Newstime.View
   initialize: (options={}) ->
     @$el.addClass 'group-view'
 
-    @composer = options.composer
+    @model ?= new Newstime.Group()
 
-    # Create group if one was not passed.
-    @model = new Newstime.Group() unless @model
+    @composer = options.composer || Newstime.composer
 
-    @contentItemViewsArray = []
+    @contentItemViewsArray = [] # Array of content items views in z-index order.
 
     @propertiesView = new Newstime.GroupPropertiesView(target: this, model: @model)
 
-    if options.outlineView
-      @outlineView = options.outlineView
-    else
-      @outlineView = new Newstime.ContentItemOutlineView
-        composer: @composer
-        model: @model
-
-      @composer.outlineLayerView.attach(@outlineView)
+    @outlineView = options.outlineView ||
+                   new Newstime.ContentItemOutlineView
+                     composer: @composer
+                     model: @model
 
     @page = options.page
     @pageView = options.pageView
 
     @listenTo @model, 'destroy', @remove
 
-    @bindMouseEvents()
-
-    @bind
-      keydown: @keydown
+    @bindUIEvents()
 
   render: ->
     @$el.css _.pick @model.attributes, 'width', 'height', 'top', 'left'
@@ -78,7 +70,6 @@ class @Newstime.GroupView extends @Newstime.View
       boundry = new Newstime.Boundry(top: top, left: left, bottom: bottom, right: right)
       @model.set _.pick boundry, 'top', 'left', 'width', 'height'
 
-
   mousedown: (e) ->
     return unless e.button == 0 # Only respond to left button mousedown.
 
@@ -108,7 +99,6 @@ class @Newstime.GroupView extends @Newstime.View
     #else
       #geometry = @getGeometry()
       #@trackMove(e.x - geometry.left, e.y - geometry.top)
-
 
   getPropertiesView: ->
     @propertiesView
