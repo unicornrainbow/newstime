@@ -394,7 +394,7 @@ class @Newstime.CanvasLayerView extends @Newstime.View
           @drawVideo(e.x, e.y)
         when 'select-tool'
           if e.button == 0 # Only on left click
-            @composer.clearSelection() if @composer.activeSelection
+            @composer.clearSelection()
           #@drawSelection(e.x, e.y)
 
   mouseup: (e) ->
