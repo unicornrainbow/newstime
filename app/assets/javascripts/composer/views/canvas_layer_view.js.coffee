@@ -768,13 +768,13 @@ class @Newstime.CanvasLayerView extends @Newstime.View
     @listenTo contentItemView, 'tracking', @resizeSelection
     @listenTo contentItemView, 'tracking-release', @resizeSelectionRelease
 
-    contentItemCID = contentItem.cid
 
-    @contentItemViews[contentItemCID] = contentItemView
-    @contentItemOutlineViews[contentItemCID] = contentItemOutlineView
+    @contentItemViews[contentItem.cid] = contentItemView
+    @contentItemOutlineViews[contentItem.cid] = contentItemOutlineView
+
     @$canvasItems.append(contentItemView.el)
 
-    pageView.addContentItem(contentItem)
+    pageView.addContentItem(contentItemView)
 
     @composer.select(contentItemView)
 

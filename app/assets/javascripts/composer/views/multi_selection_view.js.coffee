@@ -1,6 +1,6 @@
 class @Newstime.MultiSelectionView extends @Newstime.View
 
-  initialize: (options) ->
+  initialize: (options={}) ->
     @$el.addClass 'selection-view resizable'
 
     @composer = options.composer || Newstime.composer

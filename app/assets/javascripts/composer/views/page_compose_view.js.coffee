@@ -47,10 +47,10 @@ class @Newstime.PageComposeView extends Backbone.View
     @bind 'windowResize', @windowResize # Fired when window is resized
 
   # Add content item to the top of the page.
-  addContentItem: (contentItem) ->
+  addContentItem: (contentItemView) ->
     # Get content item view, and place on top of contentItemsViewArray, update
     # z-indexs
-    contentItemView = @composer.contentItemViews[contentItem.cid]
+    contentItem = contentItemView.model
     @contentItemViewsArray.unshift(contentItemView)
 
     # Set page z-index within page

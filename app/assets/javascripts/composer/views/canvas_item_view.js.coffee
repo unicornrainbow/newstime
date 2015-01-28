@@ -145,19 +145,18 @@ class @Newstime.CanvasItemView extends @Newstime.View
     @model.destroy()
 
   mousedown: (e) ->
-
     return unless e.button == 0 # Only respond to left button mousedown.
 
-    unless @selected
+    if @selected
+      if e.shiftKey
+        # Remove from selection
+        @composer.removeFromSelection(this)
+    else
       if e.shiftKey
         # Add to selection
         @composer.addToSelection(this)
       else
         @composer.select(this) # TODO: Shift+click with add to selection. alt-click will remove from.
-    else
-      if e.shiftKey
-        # Remove from selection
-        @composer.removeFromSelection(this)
 
     # Pass mouse down to selection
     @composer.activeSelectionView.trigger 'mousedown', e
