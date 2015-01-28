@@ -536,89 +536,19 @@ class @Newstime.Composer extends Backbone.View
     else if model instanceof Newstime.Page
       @pageViews[model.cid]
 
-  createGuid: ->
-    _.range(8).map(-> Math.floor((1 + Math.random()) * 0x10000).toString(16).substring 1).join('')
-
-  # Selects a group
-  selectGroup: (group) ->
+  select: (contentItemView) ->
     @clearSelection()
-
-    groupCID = group.cid
-    groupView = @groupViews[groupCID]
-
-    #selection = new Newstime.GroupSelection
-      #group: group
-      #groupView: groupView
-
-    selection = new Newstime.ContentItemSelection
-      contentItem: group
-      contentItemView: groupView
-
-    @activeSelection = selection
-
-    @updatePropertiesPanel(@activeSelection)
 
     @activeSelectionView = new Newstime.SelectionView
-      composer: this
-      selection: selection
-    @activeSelectionView.render()
-
-    groupView.select(@activeSelectionView)
-
-    @selectionLayerView.setSelection(selection, @activeSelectionView)
-    @focusedObject = @activeSelectionView  # Set focus to selection to send keyboard events.
-
-    @canvasLayerView.listenTo @activeSelectionView, 'tracking', @canvasLayerView.resizeSelection
-    @canvasLayerView.listenTo @activeSelectionView, 'tracking-release', @canvasLayerView.resizeSelectionRelease
-    @listenTo @activeSelectionView, 'destroy', @clearSelection
-
-  select: (contentItem) ->
-    @clearSelection()
-
-    contentItemView = @getView(contentItem)
-
-    selection = new Newstime.ContentItemSelection
-      contentItem: contentItem
       contentItemView: contentItemView
 
-    @activeSelection = selection
-
-    @updatePropertiesPanel(@activeSelection)
-
-    @activeSelectionView = new Newstime.SelectionView
-      composer: this
-      selection: selection
     @activeSelectionView.render()
+
+    @updatePropertiesPanel(@activeSelectionView)
 
     contentItemView.select(@activeSelectionView)
 
-    @selectionLayerView.setSelection(selection, @activeSelectionView)
-    @focusedObject = @activeSelectionView  # Set focus to selection to send keyboard events.
-
-    @canvasLayerView.listenTo @activeSelectionView, 'tracking', @canvasLayerView.resizeSelection
-    @canvasLayerView.listenTo @activeSelectionView, 'tracking-release', @canvasLayerView.resizeSelectionRelease
-    @listenTo @activeSelectionView, 'destroy', @clearSelection
-
-
-  selectView: (contentItemView) ->
-    @clearSelection()
-
-    selection = new Newstime.ContentItemSelection
-      contentItem: contentItemView.model
-      contentItemView: contentItemView
-
-    @activeSelection = selection
-
-    @updatePropertiesPanel(@activeSelection)
-
-    @activeSelectionView = new Newstime.SelectionView
-      composer: this
-      selection: selection
-    @activeSelectionView.render()
-
-    contentItemView.select(@activeSelectionView)
-
-    @selectionLayerView.setSelection(selection, @activeSelectionView)
+    @selectionLayerView.setSelection(@activeSelectionView)
     @focusedObject = @activeSelectionView  # Set focus to selection to send keyboard events.
 
     @canvasLayerView.listenTo @activeSelectionView, 'tracking', @canvasLayerView.resizeSelection
@@ -627,33 +557,30 @@ class @Newstime.Composer extends Backbone.View
 
 
   # Adds model to a selection.
-  addToSelection: (model) ->
+  addToSelection: (contentItemView) ->
     # Just do normal selection if nothing is selected.
-    unless @activeSelection
-      @select(model)
+    unless @activeSelectionView
+      @select(contentItemView)
       return
 
     # Convert ContentItem selection to multiselection
-    if @activeSelection instanceof Newstime.ContentItemSelection
-      multiSelection = @activeSelection.convertToMultiSelection()
+    if @activeSelectionView instanceof Newstime.SelectionView
+      multiSelectionView = @activeSelectionView.convertToMultiSelectionView()
       @clearSelection()
-      @activeSelection = multiSelection
-      @updatePropertiesPanel(@activeSelection)
-
-      @activeSelectionView = new Newstime.MultiSelectionView
-        composer: this
-        selection: @activeSelection
+      @activeSelectionView = multiSelectionView
 
       @activeSelectionView.render()
 
-      @selectionLayerView.setSelection(@activeSelection, @activeSelectionView)
+      @selectionLayerView.setSelection(@activeSelectionView)
+
+      @updatePropertiesPanel(@activeSelectionView)
       @focusedObject = @activeSelectionView  # Set focus to selection to send keyboard events.
 
       @canvasLayerView.listenTo @activeSelectionView, 'tracking', @canvasLayerView.resizeSelection
       @canvasLayerView.listenTo @activeSelectionView, 'tracking-release', @canvasLayerView.resizeSelectionRelease
       @listenTo @activeSelectionView, 'destroy', @clearSelection
 
-    @activeSelection.add(model)
+    @activeSelection.add(contentItemView)
 
   # Removes model from selection.
   removeFromSelection: (model) ->
@@ -661,10 +588,8 @@ class @Newstime.Composer extends Backbone.View
 
   clearSelection: ->
     if @activeSelection?
-      @activeSelection.destroy()
       @activeSelectionView?.remove()
       @propertiesPanelView.clear()
-      @activeSelection = null
       @activeSelectionView = null
 
   updatePropertiesPanel: (target) ->

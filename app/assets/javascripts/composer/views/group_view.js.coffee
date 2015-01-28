@@ -74,22 +74,15 @@ class @Newstime.GroupView extends @Newstime.View
     return unless e.button == 0 # Only respond to left button mousedown.
 
     unless @selected
-      @composer.selectView(this)
-
-    if @selected
-      if e.shiftKey
-        # Remove from selection
-        @composer.removeFromSelection(@model)
-    else
       if e.shiftKey
         # Add to selection
-        @composer.addToSelection(@model)
+        @composer.addToSelection(this)
       else
-        # Set as selection
-        if @model.get('group_id')?
-          @composer.selectView(this) # TODO: Shift+click with add to selection. alt-click will remove from.
-        else
-          @composer.select(@model) # TODO: Shift+click with add to selection. alt-click will remove from.
+        @composer.select(this) # TODO: Shift+click with add to selection. alt-click will remove from.
+    else
+      if e.shiftKey
+        # Remove from selection
+        @composer.removeFromSelection(this)
 
     # Pass mouse down to selection
     @composer.activeSelectionView.trigger 'mousedown', e

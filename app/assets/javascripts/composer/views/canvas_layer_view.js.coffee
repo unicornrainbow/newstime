@@ -571,7 +571,7 @@ class @Newstime.CanvasLayerView extends @Newstime.View
 
     pageView.addContentItem(contentItem)
 
-    @composer.select(contentItem)
+    @composer.select(contentItemView)
 
     pageRelX = x - pageOffsetLeft
     pageRelY = y - pageOffsetTop
@@ -651,7 +651,7 @@ class @Newstime.CanvasLayerView extends @Newstime.View
 
     pageView.addContentItem(contentItem)
 
-    @composer.select(contentItem)
+    @composer.select(contentItemView)
 
     pageRelX = x - pageOffsetLeft
     pageRelY = y - pageOffsetTop
@@ -776,7 +776,7 @@ class @Newstime.CanvasLayerView extends @Newstime.View
 
     pageView.addContentItem(contentItem)
 
-    @composer.select(contentItem)
+    @composer.select(contentItemView)
 
     pageRelX = x - pageOffsetLeft
     pageRelY = y - pageOffsetTop

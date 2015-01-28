@@ -1,11 +1,9 @@
-#class @Newstime.CanvasViewItemSelectionView extends Backbone.View
 class @Newstime.SelectionView extends @Newstime.View
 
   initialize: (options) ->
     @$el.addClass 'selection-view resizable'
 
-    @selection = options.selection
-    @composer = options.composer
+    @composer = options.composer || Newstime.composer
 
     # Add drag handles
     @dragHandles = ['top', 'top-right', 'right', 'bottom-right', 'bottom', 'bottom-left', 'left', 'top-left']
@@ -17,24 +15,27 @@ class @Newstime.SelectionView extends @Newstime.View
     @$el.append(handleEls)
 
     # HACK: Shouldn't be binding direct to the content item model and view
-    @model = @contentItem = @selection.contentItem
-    @canvasItemView = @contentItemView = @selection.contentItemView # TODO: Should be canvasItemSelection (As the selection type)
+    @contentItemView = options.contentItemView
+    @contentItem = @contentItemView.model
 
     @page = @contentItemView.page
     @pageView = @contentItemView.pageView
 
     @listenTo @contentItem ,'change', @render
-    @listenTo @canvasItemView, 'deselect', @remove
+    @listenTo @contentItemView, 'deselect', @remove
 
     @bindUIEvents()
+
+  getPropertiesView: ->
+    @contentItemView.getPropertiesView()
 
   remove: ->
     unless @destroyed
       @destroyed = true
       @trigger 'destroy', this
 
-      if @canvasItemView
-        @canvasItemView.deselect()
+      if @contentItemView
+        @contentItemView.deselect()
 
     super
 
@@ -58,22 +59,22 @@ class @Newstime.SelectionView extends @Newstime.View
     this
 
   paste: (e) ->
-    @canvasItemView.trigger 'paste', e
+    @contentItemView.trigger 'paste', e
 
   getLeft: ->
-    @model.get('left')
+    @contentItem.get('left')
     #parseInt(@$el.css('left'))
 
   getTop: ->
-    @model.get('top')
+    @contentItem.get('top')
     #parseInt(@$el.css('top'))
 
   getWidth: ->
-    @model.get('width')
+    @contentItem.get('width')
     #parseInt(@$el.css('width'))
 
   getHeight: ->
-    @model.get('height')
+    @contentItem.get('height')
 
   keydown: (e) ->
     @contentItemView.trigger 'keydown', e
@@ -99,10 +100,10 @@ class @Newstime.SelectionView extends @Newstime.View
 
 
   getGeometry: ->
-    @model.pick('top', 'left', 'height', 'width')
+    @contentItem.pick('top', 'left', 'height', 'width')
 
   getBounds: ->
-    bounds = @model.pick('top', 'left', 'height', 'width')
+    bounds = @contentItem.pick('top', 'left', 'height', 'width')
     bounds.bottom = bounds.top + bounds.height
     bounds.right = bounds.left + bounds.width
     delete bounds.width
@@ -124,12 +125,12 @@ class @Newstime.SelectionView extends @Newstime.View
   beginDraw: (x, y) ->
     # TODO: Rewrite this with selection
     # Snap x to grid
-    @pageView.collectLeftEdges(@model)
+    @pageView.collectLeftEdges(@contentItem)
     snapX = @pageView.snapLeft(x)
     if snapX
       x = snapX
 
-    @model.set
+    @contentItem.set
       left: x
       top: y
       width: 1 # HACK: Set some initial value for width and height to avoid it not being set.
@@ -139,7 +140,7 @@ class @Newstime.SelectionView extends @Newstime.View
 
   trackResize: (mode) ->
     @resizing   = true
-    @canvasItemView.needsReflow = true # TODO: Should use resize event
+    @contentItemView.needsReflow = true # TODO: Should use resize event
     @resizeMode = mode
 
     # Highlight the drag handle
@@ -153,12 +154,12 @@ class @Newstime.SelectionView extends @Newstime.View
         @pageView.computeBottomSnapPoints()
 
         # Get all objects below object that can be moved up and down in unison.
-        @attachedItems = @pageView.getAttachedItems(@model)
+        @attachedItems = @pageView.getAttachedItems(@contentItem)
 
 
     switch @resizeMode
       when 'left', 'top-left', 'bottom-left'
-        @pageView.collectLeftEdges(@model)
+        @pageView.collectLeftEdges(@contentItem)
 
       #when 'right', 'top-right', 'bottom-right'
         #@pageView.collectRightEdges(this)
@@ -168,11 +169,11 @@ class @Newstime.SelectionView extends @Newstime.View
 
   trackMove: (offsetX, offsetY) ->
     @pageView.computeTopSnapPoints()
-    @pageView.collectLeftEdges(@model)
-    @pageView.collectRightEdges(@model)
+    @pageView.collectLeftEdges(@contentItem)
+    @pageView.collectRightEdges(@contentItem)
     @moving      = true
-    @orginalPositionX = @model.get('left')
-    @orginalPositionY = @model.get('top')
+    @orginalPositionX = @contentItem.get('left')
+    @orginalPositionY = @contentItem.get('top')
     @moveOffsetX = offsetX
     @moveOffsetY = offsetY
     @trigger 'tracking', this
@@ -271,7 +272,7 @@ class @Newstime.SelectionView extends @Newstime.View
     #@pageView.moveItem(this, x, y, @orginalPositionX, @orginalPositionY, shiftKey)
 
   setSizeAndPosition: (value) ->
-    @canvasItemView.setSizeAndPosition(value)
+    @contentItemView.setSizeAndPosition(value)
 
 
   # Resizes based on a top drag
@@ -279,7 +280,7 @@ class @Newstime.SelectionView extends @Newstime.View
     geometry = @getGeometry()
     y = @pageView.snapTop(y)
 
-    @canvasItemView.setSizeAndPosition
+    @contentItemView.setSizeAndPosition
       top: y
       height: geometry.top - y + geometry.height
 
@@ -287,7 +288,7 @@ class @Newstime.SelectionView extends @Newstime.View
     @composer.clearVerticalSnapLines()
     geometry = @getGeometry()
     width = x - geometry.left
-    width = Math.min(width, @pageView.getWidth() - @model.get('left')) # Keep on page
+    width = Math.min(width, @pageView.getWidth() - @contentItem.get('left')) # Keep on page
     snapRight = @pageView.snapRight(width) # Snap
 
     if snapRight
@@ -295,11 +296,11 @@ class @Newstime.SelectionView extends @Newstime.View
       width = snapRight
 
 
-    @canvasItemView.setSizeAndPosition
+    @contentItemView.setSizeAndPosition
       width: width
 
   dragBottom: (x, y) ->
-    @canvasItemView.dragBottom(x, y)
+    @contentItemView.dragBottom(x, y)
 
     _.each @attachedItems, ([contentItem, offset]) =>
       contentItem.set
@@ -315,7 +316,7 @@ class @Newstime.SelectionView extends @Newstime.View
     else
       @composer.clearVerticalSnapLines()
 
-    @canvasItemView.setSizeAndPosition
+    @contentItemView.setSizeAndPosition
       left: x
       width: geometry.left - x + geometry.width
 
@@ -331,7 +332,7 @@ class @Newstime.SelectionView extends @Newstime.View
       @composer.drawVerticalSnapLine(snapLeft)
       x = snapLeft
 
-    @model.set
+    @contentItem.set
       left: x
       top: y
       width: geometry.left - x + geometry.width
@@ -347,17 +348,17 @@ class @Newstime.SelectionView extends @Newstime.View
       width = snapRight
     y = @pageView.snapTop(y)
 
-    @model.set
+    @contentItem.set
       top: y
       width: width
       height: geometry.top - y + geometry.height
 
   dragBottomLeft: (x, y) ->
-    @canvasItemView.dragBottomLeft(x, y)
+    @contentItemView.dragBottomLeft(x, y)
 
 
   dragBottomRight: (x, y) ->
-    @canvasItemView.dragBottomRight(x, y)
+    @contentItemView.dragBottomRight(x, y)
 
   mouseup: (e) ->
     if @resizing
@@ -367,11 +368,11 @@ class @Newstime.SelectionView extends @Newstime.View
       @composer.clearVerticalSnapLines() # Ensure vertical snaps aren't showing.
       # Reset drag handles, clearing if they where active
       _.each @dragHandles, (h) -> h.reset()
-      @canvasItemView.trigger 'resized'
+      @contentItemView.trigger 'resized'
 
     if @moving
       @moving = false
-      @composer.assignPage(@model)
+      @composer.assignPage(@contentItem)
       @composer.clearVerticalSnapLines()
 
     @trigger 'tracking-release', this
@@ -403,3 +404,9 @@ class @Newstime.SelectionView extends @Newstime.View
 
     boxLeft <= hitX <= boxRight &&
       boxTop <= hitY <= boxBottom
+
+
+  convertToMultiSelectionView: ->
+    multiSelection = new Newstime.MultiSelectionView()
+    multiSelection.add(@contentItemView)
+    multiSelection

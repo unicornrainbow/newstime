@@ -5,16 +5,13 @@ class @Newstime.MultiSelection
     @models = []
     @page = null
 
-  getPropertiesView: ->
-    null # TODO: Create a propeties panel view
-
   deactivate: ->
 
   destroy: ->
 
   # Add a model, and assocaited view to the multiselection.
-  add: (model) ->
-    @models.push model
+  add: (view) ->
+    @models.push view.model
     @trigger 'change'
 
   getPosition: ->

@@ -3,8 +3,10 @@ class @Newstime.MultiSelectionView extends @Newstime.View
   initialize: (options) ->
     @$el.addClass 'selection-view resizable'
 
-    @selection = options.selection
-    @composer = options.composer
+    @composer = options.composer || Newstime.composer
+
+    @selectedViews = []
+    @page = null
 
     # Add drag handles
     @dragHandles = ['top', 'top-right', 'right', 'bottom-right', 'bottom', 'bottom-left', 'left', 'top-left']
@@ -33,6 +35,9 @@ class @Newstime.MultiSelectionView extends @Newstime.View
 
     @$el.css(position)
 
+  getPropertiesView: ->
+    null # TODO: Create a propeties panel view
+
   keydown: (e) ->
     switch e.keyCode
       when 71 # g
@@ -45,7 +50,7 @@ class @Newstime.MultiSelectionView extends @Newstime.View
     groupView = new Newstime.GroupView()
 
     # Attach group view into the context.
-    views = _.map @selection.models, @composer.getView
+    views = @selectedViews
 
     firstView = _.first(views) # Note: May need to be more clever in determining which view should serve as insertion point.
     context = @composer.canvasLayerView

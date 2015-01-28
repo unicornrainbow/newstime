@@ -1,3 +1,4 @@
+# TODO: Delete me
 class @Newstime.ContentItemSelection
   _.extend @prototype, Backbone.Events
 
@@ -12,8 +13,3 @@ class @Newstime.ContentItemSelection
     @contentItemView.deactivate()
 
   destroy: ->
-
-  convertToMultiSelection: ->
-    multiSelection = new Newstime.MultiSelection()
-    multiSelection.add(@contentItem)
-    multiSelection
