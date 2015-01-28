@@ -47,6 +47,16 @@ class @Newstime.Edition extends Backbone.RelationalModel
     }
   }]
 
+  Object.defineProperties @prototype,
+    contentItems:
+      get: -> @get('content_items')
+    sections:
+      get: -> @get('sections')
+    pages:
+      get: -> @get('pages')
+    groups:
+      get: -> @get('groups')
+
   initialize: (attributes, options) ->
     # Bind to change on collections for dirty tracking
     @get('sections').bind 'change', @change, this

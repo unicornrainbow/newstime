@@ -3,9 +3,10 @@ class @Newstime.GroupView extends @Newstime.View
   initialize: (options={}) ->
     @$el.addClass 'group-view'
 
-    @model ?= new Newstime.Group()
-
     @composer = options.composer || Newstime.composer
+    @edition  = @composer.edition
+
+    @model ?= @edition.groups.add({})
 
     @contentItemViewsArray = [] # Array of content items views in z-index order.
 

@@ -10,9 +10,11 @@
 # ## App
 #= require newstime_util
 #= require ./composer/views/view
+#= require_tree ./composer/lib
 #= require_tree ./composer/plugins
 #= require_tree ./composer/models
 #= require_tree ./composer/views
+#= require_tree ./composer/collections
 #= require_tree ./composer/functions
 
 @Newstime = @Newstime or {}
@@ -36,6 +38,7 @@ class @Newstime.Composer extends Backbone.View
     @$body = $('body')
     @canvas = $('.page')[0]
 
+
     ## Config
     @topOffset = 0 # 61 # px
     @menuHeight = 25
@@ -46,6 +49,8 @@ class @Newstime.Composer extends Backbone.View
     @contentItemViews = {}
     @groupViews = {}
     @pageViews = {}
+
+    @groupViewCollection = new Newstime.GroupViewCollection()
 
     @toolbox = new Newstime.Toolbox
 
