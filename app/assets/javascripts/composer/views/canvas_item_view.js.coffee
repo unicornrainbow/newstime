@@ -19,14 +19,15 @@ class @Newstime.CanvasItemView extends @Newstime.View
     @listenTo @model, 'change', @render
     @listenTo @model, 'destroy', @remove
 
-    @delegate 'set', @model
-
   setElement: (el) ->
     super
     @$el.addClass 'canvas-item-view'
 
   render: ->
     @$el.css _.pick @model.attributes, 'width', 'height', 'top', 'left', 'z-index'
+
+  set: ->
+    @model.set(arguments)
 
   handelChangePage: ->
     @page = @model.getPage()
