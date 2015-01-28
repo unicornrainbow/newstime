@@ -48,7 +48,6 @@ class @Newstime.MultiSelectionView extends @Newstime.View
     groupView = new Newstime.GroupView()
 
     # Attach group view into the context.
-    #
     firstView = _.first(@selectedViews) # Note: May need to be more clever in determining which view should serve as insertion point.
     context = @composer.canvasLayerView
     context.insertBefore(groupView, firstView)
@@ -58,7 +57,7 @@ class @Newstime.MultiSelectionView extends @Newstime.View
       context.detachView(view)
       groupView.pushView(view)
 
-    @composer.selectView(groupView)
+    @composer.select(groupView)
 
 
   # Detects a hit of the selection
