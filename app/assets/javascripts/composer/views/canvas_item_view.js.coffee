@@ -26,6 +26,9 @@ class @Newstime.CanvasItemView extends @Newstime.View
   render: ->
     @$el.css _.pick @model.attributes, 'width', 'height', 'top', 'left', 'z-index'
 
+  set: ->
+    @model.set(arguments)
+
   handelChangePage: ->
     @page = @model.getPage()
     @pageView = @composer.pageViews[@page.cid]
