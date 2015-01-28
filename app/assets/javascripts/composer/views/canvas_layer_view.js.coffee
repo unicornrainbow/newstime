@@ -557,20 +557,16 @@ class @Newstime.CanvasLayerView extends @Newstime.View
       pageID: pageID
       pageView: pageView
 
-
     @listenTo contentItemView, 'activate', @selectContentItem
     @listenTo contentItemView, 'deactivate', @selectionDeactivated
     @listenTo contentItemView, 'tracking', @resizeSelection
     @listenTo contentItemView, 'tracking-release', @resizeSelectionRelease
 
-    contentItemCID = contentItem.cid # TODO: Note, using cid, because not saved yet...
-
-    @contentItemViews[contentItemCID] = contentItemView
-    @contentItemOutlineViews[contentItemCID] = contentItemOutlineView
+    @contentItemViews[contentItem.cid] = contentItemView
+    @contentItemOutlineViews[contentItem.cid] = contentItemOutlineView
     @$canvasItems.append(contentItemView.el)
 
-    pageView.addContentItem(contentItem)
-
+    pageView.addContentItem(contentItemView)
     @composer.select(contentItemView)
 
     pageRelX = x - pageOffsetLeft
