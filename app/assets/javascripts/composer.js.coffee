@@ -545,7 +545,7 @@ class @Newstime.Composer extends Backbone.View
   select: (contentItemView) ->
     @clearSelection()
 
-    @activeSelectionView = new Newstime.SelectionView
+    @selection = @activeSelectionView = new Newstime.SelectionView
       contentItemView: contentItemView
 
     @activeSelectionView.render()
@@ -573,7 +573,7 @@ class @Newstime.Composer extends Backbone.View
     if @activeSelectionView instanceof Newstime.SelectionView
       multiSelectionView = @activeSelectionView.convertToMultiSelectionView()
       @clearSelection()
-      @activeSelectionView = multiSelectionView
+      @selection = @activeSelectionView = multiSelectionView
 
       @activeSelectionView.render()
 
@@ -597,6 +597,7 @@ class @Newstime.Composer extends Backbone.View
       @activeSelectionView?.remove()
       @propertiesPanelView.clear()
       @activeSelectionView = null
+      @selection = null
 
   updatePropertiesPanel: (target) ->
     propertiesView = target.getPropertiesView()

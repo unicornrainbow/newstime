@@ -49,12 +49,12 @@ class ContentItem
 
   # Top, relative to page (Underlying value is relative to canvas)
   def parent_relative_top
-    top - (parent.top || 0)
+    top - (parent.try(:top) || 0)
   end
 
   # Left, relative to page (Underlying value is relative to canvas)
   def parent_relative_left
-    left - (parent.left || 0)
+    left - (parent.try(:left) || 0)
   end
 
   def parent

@@ -3,11 +3,13 @@
 class @Newstime.HeadlineView extends Newstime.CanvasItemView
 
   initialize: (options) ->
-    super
-    @composer = options.composer
-
     @$el.addClass 'headline-view'
 
+    @composer = Newstime.composer
+    @edition  = @composer.edition
+
+    @model ?= @edition.contentItems.add({_type: 'HeadlineContentItem'})
+    super
     @placeholder = "Type Headline" # Text to show when there is no headline
     @fontWeights = Newstime.config.headlineFontWeights
 
@@ -20,6 +22,7 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
   setElement: (el) ->
     super
     @$el.addClass 'headline-view'
+
 
   render: ->
     @$el.css _.pick @model.attributes, 'top', 'left', 'z-index'
@@ -42,7 +45,6 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
     else
       @$el.text(@placeholder)
       @$el.addClass 'placeholder'
-
 
   renderMargins: ->
     @$el.css _.pick @model.attributes, 'margin-top', 'margin-right', 'margin-bottom', 'margin-left'

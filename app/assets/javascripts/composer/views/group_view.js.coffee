@@ -12,12 +12,8 @@ class @Newstime.GroupView extends @Newstime.View
 
     @propertiesView = new Newstime.GroupPropertiesView(target: this, model: @model)
 
-    @outlineView = options.outlineView ||
-                   @composer.outlineLayerViewCollection.add
+    @outlineView = @composer.outlineViewCollection.add
                      model: @model
-
-    @page = options.page
-    @pageView = options.pageView
 
     @listenTo @model, 'destroy', @remove
 

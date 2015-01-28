@@ -719,82 +719,13 @@ class @Newstime.CanvasLayerView extends @Newstime.View
     selectionView.beginSelection(x, y)
 
   drawHeadline: (x, y) ->
+    view = new Newstime.HeadlineView()
+    view.model.set(top: y, left: x)
+    @add(view)
+    @composer.select(view)
+    @composer.selection.beginDraw(x, y)
 
-    ## We need to create and activate a selection region (Marching ants would be nice)
-
-    # Determined which page was hit...
-    pageView = _.find @pageViews, (pageView, pageCID) =>
-      @detectHitY pageView, y
-
-    pageModel = pageView.page
-    pageID = pageModel.get('_id')
-
-    pageOffsetLeft = pageView.getOffsetLeft()
-    pageOffsetTop  = pageView.getOffsetTop()
-
-    contentItemType = 'HeadlineContentItem'
-
-    contentItem = new Newstime.ContentItem
-      _type: contentItemType
-      page_id: pageID
-    @edition.get('content_items').add(contentItem)
-
-    contentItemOutlineView = new Newstime.ContentItemOutlineView
-      composer: @composer
-      model: contentItem
-      pageOffsetLeft: pageOffsetLeft
-      pageOffsetTop: pageOffsetTop
-    @composer.outlineLayerView.attach(contentItemOutlineView)
-
-    contentItemView = new Newstime.HeadlineView
-      model: contentItem
-      pageOffsetLeft: pageOffsetLeft
-      pageOffsetTop: pageOffsetTop
-      composer: @composer
-      outlineView: contentItemOutlineView
-      page: pageModel
-      pageID: pageID
-      pageView: pageView
-
-    @listenTo contentItemView, 'activate', @selectContentItem
-    @listenTo contentItemView, 'deactivate', @selectionDeactivated
-    @listenTo contentItemView, 'tracking', @resizeSelection
-    @listenTo contentItemView, 'tracking-release', @resizeSelectionRelease
-
-
-    @contentItemViews[contentItem.cid] = contentItemView
-    @contentItemOutlineViews[contentItem.cid] = contentItemOutlineView
-
-    @$canvasItems.append(contentItemView.el)
-
-    pageView.add(contentItemView)
-
-    @composer.select(contentItemView)
-
-    pageRelX = x - pageOffsetLeft
-    pageRelY = y - pageOffsetTop
-
-    @composer.activeSelectionView.beginDraw(pageRelX, pageRelY)
-
-    attachContentEl = (response) =>
-      # Parse response into element.
-      div = document.createElement('div')
-      div.innerHTML = response
-      el = div.firstChild
-
-      # Attach and render
-      contentItemView.$el.replaceWith(el)
-      contentItemView.setElement(el)
-      contentItemView.render()
-
-    $.ajax
-      method: 'GET'
-      url: "#{@edition.url()}/render_content_item.html"
-      data:
-        composing: true
-        content_item: contentItem.toJSON()
-      success: attachContentEl
-
+    view.serverRender()
 
   beginSelection: (x, y) ->
     ## We need to create and activate a selection region (Marching ants would be nice)
@@ -846,6 +777,6 @@ class @Newstime.CanvasLayerView extends @Newstime.View
   _assignPage: (view) ->
     # Determine page based on intersection.
     pageView = _.find @pageViewsArray, (pageView) =>
-      @detectHitY pageView, view.y
+      @detectHitY pageView, view.model.get('top')
 
     pageView.add(view)

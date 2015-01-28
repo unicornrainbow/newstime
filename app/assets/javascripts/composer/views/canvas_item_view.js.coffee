@@ -1,16 +1,13 @@
 class @Newstime.CanvasItemView extends @Newstime.View
 
-  initialize: (options) ->
+  initialize: (options={}) ->
     @$el.addClass 'canvas-item-view'
 
-    # Options
-    @canvasLayerView = options.canvasLayerView
-    @composer = options.composer
+    @composer ?= Newstime.composer
+    @edition  ?= @composer.edition
 
-    @page = options.page
-    @pageView = options.pageView
-
-    @outlineView = options.outlineView
+    @outlineView = @composer.outlineViewCollection.add
+                     model: @model
 
     @bindUIEvents()
 
@@ -19,6 +16,13 @@ class @Newstime.CanvasItemView extends @Newstime.View
     @listenTo @model, 'change', @render
     @listenTo @model, 'destroy', @remove
 
+  Object.defineProperties @prototype,
+    top:
+      get: -> @model.get('top')
+
+    left:
+      get: -> @model.get('left')
+
   setElement: (el) ->
     super
     @$el.addClass 'canvas-item-view'
@@ -26,8 +30,26 @@ class @Newstime.CanvasItemView extends @Newstime.View
   render: ->
     @$el.css _.pick @model.attributes, 'width', 'height', 'top', 'left', 'z-index'
 
+  # Sets model values.
   set: ->
-    @model.set(arguments)
+    @model.set.apply(@model, arguments)
+
+  # Does a full server render and replaces dom element.
+  serverRender: ->
+    $.ajax
+      method: 'GET'
+      url: "#{@edition.url()}/render_content_item.html"
+      data:
+        composing: true
+        content_item: @model.toJSON()
+      success: (response) =>
+        # Parse response into element.
+        el = @_parseHTML(response)
+
+        # Attach and render
+        @$el.replaceWith(el)
+        @setElement(el)
+        @render()
 
   handelChangePage: ->
     @page = @model.getPage()
@@ -438,3 +460,10 @@ class @Newstime.CanvasItemView extends @Newstime.View
 
     boxLeft <= hitX <= boxRight &&
       boxTop <= hitY <= boxBottom
+
+
+  # Parses html in to dom element.
+  _parseHTML: (html) ->
+    div = document.createElement('div')
+    div.innerHTML = html
+    div.firstChild
