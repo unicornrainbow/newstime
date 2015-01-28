@@ -23,6 +23,13 @@ class @Newstime.CanvasItemView extends @Newstime.View
     left:
       get: -> @model.get('left')
 
+    page:
+      get: -> @_page
+      set: (value) ->
+        @_page = value
+        if value.id
+          @model.set('page_id', value.id)
+
   setElement: (el) ->
     super
     @$el.addClass 'canvas-item-view'

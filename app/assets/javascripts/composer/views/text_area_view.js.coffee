@@ -3,8 +3,14 @@
 class @Newstime.TextAreaView extends Newstime.CanvasItemView
 
   initialize: (options) ->
-    super
     @$el.addClass 'text-area-view'
+
+    @composer = Newstime.composer
+    @edition  = @composer.edition
+
+    @model ?= @edition.contentItems.add({_type: 'TextAreaContentItem'})
+
+    super
 
     @lineHeight = parseInt(Newstime.config.storyTextLineHeight)
 

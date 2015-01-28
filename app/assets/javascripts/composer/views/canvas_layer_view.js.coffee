@@ -521,78 +521,13 @@ class @Newstime.CanvasLayerView extends @Newstime.View
     return false
 
   drawTypeArea: (x, y) ->
-    ## We need to create and activate a selection region (Marching ants would be nice)
+    view = new Newstime.TextAreaView()
+    view.model.set(top: y, left: x)
+    @add(view)
+    @composer.select(view)
+    @composer.selection.beginDraw(x, y)
 
-    # Determined which page was hit...
-    pageView = _.find @pageViews, (pageView, pageCID) =>
-      @detectHitY pageView, y
-
-    pageModel = pageView.page
-    pageID = pageModel.get('_id')
-
-    pageOffsetLeft = pageView.getOffsetLeft()
-    pageOffsetTop  = pageView.getOffsetTop()
-
-
-    contentItemType = 'TextAreaContentItem'
-
-    contentItem = new Newstime.ContentItem
-      _type: contentItemType
-      page_id: pageID
-    @edition.get('content_items').add(contentItem)
-
-    contentItemOutlineView = new Newstime.ContentItemOutlineView
-      composer: @composer
-      model: contentItem
-      pageOffsetLeft: pageOffsetLeft
-      pageOffsetTop: pageOffsetTop
-    @composer.outlineLayerView.attach(contentItemOutlineView)
-
-    contentItemView = new Newstime.TextAreaView
-      model: contentItem
-      pageOffsetLeft: pageOffsetLeft
-      pageOffsetTop: pageOffsetTop
-      composer: @composer
-      outlineView: contentItemOutlineView
-      page: pageModel
-      pageID: pageID
-      pageView: pageView
-
-    @listenTo contentItemView, 'activate', @selectContentItem
-    @listenTo contentItemView, 'deactivate', @selectionDeactivated
-    @listenTo contentItemView, 'tracking', @resizeSelection
-    @listenTo contentItemView, 'tracking-release', @resizeSelectionRelease
-
-    @contentItemViews[contentItem.cid] = contentItemView
-    @contentItemOutlineViews[contentItem.cid] = contentItemOutlineView
-    @$canvasItems.append(contentItemView.el)
-
-    pageView.addContentItem(contentItemView)
-    @composer.select(contentItemView)
-
-    pageRelX = x - pageOffsetLeft
-    pageRelY = y - pageOffsetTop
-
-    @composer.activeSelectionView.beginDraw(pageRelX, pageRelY)
-
-    successCallback = (response) =>
-      # Parse response into element.
-      div = document.createElement('div')
-      div.innerHTML = response
-      el = div.firstChild
-
-      # Attach and render
-      contentItemView.$el.replaceWith(el)
-      contentItemView.setElement(el)
-      contentItemView.render()
-
-    $.ajax
-      method: 'GET'
-      url: "#{@edition.url()}/render_content_item.html"
-      data:
-        composing: true
-        content_item: contentItem.toJSON()
-      success: successCallback
+    view.serverRender()
 
   drawPhoto: (x, y) ->
 
