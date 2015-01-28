@@ -47,19 +47,39 @@ class @Newstime.PageComposeView extends Backbone.View
     @bind 'windowResize', @windowResize # Fired when window is resized
 
   # Add content item to the top of the page.
-  addContentItem: (contentItemView) ->
+  # TODO: Delete me - see add()
+  #addContentItem: (contentItemView) ->
+    ## Get content item view, and place on top of contentItemsViewArray, update
+    ## z-indexs
+    #contentItem = contentItemView.model
+    #@contentItemViewsArray.unshift(contentItemView)
+
+    ## Set page z-index within page
+    #contentItem.set('z-index', @contentItemViewsArray.length-1)
+
+    ## Expand page bounding box if neccessary
+    #contentItemBoundry = contentItem.getBoundry()
+    #if contentItemBoundry.bottom > @boundingBox.bottom
+      #@boundingBox.bottom = contentItemBoundry.bottom
+
+  # Add view to page
+  add: (view) ->
+    # Note: contentItemViewsArray should be a special collection.
+
     # Get content item view, and place on top of contentItemsViewArray, update
     # z-indexs
-    contentItem = contentItemView.model
-    @contentItemViewsArray.unshift(contentItemView)
+    @contentItemViewsArray.unshift(view)
+
+    view.pageView = this
 
     # Set page z-index within page
-    contentItem.set('z-index', @contentItemViewsArray.length-1)
+    view.set('z-index', @contentItemViewsArray.length-1)
 
     # Expand page bounding box if neccessary
-    contentItemBoundry = contentItem.getBoundry()
+    contentItemBoundry = view.getBoundry()
     if contentItemBoundry.bottom > @boundingBox.bottom
       @boundingBox.bottom = contentItemBoundry.bottom
+
 
   # Inserts content item at specified index
   insertContentItemAtIndex: (contentItemView, index) ->

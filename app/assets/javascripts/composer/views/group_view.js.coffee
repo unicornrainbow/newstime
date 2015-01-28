@@ -13,8 +13,7 @@ class @Newstime.GroupView extends @Newstime.View
     @propertiesView = new Newstime.GroupPropertiesView(target: this, model: @model)
 
     @outlineView = options.outlineView ||
-                   new Newstime.ContentItemOutlineView
-                     composer: @composer
+                   @composer.outlineLayerViewCollection.add
                      model: @model
 
     @page = options.page

@@ -45,14 +45,13 @@ class @Newstime.MultiSelectionView extends @Newstime.View
         @composer.clearSelection()
 
   createGroup: ->
-    groupView = @composer.groupViews.add({})
-
-    #groupView = new Newstime.GroupView()
+    # Create a new GroupView
+    groupView = @composer.groupViewsCollection.add({})
 
 
     # Attach group view into the context.
     firstView = _.first(@selectedViews) # Note: May need to be more clever in determining which view should serve as insertion point.
-    context = @composer.canvasLayerView
+    context = @composer.canvas
     context.insertBefore(groupView, firstView)
 
     # Remove views and attach to group in order.

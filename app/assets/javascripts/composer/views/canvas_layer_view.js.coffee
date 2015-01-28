@@ -41,7 +41,7 @@ class @Newstime.CanvasLayerView extends @Newstime.View
     @pages = new Backbone.Collection(section.getPages())
 
 
-    @pageViewsArray = [] # Order array of the page views.
+    @pageViewsArray = [] # Order array of the page views. # TODO: Should be a special collection.
 
     @pages.each (page) =>
       page_id = page.get('_id')
@@ -66,9 +66,6 @@ class @Newstime.CanvasLayerView extends @Newstime.View
     @$canvasItems = $('<div class="canvas-items"></div>')
     @$canvasItems.appendTo(@$body)
 
-    @$groups = $('<div class="groups"></div>')
-    @$groups.appendTo(@$body)
-
     # Attach a view to draw the link
     @$linkAreas = $('<div class="link-areas"></div>')
     @$linkAreas.appendTo(@$body)
@@ -89,16 +86,11 @@ class @Newstime.CanvasLayerView extends @Newstime.View
         id = group.get('_id')
         el = groupEls.filter("[data-group-id='#{id}")
 
-        contentItemOutlineView = new Newstime.ContentItemOutlineView
-          composer: @composer
-          model: group
-        @composer.outlineLayerView.attach(contentItemOutlineView)
 
         groupView = new Newstime.GroupView
           model: group
           el: el
           composer: @composer
-          outlineView: contentItemOutlineView
           page: page
           pageID: pageID
           pageView: pageView
@@ -114,7 +106,12 @@ class @Newstime.CanvasLayerView extends @Newstime.View
         groupCID = group.cid
         @groupViews[groupCID] = groupView
         #@groupOutlineViews[groupCID] = groupOutlineView
-        @$groups.append(el) # For now a seperate layer, eventually on canvas item div, with z-index coordination
+
+        #@$groups.append(el) # For now a seperate layer, eventually on canvas item div, with z-index coordination
+
+        #@composer.outlineLayerView.attach(groupView.outlineView)
+
+        @add(groupView) # Add groupView to the canvas.
 
 
       _.each contentItems, (contentItem) =>
@@ -183,10 +180,15 @@ class @Newstime.CanvasLayerView extends @Newstime.View
       groupView.measurePosition()
       groupView.render()
 
-  addGroup: (group) ->
-    @groupViews[group.cid] =
-      new Newstime.GroupView
-        model: group
+  #addGroup: (group) ->
+    #@groupViews[group.cid] =
+      #new Newstime.GroupView
+        #model: group
+
+  add: (view) ->
+    @$canvasItems.append(view.el)
+    @composer.outlineLayerView.attach(view.outlineView)
+    @_assignPage(view)
 
 
   # Inserts view before referenceView.
@@ -251,7 +253,6 @@ class @Newstime.CanvasLayerView extends @Newstime.View
       @position.left -= (@position.width - @pagesOffset.width)/2
 
     @$canvasItems.css(@position)
-    @$groups.css(@position)
     @$linkAreas.css(@position)
 
     @composer.outlineLayerView.setPosition @position
@@ -766,7 +767,7 @@ class @Newstime.CanvasLayerView extends @Newstime.View
 
     @$canvasItems.append(contentItemView.el)
 
-    pageView.addContentItem(contentItemView)
+    pageView.add(contentItemView)
 
     @composer.select(contentItemView)
 
@@ -838,3 +839,13 @@ class @Newstime.CanvasLayerView extends @Newstime.View
 
   append: (el) ->
     @$el.append(el)
+
+
+  # Assigns a view to a page in the pageViewsArray (Note: pageViewsArray should
+  # become a special collection.
+  _assignPage: (view) ->
+    # Determine page based on intersection.
+    pageView = _.find @pageViewsArray, (pageView) =>
+      @detectHitY pageView, view.y
+
+    pageView.add(view)

@@ -50,7 +50,8 @@ class @Newstime.Composer extends Backbone.View
     @groupViews = {}
     @pageViews = {}
 
-    @groupViewCollection = new Newstime.GroupViewCollection()
+    @groupViewCollection   = new Newstime.GroupViewCollection()
+    @outlineViewCollection = new Newstime.OutlineViewCollection()
 
     @toolbox = new Newstime.Toolbox
 
@@ -78,7 +79,7 @@ class @Newstime.Composer extends Backbone.View
       composer: this
     @$body.append(@outlineLayerView.el)
 
-    @canvasLayerView = new Newstime.CanvasLayerView
+    @canvasLayerView = @canvas = new Newstime.CanvasLayerView
       el: @canvas
       composer: this
       topOffset: @topOffset + @menuHeight
