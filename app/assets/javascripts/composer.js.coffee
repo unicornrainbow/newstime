@@ -580,7 +580,7 @@ class @Newstime.Composer extends Backbone.View
       @canvasLayerView.listenTo @activeSelectionView, 'tracking-release', @canvasLayerView.resizeSelectionRelease
       @listenTo @activeSelectionView, 'destroy', @clearSelection
 
-    @activeSelection.add(contentItemView)
+    @activeSelectionView.addView(contentItemView)
 
   # Removes model from selection.
   removeFromSelection: (model) ->

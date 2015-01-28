@@ -3,8 +3,7 @@ class @Newstime.Group extends Backbone.RelationalModel
 
   initialize: ->
     @items = []
-    @bind 'change', @change
-
+    #@bind 'change', @change
 
   Object.defineProperties @prototype,
     top:

@@ -408,5 +408,5 @@ class @Newstime.SelectionView extends @Newstime.View
 
   convertToMultiSelectionView: ->
     multiSelection = new Newstime.MultiSelectionView()
-    multiSelection.add(@contentItemView)
+    multiSelection.addView(@contentItemView)
     multiSelection
