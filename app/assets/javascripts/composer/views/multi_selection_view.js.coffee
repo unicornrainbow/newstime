@@ -46,27 +46,32 @@ class @Newstime.MultiSelectionView extends @Newstime.View
 
   createGroup: ->
     # Create a new GroupView
-    groupView = @composer.groupViewsCollection.add({})
+    groupView = @composer.groupViewCollection.add({})
 
+    # Until we get to isolation mode, the context is the canvas.
+    context = @composer.canvas
 
     # Put views to be grouped in proper stacking order based on page->z-index
+    stacked = @selectedViews.sort (a, b) ->
+      if a.pageView.model.get('number') != b.pageView.model.get('number')
+        a.pageView.model.get('number') - b.pageView.model.get('number')
+      else if a.model.get('z-index') != b.model.get('z-index')
+        a.model.get('z-index') - b.model.get('z-index')
+
     # Get the index to insert the group at from first item
+    index = _.first(stacked).model.get('z-index')
+
     # Remove all of the view to be group, keep in order
     # Push views into group according to order
-    # Add group to canvas
-    # Select group
-
-
-    # Attach group view into the context.
-    firstView = _.first(@selectedViews) # Note: May need to be more clever in determining which view should serve as insertion point.
-    context = @composer.canvas
-    context.insertBefore(groupView, firstView)
-
-    # Remove views and attach to group in order.
-    _.each @selectedViews, (view) ->
+    _.each stacked, (view) ->
       context.remove(view)
       groupView.push(view)
 
+    # Add group to canvas
+    #context.insertAt(index, groupView)
+    context.add(groupView)
+
+    # Select group
     @composer.select(groupView)
 
 

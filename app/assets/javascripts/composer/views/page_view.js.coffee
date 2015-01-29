@@ -52,7 +52,10 @@ class @Newstime.PageView extends @Newstime.View
       #@boundingBox.bottom = contentItemBoundry.bottom
 
   # Add view to page
-  add: (view) ->
+  add: (view, options={}) ->
+    index = options.index
+    # TODO: Consider index when inserting.
+
     # Note: contentItemViewsArray should be a special collection.
 
     # Get content item view, and place on top of contentItemsViewArray, update
@@ -62,13 +65,28 @@ class @Newstime.PageView extends @Newstime.View
     view.pageView = this
 
     # Set page z-index within page
-    view.set('z-index', @contentItemViewsArray.length-1)
+    view.model.set('z-index', @contentItemViewsArray.length-1)
 
     # Expand page bounding box if neccessary
     contentItemBoundry = view.getBoundry()
     if contentItemBoundry.bottom > @boundingBox.bottom
       @boundingBox.bottom = contentItemBoundry.bottom
 
+
+  remove: (view) ->
+    # Note: contentItemViewsArray should be a special collection.
+
+    index = @contentItemViewsArray.indexOf(view)
+    if index == -1
+      throw "Content Item not part of page."
+
+    @contentItemViewsArray.splice(index, 1)
+    view.pageView = null
+
+    # Update z-indexs
+    @updateZindexs()
+
+    # TODO: Adjust expanded page bounding box
 
   # Inserts content item at specified index
   insertContentItemAtIndex: (contentItemView, index) ->

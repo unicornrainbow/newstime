@@ -183,11 +183,15 @@ class @Newstime.CanvasLayerView extends @Newstime.View
       #new Newstime.GroupView
         #model: group
 
-  add: (view) ->
+  add: (view, options={}) ->
     @$canvasItems.append(view.el)
     @composer.outlineLayerView.attach(view.outlineView)
-    @_assignPage(view)
+    @_assignPage(view, options)
 
+  remove: (view) ->
+    view.$el.detach()
+    @composer.outlineLayerView.remove(view.outlineView)
+    view.pageView.remove(view)
 
   # Inserts view before referenceView.
   insertBefore: (view, referenceView) ->
@@ -556,12 +560,11 @@ class @Newstime.CanvasLayerView extends @Newstime.View
   append: (el) ->
     @$el.append(el)
 
-
   # Assigns a view to a page in the pageViewsArray (Note: pageViewsArray should
   # become a special collection.
-  _assignPage: (view) ->
+  _assignPage: (view, options={}) ->
     # Determine page based on intersection.
     pageView = _.find @pageViewsArray, (pageView) =>
       @detectHitY pageView, view.model.get('top')
 
-    pageView.add(view)
+    pageView.add(view, options={})

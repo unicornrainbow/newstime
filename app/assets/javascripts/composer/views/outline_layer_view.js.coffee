@@ -47,9 +47,14 @@ class @Newstime.OutlineLayerView extends Backbone.View
     @$el.css @zoomedPosition
     _.each @outlineViews, (view) -> view.render()
 
-  attach: (outlineView) ->
+  attach: (outlineView) -> # Rename to add
     @outlineViews.push(outlineView)
     @$el.append(outlineView.el)
+
+  remove: (outlineView) ->
+    index = @outlineViews.indexOf(outlineView)
+    @outlineViews.splice(index, 1)
+    outlineView.$el.detach()
 
   drawVerticalSnapLine: (x) ->
     snapLine = new Newstime.VerticalSnapLine()

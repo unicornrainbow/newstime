@@ -7,9 +7,9 @@ _.extend(ViewCollection.prototype, {
 
   add: function(view, options) {
     // Initialize object hash as view instance if neccessary.
-    //if (!view instanceof this.view) {
-    view = new this.view(view);
-    //}
+    if (!(view instanceof this.view)) {
+      view = new this.view(view);
+    }
 
     this.views.push(view)
 

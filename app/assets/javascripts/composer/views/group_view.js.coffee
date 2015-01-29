@@ -170,7 +170,7 @@ class @Newstime.GroupView extends @Newstime.View
   getBoundry: ->
     @model.getBoundry()
 
-  pushView: (view) ->
+  push: (view) ->
     # TODO: Needs to be attached and positioned according to group...
     #console.log view.getBoundry()
 

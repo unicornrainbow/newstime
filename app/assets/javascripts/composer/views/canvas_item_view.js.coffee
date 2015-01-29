@@ -26,7 +26,7 @@ class @Newstime.CanvasItemView extends @Newstime.View
       get: -> @_pageView
       set: (value) ->
         @_pageView = value
-        if value.model.id
+        if value && value.model.id
           @model.set(page_id: value.model.id)
 
   setElement: (el) ->
