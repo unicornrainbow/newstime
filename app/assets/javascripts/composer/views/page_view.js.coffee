@@ -1,11 +1,10 @@
 @Newstime = @Newstime || {}
 
-class @Newstime.PageComposeView extends Backbone.View
+class @Newstime.PageView extends @Newstime.View
 
   initialize: (options) ->
-    @edition = options.edition
-    @composer = options.composer
-    @canvasLayerView = options.canvasLayerView
+    @composer = Newstime.composer
+    @edition = @composer.edition
     @toolbox = options.toolbox
     @$el.addClass 'page-compose'
 
@@ -23,28 +22,18 @@ class @Newstime.PageComposeView extends Backbone.View
       page: @model
     @$el.append(@contextMenu.el)
 
-    @canvasLayerView = options.canvasLayerView
 
     #@gridLines = new Newstime.GridLines()
     #@$el.append(@gridLines.el)
 
     @pageBorder = new Newstime.PageBorder(page: this)
-    #@canvasLayerView.append(@pageBorder.el)
 
     #@setPageBorderDimensions()
 
     @grid = new Newstime.GridView
     @$el.append(@grid.el)
 
-    #@bind 'mousemove',   @mousemove
-    #@bind 'mouseover',   @mouseover
-    #@bind 'mouseout',    @mouseout
-    #@bind 'mousedown',   @mousedown
-    #@bind 'mouseup',     @mouseup
-    @bind 'dblclick',    @dblclick
-    @bind 'keydown',     @keydown
-    @bind 'contextmenu', @contextmenu
-    @bind 'windowResize', @windowResize # Fired when window is resized
+    @bindUIEvents()
 
   # Add content item to the top of the page.
   # TODO: Delete me - see add()
@@ -296,59 +285,6 @@ class @Newstime.PageComposeView extends Backbone.View
 
     @contextMenu.show(e.x, e.y)
 
-  #keydown: (e) ->
-    #if @activeSelection
-      #@activeSelection.trigger 'keydown', e
-
-  #mousemove: (e) ->
-    ##@adjustEventXY(e) # Could be nice to abstract this one layer up...
-
-  #mouseover: (e) ->
-    #@adjustEventXY(e)
-    ##@hovered = true
-    ##if @hoveredObject
-      ##@hoveredObject.trigger 'mouseover', e
-
-  #mouseout: (e) ->
-    #@adjustEventXY(e)
-    #@hovered = false
-
-    #if @hoveredObject
-      #@hoveredObject.trigger 'mouseout', e
-      #@hoveredObject = null
-
-  #mousedown: (e) ->
-    #return unless e.button == 0 # Only respond to left button mousedown.
-
-    #@adjustEventXY(e) # Could be nice to abstract this one layer up...
-
-    #if @hoveredObject
-      ## Pass on mousedown to hovered object
-      #@hoveredObject.trigger 'mousedown', e
-    #else
-      #switch @toolbox.get('selectedTool')
-        #when 'type-tool'
-          #@drawTypeArea(e.x, e.y)
-        #when 'headline-tool'
-          #@drawHeadline(e.x, e.y)
-        #when 'photo-tool'
-          #@drawPhoto(e.x, e.y)
-        #when 'video-tool'
-          #@drawVideo(e.x, e.y)
-        #when 'select-tool'
-          #@activeSelection.deactivate() if @activeSelection
-          ##@beginSelection(e.x, e.y)
-
-  #mouseup: (e) ->
-    #@adjustEventXY(e) # Could be nice to abstract this one layer up...
-
-    #if @resizeSelectionTarget
-      #@resizeSelectionTarget.trigger 'mouseup', e
-      #return true
-
-    #if @trackingSelection
-      #@trackingSelection = null # TODO: Should still be active, just not tracking
-      #@trigger 'tracking-release', this
 
   snapLeft: (value) ->
     snapTolerance  = 20

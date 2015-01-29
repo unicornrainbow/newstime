@@ -22,6 +22,9 @@
 class @Newstime.Composer extends Backbone.View
 
   initialize: (options) ->
+    # Create a global reference to this instance.
+    Newstime.composer = this
+
     @edition = options.edition
     @section = options.section
 
@@ -749,7 +752,7 @@ $ ->
   # Global reference to current section model
   window.section =  edition.get('sections').findWhere(_id: composer.sectionID)
 
-  Newstime.composer = new Newstime.Composer(edition: edition, section: section)
+  new Newstime.Composer(edition: edition, section: section)
 
   # Delay render by 200 millisecond. This is mostly because of time needed for
   # fonts to load in order to measure. Need to properly handle events in the

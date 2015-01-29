@@ -47,11 +47,9 @@ class @Newstime.CanvasLayerView extends @Newstime.View
       page_id = page.get('_id')
       el = pageEls.filter("[data-page-id='#{page_id}']")
 
-      view = new Newstime.PageComposeView
+      view = new Newstime.PageView
         el: el
         model: page
-        edition: @edition
-        composer: @composer
 
       @$pages.append(el)
 
@@ -293,14 +291,10 @@ class @Newstime.CanvasLayerView extends @Newstime.View
       el = $(html)[0]
       @$grid.append(el)
 
-      pageView = new Newstime.PageComposeView(
+      pageView = new Newstime.PageView
         el: el
         page: pageModel
-        edition: @edition
-        canvasLayerView: this
-        composer: @composer
-        toolbox: @toolbox
-      )
+
       @pages.push pageView
 
       pageView.bind 'tracking', @tracking, this
