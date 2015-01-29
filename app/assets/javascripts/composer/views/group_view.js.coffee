@@ -184,39 +184,10 @@ class @Newstime.GroupView extends @Newstime.View
     @model.getBoundry()
 
   push: (view) ->
-    # TODO: Needs to be attached and positioned according to group...
-    #console.log view.getBoundry()
-
-    #measurePosition: ->
-      #@contentItems = @model.getContentItems()
-      #first = _.first(@contentItems)
-      #if first?
-        #boundry =  first.getBoundry()
-
-        #top = boundry.top
-        #left = boundry.left
-        #bottom = boundry.bottom
-        #right = boundry.right
-
-        #_.each @contentItems, (contentItem) ->
-          #boundry = contentItem.getBoundry()
-
-          #top = Math.min(top, boundry.top)
-          #left = Math.min(left, boundry.left)
-          #bottom = Math.max(bottom, boundry.bottom)
-          #right = Math.max(right, boundry.right)
-
-        #boundry = new Newstime.Boundry(top: top, left: left, bottom: bottom, right: right)
-        #@model.set _.pick boundry, 'top', 'left', 'width', 'height'
-
-    #getGeometry: ->
-      #@model.pick('top', 'left', 'height', 'width')
-
-    #@$el.append(view.el)
-    @model.addItem(view.model)
+    @$el.append(view.el)
     @contentItemViewsArray.push(view)
+    @model.addItem(view.model)
     @measurePosition()
-
 
   dragBottom: (x, y) ->
     geometry = @getGeometry()
