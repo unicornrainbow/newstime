@@ -22,6 +22,9 @@
 class @Newstime.Composer extends Backbone.View
 
   initialize: (options) ->
+    # Ensure only one instance of composer is created.
+    throw "Composer instance already created." if Newstime.composer
+
     # Create a global reference to this instance.
     Newstime.composer = this
 
