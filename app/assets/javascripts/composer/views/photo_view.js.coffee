@@ -3,8 +3,14 @@
 class @Newstime.PhotoView extends Newstime.CanvasItemView
 
   initialize: (options) ->
-    super
     @$el.addClass 'photo-view'
+
+    @composer = Newstime.composer
+    @edition  = @composer.edition
+
+    @model ?= @edition.contentItems.add({_type: 'PhotoContentItem'})
+
+    super
 
     @propertiesView = new Newstime.PhotoPropertiesView(target: this, model: @model).render()
 

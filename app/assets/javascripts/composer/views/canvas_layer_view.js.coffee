@@ -380,11 +380,11 @@ class @Newstime.CanvasLayerView extends @Newstime.View
     else
       switch @toolbox.get('selectedTool')
         when 'type-tool'
-          @drawTypeArea(e.x, e.y)
+          @draw(Newstime.TextAreaView, e.x, e.y)
         when 'headline-tool'
-          @drawHeadline(e.x, e.y)
+          @draw(Newstime.HeadlineView, e.x, e.y)
         when 'photo-tool'
-          @drawPhoto(e.x, e.y)
+          @draw(Newstime.PhotoView, e.x, e.y)
         when 'video-tool'
           @drawVideo(e.x, e.y)
         when 'select-tool'
@@ -514,8 +514,8 @@ class @Newstime.CanvasLayerView extends @Newstime.View
 
     return false
 
-  drawTypeArea: (x, y) ->
-    view = new Newstime.TextAreaView()
+  draw: (type, x, y) ->
+    view = new type()
     view.model.set(top: y, left: x)
     @add(view)
     @composer.select(view)
@@ -523,155 +523,11 @@ class @Newstime.CanvasLayerView extends @Newstime.View
 
     view.serverRender()
 
-  drawPhoto: (x, y) ->
-
-    ## We need to create and activate a selection region (Marching ants would be nice)
-
-    # Determined which page was hit...
-    pageView = _.find @pageViews, (pageView, pageCID) =>
-      @detectHitY pageView, y
-
-    pageModel = pageView.page
-    pageID = pageModel.get('_id')
-
-    pageOffsetLeft = pageView.getOffsetLeft()
-    pageOffsetTop  = pageView.getOffsetTop()
-
-
-    contentItemType = 'PhotoContentItem'
-
-    contentItem = new Newstime.ContentItem
-      _type: contentItemType
-      page_id: pageID
-    @edition.get('content_items').add(contentItem)
-
-    contentItemOutlineView = new Newstime.ContentItemOutlineView
-      composer: @composer
-      model: contentItem
-      pageOffsetLeft: pageOffsetLeft
-      pageOffsetTop: pageOffsetTop
-    @composer.outlineLayerView.attach(contentItemOutlineView)
-
-    contentItemView = new Newstime.PhotoView
-      model: contentItem
-      pageOffsetLeft: pageOffsetLeft
-      pageOffsetTop: pageOffsetTop
-      composer: @composer
-      outlineView: contentItemOutlineView
-      page: pageModel
-      pageID: pageID
-      pageView: pageView
-
-
-    @listenTo contentItemView, 'activate', @selectContentItem
-    @listenTo contentItemView, 'deactivate', @selectionDeactivated
-    @listenTo contentItemView, 'tracking', @resizeSelection
-    @listenTo contentItemView, 'tracking-release', @resizeSelectionRelease
-
-    @contentItemViews[contentItem.cid ] = contentItemView
-    @contentItemOutlineViews[contentItem.cid ] = contentItemOutlineView
-    @$canvasItems.append(contentItemView.el)
-
-    pageView.addContentItem(contentItemView)
-    @composer.select(contentItemView)
-
-    pageRelX = x - pageOffsetLeft
-    pageRelY = y - pageOffsetTop
-
-    @composer.activeSelectionView.beginDraw(pageRelX, pageRelY)
-
-    successCallback = (response) =>
-      # Parse response into element.
-      div = document.createElement('div')
-      div.innerHTML = response
-      el = div.firstChild
-
-      # Attach and render
-      contentItemView.$el.replaceWith(el)
-      contentItemView.setElement(el)
-      contentItemView.render()
-
-    $.ajax
-      method: 'GET'
-      url: "#{@edition.url()}/render_content_item.html"
-      data:
-        composing: true
-        content_item: contentItem.toJSON()
-      success: successCallback
-
-  drawVideo: (x, y) ->
-
-    contentItem = new Newstime.ContentItem
-      _type: 'VideoContentItem'
-      page_id: @page.get('_id')
-
-    @edition.get('content_items').add(contentItem)
-
-    # Get the headline templte, and inject it.
-    #headlineEl = @edition.getHeadlineElTemplate()
-    #headlineEl: el
-
-    selectionView = new Newstime.VideoView(model: contentItem, page: this, composer: @composer) # Needs to be local to the "page"
-    @selectionViews.push selectionView
-    @$el.append(selectionView.el)
-
-    # Bind to events
-    selectionView.bind 'activate', @selectContentItem, this
-    selectionView.bind 'deactivate', @selectionDeactivated, this
-    selectionView.bind 'tracking', @resizeSelection, this
-    selectionView.bind 'tracking-release', @resizeSelectionRelease, this
-
-    selectionView.beginSelection(x, y)
-
-    #attachHeadlineEl = (response) =>
-      #$headlineEl = $(response)
-      #$headlineEl.insertBefore(selectionView.$el)
-      #selectionView.setHeadlineEl($headlineEl)
-
-    #console.log "#{@edition.url()}/render_content_item.html"
-
-    #$.ajax
-      #method: 'GET'
-      #url: "#{@edition.url()}/render_content_item.html"
-      #data:
-        #composing: true
-        #content_item: contentItem.toJSON()
-      #success: attachHeadlineEl
 
   drawSelection: (x, y) ->
     selectionView = new Newstime.Selection()
     @$el.append(selectionView.el)
 
-    selectionView.bind 'tracking', @resizeSelection, this
-    selectionView.bind 'tracking-release', @resizeSelectionRelease, this
-
-    selectionView.beginSelection(x, y)
-
-  drawHeadline: (x, y) ->
-    view = new Newstime.HeadlineView()
-    view.model.set(top: y, left: x)
-    @add(view)
-    @composer.select(view)
-    @composer.selection.beginDraw(x, y)
-
-    view.serverRender()
-
-  beginSelection: (x, y) ->
-    ## We need to create and activate a selection region (Marching ants would be nice)
-
-    contentItem = new Newstime.ContentItem
-      _type: 'BoxContentItem'
-      page_id: @page.get('_id')
-
-    @edition.get('content_items').add(contentItem)
-
-    selectionView = new Newstime.SelectionView(model: contentItem, page: this, composer: @composer) # Needs to be local to the "page"
-    @selectionViews.push selectionView
-    @$el.append(selectionView.el)
-
-    # Bind to events
-    selectionView.bind 'activate', @selectContentItem, this
-    selectionView.bind 'deactivate', @selectionDeactivated, this
     selectionView.bind 'tracking', @resizeSelection, this
     selectionView.bind 'tracking-release', @resizeSelectionRelease, this
 
