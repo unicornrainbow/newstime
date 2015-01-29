@@ -44,7 +44,7 @@ class @Newstime.CanvasLayerView extends @Newstime.View
     @pageViewsArray = [] # Order array of the page views. # TODO: Should be a special collection.
 
     @pages.each (page) =>
-      page_id = page.get('_id')
+      page_id = page.id
       el = pageEls.filter("[data-page-id='#{page_id}']")
 
       view = new Newstime.PageView

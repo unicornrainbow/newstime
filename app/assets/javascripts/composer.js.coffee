@@ -743,7 +743,6 @@ class @Newstime.Composer extends Backbone.View
 
 
 
-
 $ ->
   # Get the edition, mostly for development purposes right now.
   #edition_id = document.URL.match(/editions\/(\w*)/)[1] # Hack to get edition id from url string
