@@ -49,6 +49,14 @@ class @Newstime.MultiSelectionView extends @Newstime.View
     groupView = @composer.groupViewsCollection.add({})
 
 
+    # Put views to be grouped in proper stacking order based on page->z-index
+    # Get the index to insert the group at from first item
+    # Remove all of the view to be group, keep in order
+    # Push views into group according to order
+    # Add group to canvas
+    # Select group
+
+
     # Attach group view into the context.
     firstView = _.first(@selectedViews) # Note: May need to be more clever in determining which view should serve as insertion point.
     context = @composer.canvas
@@ -56,8 +64,8 @@ class @Newstime.MultiSelectionView extends @Newstime.View
 
     # Remove views and attach to group in order.
     _.each @selectedViews, (view) ->
-      context.detachView(view)
-      groupView.pushView(view)
+      context.remove(view)
+      groupView.push(view)
 
     @composer.select(groupView)
 
