@@ -20,6 +20,20 @@ class @Newstime.GroupView extends @Newstime.View
 
     @bindUIEvents()
 
+  Object.defineProperties @prototype,
+    top:
+      get: -> @model.get('top')
+
+    left:
+      get: -> @model.get('left')
+
+    pageView:
+      get: -> @_pageView
+      set: (value) ->
+        @_pageView = value
+        if value && value.model.id
+          @model.set(page_id: value.model.id)
+
 
   render: ->
     @$el.css @model.pick 'width', 'height', 'top', 'left'
@@ -129,16 +143,13 @@ class @Newstime.GroupView extends @Newstime.View
   getGeometry: ->
     @model.pick('top', 'left', 'height', 'width')
 
-
   mouseover: (e) ->
     @hovered = true
     @outlineView.show()
     @composer.pushCursor @getCursor()
 
-
   getCursor: ->
     'default'
-
 
   mouseout: (e) ->
 
@@ -205,3 +216,42 @@ class @Newstime.GroupView extends @Newstime.View
     @model.addItem(view.model)
     @contentItemViewsArray.push(view)
     @measurePosition()
+
+
+  dragBottom: (x, y) ->
+    geometry = @getGeometry()
+    @model.set
+      height: @pageView.snapBottom(y) - geometry.top
+
+
+  dragBottomLeft: (x, y) ->
+    @composer.clearVerticalSnapLines()
+    geometry = @getGeometry()
+
+    snapLeft = @pageView.snapLeft(x)
+
+    if snapLeft
+      @composer.drawVerticalSnapLine(snapLeft)
+      x = snapLeft
+
+    y = @pageView.snapBottom(y)
+    @model.set
+      left: x
+      width: geometry.left - x + geometry.width
+      height: y - geometry.top
+
+  dragBottomRight: (x, y) ->
+    @composer.clearVerticalSnapLines()
+    geometry = @getGeometry()
+    width     = x - geometry.left
+    y         = @pageView.snapBottom(y)
+
+    snapRight = @pageView.snapRight(width)
+
+    if snapRight
+      @composer.drawVerticalSnapLine(snapRight + geometry.left)
+      width = snapRight
+
+    @model.set
+      width: width
+      height: y - geometry.top
