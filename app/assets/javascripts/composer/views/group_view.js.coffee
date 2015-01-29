@@ -16,9 +16,9 @@ class @Newstime.GroupView extends @Newstime.View
                      model: @model
 
     @listenTo @model, 'destroy', @remove
+    @listenTo @model, 'change', @render
 
     @bindUIEvents()
-
 
 
   render: ->
