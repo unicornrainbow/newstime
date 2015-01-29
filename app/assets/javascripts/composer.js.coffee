@@ -85,9 +85,8 @@ class @Newstime.Composer extends Backbone.View
       composer: this
     @$body.append(@outlineLayerView.el)
 
-    @canvasLayerView = @canvas = new Newstime.CanvasLayerView
+    @canvasLayerView = @canvas = new Newstime.CanvasView
       el: @canvas
-      composer: this
       topOffset: @topOffset + @menuHeight
       edition: @edition
       toolbox: @toolbox

@@ -1,7 +1,7 @@
-class @Newstime.CanvasLayerView extends @Newstime.View
+class @Newstime.CanvasView extends @Newstime.View
 
   initialize: (options) ->
-    @composer = options.composer
+    @composer = Newstime.composer
     @topOffset = options.topOffset
     @edition = options.edition
     @toolbox = options.toolbox

@@ -19,6 +19,8 @@ class @Newstime.GroupView extends @Newstime.View
 
     @bindUIEvents()
 
+
+
   render: ->
     @$el.css _.pick @model.attributes, 'width', 'height', 'top', 'left'
 
