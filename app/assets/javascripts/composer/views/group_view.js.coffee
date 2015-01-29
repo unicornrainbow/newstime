@@ -22,7 +22,7 @@ class @Newstime.GroupView extends @Newstime.View
 
 
   render: ->
-    @$el.css _.pick @model.attributes, 'width', 'height', 'top', 'left'
+    @$el.css @model.pick 'width', 'height', 'top', 'left'
 
   measurePosition: ->
     #@contentItems = @model.getContentItems()
