@@ -39,28 +39,6 @@ class @Newstime.GroupView extends @Newstime.View
     @$el.css @model.pick 'width', 'height', 'top', 'left'
 
   measurePosition: ->
-    #@contentItems = @model.getContentItems()
-    #first = _.first(@contentItems)
-    #if first?
-      #boundry =  first.getBoundry()
-
-      #top = boundry.top
-      #left = boundry.left
-      #bottom = boundry.bottom
-      #right = boundry.right
-
-      #_.each @contentItems, (contentItem) ->
-        #boundry = contentItem.getBoundry()
-
-        #top = Math.min(top, boundry.top)
-        #left = Math.min(left, boundry.left)
-        #bottom = Math.max(bottom, boundry.bottom)
-        #right = Math.max(right, boundry.right)
-
-      #boundry = new Newstime.Boundry(top: top, left: left, bottom: bottom, right: right)
-      #@model.set _.pick boundry, 'top', 'left', 'width', 'height'
-
-
     @contentItems = _.pluck @contentItemViewsArray, 'model'
     first = _.first(@contentItems)
     if first?
@@ -184,10 +162,32 @@ class @Newstime.GroupView extends @Newstime.View
     @model.getBoundry()
 
   push: (view) ->
-    @$el.append(view.el)
+    viewBoundry = view.model.getBoundry()
+
+    # If this is the first view in the group
+    if @contentItemViewsArray.length == 0
+      #   clone the boundry
+      @model.set _.pick viewBoundry, 'top', 'left', 'width', 'height'
+
+      #   Zero position of element.
+      view.model.set(top: 0, left: 0)
+    else
+      # Union boundry into group
+      groupBoundry = @getBoundry()
+      newBoundry = groupBoundry.union(viewBoundry)
+
+      @model.set _.pick newBoundry, 'top', 'left', 'width', 'height'
+
+      # Subtract group offset from element offset.
+      view.model.set
+        top: viewBoundry.top - newBoundry.top
+        left: viewBoundry.left - newBoundry.left
+
+
     @contentItemViewsArray.push(view)
+    @$el.append(view.el)
+
     @model.addItem(view.model)
-    @measurePosition()
 
   dragBottom: (x, y) ->
     geometry = @getGeometry()
