@@ -12,7 +12,6 @@ class @Newstime.CanvasItemView extends @Newstime.View
     @bindUIEvents()
 
     # Bind Model Events
-    @listenTo @model, 'change:page_id', @handelChangePage
     @listenTo @model, 'change', @render
     @listenTo @model, 'destroy', @remove
 
@@ -23,12 +22,12 @@ class @Newstime.CanvasItemView extends @Newstime.View
     left:
       get: -> @model.get('left')
 
-    page:
-      get: -> @_page
+    pageView:
+      get: -> @_pageView
       set: (value) ->
-        @_page = value
-        if value.id
-          @model.set('page_id', value.id)
+        @_pageView = value
+        if value.model.id
+          @model.set(page_id: value.model.id)
 
   setElement: (el) ->
     super
@@ -453,10 +452,6 @@ class @Newstime.CanvasItemView extends @Newstime.View
   setSizeAndPosition: (attributes) ->
     @model.set(attributes)
 
-  assignPage: (options) ->
-    @page = options.model
-    @pageView = options.view
-    @model.set('page_id': @page.get('_id'))
 
   # Does an x,y corrdinate intersect a bounding box
   hitBox: (hitX, hitY, boxX, boxY, boxSize) ->
