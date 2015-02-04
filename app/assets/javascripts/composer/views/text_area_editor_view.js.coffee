@@ -1,4 +1,6 @@
-class @Newstime.TextAreaEditorView extends Newstime.CanvasItemView
+#= require ./content_item_view
+
+class @Newstime.TextAreaEditorView extends Newstime.ContentItemView
 
   events:
     'focus textarea': 'focusTextArea'

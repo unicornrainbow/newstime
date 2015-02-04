@@ -1,6 +1,6 @@
-#= require ./canvas_item_view
+#= require ./content_item_view
 
-class @Newstime.PhotoView extends Newstime.CanvasItemView
+class @Newstime.PhotoView extends Newstime.ContentItemView
 
   initialize: (options) ->
     @$el.addClass 'photo-view'

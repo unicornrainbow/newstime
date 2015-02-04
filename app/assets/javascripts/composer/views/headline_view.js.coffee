@@ -1,6 +1,5 @@
-#= require ./canvas_item_view
-
-class @Newstime.HeadlineView extends Newstime.CanvasItemView
+#= require ./content_item_view
+class @Newstime.HeadlineView extends Newstime.ContentItemView
 
   initialize: (options) ->
     @$el.addClass 'headline-view'

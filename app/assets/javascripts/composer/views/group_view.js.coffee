@@ -1,4 +1,5 @@
 class @Newstime.GroupView extends @Newstime.View
+  @include Newstime.CanvasItemView
 
   initialize: (options={}) ->
     @$el.addClass 'group-view'
@@ -19,20 +20,6 @@ class @Newstime.GroupView extends @Newstime.View
     @listenTo @model, 'change', @render
 
     @bindUIEvents()
-
-  Object.defineProperties @prototype,
-    top:
-      get: -> @model.get('top')
-
-    left:
-      get: -> @model.get('left')
-
-    pageView:
-      get: -> @_pageView
-      set: (value) ->
-        @_pageView = value
-        if value && value.model.id
-          @model.set(page_id: value.model.id)
 
 
   render: ->

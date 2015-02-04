@@ -1,6 +1,6 @@
-#= require ./canvas_item_view
+#= require ./content_item_view
 
-class @Newstime.TextAreaView extends Newstime.CanvasItemView
+class @Newstime.TextAreaView extends Newstime.ContentItemView
 
   initialize: (options) ->
     @$el.addClass 'text-area-view'
