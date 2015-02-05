@@ -5,24 +5,11 @@ class @Newstime.PhotoView extends Newstime.ContentItemView
   contentItemClassName: 'photo-view'
 
   initializeContentItem: ->
-    @bind 'paste', @paste
     @listenTo @model, 'change:photo_id', @photoChanged
     @render()
 
-  setElement: (el) ->
-    super
-    @$el.addClass 'photo-view'
-
   photoChanged: ->
     @$el.css "background-image": "url('#{@model.get('edition_relative_url_path')}')"
-
-  createImage: (source) ->
-   pastedImage = new Image()
-   pastedImage.onload = ->
-     $("body").append(this)
-     console.log this.src
-     #$(this).appendTo(document)
-   pastedImage.src = source
 
   paste: (e) =>
     # Note: Code derived http://joelb.me/blog/2011/code-snippet-accessing-clipboard-images-with-javascript/
