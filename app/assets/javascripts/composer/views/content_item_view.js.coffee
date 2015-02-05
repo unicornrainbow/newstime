@@ -1,4 +1,4 @@
-#= require ./canvas_item_view
+#= require ../mixins/canvas_item_view
 #
 class @Newstime.ContentItemView extends @Newstime.View
   @include Newstime.CanvasItemView

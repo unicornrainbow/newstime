@@ -17,6 +17,8 @@
 # from it, rather than the prototype object.
 #
 Function::include = (base) ->
+  throw "Base was null or undefined." unless base?
+
   type = typeof base
 
   # If base is a constructor, retrieve the prototype.

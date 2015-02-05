@@ -1,3 +1,5 @@
+#= require ../mixins/draggable
+#
 # CanvasItemView are CanvasItems which can appear on the canvas, or within a
 # canvas like region like a group. Both ContentItemView and GroupViews are
 # CanvasItemViews.
