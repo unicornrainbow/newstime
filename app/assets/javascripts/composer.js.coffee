@@ -10,6 +10,7 @@
 # ## App
 #= require newstime_util
 #= require_tree ./composer/lib
+#= require_tree ./composer/mixins
 #= require ./composer/views/view
 #= require_tree ./composer/plugins
 #= require_tree ./composer/models

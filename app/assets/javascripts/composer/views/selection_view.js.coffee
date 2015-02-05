@@ -295,7 +295,6 @@ class @Newstime.SelectionView extends @Newstime.View
       @composer.drawVerticalSnapLine(snapRight + geometry.left)
       width = snapRight
 
-
     @contentItemView.setSizeAndPosition
       width: width
 
