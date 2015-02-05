@@ -52,7 +52,7 @@ class @Newstime.PageView extends @Newstime.View
       #@boundingBox.bottom = contentItemBoundry.bottom
 
   # Add view to page
-  add: (view, options={}) ->
+  addCanvasItem: (view, options={}) ->
     index = options.index
     # TODO: Consider index when inserting.
 
@@ -73,7 +73,7 @@ class @Newstime.PageView extends @Newstime.View
       @boundingBox.bottom = contentItemBoundry.bottom
 
 
-  remove: (view) ->
+  removeCanvasItem: (view) ->
     # Note: contentItemViewsArray should be a special collection.
 
     index = @contentItemViewsArray.indexOf(view)

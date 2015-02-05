@@ -109,7 +109,7 @@ class @Newstime.CanvasView extends @Newstime.View
 
         #@composer.outlineLayerView.attach(groupView.outlineView)
 
-        @add(groupView) # Add groupView to the canvas.
+        @addCanvasItem(groupView) # Add groupView to the canvas.
 
 
       _.each contentItems, (contentItem) =>
@@ -183,15 +183,15 @@ class @Newstime.CanvasView extends @Newstime.View
       #new Newstime.GroupView
         #model: group
 
-  add: (view, options={}) ->
+  addCanvasItem: (view, options={}) ->
     @$canvasItems.append(view.el)
     @composer.outlineLayerView.attach(view.outlineView)
     @_assignPage(view, options)
 
-  remove: (view) ->
+  removeCanvasItem: (view) ->
     view.$el.detach()
     @composer.outlineLayerView.remove(view.outlineView)
-    view.pageView.remove(view)
+    view.pageView.removeCanvasItem(view)
 
   # Inserts view before referenceView.
   insertBefore: (view, referenceView) ->
@@ -521,7 +521,7 @@ class @Newstime.CanvasView extends @Newstime.View
   draw: (type, x, y) ->
     view = new type()
     view.model.set(top: y, left: x)
-    @add(view)
+    @addCanvasItem(view)
     @composer.select(view)
     @composer.selection.beginDraw(x, y)
 
@@ -567,4 +567,4 @@ class @Newstime.CanvasView extends @Newstime.View
     pageView = _.find @pageViewsArray, (pageView) =>
       @detectHitY pageView, view.model.get('top')
 
-    pageView.add(view, options={})
+    pageView.addCanvasItem(view, options={})

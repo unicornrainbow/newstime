@@ -57,10 +57,12 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
         @deselect()
 
   ungroup: ->
-    _.each @contentItemViewsArray, (canvasItem) =>
-      @remove(canvasItem)
-      @composer.canvas.add(canvasItem)
+    while (@contentItemViewsArray.length > 0)
+      canvasItem = @contentItemViewsArray[0]
+      @removeCanvasItem(canvasItem)
+      @composer.canvas.addCanvasItem(canvasItem)
 
+    @composer.canvas.removeCanvasItem(this)
     @model.destroy()
     #_.each groupedItems, (item) ->
       #item.set('group_id', null)
@@ -88,7 +90,7 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
     @model.getBoundry()
 
   # Adds view to group.
-  add: (view) ->
+  addCanvasItem: (view) ->
     viewBoundry = view.model.getBoundry()
 
     # If this is the first view in the group
@@ -120,8 +122,9 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
 
     @model.addItem(view.model)
 
-  remove: (canvasItemView) ->
+  removeCanvasItem: (canvasItemView) ->
     index = @contentItemViewsArray.indexOf(canvasItemView)
+
     if index == -1
       throw "Couldn't find canvas item."
 
