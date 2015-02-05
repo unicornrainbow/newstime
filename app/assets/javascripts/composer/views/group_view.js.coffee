@@ -114,7 +114,7 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
 
     @model.addItem(view.model)
 
-  _createModel: (attrs) ->
+  _createModel: (attrs={}) ->
     @edition.groups.add(attrs)
 
   _createPropertiesView: ->
