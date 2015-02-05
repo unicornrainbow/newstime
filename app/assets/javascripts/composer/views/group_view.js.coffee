@@ -10,6 +10,8 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
   initializeCanvasItem: (options={}) ->
     @contentItemViewsArray = [] # Array of content items views in z-index order.
 
+    @listenTo @model, 'destroy', @remove
+
   measurePosition: ->
     @contentItems = _.pluck @contentItemViewsArray, 'model'
     first = _.first(@contentItems)
@@ -63,6 +65,7 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
       @composer.canvas.addCanvasItem(canvasItem)
 
     @composer.canvas.removeCanvasItem(this)
+    @deselect()
     @model.destroy()
     #_.each groupedItems, (item) ->
       #item.set('group_id', null)
@@ -101,7 +104,6 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
       # zero position of element
       view.model.set(top: 0, left: 0)
     else
-      #debugger
       # Union boundry into group
       groupBoundry = @getBoundry()
       newBoundry = groupBoundry.union(viewBoundry)
@@ -153,7 +155,7 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
     _.each @contentItemViewsArray, (canvasItem) ->
       canvasItem.model.set
         top: canvasItem.model.get('top') - topDelta
-        top: canvasItem.model.get('top') - topDelta
+        left: canvasItem.model.get('left') - leftDelta
 
     @model.set _.pick boundry, 'top', 'left', 'width', 'height'
 
