@@ -68,3 +68,6 @@ class @Newstime.CanvasItemView extends @Newstime.View
   # Sets model values.
   set: ->
     @model.set.apply(@model, arguments)
+
+  getCursor: ->
+    'default'

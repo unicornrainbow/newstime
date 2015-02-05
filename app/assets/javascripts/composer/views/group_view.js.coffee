@@ -73,9 +73,6 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
     @outlineView.show()
     @composer.pushCursor @getCursor()
 
-  getCursor: ->
-    'default'
-
   mouseout: (e) ->
 
     if @hoveredHandle

@@ -315,6 +315,3 @@ class @Newstime.ContentItemView extends @Newstime.CanvasItemView
     div = document.createElement('div')
     div.innerHTML = html
     div.firstChild
-
-  getCursor: ->
-    'default'
