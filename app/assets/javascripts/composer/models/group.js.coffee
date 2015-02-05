@@ -31,6 +31,11 @@ class @Newstime.Group extends Backbone.RelationalModel
   addItem: (item) =>
     @items.push(item)
 
+  removeItem: (item) =>
+    # TODO: Could and probably should be using a collection here...
+    index = @items.indexOf(item)
+    @contentItemViewsArray.splice(index, 1)
+
   # Gets page
   getPage: ->
     @_page ?= @get('edition').get('pages').findWhere(_id: @get('page_id'))

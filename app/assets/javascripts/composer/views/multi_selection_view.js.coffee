@@ -65,7 +65,7 @@ class @Newstime.MultiSelectionView extends @Newstime.View
     # Push views into group according to order
     _.each sorted, (view) ->
       context.remove(view)
-      groupView.push(view)
+      groupView.add(view)
 
     # Add group to canvas
     #context.insertAt(index, groupView)

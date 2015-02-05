@@ -57,13 +57,14 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
         @deselect()
 
   ungroup: ->
-    # Remove each of the models from the group
-    groupedItems = @model.getContentItems()
-
-    _.each groupedItems, (item) ->
-      item.set('group_id', null)
+    _.each @contentItemViewsArray, (canvasItem) =>
+      @remove(canvasItem)
+      @composer.canvas.add(canvasItem)
 
     @model.destroy()
+    #_.each groupedItems, (item) ->
+      #item.set('group_id', null)
+
 
   getGeometry: ->
     @model.pick('top', 'left', 'height', 'width')
@@ -86,7 +87,8 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
   getBoundry: ->
     @model.getBoundry()
 
-  push: (view) ->
+  # Adds view to group.
+  add: (view) ->
     viewBoundry = view.model.getBoundry()
 
     # If this is the first view in the group
@@ -97,9 +99,12 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
       # zero position of element
       view.model.set(top: 0, left: 0)
     else
+      #debugger
       # Union boundry into group
       groupBoundry = @getBoundry()
       newBoundry = groupBoundry.union(viewBoundry)
+
+      # TODO: Fix reapplying of bouondry.
 
       @model.set _.pick newBoundry, 'top', 'left', 'width', 'height'
 
@@ -111,8 +116,29 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
 
     @contentItemViewsArray.push(view)
     @$el.append(view.el)
+    view.groupView = this
 
     @model.addItem(view.model)
+
+  remove: (canvasItemView) ->
+    index = @contentItemViewsArray.indexOf(canvasItemView)
+    if index == -1
+      throw "Couldn't find canvas item."
+
+    @contentItemViewsArray.splice(index, 1)
+    canvasItemView.groupView = null
+    canvasItemView.$el.detach()
+
+    groupBoundry = @getBoundry()
+
+    canvasItemView.model.set
+      top: groupBoundry.top + canvasItemView.model.top
+      left: groupBoundry.left + canvasItemView.model.left
+
+    # TODO: Reapply position for group view
+
+    # Update z-indexs
+    #@updateZindexs()
 
   _createModel: (attrs={}) ->
     @edition.groups.add(attrs)
