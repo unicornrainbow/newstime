@@ -4,34 +4,11 @@ class @Newstime.ContentItemView extends @Newstime.CanvasItemView
 
   className: 'content-item-view'
 
-  initialize: (options={}) ->
-    @$el.addClass @className
+  initializeCanvasItem: ->
+    @initializeContentItem()
 
-    @composer ?= Newstime.composer
-    @edition  ?= @composer.edition
-
-
-
-
-
-
-
-    @outlineView = @composer.outlineViewCollection.add
-                     model: @model
-
-    @listenTo @model, 'change', @render
-    @listenTo @model, 'destroy', @remove
-
-    @bindUIEvents()
-
-
-  setElement: (el) ->
-    super
-    @$el.addClass 'content-item-view'
-
-  # Sets model values.
-  set: ->
-    @model.set.apply(@model, arguments)
+  addClassNames: ->
+    @$el.addClass "#{@className} #{@contentItemClassName}"
 
   # Does a full server render and replaces dom element.
   serverRender: ->
@@ -147,9 +124,6 @@ class @Newstime.ContentItemView extends @Newstime.CanvasItemView
           else
             @pageView.bringForward(@model)
 
-
-  getPropertiesView: ->
-    @propertiesView
 
   getEventChar: (e) ->
     if e.shiftKey

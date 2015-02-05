@@ -7,6 +7,28 @@
 class @Newstime.CanvasItemView extends @Newstime.View
   @include Newstime.Draggable
 
+  initialize: (options={}) ->
+    @addClassNames()
+
+    @composer ?= Newstime.composer
+    @edition  ?= @composer.edition
+
+    @model ?= @_createModel()
+
+    @propertiesView ?= @_createPropertiesView()
+
+    @outlineView = @composer.outlineViewCollection.add
+                     model: @model
+
+    @listenTo @model, 'change', @render
+    @listenTo @model, 'destroy', @remove
+
+    @bindUIEvents()
+
+    @initializeCanvasItem()
+
+  addClassNames: ->
+    @$el.addClass @className
 
   render: ->
     @$el.css @model.pick 'width', 'height', 'top', 'left', 'z-index'
@@ -20,6 +42,8 @@ class @Newstime.CanvasItemView extends @Newstime.View
     if value && value.model.id
       @model.set(page_id: value.model.id)
 
+  getPropertiesView: ->
+    @propertiesView
 
   select: (selectionView) ->
     unless @selected
@@ -34,3 +58,11 @@ class @Newstime.CanvasItemView extends @Newstime.View
 
   setSizeAndPosition: (attributes) ->
     @model.set(attributes)
+
+  setElement: (el) ->
+    super
+    @addClassNames()
+
+  # Sets model values.
+  set: ->
+    @model.set.apply(@model, arguments)

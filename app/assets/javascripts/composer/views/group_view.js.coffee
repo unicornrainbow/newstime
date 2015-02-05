@@ -4,26 +4,8 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
 
   className: 'group-view'
 
-  initialize: (options={}) ->
-    @$el.addClass @className
-
-    @composer ?= Newstime.composer
-    @edition  ?= @composer.edition
-
-    @model ?= @edition.groups.add({})
-
+  initializeCanvasItem: (options={}) ->
     @contentItemViewsArray = [] # Array of content items views in z-index order.
-
-    @propertiesView = new Newstime.GroupPropertiesView(target: this, model: @model)
-
-    @outlineView = @composer.outlineViewCollection.add
-                     model: @model
-
-    @listenTo @model, 'change', @render
-    @listenTo @model, 'destroy', @remove
-
-    @bindUIEvents()
-
 
   measurePosition: ->
     @contentItems = _.pluck @contentItemViewsArray, 'model'
@@ -64,8 +46,6 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
     # Pass mouse down to selection
     @composer.activeSelectionView.trigger 'mousedown', e
 
-  getPropertiesView: ->
-    @propertiesView
 
   # Detects a hit of the selection
   hit: (x, y) ->
@@ -150,3 +130,9 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
     @$el.append(view.el)
 
     @model.addItem(view.model)
+
+  _createModel: (attrs) ->
+    @edition.groups.add(attrs)
+
+  _createPropertiesView: ->
+    new Newstime.GroupPropertiesView(target: this, model: @model)

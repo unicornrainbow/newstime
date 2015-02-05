@@ -2,23 +2,11 @@
 
 class @Newstime.PhotoView extends Newstime.ContentItemView
 
-  initialize: (options) ->
-    @$el.addClass 'photo-view'
+  contentItemClassName: 'photo-view'
 
-    @composer = Newstime.composer
-    @edition  = @composer.edition
-
-    @model ?= @edition.contentItems.add({_type: 'PhotoContentItem'})
-
-    super
-
-    @propertiesView = new Newstime.PhotoPropertiesView(target: this, model: @model).render()
-
-
+  initializeContentItem: ->
     @bind 'paste', @paste
-
     @listenTo @model, 'change:photo_id', @photoChanged
-
     @render()
 
   setElement: (el) ->
@@ -74,3 +62,10 @@ class @Newstime.PhotoView extends Newstime.ContentItemView
 
         #error: (jqXHR, textStatus, errorThrown) ->
           #console.log('ERRORS: ' + textStatus)
+          #
+
+  _createPropertiesView: ->
+    new Newstime.PhotoPropertiesView(target: this, model: @model).render()
+
+  _createModel: ->
+    @edition.contentItems.add({_type: 'PhotoContentItem'})

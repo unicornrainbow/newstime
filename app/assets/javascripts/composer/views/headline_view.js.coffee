@@ -1,27 +1,15 @@
 #= require ./content_item_view
 class @Newstime.HeadlineView extends Newstime.ContentItemView
 
-  initialize: (options) ->
-    @$el.addClass 'headline-view'
+  contentItemClassName: 'headline-view'
 
-    @composer = Newstime.composer
-    @edition  = @composer.edition
-
-    @model ?= @edition.contentItems.add({_type: 'HeadlineContentItem'})
-    super
+  initializeContentItem: ->
     @placeholder = "Type Headline" # Text to show when there is no headline
     @fontWeights = Newstime.config.headlineFontWeights
-
-    @propertiesView = new Newstime.HeadlineProperties2View(target: this, model: @model)
 
     @listenTo @model, 'change:height change:width change:text change:font_weight change:font_style change:font_family', @fitToBorderBox
 
     @render()
-
-  setElement: (el) ->
-    super
-    @$el.addClass 'headline-view'
-
 
   render: ->
     @$el.css _.pick @model.attributes, 'top', 'left', 'z-index'
@@ -271,3 +259,10 @@ class @Newstime.HeadlineView extends Newstime.ContentItemView
 
     @model.set(margins, silent: true)
     @renderMargins()
+
+  _createModel: ->
+    # Creates a new model and returns a reference. Used by base class.
+    @edition.contentItems.add({_type: 'HeadlineContentItem'})
+
+  _createPropertiesView: ->
+    new Newstime.HeadlineProperties2View(target: this, model: @model)

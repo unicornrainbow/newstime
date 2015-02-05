@@ -2,15 +2,9 @@
 
 class @Newstime.TextAreaView extends Newstime.ContentItemView
 
-  initialize: (options) ->
-    @$el.addClass 'text-area-view'
+  contentItemClassName: 'text-area-view'
 
-    @composer = Newstime.composer
-    @edition  = @composer.edition
-
-    @model ?= @edition.contentItems.add({_type: 'TextAreaContentItem'})
-
-    super
+  initializeContentItem: ->
 
     @lineHeight = parseInt(Newstime.config.storyTextLineHeight)
 
@@ -21,9 +15,8 @@ class @Newstime.TextAreaView extends Newstime.ContentItemView
     @listenTo @model, 'change:text', @reflow
     @listenTo @model, 'change:rendered_html', @clearNeedsReflow
 
-    @propertiesView = new Newstime.TextAreaPropertiesView(target: this, model: @model)
-
     @render()
+
 
   setElement: (el) ->
     super
@@ -118,3 +111,9 @@ class @Newstime.TextAreaView extends Newstime.ContentItemView
 
   clearNeedsReflow: ->
     @needsReflow = false
+
+  _createModel: ->
+    @edition.contentItems.add({_type: 'TextAreaContentItem'})
+
+  _createPropertiesView: ->
+    new Newstime.TextAreaPropertiesView(target: this, model: @model)
