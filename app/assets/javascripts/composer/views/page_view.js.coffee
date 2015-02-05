@@ -62,8 +62,6 @@ class @Newstime.PageView extends @Newstime.View
     # z-indexs
     @contentItemViewsArray.unshift(view)
 
-    console.log @contentItemViewsArray
-
     view.pageView = this
 
     # Set page z-index within page

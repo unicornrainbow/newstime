@@ -74,7 +74,6 @@ class @Newstime.MultiSelectionView extends @Newstime.View
     # Select group
     @composer.select(groupView)
 
-
   # Detects a hit of the selection
   hit: (x, y) ->
     @selection.hit(x, y)
