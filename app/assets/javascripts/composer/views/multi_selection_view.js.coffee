@@ -52,18 +52,18 @@ class @Newstime.MultiSelectionView extends @Newstime.View
     context = @composer.canvas
 
     # Put views to be grouped in proper stacking order based on page->z-index
-    stacked = @selectedViews.sort (a, b) ->
+    sorted = @selectedViews.sort (a, b) ->
       if a.pageView.model.get('number') != b.pageView.model.get('number')
         a.pageView.model.get('number') - b.pageView.model.get('number')
       else if a.model.get('z-index') != b.model.get('z-index')
         a.model.get('z-index') - b.model.get('z-index')
 
     # Get the index to insert the group at from first item
-    index = _.first(stacked).model.get('z-index')
+    index = _.first(sorted).model.get('z-index')
 
     # Remove all of the view to be group, keep in order
     # Push views into group according to order
-    _.each stacked, (view) ->
+    _.each sorted, (view) ->
       context.remove(view)
       groupView.push(view)
 
