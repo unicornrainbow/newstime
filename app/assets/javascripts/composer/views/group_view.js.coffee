@@ -2,11 +2,13 @@
 
 class @Newstime.GroupView extends @Newstime.CanvasItemView
 
-  initialize: (options={}) ->
-    @$el.addClass 'group-view'
+  className: 'group-view'
 
-    @composer = options.composer || Newstime.composer
-    @edition  = @composer.edition
+  initialize: (options={}) ->
+    @$el.addClass @className
+
+    @composer ?= Newstime.composer
+    @edition  ?= @composer.edition
 
     @model ?= @edition.groups.add({})
 
@@ -17,13 +19,11 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
     @outlineView = @composer.outlineViewCollection.add
                      model: @model
 
-    @listenTo @model, 'destroy', @remove
     @listenTo @model, 'change', @render
+    @listenTo @model, 'destroy', @remove
 
     @bindUIEvents()
 
-  render: ->
-    @$el.css @model.pick 'width', 'height', 'top', 'left'
 
   measurePosition: ->
     @contentItems = _.pluck @contentItemViewsArray, 'model'

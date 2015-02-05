@@ -7,6 +7,10 @@
 class @Newstime.CanvasItemView extends @Newstime.View
   @include Newstime.Draggable
 
+
+  render: ->
+    @$el.css @model.pick 'width', 'height', 'top', 'left', 'z-index'
+
   @getter 'top',  -> @model.get('top')
   @getter 'left', -> @model.get('left')
   @getter 'pageView', -> @_pageView
@@ -15,6 +19,7 @@ class @Newstime.CanvasItemView extends @Newstime.View
     @_pageView = value
     if value && value.model.id
       @model.set(page_id: value.model.id)
+
 
   select: (selectionView) ->
     unless @selected

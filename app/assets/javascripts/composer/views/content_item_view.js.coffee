@@ -2,27 +2,32 @@
 #
 class @Newstime.ContentItemView extends @Newstime.CanvasItemView
 
+  className: 'content-item-view'
+
   initialize: (options={}) ->
-    @$el.addClass 'content-item-view'
+    @$el.addClass @className
 
     @composer ?= Newstime.composer
     @edition  ?= @composer.edition
 
+
+
+
+
+
+
     @outlineView = @composer.outlineViewCollection.add
                      model: @model
 
-    @bindUIEvents()
-
-    # Bind Model Events
     @listenTo @model, 'change', @render
     @listenTo @model, 'destroy', @remove
+
+    @bindUIEvents()
+
 
   setElement: (el) ->
     super
     @$el.addClass 'content-item-view'
-
-  render: ->
-    @$el.css _.pick @model.attributes, 'width', 'height', 'top', 'left', 'z-index'
 
   # Sets model values.
   set: ->
