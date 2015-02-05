@@ -106,21 +106,19 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
       groupBoundry = @getBoundry()
       newBoundry = groupBoundry.union(viewBoundry)
 
-      # TODO: Fix reapplying of bouondry.
-
-      @model.set _.pick newBoundry, 'top', 'left', 'width', 'height'
+      @_setBoundry(newBoundry)
 
       # Subtract group offset from element offset.
       view.model.set
         top: viewBoundry.top - newBoundry.top
         left: viewBoundry.left - newBoundry.left
 
-
     @contentItemViewsArray.push(view)
     @$el.append(view.el)
     view.groupView = this
 
     @model.addItem(view.model)
+
 
   removeCanvasItem: (canvasItemView) ->
     index = @contentItemViewsArray.indexOf(canvasItemView)
@@ -142,6 +140,22 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
 
     # Update z-indexs
     #@updateZindexs()
+    #
+
+  _setBoundry: (boundry)->
+    current = @getBoundry()
+
+    # Get difference
+    topDelta = boundry.top - current.top
+    leftDelta = boundry.left - current.left
+
+    # Apply Difference
+    _.each @contentItemViewsArray, (canvasItem) ->
+      canvasItem.model.set
+        top: canvasItem.model.get('top') - topDelta
+        top: canvasItem.model.get('top') - topDelta
+
+    @model.set _.pick boundry, 'top', 'left', 'width', 'height'
 
   _createModel: (attrs={}) ->
     @edition.groups.add(attrs)
