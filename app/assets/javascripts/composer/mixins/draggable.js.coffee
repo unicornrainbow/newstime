@@ -71,6 +71,7 @@ class @Newstime.Draggable
       width: geometry.left - x + geometry.width
       height: y - geometry.top
 
+
   dragBottomRight: (x, y) ->
     @composer.clearVerticalSnapLines()
     geometry = @getGeometry()

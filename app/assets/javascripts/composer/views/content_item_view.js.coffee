@@ -186,6 +186,26 @@ class @Newstime.ContentItemView extends @Newstime.View
     #else
       #geometry = @getGeometry()
       #@trackMove(e.x - geometry.left, e.y - geometry.top)
+      #
+
+  mouseup: (e) ->
+    #TODO: Need to remove this code, which is no longer used do to selection
+    #view
+
+    if @resizing
+      @resizing = false
+      @resizeMode = null
+
+      @composer.hideVerticalSnapLine() # Ensure vertical snaps aren't showing.
+      # Reset drag handles, clearing if they where active
+      _.each @dragHandles, (h) -> h.reset()
+      @trigger 'resized'
+
+    if @moving?
+      @moving = false
+
+    @trigger 'tracking-release', this
+
 
   trackResize: (mode) ->
     @resizing   = true
@@ -298,6 +318,25 @@ class @Newstime.ContentItemView extends @Newstime.View
       return "bottom-right"
 
 
+  mouseover: (e) ->
+    @hovered = true
+    #@$el.addClass 'hovered'
+    @outlineView.show()
+    @composer.pushCursor @getCursor()
+
+
+  mouseout: (e) ->
+
+    if @hoveredHandle
+      @hoveredHandle.trigger 'mouseout', e
+      @hoveredHandle = null
+
+    @hovered = false
+    #@$el.removeClass 'hovered'
+    @outlineView.hide()
+    @composer.popCursor()
+
+
   # Does an x,y corrdinate intersect a bounding box
   hitBox: (hitX, hitY, boxX, boxY, boxSize) ->
     boxLeft   = boxX - boxSize
@@ -314,3 +353,6 @@ class @Newstime.ContentItemView extends @Newstime.View
     div = document.createElement('div')
     div.innerHTML = html
     div.firstChild
+
+  getCursor: ->
+    'default'

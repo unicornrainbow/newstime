@@ -14,7 +14,6 @@ class @Newstime.CanvasItemView
 
   @getter 'top',  -> @model.get('top')
   @getter 'left', -> @model.get('left')
-
   @getter 'pageView', -> @_pageView
 
   @setter 'pageView', (value) ->
@@ -22,44 +21,16 @@ class @Newstime.CanvasItemView
     if value && value.model.id
       @model.set(page_id: value.model.id)
 
-  mouseup: (e) ->
-    #TODO: Need to remove this code, which is no longer used do to selection
-    #view
+  select: (selectionView) ->
+    unless @selected
+      @selected = true
+      @selectionView = selectionView
 
-    if @resizing
-      @resizing = false
-      @resizeMode = null
-
-      @composer.hideVerticalSnapLine() # Ensure vertical snaps aren't showing.
-      # Reset drag handles, clearing if they where active
-      _.each @dragHandles, (h) -> h.reset()
-      @trigger 'resized'
-
-    if @moving?
-      @moving = false
-
-    @trigger 'tracking-release', this
-
-  mouseover: (e) ->
-    @hovered = true
-    #@$el.addClass 'hovered'
-    @outlineView.show()
-    @composer.pushCursor @getCursor()
-
-  getCursor: ->
-    'default'
-
-  mouseout: (e) ->
-
-    if @hoveredHandle
-      @hoveredHandle.trigger 'mouseout', e
-      @hoveredHandle = null
-
-    @hovered = false
-    #@$el.removeClass 'hovered'
-    @outlineView.hide()
-    @composer.popCursor()
-
+  deselect: ->
+    if @selected
+      @selected = false
+      @selectionView = null
+      @trigger 'deselect', this
 
   setSizeAndPosition: (attributes) ->
     @model.set(attributes)

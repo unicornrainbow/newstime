@@ -21,7 +21,6 @@ class @Newstime.GroupView extends @Newstime.View
 
     @bindUIEvents()
 
-
   render: ->
     @$el.css @model.pick 'width', 'height', 'top', 'left'
 
@@ -63,12 +62,6 @@ class @Newstime.GroupView extends @Newstime.View
 
     # Pass mouse down to selection
     @composer.activeSelectionView.trigger 'mousedown', e
-
-    #if @hoveredHandle
-      #@trackResize @hoveredHandle.type
-    #else
-      #geometry = @getGeometry()
-      #@trackMove(e.x - geometry.left, e.y - geometry.top)
 
   getPropertiesView: ->
     @propertiesView
@@ -126,25 +119,6 @@ class @Newstime.GroupView extends @Newstime.View
     @outlineView.hide()
     @composer.popCursor()
 
-  select: (selectionView) ->
-    unless @selected
-      @selected = true
-      @selectionView = selectionView
-      #@trigger 'select',
-        #contentItemView: this
-        #contentItem: @model
-
-  deselect: ->
-    if @selected
-      @selected = false
-      @selectionView = null
-      @trigger 'deselect', this
-
-
-  setSizeAndPosition: (attributes) ->
-    @model.set(attributes)
-
-
   getBoundry: ->
     @model.getBoundry()
 
@@ -153,10 +127,10 @@ class @Newstime.GroupView extends @Newstime.View
 
     # If this is the first view in the group
     if @contentItemViewsArray.length == 0
-      #   clone the boundry
+      # clone the boundry
       @model.set _.pick viewBoundry, 'top', 'left', 'width', 'height'
 
-      #   Zero position of element.
+      # zero position of element
       view.model.set(top: 0, left: 0)
     else
       # Union boundry into group
@@ -175,41 +149,3 @@ class @Newstime.GroupView extends @Newstime.View
     @$el.append(view.el)
 
     @model.addItem(view.model)
-
-  dragBottom: (x, y) ->
-    geometry = @getGeometry()
-    @model.set
-      height: @pageView.snapBottom(y) - geometry.top
-
-
-  dragBottomLeft: (x, y) ->
-    @composer.clearVerticalSnapLines()
-    geometry = @getGeometry()
-
-    snapLeft = @pageView.snapLeft(x)
-
-    if snapLeft
-      @composer.drawVerticalSnapLine(snapLeft)
-      x = snapLeft
-
-    y = @pageView.snapBottom(y)
-    @model.set
-      left: x
-      width: geometry.left - x + geometry.width
-      height: y - geometry.top
-
-  dragBottomRight: (x, y) ->
-    @composer.clearVerticalSnapLines()
-    geometry = @getGeometry()
-    width     = x - geometry.left
-    y         = @pageView.snapBottom(y)
-
-    snapRight = @pageView.snapRight(width)
-
-    if snapRight
-      @composer.drawVerticalSnapLine(snapRight + geometry.left)
-      width = snapRight
-
-    @model.set
-      width: width
-      height: y - geometry.top
