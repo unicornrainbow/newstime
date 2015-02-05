@@ -1,5 +1,8 @@
 #= require ../views/canvas_item_view
-
+#
+#  A group view as an implementation of canvas item view. It represents a group
+#  as it appears on, and interacts, with the canvas.
+#
 class @Newstime.GroupView extends @Newstime.CanvasItemView
 
   className: 'group-view'
