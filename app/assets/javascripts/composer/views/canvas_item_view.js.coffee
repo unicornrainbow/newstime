@@ -4,12 +4,7 @@
 # canvas like region like a group. Both ContentItemView and GroupViews are
 # CanvasItemViews.
 #
-# CanvasItemView is a module class. Mix into target class using @include.
-#
-#   Class ChildClass
-#     @include Newstime.CanvasItemView
-#
-class @Newstime.CanvasItemView
+class @Newstime.CanvasItemView extends @Newstime.View
   @include Newstime.Draggable
 
   @getter 'top',  -> @model.get('top')

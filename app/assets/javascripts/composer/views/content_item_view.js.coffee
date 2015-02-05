@@ -1,7 +1,6 @@
-#= require ../mixins/canvas_item_view
+#= require ../views/canvas_item_view
 #
-class @Newstime.ContentItemView extends @Newstime.View
-  @include Newstime.CanvasItemView
+class @Newstime.ContentItemView extends @Newstime.CanvasItemView
 
   initialize: (options={}) ->
     @$el.addClass 'content-item-view'

@@ -1,5 +1,6 @@
-class @Newstime.GroupView extends @Newstime.View
-  @include Newstime.CanvasItemView
+#= require ../views/canvas_item_view
+
+class @Newstime.GroupView extends @Newstime.CanvasItemView
 
   initialize: (options={}) ->
     @$el.addClass 'group-view'
