@@ -548,7 +548,9 @@ class @Newstime.Composer extends Backbone.View
     else if model instanceof Newstime.Page
       @pageViews[model.cid]
 
-  select: (contentItemView, additionalContentItemViews...) ->
+  select: (contentItemViews...) ->
+    contentItemView = _.first(contentItemViews)
+
     @clearSelection()
 
     @selection = @activeSelectionView = new Newstime.SelectionView
@@ -567,8 +569,10 @@ class @Newstime.Composer extends Backbone.View
     @canvasLayerView.listenTo @activeSelectionView, 'tracking-release', @canvasLayerView.resizeSelectionRelease
     @listenTo @activeSelectionView, 'destroy', @clearSelection
 
-    if additionalContentItemViews.length > 0
-      @addToSelection.apply this, additionalContentItemViews
+    rest = _.rest(contentItemViews)
+
+    if rest.length > 0
+      @addToSelection.apply this, rest
 
 
   # Adds model to a selection.
