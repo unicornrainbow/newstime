@@ -59,17 +59,16 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
         @deselect()
 
   ungroup: ->
-    while (@contentItemViewsArray.length > 0)
-      canvasItem = @contentItemViewsArray[0]
+    contentItems = @contentItemViewsArray.slice(0) # Clone array of items.
+    _.each contentItems, (canvasItem) =>
       @removeCanvasItem(canvasItem)
       @composer.canvas.addCanvasItem(canvasItem)
 
     @composer.canvas.removeCanvasItem(this)
     @deselect()
-    @model.destroy()
-    #_.each groupedItems, (item) ->
-      #item.set('group_id', null)
 
+    @composer.select.apply(@composer, contentItems)
+    @model.destroy()
 
   getGeometry: ->
     @model.pick('top', 'left', 'height', 'width')
