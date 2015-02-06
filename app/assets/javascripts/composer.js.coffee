@@ -123,6 +123,7 @@ class @Newstime.Composer extends Backbone.View
 
     @pagesPanelView = new Newstime.PagesPanelView
     @pagesPanelView.setPosition(300, 20)
+    @pagesPanelView.model.set(width: 200, height: 200)
     @panelLayerView.attachPanel(@pagesPanelView)
 
     @cursorStack = []

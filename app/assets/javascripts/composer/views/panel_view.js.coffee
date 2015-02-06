@@ -12,6 +12,8 @@ class @Newstime.PanelView extends @Newstime.View
 
     @composer = Newstime.composer
 
+    @model ?= new Newstime.Panel
+
     @$el.html """
       <div class="title-bar">
       </div>
@@ -27,7 +29,12 @@ class @Newstime.PanelView extends @Newstime.View
     @bind 'mousemove', @mousemove
     @bind 'mouseup', @mouseup
 
+    @listenTo @model, 'change', @render
+
     @initializePanel()
+
+  render: ->
+    @$el.css @model.pick('width', 'height')
 
   dismiss: ->
     @trigger 'dismiss'
