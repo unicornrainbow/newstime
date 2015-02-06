@@ -23,7 +23,7 @@
 class @Newstime.Composer extends Backbone.View
 
   initialize: (options) ->
-    # Ensure only one instance of composer is created.
+    # No dups
     throw "Composer instance already created." if Newstime.composer
 
     # Create a global reference to this instance.
@@ -44,7 +44,6 @@ class @Newstime.Composer extends Backbone.View
     @$document = $(document)
     @$body = $('body')
     @canvas = $('.page')[0]
-
 
     ## Config
     @topOffset = 0 # 61 # px
@@ -122,6 +121,9 @@ class @Newstime.Composer extends Backbone.View
     @panelLayerView.attachPanel(@propertiesPanelView)
     @propertiesPanelView.show()
 
+    @pagesPanelView = new Newstime.PagesPanelView
+    @pagesPanelView.setPosition(300, 20)
+    @panelLayerView.attachPanel(@pagesPanelView)
 
     @cursorStack = []
     @focusStack = []

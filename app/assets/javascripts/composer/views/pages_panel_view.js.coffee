@@ -1,4 +1,4 @@
-class @Newstime.PropertiesPanelView extends Backbone.View
+class @Newstime.PagesPanelView extends @Newstime.View
 
   events:
    'mousedown .title-bar': 'beginDrag'
@@ -9,11 +9,10 @@ class @Newstime.PropertiesPanelView extends Backbone.View
 
 
   initialize: (options) ->
-    @$el.hide()
     @$el.addClass('newstime-properties-panel')
     @$el.addClass('newstime-palette-view')
 
-    @composer = options.composer
+    @composer = Newstime.composer
 
     @$el.html """
       <div class="title-bar">
@@ -32,6 +31,7 @@ class @Newstime.PropertiesPanelView extends Backbone.View
     @bind 'mouseover', @mouseover
     @bind 'mousemove', @mousemove
     @bind 'mouseup', @mouseup
+
 
   dismiss: ->
     @trigger 'dismiss'
