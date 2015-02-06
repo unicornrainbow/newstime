@@ -576,10 +576,10 @@ class @Newstime.Composer extends Backbone.View
 
 
   # Adds model to a selection.
-  addToSelection: (contentItemView, additionalContentItemViews...) ->
+  addToSelection: (contentItemViews...) ->
     # Just do normal selection if nothing is selected.
     unless @activeSelectionView
-      @select(contentItemView)
+      @select.apply this, arguments
       return
 
     # Convert ContentItem selection to multiselection
@@ -599,10 +599,8 @@ class @Newstime.Composer extends Backbone.View
       @canvasLayerView.listenTo @activeSelectionView, 'tracking-release', @canvasLayerView.resizeSelectionRelease
       @listenTo @activeSelectionView, 'destroy', @clearSelection
 
-    @activeSelectionView.addView(contentItemView)
-
-    _.each additionalContentItemViews, (view) =>
-      @activeSelectionView.addView(view)
+    addView = _.bind @activeSelectionView.addView, @activeSelectionView
+    _.each contentItemViews, addView
 
   # Removes model from selection.
   removeFromSelection: (model) ->
