@@ -29,7 +29,7 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
   renderPanel: ->
     pages = _.map @composer.canvas.pageViewsArray, (view) ->
       page = {}
-      page.name = view.model.get('number')
+      page.name = view.uiLabel
       page.items = _.map view.contentItemViewsArray, (itemView) ->
         item = {}
         item.name = itemView.uiLabel

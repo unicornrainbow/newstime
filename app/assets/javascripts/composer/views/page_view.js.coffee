@@ -35,6 +35,8 @@ class @Newstime.PageView extends @Newstime.View
 
     @bindUIEvents()
 
+  @getter 'uiLabel', -> "Page #{@model.get('number')}"
+
   # Add content item to the top of the page.
   # TODO: Delete me - see add()
   #addContentItem: (contentItemView) ->
