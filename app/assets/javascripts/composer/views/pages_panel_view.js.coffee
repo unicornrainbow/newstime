@@ -4,6 +4,7 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
 
   _.extend @::events,
     'click .pages-panel-page': 'clickPagesPanelPage'
+    'click .pages-panel-item': 'clickPagesPanelItem'
 
   initializePanel: ->
     @$el.addClass 'pages-panel'
@@ -21,7 +22,8 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
           <% if (page.items.length > 0) { %>
             <ol>
               <% _.each(page.items, function (item) { %>
-                <li class="indent-level-1 <%= item.selected ? "selected" : "" %>"><%= item.name %></li>
+                <li class="pages-panel-item indent-level-1 <%= item.selected ? "selected" : "" %>"
+                    data-id="<%= item.cid %>"><%= item.name %></li>
               <% }); %>
             </ol>
           <% } %>
@@ -40,6 +42,14 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
     @viewOptions[viewID].collapsed = !@viewOptions[viewID].collapsed
     @renderPanel()
 
+  clickPagesPanelItem: (e) =>
+    $target = $(e.target)
+    viewID = $target.data('id')
+
+    # Find view by cid
+    view = @composer.canvas.findViewByCID(viewID)
+    console.log view
+    @composer.select(view)
 
   renderPanel: ->
     pages = _.map @composer.canvas.pageViewsArray, (view) =>
@@ -50,6 +60,7 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
       page.items = _.map view.contentItemViewsArray, (itemView) ->
         item = {}
         item.name = itemView.uiLabel
+        item.cid = itemView.cid
         item.selected = itemView.selected
         item
       page

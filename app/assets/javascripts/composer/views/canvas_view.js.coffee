@@ -185,6 +185,14 @@ class @Newstime.CanvasView extends @Newstime.View
       #new Newstime.GroupView
         #model: group
 
+  findViewByCID: (cid) ->
+    view = null
+    _.find @pageViewsArray, (pageView) ->
+      _.find pageView.contentItemViewsArray, (itemView) ->
+        if itemView.cid == cid
+          view = itemView
+    view
+
   addCanvasItem: (view, options={}) ->
     view.container = this
     @$canvasItems.append(view.el)
