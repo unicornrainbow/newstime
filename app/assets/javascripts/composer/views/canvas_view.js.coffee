@@ -184,6 +184,7 @@ class @Newstime.CanvasView extends @Newstime.View
         #model: group
 
   addCanvasItem: (view, options={}) ->
+    view.container = this
     @$canvasItems.append(view.el)
     @composer.outlineLayerView.attach(view.outlineView)
     @_assignPage(view, options)
@@ -193,6 +194,7 @@ class @Newstime.CanvasView extends @Newstime.View
     view.$el.detach()
     @composer.outlineLayerView.remove(view.outlineView)
     view.pageView.removeCanvasItem(view)
+    view.container = null
     @trigger 'change'
 
   # Inserts view before referenceView.
@@ -333,7 +335,6 @@ class @Newstime.CanvasView extends @Newstime.View
       x = Math.round(x/@zoomLevel)
       y = Math.round(y/@zoomLevel)
 
-    #console.log @pagesOffset.left
 
 
     return [x, y]
@@ -493,9 +494,6 @@ class @Newstime.CanvasView extends @Newstime.View
     geometry.y -= buffer
     geometry.width += buffer*2
     geometry.height += buffer*2
-
-    #console.log x, y
-    #console.log geometry
 
     ## Detect if corrds lie within the geometry
     if x >= geometry.x && x <= geometry.x + geometry.width
