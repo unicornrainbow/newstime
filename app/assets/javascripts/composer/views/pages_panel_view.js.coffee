@@ -21,7 +21,7 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
           <% if (page.items.length > 0) { %>
             <ol>
               <% _.each(page.items, function (item) { %>
-                <li class="indent-level-1"><%= item.name %></li>
+                <li class="indent-level-1 <%= item.selected ? "selected" : "" %>"><%= item.name %></li>
               <% }); %>
             </ol>
           <% } %>
@@ -50,6 +50,7 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
       page.items = _.map view.contentItemViewsArray, (itemView) ->
         item = {}
         item.name = itemView.uiLabel
+        item.selected = itemView.selected
         item
       page
 

@@ -576,6 +576,8 @@ class @Newstime.Composer extends Backbone.View
 
     if rest.length > 0
       @addToSelection.apply this, rest
+    else
+      @canvas.trigger 'change'
 
 
   # Adds model to a selection.
@@ -604,6 +606,8 @@ class @Newstime.Composer extends Backbone.View
 
     addView = _.bind @activeSelectionView.addView, @activeSelectionView
     _.each contentItemViews, addView
+
+    @canvas.trigger 'change'
 
   # Removes model from selection.
   removeFromSelection: (model) ->
