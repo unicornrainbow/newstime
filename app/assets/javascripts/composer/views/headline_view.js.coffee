@@ -33,7 +33,11 @@ class @Newstime.HeadlineView extends Newstime.ContentItemView
       @$el.text(@placeholder)
       @$el.addClass 'placeholder'
 
-  @getter 'uiLabel', -> _.presence(@model.get('text')) || 'Headline'
+  @getter 'uiLabel', ->
+    if @model.get('text')
+      "Headline: #{@model.get('text')}"
+    else
+      "Headline"
 
   renderMargins: ->
     @$el.css _.pick @model.attributes, 'margin-top', 'margin-right', 'margin-bottom', 'margin-left'

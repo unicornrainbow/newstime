@@ -4,6 +4,9 @@ class @Newstime.TextAreaView extends Newstime.ContentItemView
 
   contentItemClassName: 'text-area-view'
 
+  @getter 'uiLabel', ->
+    "Text"
+
   initializeContentItem: ->
 
     @lineHeight = parseInt(Newstime.config.storyTextLineHeight)

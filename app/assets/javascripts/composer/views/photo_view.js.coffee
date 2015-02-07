@@ -8,6 +8,8 @@ class @Newstime.PhotoView extends Newstime.ContentItemView
     @listenTo @model, 'change:photo_id', @photoChanged
     @render()
 
+  @getter 'uiLabel', -> "Photo"
+
   photoChanged: ->
     @$el.css "background-image": "url('#{@model.get('edition_relative_url_path')}')"
 
