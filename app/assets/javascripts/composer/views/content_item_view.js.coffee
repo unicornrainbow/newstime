@@ -98,15 +98,15 @@ class @Newstime.ContentItemView extends @Newstime.CanvasItemView
       when 219 # [
         if e.altKey
           if e.shiftKey
-            @pageView.sendToBack(@model)
+            @pageView.sendToBack(this)
           else
-            @pageView.sendBackward(@model)
+            @pageView.sendBackward(this)
       when 221 # ]
         if e.altKey
           if e.shiftKey
-            @pageView.bringToFront(@model)
+            @pageView.bringToFront(this)
           else
-            @pageView.bringForward(@model)
+            @pageView.bringForward(this)
 
 
   getEventChar: (e) ->

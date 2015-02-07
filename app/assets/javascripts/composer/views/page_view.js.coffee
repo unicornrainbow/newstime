@@ -132,10 +132,7 @@ class @Newstime.PageView extends @Newstime.View
     _.each @contentItemViewsArray, (view, index) ->
       view.model.set('z-index', length - index)
 
-  bringForward: (contentItem) ->
-    # Get the view for the model
-    contentItemView = @composer.contentItemViews[contentItem.cid]
-
+  bringForward: (contentItemView) ->
     # Discover the index in the contentItemViewsArray
     index = _.indexOf @contentItemViewsArray, contentItemView
 
@@ -145,12 +142,10 @@ class @Newstime.PageView extends @Newstime.View
 
     # Update z-indexs
     @updateZindexs()
+    @trigger 'change'
 
 
-  sendBackward: (contentItem) ->
-    # Get the view for the model
-    contentItemView = @composer.contentItemViews[contentItem.cid]
-
+  sendBackward: (contentItemView) ->
     # Discover the index in the contentItemViewsArray
     index = _.indexOf @contentItemViewsArray, contentItemView
 
@@ -160,12 +155,10 @@ class @Newstime.PageView extends @Newstime.View
 
     # Update z-indexs
     @updateZindexs()
+    @trigger 'change'
 
 
-  bringToFront: (contentItem) ->
-    # Get the view for the model
-    contentItemView = @composer.contentItemViews[contentItem.cid]
-
+  bringToFront: (contentItemView) ->
     # Discover the index in the contentItemViewsArray
     index = _.indexOf @contentItemViewsArray, contentItemView
 
@@ -176,11 +169,9 @@ class @Newstime.PageView extends @Newstime.View
 
     # Update z-indexs
     @updateZindexs()
+    @trigger 'change'
 
-  sendToBack: (contentItem) ->
-    # Get the view for the model
-    contentItemView = @composer.contentItemViews[contentItem.cid]
-
+  sendToBack: (contentItemView) ->
     # Discover the index in the contentItemViewsArray
     index = _.indexOf @contentItemViewsArray, contentItemView
 
@@ -191,6 +182,7 @@ class @Newstime.PageView extends @Newstime.View
 
     # Update z-indexs
     @updateZindexs()
+    @trigger 'change'
 
 
   setPageBorderDimensions: ->

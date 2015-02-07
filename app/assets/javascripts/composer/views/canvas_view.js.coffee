@@ -60,6 +60,8 @@ class @Newstime.CanvasView extends @Newstime.View
       @pageContentItems[page.cid] = page.getContentItems()
       @pageGroups[page.cid] = page.getGroups()
 
+      @listenTo view, 'change', => @trigger 'change'
+
 
     @$canvasItems = $('<div class="canvas-items"></div>')
     @$canvasItems.appendTo(@$body)
