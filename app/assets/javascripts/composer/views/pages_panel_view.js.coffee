@@ -48,7 +48,11 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
 
     # Find view by cid
     view = @composer.canvas.findViewByCID(viewID)
-    @composer.select(view)
+
+    if e.shiftKey
+      @composer.addToSelection(view)
+    else
+      @composer.select(view)
 
   renderPanel: ->
     pages = _.map @composer.canvas.pageViewsArray, (view) =>
