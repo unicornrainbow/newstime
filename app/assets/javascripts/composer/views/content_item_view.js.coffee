@@ -67,48 +67,6 @@ class @Newstime.ContentItemView extends @Newstime.CanvasItemView
   getBoundry: ->
     @model.getBoundry()
 
-  keydown: (e) =>
-    switch e.keyCode
-      when 8 # del
-        if confirm "Are you sure you wish to delete this item?"
-          @delete()
-        e.stopPropagation()
-        e.preventDefault()
-      when 37 # left arrow
-        @stepLeft()
-        e.stopPropagation()
-        e.preventDefault()
-      when 38 # up arrow
-        # TODO: Should handle acceleration
-        offset = if e.shiftKey then 20 else 1
-        @model.set top: @model.get('top') - offset
-        e.stopPropagation()
-        e.preventDefault()
-      when 39 # right arrow
-        @stepRight()
-        e.stopPropagation()
-        e.preventDefault()
-      when 40 # down arrow
-        offset = if e.shiftKey then 20 else 1
-        @model.set top: @model.get('top') + offset
-        e.stopPropagation()
-        e.preventDefault()
-      when 27 # ESC
-        @deselect()
-      when 219 # [
-        if e.altKey
-          if e.shiftKey
-            @pageView.sendToBack(this)
-          else
-            @pageView.sendBackward(this)
-      when 221 # ]
-        if e.altKey
-          if e.shiftKey
-            @pageView.bringToFront(this)
-          else
-            @pageView.bringForward(this)
-
-
   getEventChar: (e) ->
     if e.shiftKey
       Newstime.shiftCharKeycodes[e.keyCode]

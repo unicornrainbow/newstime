@@ -58,8 +58,9 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
     switch e.keyCode
       when 85 # u
         @ungroup() if e.altKey
-      when 27 # ESC
-        @deselect()
+      else
+        super(e)
+
 
   ungroup: ->
     contentItems = @contentItemViewsArray.slice(0) # Clone array of items.
