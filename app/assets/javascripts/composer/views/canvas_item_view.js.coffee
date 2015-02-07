@@ -38,6 +38,7 @@ class @Newstime.CanvasItemView extends @Newstime.View
   @getter 'top',  -> @model.get('top')
   @getter 'left', -> @model.get('left')
   @getter 'pageView', -> @_pageView
+  @getter 'uiLabel', -> 'Canvas Item'
 
   @setter 'pageView', (value) ->
     @_pageView = value

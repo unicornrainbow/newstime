@@ -1,6 +1,7 @@
 # ## Libraries
 #= require lib/zepto
 #= require lib/underscore
+#= require lib/underscore_extensions
 #= require lib/backbone
 #= require lib/backbone-relational
 #= require lib/backbone.authtokenadapter

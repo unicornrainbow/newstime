@@ -3,6 +3,8 @@
 class @Newstime.PagesPanelView extends @Newstime.PanelView
 
   initializePanel: ->
+    @$el.addClass 'pages-panel'
+
     @model.set(width: 200, height: 200)
 
     # Render each page
@@ -30,7 +32,7 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
       page.name = view.model.get('number')
       page.items = _.map view.contentItemViewsArray, (itemView) ->
         item = {}
-        item.name = itemView
+        item.name = itemView.uiLabel
         item
       page
 
