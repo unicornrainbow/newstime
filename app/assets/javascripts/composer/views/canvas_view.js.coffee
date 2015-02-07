@@ -242,6 +242,7 @@ class @Newstime.CanvasView extends @Newstime.View
 
   render: ->
     @measureLinks()
+    @trigger 'render'
 
   # Measure link areas. Right now, need to do this after render to ensure we get
   # to correct values. Should be improved.

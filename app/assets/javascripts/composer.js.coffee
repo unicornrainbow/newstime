@@ -577,7 +577,7 @@ class @Newstime.Composer extends Backbone.View
     if rest.length > 0
       @addToSelection.apply this, rest
     else
-      @canvas.trigger 'change'
+      @pagesPanelView.render()
 
 
   # Adds model to a selection.
@@ -607,7 +607,7 @@ class @Newstime.Composer extends Backbone.View
     addView = _.bind @activeSelectionView.addView, @activeSelectionView
     _.each contentItemViews, addView
 
-    @canvas.trigger 'change'
+    @pagesPanelView.render()
 
   # Removes model from selection.
   removeFromSelection: (model) ->
@@ -619,6 +619,7 @@ class @Newstime.Composer extends Backbone.View
       @propertiesPanelView.clear()
       @activeSelectionView = null
       @selection = null
+    @pagesPanelView.render()
 
   updatePropertiesPanel: (target) ->
     propertiesView = target.getPropertiesView()

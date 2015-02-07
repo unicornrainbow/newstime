@@ -33,7 +33,7 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
     """
 
     #setInterval _.bind(@renderPanel, this), 200
-    @listenTo @composer.canvas, 'change', @renderPanel
+    #@listenTo @composer.canvas, 'render', @renderPanel
 
   clickPagesPanelPage: (e) ->
     $target = $(e.target)
