@@ -21,7 +21,8 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
       </ol>
     """
 
-    setInterval _.bind(@renderPanel, this), 200
+    #setInterval _.bind(@renderPanel, this), 200
+    @listenTo @composer.canvas, 'change', @renderPanel
 
   renderPanel: ->
     pages = _.map @composer.canvas.pageViewsArray, (view) ->
@@ -32,6 +33,7 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
         item.name = itemView
         item
       page
+
 
 
     @$body.html @template _.extend @model.toJSON(),

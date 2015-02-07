@@ -27,9 +27,7 @@ class @Newstime.PanelView extends @Newstime.View
 
     @initializePanel()
 
-    @bind 'mouseover', @mouseover
-    @bind 'mousemove', @mousemove
-    @bind 'mouseup', @mouseup
+    @bindUIEvents()
 
     @listenTo @model, 'change', @render
 

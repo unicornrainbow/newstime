@@ -187,11 +187,13 @@ class @Newstime.CanvasView extends @Newstime.View
     @$canvasItems.append(view.el)
     @composer.outlineLayerView.attach(view.outlineView)
     @_assignPage(view, options)
+    @trigger 'change'
 
   removeCanvasItem: (view) ->
     view.$el.detach()
     @composer.outlineLayerView.remove(view.outlineView)
     view.pageView.removeCanvasItem(view)
+    @trigger 'change'
 
   # Inserts view before referenceView.
   insertBefore: (view, referenceView) ->
