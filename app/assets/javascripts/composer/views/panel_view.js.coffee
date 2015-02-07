@@ -25,13 +25,15 @@ class @Newstime.PanelView extends @Newstime.View
     @$body = @$el.find('.palette-body')
     @$titleBar = @$el.find('.title-bar')
 
+    @initializePanel()
+
     @bind 'mouseover', @mouseover
     @bind 'mousemove', @mousemove
     @bind 'mouseup', @mouseup
 
     @listenTo @model, 'change', @render
 
-    @initializePanel()
+    @render()
 
   render: ->
     @$el.css @model.pick('width', 'height')
