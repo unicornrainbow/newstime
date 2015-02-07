@@ -35,6 +35,7 @@ class @Newstime.PanelView extends @Newstime.View
 
   render: ->
     @$el.css @model.pick('width', 'height')
+    @renderPanel() if @renderPanel
 
   dismiss: ->
     @trigger 'dismiss'
