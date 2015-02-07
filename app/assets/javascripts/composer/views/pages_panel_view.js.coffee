@@ -48,7 +48,6 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
 
     # Find view by cid
     view = @composer.canvas.findViewByCID(viewID)
-    console.log view
     @composer.select(view)
 
   renderPanel: ->
