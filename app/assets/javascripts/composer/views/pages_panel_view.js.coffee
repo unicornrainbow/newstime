@@ -15,7 +15,7 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
         <% if (page.items.length > 0) { %>
           <ol>
             <% _.each(page.items, function (item) { %>
-              <li><%= item.name %></li>
+              <li class="indent-level-1"><%= item.name %></li>
             <% }); %>
           </ol>
         <% } %>
