@@ -188,6 +188,11 @@ class @Newstime.CanvasView extends @Newstime.View
     view.container = null
     @trigger 'change'
 
+  # Saves changes to canvas
+  save: ->
+    @edition.save()
+
+
   # Inserts view before referenceView.
   insertBefore: (view, referenceView) ->
     # Find page with view.

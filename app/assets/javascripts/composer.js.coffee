@@ -226,8 +226,8 @@ class @Newstime.Composer extends Backbone.View
             @save()
 
   save: ->
-    @edition.save() # Save edition
     @statusIndicator.showMessage "Saving"
+    @canvas.save()
 
   paste: (e) =>
     if @focusedObject
