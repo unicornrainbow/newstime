@@ -57,6 +57,7 @@ class @Newstime.HeadlineView extends Newstime.ContentItemView
           e.stopPropagation()
           e.preventDefault()
           @clearEditMode()
+          @composer.vent.trigger('pages-panel:render')
         when 37 # left arrow
           @moveCursorLeft()
           e.stopPropagation()

@@ -76,6 +76,13 @@ class @Newstime.CanvasItemView extends @Newstime.View
   render: ->
     @$el.css @model.pick 'width', 'height', 'top', 'left', 'z-index'
 
+  # Deletes the content item
+  delete: ->
+    @deselect() if @selected
+    if @container
+      @container.removeCanvasItem(this)
+    @model.destroy()
+
   remove: ->
     @composer.pagesPanelView.render() # HACK: This should be done in a more central manner.
     super

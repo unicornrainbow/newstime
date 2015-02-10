@@ -79,13 +79,6 @@ class @Newstime.ContentItemView extends @Newstime.CanvasItemView
   stepRight: ->
     @model.set left: @pageView.stepRight(@model.get('left'))
 
-  # Deletes the content item
-  delete: ->
-    @deselect() if @selected
-    if @container
-      @container.removeCanvasItem(this)
-    @model.destroy()
-
   mousedown: (e) ->
     return unless e.button == 0 # Only respond to left button mousedown.
 
