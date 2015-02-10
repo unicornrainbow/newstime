@@ -13,7 +13,6 @@ class @Newstime.PageView extends @Newstime.View
 
     @contentItemsSelector = "[headline-control], [text-area-control], [photo-control], [video-control]"
 
-    @composer = options.composer
     @page = @model
 
     @listenTo @model, 'destroy', @pageDestroyed
@@ -132,6 +131,8 @@ class @Newstime.PageView extends @Newstime.View
     _.each @contentItemViewsArray, (view, index) ->
       view.model.set('z-index', length - index)
 
+    @composer.vent.trigger 'page:canvas-items-reorder', this
+
   bringForward: (contentItemView) ->
     # Discover the index in the contentItemViewsArray
     index = _.indexOf @contentItemViewsArray, contentItemView
@@ -142,7 +143,6 @@ class @Newstime.PageView extends @Newstime.View
 
     # Update z-indexs
     @updateZindexs()
-    @trigger 'change'
 
 
   sendBackward: (contentItemView) ->
@@ -155,7 +155,6 @@ class @Newstime.PageView extends @Newstime.View
 
     # Update z-indexs
     @updateZindexs()
-    @trigger 'change'
 
 
   bringToFront: (contentItemView) ->
@@ -169,7 +168,6 @@ class @Newstime.PageView extends @Newstime.View
 
     # Update z-indexs
     @updateZindexs()
-    @trigger 'change'
 
   sendToBack: (contentItemView) ->
     # Discover the index in the contentItemViewsArray
@@ -182,7 +180,6 @@ class @Newstime.PageView extends @Newstime.View
 
     # Update z-indexs
     @updateZindexs()
-    @trigger 'change'
 
 
   setPageBorderDimensions: ->

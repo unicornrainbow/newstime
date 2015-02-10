@@ -34,6 +34,8 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
       </ol>
     """
 
+    @listenTo @composer.vent, 'page:canvas-items-reorder', -> @renderPanel()
+
     #setInterval _.bind(@renderPanel, this), 200
     #@listenTo @composer.canvas, 'render', @renderPanel
 
