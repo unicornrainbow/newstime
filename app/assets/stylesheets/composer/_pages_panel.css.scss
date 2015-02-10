@@ -16,7 +16,7 @@
 
   li {
     margin: 0;
-    padding: 5px 10px 5px 20px;
+    padding: 5px 10px 5px 30px;
     border-bottom: 1px solid rgba(255,255,255,.05);
     cursor: default;
 
@@ -26,7 +26,7 @@
   }
 
   .indent-level-1 {
-    padding-left: 30px;
+    padding-left: 35px;
   }
 
 
@@ -37,12 +37,12 @@
   .pages-panel-page {
     background-image: asset-url('down_caret.png');
     background-repeat: no-repeat;
-    background-position: 7px 10px;
+    background-position: 13px 10px;
     background-size: 10px;
 
     &.collasped {
       background-image: asset-url('right_caret.png');
-      background-position: 10px 7px;
+      background-position: 16px 7px;
       background-size: 5px;
     }
 
