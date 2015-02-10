@@ -115,14 +115,13 @@ class @Newstime.CanvasView extends @Newstime.View
 
 
       _.each contentItems, (contentItem) =>
-
         # Construct and add in each content item.
         id = contentItem.get('_id')
         el = contentItemEls.filter("[data-content-item-id='#{id}")
 
         contentItemType = contentItem.get('_type')
 
-        # What is the content items type?
+        ## What is the content items type?
         contentItemViewType =
           switch contentItemType
             when 'HeadlineContentItem' then Newstime.HeadlineView
@@ -130,29 +129,11 @@ class @Newstime.CanvasView extends @Newstime.View
             when 'PhotoContentItem' then Newstime.PhotoView
             when 'VideoContentItem' then Newstime.VideoView
 
-        contentItemOutlineView = new Newstime.ContentItemOutlineView
-          composer: @composer
-          model: contentItem
-        @composer.outlineLayerView.attach(contentItemOutlineView)
-
         contentItemView = new contentItemViewType
           model: contentItem
           el: el
-          composer: @composer
-          outlineView: contentItemOutlineView
-          page: page
-          pageID: pageID
-          pageView: pageView
 
-        @listenTo contentItemView, 'activate', @selectContentItem
-        @listenTo contentItemView, 'deactivate', @selectionDeactivated
-        @listenTo contentItemView, 'tracking', @resizeSelection
-        @listenTo contentItemView, 'tracking-release', @resizeSelectionRelease
-
-        contentItemCID = contentItem.cid
-        @contentItemViews[contentItemCID] = contentItemView
-        @contentItemOutlineViews[contentItemCID] = contentItemOutlineView
-        @$canvasItems.append(el)
+        @addCanvasItem(contentItemView)
 
     # Add an add page button
     @addPageButton = new Newstime.AddPageButton
