@@ -17,8 +17,8 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
     @template = _.template """
       <ol>
       <% _.each(pages, function (page) { %>
-        <li class="pages-panel-page" data-id="<%= page.cid %>"><%= page.name %></li>
         <% if (page.options.collapsed != true) { %>
+          <li class="pages-panel-page" data-id="<%= page.cid %>"><%= page.name %></li>
           <% if (page.items.length > 0) { %>
             <ol>
               <% _.each(page.items, function (item) { %>
@@ -27,6 +27,8 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
               <% }); %>
             </ol>
           <% } %>
+        <% } else { %>
+          <li class="pages-panel-page collasped" data-id="<%= page.cid %>"><%= page.name %></li>
         <% } %>
       <% }); %>
       </ol>
