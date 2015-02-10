@@ -77,7 +77,7 @@ class @Newstime.CanvasItemView extends @Newstime.View
     @$el.css @model.pick 'width', 'height', 'top', 'left', 'z-index'
 
   remove: ->
-    @composer.pagesPanelView.render()
+    @composer.pagesPanelView.render() # HACK: This should be done in a more central manner.
     super
 
   @getter 'top',  -> @model.get('top')
