@@ -12,7 +12,6 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
 
     @listenTo @model, 'destroy', @remove
 
-
   @getter 'uiLabel', -> 'Group'
 
   measurePosition: ->

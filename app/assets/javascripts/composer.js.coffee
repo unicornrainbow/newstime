@@ -223,8 +223,11 @@ class @Newstime.Composer extends Backbone.View
       switch e.keyCode
         when 83 # s
           if e.ctrlKey || e.altKey # ctrl+s
-            @edition.save() # Save edition
-            @statusIndicator.showMessage "Saving"
+            @save()
+
+  save: ->
+    @edition.save() # Save edition
+    @statusIndicator.showMessage "Saving"
 
   paste: (e) =>
     if @focusedObject
