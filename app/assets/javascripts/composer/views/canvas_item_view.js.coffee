@@ -76,6 +76,10 @@ class @Newstime.CanvasItemView extends @Newstime.View
   render: ->
     @$el.css @model.pick 'width', 'height', 'top', 'left', 'z-index'
 
+  remove: ->
+    @composer.pagesPanelView.render()
+    super
+
   @getter 'top',  -> @model.get('top')
   @getter 'left', -> @model.get('left')
   @getter 'pageView', -> @_pageView
