@@ -61,7 +61,6 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
       else
         super(e)
 
-
   ungroup: ->
     contentItems = @contentItemViewsArray.slice(0) # Clone array of items.
     _.each contentItems, (canvasItem) =>
@@ -83,7 +82,6 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
     @composer.pushCursor @getCursor()
 
   mouseout: (e) ->
-
     if @hoveredHandle
       @hoveredHandle.trigger 'mouseout', e
       @hoveredHandle = null

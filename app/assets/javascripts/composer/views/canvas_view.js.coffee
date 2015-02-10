@@ -13,7 +13,7 @@ class @Newstime.CanvasView extends @Newstime.View
     @$body = $('body')
 
     @$el.css top: "#{@topOffset}px"
-    @$el.addClass 'canvas-view-layer'
+    @$el.addClass 'canvas-view'
 
     @contentItemCollection = @edition.get('content_items')
     @groupCollection       = @edition.get('groups')
