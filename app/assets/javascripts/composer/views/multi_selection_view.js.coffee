@@ -81,6 +81,16 @@ class @Newstime.MultiSelectionView extends @Newstime.View
   destroy: ->
     @remove()
 
+  remove: ->
+    unless @destroyed
+      @destroyed = true
+      @trigger 'destroy', this
+
+      _.each @selectedViews, (view) ->
+        view.deselect()
+
+    super
+
   mousedown: (e) ->
     return unless e.button == 0 # Only respond to left button mousedown.
 

@@ -94,9 +94,9 @@ class @Newstime.CanvasItemView extends @Newstime.View
     @propertiesView
 
   select: (selectionView) ->
-    unless @selected
-      @selected = true
-      @selectionView = selectionView
+    #unless @selected
+    @selected = true
+    @selectionView = selectionView
 
   deselect: ->
     if @selected

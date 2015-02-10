@@ -403,9 +403,3 @@ class @Newstime.SelectionView extends @Newstime.View
 
     boxLeft <= hitX <= boxRight &&
       boxTop <= hitY <= boxBottom
-
-
-  convertToMultiSelectionView: ->
-    multiSelection = new Newstime.MultiSelectionView()
-    multiSelection.addView(@contentItemView)
-    multiSelection

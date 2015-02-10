@@ -589,8 +589,14 @@ class @Newstime.Composer extends Backbone.View
 
     # Convert ContentItem selection to multiselection
     if @activeSelectionView instanceof Newstime.SelectionView
-      multiSelectionView = @activeSelectionView.convertToMultiSelectionView()
+      contentItemView = @activeSelectionView.contentItemView
+
       @clearSelection()
+
+      multiSelectionView = new Newstime.MultiSelectionView()
+      multiSelectionView.addView(contentItemView)
+      contentItemView.select(multiSelectionView)
+
       @selection = @activeSelectionView = multiSelectionView
 
       @activeSelectionView.render()
@@ -604,8 +610,9 @@ class @Newstime.Composer extends Backbone.View
       @canvasLayerView.listenTo @activeSelectionView, 'tracking-release', @canvasLayerView.resizeSelectionRelease
       @listenTo @activeSelectionView, 'destroy', @clearSelection
 
-    addView = _.bind @activeSelectionView.addView, @activeSelectionView
-    _.each contentItemViews, addView
+    _.each contentItemViews, (view) =>
+      @activeSelectionView.addView(view)
+      view.select(@activeSelectionView)
 
     @pagesPanelView.render()
 
@@ -615,7 +622,7 @@ class @Newstime.Composer extends Backbone.View
 
   clearSelection: ->
     if @activeSelectionView?
-      @activeSelectionView?.remove()
+      @activeSelectionView.remove()
       @propertiesPanelView.clear()
       @activeSelectionView = null
       @selection = null
