@@ -38,11 +38,21 @@ class @Newstime.MultiSelectionView extends @Newstime.View
 
   keydown: (e) ->
     switch e.keyCode
+      when 8 # del
+        if confirm "Are you sure you wish to delete these items?"
+          @delete()
+        e.stopPropagation()
+        e.preventDefault()
       when 71 # g
         @createGroup() if e.altKey
 
       when 27 # ESC
         @composer.clearSelection()
+
+  delete: ->
+    _.each @selectedViews, (view) ->
+      view.delete()
+    @destroy()
 
   createGroup: ->
     # Create a new GroupView

@@ -227,7 +227,18 @@ class @Newstime.Composer extends Backbone.View
 
   save: ->
     @statusIndicator.showMessage "Saving"
-    @canvas.save()
+
+    # Find unsaved group
+    newGroup = @edition.get('groups').find (g) -> g.isNew()
+
+    if newGroup
+      # Save the group, and call us back on success
+      newGroup.save {},
+        success: (model) =>
+          @save()
+    else
+      @edition.save()
+
 
   paste: (e) =>
     if @focusedObject

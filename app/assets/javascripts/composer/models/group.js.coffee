@@ -4,6 +4,7 @@ class @Newstime.Group extends Backbone.RelationalModel
   initialize: ->
     @items = []
     #@bind 'change', @change
+    @bind 'change:_id', @idSet
 
   Object.defineProperties @prototype,
     top:
@@ -21,6 +22,10 @@ class @Newstime.Group extends Backbone.RelationalModel
       #child.set
         #top: @get('top') + child.get('group_offset_top')
         #left: @get('left') + child.get('group_offset_left')
+
+  idSet: ->
+    _.each @items, (item) =>
+      item.set 'group_id', @id
 
   getContentItems: -> # TODO: Should be named getGroupedItems
     @_contentItems ?= @get('edition').get('content_items').where(group_id: @id)
