@@ -75,8 +75,8 @@ module EditionsHelper
 
     options = {}
     options[:id]     = content_item.id
-    options[:top]    = content_item.parent_relative_top
-    options[:left]   = content_item.parent_relative_left
+    options[:top]    = content_item.top
+    options[:left]   = content_item.left
     options[:width]  = content_item.width
     options[:height] = content_item.height
 

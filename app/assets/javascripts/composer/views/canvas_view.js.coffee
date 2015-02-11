@@ -90,7 +90,6 @@ class @Newstime.CanvasView extends @Newstime.View
         groupView = new Newstime.GroupView
           model: group
           el: el
-          composer: @composer
           page: page
           pageID: pageID
           pageView: pageView
