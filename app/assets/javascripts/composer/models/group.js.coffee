@@ -34,6 +34,8 @@ class @Newstime.Group extends Backbone.RelationalModel
     _.each items, @addItem
 
   addItem: (item) =>
+    unless @isNew()
+      item.set 'group_id', @id
     @items.push(item)
 
   removeItem: (item) =>

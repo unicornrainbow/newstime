@@ -121,7 +121,6 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
 
     @model.addItem(view.model)
 
-
   removeCanvasItem: (canvasItemView) ->
     index = @contentItemViewsArray.indexOf(canvasItemView)
 

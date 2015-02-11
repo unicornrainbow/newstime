@@ -23,8 +23,8 @@ class @Newstime.CanvasView extends @Newstime.View
     @groupSelector       = '[data-group-id]'
     @pageSelector        = '[data-page-id]'
 
-    contentItemEls     = @$(@contentItemSelector).detach()
     groupEls           = @$(@groupSelector).detach()
+    contentItemEls     = @$(@contentItemSelector).detach()
     pageEls            = @$(@pageSelector).detach()
 
     @$pages = @$('[pages]') # Pages container
@@ -86,24 +86,20 @@ class @Newstime.CanvasView extends @Newstime.View
         id = group.get('_id')
         el = groupEls.filter("[data-group-id='#{id}")
 
-
         groupView = new Newstime.GroupView
           model: group
           el: el
-          page: page
-          pageID: pageID
-          pageView: pageView
 
-        @listenTo groupView, 'activate', @selectContentItem
-        @listenTo groupView, 'deactivate', @selectionDeactivated
-        @listenTo groupView, 'tracking', @resizeSelection
-        @listenTo groupView, 'tracking-release', @resizeSelectionRelease
+        #@listenTo groupView, 'activate', @selectContentItem
+        #@listenTo groupView, 'deactivate', @selectionDeactivated
+        #@listenTo groupView, 'tracking', @resizeSelection
+        #@listenTo groupView, 'tracking-release', @resizeSelectionRelease
 
-        @listenTo group, 'destroy', (group) ->
-          @groupViews[group.cid] = null
+        #@listenTo group, 'destroy', (group) ->
+          #@groupViews[group.cid] = null
 
-        groupCID = group.cid
-        @groupViews[groupCID] = groupView
+        #groupCID = group.cid
+        #@groupViews[group.id] = groupView
         #@groupOutlineViews[groupCID] = groupOutlineView
 
         #@$groups.append(el) # For now a seperate layer, eventually on canvas item div, with z-index coordination
@@ -112,7 +108,7 @@ class @Newstime.CanvasView extends @Newstime.View
 
         @addCanvasItem(groupView) # Add groupView to the canvas.
 
-
+      contentItems = _.reject contentItems, (item) -> item.get('group_id') # Don't process items which are part of a group...
       _.each contentItems, (contentItem) =>
         # Construct and add in each content item.
         id = contentItem.get('_id')
