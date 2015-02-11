@@ -52,6 +52,9 @@ class @Newstime.PageView extends @Newstime.View
     #if contentItemBoundry.bottom > @boundingBox.bottom
       #@boundingBox.bottom = contentItemBoundry.bottom
 
+  save: ->
+    @model.save()
+
   # Add view to page
   addCanvasItem: (view, options={}) ->
     index = options.index

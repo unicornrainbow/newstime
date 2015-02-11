@@ -190,8 +190,9 @@ class @Newstime.CanvasView extends @Newstime.View
 
   # Saves changes to canvas
   save: ->
-    @edition.save()
-
+    _.each @pageViewsArray, (pageView) ->
+      pageView.save()
+    #@edition.save()
 
   # Inserts view before referenceView.
   insertBefore: (view, referenceView) ->
