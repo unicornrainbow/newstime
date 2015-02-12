@@ -93,27 +93,29 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
     @model.getBoundry()
 
   # Adds view to group.
-  addCanvasItem: (view) ->
+  addCanvasItem: (view, options={}) ->
     viewBoundry = view.model.getBoundry()
 
-    # If this is the first view in the group
-    if @contentItemViewsArray.length == 0
-      # clone the boundry
-      @model.set _.pick viewBoundry, 'top', 'left', 'width', 'height'
+    unless options.reattach
 
-      # zero position of element
-      view.model.set(top: 0, left: 0)
-    else
-      # Union boundry into group
-      groupBoundry = @getBoundry()
-      newBoundry = groupBoundry.union(viewBoundry)
+      # If this is the first view in the group
+      if @contentItemViewsArray.length == 0
+        # clone the boundry
+        @model.set _.pick viewBoundry, 'top', 'left', 'width', 'height'
 
-      @_setBoundry(newBoundry)
+        # zero position of element
+        view.model.set(top: 0, left: 0)
+      else
+        # Union boundry into group
+        groupBoundry = @getBoundry()
+        newBoundry = groupBoundry.union(viewBoundry)
 
-      # Subtract group offset from element offset.
-      view.model.set
-        top: viewBoundry.top - newBoundry.top
-        left: viewBoundry.left - newBoundry.left
+        @_setBoundry(newBoundry)
+
+        # Subtract group offset from element offset.
+        view.model.set
+          top: viewBoundry.top - newBoundry.top
+          left: viewBoundry.left - newBoundry.left
 
     @contentItemViewsArray.push(view)
     @$el.append(view.el)

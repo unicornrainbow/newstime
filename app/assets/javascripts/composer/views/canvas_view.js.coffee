@@ -23,8 +23,8 @@ class @Newstime.CanvasView extends @Newstime.View
     @groupSelector       = '[data-group-id]'
     @pageSelector        = '[data-page-id]'
 
-    groupEls           = @$(@groupSelector).detach()
     contentItemEls     = @$(@contentItemSelector).detach()
+    groupEls           = @$(@groupSelector).detach()
     pageEls            = @$(@pageSelector).detach()
 
     @$pages = @$('[pages]') # Pages container
@@ -90,10 +90,35 @@ class @Newstime.CanvasView extends @Newstime.View
           model: group
           el: el
 
-        #@listenTo groupView, 'activate', @selectContentItem
-        #@listenTo groupView, 'deactivate', @selectionDeactivated
-        #@listenTo groupView, 'tracking', @resizeSelection
-        #@listenTo groupView, 'tracking-release', @resizeSelectionRelease
+        groupContentItems = group.getContentItems()
+
+        # Place them in z-index order.
+        groupContentItems = groupContentItems.sort (a, b) ->
+          b.get('z-index') - a.get('z-index') # Reverese order on z-index (Highest towards top)
+
+        # Add grouped content items to group
+        _.each groupContentItems, (contentItem) ->
+
+          # Construct and add in each content item.
+          id = contentItem.get('_id')
+          el = contentItemEls.filter("[data-content-item-id='#{id}")
+
+          contentItemType = contentItem.get('_type')
+
+          ## What is the content items type?
+          contentItemViewType =
+            switch contentItemType
+              when 'HeadlineContentItem' then Newstime.HeadlineView
+              when 'TextAreaContentItem' then Newstime.TextAreaView
+              when 'PhotoContentItem' then Newstime.PhotoView
+              when 'VideoContentItem' then Newstime.VideoView
+
+          contentItemView = new contentItemViewType
+            model: contentItem
+            el: el
+
+          groupView.addCanvasItem(contentItemView, reattach: true)
+
 
         #@listenTo group, 'destroy', (group) ->
           #@groupViews[group.cid] = null
