@@ -10,6 +10,12 @@ class Page
   field      :pixel_height, type: Integer
   field      :section_id,   type: BSON::ObjectId
 
+  # Fields for capturing page boundries
+  field :top, type: Integer
+  field :left, type: Integer
+  field :bottom, type: Integer # Bottom boudry, relative to top zero
+  field :right, type: Integer  # Right boundry, relative to left zero
+
   def section
     section_id && edition.sections.find(section_id)
   end
@@ -21,6 +27,10 @@ class Page
 
   def content_items
     edition.content_items.where(page_id: id)
+  end
+
+  def groups
+    edition.groups.where(page_id: id)
   end
 
   def pixel_height

@@ -39,9 +39,8 @@ class @Newstime.SelectionLayerView extends Backbone.View
       @currentSelectionView.render()
 
 
-  setSelection: (selection, view) ->
-    @currentSelection = selection
-    @currentSelectionView = view
+  setSelection: (selectionView) ->
+    @currentSelectionView = selectionView
 
     @$el.empty()
     @$el.append @currentSelectionView.el

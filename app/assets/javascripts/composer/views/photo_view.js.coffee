@@ -1,34 +1,17 @@
-#= require ./canvas_item_view
+#= require ./content_item_view
 
-class @Newstime.PhotoView extends Newstime.CanvasItemView
+class @Newstime.PhotoView extends Newstime.ContentItemView
 
-  initialize: (options) ->
-    super
-    @$el.addClass 'photo-view'
+  contentItemClassName: 'photo-view'
 
-    @propertiesView = new Newstime.PhotoPropertiesView(target: this, model: @model).render()
-
-
-    @bind 'paste', @paste
-
+  initializeContentItem: ->
     @listenTo @model, 'change:photo_id', @photoChanged
-
     @render()
 
-  setElement: (el) ->
-    super
-    @$el.addClass 'photo-view'
+  @getter 'uiLabel', -> "Photo"
 
   photoChanged: ->
     @$el.css "background-image": "url('#{@model.get('edition_relative_url_path')}')"
-
-  createImage: (source) ->
-   pastedImage = new Image()
-   pastedImage.onload = ->
-     $("body").append(this)
-     console.log this.src
-     #$(this).appendTo(document)
-   pastedImage.src = source
 
   paste: (e) =>
     # Note: Code derived http://joelb.me/blog/2011/code-snippet-accessing-clipboard-images-with-javascript/
@@ -68,3 +51,10 @@ class @Newstime.PhotoView extends Newstime.CanvasItemView
 
         #error: (jqXHR, textStatus, errorThrown) ->
           #console.log('ERRORS: ' + textStatus)
+          #
+
+  _createPropertiesView: ->
+    new Newstime.PhotoPropertiesView(target: this, model: @model).render()
+
+  _createModel: ->
+    @edition.contentItems.add({_type: 'PhotoContentItem'})

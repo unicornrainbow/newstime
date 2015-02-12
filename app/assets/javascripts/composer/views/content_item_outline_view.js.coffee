@@ -1,11 +1,12 @@
 class @Newstime.ContentItemOutlineView extends Backbone.View
 
   initialize: (options) ->
-    @composer = options.composer
     @$el.addClass 'content-item-outline-view'
 
-    @pageOffsetLeft = options.pageOffsetLeft
-    @pageOffsetTop  = options.pageOffsetTop
+    @composer = Newstime.composer
+
+    @pageOffsetLeft = options.pageOffsetLeft || 0
+    @pageOffsetTop  = options.pageOffsetTop || 0
 
     @$el.css
       top: @model.get('top') + @pageOffsetTop

@@ -1,10 +1,13 @@
-#= require ./canvas_item_view
+#= require ./content_item_view
 
-class @Newstime.TextAreaView extends Newstime.CanvasItemView
+class @Newstime.TextAreaView extends Newstime.ContentItemView
 
-  initialize: (options) ->
-    super
-    @$el.addClass 'text-area-view'
+  contentItemClassName: 'text-area-view'
+
+  @getter 'uiLabel', ->
+    "Text"
+
+  initializeContentItem: ->
 
     @lineHeight = parseInt(Newstime.config.storyTextLineHeight)
 
@@ -15,9 +18,8 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
     @listenTo @model, 'change:text', @reflow
     @listenTo @model, 'change:rendered_html', @clearNeedsReflow
 
-    @propertiesView = new Newstime.TextAreaPropertiesView(target: this, model: @model)
-
     @render()
+
 
   setElement: (el) ->
     super
@@ -91,9 +93,15 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
       height: height
 
   dragBottomRight: (x, y) ->
+    @composer.clearVerticalSnapLines()
     geometry = @getGeometry()
-    width = @pageView.snapRight(x - geometry.left)
+    width = x - geometry.left
     y = @pageView.snapBottom(y)
+
+    snapRight = @pageView.snapRight(width)
+    if snapRight
+      @composer.drawVerticalSnapLine(snapRight + geometry.left)
+      width = snapRight
 
     height = y - geometry.top
     height = Math.floor(height / @lineHeight) * @lineHeight # Snap to Increments of line height
@@ -106,3 +114,9 @@ class @Newstime.TextAreaView extends Newstime.CanvasItemView
 
   clearNeedsReflow: ->
     @needsReflow = false
+
+  _createModel: ->
+    @edition.contentItems.add({_type: 'TextAreaContentItem'})
+
+  _createPropertiesView: ->
+    new Newstime.TextAreaPropertiesView(target: this, model: @model)

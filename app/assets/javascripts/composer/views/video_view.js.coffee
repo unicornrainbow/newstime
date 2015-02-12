@@ -1,6 +1,6 @@
-#= require ./canvas_item_view
+#= require ./content_item_view
 
-class @Newstime.VideoView extends @Newstime.CanvasItemView
+class @Newstime.VideoView extends @Newstime.ContentItemView
 
   initialize: (options) ->
     super

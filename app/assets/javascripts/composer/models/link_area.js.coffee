@@ -6,11 +6,11 @@ class @Newstime.LinkArea
     @topOffset = options.topOffset || 0
     @composer = options.composer
 
-    @bind 'mousedown' , @mousedown
-    @bind 'mouseover' , @mouseover
-    @bind 'mouseout'  , @mouseout
+    @bind
+      mousedown: @mousedown
+      mouseover: @mouseover
+      mouseout:  @mouseout
 
-    @measure()
 
   # Detects a hit of the selection
   hit: (x, y) ->
@@ -22,15 +22,18 @@ class @Newstime.LinkArea
     window.location = @$link.attr('href')
 
   mouseover: (e) ->
+    @$link.addClass 'hover'
     @composer.pushCursor('pointer')
 
   mouseout: (e) ->
+    @$link.removeClass 'hover'
     @composer.popCursor()
 
-  measure: ->
+  measure: (canvasPosition) ->
     # Get area
     @position = @$link.offset()
     @top = @position.top - @topOffset
-    @left = @position.left
+    @left = @position.left - canvasPosition.left
     @width = @$link.width()
     @height = @$link.height()
+    @trigger 'change'

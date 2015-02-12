@@ -1,6 +1,7 @@
 # ## Libraries
 #= require lib/zepto
 #= require lib/underscore
+#= require lib/underscore_extensions
 #= require lib/backbone
 #= require lib/backbone-relational
 #= require lib/backbone.authtokenadapter
@@ -9,9 +10,13 @@
 #
 # ## App
 #= require newstime_util
+#= require_tree ./composer/lib
+#= require_tree ./composer/mixins
+#= require ./composer/views/view
 #= require_tree ./composer/plugins
 #= require_tree ./composer/models
 #= require_tree ./composer/views
+#= require_tree ./composer/collections
 #= require_tree ./composer/functions
 
 @Newstime = @Newstime or {}
@@ -19,13 +24,19 @@
 class @Newstime.Composer extends Backbone.View
 
   initialize: (options) ->
+    # No dups
+    throw "Composer instance already created." if Newstime.composer
+
+    # Create a global reference to this instance.
+    Newstime.composer = this
+
     @edition = options.edition
     @section = options.section
 
     @editionContentItems = @edition.get('content_items')
 
     # Create application vent for aggregating events.
-    @vent = _.extend({}, Backbone.Events)
+    @vent = _.clone(Backbone.Events)
 
     @captureAuthenticityToken()
 
@@ -39,7 +50,15 @@ class @Newstime.Composer extends Backbone.View
     @topOffset = 0 # 61 # px
     @menuHeight = 25
 
+    @snapTolerance = 20 # This needs to be extracted to a configuration
+    @snapEnabled = true
+
     @contentItemViews = {}
+    @groupViews = {}
+    @pageViews = {}
+
+    @groupViewCollection   = new Newstime.GroupViewCollection()
+    @outlineViewCollection = new Newstime.OutlineViewCollection()
 
     @toolbox = new Newstime.Toolbox
 
@@ -67,13 +86,14 @@ class @Newstime.Composer extends Backbone.View
       composer: this
     @$body.append(@outlineLayerView.el)
 
-    @canvasLayerView = new Newstime.CanvasLayerView
+    @canvasLayerView = @canvas = new Newstime.CanvasView
       el: @canvas
-      composer: this
       topOffset: @topOffset + @menuHeight
       edition: @edition
       toolbox: @toolbox
       contentItemViews: @contentItemViews
+      groupViews: @groupViews
+      pageViews: @pageViews
     @$body.append(@canvasLayerView.el)
 
     @hasFocus = true # By default, composer has focus
@@ -102,6 +122,9 @@ class @Newstime.Composer extends Backbone.View
     @panelLayerView.attachPanel(@propertiesPanelView)
     @propertiesPanelView.show()
 
+    @pagesPanelView = new Newstime.PagesPanelView
+    @pagesPanelView.setPosition(250, 20)
+    @panelLayerView.attachPanel(@pagesPanelView)
 
     @cursorStack = []
     @focusStack = []
@@ -200,8 +223,22 @@ class @Newstime.Composer extends Backbone.View
       switch e.keyCode
         when 83 # s
           if e.ctrlKey || e.altKey # ctrl+s
-            @edition.save() # Save edition
-            @statusIndicator.showMessage "Saving"
+            @save()
+
+  save: ->
+    @statusIndicator.showMessage "Saving"
+
+    # Find unsaved group
+    newGroup = @edition.get('groups').find (g) -> g.isNew()
+
+    if newGroup
+      # Save the group, and call us back on success
+      newGroup.save {},
+        success: (model) =>
+          @save()
+    else
+      @edition.save()
+
 
   paste: (e) =>
     if @focusedObject
@@ -275,13 +312,13 @@ class @Newstime.Composer extends Backbone.View
     @mouseX = e.x
     @mouseY = e.y
 
-    # Compistae for top offset to allow room for menu
-
+    # Compensate for top offset to allow room for menu
     e =
       x: @mouseX
       y: @mouseY
       shiftKey: e.shiftKey
 
+    # If tracking layer, pass event there and return.
     if @trackingLayer
       @trackingLayer.trigger 'mousemove', e
       return true
@@ -506,54 +543,104 @@ class @Newstime.Composer extends Backbone.View
     @section.addPage (page) =>
       @canvasLayerView.addPage(page)
 
-  select: (contentItem) ->
+  # Receives a collection of models to group
+  createGroup: (items) ->
+    group = new Newstime.Group()
+    group.addItems(items)
+    return group
+
+    #page_id = _.first(models).get('page_id') # HACK: Assign group to page for first item for now.
+    #group = @edition.get('groups').create { page_id: page_id },
+      #success: (group) ->
+        #_.each models, (model) ->
+          #model.set(group_id: group.get('_id'))
+
+        #success(group) if success
+
+  getView: (model) =>
+    if model instanceof Newstime.ContentItem
+      @contentItemViews[model.cid]
+    else if model instanceof Newstime.Group
+      @groupViews[model.cid]
+    else if model instanceof Newstime.Page
+      @pageViews[model.cid]
+
+  select: (contentItemViews...) ->
+    contentItemView = _.first(contentItemViews)
+
     @clearSelection()
 
-    contentItemCID = contentItem.cid
-    contentItemView = @contentItemViews[contentItemCID]
-
-    selection = new Newstime.ContentItemSelection
-      contentItem: contentItem
+    @selection = @activeSelectionView = new Newstime.SelectionView
       contentItemView: contentItemView
 
-    @activeSelection = selection
+    @activeSelectionView.render()
 
-    @updatePropertiesPanel(@activeSelection)
-
-    @activeSelectionView = new Newstime.SelectionView
-      composer: this
-      selection: selection
+    @updatePropertiesPanel(@activeSelectionView)
 
     contentItemView.select(@activeSelectionView)
 
-    @selectionLayerView.setSelection(selection, @activeSelectionView)
+    @selectionLayerView.setSelection(@activeSelectionView)
     @focusedObject = @activeSelectionView  # Set focus to selection to send keyboard events.
 
-    @activeSelectionView.bind 'tracking', @canvasLayerView.resizeSelection, @canvasLayerView
-    @activeSelectionView.bind 'tracking-release', @canvasLayerView.resizeSelectionRelease, @canvasLayerView
-    @activeSelectionView.bind 'destroy', @clearSelection, this
+    @canvasLayerView.listenTo @activeSelectionView, 'tracking', @canvasLayerView.resizeSelection
+    @canvasLayerView.listenTo @activeSelectionView, 'tracking-release', @canvasLayerView.resizeSelectionRelease
+    @listenTo @activeSelectionView, 'destroy', @clearSelection
+
+    rest = _.rest(contentItemViews)
+
+    if rest.length > 0
+      @addToSelection.apply this, rest
+    else
+      @pagesPanelView.render()
 
 
   # Adds model to a selection.
-  addToSelection: (model) ->
-    # Ensure we have a multiselection as active selection, otherwise replace.
-    #
-    # Add new model to the multi selection
-    #
-    # TODO: Implement
+  addToSelection: (contentItemViews...) ->
+    # Just do normal selection if nothing is selected.
+    unless @activeSelectionView
+      @select.apply this, arguments
+      return
+
+    # Convert ContentItem selection to multiselection
+    if @activeSelectionView instanceof Newstime.SelectionView
+      contentItemView = @activeSelectionView.contentItemView
+
+      @clearSelection()
+
+      multiSelectionView = new Newstime.MultiSelectionView()
+      multiSelectionView.addView(contentItemView)
+      contentItemView.select(multiSelectionView)
+
+      @selection = @activeSelectionView = multiSelectionView
+
+      @activeSelectionView.render()
+
+      @selectionLayerView.setSelection(@activeSelectionView)
+
+      @updatePropertiesPanel(@activeSelectionView)
+      @focusedObject = @activeSelectionView  # Set focus to selection to send keyboard events.
+
+      @canvasLayerView.listenTo @activeSelectionView, 'tracking', @canvasLayerView.resizeSelection
+      @canvasLayerView.listenTo @activeSelectionView, 'tracking-release', @canvasLayerView.resizeSelectionRelease
+      @listenTo @activeSelectionView, 'destroy', @clearSelection
+
+    _.each contentItemViews, (view) =>
+      @activeSelectionView.addView(view)
+      view.select(@activeSelectionView)
+
+    @pagesPanelView.render()
 
   # Removes model from selection.
   removeFromSelection: (model) ->
     # TODO: Implement.
 
-
   clearSelection: ->
-    if @activeSelection?
-      @activeSelection.destroy()
-      @activeSelectionView.destroy()
+    if @activeSelectionView?
+      @activeSelectionView.remove()
       @propertiesPanelView.clear()
-      @activeSelection = null
       @activeSelectionView = null
+      @selection = null
+    @pagesPanelView.render()
 
   updatePropertiesPanel: (target) ->
     propertiesView = target.getPropertiesView()
@@ -561,6 +648,101 @@ class @Newstime.Composer extends Backbone.View
 
   togglePanelLayer: ->
     @panelLayerView.toggle()
+
+  # Returns array of pages which intersect with the bounding box.
+  getIntersectingPages: (top, left, bottom, right) ->
+    # Get all pages from section
+    pages = @section.getPages()
+
+    # Return where pages collide.
+    _.filter pages, (page) ->
+      page.collide(top, left, bottom, right)
+
+
+  enableSnap: ->
+    @snapEnabled = true
+    @trigger 'config:snap:enabled'
+
+  disabledSnap: ->
+    @snapEnabled = false
+    @trigger 'config:snap:disabled'
+
+
+  moveItem: (target, left, top, orginalLeft, orginalTop, shiftKey=false) ->
+    @clearVerticalSnapLines()
+
+    # TODO: Move guidelines to their own layer (Fixed position, but which
+    # handles zooming)
+
+    bounds = target.getBounds()
+    width = bounds.right - bounds.left
+    right = left + width
+
+    if shiftKey
+      # In which direction has the greatest movement.
+      lockPlain = if Math.abs(left - orginalLeft) > Math.abs(top - orginalTop) then 'x' else 'y'
+
+    # TODO: Need a better direction lock algorythm.
+    switch lockPlain
+      when 'x'
+        # Move only in x direction
+        target.setSizeAndPosition
+          left: left
+          top: orginalTop
+      when 'y'
+        # Move only in y direction
+        target.setSizeAndPosition
+          left: orginalLeft
+          top: top
+      else
+
+        # Compute snaps against left and right for each intersecting page, and
+        # take closest snap within tolerence.
+
+        # Which pages are we intersecting?
+        pages = @getIntersectingPages(top, left, bounds.bottom, bounds.right)
+
+        # 1 Get all of the left snap points, and right snap points for each of the
+        # intersecting pages.
+        leftSnapPoints = _.map pages, (page) =>
+          @pageViews[page.cid].getLeftSnapPoints() # Should we know snap points at the model level? Would be useful in this calulation
+        rightSnapPoints = _.map pages, (page) =>
+          @pageViews[page.cid].getRightSnapPoints()
+
+        leftSnapPoints  = _.union(leftSnapPoints)
+        rightSnapPoints = _.union(rightSnapPoints)
+
+        leftSnapPoints = _.flatten(leftSnapPoints)
+        rightSnapPoints = _.flatten(rightSnapPoints)
+
+        leftSnap = Newstime.closest(left, leftSnapPoints)
+        rightSnap = Newstime.closest(right, rightSnapPoints)
+
+        leftSnapDelta = Math.abs(leftSnap - left)
+        rightSnapDelta = Math.abs(rightSnap - right)
+
+        if leftSnapDelta < rightSnapDelta
+          if leftSnapDelta <= @snapTolerance
+            # Snap to left
+            left = leftSnap
+        else
+          if rightSnapDelta <= @snapTolerance
+            # Snap to right
+            left = rightSnap - width
+
+        # Highlight snap lines
+        if _.contains(leftSnapPoints, left)
+          @drawVerticalSnapLine(left)
+
+        right = left + width
+        if _.contains(rightSnapPoints, right)
+          @drawVerticalSnapLine(right)
+
+        target.setSizeAndPosition # TODO: See if we can go direct to model
+          left: left
+          top: top
+
+
 
   # Sets toolbox tool
   #
@@ -577,6 +759,27 @@ class @Newstime.Composer extends Backbone.View
   clearVerticalSnapLines: ->
     @outlineLayerView.clearVerticalSnapLines()
 
+  # Ensure item is on correct page, otherwise reassigns page
+  assignPage: (canvasItem) ->
+    y = canvasItem.top
+
+    # Get section pages
+    sectionPages = @section.getPages()
+
+    # Page must have an offset less than or equal to the y position of the page
+    # to be a match foe the page it appears on. Pages are stacked consecutive,
+    # so we are looking for the highest offset, selected in next step.
+    pages = _.filter sectionPages, (page) ->
+      page.top <= y
+
+    # Take the page with the highest offet out of qualifying pages
+    page = _.max pages, (page) -> page.top
+
+    if canvasItem.getPage() != page
+      canvasItem.setPage(page)
+
+
+
 $ ->
   # Get the edition, mostly for development purposes right now.
   #edition_id = document.URL.match(/editions\/(\w*)/)[1] # Hack to get edition id from url string
@@ -588,7 +791,7 @@ $ ->
   # Global reference to current section model
   window.section =  edition.get('sections').findWhere(_id: composer.sectionID)
 
-  Newstime.composer = new Newstime.Composer(edition: edition, section: section)
+  new Newstime.Composer(edition: edition, section: section)
 
   # Delay render by 200 millisecond. This is mostly because of time needed for
   # fonts to load in order to measure. Need to properly handle events in the

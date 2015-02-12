@@ -1,39 +1,26 @@
-#= require ./canvas_item_view
+#= require ./content_item_view
+class @Newstime.HeadlineView extends Newstime.ContentItemView
 
-class @Newstime.HeadlineView extends Newstime.CanvasItemView
+  contentItemClassName: 'headline-view'
 
-  initialize: (options) ->
-    super
-    @composer = options.composer
-
-    @$el.addClass 'headline-view'
-
+  initializeContentItem: ->
     @placeholder = "Type Headline" # Text to show when there is no headline
     @fontWeights = Newstime.config.headlineFontWeights
 
-    ## Bind View Events
-    @bind 'dblclick',  @dblclick
-
-    @propertiesView = new Newstime.HeadlineProperties2View(target: this, model: @model)
+    @listenTo @model, 'change:height change:width change:text change:font_weight change:font_style change:font_family', @fitToBorderBox
 
     @render()
 
-  setElement: (el) ->
-    super
-    @$el.addClass 'headline-view'
-
   render: ->
-    @$el.css
-      top: @model.get('top') + @pageOffsetTop
-      left: @model.get('left') + @pageOffsetLeft
+    @$el.css _.pick @model.attributes, 'top', 'left', 'z-index'
 
-    @$el.css _.pick @model.attributes, 'margin-top', 'margin-right', 'margin-bottom', 'margin-left'
+    @renderMargins()
     @$el.css 'font-family': @model.get('font_family')
     @$el.css 'font-size': @model.get('font_size')
     @$el.css 'font-style': @model.get('font_style')
     @$el.css 'font-weight': @model.get('font_weight')
 
-    @$el.css _.pick @model.changedAttributes(),
+    #@$el.css _.pick @model.changedAttributes()
     if !!@model.get('text')
       spanWrapped = _.map @model.get('text'), (char) ->
         if char == '\n'
@@ -46,6 +33,15 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
       @$el.text(@placeholder)
       @$el.addClass 'placeholder'
 
+  @getter 'uiLabel', ->
+    if @model.get('text')
+      "Headline: #{@model.get('text')}"
+    else
+      "Headline"
+
+  renderMargins: ->
+    @$el.css _.pick @model.attributes, 'margin-top', 'margin-right', 'margin-bottom', 'margin-left'
+
   deselect: ->
     @clearEditMode()
     super()
@@ -57,11 +53,11 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
           e.stopPropagation()
           e.preventDefault()
           @model.backspace()
-          @fitToBorderBox()
         when 27 # ESC
           e.stopPropagation()
           e.preventDefault()
           @clearEditMode()
+          @composer.vent.trigger('pages-panel:render')
         when 37 # left arrow
           @moveCursorLeft()
           e.stopPropagation()
@@ -77,9 +73,6 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
               e.stopPropagation()
               e.preventDefault()
               @model.typeCharacter(char)
-
-          @fitToBorderBox()
-
     else
       switch e.keyCode
         when 13 # Enter
@@ -175,6 +168,9 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
 
   # Fits headline to vertical width, vertical margins.
   fit: ->
+    # Collect attached items from page that should be move if height is changed.
+    attachedItems = @pageView.getAttachedItems(@model)
+
     headlineHeight = @$el.height()
     height = @model.get('height')
 
@@ -185,7 +181,7 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
 
     if headlineHeight < height
       @model.set
-        height: headlineHeight
+        'height': headlineHeight
         'margin-top': 0
         'margin-bottom': 0
     else
@@ -207,40 +203,18 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
         'margin-right': 0
         'margin-top': 0
         'margin-bottom': 0
-        'height': headlineHeight
+
+      headlineHeight = @$el.height()
+      @model.set
+        height: headlineHeight
 
 
-  dragTop: (x, y) ->
-    super
-    @fitToBorderBox()
+    # Update attached items location.
+    #delta = headlineHeight - height
+    _.each attachedItems, ([contentItem, offset]) =>
+      contentItem.set
+        top: @model.get('top') + @model.get('height') + offset.offsetTop
 
-  dragRight: (x, y) ->
-    super
-    @fitToBorderBox()
-
-  dragBottom: (x, y) ->
-    super
-    @fitToBorderBox()
-
-  dragLeft: (x, y) ->
-    super
-    @fitToBorderBox()
-
-  dragTopLeft: (x, y) ->
-    super
-    @fitToBorderBox()
-
-  dragTopRight: (x, y) ->
-    super
-    @fitToBorderBox()
-
-  dragBottomLeft: (x, y) ->
-    super
-    @fitToBorderBox()
-
-  dragBottomRight: (x, y) ->
-    super
-    @fitToBorderBox()
 
   fitToBorderBox: ->
     # Get the width and height of the headline element.
@@ -267,7 +241,9 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
 
     fontSize = Math.round(fontSize)
     fontSize = Math.max(fontSize, 1) # 1px min font size.
-    @model.set('font_size', fontSize + 'px')
+    @model.set('font_size', fontSize + 'px', silent: true)
+    @$el.css 'font-size': @model.get('font_size')
+
 
     # Compute and set margins
     headlineWidth  = @$el.width()
@@ -282,12 +258,18 @@ class @Newstime.HeadlineView extends Newstime.CanvasItemView
     verticalMargin = (height - headlineHeight)/2 + 'px'
     horizontalMargin = (width - headlineWidth)/2 + 'px'
 
-    @model.set
+    margins =
       'margin-top': verticalMargin
       'margin-right': horizontalMargin
       'margin-bottom': verticalMargin
       'margin-left': horizontalMargin
 
-  setSizeAndPosition: (attributes) ->
-    super
-    @fitToBorderBox()
+    @model.set(margins, silent: true)
+    @renderMargins()
+
+  _createModel: ->
+    # Creates a new model and returns a reference. Used by base class.
+    @edition.contentItems.add({_type: 'HeadlineContentItem'})
+
+  _createPropertiesView: ->
+    new Newstime.HeadlineProperties2View(target: this, model: @model)

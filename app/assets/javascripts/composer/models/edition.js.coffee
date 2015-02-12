@@ -34,7 +34,28 @@ class @Newstime.Edition extends Backbone.RelationalModel
       key: 'edition'
       includeInJSON: '_id'
     }
+  }
+  {
+    type: Backbone.HasMany
+    key: 'groups'
+    relatedModel: 'Newstime.Group'
+    collectionType: 'Newstime.GroupCollection'
+    keySource: 'groups_attributes'
+    reverseRelation: {
+      key: 'edition'
+      includeInJSON: '_id'
+    }
   }]
+
+  Object.defineProperties @prototype,
+    contentItems:
+      get: -> @get('content_items')
+    sections:
+      get: -> @get('sections')
+    pages:
+      get: -> @get('pages')
+    groups:
+      get: -> @get('groups')
 
   initialize: (attributes, options) ->
     # Bind to change on collections for dirty tracking

@@ -83,12 +83,10 @@ class PagesController < ApplicationController
   end
 
   def update
-    @page = Page.find(params[:id])
-    if @page.update_attributes(page_params)
-      redirect_to @page, notice: "Page updated successfully."
-    else
-      render "edit"
-    end
+    @edition = Edition.find(params[:edition_id])
+    @page = @edition.pages.find(params[:id])
+    @page.update_attributes(page_params)
+    respond_with [:edition, @page]
   end
 
   def preview

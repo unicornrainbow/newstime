@@ -20,6 +20,7 @@ class ContentItem
   field    :_type,          type: String
   field    :sequence,       type: Integer
   field    :page_id,        type: BSON::ObjectId
+  field    :group_id,       type: BSON::ObjectId
   field    :top,            type: Integer
   field    :left,           type: Integer
   field    :width,          type: Integer
@@ -34,8 +35,30 @@ class ContentItem
     self.page_id = @page.id
   end
 
+  def group
+    @group ||= group_id && edition.groups.find(group_id)
+  end
+
+  def group=(value)
+    @group, self.group_id = value, value.id
+  end
+
   def section
     @section ||= page.section
+  end
+
+  # Top, relative to page (Underlying value is relative to canvas)
+  def parent_relative_top
+    top - (parent.try(:top) || 0)
+  end
+
+  # Left, relative to page (Underlying value is relative to canvas)
+  def parent_relative_left
+    left - (parent.try(:left) || 0)
+  end
+
+  def parent
+    group || page
   end
 
 end

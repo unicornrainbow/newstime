@@ -57,13 +57,32 @@ module EditionsHelper
     content << javascript_include_tag("composer") + "\n"
   end
 
+
+  def underscore_key(key)
+    key.to_s.underscore.to_sym
+  end
+
+  #def convert_hash_keys(hash)
+    #Hash[hash.map { |k, v| [underscore_key(k), v] }]
+  #end
+
+  #def slice(object, *keys)
+    #Hash[keys.map { |key|  [key, object.send(key)] }]
+  #end
+
   def render_content_item(content_item, options={})
     content = ""
 
+    options = {}
+    options[:id]     = content_item.id
+    options[:top]    = content_item.top
+    options[:left]   = content_item.left
+    options[:width]  = content_item.width
+    options[:height] = content_item.height
+
     content << case content_item
     when HeadlineContentItem then
-      options = {}
-      options[:id]     = content_item.id
+      options[:style] = content_item.style
 
       options[:text] = if content_item.text
         text = content_item.text.dup
@@ -72,35 +91,20 @@ module EditionsHelper
         ''
       end
 
-      options[:style]  = content_item.style
-      options[:width]  = content_item.width
-      options[:height] = content_item.height
-      options[:top]    = content_item.top
-      options[:left]   = content_item.left
-
       render "content/headline", options
     when StoryTextContentItem then
       render "content/story", id: content_item.id, anchor: content_item.id, rendered_html: content_item.rendered_html
     when TextAreaContentItem then
-      options = {}
-      options[:id]     = content_item.id
-      options[:text]   = content_item.text
-      options[:width]  = content_item.width
-      options[:height] = content_item.height
-      options[:top]    = content_item.top
-      options[:left]   = content_item.left
-      options[:anchor]  =  content_item.id
+      options[:text] = content_item.text
+      options[:anchor] = content_item.anchor
       options[:rendered_html] = content_item.rendered_html
+
       render "content/text_area", options
     when PhotoContentItem then
-      options = {}
-      options[:id]            = content_item.id
       options[:photo_url]     = content_item.edition_relative_url_path
       options[:photo_width]   = content_item.width
       #options[:photo_height]  = content_region.width / content_item.photo.aspect_ratio
       options[:photo_height]  = content_item.height
-      options[:top]  = content_item.top
-      options[:left]  = content_item.left
       options[:caption]  = content_item.caption
       options[:show_caption]  = content_item.show_caption
       render "content/photo", options
@@ -109,8 +113,6 @@ module EditionsHelper
       options[:id]                = content_item.id
       options[:video_url]         = content_item.video_url
       options[:video_thumbnail]   = content_item.cover_image_url
-      options[:top]  = content_item.top
-      options[:left]  = content_item.left
 
       render "content/video", options
     when HorizontalRuleContentItem then
@@ -122,10 +124,6 @@ module EditionsHelper
     when BoxContentItem then
       options = {}
       options[:id]     = content_item.id
-      options[:width]  = content_item.width
-      options[:height] = content_item.height
-      options[:top]    = content_item.top
-      options[:left]   = content_item.left
 
       render "content/box", options
     end
