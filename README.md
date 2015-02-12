@@ -1,20 +1,16 @@
-![NEWSTIME](https://raw.githubusercontent.com/blakefrost/newstime/master/screenshots/2014/02/01/12-10-39.png)
+![NEWSTIME](https://raw.githubusercontent.com/blakefrost/newstime/master/screenshots/2014/02/01/composer.png)
 
-The product of this work is free. All Rights to its use are vested in the people
-of the world.
+A free and versatile press system for compiled digital newspapers.
 
-Use it well, and spread the love. ♡
+This is free software, all rights to its use are vested in you, and you may use
+it in anyway that you would like.
 
-I am the author, but I am not the creator. I owe so much to those who inspired
-and provided, so I can claim no ownership of any kind. Use it as you would the
-air you breath. To work on this code has been a gift, and as sure as the sun
-shines, it is with love that this is given to you.
+May it be a benefit, and serve you well. Keep spreading the love. ♡
 
-Blake S. Taylor
+[Rashiki Grace](mailto:rashiki@yahoo.com)
 
-By birth, Jonathan Craig Dearborn Humphrey
 
-### Work in Progress
+### Coming Soon
 
-This is a project under construction. All outstanding and essential todo's are
-captured in the TODO file in this project. Anybody can contribute work.
+Many more features, bug fixes and documentation. Any questions or thoughts,
+please contact me.
