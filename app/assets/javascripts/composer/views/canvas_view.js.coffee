@@ -189,9 +189,12 @@ class @Newstime.CanvasView extends @Newstime.View
   findViewByCID: (cid) ->
     view = null
     _.find @pageViewsArray, (pageView) ->
-      _.find pageView.contentItemViewsArray, (itemView) ->
-        if itemView.cid == cid
-          view = itemView
+      if pageView.cid == cid
+        view = pageView
+      else
+        _.find pageView.contentItemViewsArray, (itemView) ->
+          if itemView.cid == cid
+            view = itemView
     view
 
   addCanvasItem: (view, options={}) ->

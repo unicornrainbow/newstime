@@ -18,7 +18,7 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
       <ol>
       <% _.each(pages, function (page) { %>
         <% if (page.options.collapsed != true) { %>
-          <li class="pages-panel-page" data-id="<%= page.cid %>"><%= page.name %></li>
+          <li class="pages-panel-page <%= page.selected ? "selected" : "" %>" data-id="<%= page.cid %>"><%= page.name %></li>
           <% if (page.items.length > 0) { %>
             <ol>
               <% _.each(page.items, function (item) { %>
@@ -47,10 +47,20 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
     #@listenTo @composer.canvas, 'render', @renderPanel
 
   clickPagesPanelPage: (e) ->
+    #$target = $(e.target)
+    #viewID = $target.data('id')
+    #@viewOptions[viewID] ?= {}
+    #@viewOptions[viewID].collapsed = !@viewOptions[viewID].collapsed
+    #@renderPanel()
+
     $target = $(e.target)
     viewID = $target.data('id')
-    @viewOptions[viewID] ?= {}
-    @viewOptions[viewID].collapsed = !@viewOptions[viewID].collapsed
+    view = @composer.canvas.findViewByCID(viewID)
+    if view instanceof Newstime.CanvasItemView
+      @composer.select(view)
+    else if view instanceof Newstime.PageView
+      @composer.selectPage(view)
+
     @renderPanel()
 
   clickPagesPanelItem: (e) =>
@@ -71,6 +81,7 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
       page.name = view.uiLabel
       page.cid = view.cid
       page.options = @viewOptions[view.cid] || {}
+      page.selected = view == @composer.selection
       page.items = _.map view.contentItemViewsArray, (itemView) ->
         item = {}
         item.name = itemView.uiLabel

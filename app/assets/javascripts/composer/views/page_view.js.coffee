@@ -22,6 +22,8 @@ class @Newstime.PageView extends @Newstime.View
     @$el.append(@contextMenu.el)
 
 
+    @propertiesView ?= @_createPropertiesView()
+
     #@gridLines = new Newstime.GridLines()
     #@$el.append(@gridLines.el)
 
@@ -35,6 +37,27 @@ class @Newstime.PageView extends @Newstime.View
     @bindUIEvents()
 
   @getter 'uiLabel', -> "Page #{@model.get('number')}"
+
+  keydown: (e) =>
+    switch e.keyCode
+      when 8 # del
+        if confirm "Are you sure you wish to delete this page?"
+          @delete()
+        e.stopPropagation()
+        e.preventDefault()
+
+  delete: ->
+    # Delete page contents
+    contentItems = @contentItemViewsArray.slice(0) # Clone array of items.
+    _.each contentItems, (canvasItem) =>
+      canvasItem.delete()
+    if @composer.selection == this
+      @composer.clearSelection()
+    @composer.deleteQueue.push @model
+    @remove()
+
+  getPropertiesView: ->
+    @propertiesView
 
   # Add content item to the top of the page.
   # TODO: Delete me - see add()
@@ -468,3 +491,6 @@ class @Newstime.PageView extends @Newstime.View
         }]
 
     attachedItems
+
+  _createPropertiesView: ->
+    new Newstime.PagePropertiesView(target: this, model: @model)

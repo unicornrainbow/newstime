@@ -551,8 +551,9 @@ class @Newstime.Composer extends Backbone.View
 
   # Adds a new page
   addPage: ->
-    @section.addPage (page) =>
-      @canvasLayerView.addPage(page)
+    console.log "Hello"
+    #@section.addPage (page) =>
+      #@canvasLayerView.addPage(page)
 
   # Receives a collection of models to group
   createGroup: (items) ->
@@ -575,6 +576,14 @@ class @Newstime.Composer extends Backbone.View
       @groupViews[model.cid]
     else if model instanceof Newstime.Page
       @pageViews[model.cid]
+
+  selectPage: (pageView) ->
+    @clearSelection()
+    @selection = pageView
+    @focusedObject = pageView
+    pageView.selected = true
+
+    @updatePropertiesPanel(@selection)
 
   select: (contentItemViews...) ->
     contentItemView = _.first(contentItemViews)
