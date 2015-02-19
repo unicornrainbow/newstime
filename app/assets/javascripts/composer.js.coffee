@@ -664,8 +664,8 @@ class @Newstime.Composer extends Backbone.View
     # TODO: Implement.
 
   clearSelection: ->
-    if @activeSelectionView?
-      @activeSelectionView.remove()
+    if @selection?
+      @activeSelectionView?.remove()
       @propertiesPanelView.clear()
       @activeSelectionView = null
       @selection = null

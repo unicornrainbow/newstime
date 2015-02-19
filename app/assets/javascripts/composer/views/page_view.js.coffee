@@ -48,16 +48,21 @@ class @Newstime.PageView extends @Newstime.View
           @delete()
         e.stopPropagation()
         e.preventDefault()
+      when 27 # ESC
+        @deselect()
 
   delete: ->
     # Delete page contents
     contentItems = @contentItemViewsArray.slice(0) # Clone array of items.
     _.each contentItems, (canvasItem) =>
       canvasItem.delete()
-    if @composer.selection == this
-      @composer.clearSelection()
+    @deselect()
     @composer.deleteQueue.push @model
     @remove()
+
+  deselect: ->
+    if @composer.selection == this
+      @composer.clearSelection()
 
   getPropertiesView: ->
     @propertiesView
