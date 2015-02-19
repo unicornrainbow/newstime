@@ -57,6 +57,8 @@ class @Newstime.Composer extends Backbone.View
     @groupViews = {}
     @pageViews = {}
 
+    @deleteQueue = [] # Queue of models to be destoryed. Flushed with each save.
+
     @groupViewCollection   = new Newstime.GroupViewCollection()
     @outlineViewCollection = new Newstime.OutlineViewCollection()
 
@@ -228,17 +230,26 @@ class @Newstime.Composer extends Backbone.View
   save: ->
     @statusIndicator.showMessage "Saving"
 
-    # Find unsaved group
-    newGroup = @edition.get('groups').find (g) -> g.isNew()
-
-    if newGroup
-      # Save the group, and call us back on success
-      newGroup.save {},
-        success: (model) =>
+    # Flush delete queue
+    if @deleteQueue.length > 0
+      model = @deleteQueue.shift()
+      model.destroy
+        success: =>
+          @save()
+        error: =>
+          @deleteQueue.unshift(model)
           @save()
     else
-      @edition.save()
+      # Find unsaved group
+      newGroup = @edition.get('groups').find (g) -> g.isNew()
 
+      if newGroup
+        # Save the group, and call us back on success
+        newGroup.save {},
+          success: (model) =>
+            @save()
+      else
+        @edition.save()
 
   paste: (e) =>
     if @focusedObject

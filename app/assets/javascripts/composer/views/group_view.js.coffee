@@ -10,8 +10,6 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
   initializeCanvasItem: (options={}) ->
     @contentItemViewsArray = [] # Array of content items views in z-index order.
 
-    @listenTo @model, 'destroy', @remove
-
   @getter 'uiLabel', -> 'Group'
 
   measurePosition: ->
@@ -70,7 +68,9 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
     @deselect()
 
     @composer.select.apply(@composer, contentItems)
-    @model.destroy()
+
+    @composer.deleteQueue.push @model # Push model onto delete queue for destruction with next save.
+    @remove() # Remove view
 
   getGeometry: ->
     @model.pick('top', 'left', 'height', 'width')
