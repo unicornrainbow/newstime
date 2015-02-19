@@ -272,4 +272,4 @@ class @Newstime.HeadlineView extends Newstime.ContentItemView
     @edition.contentItems.add({_type: 'HeadlineContentItem'})
 
   _createPropertiesView: ->
-    new Newstime.HeadlineProperties2View(target: this, model: @model)
+    new Newstime.HeadlinePropertiesView(target: this, model: @model)
