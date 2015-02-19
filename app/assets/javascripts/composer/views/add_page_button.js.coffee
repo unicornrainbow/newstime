@@ -41,10 +41,12 @@ class @Newstime.AddPageButton extends Backbone.View
   mouseover: (e) ->
     @hovered = true
     @$button.addClass 'hovered'
+    @composer.pushCursor('pointer')
 
   mouseout: (e) ->
     @hovered = false
     @$button.removeClass 'hovered'
+    @composer.popCursor()
 
   mousedown: (e) ->
     return unless e.button == 0 # Only respond to left button mousedown.

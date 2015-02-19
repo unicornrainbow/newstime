@@ -57,8 +57,15 @@ class @Newstime.PageView extends @Newstime.View
     _.each contentItems, (canvasItem) =>
       canvasItem.delete()
     @deselect()
+
+    # Remove page from canvas
+    @composer.canvas.removePage(this)
+
     @composer.deleteQueue.push @model
     @remove()
+
+    @composer.pagesPanelView.renderPanel()
+
 
   deselect: ->
     if @composer.selection == this

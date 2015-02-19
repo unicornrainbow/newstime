@@ -211,6 +211,15 @@ class @Newstime.CanvasView extends @Newstime.View
     view.container = null
     @trigger 'change'
 
+  removePage: (pageView) ->
+    pageView.$el.detach()
+    index = @pageViewsArray.indexOf(pageView)
+    if index == -1
+      throw "Page view not found."
+    @pageViewsArray.splice(index, 1)
+    pageView.container = null
+    @trigger 'change'
+
   # Saves changes to canvas
   save: ->
     _.each @pageViewsArray, (pageView) ->
@@ -239,6 +248,7 @@ class @Newstime.CanvasView extends @Newstime.View
     # Remove from the content items view registry.
     delete @contentItemViews[contentItem.cid]
     delete @contentItemOutlineViews[contentItem.cid]
+
 
   extractHeadlinesViews: (el) ->
     els = $('[headline-control]', el).detach()
