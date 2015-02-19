@@ -8,6 +8,7 @@
 
 body {
   margin-top: 62px;
+  height: 0px; // Trick browser into shrinking body when the content is scaled
 }
 
 .btn-base {
