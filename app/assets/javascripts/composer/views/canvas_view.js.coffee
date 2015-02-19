@@ -195,11 +195,11 @@ class @Newstime.CanvasView extends @Newstime.View
         _.find pageView.contentItemViewsArray, (itemView) ->
           if itemView.cid == cid
             view = itemView
-          else
-            if itemView instanceof Newstime.GroupView
-              _.find itemView.contentItemViewsArray, (itemView) ->
-                if itemView.cid == cid
-                  view = itemView
+          #else
+            #if itemView instanceof Newstime.GroupView
+              #_.find itemView.contentItemViewsArray, (itemView) ->
+                #if itemView.cid == cid
+                  #view = itemView
 
     view
 

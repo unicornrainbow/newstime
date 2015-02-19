@@ -91,14 +91,14 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
         item.cid = itemView.cid
         item.selected = itemView.selected
 
-        if itemView instanceof Newstime.GroupView
-          item.group = true
-          item.items = _.map itemView.contentItemViewsArray, (groupedItemView) ->
-            _item = {}
-            _item.name = groupedItemView.uiLabel
-            _item.cid = groupedItemView.cid
-            _item.selected = groupedItemView.selected
-            _item
+        #if itemView instanceof Newstime.GroupView
+          #item.group = true
+          #item.items = _.map itemView.contentItemViewsArray, (groupedItemView) ->
+            #_item = {}
+            #_item.name = groupedItemView.uiLabel
+            #_item.cid = groupedItemView.cid
+            #_item.selected = groupedItemView.selected
+            #_item
         item
       page
 
