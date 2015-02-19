@@ -60,6 +60,7 @@ class @Newstime.Composer extends Backbone.View
     @deleteQueue = [] # Queue of models to be destoryed. Flushed with each save.
 
     @groupViewCollection   = new Newstime.GroupViewCollection()
+    @pageViewCollection   = new Newstime.PageViewCollection()
     @outlineViewCollection = new Newstime.OutlineViewCollection()
 
     @toolbox = new Newstime.Toolbox
@@ -551,9 +552,17 @@ class @Newstime.Composer extends Backbone.View
 
   # Adds a new page
   addPage: ->
-    console.log "Hello"
-    #@section.addPage (page) =>
-      #@canvasLayerView.addPage(page)
+    pageView = @pageViewCollection.add({})
+    pageView.model.set 'section_id', @section.id
+
+    pageView.model.getHTML (html) =>
+      el = $(html)[0]
+      @canvas.$pages.append(el)
+
+    @canvas.pages.push pageView
+    pageView.bind 'tracking', @tracking, @canvas
+    pageView.bind 'tracking-release', @trackingRelease, @canvas
+
 
   # Receives a collection of models to group
   createGroup: (items) ->

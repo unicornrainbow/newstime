@@ -3,8 +3,11 @@
 class @Newstime.PageView extends @Newstime.View
 
   initialize: (options) ->
+
     @composer = Newstime.composer
     @edition = @composer.edition
+
+    @model ?= @_createModel()
     @toolbox = options.toolbox
     @$el.addClass 'page-compose'
 
@@ -494,3 +497,6 @@ class @Newstime.PageView extends @Newstime.View
 
   _createPropertiesView: ->
     new Newstime.PagePropertiesView(target: this, model: @model)
+
+  _createModel: (attrs={}) ->
+    @edition.pages.add(attrs)
