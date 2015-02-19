@@ -62,6 +62,7 @@ class @Newstime.Edition extends Backbone.RelationalModel
     @get('sections').bind 'change', @change, this
     @get('pages').bind 'change', @change, this
     @get('content_items').bind 'change', @change, this
+    @get('groups').bind 'change', @change, this
 
     @bind 'sync', @clearIsDirty
 
