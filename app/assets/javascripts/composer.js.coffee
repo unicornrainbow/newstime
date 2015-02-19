@@ -584,6 +584,8 @@ class @Newstime.Composer extends Backbone.View
         pageView.setElement(el)
         pageView.render()
 
+        @canvas.positionCanvasItemsContainer()
+
 
 
   # Utility Method: Parses html in to dom element.

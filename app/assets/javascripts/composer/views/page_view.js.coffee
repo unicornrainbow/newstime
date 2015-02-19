@@ -64,6 +64,7 @@ class @Newstime.PageView extends @Newstime.View
     @composer.deleteQueue.push @model
     @remove()
 
+    @composer.canvas.positionCanvasItemsContainer()
     @composer.pagesPanelView.renderPanel()
 
 
