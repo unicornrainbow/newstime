@@ -124,6 +124,7 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
     @model.addItem(view.model)
 
   removeCanvasItem: (canvasItemView) ->
+
     index = @contentItemViewsArray.indexOf(canvasItemView)
 
     if index == -1
@@ -143,7 +144,8 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
 
     # Update z-indexs
     #@updateZindexs()
-    #
+
+    canvasItemView.model.unset('group_id')
 
   _setBoundry: (boundry)->
     current = @getBoundry()
