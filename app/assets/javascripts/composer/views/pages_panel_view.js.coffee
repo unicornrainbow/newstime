@@ -34,7 +34,7 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
             </ol>
           <% } %>
         <% } else { %>
-          <li class="pages-panel-page collasped" data-id="<%= page.cid %>"><%= page.name %></li>
+          <li class="pages-panel-page collasped <%= page.selected ? "selected" : "" %>" data-id="<%= page.cid %>"><%= page.name %></li>
         <% } %>
       <% }); %>
       </ol>
@@ -47,21 +47,24 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
     #@listenTo @composer.canvas, 'render', @renderPanel
 
   clickPagesPanelPage: (e) ->
-    #$target = $(e.target)
-    #viewID = $target.data('id')
-    #@viewOptions[viewID] ?= {}
-    #@viewOptions[viewID].collapsed = !@viewOptions[viewID].collapsed
-    #@renderPanel()
+    if e.offsetX < 30
+      # Less the 30 pixels in, toggle collaspe
+      $target = $(e.target)
+      viewID = $target.data('id')
+      @viewOptions[viewID] ?= {}
+      @viewOptions[viewID].collapsed = !@viewOptions[viewID].collapsed
+      @renderPanel()
+    else
+      # More then 30 pixel in, select page
+      $target = $(e.target)
+      viewID = $target.data('id')
+      view = @composer.canvas.findViewByCID(viewID)
+      if view instanceof Newstime.CanvasItemView
+        @composer.select(view)
+      else if view instanceof Newstime.PageView
+        @composer.selectPage(view)
 
-    $target = $(e.target)
-    viewID = $target.data('id')
-    view = @composer.canvas.findViewByCID(viewID)
-    if view instanceof Newstime.CanvasItemView
-      @composer.select(view)
-    else if view instanceof Newstime.PageView
-      @composer.selectPage(view)
-
-    @renderPanel()
+      @renderPanel()
 
   clickPagesPanelItem: (e) =>
     $target = $(e.target)
