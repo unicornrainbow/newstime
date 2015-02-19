@@ -24,6 +24,12 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
               <% _.each(page.items, function (item) { %>
                 <li class="pages-panel-item indent-level-1 <%= item.selected ? "selected" : "" %>"
                     data-id="<%= item.cid %>"><%= item.name %></li>
+                <% if (item.group) { %>
+                  <% _.each(item.items, function (groupedItem) { %>
+                    <li class="pages-panel-item indent-level-2 <%= groupedItem.selected ? "selected" : "" %>"
+                        data-id="<%= groupedItem.cid %>"><%= groupedItem.name %></li>
+                  <% }); %>
+                <% } %>
               <% }); %>
             </ol>
           <% } %>
@@ -70,6 +76,15 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
         item.name = itemView.uiLabel
         item.cid = itemView.cid
         item.selected = itemView.selected
+
+        if itemView instanceof Newstime.GroupView
+          item.group = true
+          item.items = _.map itemView.contentItemViewsArray, (groupedItemView) ->
+            _item = {}
+            _item.name = groupedItemView.uiLabel
+            _item.cid = groupedItemView.cid
+            _item.selected = groupedItemView.selected
+            _item
         item
       page
 
