@@ -34,7 +34,7 @@ class @Newstime.HeadlineProperties2View extends Backbone.View
         </span>
       </li>
       <li class="property">
-        <label>Size</label>
+        <label>Font Size</label>
         <span class="field">
           <input class="font-size"></input>
         </span>
