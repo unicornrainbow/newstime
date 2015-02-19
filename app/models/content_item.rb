@@ -25,6 +25,7 @@ class ContentItem
   field    :left,           type: Integer
   field    :width,          type: Integer
   field    :height,         type: Integer
+  field    :z_index,        type: Integer
 
   def page
     @page ||= page_id && edition.pages.find(page_id)

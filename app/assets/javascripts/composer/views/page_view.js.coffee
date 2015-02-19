@@ -69,7 +69,7 @@ class @Newstime.PageView extends @Newstime.View
     view.pageView = this
 
     # Set page z-index within page
-    view.model.set('z-index', @contentItemViewsArray.length-1)
+    view.model.set('z_index', @contentItemViewsArray.length-1)
 
     # Expand page bounding box if neccessary
     contentItemBoundry = view.getBoundry()
@@ -132,7 +132,7 @@ class @Newstime.PageView extends @Newstime.View
   updateZindexs: ->
     length = @contentItemViewsArray.length - 1
     _.each @contentItemViewsArray, (view, index) ->
-      view.model.set('z-index', length - index)
+      view.model.set('z_index', length - index)
 
     @composer.vent.trigger 'page:canvas-items-reorder', this
 

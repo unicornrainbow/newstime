@@ -11,6 +11,7 @@ class Group < ContentItem
   field    :left,           type: Integer
   field    :width,          type: Integer
   field    :height,         type: Integer
+  field    :z_index,        type: Integer
 
 
   def content_items
