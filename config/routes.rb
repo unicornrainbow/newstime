@@ -18,9 +18,10 @@ Press::Application.routes.draw do
     end
 
     member do
-      get :render_content_item, controller: :content_items
-      post :render_text_area, controller: :content_items
-      get :compose
+      get  :render_content_item, controller: :content_items
+      post :render_text_area,    controller: :content_items
+      get  :render_page,         controller: :pages
+      get  :compose
       asset_routes = lambda do
         get 'fonts/*path'       => :fonts
         get 'images/*path'      => :images

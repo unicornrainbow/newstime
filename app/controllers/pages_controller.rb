@@ -96,11 +96,33 @@ class PagesController < ApplicationController
   end
 
 
+  def render_page
+
+    @edition = Edition.find(params[:id])
+
+    @page = Page.new(page_params)
+
+    #@edition.content_items << @content_item
+    @page.edition = @edition # This is a work around to avoid actually creating the item. Better isolation should be provided in the future
+
+    @section = @page.section
+
+    if params[:format] == 'html'
+      @composing = params[:composing]
+      @layout_name   = @edition.layout_name
+      @layout_module = LayoutModule.new(@layout_name) # TODO: Rename to MediaModule
+    end
+
+    render 'show', layout: false
+
+  end
+
+
 private
 
   def page_params
     #params.require(:page).permit(:name, :section_id, :source, :layout_id)
-    params.fetch(:page, {}).permit(:name, :section_id, :source, :layout_id, :number)
+    params.fetch(:page, {}).permit(Page.attribute_names)
   end
 
 end

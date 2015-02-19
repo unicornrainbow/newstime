@@ -552,17 +552,45 @@ class @Newstime.Composer extends Backbone.View
 
   # Adds a new page
   addPage: ->
+    # Get next page number
+    number = @section.getNextPageNumber()
     pageView = @pageViewCollection.add({})
     pageView.model.set 'section_id', @section.id
+    pageView.model.set 'number', number
 
-    pageView.model.getHTML (html) =>
-      el = $(html)[0]
-      @canvas.$pages.append(el)
+    # TODO: Render offline page
+    #pageView.model.getHTML (html) =>
+      #el = $(html)[0]
+      #@canvas.$pages.append(el)
 
-    @canvas.pages.push pageView
-    pageView.bind 'tracking', @tracking, @canvas
-    pageView.bind 'tracking-release', @trackingRelease, @canvas
+    # Append page
+    @canvas.$pages.append(pageView.el)
+    @canvas.pageViewsArray.push(pageView)
+    @pagesPanelView.renderPanel()
 
+    # Render page from server
+    $.ajax
+      method: 'GET'
+      url: "#{@edition.url()}/render_page.html"
+      data:
+        composing: true
+        page: pageView.model.toJSON()
+      success: (response) =>
+        # Parse response into element.
+        el = @_parseHTML(response)
+
+        # Attach and render
+        pageView.$el.replaceWith(el)
+        pageView.setElement(el)
+        pageView.render()
+
+
+
+  # Utility Method: Parses html in to dom element.
+  _parseHTML: (html) ->
+    div = document.createElement('div')
+    div.innerHTML = html
+    div.firstChild
 
   # Receives a collection of models to group
   createGroup: (items) ->

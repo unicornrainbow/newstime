@@ -1,4 +1,5 @@
 class @Newstime.Section extends Backbone.RelationalModel
+  idAttribute: '_id'
 
   # Section should maintain it's own collection of pages, that are specific to
   # it. The problem with this is keeping it in sync with the relationships
@@ -6,7 +7,7 @@ class @Newstime.Section extends Backbone.RelationalModel
   # relational.
 
   getPages: ->
-    @pages ?= _.sortBy(@get('edition').get('pages').where(section_id: @get('_id')), 'number')
+    @pages = _.sortBy(@get('edition').get('pages').where(section_id: @get('_id')), 'number')
 
   getNextPageNumber: ->
     lastPage = _.last(@getPages())
