@@ -79,6 +79,7 @@ module EditionsHelper
     options[:left]   = content_item.left
     options[:width]  = content_item.width
     options[:height] = content_item.height
+    options[:z_index] = content_item.z_index
 
     content << case content_item
     when HeadlineContentItem then

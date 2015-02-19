@@ -12,7 +12,8 @@ class @Newstime.HeadlineView extends Newstime.ContentItemView
     @render()
 
   render: ->
-    @$el.css _.pick @model.attributes, 'top', 'left', 'z-index'
+    @$el.css _.pick @model.attributes, 'top', 'left'
+    @$el.css 'z-index': @model.get('z_index')
 
     @renderMargins()
     @$el.css 'font-family': @model.get('font_family')
