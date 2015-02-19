@@ -52,7 +52,7 @@ class @Newstime.HeadlinePropertiesView extends Backbone.View
     @$fontSize = @$('.font-size')
     @$fontWeight = @$('.font-weight')
 
-    @model.bind 'change', @render, this
+    @listenTo @model, 'change', @render
 
     @render()
 
