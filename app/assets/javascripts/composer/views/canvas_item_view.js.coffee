@@ -81,7 +81,8 @@ class @Newstime.CanvasItemView extends @Newstime.View
     @deselect() if @selected
     if @container
       @container.removeCanvasItem(this)
-    @model.destroy()
+    @composer.deleteQueue.push @model
+    @remove()
 
   remove: ->
     @composer.pagesPanelView.render() # HACK: This should be done in a more central manner.
