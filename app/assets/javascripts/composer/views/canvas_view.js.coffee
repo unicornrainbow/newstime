@@ -131,7 +131,7 @@ class @Newstime.CanvasView extends @Newstime.View
 
         #@composer.outlineLayerView.attach(groupView.outlineView)
 
-        @addCanvasItem(groupView) # Add groupView to the canvas.
+        @addCanvasItem(groupView, reattach: true) # Add groupView to the canvas.
 
       contentItems = _.reject contentItems, (item) -> item.get('group_id') # Don't process items which are part of a group...
       _.each contentItems, (contentItem) =>
@@ -153,7 +153,7 @@ class @Newstime.CanvasView extends @Newstime.View
           model: contentItem
           el: el
 
-        @addCanvasItem(contentItemView)
+        @addCanvasItem(contentItemView, reattach: true)
 
     # Add an add page button
     @addPageButton = new Newstime.AddPageButton
@@ -585,4 +585,4 @@ class @Newstime.CanvasView extends @Newstime.View
     pageView = _.find @pageViewsArray, (pageView) =>
       @detectHitY pageView, view.model.get('top')
 
-    pageView.addCanvasItem(view, options={})
+    pageView.addCanvasItem(view, options)

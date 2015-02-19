@@ -58,18 +58,31 @@ class @Newstime.PageView extends @Newstime.View
   # Add view to page
   addCanvasItem: (view, options={}) ->
     index = options.index
-    # TODO: Consider index when inserting.
+
+    if options.reattach
+      index = view.model.get('z_index')
+
+    view.pageView = this
 
     # Note: contentItemViewsArray should be a special collection.
 
     # Get content item view, and place on top of contentItemsViewArray, update
     # z-indexs
-    @contentItemViewsArray.unshift(view)
+    if _.isNumber(index)
+      index = Math.min @contentItemViewsArray.length, index
 
-    view.pageView = this
+      @contentItemViewsArray.splice(@contentItemViewsArray.length-index, 0, view)
 
-    # Set page z-index within page
-    view.model.set('z_index', @contentItemViewsArray.length-1)
+      # Set page z-index within page
+      #view.model.set('z_index', index)
+
+      @updateZindexs()
+
+    else
+      @contentItemViewsArray.unshift(view)
+
+      # Set page z-index within page
+      view.model.set('z_index', @contentItemViewsArray.length-1)
 
     # Expand page bounding box if neccessary
     contentItemBoundry = view.getBoundry()
