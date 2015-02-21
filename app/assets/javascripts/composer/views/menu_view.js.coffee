@@ -1,4 +1,4 @@
-class @Newstime.MenuView extends Backbone.View
+class @Newstime.MenuView extends Newstime.View
 
   initialize: (options) ->
     @$el.addClass "menu-view"
@@ -114,3 +114,9 @@ class @Newstime.MenuView extends Backbone.View
         <span class="menu-title">Edition</menu>
       </div>
     """
+
+    @$menuTitles = @$('.menu-title')
+
+    @bindUIEvents()
+
+  mousemove: (e) ->

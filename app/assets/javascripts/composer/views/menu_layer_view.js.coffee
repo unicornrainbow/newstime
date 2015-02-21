@@ -1,18 +1,13 @@
 # View layer which manages display and interaction with panels
-class @Newstime.MenuLayerView extends Backbone.View
+class @Newstime.MenuLayerView extends Newstime.View
 
   initialize: (options) ->
     @$el.addClass 'menu-layer-view'
 
-    # Until we have a better means of containg all the application layer, just
-    # using this simple means to offset from the top.
-    @topOffset = options.topOffset
-    @$el.css top: "#{@topOffset}px"
-
     @menuView = new Newstime.MenuView()
     @$el.append(@menuView.el)
 
-    @bind 'mousedown', @mousedown
+    @bindUIEvents()
 
   hit: (x, y) ->
     return true if y <= 25 # Own top 25 px.
@@ -20,4 +15,7 @@ class @Newstime.MenuLayerView extends Backbone.View
     return false
 
   mousedown: (e) ->
-    # TODO: Implement
+    @menuView.trigger 'mousedown', e
+
+  mousemove: (e) ->
+    @menuView.trigger 'mousemove', e
