@@ -35,6 +35,7 @@ gem 'sinatra'
 gem 'faye'
 gem 'thin', require: false
 gem 'curb'
+gem 'eco'
 
 gem 'compass-rails'
 

@@ -18,6 +18,7 @@
 #= require_tree ./composer/views
 #= require_tree ./composer/collections
 #= require_tree ./composer/functions
+#= require_tree ./composer/templates
 
 @Newstime = @Newstime or {}
 
