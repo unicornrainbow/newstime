@@ -33,6 +33,13 @@
     }
   }
 
+  .menu-body {
+    position: absolute;
+    background-color: white;
+    min-width: 100px;
+    min-height: 50px;
+  }
+
   svg {
     float: left;
     height: 18px;

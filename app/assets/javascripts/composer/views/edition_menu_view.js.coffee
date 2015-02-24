@@ -7,4 +7,4 @@ class @Newstime.EditionMenuView extends Newstime.MenuTitleView
     super
 
   initializeMenu: ->
-    console.log 'edition menu init'
+    @menuBody.model.set(top: 25, left: 100)

@@ -93,6 +93,7 @@ class @Newstime.MenuView extends Newstime.View
   attachMenuTitle: (menuTitleView) ->
     @attachedMenuTitles.push(menuTitleView)
     @$container.append(menuTitleView.el)
+    @$container.append(menuTitleView.menuBody.el)
     menuTitleView.parent = this
     menuTitleView.trigger 'attach'
 
