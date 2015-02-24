@@ -181,6 +181,8 @@ class @Newstime.Composer extends Backbone.View
     @toolbox.set(selectedTool: 'select-tool')
     @toolboxView.show()
 
+    @vent.trigger 'ready'
+
   editionSync: ->
     @statusIndicator.showMessage "Saved", 1000
     @statusIndicator.unsavedChanged(false)

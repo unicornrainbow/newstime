@@ -4,12 +4,12 @@ class @Newstime.MenuView extends Newstime.View
     @$el.addClass "menu-view"
 
     @leftOffset = 0
+    @attachedMenuTitles = []
 
     @$el.html JST["composer/templates/menu_view"](this)
 
     @$menuTitles = @$('.menu-title')
     @$container = @$('.container')
-
 
     @editionTitleView = new Newstime.MenuTitleView(title: "Edition")
     @attachMenuTitle(@editionTitleView)
@@ -37,7 +37,9 @@ class @Newstime.MenuView extends Newstime.View
     @updateOffset()
 
   attachMenuTitle: (menuTitleView) ->
+    @attachedMenuTitles.push(menuTitleView)
     @$container.append(menuTitleView.el)
+    menuTitleView.trigger 'attach'
 
   updateOffset: ->
     offset = @$container.offset()

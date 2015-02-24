@@ -8,3 +8,14 @@ class @Newstime.MenuTitleView extends Newstime.View
     @title = options.title
 
     @$el.html(@title)
+
+    @listenToOnce Newstime.composer.vent, 'ready', @measureBoundry
+
+  measureBoundry: ->
+    position = @$el.position()
+    @left   = position.left
+    @top    = position.top
+    @height = @$el.height()
+    @width  = @$el.width()
+
+    @boundry = new Newstime.Boundry _.pick this, 'top', 'left', 'height', 'width'
