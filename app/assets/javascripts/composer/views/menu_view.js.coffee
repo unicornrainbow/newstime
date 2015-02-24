@@ -17,3 +17,4 @@ class @Newstime.MenuView extends Newstime.View
     @bindUIEvents()
 
   mousemove: (e) ->
+    #console.log "Hit"

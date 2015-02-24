@@ -61,12 +61,6 @@ class @Newstime.ContentItemView extends @Newstime.CanvasItemView
     @model.get('height')
     #parseInt(@$el.css('height'))
 
-  getGeometry: ->
-    @model.pick('top', 'left', 'height', 'width')
-
-  getBoundry: ->
-    @model.getBoundry()
-
   getEventChar: (e) ->
     if e.shiftKey
       Newstime.shiftCharKeycodes[e.keyCode]

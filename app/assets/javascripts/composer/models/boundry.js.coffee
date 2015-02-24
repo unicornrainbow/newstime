@@ -69,3 +69,15 @@ class @Newstime.Boundry
     union.bottom = Math.max(@bottom, boundry.bottom)
     union.right = Math.max(@right, boundry.right)
     return union
+
+  # Detects a hit of the selection
+  hit: (x, y, options={}) ->
+    # Buffer extends hit area
+    buffer = options.buffer || 4
+
+    top    = @top - buffer
+    left   = @left - buffer
+    width  = @width + buffer*2
+    height = @height + buffer*2
+
+    left <= x <= left + width && top <= y <= top + height

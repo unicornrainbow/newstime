@@ -1,5 +1,4 @@
 #= require ../mixins/draggable
-#= require ../mixins/hittable
 #
 # CanvasItemView are CanvasItems which can appear on the canvas, or within a
 # canvas like region like a group. Both ContentItemView and GroupViews are
@@ -7,7 +6,6 @@
 #
 class @Newstime.CanvasItemView extends @Newstime.View
   @include Newstime.Draggable
-  @include Newstime.Hittable
 
   initialize: (options={}) ->
     @addClassNames()
@@ -126,3 +124,12 @@ class @Newstime.CanvasItemView extends @Newstime.View
 
   getCursor: ->
     'default'
+
+  getGeometry: ->
+    @model.pick('top', 'left', 'height', 'width')
+
+  getBoundry: ->
+    @model.getBoundry()
+
+  hit: ->
+    @model.hit.apply(@model, arguments)

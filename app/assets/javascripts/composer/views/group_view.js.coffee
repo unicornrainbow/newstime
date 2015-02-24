@@ -79,9 +79,6 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
       canvasItem.delete()
     super
 
-  getGeometry: ->
-    @model.pick('top', 'left', 'height', 'width')
-
   mouseover: (e) ->
     @hovered = true
     @outlineView.show()
@@ -95,9 +92,6 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
     @hovered = false
     @outlineView.hide()
     @composer.popCursor()
-
-  getBoundry: ->
-    @model.getBoundry()
 
   # Adds view to group.
   addCanvasItem: (view, options={}) ->

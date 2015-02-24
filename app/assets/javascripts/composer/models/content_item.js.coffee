@@ -172,6 +172,10 @@ class @Newstime.ContentItem extends Backbone.RelationalModel
   getBoundry: ->
     new Newstime.Boundry(_.pick @attributes, 'top', 'left', 'width', 'height')
 
+  hit: ->
+    boundry = @getBoundry()
+    boundry.hit.apply(boundry, arguments)
+
 
 class @Newstime.ContentItemCollection extends Backbone.Collection
   model: Newstime.ContentItem

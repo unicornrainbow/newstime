@@ -51,8 +51,13 @@ class @Newstime.Group extends Backbone.RelationalModel
     @_page = page
     @set 'page_id', page.get('_id')
 
+  # TODO: Shared code with content_item model, should create canvas item root.
   getBoundry: ->
     new Newstime.Boundry(@pick 'top', 'left', 'width', 'height')
+
+  hit: ->
+    boundry = @getBoundry()
+    boundry.hit.apply(boundry, arguments)
 
 class @Newstime.GroupCollection extends Backbone.Collection
   model: Newstime.Group
