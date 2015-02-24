@@ -77,8 +77,6 @@ class @Newstime.MenuView extends Newstime.View
     else
       @composer.selectedMenu.close() if @composer.selectedMenu
 
-
-
   pushCursor: ->
     @composer.pushCursor(@getCursor())
 

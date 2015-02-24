@@ -7,6 +7,8 @@ class @Newstime.MenuBodyView extends Newstime.View
 
     @model = new Backbone.Model()
 
+    @attachedMenuItem = []
+
     @composer = Newstime.composer
 
     @listenTo @model, 'change', @render
@@ -20,3 +22,7 @@ class @Newstime.MenuBodyView extends Newstime.View
 
   close: ->
     @$el.hide()
+
+  attachMenuItem: (menuItemView) ->
+    @attachedMenuItem.push(menuItemView)
+    @$el.append(menuItemView.el)
