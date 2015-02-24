@@ -2,18 +2,23 @@ class @Newstime.MenuTitleView extends Newstime.View
 
   tagName: 'span'
 
-  initialize: (options) ->
+  initialize: (options={}) ->
     @$el.addClass "menu-title"
 
     @composer = Newstime.composer
 
-    @title = options.title
+    @title ?= options.title
+
+    @menuBody = new Newstime.MenuBodyView()
 
     @$el.html(@title)
 
     @listenToOnce Newstime.composer.vent, 'ready', @measureBoundry
 
     @bindUIEvents()
+
+    @initializeMenu() if @initializeMenu
+
 
   measureBoundry: ->
     position = @$el.position()
@@ -39,6 +44,7 @@ class @Newstime.MenuTitleView extends Newstime.View
   close: ->
     @_open = false
     @$el.removeClass 'open'
+    @menuBody.close()
     @composer.selectedMenu = null
     @composer.popFocus()
 
@@ -47,6 +53,7 @@ class @Newstime.MenuTitleView extends Newstime.View
       @composer.selectedMenu.close()
 
     @composer.selectedMenu = this
+    @menuBody.open()
     @composer.pushFocus(this)
     @_open = true
     @$el.addClass 'open'

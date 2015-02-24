@@ -13,7 +13,7 @@ class @Newstime.MenuView extends Newstime.View
     @$menuTitles = @$('.menu-title')
     @$container = @$('.container')
 
-    @editionTitleView = new Newstime.MenuTitleView(title: "Edition")
+    @editionTitleView = new Newstime.EditionMenuView
     @attachMenuTitle(@editionTitleView)
 
     @sectionTitleView = new Newstime.MenuTitleView(title: "Section")
