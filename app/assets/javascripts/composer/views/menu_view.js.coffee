@@ -74,6 +74,10 @@ class @Newstime.MenuView extends Newstime.View
 
     if @hoveredObject
       @hoveredObject.trigger 'mousedown', e
+    else
+      @composer.selectedMenu.close() if @composer.selectedMenu
+
+
 
   pushCursor: ->
     @composer.pushCursor(@getCursor())

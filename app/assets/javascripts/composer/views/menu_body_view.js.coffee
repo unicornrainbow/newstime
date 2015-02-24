@@ -9,10 +9,6 @@ class @Newstime.MenuBodyView extends Newstime.View
 
     @composer = Newstime.composer
 
-    @$el.html """
-      Menu Body
-    """
-
     @listenTo @model, 'change', @render
     @render()
 

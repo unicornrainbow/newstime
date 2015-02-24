@@ -41,7 +41,10 @@ class @Newstime.MenuTitleView extends Newstime.View
     @$el.removeClass 'hover'
 
   mousedown: (e) ->
-    @open()
+    @toggle()
+
+  toggle: ->
+    if @_open then @close() else @open()
 
   close: ->
     @_open = false
