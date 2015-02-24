@@ -3,6 +3,8 @@ class @Newstime.MenuView extends Newstime.View
   initialize: (options) ->
     @$el.addClass "menu-view"
 
+    @composer = Newstime.composer
+
     @leftOffset = 0
     @attachedMenuTitles = []
 
@@ -52,6 +54,29 @@ class @Newstime.MenuView extends Newstime.View
     if @hoveredObject
       @hoveredObject.trigger 'mousemove', e
 
+  mouseover: (e) ->
+    @hovered = true
+    e = @getMappedEvent(e)
+    @pushCursor() # Replace with hover stack implementation eventually
+    if @hoveredObject
+      @hoveredObject.trigger 'mouseover', e
+
+  mouseout: (e) ->
+    @hovered = false
+    e = @getMappedEvent(e)
+    @popCursor()
+    if @hoveredObject
+      @hoveredObject.trigger 'mouseout', e
+      @hoveredObject = null
+
+  pushCursor: ->
+    @composer.pushCursor(@getCursor())
+
+  popCursor: ->
+    @composer.popCursor()
+
+  getCursor: ->
+    'default'
 
   handelAttach: ->
     @updateOffset()

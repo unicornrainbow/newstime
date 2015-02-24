@@ -35,6 +35,12 @@ class @Newstime.MenuLayerView extends Newstime.View
   mousemove: (e) ->
     @menuView.trigger 'mousemove', e
 
+  mouseout: (e) ->
+    @menuView.trigger 'mouseout', e
+
+  mouseover: (e) ->
+    @menuView.trigger 'mouseover', e
+
   attach: (view) ->
     @attachedViews.push(view)
     @$el.append(view.el)
