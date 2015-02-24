@@ -76,6 +76,7 @@ class @Newstime.Composer extends Backbone.View
       composer: this
       topOffset: @topOffset
     @$body.append(@menuLayerView.el)
+    @menuLayerView.trigger 'attach'
 
     @panelLayerView = new Newstime.PanelLayerView
       composer: this
@@ -205,6 +206,7 @@ class @Newstime.Composer extends Backbone.View
 
   windowResize: ->
     @canvasLayerView.trigger 'windowResize'
+    @menuLayerView.trigger 'windowResize'
 
   # Focus on composer
   focus: ->

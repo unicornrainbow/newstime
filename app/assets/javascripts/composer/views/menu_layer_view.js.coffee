@@ -5,9 +5,10 @@ class @Newstime.MenuLayerView extends Newstime.View
     @$el.addClass 'menu-layer-view'
 
     @width = 1184
+    @attachedViews = []
 
     @menuView = new Newstime.MenuView()
-    @$el.append(@menuView.el)
+    @attach(@menuView)
 
     @cutout = new Newstime.ComplexBoundry()
 
@@ -19,8 +20,10 @@ class @Newstime.MenuLayerView extends Newstime.View
     #boundryView = new Newstime.BoundryView(model: @mainAreaBoundry)
     #@$el.append(boundryView.el)
 
-
     @bindUIEvents()
+
+    @bind 'attach', @handelAttach
+    @bind 'windowResize', @handelWindowResize
 
   hit: (x, y) ->
     # Check for hit against cutout.
@@ -31,3 +34,14 @@ class @Newstime.MenuLayerView extends Newstime.View
 
   mousemove: (e) ->
     @menuView.trigger 'mousemove', e
+
+  attach: (view) ->
+    @attachedViews.push(view)
+    @$el.append(view.el)
+    view.trigger 'attach'
+
+  handelAttach: ->
+    _.each @attachedViews, (v) -> v.trigger 'attach'
+
+  handelWindowResize: ->
+    _.each @attachedViews, (v) -> v.trigger 'windowResize'

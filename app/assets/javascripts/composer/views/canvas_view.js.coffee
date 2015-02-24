@@ -287,7 +287,6 @@ class @Newstime.CanvasView extends @Newstime.View
     @pagesOffset.width = @$pages.width()
     @position = _.clone(@pagesOffset)
 
-
     # Dezoom
     if @zoomLevel
       @position.height = @pagesOffset.height/@zoomLevel
