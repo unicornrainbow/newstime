@@ -27,3 +27,6 @@ class @Newstime.MenuTitleView extends Newstime.View
 
   mouseout: ->
     @$el.removeClass 'hover'
+
+  mousedown: (e) ->
+    console.log "Clicked #{@title}"

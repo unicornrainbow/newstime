@@ -69,6 +69,12 @@ class @Newstime.MenuView extends Newstime.View
       @hoveredObject.trigger 'mouseout', e
       @hoveredObject = null
 
+  mousedown: (e) ->
+    e = @getMappedEvent(e)
+
+    if @hoveredObject
+      @hoveredObject.trigger 'mousedown', e
+
   pushCursor: ->
     @composer.pushCursor(@getCursor())
 
