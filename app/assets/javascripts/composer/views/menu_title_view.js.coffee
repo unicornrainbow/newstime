@@ -40,11 +40,18 @@ class @Newstime.MenuTitleView extends Newstime.View
     @_open = false
     @$el.removeClass 'open'
     @composer.selectedMenu = null
+    @composer.popFocus()
 
   open: ->
     if @composer.selectedMenu
       @composer.selectedMenu.close()
 
     @composer.selectedMenu = this
+    @composer.pushFocus(this)
     @_open = true
     @$el.addClass 'open'
+
+  keydown: (e) =>
+    switch e.keyCode
+      when 27 # ESC
+        @close()
