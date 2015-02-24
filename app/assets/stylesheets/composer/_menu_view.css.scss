@@ -23,6 +23,10 @@
     padding: 0 10px;
     margin: 0;
     float: left;
+
+    &.hover {
+      background-color: #2e3137;
+    }
   }
 
   svg {

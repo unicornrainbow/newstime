@@ -11,6 +11,8 @@ class @Newstime.MenuTitleView extends Newstime.View
 
     @listenToOnce Newstime.composer.vent, 'ready', @measureBoundry
 
+    @bindUIEvents()
+
   measureBoundry: ->
     position = @$el.position()
     @left   = position.left
@@ -19,3 +21,9 @@ class @Newstime.MenuTitleView extends Newstime.View
     @width  = @$el.width()
 
     @boundry = new Newstime.Boundry _.pick this, 'top', 'left', 'height', 'width'
+
+  mouseover: ->
+    @$el.addClass 'hover'
+
+  mouseout: ->
+    @$el.removeClass 'hover'
