@@ -6,9 +6,9 @@ class @Newstime.MenuView extends Newstime.View
     @$el.html """
       <div class="container">
         #{JST["composer/templates/newstime_logo"]()}
-        <span class="menu-title">View</menu>
-        <span class="menu-title">Section</menu>
-        <span class="menu-title">Edition</menu>
+        <span class="menu-title">Edition</span>
+        <span class="menu-title">Section</span>
+        <span class="menu-title">View</span>
       </div>
     """
 
