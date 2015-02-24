@@ -11,3 +11,6 @@ class @Newstime.EditionMenuView extends Newstime.MenuTitleView
 
     @saveMenuItem = new Newstime.MenuItemView(title: 'Save')
     @menuBody.attachMenuItem(@saveMenuItem)
+
+    @settingsMenuItem = new Newstime.MenuItemView(title: 'Settings')
+    @menuBody.attachMenuItem(@settingsMenuItem)

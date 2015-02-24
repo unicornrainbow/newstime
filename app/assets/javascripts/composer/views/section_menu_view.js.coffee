@@ -8,3 +8,6 @@ class @Newstime.SectionMenuView extends Newstime.MenuTitleView
 
   initializeMenu: ->
     @menuBody.model.set(top: 25)
+
+    @settingsMenuItem = new Newstime.MenuItemView(title: 'Settings')
+    @menuBody.attachMenuItem(@settingsMenuItem)
