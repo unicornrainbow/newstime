@@ -5,6 +5,8 @@ class @Newstime.MenuTitleView extends Newstime.View
   initialize: (options) ->
     @$el.addClass "menu-title"
 
+    @composer = Newstime.composer
+
     @title = options.title
 
     @$el.html(@title)
@@ -23,10 +25,26 @@ class @Newstime.MenuTitleView extends Newstime.View
     @boundry = new Newstime.Boundry _.pick this, 'top', 'left', 'height', 'width'
 
   mouseover: ->
+    if @composer.selectedMenu && @composer.selectedMenu != this
+      @open()
+
     @$el.addClass 'hover'
 
   mouseout: ->
     @$el.removeClass 'hover'
 
   mousedown: (e) ->
-    console.log "Clicked #{@title}"
+    @open()
+
+  close: ->
+    @_open = false
+    @$el.removeClass 'open'
+    @composer.selectedMenu = null
+
+  open: ->
+    if @composer.selectedMenu
+      @composer.selectedMenu.close()
+
+    @composer.selectedMenu = this
+    @_open = true
+    @$el.addClass 'open'
