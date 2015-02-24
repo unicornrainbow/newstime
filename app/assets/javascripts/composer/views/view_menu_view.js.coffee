@@ -1,9 +1,9 @@
 #= require ../views/menu_title_view
 
-class @Newstime.EditionMenuView extends Newstime.MenuTitleView
+class @Newstime.ViewMenuView extends Newstime.MenuTitleView
 
   initialize: ->
-    @title = 'Edition'
+    @title = 'View'
     super
 
   initializeMenu: ->

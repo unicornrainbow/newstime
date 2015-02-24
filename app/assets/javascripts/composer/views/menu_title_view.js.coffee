@@ -29,6 +29,8 @@ class @Newstime.MenuTitleView extends Newstime.View
 
     @boundry = new Newstime.Boundry _.pick this, 'top', 'left', 'height', 'width'
 
+    @menuBody.model.set 'left', @boundry.left
+
   mouseover: ->
     if @composer.selectedMenu && @composer.selectedMenu != this
       @open()

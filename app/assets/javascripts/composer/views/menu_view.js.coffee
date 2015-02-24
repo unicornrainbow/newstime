@@ -16,10 +16,10 @@ class @Newstime.MenuView extends Newstime.View
     @editionTitleView = new Newstime.EditionMenuView
     @attachMenuTitle(@editionTitleView)
 
-    @sectionTitleView = new Newstime.MenuTitleView(title: "Section")
+    @sectionTitleView = new Newstime.SectionMenuView
     @attachMenuTitle(@sectionTitleView)
 
-    @viewTitleView = new Newstime.MenuTitleView(title: "View")
+    @viewTitleView = new Newstime.ViewMenuView
     @attachMenuTitle(@viewTitleView)
 
 
