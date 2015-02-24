@@ -3,21 +3,23 @@ class @Newstime.MenuView extends Newstime.View
   initialize: (options) ->
     @$el.addClass "menu-view"
 
-    @$el.html """
-      <div class="container">
-        #{JST["composer/templates/newstime_logo"]()}
-        <span class="menu-title">Edition</span>
-        <span class="menu-title">Section</span>
-        <span class="menu-title">View</span>
-      </div>
-    """
-
-    offset = @$el.offset()
     @leftOffset = 0
 
+    @$el.html JST["composer/templates/menu_view"](this)
 
     @$menuTitles = @$('.menu-title')
     @$container = @$('.container')
+
+
+    @editionTitleView = new Newstime.MenuTitleView(title: "Edition")
+    @attachMenuTitle(@editionTitleView)
+
+    @sectionTitleView = new Newstime.MenuTitleView(title: "Section")
+    @attachMenuTitle(@sectionTitleView)
+
+    @viewTitleView = new Newstime.MenuTitleView(title: "View")
+    @attachMenuTitle(@viewTitleView)
+
 
     @bindUIEvents()
 
@@ -33,6 +35,9 @@ class @Newstime.MenuView extends Newstime.View
 
   handelWindowResize: ->
     @updateOffset()
+
+  attachMenuTitle: (menuTitleView) ->
+    @$container.append(menuTitleView.el)
 
   updateOffset: ->
     offset = @$container.offset()

@@ -1,0 +1,3 @@
+<div class="container">
+  <%- JST["composer/templates/newstime_logo"]() %>
+</div>
