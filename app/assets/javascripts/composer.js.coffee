@@ -372,6 +372,10 @@ class @Newstime.Composer extends Backbone.View
       button: event.button
       shiftKey: event.shiftKey
 
+    if @selectedMenu && @hitLayer != @menuLayerView
+      @selectedMenu.close()
+      @selectedMenu = null
+
     if @currentContextMenu
       @currentContextMenu.hide()
       @currentContextMenu = null
