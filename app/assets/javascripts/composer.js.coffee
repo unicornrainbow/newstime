@@ -721,6 +721,16 @@ class @Newstime.Composer extends Backbone.View
   togglePanelLayer: ->
     @panelLayerView.toggle()
 
+    menuItem = @menuLayerView.menuView.viewTitleView.panelsMenuItem
+
+    if @panelLayerView.hidden
+      menuItem.title = "Show Panels"
+    else
+      menuItem.title = "Hide Panels"
+
+
+    menuItem.render()
+
   # Returns array of pages which intersect with the bounding box.
   getIntersectingPages: (top, left, bottom, right) ->
     # Get all pages from section

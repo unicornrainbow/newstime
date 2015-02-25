@@ -9,7 +9,7 @@ class @Newstime.ViewMenuView extends Newstime.MenuTitleView
   initializeMenu: ->
     @menuBody.model.set(top: 25)
 
-    @settingsMenuItem = new Newstime.MenuItemView
+    @snapMenuItem = new Newstime.MenuItemView
       title: 'Snap'
       click: ->
         # Example of updating menu item title.
@@ -18,11 +18,20 @@ class @Newstime.ViewMenuView extends Newstime.MenuTitleView
 
         # TODO: Implement View > Snap Action
 
+
+    @panelsMenuItem = new Newstime.MenuItemView
+      title: 'Hide Panels'
+      quickKey: 'P'
+      click: ->
+        @composer.togglePanelLayer()
+
+
     @previewMenuItem = new Newstime.MenuItemView
       title: 'Preview'
       quickKey: '&#x2325;P'
       click: ->
         @composer.launchPreview()
 
-    @menuBody.attachMenuItem(@settingsMenuItem)
+    @menuBody.attachMenuItem(@snapMenuItem)
+    @menuBody.attachMenuItem(@panelsMenuItem)
     @menuBody.attachMenuItem(@previewMenuItem)
