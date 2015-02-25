@@ -313,6 +313,10 @@ class @Newstime.Composer extends Backbone.View
   popFocus: ->
     @focusedObject = @focusStack.pop()
 
+  launchPreview: ->
+    url = window.location.toString().replace('compose', 'preview')
+    window.open(url, '_blank')
+
   # Sets the UI cursor accoring to a set of rules.
   #updateCursor: ->
     #cursor = switch @toolbox.get('selectedTool')

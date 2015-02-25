@@ -21,9 +21,7 @@ class @Newstime.ViewMenuView extends Newstime.MenuTitleView
     @previewMenuItem = new Newstime.MenuItemView
       title: 'Preview'
       click: ->
-        url = window.location.toString().replace('compose', 'preview')
-        window.open(url, '_blank')
-        #window.location = url
+        @composer.launchPreview()
 
     @menuBody.attachMenuItem(@settingsMenuItem)
     @menuBody.attachMenuItem(@previewMenuItem)
