@@ -17,8 +17,7 @@ class @Newstime.EditionMenuView extends Newstime.MenuTitleView
     @settingsMenuItem = new Newstime.MenuItemView
       title: 'Settings'
       click: ->
-        console.log "Show edition settings"
-
+        # TODO: Implement Edition > Settings Action
 
     @menuBody.attachMenuItem(@saveMenuItem)
     @menuBody.attachMenuItem(@settingsMenuItem)

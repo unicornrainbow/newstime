@@ -12,9 +12,10 @@ class @Newstime.ViewMenuView extends Newstime.MenuTitleView
     @settingsMenuItem = new Newstime.MenuItemView
       title: 'Snap'
       click: ->
-        @title = "Enable Snap"
-        @render()
+        # Example of updating menu item title.
+        #@title = "Enable Snap"
+        #@render()
 
-        console.log "Snap clicked"
+        # TODO: Implement View > Snap Action
 
     @menuBody.attachMenuItem(@settingsMenuItem)

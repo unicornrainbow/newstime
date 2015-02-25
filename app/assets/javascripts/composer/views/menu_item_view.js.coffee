@@ -27,9 +27,6 @@ class @Newstime.MenuItemView extends Newstime.View
     @boundry.width = @$el.width()
     @boundry.height = @$el.height()
 
-    #console.log @boundry
-
-
   mouseover: (e) ->
     @$el.addClass 'hover'
 
