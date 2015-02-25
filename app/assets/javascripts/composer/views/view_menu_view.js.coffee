@@ -18,4 +18,10 @@ class @Newstime.ViewMenuView extends Newstime.MenuTitleView
 
         # TODO: Implement View > Snap Action
 
+    @previewMenuItem = new Newstime.MenuItemView
+      title: 'Preview'
+      click: ->
+        window.location = window.location.toString().replace('compose', 'preview')
+
     @menuBody.attachMenuItem(@settingsMenuItem)
+    @menuBody.attachMenuItem(@previewMenuItem)
