@@ -30,15 +30,18 @@ class @Newstime.MenuView extends Newstime.View
 
   mousemove: (e) ->
     e = @getMappedEvent(e)
-    #console.log e
 
     hover = null
 
     unless hover
       # NOTE: Would be nice to skip active selection here, since already
       # checked, but no biggie.
-      hover = _.find @attachedMenuTitles, (menuTitleView) ->
-        menuTitleView.boundry.hit(e.x, e.y)
+      _.find @attachedMenuTitles, (menuTitleView) ->
+        if menuTitleView.boundry.hit(e.x, e.y)
+          hover = menuTitleView
+        else
+          if menuTitleView.menuBody.boundry.hit(e.x, e.y)
+            hover = menuTitleView.menuBody
 
     if hover
       if @hoveredObject != hover

@@ -36,10 +36,9 @@
   .menu-body {
     position: absolute;
     background-color: white;
-    /*background-color: #484c55;*/
     min-width: 100px;
-    padding: 0 0 2px;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+    padding-bottom: 5px;
     border-radius: 0 0 2px 2px
   }
 
@@ -51,6 +50,10 @@
     padding: 0 10px;
     color: black;
 
+    &.hover {
+      color: white;
+      background-color: #663b9c;
+    }
   }
 
   svg {
