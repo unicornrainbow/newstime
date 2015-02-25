@@ -4,17 +4,18 @@ class @Newstime.MenuLayerView extends Newstime.View
   initialize: (options) ->
     @$el.addClass 'menu-layer-view'
 
-    @width = 1184
     @attachedViews = []
 
-    @menuView = new Newstime.MenuView()
-    @attach(@menuView)
-
     @cutout = new Newstime.ComplexBoundry()
+
+    @width = 1184
 
     # Draw shape for main menu area
     @mainAreaBoundry = new Newstime.Boundry(top: 0, left: 0, width: @width, height: 25)
     @cutout.addBoundry(@mainAreaBoundry)
+
+    @menuView = new Newstime.MenuView()
+    @attach(@menuView)
 
     # Draw boundry for testing
     #boundryView = new Newstime.BoundryView(model: @mainAreaBoundry)
@@ -26,7 +27,7 @@ class @Newstime.MenuLayerView extends Newstime.View
     @bind 'windowResize', @handelWindowResize
 
   hit: (x, y) ->
-    # Check for hit against cutout.
+    x -= @menuView.leftOffset
     @cutout.hit(x, y)
 
   mousedown: (e) ->
