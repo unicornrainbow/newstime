@@ -20,6 +20,7 @@ class @Newstime.ViewMenuView extends Newstime.MenuTitleView
 
     @previewMenuItem = new Newstime.MenuItemView
       title: 'Preview'
+      quickKey: '&#x2325;P'
       click: ->
         @composer.launchPreview()
 

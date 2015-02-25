@@ -11,7 +11,7 @@ class @Newstime.MenuTitleView extends Newstime.View
 
     @menuBody = new Newstime.MenuBodyView()
 
-    @$el.html(@title)
+    @$el.html @title
 
     @listenToOnce Newstime.composer.vent, 'ready', @measureBoundry
 

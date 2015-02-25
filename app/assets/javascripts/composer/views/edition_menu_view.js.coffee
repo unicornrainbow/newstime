@@ -11,6 +11,7 @@ class @Newstime.EditionMenuView extends Newstime.MenuTitleView
 
     @saveMenuItem = new Newstime.MenuItemView
       title: 'Save'
+      quickKey: '&#x2325;S'
       click: ->
         @composer.save()
 

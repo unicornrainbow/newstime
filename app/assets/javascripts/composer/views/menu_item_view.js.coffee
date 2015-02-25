@@ -4,6 +4,8 @@ class @Newstime.MenuItemView extends Newstime.View
     @$el.addClass 'menu-item'
     @title ?= options.title
 
+    @quickKey ?= options.quickKey
+
     @clickCallback = options.click
 
     @composer = Newstime.composer
@@ -18,6 +20,11 @@ class @Newstime.MenuItemView extends Newstime.View
 
   render: ->
     @$el.html @title
+
+    if @quickKey
+      @$el.append """
+         <span class="quick-key">#{@quickKey}</span>
+      """
 
   updateBoundry: ->
     offset = @$el.position()
