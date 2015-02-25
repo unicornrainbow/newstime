@@ -9,5 +9,9 @@ class @Newstime.SectionMenuView extends Newstime.MenuTitleView
   initializeMenu: ->
     @menuBody.model.set(top: 25)
 
-    @settingsMenuItem = new Newstime.MenuItemView(title: 'Settings')
+    @settingsMenuItem = new Newstime.MenuItemView
+      title: 'Settings'
+      click: ->
+        console.log "Show section settings window"
+
     @menuBody.attachMenuItem(@settingsMenuItem)

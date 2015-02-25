@@ -85,6 +85,13 @@ class @Newstime.MenuBodyView extends Newstime.View
       @hoveredObject.trigger 'mouseout', e
 
 
+  mousedown: (e)->
+    e = @getMappedEvent(e)
+
+    if @hoveredObject
+      @hoveredObject.trigger 'mousedown', e
+
+
   # Coverts external to internal coordinates.
   mapExternalCoords: (x, y) ->
     y -= @model.get('top')

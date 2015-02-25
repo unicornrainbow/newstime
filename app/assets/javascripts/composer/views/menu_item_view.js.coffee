@@ -4,13 +4,20 @@ class @Newstime.MenuItemView extends Newstime.View
     @$el.addClass 'menu-item'
     @title ?= options.title
 
-    @$el.html @title
+    @clickCallback = options.click
+
+    @composer = Newstime.composer
+
+    @render()
 
     @boundry = new Newstime.Boundry
 
     @updateBoundry()
 
     @bindUIEvents()
+
+  render: ->
+    @$el.html @title
 
   updateBoundry: ->
     offset = @$el.position()
@@ -28,3 +35,7 @@ class @Newstime.MenuItemView extends Newstime.View
 
   mouseout: (e) ->
     @$el.removeClass 'hover'
+
+  mousedown: (e) ->
+    @composer.selectedMenu.close()
+    @clickCallback() if @clickCallback

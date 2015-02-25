@@ -9,8 +9,16 @@ class @Newstime.EditionMenuView extends Newstime.MenuTitleView
   initializeMenu: ->
     @menuBody.model.set(top: 25)
 
-    @saveMenuItem = new Newstime.MenuItemView(title: 'Save')
-    @menuBody.attachMenuItem(@saveMenuItem)
+    @saveMenuItem = new Newstime.MenuItemView
+      title: 'Save'
+      click: ->
+        @composer.save()
 
-    @settingsMenuItem = new Newstime.MenuItemView(title: 'Settings')
+    @settingsMenuItem = new Newstime.MenuItemView
+      title: 'Settings'
+      click: ->
+        console.log "Show edition settings"
+
+
+    @menuBody.attachMenuItem(@saveMenuItem)
     @menuBody.attachMenuItem(@settingsMenuItem)
