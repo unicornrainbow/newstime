@@ -73,7 +73,7 @@ class @Newstime.Boundry
   # Detects a hit of the selection
   hit: (x, y, options={}) ->
     # Buffer extends hit area
-    buffer = options.buffer || 4
+    buffer = options.buffer || 0
 
     top    = @top - buffer
     left   = @left - buffer

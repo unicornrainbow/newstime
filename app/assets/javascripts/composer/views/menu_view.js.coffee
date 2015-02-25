@@ -34,14 +34,16 @@ class @Newstime.MenuView extends Newstime.View
     hover = null
 
     unless hover
-      # NOTE: Would be nice to skip active selection here, since already
-      # checked, but no biggie.
-      _.find @attachedMenuTitles, (menuTitleView) ->
-        if menuTitleView.boundry.hit(e.x, e.y)
-          hover = menuTitleView
-        else
-          if menuTitleView.menuBody.boundry.hit(e.x, e.y)
-            hover = menuTitleView.menuBody
+      if @composer.selectedMenu
+         if @composer.selectedMenu.menuBody.boundry.hit(e.x, e.y)
+            hover = @composer.selectedMenu.menuBody
+
+      unless hover
+        # NOTE: Would be nice to skip active selection here, since already
+        # checked, but no biggie.
+        _.find @attachedMenuTitles, (menuTitleView) ->
+          if menuTitleView.boundry.hit(e.x, e.y)
+            hover = menuTitleView
 
     if hover
       if @hoveredObject != hover

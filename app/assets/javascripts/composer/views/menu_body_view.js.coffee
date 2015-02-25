@@ -25,15 +25,17 @@ class @Newstime.MenuBodyView extends Newstime.View
     @$el.css @model.pick 'top', 'left'
 
   updateBoundry: ->
-    _.extend @boundry, @model.pick 'top', 'left'
+    #_.extend @boundry, @model.pick 'top', 'left'
+    @boundry.top = @model.get('top')
+    @boundry.left = @model.get('left')
+
     @boundry.width = @$el.width()
     @boundry.height = @$el.height()
-
-    _.invoke @attachedMenuItem, 'updateBoundry'
 
   open: ->
     @$el.show()
     @updateBoundry()
+    _.invoke @attachedMenuItem, 'updateBoundry'
     @composer.menuLayerView.cutout.addBoundry(@boundry)
 
   close: ->
@@ -55,7 +57,6 @@ class @Newstime.MenuBodyView extends Newstime.View
       _.find @attachedMenuItem, (menuItemView) ->
         if menuItemView.boundry.hit(e.x, e.y)
           hover = menuItemView
-
 
     if hover
       if @hoveredObject != hover
