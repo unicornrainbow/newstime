@@ -109,7 +109,7 @@ class @Newstime.ContentItem extends Backbone.RelationalModel
           precedent_text: "<strong>#{@get('story_title')}</strong>, from Page #{leading_page.get('page_ref')}"
           #precedent_path: "#{leading_section.get('path')}#page-#{leading_page.get('number')}"
           #precedent_path: "#{leading_section.get('path')}##{leading_section.get('letter')}#{leading_page.get('number')}/#{storyTitle}"
-          precedent_path: "#{leading_section.get('path')}##{leading_page.get('page_ref')}-#{storyTitle}"
+          precedent_path: "#{leading_section.get('path')}##{leading_page.get('page_ref')}/#{storyTitle}"
 
       else
         @set
@@ -128,7 +128,7 @@ class @Newstime.ContentItem extends Backbone.RelationalModel
           continuation_text: "See <strong>#{@get('story_title')}</strong> on Page #{trailing_page.get('page_ref')}"
           #continuation_path: "#{trailing_section.get('path')}#page-#{trailing_page.get('number')}"
           #continuation_path: "#{trailing_section.get('path')}##{trailing_section.get('letter')}#{trailing_page.get('number')}/#{storyTitle}"
-          continuation_path: "#{trailing_section.get('path')}##{trailing_page.get('page_ref')}-#{storyTitle}"
+          continuation_path: "#{trailing_section.get('path')}##{trailing_page.get('page_ref')}/#{storyTitle}"
 
       else
         @set
