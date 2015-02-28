@@ -97,7 +97,7 @@ module EditionsHelper
       render "content/story", id: content_item.id, anchor: content_item.id, rendered_html: content_item.rendered_html
     when TextAreaContentItem then
       options[:text] = content_item.text
-      options[:anchor] = content_item.story_title
+      options[:anchor] = "#{content_item.page.page_ref}-#{content_item.story_title}"
       options[:rendered_html] = content_item.rendered_html
 
       render "content/text_area", options
