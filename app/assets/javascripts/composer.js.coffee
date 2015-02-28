@@ -743,11 +743,11 @@ class @Newstime.Composer extends Backbone.View
 
   enableSnap: ->
     @snapEnabled = true
-    @trigger 'config:snap:enabled'
+    @vent.trigger 'config:snap:enabled'
 
-  disabledSnap: ->
+  disableSnap: ->
     @snapEnabled = false
-    @trigger 'config:snap:disabled'
+    @vent.trigger 'config:snap:disabled'
 
 
   moveItem: (target, left, top, orginalLeft, orginalTop, shiftKey=false) ->
