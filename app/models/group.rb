@@ -13,6 +13,7 @@ class Group < ContentItem
   field    :height,         type: Integer
   field    :z_index,        type: Integer
   field    :left_border,    type: Boolean  # Experimental for storing if there is a left border.
+  field    :story_title,    type: String  # String key used for lacing text areas together
 
 
   def content_items

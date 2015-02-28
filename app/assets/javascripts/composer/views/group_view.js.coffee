@@ -129,6 +129,9 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
 
     @model.addItem(view.model)
 
+    if view instanceof Newstime.TextAreaView
+      @model.set 'story_title', view.model.get('story_title') # HACK: Need to make sure this stays in sync and is updated...
+
   removeCanvasItem: (canvasItemView) ->
 
     index = @contentItemViewsArray.indexOf(canvasItemView)

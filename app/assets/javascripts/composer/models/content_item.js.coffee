@@ -74,8 +74,11 @@ class @Newstime.ContentItem extends Backbone.RelationalModel
   # HACK: Specific to TextAreaContentItems..
   reflow: ->
 
+    # TODO: Always start with first in the chain...
+    # TODO: Acknowledge groups
+
     # Decide if we are part of a continuation.
-    storyTitle = @get('story_title')
+    storyTitle = @get('story_title') # (Serves as the anchor reference on the page, simply need section and page reference)
 
     if storyTitle?
 
@@ -104,7 +107,9 @@ class @Newstime.ContentItem extends Backbone.RelationalModel
         @set
           lead_text_area_id: previousContentItem.get('_id')
           precedent_text: "<strong>#{@get('story_title')}</strong>, from Page #{leading_page.get('page_ref')}"
-          precedent_path: "#{leading_section.get('path')}#page-#{leading_page.get('number')}"
+          #precedent_path: "#{leading_section.get('path')}#page-#{leading_page.get('number')}"
+          #precedent_path: "#{leading_section.get('path')}##{leading_section.get('letter')}#{leading_page.get('number')}/#{storyTitle}"
+          precedent_path: "#{leading_section.get('path')}##{storyTitle}"
 
       else
         @set
@@ -117,10 +122,13 @@ class @Newstime.ContentItem extends Backbone.RelationalModel
         nextContentItem = storyContentItems[index+1]
         trailing_page = nextContentItem.getPage()
         trailing_section = nextContentItem.getSection()
+
         @set
           follow_text_area_id: nextContentItem.get('_id')
           continuation_text: "See <strong>#{@get('story_title')}</strong> on Page #{trailing_page.get('page_ref')}"
-          continuation_path: "#{trailing_section.get('path')}#page-#{trailing_page.get('number')}"
+          #continuation_path: "#{trailing_section.get('path')}#page-#{trailing_page.get('number')}"
+          #continuation_path: "#{trailing_section.get('path')}##{trailing_section.get('letter')}#{trailing_page.get('number')}/#{storyTitle}"
+          continuation_path: "#{trailing_section.get('path')}##{storyTitle}"
 
       else
         @set
