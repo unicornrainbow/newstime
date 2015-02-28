@@ -21,6 +21,9 @@
     padding: 5px 10px 5px 30px;
     border-bottom: 1px solid rgba(255,255,255,.05);
     cursor: default;
+    text-overflow: ellipsis;
+    width: 100%;
+    overflow: hidden;
 
     &:hover {
       border-bottom: 1px solid rgba(255,255,255,.1);

@@ -10,6 +10,11 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
   initializeCanvasItem: (options={}) ->
     @contentItemViewsArray = [] # Array of content items views in z-index order.
 
+
+    @leftBorder = @model.get('left_border')
+    if @leftBorder
+      @$el.addClass 'group-left-border'
+
   @getter 'uiLabel', -> 'Group'
 
   measurePosition: ->
@@ -148,6 +153,62 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
 
     canvasItemView.model.unset('group_id')
 
+  toggleLeftBorder: ->
+    @leftBorder = @model.get('left_border')
+
+    if @leftBorder
+      @removeLeftBorder()
+    else
+      @addLeftBorder()
+
+  # Add Left Border
+  addLeftBorder: ->
+    @model.set 'left_border', true
+    @leftBorder = true
+
+    @$el.addClass 'group-left-border'
+
+    # For each item, push in 15px (1px add for border, total of 16px)
+    _.each @contentItemViewsArray, (contentItemView) ->
+      if contentItemView instanceof Newstime.TextAreaView
+        contentItemView.needsReflow = true
+
+      model = contentItemView.model
+      left = model.get('left')
+      if left < 15
+        delta = 16 - left
+        model.set
+          left: 15
+          width: model.get('width') - delta
+
+      if contentItemView instanceof Newstime.TextAreaView
+        contentItemView.reflow()
+
+
+  # Remove Left Border
+  removeLeftBorder: ->
+    @model.set 'left_border', false
+    @leftBorder = false
+
+    @$el.removeClass 'group-left-border'
+
+    # For each item, push in 15px (1px add for border, total of 16px)
+    _.each @contentItemViewsArray, (contentItemView) ->
+
+      if contentItemView instanceof Newstime.TextAreaView
+        contentItemView.needsReflow = true
+
+      model = contentItemView.model
+      left = model.get('left')
+      if left = 15
+        model.set
+          left: 0
+          width: model.get('width') + 16
+
+      if contentItemView instanceof Newstime.TextAreaView
+        contentItemView.reflow()
+
+
   _setBoundry: (boundry)->
     current = @getBoundry()
 
@@ -167,4 +228,4 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
     @edition.groups.add(attrs)
 
   _createPropertiesView: ->
-    new Newstime.GroupPropertiesView(target: this, model: @model)
+    new Newstime.GroupPropertiesView(groupView: this, groupModel: @model)

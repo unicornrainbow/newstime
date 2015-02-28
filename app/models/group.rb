@@ -12,6 +12,7 @@ class Group < ContentItem
   field    :width,          type: Integer
   field    :height,         type: Integer
   field    :z_index,        type: Integer
+  field    :left_border,    type: Boolean  # Experimental for storing if there is a left border.
 
 
   def content_items

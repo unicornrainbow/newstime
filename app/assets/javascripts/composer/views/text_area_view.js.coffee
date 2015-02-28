@@ -30,6 +30,9 @@ class @Newstime.TextAreaView extends Newstime.ContentItemView
       super
       @$el.html @model.get('rendered_html')
 
+    else
+      @$el.css @model.pick 'top', 'left'
+
   paste: (e) =>
     # Retreive pasted text. Not cross browser compliant. (Webkit)
     pastedText = e.originalEvent.clipboardData.getData('text/plain')
