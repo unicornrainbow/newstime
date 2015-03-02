@@ -13,6 +13,12 @@ class @Newstime.EditionMenuView extends Newstime.MenuTitleView
       title: 'Settings'
       click: ->
         # TODO: Implement Edition > Settings Action
+        #
+
+    @printsMenuItem = new Newstime.MenuItemView
+      title: 'Prints'
+      click: ->
+        # TODO: Implement Edition > Prints Action
 
     @reflowMenuItem = new Newstime.MenuItemView
       title: 'Reflow Text'
@@ -27,5 +33,6 @@ class @Newstime.EditionMenuView extends Newstime.MenuTitleView
         @composer.save()
 
     @menuBody.attachMenuItem(@settingsMenuItem)
-    @menuBody.attachMenuItem(@reflowMenuItem)
     @menuBody.attachMenuItem(@saveMenuItem)
+    @menuBody.attachMenuItem(@printsMenuItem)
+    @menuBody.attachMenuItem(@reflowMenuItem)
