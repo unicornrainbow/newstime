@@ -14,6 +14,12 @@ class @Newstime.EditionMenuView extends Newstime.MenuTitleView
       click: ->
         # TODO: Implement Edition > Settings Action
 
+    @reflowMenuItem = new Newstime.MenuItemView
+      title: 'Reflow Text'
+      quickKey: '&#x2325;R'
+      click: ->
+        @composer.reflow()
+
     @saveMenuItem = new Newstime.MenuItemView
       title: 'Save'
       quickKey: '&#x2325;S'
@@ -21,4 +27,5 @@ class @Newstime.EditionMenuView extends Newstime.MenuTitleView
         @composer.save()
 
     @menuBody.attachMenuItem(@settingsMenuItem)
+    @menuBody.attachMenuItem(@reflowMenuItem)
     @menuBody.attachMenuItem(@saveMenuItem)

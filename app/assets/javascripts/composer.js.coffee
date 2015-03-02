@@ -749,6 +749,32 @@ class @Newstime.Composer extends Backbone.View
     @snapEnabled = false
     @vent.trigger 'config:snap:disabled'
 
+  # Reflows all text in the edition
+  reflow: ->
+    # Get all text areas
+    textAreas = @edition.get('content_items').select (item) ->
+      item.get('_type') == 'TextAreaContentItem'
+
+    # Group them by title
+    grouped = _.groupBy textAreas, (item) ->
+      item.get('story_title')
+
+    _.each grouped, (value, key) ->
+      # Put in correct order
+      value = value.sort (a, b) ->
+        if a.getSection().get('sequence') != b.getSection().get('sequence')
+          a.getSection().get('sequence') - b.getSection().get('sequence')
+        else if a.getPage().get('number') != b.getPage().get('number')
+          a.getPage().get('number') - b.getPage().get('number')
+        else if a.get('top') != b.get('top')
+          a.get('top') - b.get('top')
+        else
+          a.get('left') - b.get('left')
+
+      # Trigger reflow from first item in set
+      _.first(value).reflow()
+
+
 
   moveItem: (target, left, top, orginalLeft, orginalTop, shiftKey=false) ->
     @clearVerticalSnapLines()
