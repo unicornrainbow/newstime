@@ -10,7 +10,8 @@ class @Newstime.SectionMenuView extends Newstime.MenuTitleView
     @menuBody.model.set(top: 25)
 
     @settingsMenuItem = new Newstime.MenuItemView
-      title: 'Settings'
+      title: 'Section Settings'
+      quickKey: ''
       click: ->
         # TODO: Implement Section > Settings Action
 

@@ -10,7 +10,7 @@ class @Newstime.EditionMenuView extends Newstime.MenuTitleView
     @menuBody.model.set(top: 25)
 
     @settingsMenuItem = new Newstime.MenuItemView
-      title: 'Settings'
+      title: 'Edition Settings'
       click: ->
         # TODO: Implement Edition > Settings Action
         #
