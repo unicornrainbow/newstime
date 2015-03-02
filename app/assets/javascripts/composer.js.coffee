@@ -131,6 +131,11 @@ class @Newstime.Composer extends Backbone.View
     @pagesPanelView.setPosition(250, 20)
     @panelLayerView.attachPanel(@pagesPanelView)
 
+    #@sectionSettings = new Newstime.SectionSettingsPanelView
+    #@sectionSettings.setPosition(50, 200)
+    #@panelLayerView.attachPanel(@sectionSettings)
+    #@sectionSettings.hide()
+
     @cursorStack = []
     @focusStack = []
 
@@ -146,6 +151,7 @@ class @Newstime.Composer extends Backbone.View
     @textEditor = new Newstime.TextAreaEditorView
       composer: this
     @$body.append(@textEditor.el)
+
 
     # Layers of app, in order from top to bottom
     @layers = [
@@ -776,8 +782,7 @@ class @Newstime.Composer extends Backbone.View
 
 
   showSectionSettings: ->
-    # TODO: Implement show section settings
-
+    #@sectionSettings.show()
 
   moveItem: (target, left, top, orginalLeft, orginalTop, shiftKey=false) ->
     @clearVerticalSnapLines()
