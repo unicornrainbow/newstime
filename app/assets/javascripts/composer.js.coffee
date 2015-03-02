@@ -775,6 +775,9 @@ class @Newstime.Composer extends Backbone.View
       _.first(value).reflow()
 
 
+  showSectionSettings: ->
+    # TODO: Implement show section settings
+
 
   moveItem: (target, left, top, orginalLeft, orginalTop, shiftKey=false) ->
     @clearVerticalSnapLines()
