@@ -131,9 +131,9 @@ class @Newstime.Composer extends Backbone.View
     @pagesPanelView.setPosition(250, 20)
     @panelLayerView.attachPanel(@pagesPanelView)
 
-    #@sectionSettings = new Newstime.SectionSettingsPanelView
-    #@sectionSettings.setPosition(50, 200)
-    #@panelLayerView.attachPanel(@sectionSettings)
+    @sectionSettings = new Newstime.SectionSettingsPanelView
+    @sectionSettings.setPosition(50, 200)
+    @panelLayerView.attachPanel(@sectionSettings)
     #@sectionSettings.hide()
 
     @cursorStack = []
