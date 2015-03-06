@@ -54,13 +54,11 @@ class Edition
     photos = []
     sections.each do |section|
       section.pages.each do |page|
-        page.content_regions.each do |region|
-          photos += region.content_items.where(_type: 'PhotoContentItem').map(&:photo)
-        end
+        photos += page.content_items.where(_type: 'PhotoContentItem').map(&:photo)
       end
     end
 
-    photos
+    photos.compact
   end
 
 
@@ -70,12 +68,10 @@ class Edition
     videos = []
     sections.each do |section|
       section.pages.each do |page|
-        page.content_regions.each do |region|
-          videos += region.content_items.where(_type: 'VideoContentItem').map(&:video)
-        end
+        videos += page.content_items.where(_type: 'VideoContentItem').map(&:video)
       end
     end
-    videos
+    videos.compact
   end
 
   def layout_module
