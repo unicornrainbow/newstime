@@ -131,10 +131,20 @@ class @Newstime.Composer extends Backbone.View
     @pagesPanelView.setPosition(250, 20)
     @panelLayerView.attachPanel(@pagesPanelView)
 
-    @sectionSettings = new Newstime.SectionSettingsPanelView
+    @sectionSettings = new Newstime.SectionSettingsWindowView
     @sectionSettings.setPosition(50, 200)
     @panelLayerView.attachPanel(@sectionSettings)
     @sectionSettings.hide()
+
+    @editionSettings = new Newstime.EditionSettingsWindowView
+    @editionSettings.setPosition(50, 200)
+    @panelLayerView.attachPanel(@editionSettings)
+    @editionSettings.hide()
+
+    @printsWindow = new Newstime.PrintsWindowView
+    @printsWindow.setPosition(50, 200)
+    @panelLayerView.attachPanel(@printsWindow)
+    @printsWindow.hide()
 
     @cursorStack = []
     @focusStack = []
@@ -781,8 +791,14 @@ class @Newstime.Composer extends Backbone.View
       _.first(value).reflow()
 
 
-  showSectionSettings: ->
-    @sectionSettings.show()
+  toggleSectionSettings: ->
+    @sectionSettings.toggle()
+
+  toggleEditionSettings: ->
+    @editionSettings.toggle()
+
+  togglePrintsWindow: ->
+    @printsWindow.toggle()
 
   moveItem: (target, left, top, orginalLeft, orginalTop, shiftKey=false) ->
     @clearVerticalSnapLines()

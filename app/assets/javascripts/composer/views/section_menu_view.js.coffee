@@ -13,6 +13,6 @@ class @Newstime.SectionMenuView extends Newstime.MenuTitleView
       title: 'Section Settings'
       quickKey: ''
       click: ->
-        @composer.showSectionSettings()
+        @composer.toggleSectionSettings()
 
     @menuBody.attachMenuItem(@settingsMenuItem)

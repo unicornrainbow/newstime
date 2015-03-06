@@ -1,6 +1,6 @@
 #= require ../views/window_view
 
-class @Newstime.SectionSettingsWindowView extends @Newstime.WindowView
+class @Newstime.PrintsWindowView extends @Newstime.WindowView
 
   initializeWindow: ->
     @model.set

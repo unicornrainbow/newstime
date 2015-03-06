@@ -12,13 +12,12 @@ class @Newstime.EditionMenuView extends Newstime.MenuTitleView
     @settingsMenuItem = new Newstime.MenuItemView
       title: 'Edition Settings'
       click: ->
-        # TODO: Implement Edition > Settings Action
-        #
+        @composer.toggleEditionSettings()
 
     @printsMenuItem = new Newstime.MenuItemView
       title: 'Prints'
       click: ->
-        # TODO: Implement Edition > Prints Action
+        @composer.togglePrintsWindow()
 
     @reflowMenuItem = new Newstime.MenuItemView
       title: 'Reflow Text'
