@@ -72,10 +72,11 @@ class @Newstime.ContentItem extends Backbone.RelationalModel
 
 
   # HACK: Specific to TextAreaContentItems..
-  reflow: ->
-
-    # TODO: Always start with first in the chain...
-    # TODO: Acknowledge groups
+  # TODO: Implement Subtypes and break this class apart. (Mostly a concern of
+  # instantiation. Need more flexibility than BackboneRelational allows to get
+  # the subtypes intialized
+  reflow: (options={}) ->
+    callDepth = options.callDepth || 0
 
     # Decide if we are part of a continuation.
     storyTitle = @get('story_title') # (Serves as the anchor reference on the page, simply need section and page reference)
@@ -99,6 +100,13 @@ class @Newstime.ContentItem extends Backbone.RelationalModel
           a.get('left') - b.get('left')
 
       index = _.indexOf storyContentItems, this
+
+      # TODO: Always start with first in the chain...
+      if callDepth == 0
+        # First call: Ensure starting with first text area in order.
+        # Call reflow on first with callDepth 1 to skip this...
+
+        return storyContentItems[0].reflow(callDepth: callDepth + 1)
 
       if index > 0
         previousContentItem = storyContentItems[index-1]
@@ -153,7 +161,8 @@ class @Newstime.ContentItem extends Backbone.RelationalModel
         @set _.pick(response, 'rendered_html', 'overrun_html')
 
         # Trigger reflow of next content item
-        nextContentItem.reflow() if nextContentItem
+        nextContentItem.reflow(callDepth: callDepth+1) if nextContentItem
+
 
   initialTextArea: ->
     # Decide if we are part of a continuation.
