@@ -134,7 +134,7 @@ class @Newstime.Composer extends Backbone.View
     @sectionSettings = new Newstime.SectionSettingsPanelView
     @sectionSettings.setPosition(50, 200)
     @panelLayerView.attachPanel(@sectionSettings)
-    #@sectionSettings.hide()
+    @sectionSettings.hide()
 
     @cursorStack = []
     @focusStack = []
@@ -782,7 +782,7 @@ class @Newstime.Composer extends Backbone.View
 
 
   showSectionSettings: ->
-    #@sectionSettings.show()
+    @sectionSettings.show()
 
   moveItem: (target, left, top, orginalLeft, orginalTop, shiftKey=false) ->
     @clearVerticalSnapLines()

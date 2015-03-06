@@ -46,8 +46,6 @@ class @Newstime.PanelLayerView extends @Newstime.View
     panel = _.find @panels, (panel) =>
       @detectHit panel, x, y
 
-    #console.log panel
-
     if @hovered # Only process events if hovered.
       if panel
         if @hoveredObject != panel
@@ -73,8 +71,11 @@ class @Newstime.PanelLayerView extends @Newstime.View
         return false
 
   detectHit: (panel, x, y) ->
+    return false if panel.hidden
+
     # Get panel geometry
     geometry = panel.geometry()
+
 
     # Expand the geometry by buffer distance in each direction to extend
     # clickable area.
@@ -147,6 +148,7 @@ class @Newstime.PanelLayerView extends @Newstime.View
     # over that, but there is still an underlying issue the should be figured
     # out.
     @hovered = false
+    #console.log "Disengage", @hoveredObject
 
     if @hoveredObject
       @hoveredObject.trigger 'mouseout', e

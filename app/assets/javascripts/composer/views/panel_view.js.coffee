@@ -87,11 +87,14 @@ class @Newstime.PanelView extends @Newstime.View
 
   dOMMousemove: (e) ->
     e.stopPropagation()
+    #console.log 'In here'
 
   hide: ->
+    @hidden = true
     @$el.hide()
 
   show: ->
+    @hidden = false
     @$el.show()
 
   mousemove: (e) ->
