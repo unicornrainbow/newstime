@@ -1,5 +1,5 @@
-<%= simple_form_for section do |f| %>
-  <%= f.input :edition_id, as: :hidden %>
+<%= simple_form_for section, url: edition_section_url(edition, section) do |f| %>
+  <%#= f.input :edition_id, as: :hidden %>
   <%= f.input :name, hint: "Name of section." %>
   <%= f.input :page_title, hint: "Title will take prescedence over edition title." %>
   <%= f.input :path, hint: "Path the section will be available at from route of edition." %>

@@ -31,17 +31,16 @@ class SectionsController < ApplicationController
   end
 
   def edit
-    @section = Section.find(params[:id])
+    @edition = Edition.find(params[:edition_id])
+    @section = @edition.sections.find(params[:id])
   end
 
   def update
-    @section = Section.find(params[:id])
-    @edition = @section.edition
-    if @section.update_attributes(section_params)
-      redirect_to "#{compose_edition_path(@edition)}/#{@section.path}", notice: "Section updated successfully."
-    else
-      render "edit"
-    end
+    @edition = Edition.find(params[:edition_id])
+    @section = @edition.sections.find(params[:id])
+    section_params.delete('edition_id')
+    @section.update_attributes(section_params)
+    redirect_to :back
   end
 
   def show
