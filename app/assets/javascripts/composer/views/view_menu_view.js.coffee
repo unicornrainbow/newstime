@@ -36,12 +36,5 @@ class @Newstime.ViewMenuView extends Newstime.MenuTitleView
         @composer.togglePanelLayer()
 
 
-    @previewMenuItem = new Newstime.MenuItemView
-      title: 'Preview'
-      quickKey: '&#x2325;P'
-      click: ->
-        @composer.launchPreview()
-
     @menuBody.attachMenuItem(@snapMenuItem)
     @menuBody.attachMenuItem(@panelsMenuItem)
-    @menuBody.attachMenuItem(@previewMenuItem)

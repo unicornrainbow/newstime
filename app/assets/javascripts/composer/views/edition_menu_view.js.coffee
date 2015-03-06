@@ -35,7 +35,14 @@ class @Newstime.EditionMenuView extends Newstime.MenuTitleView
       click: ->
         @composer.save()
 
+    @previewMenuItem = new Newstime.MenuItemView
+      title: 'Preview'
+      quickKey: '&#x2325;P'
+      click: ->
+        @composer.launchPreview()
+
     @menuBody.attachMenuItem(@settingsMenuItem)
     @menuBody.attachMenuItem(@saveMenuItem)
     @menuBody.attachMenuItem(@printsMenuItem)
     @menuBody.attachMenuItem(@reflowMenuItem)
+    @menuBody.attachMenuItem(@previewMenuItem)
