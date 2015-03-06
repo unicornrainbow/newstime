@@ -67,7 +67,6 @@ class @Newstime.CaptureLayerView extends Backbone.View
     @$el.css 'pointer-events': ''
     @$el.show()
 
-
   disengage: ->
     @$el.css 'pointer-events': 'none'
     @$el.hide()

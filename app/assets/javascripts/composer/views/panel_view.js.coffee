@@ -7,6 +7,7 @@ class @Newstime.PanelView extends @Newstime.View
    'mousemove': 'dOMMousemove'
    'keydown': 'keydown'
    'paste': 'paste'
+   'mousedown .dismiss': 'dismiss'
 
   initialize: (options) ->
     @$el.addClass('newstime-palette-view')
@@ -17,6 +18,7 @@ class @Newstime.PanelView extends @Newstime.View
 
     @$el.html """
       <div class="title-bar">
+        <span class="dismiss"></span>
       </div>
       <div class="palette-body">
       </div>
@@ -38,9 +40,18 @@ class @Newstime.PanelView extends @Newstime.View
     @$el.css @model.pick('width', 'height')
     @renderPanel() if @renderPanel
 
-  dismiss: ->
-    @trigger 'dismiss'
+  dismiss: (e) ->
+    #@trigger 'dismiss'
+    #@composer.panelLayerView.hoveredObject.trigger 'mouseout', e
     @hide()
+    @composer.panelLayerView.hoveredObject = null
+
+    @hovered = false
+    @$el.removeClass 'hovered'
+
+    @composer.captureLayerView.engage()
+    @composer.unlockScroll()
+
 
   keydown: (e) ->
     e.stopPropagation() #
@@ -79,7 +90,7 @@ class @Newstime.PanelView extends @Newstime.View
       @$el.removeClass 'hovered'
 
       if @hoveredObject
-        @hoveredObject.trigger 'mouseover', e
+        @hoveredObject.trigger 'mouseout', e
         @hoveredObject = null
 
       @composer.captureLayerView.engage()
@@ -87,7 +98,6 @@ class @Newstime.PanelView extends @Newstime.View
 
   dOMMousemove: (e) ->
     e.stopPropagation()
-    #console.log 'In here'
 
   hide: ->
     @hidden = true
@@ -114,19 +124,20 @@ class @Newstime.PanelView extends @Newstime.View
 
 
   beginDrag: (e) ->
-    @dragging = true
-    @$titleBar.addClass('grabbing')
+    if e.target == @$titleBar[0]
+      @dragging = true
+      @$titleBar.addClass('grabbing')
 
-    # Calulate offsets
-    @bottomMouseOffset = $(window).height() - event.clientY - parseInt(@$el.css('bottom'))
-    @rightMouseOffset =  $(window).width() - event.clientX - parseInt(@$el.css('right'))
+      # Calulate offsets
+      @bottomMouseOffset = $(window).height() - event.clientY - parseInt(@$el.css('bottom'))
+      @rightMouseOffset =  $(window).width() - event.clientX - parseInt(@$el.css('right'))
 
-    # Engage and begin tracking here.
+      # Engage and begin tracking here.
 
-    @tracking = true
-    @composer.pushCursor('-webkit-grabbing')
-    @trigger 'tracking', this
-    @composer.captureLayerView.engage()
+      @tracking = true
+      @composer.pushCursor('-webkit-grabbing')
+      @trigger 'tracking', this
+      @composer.captureLayerView.engage()
 
   endDrag: (e) ->
     if @dragging

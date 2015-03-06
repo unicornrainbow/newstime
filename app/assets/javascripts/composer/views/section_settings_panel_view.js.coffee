@@ -12,18 +12,19 @@ class @Newstime.SectionSettingsPanelView extends @Newstime.PanelView
     @$el.css(top: top, left: left)
 
   beginDrag: (e) ->
-    @dragging = true
-    @$titleBar.addClass('grabbing')
+    if e.target == @$titleBar[0]
+      @dragging = true
+      @$titleBar.addClass('grabbing')
 
-    @leftMouseOffset = e.x - parseInt(@$el.css('left'))
-    @topMouseOffset = e.y - parseInt(@$el.css('top'))
+      @leftMouseOffset = e.x - parseInt(@$el.css('left'))
+      @topMouseOffset = e.y - parseInt(@$el.css('top'))
 
-    # Engage and begin tracking here.
+      # Engage and begin tracking here.
 
-    @tracking = true
-    @composer.pushCursor('-webkit-grabbing')
-    @trigger 'tracking', this
-    @composer.captureLayerView.engage()
+      @tracking = true
+      @composer.pushCursor('-webkit-grabbing')
+      @trigger 'tracking', this
+      @composer.captureLayerView.engage()
 
 
   mousemove: (e) ->

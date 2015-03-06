@@ -147,15 +147,15 @@ class @Newstime.PanelLayerView extends @Newstime.View
     # somthing, and the capture layer doesn't reengage. This sort should wash
     # over that, but there is still an underlying issue the should be figured
     # out.
-    @hovered = false
+    #@hovered = false
     #console.log "Disengage", @hoveredObject
 
-    if @hoveredObject
-      @hoveredObject.trigger 'mouseout', e
-      @hoveredObject = null
+    #if @hoveredObject
+      #@hoveredObject.trigger 'mouseout', e
+      #@hoveredObject = null
 
-    @composer.captureLayerView.engage()
-    @composer.unlockScroll()
+    #@composer.captureLayerView.engage()
+    #@composer.unlockScroll()
 
   adjustEventXY: (e) ->
     e.y -= @topOffset
