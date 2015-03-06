@@ -4,6 +4,7 @@ class @Newstime.PanelView extends @Newstime.View
    'mousedown .title-bar': 'beginDrag'
    'mouseup .title-bar': 'endDrag'
    'mouseout': 'mouseout'
+   'mousemove': 'dOMMousemove'
    'keydown': 'keydown'
    'paste': 'paste'
 
@@ -83,6 +84,10 @@ class @Newstime.PanelView extends @Newstime.View
 
       @composer.captureLayerView.engage()
       @composer.unlockScroll()
+
+  dOMMousemove: (e) ->
+    e.stopPropagation()
+    console.log 'In here'
 
   hide: ->
     @$el.hide()

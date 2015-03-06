@@ -18,8 +18,6 @@ class @Newstime.SectionSettingsPanelView extends @Newstime.PanelView
     @leftMouseOffset = e.x - parseInt(@$el.css('left'))
     @topMouseOffset = e.y - parseInt(@$el.css('top'))
 
-    console.log @topMouseOffset
-
     # Engage and begin tracking here.
 
     @tracking = true
@@ -41,3 +39,22 @@ class @Newstime.SectionSettingsPanelView extends @Newstime.PanelView
 
     @$el.css('left', x)
     @$el.css('top', y)
+
+
+  #width: ->
+    #parseInt(@$el.css('width'))
+
+  #height: ->
+    #parseInt(@$el.css('height'))
+
+  #x: ->
+    ##parseInt(@$el.css('left'))
+    ##@$el[0].offsetLeft
+    ##Math.round(@$el.position().left)
+    ##Math.round(
+    #Math.round(@$el.offset().left)
+    ##@$el[0].getBoundingClientRect()
+
+
+  #y: ->
+    #@$el[0].offsetTop

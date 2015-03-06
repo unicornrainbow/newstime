@@ -1,8 +1,12 @@
 # View layer which manages display and interaction with panels
-class @Newstime.PanelLayerView extends Backbone.View
+class @Newstime.PanelLayerView extends @Newstime.View
+
+  events:
+    'mousemove': 'dOMMousemove'
 
   initialize: (options) ->
     @$el.addClass 'panel-layer-view'
+    @composer = Newstime.composer
     @panels ?= []
 
     # Until we have a better means of containg all the application layer, just
@@ -10,11 +14,7 @@ class @Newstime.PanelLayerView extends Backbone.View
     @topOffset = options.topOffset
     @$el.css top: "#{@topOffset}px"
 
-    @bind 'mouseover',  @mouseover
-    @bind 'mouseout',   @mouseout
-    @bind 'mousemove',  @mousemove
-    @bind 'mousedown',  @mousedown
-    @bind 'mouseup',    @mouseup
+    @bindUIEvents()
 
   attachPanel: (panel) ->
     # Push onto the panels collection.
@@ -25,6 +25,7 @@ class @Newstime.PanelLayerView extends Backbone.View
 
     # Attach it to the dom el
     @$el.append(panel.el)
+
 
   # Registers hit, and returns hit panel, should there be one.
   hit: (x, y) ->
@@ -45,6 +46,7 @@ class @Newstime.PanelLayerView extends Backbone.View
     panel = _.find @panels, (panel) =>
       @detectHit panel, x, y
 
+    #console.log panel
 
     if @hovered # Only process events if hovered.
       if panel
@@ -132,6 +134,21 @@ class @Newstime.PanelLayerView extends Backbone.View
 
     if @hoveredObject
       @hoveredObject.trigger 'mousemove', e
+
+  dOMMousemove: (e) ->
+    # If we receive a dom mousemove here, that means that the capture layer is
+    # disengaged, and if the mousemove was over a panel, it did not stop the
+    # propogation, or that it is not over a panel at all. In either case, the
+    # capture layer should be reengaged so the the mouse event can go to the
+    # right place. The panels themseleves should handel mousemove, and cancel
+    # propgation to keep the capture layer from being reengaged. This should
+    # help with a bug that crops up when the mouseout on the panel is missed or
+    # somthing, and the capture layer doesn't reengage. This sort should wash
+    # over that, but there is still an underlying issue the should be figured
+    # out.
+    #console.log 'disengage'
+    @composer.captureLayerView.engage()
+    @composer.unlockScroll()
 
   adjustEventXY: (e) ->
     e.y -= @topOffset
