@@ -20,10 +20,10 @@ class @Newstime.GridView extends Backbone.View
     firstStep = columnWidth
     columnStep = columnWidth + gutterWidth
     @rightSteps = _(columns).times (i) ->
-      columnStep * i + firstStep
+      columnStep * i + firstStep + 8
 
     @rightSnapPoints = _.map @rightSteps, (step) ->
-      step + 8 # TODO: Has to do with snap, figure out how this extra 8 is sneaking in there. Rearrage.
+      step # TODO: Has to do with snap, figure out how this extra 8 is sneaking in there. Rearrage.
 
     @snapDistance = 10
 

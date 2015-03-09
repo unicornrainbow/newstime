@@ -342,11 +342,14 @@ class @Newstime.SelectionView extends @Newstime.View
   dragTopRight: (x, y) ->
     @composer.clearVerticalSnapLines()
     geometry  = @getGeometry()
-    width     = x - geometry.left
-    snapRight = @pageView.snapRight(width)
+    snapRight = @pageView.snapRight(x)
+
     if snapRight
-      @composer.drawVerticalSnapLine(snapRight + geometry.left)
-      width = snapRight
+      @composer.drawVerticalSnapLine(snapRight)
+      width = snapRight - geometry.left
+    else
+      width     = x - geometry.left
+
     y = @pageView.snapTop(y)
 
     @contentItem.set
