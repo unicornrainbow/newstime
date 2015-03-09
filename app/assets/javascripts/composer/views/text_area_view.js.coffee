@@ -98,13 +98,15 @@ class @Newstime.TextAreaView extends Newstime.ContentItemView
   dragBottomRight: (x, y) ->
     @composer.clearVerticalSnapLines()
     geometry = @getGeometry()
-    width = x - geometry.left
+    snapRight = @pageView.snapRight(x)
     y = @pageView.snapBottom(y)
 
-    snapRight = @pageView.snapRight(width)
+
     if snapRight
-      @composer.drawVerticalSnapLine(snapRight + geometry.left)
-      width = snapRight
+      @composer.drawVerticalSnapLine(snapRight)
+      width = snapRight - geometry.left
+    else
+      width = x - geometry.left
 
     height = y - geometry.top
     height = Math.floor(height / @lineHeight) * @lineHeight # Snap to Increments of line height
