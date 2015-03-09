@@ -94,7 +94,7 @@ class @Newstime.CanvasView extends @Newstime.View
 
         # Place them in z-index order.
         groupContentItems = groupContentItems.sort (a, b) ->
-          b.get('z-index') - a.get('z-index') # Reverese order on z-index (Highest towards top)
+          b.get('z_index') - a.get('z_index') # Reverese order on z-index (Highest towards top)
 
         # Add grouped content items to group
         _.each groupContentItems, (contentItem) ->

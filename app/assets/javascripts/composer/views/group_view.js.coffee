@@ -65,7 +65,7 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
 
   ungroup: ->
     contentItems = @contentItemViewsArray.slice(0) # Clone array of items.
-    _.each contentItems, (canvasItem) =>
+    _.each contentItems.reverse(), (canvasItem) =>
       @removeCanvasItem(canvasItem)
       @composer.canvas.addCanvasItem(canvasItem)
 

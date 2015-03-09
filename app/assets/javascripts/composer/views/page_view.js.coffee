@@ -85,7 +85,7 @@ class @Newstime.PageView extends @Newstime.View
     #@contentItemViewsArray.unshift(contentItemView)
 
     ## Set page z-index within page
-    #contentItem.set('z-index', @contentItemViewsArray.length-1)
+    #contentItem.set('z_index', @contentItemViewsArray.length-1)
 
     ## Expand page bounding box if neccessary
     #contentItemBoundry = contentItem.getBoundry()
