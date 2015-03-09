@@ -89,8 +89,8 @@ class @Newstime.KeyboardHandler extends Backbone.Model
           else
             # Toggle panel layer visibility
             @composer.togglePanelLayer()
-        when 86 # v
-          @composer.setTool('select-tool')
+        #when 86 # v
+          #@composer.setTool('select-tool')
         #else
           #console.log e.keyCode
 
