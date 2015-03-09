@@ -287,13 +287,15 @@ class @Newstime.SelectionView extends @Newstime.View
   dragRight: (x, y) ->
     @composer.clearVerticalSnapLines()
     geometry = @getGeometry()
-    width = x - geometry.left
-    width = Math.min(width, @pageView.getWidth() - @contentItem.get('left')) # Keep on page
-    snapRight = @pageView.snapRight(width) # Snap
+
+    x = Math.min(x, @pageView.getWidth()) # Keep on page
+    snapRight = @pageView.snapRight(x) # Snap
 
     if snapRight
-      @composer.drawVerticalSnapLine(snapRight + geometry.left)
-      width = snapRight
+      @composer.drawVerticalSnapLine(snapRight)
+      width = snapRight - geometry.left
+    else
+      width = x - geometry.left
 
     @contentItemView.setSizeAndPosition
       width: width
