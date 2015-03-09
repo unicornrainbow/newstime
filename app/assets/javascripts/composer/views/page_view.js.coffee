@@ -39,6 +39,7 @@ class @Newstime.PageView extends @Newstime.View
 
     @bindUIEvents()
 
+
   @getter 'uiLabel', -> "Page #{@model.get('number')}"
 
   keydown: (e) =>
@@ -301,6 +302,7 @@ class @Newstime.PageView extends @Newstime.View
 
   capturePageBounds: ->
     @model.set(@calculatePageBounds())
+    @boundingBox = new Newstime.Boundry(@model.pick('top', 'left', 'bottom', 'right'))
 
   calculatePageBounds: ->
     top = @el.offsetTop
