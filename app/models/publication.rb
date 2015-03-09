@@ -29,12 +29,18 @@ class Publication
 
   def edition_defaults
     # Finagle some defaults
-    highest_unititled = editions.where(name: /Edition No./).desc(:name).try(:first)
+    editions_names = editions.where(name: /Edition No. \d+/).pluck(:name)
+    editions_names.map! do |name|
+      name.match(/Edition No. (\d+)/).try(:captures).first.to_i
+    end
+    editions_names.sort!
+
+    highest_unititled = editions_names.last
+
     unless highest_unititled
       default_name = "Edition No. 1"
     else
-      increment = highest_unititled.name.match(/Edition No. (.*)/).try(:captures).first
-      default_name = "Edition No. #{increment.to_i+1}"
+      default_name = "Edition No. #{highest_unititled.to_i+1}"
     end
 
     slug = default_name.underscore.gsub(/[ _]/, '-')

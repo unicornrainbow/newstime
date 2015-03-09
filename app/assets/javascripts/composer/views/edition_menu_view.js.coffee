@@ -9,18 +9,24 @@ class @Newstime.EditionMenuView extends Newstime.MenuTitleView
   initializeMenu: ->
     @menuBody.model.set(top: 25)
 
+
+    @newEditionMenuItem = new Newstime.MenuItemView
+      title: 'New Edition'
+      click: ->
+        window.location = "/editions/new"
+
     @settingsMenuItem = new Newstime.MenuItemView
       title: 'Edition Settings'
       click: ->
         #@composer.toggleEditionSettings()
-        url = "http://press.newstime.io/editions/#{Newstime.composer.edition.id}/edit"
+        url = "/editions/#{Newstime.composer.edition.id}/edit"
         window.open(url, '_blank')
 
     @printsMenuItem = new Newstime.MenuItemView
       title: 'Prints'
       click: ->
         #@composer.togglePrintsWindow()
-        url = "http://press.newstime.io/editions/#{Newstime.composer.edition.id}/prints"
+        url = "/editions/#{Newstime.composer.edition.id}/prints"
         window.open(url, '_blank')
 
     @reflowMenuItem = new Newstime.MenuItemView
@@ -41,6 +47,7 @@ class @Newstime.EditionMenuView extends Newstime.MenuTitleView
       click: ->
         @composer.launchPreview()
 
+    @menuBody.attachMenuItem(@newEditionMenuItem)
     @menuBody.attachMenuItem(@settingsMenuItem)
     @menuBody.attachMenuItem(@saveMenuItem)
     @menuBody.attachMenuItem(@printsMenuItem)
