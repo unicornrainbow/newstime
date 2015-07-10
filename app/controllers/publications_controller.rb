@@ -5,7 +5,8 @@ class PublicationsController < ApplicationController
 
   def index
     redirect_to new_user_session_path and return unless current_user
-    @publications = current_user.publications.desc(:updated_at)
+    #@publications = current_user.publications.desc(:updated_at)
+    @publications = Publication.all.desc(:updated_at)
   end
 
   def new
@@ -16,7 +17,8 @@ class PublicationsController < ApplicationController
     @publication = Publication.new(publication_params)
 
     # All edtions must have an orgnaization
-    @publication.organization = current_user.organization
+    #@publication.organization = current_user.organization
+    #@publication.user = current_user
 
     if @publication.save
       redirect_to @publication, notice: "Publication created successfully."
