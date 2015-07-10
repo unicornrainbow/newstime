@@ -14,3 +14,8 @@ May it be a benefit, and serve you well. Keep spreading the love. ♡
 
 Many more features, bug fixes and documentation. Any questions or thoughts,
 please contact me.
+
+
+## License
+
+Be there such a thing, you have it.

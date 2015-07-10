@@ -102,10 +102,10 @@ Press::Application.routes.draw do
     resources :story_text_content_items, only: [:create, :update]
   end
 
-  #namespace :admin do
-    #resources :users
-    #resources :organizations
-  #end
+  namespace :admin do
+    resources :users
+    resources :organizations
+  end
 
   get '/logo' => 'application#logo'
 

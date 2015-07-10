@@ -25,7 +25,7 @@
     <% if print.initial? %>
     <% elsif print.printing? %>
     <% elsif print.printed? %>
-      <%= link_to "Download", download_print_path(print) %>
+      <%= link_to "Download", download_print_path(print) %> |
       <%= form_for print, html: { class: 'attach-signature' } do |f| %>
         <%= f.file_field :signature, value: "Attach Signature"%>
       <% end %>

@@ -10,7 +10,8 @@ class EditionsController < ApplicationController
 
   def index
     redirect_to new_user_session_path and return unless current_user
-    @editions = current_user.organization.editions.desc(:updated_at)
+    #@editions = current_user.organization.editions.desc(:updated_at)
+    @editions = current_user.editions.desc(:updated_at)
   end
 
   def new

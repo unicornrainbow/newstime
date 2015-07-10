@@ -30,7 +30,7 @@
 
       <%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
         <div class="form-inputs">
-          <%= f.input :email, :required => false, label: false, placeholder: 'Email', :autofocus => true %>
+          <%= f.input :username, :required => false, label: false, placeholder: 'Username', :autofocus => true %>
           <%= f.input :password, :required => false, label: false, placeholder: 'Password' %>
         </div>
 
