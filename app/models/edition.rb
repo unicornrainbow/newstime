@@ -42,7 +42,8 @@ class Edition
 
   has_many :prints, :order => :created_at.desc
 
-  belongs_to :organization
+  #belongs_to :organization
+  belongs_to :user
   belongs_to :publication, inverse_of: :editions
 
   # Methods

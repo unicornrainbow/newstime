@@ -27,4 +27,5 @@ class User
   belongs_to :organization
 
   has_many :editions
+  has_many :publications
 end

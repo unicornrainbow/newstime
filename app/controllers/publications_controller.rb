@@ -5,7 +5,7 @@ class PublicationsController < ApplicationController
 
   def index
     redirect_to new_user_session_path and return unless current_user
-    @publications = current_user.organization.publications.desc(:updated_at)
+    @publications = current_user.publications.desc(:updated_at)
   end
 
   def new

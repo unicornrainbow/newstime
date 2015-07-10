@@ -25,7 +25,9 @@ class EditionsController < ApplicationController
 
     # Construct new edition with sections and pages
     @edition = Edition.new(edition_params)
-    @edition.organization = @publication.organization
+
+    @edition.user = current_user
+    #@edition.organization = @publication.organization
 
     sections_attributes = JSON.parse(@publication.default_section_attributes)
     sections_attributes.each do |section_attributes|
