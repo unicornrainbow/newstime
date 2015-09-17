@@ -3,3 +3,5 @@ sfrecord:
   path: ../layouts/sfrecord
 volusia_democratic_caucus:
   path: ../layouts/volusia_democratic_caucus
+blank:
+  path: ../layouts/blank

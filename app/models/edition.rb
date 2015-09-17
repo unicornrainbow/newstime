@@ -15,6 +15,7 @@ class Edition
   #field :fmt_price,    type: String  # Formatted price string
 
   def pricef
+    return 0 unless price
     if price < 1.00
       "%.f¢" % (price.round(2)*100)
     else
