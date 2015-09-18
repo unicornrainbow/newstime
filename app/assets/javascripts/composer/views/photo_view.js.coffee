@@ -37,14 +37,11 @@ class @Newstime.PhotoView extends Newstime.ContentItemView
 
   render: ->
     super
-    # Compensate for caption height
-    #captionHeight = @$caption.height()
 
-    photoHeight = @model.get('height') - @model.get('caption_height')
+    photoSize =  @model.pick('height', 'width')
+    photoSize.height -=  @model.get('caption_height')
 
-    #console.log @model.get 'caption_height'
-
-    @$img.css height: photoHeight
+    @$img.css photoSize
 
   # Event hander for browser paste event.
   #
