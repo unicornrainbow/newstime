@@ -138,7 +138,7 @@ private
       :page_id, :top, :left, :width
     ]
     video_params = [:video_id]
-    photo_params = [:photo_id]
+    photo_params = [:photo_id, :caption_height]
     text_area_params = [:show_by_line, :by_line, :overflow_input_text, :lead_text_area_id, :follow_text_area_id, :continuation_text, :precedent_text, :continuation_path, :precedent_path]
     horizontal_rule_params = [:style_class]
 

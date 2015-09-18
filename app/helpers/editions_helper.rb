@@ -103,10 +103,11 @@ module EditionsHelper
       render "content/text_area", options
     when PhotoContentItem then
       options[:photo_url]     = content_item.edition_relative_url_path
+      options[:caption]  = content_item.caption
+      options[:caption_height]  = content_item.caption_height
       options[:photo_width]   = content_item.width
       #options[:photo_height]  = content_region.width / content_item.photo.aspect_ratio
-      options[:photo_height]  = content_item.height
-      options[:caption]  = content_item.caption
+      options[:photo_height]  = content_item.height - content_item.caption_height.to_i
       options[:show_caption]  = content_item.show_caption
       render "content/photo", options
     when VideoContentItem then

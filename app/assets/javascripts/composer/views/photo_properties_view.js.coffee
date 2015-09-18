@@ -54,8 +54,6 @@ class @Newstime.PhotoPropertiesView extends Backbone.View
 
   changeCaption: ->
     @model.set 'caption', @$captionField.val()
-    console.log "yeah"
-
 
 #class @Newstime.PhotoPropertiesView extends Backbone.View
 

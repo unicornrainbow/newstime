@@ -1,7 +1,5 @@
 @Newstime = @Newstime || {}
 
-# TODO: Extract this a content region control perhaps...
-
 class @Newstime.PhotoControlView extends Backbone.View
 
   events:

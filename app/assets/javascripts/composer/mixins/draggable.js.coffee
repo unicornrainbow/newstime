@@ -20,6 +20,7 @@ class @Newstime.Draggable
 
   dragBottom: (x, y) ->
     geometry = @getGeometry()
+
     @model.set
       height: @pageView.snapBottom(y) - geometry.top
 

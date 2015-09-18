@@ -1,30 +1,56 @@
 #= require ./content_item_view
 
+# Description: The photo view which appears on the canvas area. Allows photos to
+#              be drawn, resized and positioned.
+#
 class @Newstime.PhotoView extends Newstime.ContentItemView
 
   contentItemClassName: 'photo-view'
 
   initializeContentItem: ->
+    @$img = @$el.find('img')
+    @$caption = @$('.photo-caption')
+
     @listenTo @model, 'change:photo_id', @photoChanged
+    @listenTo @model, 'change:caption', @captionChanged
+    @listenTo @model, 'change:show_caption', @showCaptionChanged
+    @listenTo @model, 'change', @render
     @render()
 
   @getter 'uiLabel', -> "Photo"
 
   photoChanged: ->
-    @$el.css "background-image": "url('#{@model.get('edition_relative_url_path')}')"
+    @$img.attr "src", @model.get('edition_relative_url_path')
 
+  captionChanged: ->
+    @$caption.html @model.get('caption')
+    @model.set('caption_height', @$caption.height())
+
+  showCaptionChanged: ->
+    if @model.get('show_caption')
+      @$caption.show()
+      @model.set('caption_height', @$caption.height())
+    else
+      @$caption.hide()
+      @model.set('caption_height', 0)
+
+
+  render: ->
+    super
+    # Compensate for caption height
+    #captionHeight = @$caption.height()
+
+    photoHeight = @model.get('height') - @model.get('caption_height')
+
+    #console.log @model.get 'caption_height'
+
+    @$img.css height: photoHeight
+
+  # Event hander for browser paste event.
+  #
+  # Retrieves data from clipboard, uploads it to the server, and updates the
+  # photo in the view.
   paste: (e) =>
-    # Note: Code derived http://joelb.me/blog/2011/code-snippet-accessing-clipboard-images-with-javascript/
-    #item = e.originalEvent.clipboardData.items[0]
-    #if item && item.type.indexOf "image" != -1
-      #blob   = item.getAsFile()
-      #URLObj = window.URL || window.webkitURL
-      #source = URLObj.createObjectURL(blob)
-      #@$contentEl.css "background-image": "url('#{source}')"
-
-    # Now we should upload and save this image to the server. When it has been
-    # saved, we should update the image linkes. Perhaps we should simply upload.
-
     item = e.originalEvent.clipboardData.items[0]
     if item && item.type.indexOf "image" != -1
       # Get image file from clipboard item.
@@ -51,7 +77,6 @@ class @Newstime.PhotoView extends Newstime.ContentItemView
 
         #error: (jqXHR, textStatus, errorThrown) ->
           #console.log('ERRORS: ' + textStatus)
-          #
 
   _createPropertiesView: ->
     new Newstime.PhotoPropertiesView(target: this, model: @model).render()

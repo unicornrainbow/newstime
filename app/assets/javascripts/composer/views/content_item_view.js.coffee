@@ -1,5 +1,5 @@
 #= require ../views/canvas_item_view
-#
+
 class @Newstime.ContentItemView extends @Newstime.CanvasItemView
 
   className: 'content-item-view'
