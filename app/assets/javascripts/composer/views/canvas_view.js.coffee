@@ -372,7 +372,6 @@ class @Newstime.CanvasView extends @Newstime.View
       y = Math.round(y/@zoomLevel)
 
 
-
     return [x, y]
 
   # Returns a wrapper event with external coords mapped to internal.
@@ -429,7 +428,7 @@ class @Newstime.CanvasView extends @Newstime.View
         when 'photo-tool'
           @draw(Newstime.PhotoView, e.x, e.y)
         when 'video-tool'
-          @drawVideo(e.x, e.y)
+          @draw(Newstime.VideoView, e.x, e.y)
         when 'select-tool'
           if e.button == 0 # Only on left click
             @composer.clearSelection()

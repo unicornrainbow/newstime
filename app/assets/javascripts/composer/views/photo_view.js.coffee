@@ -1,5 +1,5 @@
 #= require ./content_item_view
-
+#
 # Description: The photo view which appears on the canvas area. Allows photos to
 #              be drawn, resized and positioned.
 #

@@ -1,26 +1,21 @@
 #= require ./content_item_view
-
+#
+# Description: The video view which appears on the canvas area. Allows videos to
+#              be drawn, resized and positioned.
+#
 class @Newstime.VideoView extends @Newstime.ContentItemView
 
-  initialize: (options) ->
-    super
-    @$el.addClass 'video-view'
+  contentItemClassName: 'video-view'
 
-    @setContentEl(options.contentEl) if options.contentEl
+  initializeContentItem: ->
+    #@setContentEl(options.contentEl) if options.contentEl
+    #@modelChanged()
 
-    @propertiesView = new Newstime.VideoPropertiesView(target: this)
+  @getter 'uiLabel', -> "Video"
 
-    @modelChanged()
 
-  setContentEl: (contentEl) ->
-    @$contentEl = $(contentEl)
+  _createPropertiesView: ->
+    new Newstime.VideoPropertiesView(target: this, model: @model).render()
 
-  modelChanged: ->
-    super()
-
-    if @$contentEl?
-      @$contentEl.css _.pick @model.changedAttributes(), 'top', 'left', 'width', 'height'
-
-  modelDestroyed: ->
-    super()
-    @$contentEl.remove() if @$contentEl?
+  _createModel: ->
+    @edition.contentItems.add({_type: 'VideoContentItem'})
