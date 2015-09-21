@@ -97,38 +97,38 @@ class EditionAssetsController < ApplicationController
     # TODO: Would be nice if this find was scoped better to the edition to avoid
     # name conflicts.
     video = Video.find_by(name: params[:path])
-    #response.headers['Content-Length'] = File.stat(video.location).size
 
-    #file_begin = 0
-    #file_size = File.stat(video.location).size
-    #file_end = file_size - 1
+    file_begin = 0
+    file_size = File.stat(video.location).size
+    file_end = file_size - 1
 
-    #if !request.headers["Range"]
-      #status_code = :ok
-    #else
-      #status_code = :partial_content
-      #match = request.headers['Range'].match(/bytes=(\d+)-(\d*)/)
-      #if match
-        #file_begin = match[1]
-        #file_end = match[2] if match[2] && !match[2].empty?
-      #end
-      #response.header["Content-Range"] = "bytes " + file_begin.to_s + "-" + file_end.to_s + "/" + file_size.to_s
-    #end
-    #response.header["Content-Length"] = (file_end.to_i - file_begin.to_i + 1).to_s
+    if !request.headers["Range"]
+      status_code = :ok
+    else
+      status_code = :partial_content
+      match = request.headers['Range'].match(/bytes=(\d+)-(\d*)/)
+      if match
+        file_begin = match[1]
+        file_end = match[2] if match[2] && !match[2].empty?
+      end
+      response.header["Content-Range"] = "bytes " + file_begin.to_s + "-" + file_end.to_s + "/" + file_size.to_s
+    end
+    response.header["Content-Length"] = (file_end.to_i - file_begin.to_i + 1).to_s
 
-    #response.header["Accept-Ranges"]=  "bytes"
-    #response.header["Content-Transfer-Encoding"] = "binary"
+    response.header["Accept-Ranges"]=  "bytes"
+    response.header["Content-Transfer-Encoding"] = "binary"
 
 
-    send_file video.video_file.path #, disposition: :inline
+    #send_file video.video_file.path, disposition: nil
 
-    #send_file video.video_file.path,
-      #filename: File.basename(video.location),
-      #type: 'video/mp4',
-      #disposition: :inline,
-      #status: status_code,
-      #stream:  'true',
-      #buffer_size:  4096
+    send_file video.video_file.path,
+      filename: File.basename(video.location),
+      type: 'video/mp4',
+      disposition: :inline,
+      status: status_code,
+      stream:  'true',
+      buffer_size:  4096
+
   end
 
 end
