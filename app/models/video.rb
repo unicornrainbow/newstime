@@ -20,6 +20,10 @@ class Video
     end
   end
 
+  def location
+    video_file.path
+  end
+
   def video_url
     # Note: Edition relative
     "videos/#{name}#{File.extname(video_file.path)}"

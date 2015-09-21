@@ -111,8 +111,16 @@ module EditionsHelper
       options[:show_caption]  = content_item.show_caption
       render "content/photo", options
     when VideoContentItem then
-      options[:video_url]         = content_item.video_url
-      options[:video_thumbnail]   = content_item.cover_image_url
+
+      # Find video by name
+      video = Video.find_by(name: content_item.video_name)
+      options[:video_url]         = video.video_url
+      options[:video_thumbnail]   = video.cover_image_url
+
+
+
+      #options[:video_url]         = content_item.video_url
+      #options[:video_thumbnail]   = content_item.cover_image_url
 
       render "content/video", options
     when HorizontalRuleContentItem then

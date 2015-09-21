@@ -1,5 +1,7 @@
 class VideoContentItem < ContentItem
+  field :video_name, type: String
   field :caption, type: String
+
   belongs_to :video
 
   def video_url

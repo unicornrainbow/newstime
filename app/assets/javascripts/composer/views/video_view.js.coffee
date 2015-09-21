@@ -8,6 +8,7 @@ class @Newstime.VideoView extends @Newstime.ContentItemView
   contentItemClassName: 'video-view'
 
   initializeContentItem: ->
+    console.log @$el
     #@setContentEl(options.contentEl) if options.contentEl
     #@modelChanged()
 
