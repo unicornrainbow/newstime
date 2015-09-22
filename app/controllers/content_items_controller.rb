@@ -143,6 +143,7 @@ private
     horizontal_rule_params = [:style_class]
 
     params.fetch(:content_item, {}).permit(*(shared_params + video_params + photo_params + horizontal_rule_params + text_area_params))
+
   end
 
 end

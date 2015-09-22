@@ -43,7 +43,6 @@ class EditionAssetsController < ApplicationController
       $sprocket_environments[@edition.layout_module_root] = environment
     end
 
-
     result = environment["#{params[:path]}.css"]
     render text: result, content_type: "text/css"
   end

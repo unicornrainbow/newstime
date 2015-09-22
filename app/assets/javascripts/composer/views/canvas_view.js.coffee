@@ -148,6 +148,7 @@ class @Newstime.CanvasView extends @Newstime.View
             when 'TextAreaContentItem' then Newstime.TextAreaView
             when 'PhotoContentItem' then Newstime.PhotoView
             when 'VideoContentItem' then Newstime.VideoView
+            when 'DividerContentItem' then Newstime.DividerView
 
         contentItemView = new contentItemViewType
           model: contentItem
@@ -404,6 +405,7 @@ class @Newstime.CanvasView extends @Newstime.View
       when 'headline-tool' then "-webkit-image-set(url('/assets/headline_tool_cursor.png') 2x), auto"
       when 'photo-tool' then "-webkit-image-set(url('/assets/photo_tool_cursor.png') 2x), auto"
       when 'video-tool' then "-webkit-image-set(url('/assets/video_tool_cursor.png') 2x), auto"
+      when 'divider-tool' then "-webkit-image-set(url('/assets/divider_tool_cursor.png') 2x), auto"
 
     #when 'text-tool' then 'pointer'
     #when 'text-tool' then 'text'
@@ -429,6 +431,8 @@ class @Newstime.CanvasView extends @Newstime.View
           @draw(Newstime.PhotoView, e.x, e.y)
         when 'video-tool'
           @draw(Newstime.VideoView, e.x, e.y)
+        when 'divider-tool'
+          @draw(Newstime.DividerView, e.x, e.y)
         when 'select-tool'
           if e.button == 0 # Only on left click
             @composer.clearSelection()

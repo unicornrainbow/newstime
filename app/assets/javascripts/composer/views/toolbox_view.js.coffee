@@ -46,6 +46,11 @@ class @Newstime.ToolboxView extends Backbone.View
       toolbox: @model
       position: { top: '88px', left: '2px' }
 
+    @buttons.push new Newstime.ToolboxButtonView
+      type: 'divider-tool'
+      toolbox: @model
+      position: { top: '88px', left: '34px' }
+
     #_.each @buttons, (button) =>
       #button.bind 'select', @selectButton, this
 

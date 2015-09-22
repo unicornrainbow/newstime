@@ -142,7 +142,9 @@ private
       PhotoContentItem.attribute_names +
       TextAreaContentItem.attribute_names +
       VideoContentItem.attribute_names +
-      HeadlineContentItem.attribute_names).uniq
+      HeadlineContentItem.attribute_names +
+      DividerContentItem.attribute_names
+      ).uniq
 
     params.require(:edition).
       permit(:name, :source, :page_title, :masthead_id, :layout_id,

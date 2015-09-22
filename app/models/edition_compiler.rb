@@ -96,9 +96,7 @@ class EditionCompiler
       FileUtils.cp video.cover_image.path, @output_dir.join(video.cover_image_url)
     end
 
-
     # TODO: Collect and render consumed media module assets (Images...)
-
   end
 
 end

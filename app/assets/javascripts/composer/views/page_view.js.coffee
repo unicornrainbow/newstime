@@ -14,7 +14,7 @@ class @Newstime.PageView extends @Newstime.View
     @boundingBox = new Newstime.Boundry(@model.pick('top', 'left', 'bottom', 'right'))
     @contentItemViewsArray = []
 
-    @contentItemsSelector = "[headline-control], [text-area-control], [photo-control], [video-control]"
+    @contentItemsSelector = "[headline-control], [text-area-control], [photo-control], [video-control], [divider-control]"
 
     @page = @model
 

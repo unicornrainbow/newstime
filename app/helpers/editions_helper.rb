@@ -129,6 +129,11 @@ module EditionsHelper
 
       render "content/horizontal_rule", options
 
+    when DividerContentItem then
+      options[:style_class]  = content_item.style_class # short-hr, news-column-double-rule
+
+      render "content/horizontal_rule", options
+
     when BoxContentItem then
       options = {}
       options[:id]     = content_item.id
