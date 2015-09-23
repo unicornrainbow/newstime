@@ -15,16 +15,36 @@ class @Newstime.DividerView extends @Newstime.ContentItemView
 
 
   render: ->
-    @$el.css @model.pick 'width', 'top', 'left'
-    @$el.css 'z-index': @model.get('z_index')
+    orientation = @model.get('orientation')
+    width       = @model.get('width')
+    height      = @model.get('height')
+    thickness   = @model.get('thickness') || "1"
 
-    @$el.attr 'class', "#{@elementStyles} #{@model.get('style_class')} #{@model.get('orientation')}"
+    if thickness
+      thickness   = thickness.split(' ')
+      thickness   = _.map thickness, (val) ->
+        parseInt(val)
+      thicknessSum = _.reduce thickness, (a, b) -> a+b
 
-    #photoSize =  @model.pick('height', 'width')
-    #photoSize.height -=  @model.get('caption_height')
+    @$el.css @model.pick 'top', 'left', 'z-index'
+    @$el.attr 'class', "#{@elementStyles} #{orientation}"
 
-    #@$el. photoSize
-    #
+    if orientation == 'vertical'
+      margin = (width - thicknessSum) / 2
+      @$el.css height: "#{height}px", margin: "0 #{margin}px"
+
+      if thickness
+        @$el.css 'border-width': "0 #{if thickness[2] then thickness[2] else 0}px 0 #{thickness[0]}px"
+        @$el.css 'width': if thickness[1] then thickness[1] else 0
+
+    else
+      margin = (height - thicknessSum) / 2
+      @$el.css width: "#{width}px", margin: "#{margin}px 0"
+
+      if thickness
+        @$el.css 'border-width': "#{thickness[0]}px 0 #{if thickness[2] then thickness[2] else 0}px 0"
+        @$el.css 'height': if thickness[1] then thickness[1] else 0
+
 
   _createPropertiesView: ->
     new Newstime.DividerPropertiesView(target: this, model: @model).render()

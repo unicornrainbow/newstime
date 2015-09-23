@@ -13,7 +13,6 @@ class @Newstime.HeadlinePropertiesView extends Backbone.View
     @$el.addClass('headline-properties')
 
     @$el.html """
-
       <li class="property">
         <label>Font</label>
         <span class="field">

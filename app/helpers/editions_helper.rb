@@ -130,8 +130,29 @@ module EditionsHelper
       render "content/horizontal_rule", options
 
     when DividerContentItem then
-      options[:style_class]  = content_item.style_class # short-hr, news-column-double-rule
+      width  = content_item.width || 0
+      height = content_item.height || 0
       options[:orientation]  = content_item.orientation
+
+      thickness = content_item.thickness || "1"
+      if thickness
+        thickness   = thickness.split(' ')
+        thickness   = thickness.map { |val| val.to_i }
+        thicknessSum = thickness.sum || 0
+      end
+
+
+      if content_item.orientation == 'vertical'
+        margin = (width - thicknessSum) / 2
+        options[:border_width]  = "0 #{thickness[2] ? thickness[2] : 0}px 0 #{thickness[0]}px"
+        options[:margin] = "0 #{margin}px"
+        options[:width] = thickness[1] || 0
+      else
+        margin = (height - thicknessSum) / 2
+        options[:border_width]  = "#{thickness[0]}px 0 #{thickness[2] ? thickness[2] : 0}px 0"
+        options[:margin] = "#{margin}px 0"
+        options[:height] = thickness[1] || 0
+      end
 
       render "content/horizontal_rule", options
 

@@ -4,8 +4,8 @@ class @Newstime.DividerPropertiesView extends Backbone.View
   tagName: 'ul'
 
   events:
-   'change .style-select': 'changeStyle'
    'change .orientation-select': 'changeOrientation'
+   'change .thickness': 'changeThickness'
 
   initialize: ->
     @$el.addClass('divider-properties')
@@ -21,18 +21,15 @@ class @Newstime.DividerPropertiesView extends Backbone.View
         </span>
       </li>
       <li class="property">
-        <label>Style</label>
+        <label>Thickness</label>
         <span class="field">
-          <select class="style-select">
-            <option value="Single">Single</option>
-            <option value="news-column-double-rule">Double</option>
-          </select>
+          <input class="thickness"></input>
         </span>
       </li>
     """
 
-    @$styleSelect = @$('.style-select')
     @$orientationSelect = @$('.orientation-select')
+    @$thickness = @$('.thickness')
 
     @listenTo @model, 'change', @render
 
@@ -40,13 +37,13 @@ class @Newstime.DividerPropertiesView extends Backbone.View
 
 
   render: ->
-    @$styleSelect.val(@model.get('style_class')) if @model.get('style_class')
     @$orientationSelect.val(@model.get('orientation')) if @model.get('orientation')
+    @$thickness.val(@model.get('thickness')) if @model.get('thickness')
 
     this
 
-  changeStyle: (e) ->
-    @model.set('style_class': $(e.currentTarget).val())
-
   changeOrientation: (e) ->
     @model.set('orientation': $(e.currentTarget).val())
+
+  changeThickness: (e) ->
+    @model.set('thickness': $(e.currentTarget).val())

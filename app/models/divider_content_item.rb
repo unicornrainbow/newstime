@@ -1,4 +1,4 @@
 class DividerContentItem < ContentItem
-  field :style_class, type: String
   field :orientation, type: String
+  field :thickness,   type: String
 end
