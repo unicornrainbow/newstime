@@ -131,6 +131,7 @@ module EditionsHelper
 
     when DividerContentItem then
       options[:style_class]  = content_item.style_class # short-hr, news-column-double-rule
+      options[:orientation]  = content_item.orientation
 
       render "content/horizontal_rule", options
 
