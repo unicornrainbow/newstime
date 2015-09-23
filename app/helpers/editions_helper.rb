@@ -123,12 +123,6 @@ module EditionsHelper
       #options[:video_thumbnail]   = content_item.cover_image_url
 
       render "content/video", options
-    when HorizontalRuleContentItem then
-      options = {}
-      options[:style_class]  = content_item.style_class # short-hr, news-column-double-rule
-
-      render "content/horizontal_rule", options
-
     when DividerContentItem then
       width  = content_item.width || 0
       height = content_item.height || 0
@@ -154,7 +148,7 @@ module EditionsHelper
         options[:height] = thickness[1] || 0
       end
 
-      render "content/horizontal_rule", options
+      render "content/divider", options
 
     when BoxContentItem then
       options = {}
