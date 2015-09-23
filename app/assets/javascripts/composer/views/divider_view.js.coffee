@@ -8,13 +8,8 @@ class @Newstime.DividerView extends @Newstime.ContentItemView
     #@setContentEl(options.contentEl) if options.contentEl
     #@modelChanged()
 
-    @elementStyles = @$el.attr('class')
+    @elementStyles = 'divider'
 
-
-  render: ->
-    super
-
-    #console.log "as"
 
   @getter 'uiLabel', -> "Divider"
 
@@ -23,10 +18,7 @@ class @Newstime.DividerView extends @Newstime.ContentItemView
     @$el.css @model.pick 'width', 'top', 'left'
     @$el.css 'z-index': @model.get('z_index')
 
-    @$el.attr 'class', @elementStyles # Reset class list to not include and style class
-    @$el.addClass @model.get('style_class') if @model.get('style_class')
-
-    console.log @$el
+    @$el.attr 'class', "#{@elementStyles} #{@model.get('style_class')} #{@model.get('orientation')}"
 
     #photoSize =  @model.pick('height', 'width')
     #photoSize.height -=  @model.get('caption_height')
