@@ -116,7 +116,7 @@ module EditionsHelper
       video = Video.find_by(name: content_item.video_name)
       options[:video_url]         = video.video_url
       options[:video_thumbnail]   = video.cover_image_url
-
+      options[:video_aspect_ratio]   = video.aspect_ratio
 
 
       #options[:video_url]         = content_item.video_url

@@ -43,7 +43,7 @@ class VideosController < ApplicationController
   def set_cover
     @video = Video.find(params[:id])
     @video.extract_cover!(params['offset'])
-    @video.set_aspect_ratio!(params['offset']) # Should happen on save, invoking here for time being.
+    @video.set_aspect_ratio! # Should happen on save, invoking here for time being.
     redirect_to :back
   end
 

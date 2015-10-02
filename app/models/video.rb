@@ -29,8 +29,8 @@ class Video
     stream = json['streams'][0]
     width  = stream['width'].to_f
     height = stream['height'].to_f
-    self.aspect_ratio = width/height
-    self.save
+    self.update_attribute :aspect_ratio, (width/height).round(4)
+    self.save!
   end
 
   def location

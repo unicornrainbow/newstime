@@ -22,7 +22,7 @@ class @Newstime.VideoView extends @Newstime.ContentItemView
 
 
   dragBottomRight: (x, y) ->
-    aspectRatio = 1.777 # (width/height)
+    aspectRatio = @model.get('aspect_ratio') # (width/height)
 
     @composer.clearVerticalSnapLines()
     geometry  = @getGeometry()
@@ -38,12 +38,15 @@ class @Newstime.VideoView extends @Newstime.ContentItemView
     height = y - geometry.top
 
     # Select the largest value with respect to aspect ratio
-    if height * aspectRatio > width
-      # Height is dominant
-      width = height * aspectRatio
-    else
-      # Width is dominant
-      height = width / aspectRatio
+    #if height * aspectRatio > width
+      ## Height is dominant
+      #width = height * aspectRatio
+    #else
+      ## Width is dominant
+      #height = width / aspectRatio
+
+
+    height = width / aspectRatio
 
     @model.set
       width: width
