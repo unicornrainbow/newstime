@@ -32,7 +32,7 @@ class Print
   state_machine :state, initial: :initial do
     before_transition :initial => :printing, do: :queue_print
     after_transition  :printing => :printed, do: :broadcast_print_complete
-    before_transition :signed => :published, do: :publish_print_to_store
+    before_transition :printed => :published, do: :publish_print_to_store
 
     event :print_start do
       transition :initial => :printing
@@ -42,12 +42,12 @@ class Print
       transition :printing => :printed
     end
 
-    event :sign do
-      transition :printed => :signed
-    end
+    #event :sign do
+      #transition :printed => :signed
+    #end
 
     event :publish do
-      transition :signed => :published
+      transition :printed => :published
     end
 
     event :reset do
