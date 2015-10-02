@@ -9,10 +9,6 @@ class @Newstime.VideoView extends @Newstime.ContentItemView
 
   initializeContentItem: ->
     @$caption = @$('.video-caption')
-    #console.log @$el
-    #@setContentEl(options.contentEl) if options.contentEl
-    #@modelChanged()
-
     @listenTo @model, 'change:caption', @captionChanged
     @listenTo @model, 'change:show_caption', @showCaptionChanged
     @listenTo @model, 'change', @render
@@ -40,7 +36,6 @@ class @Newstime.VideoView extends @Newstime.ContentItemView
 
   render: ->
     super
-    console.log @model.get('caption_height')
     @$caption.css bottom: -@model.get('caption_height')
 
   dragBottomRight: (x, y) ->
