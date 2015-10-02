@@ -57,7 +57,7 @@ class Print
 
 
   def name
-    stripped_name = edition.name.underscore.gsub(/[^a-z\s]/, '').gsub(' ', '_')
+    stripped_name = edition.name.underscore.gsub(/[^a-zA-Z\d\s]/, '').gsub(' ', '_')
     "#{stripped_name}_v#{version}"
   end
 
