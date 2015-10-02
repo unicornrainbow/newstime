@@ -1,7 +1,9 @@
 class VideoContentItem < ContentItem
   field :video_name, type: String
   field :caption, type: String
+  field :show_caption, type: Boolean
   field :aspect_ratio, type: Float
+  field :caption_height, type: Integer
 
   belongs_to :video
 

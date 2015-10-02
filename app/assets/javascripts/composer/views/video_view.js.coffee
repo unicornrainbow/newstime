@@ -8,9 +8,14 @@ class @Newstime.VideoView extends @Newstime.ContentItemView
   contentItemClassName: 'video-view'
 
   initializeContentItem: ->
-    console.log @$el
+    @$caption = @$('.video-caption')
+    #console.log @$el
     #@setContentEl(options.contentEl) if options.contentEl
     #@modelChanged()
+
+    @listenTo @model, 'change:caption', @captionChanged
+    @listenTo @model, 'change:show_caption', @showCaptionChanged
+    @listenTo @model, 'change', @render
 
   @getter 'uiLabel', -> "Video"
 
@@ -20,6 +25,23 @@ class @Newstime.VideoView extends @Newstime.ContentItemView
   _createModel: ->
     @edition.contentItems.add({_type: 'VideoContentItem'})
 
+  captionChanged: ->
+    @$caption.html @model.get('caption')
+    @model.set('caption_height', @$caption.height())
+
+
+  showCaptionChanged: ->
+    if @model.get('show_caption')
+      @$caption.show()
+      @model.set('caption_height', @$caption.height())
+    else
+      @$caption.hide()
+      @model.set('caption_height', 0)
+
+  render: ->
+    super
+    console.log @model.get('caption_height')
+    @$caption.css bottom: -@model.get('caption_height')
 
   dragBottomRight: (x, y) ->
     aspectRatio = @model.get('aspect_ratio') # (width/height)
