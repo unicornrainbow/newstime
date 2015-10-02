@@ -70,7 +70,9 @@ class Edition
     videos = []
     sections.each do |section|
       section.pages.each do |page|
-        videos += page.content_items.where(_type: 'VideoContentItem').map(&:video)
+        videos += page.content_items.where(_type: 'VideoContentItem').map do |content_item|
+          Video.find_by(name: content_item.video_name)
+        end
       end
     end
     videos.compact
