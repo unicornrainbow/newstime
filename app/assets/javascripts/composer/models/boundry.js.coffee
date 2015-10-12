@@ -1,4 +1,3 @@
-
 # An object which represents a boundry which can be used for hit and collision
 # detection.
 #

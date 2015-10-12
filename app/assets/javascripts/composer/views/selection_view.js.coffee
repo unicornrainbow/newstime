@@ -121,7 +121,6 @@ class @Newstime.SelectionView extends @Newstime.View
       geometry = @getGeometry()
       @trackMove(e.x - geometry.left, e.y - geometry.top)
 
-
   beginDraw: (x, y) ->
     # TODO: Rewrite this with selection
     # Snap x to grid
@@ -192,7 +191,6 @@ class @Newstime.SelectionView extends @Newstime.View
 
     else if @moving
       @move(e.x, e.y, e.shiftKey)
-
     else
       # Check for hit handles
       hit = @hitsDragHandle(e.x, e.y)
@@ -376,8 +374,8 @@ class @Newstime.SelectionView extends @Newstime.View
 
     if @moving
       @moving = false
-      @composer.assignPage(@contentItem)
       @composer.clearVerticalSnapLines()
+      @composer.assignPage(@contentItem, @contentItemView)
 
     @trigger 'tracking-release', this
 

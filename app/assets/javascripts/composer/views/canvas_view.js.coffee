@@ -509,9 +509,6 @@ class @Newstime.CanvasView extends @Newstime.View
 
 
   detectHit: (page, x, y) ->
-
-    # TODO: Need to refactor this to avoid to much recaluculating.
-
     geometry = page.geometry()
 
     # The x value that comes back needs to have this xCorrection value applied

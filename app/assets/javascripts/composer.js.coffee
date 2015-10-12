@@ -344,7 +344,6 @@ class @Newstime.Composer extends Backbone.View
 
   # Public: Handles mousemove events, called by CaptureLayerView
   mousemove: (e) ->
-
     # Store current cursor location.
     @mouseX = e.x
     @mouseY = e.y
@@ -892,7 +891,7 @@ class @Newstime.Composer extends Backbone.View
     @outlineLayerView.clearVerticalSnapLines()
 
   # Ensure item is on correct page, otherwise reassigns page
-  assignPage: (canvasItem) ->
+  assignPage: (canvasItem, canvasItemView) =>
     y = canvasItem.top
 
     # Get section pages
@@ -908,8 +907,22 @@ class @Newstime.Composer extends Backbone.View
     page = _.max pages, (page) -> page.top
 
     if canvasItem.getPage() != page
-      canvasItem.setPage(page)
+      # This is a messy implementation of switching item from one page to the next.
+      currentPage = canvasItem.getPage()
+      targetPage  = page
 
+      canvasItem.setPage(targetPage)
+
+      # Look up the page views
+      currentPageView = @pageViews[currentPage.cid]
+      targetPageView = @pageViews[targetPage.cid]
+
+      # Move canvas item from current page to target page.
+      currentPageView.removeCanvasItem(canvasItemView)
+      targetPageView.addCanvasItem(canvasItemView)
+
+      # Update the pages panel
+      @pagesPanelView.renderPanel()
 
 
 $ ->
