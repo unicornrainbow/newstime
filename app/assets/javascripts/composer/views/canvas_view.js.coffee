@@ -122,7 +122,6 @@ class @Newstime.CanvasView extends @Newstime.View
 
           contentItemView.render()
 
-
         #@listenTo group, 'destroy', (group) ->
           #@groupViews[group.cid] = null
 

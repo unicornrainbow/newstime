@@ -176,8 +176,10 @@ class @Newstime.MultiSelectionView extends @Newstime.View
 
     if @moving
       @moving = false
-
       @composer.clearVerticalSnapLines()
+
+      _.each @selectedViews, (view) =>
+        @composer.assignPage(view.model, view)
 
     @trigger 'tracking-release', this
 
