@@ -18,6 +18,6 @@ class VideoContentItem < ContentItem
   end
 
   def aspect_ratio
-    Video.find_by(name: video_name).try(:aspect_ratio)
+    Video.find_by(name: video_name).try(:aspect_ratio) if video_name
   end
 end

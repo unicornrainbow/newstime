@@ -73,6 +73,7 @@ class @Newstime.CanvasItemView extends @Newstime.View
 
   render: ->
     @$el.css @model.pick 'width', 'height', 'top', 'left'
+
     @$el.css 'z-index': @model.get('z_index')
 
   # Deletes the content item
