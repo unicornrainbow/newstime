@@ -112,12 +112,15 @@ class @Newstime.CanvasView extends @Newstime.View
               when 'TextAreaContentItem' then Newstime.TextAreaView
               when 'PhotoContentItem' then Newstime.PhotoView
               when 'VideoContentItem' then Newstime.VideoView
+              when 'DividerContentItem' then Newstime.DividerView
 
           contentItemView = new contentItemViewType
             model: contentItem
             el: el
 
           groupView.addCanvasItem(contentItemView, reattach: true)
+
+          contentItemView.render()
 
 
         #@listenTo group, 'destroy', (group) ->
@@ -155,6 +158,8 @@ class @Newstime.CanvasView extends @Newstime.View
           el: el
 
         @addCanvasItem(contentItemView, reattach: true)
+
+        contentItemView.render()
 
     # Add an add page button
     @addPageButton = new Newstime.AddPageButton

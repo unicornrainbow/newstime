@@ -27,6 +27,7 @@ class @Newstime.DividerView extends @Newstime.ContentItemView
       thicknessSum = _.reduce thickness, (a, b) -> a+b
 
     @$el.css @model.pick 'top', 'left', 'z-index'
+
     @$el.attr 'class', "#{@elementStyles} #{orientation}"
 
     if orientation == 'vertical'
