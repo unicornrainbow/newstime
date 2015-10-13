@@ -5,8 +5,9 @@ require "uri"
 class TextAreaTypesetter
   attr_reader :text_area
 
-  def initialize(text_area, lead_text_area=nil, follow_text_area=nil)
+  def initialize(text_area, layout_module, lead_text_area=nil, follow_text_area=nil)
     @text_area = text_area
+    @layout_module = layout_module
 
     @lead_text_area = lead_text_area
     @follow_text_area = follow_text_area
@@ -26,15 +27,17 @@ class TextAreaTypesetter
     height             = text_area.height
     text_column_width  = text_area.text_column_width
     column_count       = text_area.columns
-    include_by_line    = @text_area.show_by_line
+    include_by_line    = text_area.show_by_line
+    offset_leader      = text_area.offset_leader.to_i
 
     include_precedent_link = !!@text_area.precedent_text
     include_continuation = !!@text_area.continuation_text
 
     column_count.times do |column_index|
-      render_by_line = include_by_line && column_index.zero?
-      render_continuation = include_continuation && column_index + 1 == column_count
+      render_by_line        = include_by_line && column_index.zero?
+      render_continuation   = include_continuation && column_index + 1 == column_count
       render_precedent_link = include_precedent_link && column_index.zero?
+      render_offset_leader  = offset_leader > 0 && column_index.zero?
 
       if render_continuation
         #trailing_page = @follow_text_area.page
@@ -66,12 +69,14 @@ class TextAreaTypesetter
       column_height = render_continuation ? column_height - 20 : column_height
       column_height = render_precedent_link ? column_height - 20 : column_height
       column_height = has_text_overrun ? column_height - 20 : column_height
+      column_height = render_offset_leader ? column_height - offset_leader : column_height
+
+      column_height = [column_height, 0].max # Ensure column height is not negative.
 
       typesetter_service = HtmlTypesetter.new(html, width: text_column_width, height: column_height, line_height: '22px')
       typesetter_service.typeset # Invoke Service
       content = typesetter_service.typeset_html
       html    = typesetter_service.overrun_html
-
 
       result << view.render("content/text_column",
         render_by_line: render_by_line,
@@ -85,7 +90,9 @@ class TextAreaTypesetter
         width: text_column_width,
         height: height,
         content: content,
-        has_text_overrun: has_text_overrun
+        has_text_overrun: has_text_overrun,
+        offset_leader: offset_leader,
+        render_offset_leader: render_offset_leader
       )
 
     end
@@ -101,7 +108,7 @@ private
       view = Object.new #ActionController::Base.new.view_context
       #view.extend ApplicationHelper
       view.extend EditionsHelper
-      view.instance_variable_set(:@layout_module, LayoutModule.new('sfrecord'))
+      view.instance_variable_set(:@layout_module, @layout_module)
       LayoutModule::View.new(view)
     end
   end

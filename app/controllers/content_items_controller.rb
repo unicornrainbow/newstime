@@ -69,7 +69,6 @@ class ContentItemsController < ApplicationController
   end
 
   def render_text_area
-
     @edition = Edition.find(params[:id])
 
     @content_item = content_item_params['_type'].constantize.new(content_item_params)
@@ -80,14 +79,13 @@ class ContentItemsController < ApplicationController
     #@edition.content_items << @content_item
     @content_item.edition = @edition # This is a work around to avoid actually creating the item. Better isolation should be provided in the future
 
-    @composing = params[:composing]
+    @composing     = params[:composing]
     @layout_name   = @edition.layout_name
-    @layout_module = LayoutModule.new(@layout_name) # TODO: Rename to MediaModule
+    @layout_module = LayoutModule.new(@layout_name)
 
-    @content_item.typeset!
+    @content_item.typeset!(@layout_module)
 
     render 'show', layout: false
-
   end
 
   def update
@@ -139,7 +137,9 @@ private
     ]
     video_params = [:video_id, :video_name]
     photo_params = [:photo_id, :caption_height]
-    text_area_params = [:show_by_line, :by_line, :overflow_input_text, :lead_text_area_id, :follow_text_area_id, :continuation_text, :precedent_text, :continuation_path, :precedent_path]
+    text_area_params = [:show_by_line, :by_line, :overflow_input_text,
+      :lead_text_area_id, :follow_text_area_id, :continuation_text,
+      :precedent_text, :continuation_path, :precedent_path, :offset_leader]
     horizontal_rule_params = [:style_class]
 
     params.fetch(:content_item, {}).permit(*(shared_params + video_params + photo_params + horizontal_rule_params + text_area_params))

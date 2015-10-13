@@ -8,6 +8,7 @@ class @Newstime.TextAreaPropertiesView extends Backbone.View
     'change .by-line-input': 'changeByLine'
     'change .show-by-line': 'changeShowByLine'
     'change .story-title-input': 'changeStoryTitle'
+    'change .offset-leader-input': 'changeOffsetLeader'
 
   initialize: (options) ->
     @$el.addClass 'text-area-properties'
@@ -53,11 +54,17 @@ class @Newstime.TextAreaPropertiesView extends Backbone.View
         <label>Width</label>
         <span class="field"><input class="width-input"></input></spa>
       </li>
+
+      <li class="property">
+        <label>Offset Leader</label>
+        <span class="field"><input class="offset-leader-input"></input></span>
+      </li>
     """
 
     @$columns = @$('.story-content-item-columns')
     @$heightInput = @$('.height-input')
     @$widthInput = @$('.width-input')
+    @$offsetLeaderInput = @$('.offset-leader-input') # Space to be added to the beginning of the text area
     @$showByLine = @$('.show-by-line')
     @$byLineInput = @$('.by-line-input')
     @$storyTitleInput = @$('.story-title-input')
@@ -71,6 +78,7 @@ class @Newstime.TextAreaPropertiesView extends Backbone.View
     @$columns.val(@model.get('columns'))
     @$heightInput.val(@model.get('height') + 'px')
     @$widthInput.val(@model.get('width') + 'px')
+    @$offsetLeaderInput.val(@model.get('offset_leader') + 'px')
     @$showByLine.prop('checked', @model.get('show_by_line'))
     @$byLineInput.val(@model.get('by_line') || '')
     @$storyTitleInput.val(@model.get('story_title') || '')
@@ -90,3 +98,8 @@ class @Newstime.TextAreaPropertiesView extends Backbone.View
   changeStoryTitle: ->
     @model.set 'story_title', @$storyTitleInput.val()
     @textAreaView.reflow()
+
+  changeOffsetLeader: ->
+    @model.set 'offset_leader', parseInt(@$offsetLeaderInput.val())
+    @textAreaView.reflow()
+    @render()

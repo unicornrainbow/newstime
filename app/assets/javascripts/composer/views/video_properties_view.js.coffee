@@ -4,9 +4,11 @@ class @Newstime.VideoPropertiesView extends Backbone.View
   tagName: 'ul'
 
   events:
+    'click .video-name-field': 'clickVideoName'
     'change .video-name-field': 'changeVideoName'
     'change .show-caption-field': 'changeShowCaption'
     'change .caption-field': 'changeCaption'
+
 
   initialize: ->
 
@@ -15,7 +17,7 @@ class @Newstime.VideoPropertiesView extends Backbone.View
     @$el.html """
       <li class="property">
         <label>Video Name</label>
-        <span class="field"><input class="video-name-field" style="width: 100px"></input></span>
+        <span class="field"><input type="button" class="video-name-field selector-button" style="width: 100px"></input></span>
       </li>
 
       <li class="property">
@@ -57,6 +59,9 @@ class @Newstime.VideoPropertiesView extends Backbone.View
 
   changeVideoName: ->
     @model.set 'video_name', @$videoNameField.val()
+
+  clickVideoName: ->
+    console.log "Show video selector"
 
   changeShowCaption: ->
     @model.set 'show_caption', @$showCaptionField.prop('checked')

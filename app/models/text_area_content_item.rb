@@ -9,6 +9,8 @@ class TextAreaContentItem < ContentItem
   field :story_title,   type: String  # String key used for lacing text areas together
   field :overflow_input_text, type: String
 
+  field :offset_leader, type: Integer
+
   field :overflow_input_text, type: String
 
   field :lead_text_area_id,     type: BSON::ObjectId
@@ -37,8 +39,8 @@ class TextAreaContentItem < ContentItem
     page.gutter_width # Derived from page
   end
 
-  def typeset!
-    TextAreaTypesetter.new(self).typeset!
+  def typeset!(layout_module)
+    TextAreaTypesetter.new(self, layout_module).typeset!
   end
 
   def anchor
