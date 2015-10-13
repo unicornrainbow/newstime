@@ -11,6 +11,7 @@ class @Newstime.MenuItemView extends Newstime.View
       @$el.hide()
 
     @clickCallback = options.click
+    @renderMenuItem = options.renderMenuItem
 
     @composer = Newstime.composer
 
@@ -22,8 +23,13 @@ class @Newstime.MenuItemView extends Newstime.View
 
     @bindUIEvents()
 
+    options.initializeMenuItem.apply(this) if options.initializeMenuItem
+
+
 
   render: ->
+    @renderMenuItem() if @renderMenuItem
+
     @$el.html @title
 
     if @quickKey

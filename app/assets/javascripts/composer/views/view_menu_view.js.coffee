@@ -10,23 +10,19 @@ class @Newstime.ViewMenuView extends Newstime.MenuTitleView
     @menuBody.model.set(top: 25)
 
     @snapMenuItem = new Newstime.MenuItemView
-      title: 'Disable Snap'
-      hidden: true
-      click: ->
+      quickKey: ','
+      initializeMenuItem: ->
+        @listenTo @composer.vent, 'config:snap:change', =>
+          @render()
+
+      renderMenuItem: ->
         if @composer.snapEnabled
-          @title = "Enable Snap"
-          @render()
-          @composer.disableSnap()
+          @title = "Snap ✓"
         else
-          @title = "Disable Snap"
-          @render()
-          @composer.enableSnap()
+          @title = "Snap"
 
-        # Example of updating menu item title.
-        #@title = "Enable Snap"
-        #@render()
-
-        # TODO: Implement View > Snap Action
+      click: ->
+        @composer.toggleSnap()
 
 
     @panelsMenuItem = new Newstime.MenuItemView

@@ -758,11 +758,18 @@ class @Newstime.Composer extends Backbone.View
 
   enableSnap: ->
     @snapEnabled = true
-    @vent.trigger 'config:snap:enabled'
+    @vent.trigger 'config:snap:change'
 
   disableSnap: ->
     @snapEnabled = false
-    @vent.trigger 'config:snap:disabled'
+    @vent.trigger 'config:snap:change'
+
+  toggleSnap: ->
+    if @snapEnabled
+      @disableSnap()
+    else
+      @enableSnap()
+
 
   # Reflows all text in the edition
   reflow: ->
