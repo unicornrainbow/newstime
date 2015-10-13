@@ -353,6 +353,8 @@ class @Newstime.PageView extends @Newstime.View
 
 
   snapLeft: (value) ->
+    unless @composer.snapEnabled then return null
+
     snapTolerance  = 20
     # Get snap values
     gridSnap = @grid.snapLeft(value)
@@ -377,6 +379,7 @@ class @Newstime.PageView extends @Newstime.View
     @grid.rightSnapPoints
 
   snapRight: (value) ->
+    unless @composer.snapEnabled then return null
 
     snapTolerance  = 20
     # Get snap values

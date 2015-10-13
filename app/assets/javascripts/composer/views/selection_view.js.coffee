@@ -112,7 +112,6 @@ class @Newstime.SelectionView extends @Newstime.View
 
 
   mousedown: (e) ->
-
     return unless e.button == 0 # Only respond to left button mousedown.
 
     if @hoveredHandle
