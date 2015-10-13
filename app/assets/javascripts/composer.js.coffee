@@ -812,73 +812,81 @@ class @Newstime.Composer extends Backbone.View
     # TODO: Move guidelines to their own layer (Fixed position, but which
     # handles zooming)
 
-    bounds = target.getBounds()
-    width = bounds.right - bounds.left
-    right = left + width
 
-    if shiftKey
-      # In which direction has the greatest movement.
-      lockPlain = if Math.abs(left - orginalLeft) > Math.abs(top - orginalTop) then 'x' else 'y'
+    if @snapEnabled
+      bounds = target.getBounds()
+      width = bounds.right - bounds.left
+      right = left + width
 
-    # TODO: Need a better direction lock algorythm.
-    switch lockPlain
-      when 'x'
-        # Move only in x direction
-        target.setSizeAndPosition
-          left: left
-          top: orginalTop
-      when 'y'
-        # Move only in y direction
-        target.setSizeAndPosition
-          left: orginalLeft
-          top: top
-      else
+      if shiftKey
+        # In which direction has the greatest movement.
+        lockPlain = if Math.abs(left - orginalLeft) > Math.abs(top - orginalTop) then 'x' else 'y'
 
-        # Compute snaps against left and right for each intersecting page, and
-        # take closest snap within tolerence.
-
-        # Which pages are we intersecting?
-        pages = @getIntersectingPages(top, left, bounds.bottom, bounds.right)
-
-        # 1 Get all of the left snap points, and right snap points for each of the
-        # intersecting pages.
-        leftSnapPoints = _.map pages, (page) =>
-          @pageViews[page.cid].getLeftSnapPoints() # Should we know snap points at the model level? Would be useful in this calulation
-        rightSnapPoints = _.map pages, (page) =>
-          @pageViews[page.cid].getRightSnapPoints()
-
-        leftSnapPoints  = _.union(leftSnapPoints)
-        rightSnapPoints = _.union(rightSnapPoints)
-
-        leftSnapPoints = _.flatten(leftSnapPoints)
-        rightSnapPoints = _.flatten(rightSnapPoints)
-
-        leftSnap = Newstime.closest(left, leftSnapPoints)
-        rightSnap = Newstime.closest(right, rightSnapPoints)
-
-        leftSnapDelta = Math.abs(leftSnap - left)
-        rightSnapDelta = Math.abs(rightSnap - right)
-
-        if leftSnapDelta < rightSnapDelta
-          if leftSnapDelta <= @snapTolerance
-            # Snap to left
-            left = leftSnap
+      # TODO: Need a better direction lock algorythm.
+      switch lockPlain
+        when 'x'
+          # Move only in x direction
+          target.setSizeAndPosition
+            left: left
+            top: orginalTop
+        when 'y'
+          # Move only in y direction
+          target.setSizeAndPosition
+            left: orginalLeft
+            top: top
         else
-          if rightSnapDelta <= @snapTolerance
-            # Snap to right
-            left = rightSnap - width
 
-        # Highlight snap lines
-        if _.contains(leftSnapPoints, left)
-          @drawVerticalSnapLine(left)
+          # Compute snaps against left and right for each intersecting page, and
+          # take closest snap within tolerence.
 
-        right = left + width
-        if _.contains(rightSnapPoints, right)
-          @drawVerticalSnapLine(right)
+          # Which pages are we intersecting?
+          pages = @getIntersectingPages(top, left, bounds.bottom, bounds.right)
 
-        target.setSizeAndPosition # TODO: See if we can go direct to model
-          left: left
-          top: top
+          # 1 Get all of the left snap points, and right snap points for each of the
+          # intersecting pages.
+          leftSnapPoints = _.map pages, (page) =>
+            @pageViews[page.cid].getLeftSnapPoints() # Should we know snap points at the model level? Would be useful in this calulation
+          rightSnapPoints = _.map pages, (page) =>
+            @pageViews[page.cid].getRightSnapPoints()
+
+          leftSnapPoints  = _.union(leftSnapPoints)
+          rightSnapPoints = _.union(rightSnapPoints)
+
+          leftSnapPoints = _.flatten(leftSnapPoints)
+          rightSnapPoints = _.flatten(rightSnapPoints)
+
+          leftSnap = Newstime.closest(left, leftSnapPoints)
+          rightSnap = Newstime.closest(right, rightSnapPoints)
+
+          leftSnapDelta = Math.abs(leftSnap - left)
+          rightSnapDelta = Math.abs(rightSnap - right)
+
+          if leftSnapDelta < rightSnapDelta
+            if leftSnapDelta <= @snapTolerance
+              # Snap to left
+              left = leftSnap
+          else
+            if rightSnapDelta <= @snapTolerance
+              # Snap to right
+              left = rightSnap - width
+
+          # Highlight snap lines
+          if _.contains(leftSnapPoints, left)
+            @drawVerticalSnapLine(left)
+
+          right = left + width
+          if _.contains(rightSnapPoints, right)
+            @drawVerticalSnapLine(right)
+
+          target.setSizeAndPosition # TODO: See if we can go direct to model
+            left: left
+            top: top
+
+    else
+      target.setSizeAndPosition # TODO: See if we can go direct to model
+        left: left
+        top: top
+
 
 
 

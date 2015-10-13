@@ -160,7 +160,6 @@ class @Newstime.ContentItemView extends @Newstime.CanvasItemView
         when 'bottom-right' then @dragBottomRight(e.x, e.y)
 
     else if @moving
-      console.log 'hello'
       @move(e.x, e.y)
 
     else if @active
