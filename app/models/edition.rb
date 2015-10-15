@@ -93,7 +93,7 @@ class Edition
   before_save do
     # HACK: Typeset content_items with changes
     content_items.where('_type' => 'TextAreaContentItem').each do |content_item|
-      content_item.typeset! if content_item.changed?
+      content_item.typeset!(layout_module) if content_item.changed?
     end
   end
 end
