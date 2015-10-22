@@ -17,6 +17,12 @@
   -webkit-user-select: none;
   user-select: none;
 
+  &.hovered {
+    .title-bar {
+      background-color: #26292d;
+    }
+  }
+
   .dismiss {
     float: right;
     padding: 3px;
