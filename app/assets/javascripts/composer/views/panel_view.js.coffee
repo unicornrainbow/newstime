@@ -3,7 +3,6 @@ class @Newstime.PanelView extends @Newstime.View
   events:
    'mousedown .title-bar': 'beginDrag'
    'mouseup .title-bar': 'endDrag'
-   'mouseout': 'mouseout'
    'mousemove': 'dOMMousemove'
    'keydown': 'keydown'
    'paste': 'paste'
@@ -42,8 +41,6 @@ class @Newstime.PanelView extends @Newstime.View
     @renderPanel() if @renderPanel
 
   dismiss: (e) ->
-    #@trigger 'dismiss'
-    #@composer.panelLayerView.hoveredObject.trigger 'mouseout', e
     @hide()
     @composer.panelLayerView.hoveredObject = null
 
@@ -84,18 +81,16 @@ class @Newstime.PanelView extends @Newstime.View
     @composer.captureLayerView.disengage()
 
 
-  mouseout: (e) ->
-    # Only honer if mousing out to parent
-    if e.toElement == @el.parentNode
-      @hovered = false
-      @$el.removeClass 'hovered'
+  mouseout: (e) =>
+    @hovered = false
+    @$el.removeClass 'hovered'
 
-      if @hoveredObject
-        @hoveredObject.trigger 'mouseout', e
-        @hoveredObject = null
+    if @hoveredObject
+      @hoveredObject.trigger 'mouseout', e
+      @hoveredObject = null
 
-      @composer.captureLayerView.engage()
-      @composer.unlockScroll()
+    @composer.captureLayerView.engage()
+    @composer.unlockScroll()
 
   dOMMousemove: (e) ->
     e.stopPropagation()

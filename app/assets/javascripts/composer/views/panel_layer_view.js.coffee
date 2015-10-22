@@ -77,7 +77,6 @@ class @Newstime.PanelLayerView extends @Newstime.View
     # Get panel geometry
     geometry = panel.geometry()
 
-
     # Expand the geometry by buffer distance in each direction to extend
     # clickable area.
     buffer = 4 # 2px
@@ -138,25 +137,16 @@ class @Newstime.PanelLayerView extends @Newstime.View
       @hoveredObject.trigger 'mousemove', e
 
   dOMMousemove: (e) ->
-    # If we receive a dom mousemove here, that means that the capture layer is
-    # disengaged, and if the mousemove was over a panel, it did not stop the
-    # propogation, or that it is not over a panel at all. In either case, the
-    # capture layer should be reengaged so the the mouse event can go to the
-    # right place. The panels themseleves should handel mousemove, and cancel
-    # propgation to keep the capture layer from being reengaged. This should
-    # help with a bug that crops up when the mouseout on the panel is missed or
-    # somthing, and the capture layer doesn't reengage. This sort should wash
-    # over that, but there is still an underlying issue the should be figured
-    # out.
-    #@hovered = false
-    #console.log "Disengage", @hoveredObject
+    e =
+      x: e.x
+      y: e.y
 
-    #if @hoveredObject
-      #@hoveredObject.trigger 'mouseout', e
-      #@hoveredObject = null
+    @adjustEventXY(e)
 
-    #@composer.captureLayerView.engage()
-    #@composer.unlockScroll()
+    unless @detectHit(@hoveredObject, e.x, e.y)
+      if @hoveredObject
+        @hoveredObject.trigger 'mouseout', e
+        @hoveredObject = null
 
   adjustEventXY: (e) ->
     e.y -= @topOffset
