@@ -3,6 +3,7 @@ class @Newstime.PanelLayerView extends @Newstime.View
 
   events:
     'mousemove': 'dOMMousemove'
+    'click': 'click'
 
   initialize: (options) ->
     @$el.addClass 'panel-layer-view'
@@ -172,3 +173,8 @@ class @Newstime.PanelLayerView extends @Newstime.View
   toggle: ->
     @hidden = !@hidden
     @$el.toggle(!@hidden)
+
+  click: ->
+    # If receiving a click here, need to reengage the capture view layer. Probably means
+    # it got left disengaged after interacting with a panel due to a missed event.
+    @composer.captureLayerView.engage()

@@ -8,6 +8,7 @@ class @Newstime.PanelView extends @Newstime.View
    'keydown': 'keydown'
    'paste': 'paste'
    'mousedown .dismiss': 'dismiss'
+   'click': 'click'
 
   initialize: (options) ->
     @$el.addClass('newstime-palette-view')
@@ -178,3 +179,7 @@ class @Newstime.PanelView extends @Newstime.View
 
   clear: ->
     @$body.empty()
+
+  click: (e) ->
+    # Stop porpagation of clicks so the do not reach the panel view layer, which would rengage the capture view layer.
+    e.stopPropagation()
