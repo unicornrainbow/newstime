@@ -183,3 +183,8 @@ class @Newstime.PanelView extends @Newstime.View
   click: (e) ->
     # Stop porpagation of clicks so the do not reach the panel view layer, which would rengage the capture view layer.
     e.stopPropagation()
+
+  # Reset panel to default state.
+  reset: ->
+    @hovered = false
+    @$el.removeClass 'hovered'

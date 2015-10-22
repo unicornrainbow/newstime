@@ -72,6 +72,9 @@ class @Newstime.CaptureLayerView extends Backbone.View
     @$el.css 'pointer-events': 'none'
     @$el.hide()
 
+  reset: ->
+    @engage()
+
   documentMouseout: (e) =>
     # Rudementary check to see if leaving window
     if e.relatedTarget == null

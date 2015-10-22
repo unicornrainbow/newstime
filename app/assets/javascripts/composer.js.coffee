@@ -944,11 +944,9 @@ class @Newstime.Composer extends Backbone.View
   # Useful when leaving the window, or wanting to set things back as if the
   # mouse has just appeared on the screen.
   reset: (e) ->
-    @captureLayerView.engage()
     @unlockScroll()
-
-    if @hitLayer
-      @hitLayer.trigger 'mouseout', e
+    @captureLayerView.reset()
+    @panelLayerView.reset()
     @hitLayer = null
 
 

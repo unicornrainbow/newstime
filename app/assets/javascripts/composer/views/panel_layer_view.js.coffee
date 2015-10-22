@@ -178,3 +178,8 @@ class @Newstime.PanelLayerView extends @Newstime.View
     # If receiving a click here, need to reengage the capture view layer. Probably means
     # it got left disengaged after interacting with a panel due to a missed event.
     @composer.reset(e)
+
+  # Resets the panel layer, disengage any hovered states.
+  reset: ->
+    _.each @panels, (panel) ->
+      panel.reset() if panel.reset
