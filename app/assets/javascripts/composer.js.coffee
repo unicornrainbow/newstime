@@ -940,6 +940,18 @@ class @Newstime.Composer extends Backbone.View
       @pagesPanelView.renderPanel()
 
 
+  # Resets the composer to the initial state.
+  # Useful when leaving the window, or wanting to set things back as if the
+  # mouse has just appeared on the screen.
+  reset: (e) ->
+    @captureLayerView.engage()
+    @unlockScroll()
+
+    if @hitLayer
+      @hitLayer.trigger 'mouseout', e
+    @hitLayer = null
+
+
 $ ->
   # Get the edition, mostly for development purposes right now.
   #edition_id = document.URL.match(/editions\/(\w*)/)[1] # Hack to get edition id from url string

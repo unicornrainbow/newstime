@@ -19,6 +19,7 @@ class @Newstime.CaptureLayerView extends Backbone.View
 
     # Capture mouseups that happen off screen http://stackoverflow.com/a/5419564/32384
     $(window).mouseup @mouseup
+    $(document).mouseout @documentMouseout
 
     @$el.css top: "#{@topOffset}px"
 
@@ -70,3 +71,10 @@ class @Newstime.CaptureLayerView extends Backbone.View
   disengage: ->
     @$el.css 'pointer-events': 'none'
     @$el.hide()
+
+  documentMouseout: (e) =>
+    # Rudementary check to see if leaving window
+    if e.relatedTarget == null
+      # If leaving the document window, reset the composer.
+      # (This only triggers is the capture layer is disengage, other wise the event would be swollowed)
+      @composer.reset(e)
