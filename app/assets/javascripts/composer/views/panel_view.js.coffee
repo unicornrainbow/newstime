@@ -107,8 +107,8 @@ class @Newstime.PanelView extends @Newstime.View
     e.y += @composer.panelLayerView.topOffset
 
     if @tracking
-      @$el.css('bottom', $(window).height() - event.y - @bottomMouseOffset)
-      @$el.css('right', $(window).width() - event.x - @rightMouseOffset)
+      @$el.css('bottom', $(window).height() - e.y - @bottomMouseOffset)
+      @$el.css('right', $(window).width() - e.x - @rightMouseOffset)
 
   mouseup: (e) ->
     if @tracking
@@ -125,8 +125,8 @@ class @Newstime.PanelView extends @Newstime.View
       @$titleBar.addClass('grabbing')
 
       # Calulate offsets
-      @bottomMouseOffset = $(window).height() - event.clientY - parseInt(@$el.css('bottom'))
-      @rightMouseOffset =  $(window).width() - event.clientX - parseInt(@$el.css('right'))
+      @bottomMouseOffset = $(window).height() - e.clientY - parseInt(@$el.css('bottom'))
+      @rightMouseOffset =  $(window).width() - e.clientX - parseInt(@$el.css('right'))
 
       # Engage and begin tracking here.
 
