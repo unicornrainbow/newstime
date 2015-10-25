@@ -345,8 +345,9 @@ class @Newstime.Composer extends Backbone.View
   # Public: Handles mousemove events, called by CaptureLayerView
   mousemove: (e) ->
     # Store current cursor location.
-    @mouseX = e.x
-    @mouseY = e.y
+    @mouseX = e.x || e.clientX
+    @mouseY = e.y || e.clientY
+
 
     # Compensate for top offset to allow room for menu
     e =
@@ -361,6 +362,8 @@ class @Newstime.Composer extends Backbone.View
 
     # Test layers of app to determine where to direct the hit.
     hit = _.find @layers, (layer) => layer.hit(@mouseX, @mouseY)
+
+
 
     if hit
       if @hitLayer != hit
