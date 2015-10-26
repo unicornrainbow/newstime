@@ -10,6 +10,11 @@ publications.
 
 ## Setup the System
 
+Clone the project
+Bundle
+foreman start
+start the line break service on port 9000
+
 Setup instructions are available for the following systems.
 
 - [Ubuntu 12.04](doc/installing-newstime-on-ubuntu-12.04.md)
