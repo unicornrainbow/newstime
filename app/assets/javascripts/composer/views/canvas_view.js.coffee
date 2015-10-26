@@ -421,27 +421,28 @@ class @Newstime.CanvasView extends @Newstime.View
     @composer.popCursor()
 
   mousedown: (e) ->
+    return if e.which == 1 # Only draw with left click
+
     e = @getMappedEvent(e)
 
     if @hoveredObject
       @hoveredObject.trigger 'mousedown', e
     else
-      if e.which == 1 # Only draw with left click
-        switch @toolbox.get('selectedTool')
-          when 'type-tool'
-            @draw(Newstime.TextAreaView, e.x, e.y)
-          when 'headline-tool'
-            @draw(Newstime.HeadlineView, e.x, e.y)
-          when 'photo-tool'
-            @draw(Newstime.PhotoView, e.x, e.y)
-          when 'video-tool'
-            @draw(Newstime.VideoView, e.x, e.y)
-          when 'divider-tool'
-            @draw(Newstime.DividerView, e.x, e.y)
-          when 'select-tool'
-            if e.button == 0 # Only on left click
-              @composer.clearSelection()
-            #@drawSelection(e.x, e.y)
+      switch @toolbox.get('selectedTool')
+        when 'type-tool'
+          @draw(Newstime.TextAreaView, e.x, e.y)
+        when 'headline-tool'
+          @draw(Newstime.HeadlineView, e.x, e.y)
+        when 'photo-tool'
+          @draw(Newstime.PhotoView, e.x, e.y)
+        when 'video-tool'
+          @draw(Newstime.VideoView, e.x, e.y)
+        when 'divider-tool'
+          @draw(Newstime.DividerView, e.x, e.y)
+        when 'select-tool'
+          if e.button == 0 # Only on left click
+            @composer.clearSelection()
+          #@drawSelection(e.x, e.y)
 
   mouseup: (e) ->
     e = @getMappedEvent(e)
