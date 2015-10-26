@@ -139,7 +139,7 @@ class @Newstime.CanvasView extends @Newstime.View
       _.each contentItems, (contentItem) =>
         # Construct and add in each content item.
         id = contentItem.get('_id')
-        el = contentItemEls.filter("[data-content-item-id='#{id}")
+        el = contentItemEls.filter("[data-content-item-id='#{id}']")
 
         contentItemType = contentItem.get('_type')
 
