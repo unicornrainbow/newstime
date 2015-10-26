@@ -13,17 +13,6 @@
     </div>
   </div>
 
-  <!-- Mini Mast -->
-  <div slidein-nav="true" class="ng-isolate-scope ng-scope slidein-nav" style="display: none; top: -48px;" <%= 'offset="25"' if composing? %>>
-    <div class="mini-mast">
-      <h1 class="sfrecord">
-        <a href="#"><%= render 'logo' -%></a>
-      </h1>
-      <div class="buy-or-subscribe">
-        <%= link_to "Buy or Subscribe", edition.store_link %>
-      </div>
-    </div>
-  </div>
   <%#= render 'grid_overlay' %>
   <%= composer_javascript if composing? -%>
   <%= javascript_include_tag "javascripts/application" %>
