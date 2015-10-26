@@ -4,6 +4,17 @@
 <title><%= title %></title>
   <%= composer_stylesheet if composing? -%>
   <%= stylesheet_link_tag "stylesheets/application", media: "all" %>
+
+  <style>
+    body {
+      background-color: <%= edition.paper_color %>;
+    }
+    .page {
+      color: <%= edition.ink_color %>;
+      background-color: <%= edition.paper_color %>;
+    }
+  </style>
+
   <meta charset="utf-8">
 </head>
 <body ng-app="app">

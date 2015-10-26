@@ -4,14 +4,19 @@ class Edition
   include Mongoid::Paperclip
 
   ## Attributes
-  field :name,         type: String
-  field :page_title,   type: String
-  field :path,         type: String
-  field :html,         type: String     # The render html source markup
-  field :layout_name,  type: String
-  field :publish_date, type: Date
-  field :store_link,   type: String
-  field :price,        type: Float   # Formatted price string
+  field :name,             type: String
+  field :page_title,       type: String
+  field :path,             type: String
+  field :html,             type: String     # The render html source markup
+  field :layout_name,      type: String
+  field :publish_date,     type: Date
+  field :store_link,       type: String
+  field :price,            type: Float   # Formatted price string
+
+  field :paper_color,      type: String
+  field :ink_color,        type: String
+  field :line_color,       type: String
+  field :selection_color,  type: String
   #field :fmt_price,    type: String  # Formatted price string
 
   def pricef

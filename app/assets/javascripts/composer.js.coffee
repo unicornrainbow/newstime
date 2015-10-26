@@ -127,6 +127,10 @@ class @Newstime.Composer extends Backbone.View
     @panelLayerView.attachPanel(@propertiesPanelView)
     @propertiesPanelView.show()
 
+
+    @editionPropertiesView = new Newstime.EditionPropertiesView
+      model: @edition
+
     @pagesPanelView = new Newstime.PagesPanelView
     @pagesPanelView.setPosition(250, 20)
     @panelLayerView.attachPanel(@pagesPanelView)
@@ -145,6 +149,10 @@ class @Newstime.Composer extends Backbone.View
     @printsWindow.setPosition(50, 200)
     @panelLayerView.attachPanel(@printsWindow)
     @printsWindow.hide()
+
+
+    # Default properties panel to edition properties view.
+    @propertiesPanelView.mount(@editionPropertiesView)
 
     @cursorStack = []
     @focusStack = []
@@ -184,6 +192,7 @@ class @Newstime.Composer extends Backbone.View
 
     @listenTo @edition, 'sync', @editionSync
     @listenTo @edition, 'change', @editionChange
+
 
     window.onbeforeunload = =>
       if @edition.isDirty()
@@ -730,7 +739,8 @@ class @Newstime.Composer extends Backbone.View
   clearSelection: ->
     if @selection?
       @activeSelectionView?.remove()
-      @propertiesPanelView.clear()
+      #@propertiesPanelView.clear()
+      @propertiesPanelView.mount(@editionPropertiesView)
       @activeSelectionView = null
       @selection = null
     @pagesPanelView.render()

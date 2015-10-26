@@ -23,9 +23,16 @@ class @Newstime.CanvasItemView extends @Newstime.View
     @listenTo @model, 'change', @render
     @listenTo @model, 'destroy', @remove
 
+
+    @$el.css color: @edition.get('ink_color')
+    @listenTo @edition, 'change:ink_color', @changeInkColor
+
     @bindUIEvents()
 
     @initializeCanvasItem()
+
+  changeInkColor: ->
+    @$el.css color: @edition.get('ink_color')
 
   keydown: (e) =>
     switch e.keyCode
