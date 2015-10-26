@@ -72,6 +72,9 @@ class @Newstime.PanelView extends @Newstime.View
     @hovered = true
     @$el.addClass 'hovered'
 
+    # Make foremost
+
+
     if @hoveredObject
       @hoveredObject.trigger 'mouseover', e
 

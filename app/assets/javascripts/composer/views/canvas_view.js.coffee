@@ -421,7 +421,7 @@ class @Newstime.CanvasView extends @Newstime.View
     @composer.popCursor()
 
   mousedown: (e) ->
-    return if e.which == 1 # Only draw with left click
+    return unless e.which == 1 # Only draw with left click
 
     e = @getMappedEvent(e)
 

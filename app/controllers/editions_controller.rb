@@ -89,7 +89,9 @@ class EditionsController < ApplicationController
 
   def update
     @edition = Edition.find(params[:id])
+    #Rails.logger.info "Updateing Edition Attributes"
     @edition.update_attributes(edition_params)
+    #Rails.logger.info "Edition Attributes Updated"
     respond_to do |format|
       format.html { redirect_to :back }
       format.json { respond_with @edition.to_json }
@@ -147,11 +149,7 @@ private
       ).uniq
 
     params.require(:edition).
-      permit(:name, :source, :page_title, :masthead_id, :layout_id,
-             :layout_name, :default_section_template_name, :publish_date,
-             :store_link, :fmt_price, :volume_label, :publication_id, :price,
-             :_id, :created_at, :updated_at, :page_pixel_height,
-             :organization_id, :state_event,
+      permit(Edition.attribute_names,
              :sections_attributes => [Section.attribute_names],
              :pages_attributes => [Page.attribute_names],
              :groups_attributes => [Group.attribute_names],

@@ -271,7 +271,9 @@ class @Newstime.Composer extends Backbone.View
           success: (model) =>
             @save()
       else
-        @edition.save()
+        @edition.save {},
+          error: =>
+            @statusIndicator.showMessage "Error Saving", 1000
 
   paste: (e) =>
     if @focusedObject
