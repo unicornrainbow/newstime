@@ -1,1 +1,7 @@
+#! /usr/bin/env bash
+
+# Ensure pid folders exist
+mkdir -p tmp/pids
+mkdir -p tmp/sockets
+
 bundle exec unicorn -c config/unicorn.rb -D
