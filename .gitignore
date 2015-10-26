@@ -20,3 +20,4 @@ public/assets
 .env
 share
 layouts/blank
+config/media_modules.yml
