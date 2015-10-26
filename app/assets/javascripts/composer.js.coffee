@@ -345,9 +345,8 @@ class @Newstime.Composer extends Backbone.View
   # Public: Handles mousemove events, called by CaptureLayerView
   mousemove: (e) ->
     # Store current cursor location.
-    @mouseX = e.x || e.clientX
-    @mouseY = e.y || e.clientY
-
+    @mouseX = e.clientX
+    @mouseY = e.clientY
 
     # Compensate for top offset to allow room for menu
     e =
@@ -388,11 +387,13 @@ class @Newstime.Composer extends Backbone.View
 
   mousedown: (event) ->
     @hasFocus = true
+
     e =
       x: @mouseX
       y: @mouseY
       button: event.button
       shiftKey: event.shiftKey
+      which: event.which
 
     if @selectedMenu && @hitLayer != @menuLayerView
       @selectedMenu.close()
