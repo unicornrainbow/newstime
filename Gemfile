@@ -36,6 +36,7 @@ gem 'faye'
 gem 'thin', require: false
 gem 'curb'
 gem 'eco'
+gem 'foreman'
 
 gem 'compass-rails'
 
