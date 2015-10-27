@@ -1,6 +1,6 @@
 #= require ../views/panel_view
 
-class @Newstime.TextEditorPanelView extends @Newstime.PanelView
+class @Newstime.TextEditorPanelView extends @Newstime.WindowView
 
   initializePanel: ->
     @$el.addClass 'text-editor-panel'
@@ -17,7 +17,3 @@ class @Newstime.TextEditorPanelView extends @Newstime.PanelView
     @$textarea.css
       width: 450
       height: 500 - 22
-
-
-  #setPosition: (top, left) ->
-    #@$el.css(top: top, left: left)
