@@ -14,15 +14,14 @@ class @Newstime.EditionPropertiesView extends Backbone.View
     @$el.addClass('page-properties')
 
     @$el.html """
-
-      <li class="property">
+      <li class="property" style="display: none;">
         <label>Ink</label>
         <span class="field">
           <input class="ink-color" style="width:75px;"></input>
         </span>
       </li>
 
-      <li class="property">
+      <li class="property" style="display: none;">
         <label>Page</label>
         <span class="field">
           <input class="page-color" style="width:75px;"></input>
@@ -30,7 +29,7 @@ class @Newstime.EditionPropertiesView extends Backbone.View
       </li>
 
 
-      <li class="property">
+      <li class="property" style="display: none;">
         <label>Line</label>
         <span class="field">
           <input class="line-color" style="width:75px;"></input>
@@ -38,7 +37,7 @@ class @Newstime.EditionPropertiesView extends Backbone.View
       </li>
 
 
-      <li class="property">
+      <li class="property" style="display: none;">
         <label>Selection</label>
         <span class="field">
           <input class="selection-color" style="width:75px;"></input>
