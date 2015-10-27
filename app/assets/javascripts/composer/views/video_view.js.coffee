@@ -39,7 +39,7 @@ class @Newstime.VideoView extends @Newstime.ContentItemView
     @$caption.css bottom: -@model.get('caption_height')
 
   dragBottomRight: (x, y) ->
-    aspectRatio = @model.get('aspect_ratio') # (width/height)
+    aspectRatio = @model.get('aspect_ratio') || 1.777 # (width/height)
 
     @composer.clearVerticalSnapLines()
     geometry  = @getGeometry()
