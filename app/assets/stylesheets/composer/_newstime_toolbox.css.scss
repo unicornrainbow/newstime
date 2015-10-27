@@ -1,5 +1,4 @@
 .newstime-toolbox { /* palette */
-  border-radius: 4px;
   width: 68px;
   white-space: nowrap;
   left: 10px;
@@ -11,7 +10,7 @@
   font-family: 'Raleway', sans-serif;
   font-size: 10pt;
   padding: 0;
-  border-radius: 2px;
+  border-radius: 4px 4px 2px 2px;
   z-index: 1000;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
   -webkit-user-select: none;

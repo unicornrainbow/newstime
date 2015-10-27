@@ -7,12 +7,14 @@ class @Newstime.PanelView extends @Newstime.View
    'keydown': 'keydown'
    'paste': 'paste'
    'mousedown .dismiss': 'dismiss'
+   'mousedown': 'mousedown'
    'click': 'click'
 
   initialize: (options) ->
     @$el.addClass('newstime-palette-view')
 
     @composer = Newstime.composer
+    @panelLayerView = @composer.panelLayerView
 
     @model ?= new Newstime.Panel
 
@@ -36,8 +38,13 @@ class @Newstime.PanelView extends @Newstime.View
 
     @render()
 
+
+  mousedown: ->
+    @panelLayerView.bringToFront(this)
+
   render: ->
     @$el.css @model.pick('width', 'height')
+    @$el.css 'z-index': @model.get('z_index')
     @renderPanel() if @renderPanel
 
   dismiss: (e) ->
@@ -181,6 +188,9 @@ class @Newstime.PanelView extends @Newstime.View
   click: (e) ->
     # Stop porpagation of clicks so the do not reach the panel view layer, which would rengage the capture view layer.
     e.stopPropagation()
+
+  setZIndex: (index) ->
+    @model.set 'z_index', index
 
   # Reset panel to default state.
   reset: ->

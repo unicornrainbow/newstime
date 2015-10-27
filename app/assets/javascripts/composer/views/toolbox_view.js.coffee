@@ -73,11 +73,19 @@ class @Newstime.ToolboxView extends Backbone.View
 
   modelChanged: ->
     @$el.css _.pick @model.changedAttributes(), 'top', 'left'
+    @$el.css 'z-index': @model.get('z_index')
+
+
+  setZIndex: (index) ->
+    @model.set 'z_index', index
+
 
   # This is will be called by the application, if a mousedown event is targeted
   # at the panel
   mousedown: (e) ->
     @adjustEventXY(e)
+
+    @composer.panelLayerView.bringToFront(this)
 
     if e.y < 25 # Consider less than 25 y a title bar hit for now
       @beginDrag(e)

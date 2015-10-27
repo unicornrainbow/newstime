@@ -28,6 +28,23 @@ class @Newstime.PanelLayerView extends @Newstime.View
     @$el.append(panel.el)
 
 
+  bringToFront: (panel) ->
+    # Brings the passed in panel to the front.
+
+    # Find the panel
+    index = @panels.indexOf(panel)
+
+    # Change the order
+    if index >= 0
+      item = @panels.splice(index, 1) # Remove from location in array
+      @panels.unshift(item[0]) # Put in first position
+
+    # Apply z-indexes
+    length = @panels.length - 1
+    _.each @panels, (view, i) ->
+      view.setZIndex(length - i)
+
+
   # Registers hit, and returns hit panel, should there be one.
   hit: (x, y) ->
     return false if @hidden # Can't be hit if hidden.
