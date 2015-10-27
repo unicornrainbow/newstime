@@ -22,6 +22,9 @@ class @Newstime.MenuView extends Newstime.View
     @viewTitleView = new Newstime.ViewMenuView
     @attachMenuTitle(@viewTitleView)
 
+    #@helpTitleView = new Newstime.HelpMenuView
+    #@attachMenuTitle(@helpTitleView)
+
     #@previewMenuView = new Newstime.PreviewMenuView
     #@attachMenuTitle(@previewMenuView)
 
