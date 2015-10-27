@@ -1,3 +1,7 @@
 ---
 headline_font_weights: [100, 200, 300, 400, 500, 700, 800, 900]
 story_text_line_height: '22px'
+ink_color: '#484c55'
+paper_color: 'ivory'
+line_color: '#bbb'
+selection_color: 'orange'
