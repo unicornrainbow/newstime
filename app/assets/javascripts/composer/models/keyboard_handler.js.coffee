@@ -79,10 +79,6 @@ class @Newstime.KeyboardHandler extends Backbone.Model
           if e.altKey # ctrl+r
             @composer.reflow() # Save edition
 
-        when 83 # s
-          if e.ctrlKey # ctrl+s
-            edition.save() # Save edition
-
         when 80 # p
           if e.altKey
             @composer.launchPreview()

@@ -904,8 +904,6 @@ class @Newstime.Composer extends Backbone.View
         top: top
 
 
-
-
   # Sets toolbox tool
   #
   # Example:
