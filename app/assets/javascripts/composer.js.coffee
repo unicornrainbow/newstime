@@ -151,6 +151,11 @@ class @Newstime.Composer extends Backbone.View
     @printsWindow.hide()
 
 
+    @textEditorPanelView = new Newstime.TextEditorPanelView
+    @textEditorPanelView.setPosition(50, 200)
+    @panelLayerView.attachPanel(@textEditorPanelView)
+
+
     # Default properties panel to edition properties view.
     @propertiesPanelView.mount(@editionPropertiesView)
 
