@@ -5,7 +5,7 @@ class @Newstime.EditionPropertiesView extends Backbone.View
 
   events:
     'change .ink-color': 'changeInkColor'
-    'change .paper-color': 'changePaperColor'
+    'change .page-color': 'changePageColor'
     'change .line-color': 'changeLineColor'
     'change .selection-color': 'changeSelectionColor'
 
@@ -23,9 +23,9 @@ class @Newstime.EditionPropertiesView extends Backbone.View
       </li>
 
       <li class="property">
-        <label>Paper</label>
+        <label>Page</label>
         <span class="field">
-          <input class="paper-color" style="width:75px;"></input>
+          <input class="page-color" style="width:75px;"></input>
         </span>
       </li>
 
@@ -46,7 +46,7 @@ class @Newstime.EditionPropertiesView extends Backbone.View
       </li>
     """
 
-    @$paperColor     = @$('.paper-color')
+    @$pageColor     = @$('.page-color')
     @$inkColor       = @$('.ink-color')
     @$lineColor      = @$('.line-color')
     @$selectionColor = @$('.selection-color')
@@ -55,8 +55,8 @@ class @Newstime.EditionPropertiesView extends Backbone.View
 
     @render()
 
-  changePaperColor: ->
-    @model.set 'paper_color', @$paperColor.val()
+  changePageColor: ->
+    @model.set 'page_color', @$pageColor.val()
 
   changeInkColor: ->
     @model.set 'ink_color', @$inkColor.val()
@@ -68,7 +68,7 @@ class @Newstime.EditionPropertiesView extends Backbone.View
     @model.set 'selection_color', @$selectionColor.val()
 
   render: ->
-    @$paperColor.val @model.get('paper_color') if @model.get('paper_color')
+    @$pageColor.val @model.get('page_color') if @model.get('page_color')
     @$inkColor.val @model.get('ink_color') if @model.get('ink_color')
     @$lineColor.val @model.get('line_color') if @model.get('line_color')
     @$selectionValue.val @model.get('selection_color') if @model.get('selection_color')

@@ -39,7 +39,7 @@ class @Newstime.PageView extends @Newstime.View
 
     @$el.css 'background-color': @edition.get('paper_color')
 
-    @listenTo @edition, 'change:paper_color', @editionChangePaperColor
+    @listenTo @edition, 'change:page_color', @editionChangePageColor
 
     @bindUIEvents()
 
@@ -56,8 +56,8 @@ class @Newstime.PageView extends @Newstime.View
       when 27 # ESC
         @deselect()
 
-  editionChangePaperColor: ->
-    @$el.css 'background-color': @edition.get('paper_color')
+  editionChangePageColor: ->
+    @$el.css 'background-color': @edition.get('page_color')
 
   delete: ->
     # Delete page contents

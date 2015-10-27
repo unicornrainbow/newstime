@@ -15,6 +15,11 @@ class @Newstime.EditionMenuView extends Newstime.MenuTitleView
       click: ->
         window.location = "/editions/new"
 
+    @recentEditionsMenuItem = new Newstime.MenuItemView
+      title: 'Recent Editions'
+      click: ->
+        window.open("/editions", '_blank')
+
     @settingsMenuItem = new Newstime.MenuItemView
       title: 'Edition Settings'
       click: ->
@@ -48,6 +53,7 @@ class @Newstime.EditionMenuView extends Newstime.MenuTitleView
         @composer.launchPreview()
 
     @menuBody.attachMenuItem(@newEditionMenuItem)
+    @menuBody.attachMenuItem(@recentEditionsMenuItem)
     @menuBody.attachMenuItem(@settingsMenuItem)
     @menuBody.attachMenuItem(@saveMenuItem)
     @menuBody.attachMenuItem(@printsMenuItem)

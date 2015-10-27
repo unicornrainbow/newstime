@@ -13,7 +13,7 @@ class Edition
   field :store_link,       type: String
   field :price,            type: Float   # Formatted price string
 
-  field :paper_color,      type: String
+  field :page_color,      type: String
   field :ink_color,        type: String
   field :line_color,       type: String
   field :selection_color,  type: String
