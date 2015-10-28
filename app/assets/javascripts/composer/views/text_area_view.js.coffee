@@ -11,8 +11,6 @@ class @Newstime.TextAreaView extends Newstime.ContentItemView
 
     @lineHeight = parseInt(Newstime.config.storyTextLineHeight)
 
-    @bind 'paste', @paste
-    @bind 'dblclick', @dblclick
     @bind 'resized', @reflow  # Reflow text on resize
 
     @listenTo @model, 'change:text', @reflow
@@ -46,7 +44,13 @@ class @Newstime.TextAreaView extends Newstime.ContentItemView
     @reflow()
 
   dblclick: (e) ->
-    Newstime.composer.vent.trigger 'edit-text', @model
+    # Create new text editor window
+    window = new Newstime.EditTextAreaWindowView
+      textAreaContentItem: @model
+
+    # Add it to the panel view layer
+    @composer.panelLayerView.attachPanel(window)
+
 
   keydown: (e) =>
     switch e.keyCode

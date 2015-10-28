@@ -28,6 +28,11 @@ class @Newstime.PanelLayerView extends @Newstime.View
     @$el.append(panel.el)
 
 
+  # Returns true if panel is attached
+  hasAttachedPanel: (panel) ->
+    @panels.indexOf(panel) != -1
+
+
   bringToFront: (panel) ->
     # Brings the passed in panel to the front.
 
