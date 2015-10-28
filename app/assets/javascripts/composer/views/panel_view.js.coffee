@@ -30,7 +30,7 @@ class @Newstime.PanelView extends @Newstime.View
     @$body = @$el.find('.palette-body')
     @$titleBar = @$el.find('.title-bar')
 
-    @initializePanel()
+    @initializePanel(options)
 
     @bindUIEvents()
 

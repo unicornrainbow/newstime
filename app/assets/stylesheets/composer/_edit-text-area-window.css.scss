@@ -4,14 +4,16 @@
     font-family: 'Raleway', sans-serif;
     resize: none;
     outline: none;
-    color: white;
-    padding: 7px;
-    background-color: transparent;
+    color: #444;
+    background-color: white;
+    padding: 0 7px;
     border: 0;
+    vertical-align: bottom; /* Removes extra padding/space at bottom of textarea http://stackoverflow.com/a/13155658 */
   }
 
   .palette-body {
-    padding: 0;
+    padding: 0 !important;
+    background-color: white;
   }
 
 

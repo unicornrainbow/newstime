@@ -2,7 +2,7 @@
 
 class @Newstime.TextEditorPanelView extends @Newstime.WindowView
 
-  initializePanel: ->
+  initializeWindow: (options) ->
     @$el.addClass 'text-editor-panel'
 
 

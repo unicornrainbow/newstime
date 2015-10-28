@@ -2,8 +2,8 @@
 
 class @Newstime.WindowView extends @Newstime.PanelView
 
-  initializePanel: ->
-    @initializeWindow() if @initializeWindow
+  initializePanel: (options) ->
+    @initializeWindow(options) if @initializeWindow
 
   setPosition: (top, left) ->
     @$el.css(top: top, left: left)

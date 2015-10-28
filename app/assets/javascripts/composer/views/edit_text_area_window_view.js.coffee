@@ -2,8 +2,11 @@
 
 class @Newstime.EditTextAreaWindowView extends @Newstime.WindowView
 
-  initializePanel: ->
+  initializeWindow: (options) ->
     @$el.addClass 'edit-text-area-window'
+
+    @textAreaContentItem = options.textAreaContentItem
+    console.log @textAreaContentItem
 
     @model.set(width: 450, height: 500)
 
@@ -18,3 +21,5 @@ class @Newstime.EditTextAreaWindowView extends @Newstime.WindowView
     @$textarea.css
       width: 450
       height: 500 - 22
+
+    @$textarea.val(@textAreaContentItem.get('text'))
