@@ -9,12 +9,15 @@ class @Newstime.WindowView extends @Newstime.PanelView
     @$el.css(top: top, left: left)
 
   beginDrag: (e) ->
+    x = e.x || e.clientX
+    y = e.y || e.clientY
+
     if e.target == @$titleBar[0]
       @dragging = true
       @$titleBar.addClass('grabbing')
 
-      @leftMouseOffset = e.x - parseInt(@$el.css('left'))
-      @topMouseOffset = e.y - parseInt(@$el.css('top'))
+      @leftMouseOffset = x - parseInt(@$el.css('left'))
+      @topMouseOffset = y - parseInt(@$el.css('top'))
 
       # Engage and begin tracking here.
 
@@ -25,10 +28,13 @@ class @Newstime.WindowView extends @Newstime.PanelView
 
 
   mousemove: (e) ->
-    e.y += @composer.panelLayerView.topOffset
+    x = e.x || e.clientX
+    y = e.y || e.clientY
+
+    y += @composer.panelLayerView.topOffset
 
     if @tracking && @dragging
-      @move(e.x, e.y)
+      @move(x, y)
 
 
   move: (x, y) ->

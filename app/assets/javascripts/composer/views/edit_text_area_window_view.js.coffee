@@ -39,9 +39,14 @@ class @Newstime.EditTextAreaWindowView extends @Newstime.WindowView
 
 
   renderPanel: ->
+    @$el.css @model.pick('top', 'left')
     @$textarea.css
       width: @model.get('width')
       height: @model.get('height') - 45
+
+
+  setPosition: (top, left) ->
+    @model.set(top: top, left: left)
 
   beginResizeDrag: (e) ->
       @resizing = true
@@ -49,9 +54,12 @@ class @Newstime.EditTextAreaWindowView extends @Newstime.WindowView
       # TODO: Fix for mozilla (.clientX/Y)
       # TODO: Drive position from model
 
+      x = e.x || e.clientX
+      y = e.y || e.clientY
 
-      @widthMouseOffset = parseInt(@$el.css('left')) + @model.get('width') - e.x
-      @heightMouseOffset = parseInt(@$el.css('top')) + @model.get('height') - e.y
+
+      @widthMouseOffset = @model.get('left') + @model.get('width') - x
+      @heightMouseOffset = @model.get('top') + @model.get('height') - y
 
 
       # Engage and begin tracking here.
@@ -62,15 +70,18 @@ class @Newstime.EditTextAreaWindowView extends @Newstime.WindowView
 
 
   mousemove: (e) ->
-    e.y += @composer.panelLayerView.topOffset
+    x = e.x || e.clientX
+    y = e.y || e.clientY
+
+    y += @composer.panelLayerView.topOffset
 
     if @tracking
       if @dragging
-        @move(e.x, e.y)
+        @move(x, y)
 
       if @resizing
-        width = e.x + @widthMouseOffset - parseInt(@$el.css('left'))
-        height = e.y + @heightMouseOffset - parseInt(@$el.css('top'))
+        width = x + @widthMouseOffset - @model.get('left')
+        height = y + @heightMouseOffset - @model.get('top')
         @resize(width, height)
 
 
