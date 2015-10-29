@@ -27,7 +27,7 @@ class @Newstime.WindowView extends @Newstime.PanelView
   mousemove: (e) ->
     e.y += @composer.panelLayerView.topOffset
 
-    if @tracking
+    if @tracking && @dragging
       @move(e.x, e.y)
 
 

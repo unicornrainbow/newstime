@@ -9,12 +9,12 @@ class @Newstime.EditTextAreaWindowView extends @Newstime.WindowView
       'click .bold-btn': 'clickMakeBold'
       'click .italic-btn': 'clickMakeItalic'
       'click .link-btn': 'clickMakeLink'
+      'mousedown .resize-scrub': 'beginResizeDrag'
 
 
     @$el.addClass 'edit-text-area-window'
 
     @textAreaContentItem = options.textAreaContentItem
-    console.log @textAreaContentItem
 
     @model.set(width: 450, height: 500)
 
@@ -26,6 +26,7 @@ class @Newstime.EditTextAreaWindowView extends @Newstime.WindowView
         <button class="pull-right">Update</button>
       </div>
       <textarea></textarea>
+      <span class="resize-scrub"></span>
     """
 
     @$textarea = @$('textarea')
@@ -36,6 +37,57 @@ class @Newstime.EditTextAreaWindowView extends @Newstime.WindowView
 
     @$textarea.val(@textAreaContentItem.get('text'))
 
+
+  renderPanel: ->
+    @$textarea.css
+      width: @model.get('width')
+      height: @model.get('height') - 45
+
+  beginResizeDrag: (e) ->
+      @resizing = true
+
+      # TODO: Fix for mozilla (.clientX/Y)
+      # TODO: Drive position from model
+
+
+      @widthMouseOffset = parseInt(@$el.css('left')) + @model.get('width') - e.x
+      @heightMouseOffset = parseInt(@$el.css('top')) + @model.get('height') - e.y
+
+
+      # Engage and begin tracking here.
+
+      @tracking = true
+      @trigger 'tracking', this
+      @composer.captureLayerView.engage()
+
+
+  mousemove: (e) ->
+    e.y += @composer.panelLayerView.topOffset
+
+    if @tracking
+      if @dragging
+        @move(e.x, e.y)
+
+      if @resizing
+        width = e.x + @widthMouseOffset - parseInt(@$el.css('left'))
+        height = e.y + @heightMouseOffset - parseInt(@$el.css('top'))
+        @resize(width, height)
+
+
+  mouseup: (e) ->
+    if @tracking
+      @tracking = false
+      @trigger 'tracking-release', this
+      @composer.popCursor()
+      @mouseover(e)
+      @endDrag()
+
+    if @resizing
+      @resizing = false
+
+
+  resize: (width, height) ->
+    @model.set(width: width, height: height)
 
   clickMakeBold: ->
     text = @$textarea.textrange('get', 'text')
