@@ -104,8 +104,18 @@ class @Newstime.EditTextAreaWindowView extends @Newstime.WindowView
 
   clickMakeBold: ->
     textrange = @$textarea.textrange('get')
-    @$textarea.textrange('replace', "**#{textrange.text}**")
-    @$textarea.textrange('set', textrange.start + 2, textrange.length)
+
+    # Is it already bold?
+    if @$textarea.val().substring(textrange.start-2, textrange.start) == '**' && @$textarea.val().substring(textrange.end, textrange.end+2) == '**'
+
+      # If so, unbold.
+      @$textarea.textrange('set', textrange.start-2, textrange.length+4)
+      @$textarea.textrange('replace', textrange.text)
+      @$textarea.textrange('set', textrange.start-2, textrange.length)
+    else
+      # Bold
+      @$textarea.textrange('replace', "**#{textrange.text}**")
+      @$textarea.textrange('set', textrange.start + 2, textrange.length)
 
   clickMakeItalic: ->
     textrange = @$textarea.textrange('get')
