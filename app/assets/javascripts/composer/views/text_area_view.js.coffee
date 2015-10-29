@@ -37,11 +37,16 @@ class @Newstime.TextAreaView extends Newstime.ContentItemView
 
     @model.set 'text', pastedText
 
+
+    # Update edit text area window if there is one.
+    if @editTextAreaWindow
+      @editTextAreaWindow.updateTextFromModel()
+
     # Now that we have the desired text, need to save this as the text with the
     # story text-content item, should that be our target. Also need to grab and
     # rerender the contents of the pasted text after it has been reflowed.
 
-    @reflow()
+    #@reflow()
 
   dblclick: (e) ->
     @showEditTextAreaWindow()

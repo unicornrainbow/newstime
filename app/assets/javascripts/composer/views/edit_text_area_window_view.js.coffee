@@ -24,7 +24,7 @@ class @Newstime.EditTextAreaWindowView extends @Newstime.WindowView
     @$body.html """
       <div class="buttons">
         <button class="bold-btn">Bold</button><button class="italic-btn">Italic</button><button class="link-btn">Link</button>
-        <button class="update-btn pull-right">Update</button>
+        <button class="update-btn pull-right"><i class="fa fa-refresh"></i> Update</button>
       </div>
       <textarea></textarea>
       <span class="resize-scrub"></span>
@@ -48,6 +48,9 @@ class @Newstime.EditTextAreaWindowView extends @Newstime.WindowView
   # Pushes text update to the text area.
   updateText: ->
     @textAreaContentItem.set 'text', @$textarea.val()
+
+  updateTextFromModel: ->
+    @$textarea.val(@textAreaContentItem.get('text'))
 
 
   beginResizeDrag: (e) ->
