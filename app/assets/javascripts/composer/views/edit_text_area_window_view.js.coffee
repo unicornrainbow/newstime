@@ -13,7 +13,6 @@ class @Newstime.EditTextAreaWindowView extends @Newstime.WindowView
       'mousedown .resize-scrub': 'beginResizeDrag'
 
 
-
     @$el.addClass 'edit-text-area-window'
 
     @textAreaContentItem = options.textAreaContentItem
@@ -41,7 +40,7 @@ class @Newstime.EditTextAreaWindowView extends @Newstime.WindowView
 
 
   renderPanel: ->
-    @$el.css @model.pick('top', 'left')
+    super
     @$textarea.css
       width: @model.get('width')
       height: @model.get('height') - 45
@@ -50,9 +49,6 @@ class @Newstime.EditTextAreaWindowView extends @Newstime.WindowView
   updateText: ->
     @textAreaContentItem.set 'text', @$textarea.val()
 
-
-  setPosition: (top, left) ->
-    @model.set(top: top, left: left)
 
   beginResizeDrag: (e) ->
       @resizing = true

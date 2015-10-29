@@ -5,8 +5,11 @@ class @Newstime.WindowView extends @Newstime.PanelView
   initializePanel: (options) ->
     @initializeWindow(options) if @initializeWindow
 
+  renderPanel: ->
+    @$el.css @model.pick('top', 'left')
+
   setPosition: (top, left) ->
-    @$el.css(top: top, left: left)
+    @model.set(top: top, left: left)
 
   beginDrag: (e) ->
     x = e.x || e.clientX
@@ -41,8 +44,9 @@ class @Newstime.WindowView extends @Newstime.PanelView
     x -= @leftMouseOffset
     y -= @topMouseOffset
 
-    @$el.css('left', x)
-    @$el.css('top', y)
+    @model.set
+      left: x
+      top: y
 
   toggle: ->
     if @hidden
