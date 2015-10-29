@@ -14,7 +14,7 @@ class @Newstime.TextAreaEditorView extends Newstime.ContentItemView
     @bind 'keydown', @keydown
 
     @$el.html """
-      <textarea class="basic-textarea">Hello</textarea>
+      <textarea class="basic-textarea"></textarea>
     """
 
 
