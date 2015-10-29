@@ -101,12 +101,14 @@ class @Newstime.EditTextAreaWindowView extends @Newstime.WindowView
     @model.set(width: width, height: height)
 
   clickMakeBold: ->
-    text = @$textarea.textrange('get', 'text')
-    @$textarea.textrange('replace', "**#{text}**")
+    textrange = @$textarea.textrange('get')
+    @$textarea.textrange('replace', "**#{textrange.text}**")
+    @$textarea.textrange('set', textrange.start + 2, textrange.length)
 
   clickMakeItalic: ->
-    text = @$textarea.textrange('get', 'text')
-    @$textarea.textrange('replace', "*#{text}*")
+    textrange = @$textarea.textrange('get')
+    @$textarea.textrange('replace', "*#{textrange.text}*")
+    @$textarea.textrange('set', textrange.start + 1, textrange.length)
 
   clickMakeLink: ->
     textrange = @$textarea.textrange('get')
