@@ -44,12 +44,21 @@ class @Newstime.TextAreaView extends Newstime.ContentItemView
     @reflow()
 
   dblclick: (e) ->
+    @showEditTextAreaWindow()
+
+  showEditTextAreaWindow: ->
     # Create new text editor window
-    window = new Newstime.EditTextAreaWindowView
+    @editTextAreaWindow ?= new Newstime.EditTextAreaWindowView
       textAreaContentItem: @model
 
-    # Add it to the panel view layer
-    @composer.panelLayerView.attachPanel(window)
+    panelLayerView = @composer.panelLayerView
+
+    if panelLayerView.hasAttachedPanel(@editTextAreaWindow)
+      panelLayerView.bringToFront(@editTextAreaWindow)
+      @editTextAreaWindow.show()
+    else
+      # Add it to the panel view layer
+      panelLayerView.attachPanel(@editTextAreaWindow)
 
 
   keydown: (e) =>
