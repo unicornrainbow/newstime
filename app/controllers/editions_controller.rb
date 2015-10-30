@@ -20,10 +20,26 @@ class EditionsController < ApplicationController
     @edition = @publication.build_edition
   end
 
-  def blank
+  def composer
     flash[:notice] # Clear flash, since it's not currently displayed anywhere
 
-    @edition = Edition.last
+    @edition = Edition.new(layout_name: "default")
+    @section = @edition.sections.build(path: "main.html")
+    @section.pages.build(number: 1)
+
+    #[
+        #{
+            #"name" => "Main",
+            #"path" => "main.html",
+            #"sequence" => 10,
+            #"letter" => "A",
+            #"pages_attributes" => [
+                #{
+                    #"number" => 1
+                #}
+            #]
+        #}
+    #]
 
 
     # Set composing flag as indication to layout_module.
@@ -47,6 +63,8 @@ class EditionsController < ApplicationController
 
     render 'compose', layout: 'layout_module'
   end
+
+
 
   def create
     @publication = Publication.find(edition_params[:publication_id])

@@ -2,10 +2,12 @@ require 'sidekiq/web'
 
 Press::Application.routes.draw do
 
-  root to: 'editions#blank'
-  #root to: redirect('/editions')
+  root to: redirect('/editions')
 
   devise_for :users, controllers: { sessions: "sessions" }
+
+
+  get  :composer, controller: :editions
 
   resources :editions do
     resources :sections

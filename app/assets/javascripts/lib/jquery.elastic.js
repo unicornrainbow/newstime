@@ -48,8 +48,8 @@
         return false;
       }
 
-    var $textarea = jQuery(this),
-      $twin   = jQuery('<div />').css({
+    var $textarea = $(this),
+      $twin   = $('<div />').css({
         'position'    : 'absolute',
         'display'   : 'none',
         'word-wrap'   : 'break-word',
