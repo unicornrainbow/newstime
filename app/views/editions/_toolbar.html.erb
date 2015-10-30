@@ -34,6 +34,12 @@
             <%= link_to('Sign Out', destroy_user_session_path, :method => :delete) %>
           </li>
         </ul>
+      <% else %>
+        <ul>
+          <li>
+            <%= link_to('Sign In', new_user_session_path) %>
+          </li>
+        </ul>
       <% end %>
     </nav>
   </div>
