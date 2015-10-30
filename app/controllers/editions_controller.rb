@@ -1,7 +1,7 @@
 class EditionsController < ApplicationController
   wrap_parameters include: [*Edition.attribute_names, :sections_attributes, :pages_attributes, :content_items_attributes, :groups_attributes]
 
-  before_filter :authenticate_user!, except: [:index, :new]
+  before_filter :authenticate_user!, except: [:index, :new, :compose, :blank]
   before_filter :find_edition, only: [:compose, :preview, :compile, :download]
 
   skip_filter :verify_authenticity_token, only: [:delete, :update] # TODO: Should remove this
@@ -9,14 +9,43 @@ class EditionsController < ApplicationController
   respond_to :html, :json
 
   def index
-    redirect_to new_user_session_path and return unless current_user
+    #redirect_to new_user_session_path and return unless current_user
     #@editions = current_user.organization.editions.desc(:updated_at)
-    @editions = current_user.editions.desc(:updated_at)
+    #@editions = current_user.editions.desc(:updated_at)
+    @editions = Edition.desc(:updated_at)
   end
 
   def new
     @publication = params[:publication_id] ? Publication.find(params[:publication_id]) : Publication.first
     @edition = @publication.build_edition
+  end
+
+  def blank
+    flash[:notice] # Clear flash, since it's not currently displayed anywhere
+
+    @edition = Edition.last
+
+
+    # Set composing flag as indication to layout_module.
+    @composing = true
+
+    # Reconstruct path with extension
+    @path = "main.html"
+
+    # Find section by path of edition.
+    @section       = @edition.sections.find_by(path: @path)
+
+    @pages         = @section.pages || []
+    @layout_name   = @edition.layout_name
+    @template_name = @section.template_name.presence || @edition.default_section_template_name
+    @title         = @section.page_title.presence || @edition.page_title
+    @layout_module = LayoutModule.new(@layout_name) # TODO: Rename to MediaModule
+    @content_item = ContentItem.new
+
+    # Sets config values which are avialable client-side at `Newstime.config`.
+    set_client_config
+
+    render 'compose', layout: 'layout_module'
   end
 
   def create

@@ -2,7 +2,7 @@ require 'sidekiq/web'
 
 Press::Application.routes.draw do
 
-  root to: 'editions#new'
+  root to: 'editions#blank'
   #root to: redirect('/editions')
 
   devise_for :users, controllers: { sessions: "sessions" }
