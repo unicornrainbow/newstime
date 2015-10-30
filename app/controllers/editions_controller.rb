@@ -1,7 +1,7 @@
 class EditionsController < ApplicationController
   wrap_parameters include: [*Edition.attribute_names, :sections_attributes, :pages_attributes, :content_items_attributes, :groups_attributes]
 
-  before_filter :authenticate_user!, except: :index
+  before_filter :authenticate_user!, except: [:index, :new]
   before_filter :find_edition, only: [:compose, :preview, :compile, :download]
 
   skip_filter :verify_authenticity_token, only: [:delete, :update] # TODO: Should remove this
