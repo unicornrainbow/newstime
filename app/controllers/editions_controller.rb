@@ -12,7 +12,13 @@ class EditionsController < ApplicationController
     #redirect_to new_user_session_path and return unless current_user
     #@editions = current_user.organization.editions.desc(:updated_at)
     #@editions = current_user.editions.desc(:updated_at)
-    @editions = Edition.desc(:updated_at)
+    @editions = []
+
+    if current_user
+      @editions += current_user.editions.desc(:updated_at)
+    end
+
+    @editions += Edition.where(user: nil).desc(:updated_at)
   end
 
   def new

@@ -4,10 +4,9 @@ Press::Application.routes.draw do
 
   root to: redirect('/editions')
 
-  devise_for :users, controllers: { sessions: "sessions" }
-
-
   get  :composer, controller: :editions
+
+  devise_for :users, controllers: { sessions: "sessions" }
 
   resources :editions do
     resources :sections
