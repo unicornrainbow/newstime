@@ -17,7 +17,7 @@ class @Newstime.VideoPropertiesView extends Backbone.View
     @$el.html """
       <li class="property">
         <label>Video Name</label>
-        <span class="field"><input type="button" class="video-name-field selector-button" style="width: 100px"></input></span>
+        <span class="field"><input class="video-name-field" style="width: 100px"></input></span>
       </li>
 
       <li class="property">
