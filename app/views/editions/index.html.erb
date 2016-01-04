@@ -10,6 +10,7 @@
         <thead>
           <tr>
             <th>Name</th>
+            <th>Publication</th>
             <th>Title</th>
             <th>Volume</th>
             <th>Publication Date</th>
@@ -20,6 +21,7 @@
         <% @editions.each do |edition| %>
           <tr>
             <td><%= link_to edition.name, compose_edition_path(edition) %></td>
+            <td><%= edition.publication.name %></td>
             <td><%= edition.page_title %></td>
             <td><%= edition.volume_label %></td>
             <td><%= edition.publish_date.try(:strftime, "%D") %></td>
