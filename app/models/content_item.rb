@@ -38,6 +38,8 @@ class ContentItem
 
   def group
     @group ||= group_id && edition.groups.find(group_id)
+  rescue
+    nil
   end
 
   def group=(value)
