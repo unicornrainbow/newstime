@@ -8,13 +8,28 @@ class @Newstime.PhotoView extends Newstime.ContentItemView
   contentItemClassName: 'photo-view'
 
   initializeContentItem: ->
+    # Attempting to capture elements. Probably to return empty objects, because
+    # the template has not been rendered yet.
     @$img = @$el.find('img')
     @$caption = @$('.photo-caption')
+
+
+    # Ensure caption height has a value
+    unless @model.get('caption_height')
+      @model.set('caption_height', 0)
+
+    # Element for view is reset when the ContentItemView returns from a server
+    # render. The set-element event is triggered. We handle it here to get
+    # references to the img and photo-caption elements.
+    @bind 'set-element', =>
+      @$img = @$el.find('img')
+      @$caption = @$('.photo-caption')
 
     @listenTo @model, 'change:photo_id', @photoChanged
     @listenTo @model, 'change:caption', @captionChanged
     @listenTo @model, 'change:show_caption', @showCaptionChanged
     @listenTo @model, 'change', @render
+
     @render()
 
   @getter 'uiLabel', -> "Photo"

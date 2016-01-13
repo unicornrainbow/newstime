@@ -26,6 +26,7 @@ class @Newstime.ContentItemView extends @Newstime.CanvasItemView
         @$el.replaceWith(el)
         @setElement(el)
         @render()
+        @trigger 'set-element'
 
   handelChangePage: ->
     @page = @model.getPage()
