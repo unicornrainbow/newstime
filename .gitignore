@@ -21,3 +21,4 @@ public/assets
 share
 layouts/blank
 config/media_modules.yml
+.DS_Store
