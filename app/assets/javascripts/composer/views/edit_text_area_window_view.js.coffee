@@ -36,7 +36,9 @@ class @Newstime.EditTextAreaWindowView extends @Newstime.WindowView
       width: 450
       height: 500 - 45
 
-    @$textarea.val(@textAreaContentItem.get('text'))
+
+    if @textAreaContentItem.get('text')?
+      @$textarea.val(@textAreaContentItem.get('text'))
 
 
   renderPanel: ->

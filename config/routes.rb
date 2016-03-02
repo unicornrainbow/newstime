@@ -70,9 +70,7 @@ Press::Application.routes.draw do
     member do
       post :set_cover
     end
-
   end
-
 
   resources :layouts
   resources :partials

@@ -25,6 +25,8 @@ class Photo
 
   def edition_relative_url_path
     "images/#{name}#{File.extname(attachment.path)}"
+  rescue
+    nil
   end
 
 private

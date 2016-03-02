@@ -151,6 +151,10 @@ class @Newstime.Composer extends Backbone.View
     @panelLayerView.attachPanel(@printsWindow)
     @printsWindow.hide()
 
+    @photoPicker = new Newstime.PhotoPickerWindowView
+    @photoPicker.setPosition(50, 200)
+    @panelLayerView.attachPanel(@photoPicker)
+    @photoPicker.hide()
 
     #@textEditorPanelView = new Newstime.TextEditorPanelView
     #@textEditorPanelView.setPosition(50, 200)

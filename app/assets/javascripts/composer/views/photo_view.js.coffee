@@ -58,7 +58,12 @@ class @Newstime.PhotoView extends Newstime.ContentItemView
 
     @$img.css photoSize
 
-  # Event hander for browser paste event.
+  dblclick: (e) =>
+    # Display Photo Picker
+    @composer.photoPicker.selectPhoto(this)
+
+
+  # Event handler for browser paste event.
   #
   # Retrieves data from clipboard, uploads it to the server, and updates the
   # photo in the view.

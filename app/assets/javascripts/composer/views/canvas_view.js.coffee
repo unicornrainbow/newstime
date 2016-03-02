@@ -6,7 +6,6 @@ class @Newstime.CanvasView extends @Newstime.View
     @edition = options.edition
     @toolbox = options.toolbox
 
-
     # Capture Elements
     @$window = $(window)
     @$document = $(document)
@@ -405,11 +404,11 @@ class @Newstime.CanvasView extends @Newstime.View
   getCursor: ->
     cursor = switch @toolbox.get('selectedTool')
       when 'select-tool' then 'default'
-      when 'type-tool' then "-webkit-image-set(url('/assets/type_tool_cursor.png') 2x), auto"
-      when 'headline-tool' then "-webkit-image-set(url('/assets/headline_tool_cursor.png') 2x), auto"
-      when 'photo-tool' then "-webkit-image-set(url('/assets/photo_tool_cursor.png') 2x), auto"
-      when 'video-tool' then "-webkit-image-set(url('/assets/video_tool_cursor.png') 2x), auto"
-      when 'divider-tool' then "-webkit-image-set(url('/assets/divider_tool_cursor.png') 2x), auto"
+      when 'type-tool' then "-webkit-image-set(url('/assets/type_tool_cursor.png') 1x), auto"
+      when 'headline-tool' then "-webkit-image-set(url('/assets/headline_tool_cursor.png') 1x), auto"
+      when 'photo-tool' then "-webkit-image-set(url('/assets/photo_tool_cursor.png') 1x), auto"
+      when 'video-tool' then "-webkit-image-set(url('/assets/video_tool_cursor.png') 1x), auto"
+      when 'divider-tool' then "-webkit-image-set(url('/assets/divider_tool_cursor.png') 1x), auto"
 
     #when 'text-tool' then 'pointer'
     #when 'text-tool' then 'text'
