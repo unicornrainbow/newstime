@@ -13,7 +13,6 @@ class @Newstime.PhotoView extends Newstime.ContentItemView
     @$img = @$el.find('img')
     @$caption = @$('.photo-caption')
 
-
     # Ensure caption height has a value
     unless @model.get('caption_height')
       @model.set('caption_height', 0)
@@ -59,7 +58,6 @@ class @Newstime.PhotoView extends Newstime.ContentItemView
     @$img.css photoSize
 
   dblclick: (e) =>
-    # Display Photo Picker
     @composer.photoPicker.selectPhoto(this)
 
 
