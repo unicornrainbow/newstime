@@ -143,7 +143,10 @@ class EditionsController < ApplicationController
   def update
     @edition = Edition.find(params[:id])
     #Rails.logger.info "Updateing Edition Attributes"
+
     @edition.update_attributes(edition_params)
+    @edition.update_attribute :has_sections, edition_params[:has_sections] == '1'
+
     #Rails.logger.info "Edition Attributes Updated"
     respond_to do |format|
       format.html { redirect_to :back }

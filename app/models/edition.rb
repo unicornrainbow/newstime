@@ -13,11 +13,15 @@ class Edition
   field :store_link,       type: String
   field :price,            type: Float   # Formatted price string
 
-  field :page_color,      type: String
+
+  field :page_color,       type: String
   field :ink_color,        type: String
   field :line_color,       type: String
   field :selection_color,  type: String
-  #field :fmt_price,    type: String  # Formatted price string
+  #field :fmt_price,        type: String  # Formatted price string
+
+  field :has_sections,     type: Boolean # True or false, depending if section bar should be
+                                         # shown and sections, if any, rendered.
 
   def pricef
     return 0 unless price
