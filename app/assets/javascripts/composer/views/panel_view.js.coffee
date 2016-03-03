@@ -2,7 +2,7 @@ class @Newstime.PanelView extends @Newstime.View
 
   events:
    'mousedown .title-bar': 'beginDrag'
-   'mouseup .title-bar': 'endDrag'
+   'mousedown .bottom-right-drag-handel': 'beginDragResize'
    'mousemove': 'dOMMousemove'
    'keydown': 'keydown'
    'paste': 'paste'
@@ -24,11 +24,13 @@ class @Newstime.PanelView extends @Newstime.View
       </div>
       <div class="palette-body">
       </div>
+      <div class="bottom-right-drag-handel"></div>
     """
 
     # Select Elements
     @$body = @$el.find('.palette-body')
     @$titleBar = @$el.find('.title-bar')
+    @$bottomRightDragHandel = @$el.find('.bottom-right-drag-handel')
 
     @initializePanel(options)
 
@@ -43,7 +45,7 @@ class @Newstime.PanelView extends @Newstime.View
     @panelLayerView.bringToFront(this)
 
   render: ->
-    @$el.css @model.pick('width', 'height')
+    @$el.css @model.pick('width', 'height', 'top', 'left')
     @$el.css 'z-index': @model.get('z_index')
     @renderPanel() if @renderPanel
 
@@ -81,7 +83,6 @@ class @Newstime.PanelView extends @Newstime.View
 
     # Make foremost
 
-
     if @hoveredObject
       @hoveredObject.trigger 'mouseover', e
 
@@ -113,30 +114,73 @@ class @Newstime.PanelView extends @Newstime.View
     @hidden = false
     @$el.show()
 
+  toggle: ->
+    if @hidden then @show() else @hide()
+
+
   mousemove: (e) ->
-    e.y += @composer.panelLayerView.topOffset
+    x = e.x || e.clientX
+    y = e.y || e.clientY
+
+    y += @composer.panelLayerView.topOffset
 
     if @tracking
-      @$el.css('bottom', $(window).height() - e.y - @bottomMouseOffset)
-      @$el.css('right', $(window).width() - e.x - @rightMouseOffset)
+      if @dragging
+        @move(x, y)
+
+      if @resizing
+        @resize(x, y)
+        ## Calculate correct resize values
+        ##@$el.css('bottom', $(window).height() - e.y - @bottomMouseOffset)
+        ##@$el.css('right', $(window).width() - e.x - @rightMouseOffset)
+
+        ##console.log e.y - @topOffset  + @bottomMouseOffset
+        #console.log @topOffset
+        #@model.set
+          #height: e.y - @topOffset  + @topMouseOffset
+          #width:  e.x - @leftOffset + @leftMouseOffset
+
+
+
+  move: (x, y) ->
+    x -= @leftMouseOffset
+    y -= @topMouseOffset
+
+    @model.set
+      left: x
+      top: y
+
+
+  resize: (x, y) ->
+    @model.set
+      width: x - @model.get('left') + @rightMouseOffset
+      height: y - @model.get('top') + @bottomMouseOffset
 
   mouseup: (e) ->
     if @tracking
       @tracking = false
       @trigger 'tracking-release', this
-      @composer.popCursor()
-      @mouseover(e)
-      @endDrag()
+
+      if @dragging
+        @composer.popCursor()
+        @mouseover(e)
+        @endDrag()
+
+      if @resizing
+        @mouseover(e)
+        @endDragResize()
 
 
   beginDrag: (e) ->
+    x = e.x || e.clientX
+    y = e.y || e.clientY
+
     if e.target == @$titleBar[0]
       @dragging = true
       @$titleBar.addClass('grabbing')
 
-      # Calulate offsets
-      @bottomMouseOffset = $(window).height() - e.clientY - parseInt(@$el.css('bottom'))
-      @rightMouseOffset =  $(window).width() - e.clientX - parseInt(@$el.css('right'))
+      @leftMouseOffset = x - @model.get('left')
+      @topMouseOffset = y - @model.get('top')
 
       # Engage and begin tracking here.
 
@@ -150,13 +194,39 @@ class @Newstime.PanelView extends @Newstime.View
       @dragging = false
       @$titleBar.removeClass('grabbing')
 
+  beginDragResize: (e) ->
+    x = e.x || e.clientX
+    y = e.y || e.clientY
+
+    if e.target == @$bottomRightDragHandel[0]
+      @resizing = true
+
+      # Calulate offsets
+      @leftMouseOffset = x - @model.get('left')
+      @topMouseOffset = y - @model.get('top')
+      @rightMouseOffset = @model.get('width') - @leftMouseOffset
+      @bottomMouseOffset = @model.get('height') - @topMouseOffset
+
+      # Engage and begin tracking here.
+
+      @tracking = true
+      @trigger 'tracking', this
+      @composer.captureLayerView.engage()
+
+  endDragResize: (e) ->
+    if @resizing
+      @resizing = false
+
   # Attachs html or element to body of palette
   attach: (html) ->
     @$body.html(html)
 
   setPosition: (bottom, right) ->
+    @model.set
+      top: $(window).height() - bottom - @model.get('height')
+      left: $(window).width() - right - @model.get('width')
     #@$el.css(top: top, left: left)
-    @$el.css(bottom: bottom, right: right)
+    #@$el.css(bottom: bottom, right: right)
 
   width: ->
     parseInt(@$el.css('width'))
@@ -165,16 +235,10 @@ class @Newstime.PanelView extends @Newstime.View
     parseInt(@$el.css('height'))
 
   x: ->
-    #parseInt(@$el.css('left'))
-    #@$el[0].offsetLeft
-    #Math.round(@$el.position().left)
-    #Math.round(
-    Math.round(@$el.offset().left)
-    #@$el[0].getBoundingClientRect()
-
+    @model.get('left')
 
   y: ->
-    @$el[0].offsetTop
+    @model.get('top')
 
   geometry: ->
     x: @x()

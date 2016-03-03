@@ -1,16 +1,20 @@
 .photo-picker {
   text-align: center;
   overflow-y: scroll;
-  height: 475px;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
   img {
     margin: 2px;
   }
 
-
-
   .photo-thumbnail {
-    height: 100px;
-    width: 130px;
+    height: 50px;
+    width: 70px;
     margin: 0 3px;
     border: 1px solid transparent;
 
@@ -23,12 +27,10 @@
 
     }
   }
-
 }
 
 .photo-picker-window-view {
   .palette-body {
     padding: 0;
   }
-
 }

@@ -19,7 +19,7 @@ class @Newstime.MenuView extends Newstime.View
     @sectionTitleView = new Newstime.SectionMenuView
     @attachMenuTitle(@sectionTitleView)
 
-    @viewTitleView = new Newstime.ViewMenuView
+    @viewTitleView = @composer.viewMenu = new Newstime.ViewMenuView
     @attachMenuTitle(@viewTitleView)
 
     #@helpTitleView = new Newstime.HelpMenuView

@@ -49,6 +49,11 @@
   }
 
   .palette-body {
+    position: absolute;
+    top: 25px;
+    bottom: 0;
+    right: 0;
+    left: 0;
     padding: 7px;
     overflow: hidden;
   }
@@ -67,6 +72,15 @@
 
   button {
     color: #2e3137;
+  }
+
+  .bottom-right-drag-handel {
+    /*background-color: purple;*/
+    width: 10px;
+    height: 10px;
+    bottom: 0;
+    right: 0;
+    position: absolute;
   }
 
 }

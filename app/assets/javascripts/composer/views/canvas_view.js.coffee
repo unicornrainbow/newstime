@@ -79,6 +79,12 @@ class @Newstime.CanvasView extends @Newstime.View
       groups = @pageGroups[page.cid]
       contentItems = @pageContentItems[page.cid]
 
+      # Validate contentItem group reference, clear group_id if group not found
+      _.each contentItems, (item) ->
+        if item.get('group_id')
+          unless _.findWhere(groups, id: item.get('group_id'))
+            item.unset('group_id') # Clear group, since it was not found.
+
       _.each groups, (group) =>
 
         # Construct and add in each content item.
@@ -134,7 +140,10 @@ class @Newstime.CanvasView extends @Newstime.View
 
         @addCanvasItem(groupView, reattach: true) # Add groupView to the canvas.
 
-      contentItems = _.reject contentItems, (item) -> item.get('group_id') # Don't process items which are part of a group...
+
+      # Don't process items which are part of a group
+      contentItems = _.reject contentItems, (item) -> item.get('group_id')
+
       _.each contentItems, (contentItem) =>
         # Construct and add in each content item.
         id = contentItem.get('_id')

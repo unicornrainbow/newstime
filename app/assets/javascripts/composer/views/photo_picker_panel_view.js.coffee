@@ -1,12 +1,12 @@
-#= require ../views/window_view
+#= require ../views/panel_view
 
-class @Newstime.PhotoPickerWindowView extends @Newstime.WindowView
+class @Newstime.PhotoPickerPanelView extends @Newstime.PanelView
 
-  initializeWindow: ->
+  initializePanel: ->
     @$el.addClass 'photo-picker-window-view'
     @model.set
-      width: 700
-      height: 500
+      width: 307
+      height: 240
 
     # Attach photo picker view into body
     @photoPickerView = new Newstime.PhotoPickerView(window: this)

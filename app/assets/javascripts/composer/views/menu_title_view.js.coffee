@@ -67,3 +67,6 @@ class @Newstime.MenuTitleView extends Newstime.View
     switch e.keyCode
       when 27 # ESC
         @close()
+
+  attachMenuItem: (menuItem) ->
+    @menuBody.attachMenuItem(menuItem)

@@ -11,42 +11,42 @@ class @Newstime.WindowView extends @Newstime.PanelView
   setPosition: (top, left) ->
     @model.set(top: top, left: left)
 
-  beginDrag: (e) ->
-    x = e.x || e.clientX
-    y = e.y || e.clientY
+  #beginDrag: (e) ->
+    #x = e.x || e.clientX
+    #y = e.y || e.clientY
 
-    if e.target == @$titleBar[0]
-      @dragging = true
-      @$titleBar.addClass('grabbing')
+    #if e.target == @$titleBar[0]
+      #@dragging = true
+      #@$titleBar.addClass('grabbing')
 
-      @leftMouseOffset = x - parseInt(@$el.css('left'))
-      @topMouseOffset = y - parseInt(@$el.css('top'))
+      #@leftMouseOffset = x - parseInt(@$el.css('left'))
+      #@topMouseOffset = y - parseInt(@$el.css('top'))
 
-      # Engage and begin tracking here.
+      ## Engage and begin tracking here.
 
-      @tracking = true
-      @composer.pushCursor('-webkit-grabbing')
-      @trigger 'tracking', this
-      @composer.captureLayerView.engage()
-
-
-  mousemove: (e) ->
-    x = e.x || e.clientX
-    y = e.y || e.clientY
-
-    y += @composer.panelLayerView.topOffset
-
-    if @tracking && @dragging
-      @move(x, y)
+      #@tracking = true
+      #@composer.pushCursor('-webkit-grabbing')
+      #@trigger 'tracking', this
+      #@composer.captureLayerView.engage()
 
 
-  move: (x, y) ->
-    x -= @leftMouseOffset
-    y -= @topMouseOffset
+  #mousemove: (e) ->
+    #x = e.x || e.clientX
+    #y = e.y || e.clientY
 
-    @model.set
-      left: x
-      top: y
+    #y += @composer.panelLayerView.topOffset
+
+    #if @tracking && @dragging
+      #@move(x, y)
+
+
+  #move: (x, y) ->
+    #x -= @leftMouseOffset
+    #y -= @topMouseOffset
+
+    #@model.set
+      #left: x
+      #top: y
 
   toggle: ->
     if @hidden

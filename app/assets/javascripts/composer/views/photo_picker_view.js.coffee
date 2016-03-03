@@ -5,6 +5,7 @@ class @Newstime.PhotoPickerView extends Backbone.View
 
   initialize: (options) ->
     @window = options.window
+    @composer = Newstime.composer
     @$el.addClass "photo-picker"
     @loadPhotos()
 
@@ -22,7 +23,7 @@ class @Newstime.PhotoPickerView extends Backbone.View
                  data-edition-relative-url-path="#{photo.edition_relative_url_path}"
                  style="background-image: url('#{photo.edition_relative_url_path}')"></div>
           """
-          if i == 4
+          if i == 3
             @$el.append "<br>"
             i = 0
           else
@@ -32,10 +33,11 @@ class @Newstime.PhotoPickerView extends Backbone.View
     photoId = $(e.target).data('photo-id')
     url = $(e.target).data('edition-relative-url-path')
 
-    respondToModel = @window.respondToView.model
-    respondToModel.set
-      photo_id: photoId
-      edition_relative_url_path: url
+    if @composer.selection
+      @composer.selection.contentItem.set
+        photo_id: photoId
+        edition_relative_url_path: url
 
-    @window.respondToView = null
-    @window.hide()
+
+    #@window.respondToView = null
+    #@window.hide()

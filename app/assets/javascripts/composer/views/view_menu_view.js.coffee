@@ -32,5 +32,5 @@ class @Newstime.ViewMenuView extends Newstime.MenuTitleView
         @composer.togglePanelLayer()
 
 
-    @menuBody.attachMenuItem(@snapMenuItem)
-    @menuBody.attachMenuItem(@panelsMenuItem)
+    @attachMenuItem(@snapMenuItem)
+    @attachMenuItem(@panelsMenuItem)

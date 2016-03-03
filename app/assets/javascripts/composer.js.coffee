@@ -133,7 +133,7 @@ class @Newstime.Composer extends Backbone.View
       model: @edition
 
     @pagesPanelView = new Newstime.PagesPanelView
-    @pagesPanelView.setPosition(250, 20)
+    @pagesPanelView.setPosition(260, 20)
     @panelLayerView.attachPanel(@pagesPanelView)
 
     @sectionSettings = new Newstime.SectionSettingsWindowView
@@ -151,10 +151,24 @@ class @Newstime.Composer extends Backbone.View
     @panelLayerView.attachPanel(@printsWindow)
     @printsWindow.hide()
 
-    @photoPicker = new Newstime.PhotoPickerWindowView
-    @photoPicker.setPosition(50, 200)
+    @photoPicker = new Newstime.PhotoPickerPanelView
+    @photoPicker.setPosition(470, 20)
     @panelLayerView.attachPanel(@photoPicker)
     @photoPicker.hide()
+
+
+    #photoPicker = @photoPicker
+    #photoPanelMenuItem = new Newstime.MenuItemView
+      #renderMenuItem: ->
+        #if photoPicker.hidden
+          #@title = 'Show Photos Panels'
+        #else
+          #@title = 'Hide Photos Panels'
+      #click: ->
+        #photoPicker.toggle()
+
+    #@viewMenu.attachMenuItem(photoPanelMenuItem)
+
 
     #@textEditorPanelView = new Newstime.TextEditorPanelView
     #@textEditorPanelView.setPosition(50, 200)
