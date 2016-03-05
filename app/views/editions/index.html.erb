@@ -15,7 +15,6 @@
             <th>Volume</th>
             <th>Publication Date</th>
             <th>Last Modified</th>
-            <th>Actions</th>
           </tr>
         </thead>
         <% @editions.each do |edition| %>
@@ -26,7 +25,6 @@
             <td><%= edition.volume_label %></td>
             <td><%= edition.publish_date.try(:strftime, "%D") %></td>
             <td><%= format_date(edition.updated_at) %></td>
-            <td><%= link_to "Delete", edition_path(edition), method: 'delete', confirm: "Please confirm to delete edition." %></td>
           <tr>
         <% end %>
       </table>

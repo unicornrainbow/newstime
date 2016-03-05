@@ -116,6 +116,10 @@ Press::Application.routes.draw do
 
   mount Sidekiq::Web, at: "/sidekiq"
 
+  get '/breakdance' => 'breakdance#info'
+  get '/breakdance/on' => 'breakdance#on'
+  get '/breakdance/off' => 'breakdance#off'
+
   # Active 404
   match "*a", :to => "application#routing_error", via: [:get, :post]
 

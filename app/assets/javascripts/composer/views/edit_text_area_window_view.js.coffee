@@ -27,7 +27,6 @@ class @Newstime.EditTextAreaWindowView extends @Newstime.WindowView
         <button class="update-btn pull-right">↺ Update</button>
       </div>
       <textarea></textarea>
-      <span class="resize-scrub"></span>
     """
 
     @$textarea = @$('textarea')

@@ -162,7 +162,8 @@ class @Newstime.ContentItem extends Backbone.RelationalModel
 
         # Trigger reflow of next content item
         nextContentItem.reflow(callDepth: callDepth+1) if nextContentItem
-
+      error: (response) ->
+        alert response.statusText
 
   initialTextArea: ->
     # Decide if we are part of a continuation.

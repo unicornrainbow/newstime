@@ -2,7 +2,7 @@ class @Newstime.PanelView extends @Newstime.View
 
   events:
    'mousedown .title-bar': 'beginDrag'
-   'mousedown .bottom-right-drag-handel': 'beginDragResize'
+   'mousedown .resize-scrub': 'beginResizeDrag'
    'mousemove': 'dOMMousemove'
    'keydown': 'keydown'
    'paste': 'paste'
@@ -24,13 +24,13 @@ class @Newstime.PanelView extends @Newstime.View
       </div>
       <div class="palette-body">
       </div>
-      <div class="bottom-right-drag-handel"></div>
+      <span class="resize-scrub"></span>
     """
 
     # Select Elements
     @$body = @$el.find('.palette-body')
     @$titleBar = @$el.find('.title-bar')
-    @$bottomRightDragHandel = @$el.find('.bottom-right-drag-handel')
+    @$resizeScrub = @$el.find('.resize-scrub')
 
     @initializePanel(options)
 
@@ -168,7 +168,7 @@ class @Newstime.PanelView extends @Newstime.View
 
       if @resizing
         @mouseover(e)
-        @endDragResize()
+        @endResizeDrag()
 
 
   beginDrag: (e) ->
@@ -194,11 +194,11 @@ class @Newstime.PanelView extends @Newstime.View
       @dragging = false
       @$titleBar.removeClass('grabbing')
 
-  beginDragResize: (e) ->
+  beginResizeDrag: (e) ->
     x = e.x || e.clientX
     y = e.y || e.clientY
 
-    if e.target == @$bottomRightDragHandel[0]
+    if e.target == @$resizeScrub[0]
       @resizing = true
 
       # Calulate offsets
@@ -213,7 +213,7 @@ class @Newstime.PanelView extends @Newstime.View
       @trigger 'tracking', this
       @composer.captureLayerView.engage()
 
-  endDragResize: (e) ->
+  endResizeDrag: (e) ->
     if @resizing
       @resizing = false
 
