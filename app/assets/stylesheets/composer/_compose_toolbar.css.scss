@@ -1,5 +1,7 @@
+$rose-pink: #F96EB5;
+
 .compose-toolbar {
-  background-color: #484c55;
+  background-color: $rose-pink;
   border-bottom: 1px solid #555;
   z-index: 2010;
   position: fixed;
@@ -25,7 +27,7 @@
     position: absolute;
     svg {
       height: 82px;
-      fill: #ccc;
+      fill: #F5DB38;
     }
   }
   nav {
@@ -54,7 +56,7 @@
         }
         a {
           padding: 15px 20px;
-          color: #ccc;
+          color: #F7EEEF;
           font-weight: 100;
           font-style: normal;
           height: 60px;
