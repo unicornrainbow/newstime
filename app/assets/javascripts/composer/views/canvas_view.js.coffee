@@ -85,47 +85,71 @@ class @Newstime.CanvasView extends @Newstime.View
           unless _.findWhere(groups, id: item.get('group_id'))
             item.unset('group_id') # Clear group, since it was not found.
 
-      _.each groups, (group) =>
+      # Only process top level groups
+      groups = _.reject groups, (group) -> group.get('group_id')
 
-        # Construct and add in each content item.
+      # For each group top level group, construct and add in each grouped
+      # content item.
+
+      constructGroup = (group, parentView) =>
+
+        # Get the group id, and the group element.
         id = group.get('_id')
         el = groupEls.filter("[data-group-id='#{id}")
 
+        # Create a groupView, passing in, to reuse, the group el.
         groupView = new Newstime.GroupView
           model: group
           el: el
 
+        if parentView
+          parentView.addCanvasItem(groupView, reattach: true) # Add groupView to the canvas.
+        else
+          @addCanvasItem(groupView, reattach: true) # Add groupView to the canvas.
+
+        # Retrive the group content items from the group object.
         groupContentItems = group.getContentItems()
 
-        # Place them in z-index order.
+        groupGroups = group.getGroups()
+
+        # Combine groups and content items for processing
+        groupContentItems = _.flatten([groupContentItems, groupGroups])
+
+        # Order the groupContentItems by z-index, highest to lowest.
         groupContentItems = groupContentItems.sort (a, b) ->
           b.get('z_index') - a.get('z_index') # Reverese order on z-index (Highest towards top)
+
 
         # Add grouped content items to group
         _.each groupContentItems, (contentItem) ->
 
-          # Construct and add in each content item.
-          id = contentItem.get('_id')
-          el = contentItemEls.filter("[data-content-item-id='#{id}")
+          if contentItem.get('_type') == "Group"
+            constructGroup(contentItem, groupView)
 
-          contentItemType = contentItem.get('_type')
+          else
 
-          ## What is the content items type?
-          contentItemViewType =
-            switch contentItemType
-              when 'HeadlineContentItem' then Newstime.HeadlineView
-              when 'TextAreaContentItem' then Newstime.TextAreaView
-              when 'PhotoContentItem' then Newstime.PhotoView
-              when 'VideoContentItem' then Newstime.VideoView
-              when 'DividerContentItem' then Newstime.DividerView
+            # Construct and add in each content item.
+            id = contentItem.get('_id')
+            el = contentItemEls.filter("[data-content-item-id='#{id}")
 
-          contentItemView = new contentItemViewType
-            model: contentItem
-            el: el
+            contentItemType = contentItem.get('_type')
 
-          groupView.addCanvasItem(contentItemView, reattach: true)
+            ## What is the content items type?
+            contentItemViewType =
+              switch contentItemType
+                when 'HeadlineContentItem' then Newstime.HeadlineView
+                when 'TextAreaContentItem' then Newstime.TextAreaView
+                when 'PhotoContentItem' then Newstime.PhotoView
+                when 'VideoContentItem' then Newstime.VideoView
+                when 'DividerContentItem' then Newstime.DividerView
 
-          contentItemView.render()
+            contentItemView = new contentItemViewType
+              model: contentItem
+              el: el
+
+            groupView.addCanvasItem(contentItemView, reattach: true)
+
+            contentItemView.render()
 
         #@listenTo group, 'destroy', (group) ->
           #@groupViews[group.cid] = null
@@ -138,7 +162,9 @@ class @Newstime.CanvasView extends @Newstime.View
 
         #@composer.outlineLayerView.attach(groupView.outlineView)
 
-        @addCanvasItem(groupView, reattach: true) # Add groupView to the canvas.
+
+
+      _.each groups, constructGroup
 
 
       # Don't process items which are part of a group

@@ -30,6 +30,10 @@ class @Newstime.Group extends Backbone.RelationalModel
   getContentItems: -> # TODO: Should be named getGroupedItems
     @_contentItems ?= @get('edition').get('content_items').where(group_id: @id)
 
+  getGroups: ->
+    # Retrive grouped groups
+    @_groups ?= @get('edition').get('groups').where(group_id: @id)
+
   addItems: (items) ->
     _.each items, @addItem
 
