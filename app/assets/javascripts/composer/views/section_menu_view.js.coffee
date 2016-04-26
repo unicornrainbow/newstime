@@ -14,7 +14,7 @@ class @Newstime.SectionMenuView extends Newstime.MenuTitleView
       quickKey: ''
       click: ->
         #@composer.toggleSectionSettings()
-        url = "http://press.newstime.io/editions/#{Newstime.composer.edition.id}/sections/#{Newstime.composer.section.id}/edit"
+        url = "/editions/#{Newstime.composer.edition.id}/sections/#{Newstime.composer.section.id}/edit"
         window.open(url, '_blank')
 
     @menuBody.attachMenuItem(@settingsMenuItem)

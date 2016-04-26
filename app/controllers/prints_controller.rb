@@ -1,5 +1,4 @@
 class PrintsController < ApplicationController
-  before_filter :authenticate_user!
   before_filter :find_edition, only: [:index, :create]
 
   def index

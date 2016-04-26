@@ -1,10 +1,8 @@
 class EditionsController < ApplicationController
   wrap_parameters include: [*Edition.attribute_names, :sections_attributes, :pages_attributes, :content_items_attributes, :groups_attributes]
 
-  before_filter :authenticate_user!, except: [:index, :new, :compose, :blank]
+  #before_filter :authenticate_user!, except: [:index, :new, :compose, :blank]
   before_filter :find_edition, only: [:compose, :preview, :compile, :download]
-
-  skip_filter :verify_authenticity_token, only: [:delete, :update] # TODO: Should remove this
 
   respond_to :html, :json
 
@@ -18,7 +16,8 @@ class EditionsController < ApplicationController
       @editions += current_user.editions.desc(:updated_at)
     end
 
-    @editions += Edition.where(user: nil).desc(:updated_at)
+    #@editions += Edition.where(user: nil).desc(:updated_at)
+    @editions += Edition.desc(:updated_at)
   end
 
   def new

@@ -11,23 +11,5 @@
         <%= navbar_li "Videos", '/videos', active_path: '/videos'  %>
       </ul>
     </nav>
-    <nav class="pull-right">
-      <% if current_user %>
-        <ul>
-          <li>
-            <span><%= current_user.username %></span>
-          </li>
-          <li>
-            <%= link_to("Sign Out".html_safe , destroy_user_session_path, :method => :delete) %>
-          </li>
-        </ul>
-      <% else %>
-        <ul>
-          <li>
-            <%= link_to('Sign In', new_user_session_path) %>
-          </li>
-        </ul>
-      <% end %>
-    </nav>
   </div>
 </div>
