@@ -108,31 +108,26 @@ class @Newstime.CanvasView extends @Newstime.View
           @addCanvasItem(groupView, reattach: true) # Add groupView to the canvas.
 
         # Retrive the group content items from the group object.
-        groupContentItems = group.getContentItems()
-
-        groupGroups = group.getGroups()
-
-        # Combine groups and content items for processing
-        groupContentItems = _.flatten([groupContentItems, groupGroups])
+        groupItems = group.getItems()
 
         # Order the groupContentItems by z-index, highest to lowest.
-        groupContentItems = groupContentItems.sort (a, b) ->
+        groupItems = groupItems.sort (a, b) ->
           b.get('z_index') - a.get('z_index') # Reverese order on z-index (Highest towards top)
 
 
         # Add grouped content items to group
-        _.each groupContentItems, (contentItem) ->
+        _.each groupItems, (item) ->
 
-          if contentItem.get('_type') == "Group"
-            constructGroup(contentItem, groupView)
+          if item.get('_type') == "Group"
+            constructGroup(item, groupView)
 
           else
 
             # Construct and add in each content item.
-            id = contentItem.get('_id')
+            id = item.get('_id')
             el = contentItemEls.filter("[data-content-item-id='#{id}")
 
-            contentItemType = contentItem.get('_type')
+            contentItemType = item.get('_type')
 
             ## What is the content items type?
             contentItemViewType =
@@ -144,7 +139,7 @@ class @Newstime.CanvasView extends @Newstime.View
                 when 'DividerContentItem' then Newstime.DividerView
 
             contentItemView = new contentItemViewType
-              model: contentItem
+              model: item
               el: el
 
             groupView.addCanvasItem(contentItemView, reattach: true)
