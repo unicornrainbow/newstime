@@ -220,22 +220,36 @@ class @Newstime.CanvasView extends @Newstime.View
       #new Newstime.GroupView
         #model: group
 
-  findViewByCID: (cid) ->
+  # findViewByCID
+  #
+  # Description: Takes a cid (Client ID), and finds and returns the associated
+  # view from within the page structure. Searches all pages and groups.
+  findViewByCID: (cid) =>
     view = null
-    _.find @pageViewsArray, (pageView) ->
+    _.find @pageViewsArray, (pageView) =>
       if pageView.cid == cid
         view = pageView
       else
-        _.find pageView.contentItemViewsArray, (itemView) ->
+        _.find pageView.contentItemViewsArray, (itemView) =>
           if itemView.cid == cid
             view = itemView
-          #else
-            #if itemView instanceof Newstime.GroupView
-              #_.find itemView.contentItemViewsArray, (itemView) ->
-                #if itemView.cid == cid
-                  #view = itemView
+          else
+            if itemView instanceof Newstime.GroupView
+              view = @_findWithinGroupView(cid, itemView)
 
-    view
+    return view
+
+  # Searches within itemView for view with client id
+  _findWithinGroupView: (cid, itemView) ->
+    view = null
+    _.find itemView.contentItemViewsArray, (itemView) =>
+      if itemView.cid == cid
+        view = itemView
+      else
+        if itemView instanceof Newstime.GroupView
+          view = @_findWithinGroupView(cid, itemView)
+
+    return view
 
   addCanvasItem: (view, options={}) ->
     view.container = this
