@@ -13,16 +13,6 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
 
     @model.set(width: 200, height: 200)
 
-    @groupTemplate = _.template """
-      <% _.each(items, function (groupedItem) { %>
-        <li class="pages-panel-item indent-level-<%= depth %> <%= groupedItem.selected ? "selected" : "" %>"
-            data-id="<%= groupedItem.cid %>"><%= groupedItem.name %></li>
-        <% if (groupedItem.group) { %>
-          <%= groupTemplate({items: groupedItem.items, groupTemplate: groupTemplate, depth: depth+1}) %>
-        <% } %>
-      <% }); %>
-    """
-
     # Render each page
     @template = _.template """
       <ol>
@@ -31,13 +21,7 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
           <li class="pages-panel-page <%= page.selected ? "selected" : "" %>" data-id="<%= page.cid %>"><%= page.name %></li>
           <% if (page.items.length > 0) { %>
             <ol>
-              <% _.each(page.items, function (item) { %>
-                <li class="pages-panel-item indent-level-1 <%= item.selected ? "selected" : "" %>"
-                    data-id="<%= item.cid %>"><%= item.name %></li>
-                <% if (item.group) { %>
-                  <%= groupTemplate({items: item.items, groupTemplate: groupTemplate, depth: 2}) %>
-                <% } %>
-              <% }); %>
+              <%= itemsTemplate({items: page.items, itemsTemplate: itemsTemplate, depth: 1}) %>
             </ol>
           <% } %>
         <% } else { %>
@@ -45,6 +29,16 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
         <% } %>
       <% }); %>
       </ol>
+    """
+
+    @itemsTemplate = _.template """
+      <% _.each(items, function (item) { %>
+        <li class="pages-panel-item indent-level-<%= depth %> <%= item.selected ? "selected" : "" %>"
+            data-id="<%= item.cid %>"><%= item.name %></li>
+        <% if (item.group) { %>
+          <%= itemsTemplate({items: item.items, itemsTemplate: itemsTemplate, depth: depth+1}) %>
+        <% } %>
+      <% }); %>
     """
 
     @listenTo @composer.vent, 'page:canvas-items-reorder', -> @renderPanel()
@@ -113,6 +107,6 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
       page
 
     # Note: Need to pass the groupTemplate in as a variable to get access to it.
-    vars = _.extend(@model.toJSON(), pages: pages, groupTemplate: @groupTemplate)
+    vars = _.extend(@model.toJSON(), pages: pages, itemsTemplate: @itemsTemplate)
     html = @template(vars)
     @$body.html(html)
