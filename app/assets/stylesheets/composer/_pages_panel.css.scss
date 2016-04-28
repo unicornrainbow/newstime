@@ -35,19 +35,32 @@
   }
 
   .indent-level-2 {
-    padding-left: 55px;
+    padding-left: 45px;
   }
 
   .indent-level-3 {
-    padding-left: 75px;
+    padding-left: 55px;
   }
 
   .indent-level-4 {
-    padding-left: 95px;
+    padding-left: 65px;
   }
 
   li.selected {
     font-weight: 500;
+  }
+
+  .pages-panel-group {
+    background-image: asset-url('down_caret.png');
+    background-repeat: no-repeat;
+    background-position: 13px 10px;
+    background-size: 10px;
+
+    &.collasped {
+      background-image: asset-url('right_caret.png');
+      background-position: 16px 7px;
+      background-size: 5px;
+    }
   }
 
   .pages-panel-page {

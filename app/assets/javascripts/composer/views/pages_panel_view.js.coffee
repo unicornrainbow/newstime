@@ -3,8 +3,9 @@
 class @Newstime.PagesPanelView extends @Newstime.PanelView
 
   _.extend @::events,
-    'click .pages-panel-page': 'clickPagesPanelPage'
-    'click .pages-panel-item': 'clickPagesPanelItem'
+    'click .pages-panel-page'  : 'clickPagesPanelPage'
+    'click .pages-panel-group' : 'clickPagesPanelGroup'
+    'click .pages-panel-item'  : 'clickPagesPanelItem'
 
   initializePanel: ->
     @$el.addClass 'pages-panel'
@@ -33,10 +34,18 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
 
     @itemsTemplate = _.template """
       <% _.each(items, function (item) { %>
-        <li class="pages-panel-item indent-level-<%= depth %> <%= item.selected ? "selected" : "" %>"
-            data-id="<%= item.cid %>"><%= item.name %></li>
         <% if (item.group) { %>
-          <%= itemsTemplate({items: item.items, itemsTemplate: itemsTemplate, depth: depth+1}) %>
+          <% if (item.options.collapsed != true) { %>
+            <li class="pages-panel-group indent-level-<%= depth %> <%= item.selected ? "selected" : "" %>"
+                data-id="<%= item.cid %>"><%= item.name %></li>
+            <%= itemsTemplate({items: item.items, itemsTemplate: itemsTemplate, depth: depth+1}) %>
+          <% } else { %>
+            <li class="pages-panel-group collasped indent-level-<%= depth %> <%= item.selected ? "selected" : "" %>"
+                data-id="<%= item.cid %>"><%= item.name %></li>
+          <% } %>
+        <% } else { %>
+          <li class="pages-panel-item indent-level-<%= depth %> <%= item.selected ? "selected" : "" %>"
+              data-id="<%= item.cid %>"><%= item.name %></li>
         <% } %>
       <% }); %>
     """
@@ -67,7 +76,7 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
 
       @renderPanel()
 
-  clickPagesPanelItem: (e) =>
+  clickPagesPanelItem: (e) ->
     $target = $(e.target)
     viewID = $target.data('id')
 
@@ -79,21 +88,26 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
     else
       @composer.select(view)
 
-  # Transforms contentItemViewsArray into a structure useful for rendering the
-  # pages panel contents.
-  transformItemViews: (itemViewsArray) =>
-    _.map itemViewsArray, (itemView) =>
-      item = {}
-      item.name = itemView.uiLabel
-      item.cid  = itemView.cid
-      item.selected = itemView.selected
-      if itemView instanceof Newstime.GroupView
-        item.group = true
-        item.items = @transformItemViews(itemView.contentItemViewsArray)
+  clickPagesPanelGroup: (e) ->
+    if e.offsetX < 30
+      # Less the 30 pixels in, toggle collaspe
+      $target = $(e.target)
+      viewID = $target.data('id')
+      @viewOptions[viewID] ?= {}
+      @viewOptions[viewID].collapsed = !@viewOptions[viewID].collapsed
+      @renderPanel()
+    else
+      # More then 30 pixel in, select group
+      $target = $(e.target)
+      viewID = $target.data('id')
 
-      return item
+      # Find view by cid
+      view = @composer.canvas.findViewByCID(viewID)
 
-
+      if e.shiftKey
+        @composer.addToSelection(view)
+      else
+        @composer.select(view)
 
   renderPanel: =>
     pageViews = @composer.canvas.pageViewsArray
@@ -110,3 +124,19 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
     vars = _.extend(@model.toJSON(), pages: pages, itemsTemplate: @itemsTemplate)
     html = @template(vars)
     @$body.html(html)
+
+
+  # Transforms contentItemViewsArray into a structure useful for rendering the
+  # pages panel contents.
+  transformItemViews: (itemViewsArray) =>
+    _.map itemViewsArray, (itemView) =>
+      item = {}
+      item.name = itemView.uiLabel
+      item.cid  = itemView.cid
+      item.options = @viewOptions[itemView.cid] || {}
+      item.selected = itemView.selected
+      if itemView instanceof Newstime.GroupView
+        item.group = true
+        item.items = @transformItemViews(itemView.contentItemViewsArray)
+
+      return item
