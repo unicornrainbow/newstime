@@ -13,6 +13,16 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
 
     @model.set(width: 200, height: 200)
 
+    @groupTemplate = _.template """
+      <% _.each(items, function (groupedItem) { %>
+        <li class="pages-panel-item indent-level-<%= depth %> <%= groupedItem.selected ? "selected" : "" %>"
+            data-id="<%= groupedItem.cid %>"><%= groupedItem.name %></li>
+        <% if (groupedItem.group) { %>
+          <%= groupTemplate({items: groupedItem.items, groupTemplate: groupTemplate, depth: depth+1}) %>
+        <% } %>
+      <% }); %>
+    """
+
     # Render each page
     @template = _.template """
       <ol>
@@ -25,10 +35,7 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
                 <li class="pages-panel-item indent-level-1 <%= item.selected ? "selected" : "" %>"
                     data-id="<%= item.cid %>"><%= item.name %></li>
                 <% if (item.group) { %>
-                  <% _.each(item.items, function (groupedItem) { %>
-                    <li class="pages-panel-item indent-level-2 <%= groupedItem.selected ? "selected" : "" %>"
-                        data-id="<%= groupedItem.cid %>"><%= groupedItem.name %></li>
-                  <% }); %>
+                  <%= groupTemplate({items: item.items, groupTemplate: groupTemplate, depth: 2}) %>
                 <% } %>
               <% }); %>
             </ol>
@@ -78,29 +85,34 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
     else
       @composer.select(view)
 
-  renderPanel: ->
-    pages = _.map @composer.canvas.pageViewsArray, (view) =>
+  # Transforms contentItemViewsArray into a structure useful for rendering the
+  # pages panel contents.
+  transformItemViews: (itemViewsArray) =>
+    _.map itemViewsArray, (itemView) =>
+      item = {}
+      item.name = itemView.uiLabel
+      item.cid  = itemView.cid
+      item.selected = itemView.selected
+      if itemView instanceof Newstime.GroupView
+        item.group = true
+        item.items = @transformItemViews(itemView.contentItemViewsArray)
+
+      return item
+
+
+
+  renderPanel: =>
+    pageViews = @composer.canvas.pageViewsArray
+    pages = _.map pageViews, (view) =>
       page = {}
       page.name = view.uiLabel
       page.cid = view.cid
       page.options = @viewOptions[view.cid] || {}
-      page.selected = view == @composer.selection
-      page.items = _.map view.contentItemViewsArray, (itemView) ->
-        item = {}
-        item.name = itemView.uiLabel
-        item.cid = itemView.cid
-        item.selected = itemView.selected
-
-        if itemView instanceof Newstime.GroupView
-          item.group = true
-          item.items = _.map itemView.contentItemViewsArray, (groupedItemView) ->
-            _item = {}
-            _item.name = groupedItemView.uiLabel
-            _item.cid = groupedItemView.cid
-            _item.selected = groupedItemView.selected
-            _item
-        item
+      page.selected = (view == @composer.selection)
+      page.items = @transformItemViews(view.contentItemViewsArray)
       page
 
-    @$body.html @template _.extend @model.toJSON(),
-      pages: pages
+    # Note: Need to pass the groupTemplate in as a variable to get access to it.
+    vars = _.extend(@model.toJSON(), pages: pages, groupTemplate: @groupTemplate)
+    html = @template(vars)
+    @$body.html(html)
