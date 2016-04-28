@@ -18,6 +18,7 @@ class @Newstime.SelectionView extends @Newstime.View
     @contentItemView = options.contentItemView
     @contentItem = @contentItemView.model
 
+
     @page = @contentItemView.page
     @pageView = @contentItemView.pageView
 
@@ -39,11 +40,26 @@ class @Newstime.SelectionView extends @Newstime.View
 
     super
 
+
+  getOffset: ->
+
+    group = @contentItem.getGroup()
+    top   = group.top
+    left  = group.left
+
+    while group = group.getGroup()
+      top  = top + group.top
+      left = left + group.left
+
+    {top: top, left: left}
+
   render: ->
     position = _.pick @contentItem.attributes, 'width', 'height'
 
-    position.top = @contentItem.get('top')
-    position.left = @contentItem.get('left')
+    offset = @getOffset()
+
+    position.top = offset.top + @contentItem.get('top')
+    position.left = offset.left + @contentItem.get('left')
 
     # Apply zoom level
     if @composer.zoomLevel

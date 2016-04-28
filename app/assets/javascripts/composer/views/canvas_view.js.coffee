@@ -251,6 +251,7 @@ class @Newstime.CanvasView extends @Newstime.View
 
     return view
 
+
   addCanvasItem: (view, options={}) ->
     view.container = this
     @$canvasItems.append(view.el)
