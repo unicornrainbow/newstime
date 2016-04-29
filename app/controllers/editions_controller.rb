@@ -78,6 +78,9 @@ class EditionsController < ApplicationController
     # Construct new edition with sections and pages
     @edition = Edition.new(edition_params)
 
+    @edition.update_attributes(edition_params)
+    @edition.update_attribute :has_sections, edition_params[:has_sections] == '1'
+
     @edition.user = current_user
     #@edition.organization = @publication.organization
 

@@ -4,7 +4,6 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
 
   _.extend @::events,
     'click .pages-panel-page'  : 'clickPagesPanelPage'
-    'click .pages-panel-group' : 'clickPagesPanelGroup'
     'click .pages-panel-item'  : 'clickPagesPanelItem'
 
   initializePanel: ->
@@ -22,7 +21,10 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
           <li class="pages-panel-page <%= page.selected ? "selected" : "" %>" data-id="<%= page.cid %>"><%= page.name %></li>
           <% if (page.items.length > 0) { %>
             <ol>
-              <%= itemsTemplate({items: page.items, itemsTemplate: itemsTemplate, depth: 1}) %>
+              <% _.each(page.items, function (item) { %>
+                <li class="pages-panel-item indent-level-1 <%= item.selected ? "selected" : "" %>"
+                    data-id="<%= item.cid %>"><%= item.name %></li>
+              <% }); %>
             </ol>
           <% } %>
         <% } else { %>
@@ -30,24 +32,6 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
         <% } %>
       <% }); %>
       </ol>
-    """
-
-    @itemsTemplate = _.template """
-      <% _.each(items, function (item) { %>
-        <% if (item.group) { %>
-          <% if (item.options.collapsed != true) { %>
-            <li class="pages-panel-group indent-level-<%= depth %> <%= item.selected ? "selected" : "" %>"
-                data-id="<%= item.cid %>"><%= item.name %></li>
-            <%= itemsTemplate({items: item.items, itemsTemplate: itemsTemplate, depth: depth+1}) %>
-          <% } else { %>
-            <li class="pages-panel-group collasped indent-level-<%= depth %> <%= item.selected ? "selected" : "" %>"
-                data-id="<%= item.cid %>"><%= item.name %></li>
-          <% } %>
-        <% } else { %>
-          <li class="pages-panel-item indent-level-<%= depth %> <%= item.selected ? "selected" : "" %>"
-              data-id="<%= item.cid %>"><%= item.name %></li>
-        <% } %>
-      <% }); %>
     """
 
     @listenTo @composer.vent, 'page:canvas-items-reorder', -> @renderPanel()
@@ -117,26 +101,17 @@ class @Newstime.PagesPanelView extends @Newstime.PanelView
       page.cid = view.cid
       page.options = @viewOptions[view.cid] || {}
       page.selected = (view == @composer.selection)
-      page.items = @transformItemViews(view.contentItemViewsArray)
+      page.items = _.map view.contentItemViewsArray, (itemView) =>
+        item = {}
+        item.name = itemView.uiLabel
+        item.cid  = itemView.cid
+        item.options = @viewOptions[itemView.cid] || {}
+        item.selected = itemView.selected
+        return item
+
       page
 
     # Note: Need to pass the groupTemplate in as a variable to get access to it.
-    vars = _.extend(@model.toJSON(), pages: pages, itemsTemplate: @itemsTemplate)
+    vars = _.extend(@model.toJSON(), pages: pages)
     html = @template(vars)
     @$body.html(html)
-
-
-  # Transforms contentItemViewsArray into a structure useful for rendering the
-  # pages panel contents.
-  transformItemViews: (itemViewsArray) =>
-    _.map itemViewsArray, (itemView) =>
-      item = {}
-      item.name = itemView.uiLabel
-      item.cid  = itemView.cid
-      item.options = @viewOptions[itemView.cid] || {}
-      item.selected = itemView.selected
-      if itemView instanceof Newstime.GroupView
-        item.group = true
-        item.items = @transformItemViews(itemView.contentItemViewsArray)
-
-      return item

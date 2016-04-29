@@ -203,24 +203,11 @@ class @Newstime.MultiSelectionView extends @Newstime.View
     @calculatePosition()
     @position
 
-  getGroupOffset: (contentItem) ->
-    group = contentItem.getGroup()
-    top   = group.top
-    left  = group.left
-
-    while group = group.getGroup()
-      top  = top + group.top
-      left = left + group.left
-
-    {top: top, left: left}
-
   calculatePosition: =>
     models = _.pluck @selectedViews, 'model'
 
-    groupOffset = @getGroupOffset(models[0])
-
-    top = models[0].get('top') + groupOffset.top
-    left = models[0].get('left') + groupOffset.left
+    top = models[0].get('top')
+    left = models[0].get('left')
     bottom = 0
     right = 0
 
@@ -230,12 +217,10 @@ class @Newstime.MultiSelectionView extends @Newstime.View
       pageOffsetTop  = page.get('offset_top') || 0
       pageOffsetLeft = page.get('offset_left') || 0
 
-      groupOffset = @getGroupOffset(model)
-
-      top    = Math.min(model.get('top') + pageOffsetTop + groupOffset.top, top)
-      left   = Math.min(model.get('left') + pageOffsetLeft + groupOffset.left, left)
-      bottom = Math.max(model.get('top') + model.get('height') + pageOffsetTop + groupOffset.top, bottom)
-      right  = Math.max(model.get('left') + model.get('width') + pageOffsetLeft + groupOffset.left, right)
+      top    = Math.min(model.get('top') + pageOffsetTop, top)
+      left   = Math.min(model.get('left') + pageOffsetLeft, left)
+      bottom = Math.max(model.get('top') + model.get('height') + pageOffsetTop, bottom)
+      right  = Math.max(model.get('left') + model.get('width') + pageOffsetLeft, right)
 
     @position =
       top: top

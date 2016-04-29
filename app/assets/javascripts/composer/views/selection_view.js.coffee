@@ -41,30 +41,11 @@ class @Newstime.SelectionView extends @Newstime.View
     super
 
 
-  # Return the cumlutive offset of the containing groups
-  getGroupOffset: ->
-    group = @contentItem.getGroup()
-    if group?
-      top   = group.top
-      left  = group.left
-
-      while group = group.getGroup()
-        top  = top + group.top
-        left = left + group.left
-
-      {top: top, left: left}
-    else
-      {top: 0, left: 0}
-
-
-
   render: ->
     position = _.pick @contentItem.attributes, 'width', 'height'
 
-    groupOffset = @getGroupOffset()
-
-    position.top = groupOffset.top + @contentItem.get('top')
-    position.left = groupOffset.left + @contentItem.get('left')
+    position.top  = @contentItem.get('top')
+    position.left = @contentItem.get('left')
 
     # Apply zoom level
     if @composer.zoomLevel
