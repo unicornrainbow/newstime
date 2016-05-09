@@ -102,7 +102,7 @@ class @Newstime.CanvasView extends @Newstime.View
           model: group
           el: el
 
-        if parentView
+        if typeof parentView == 'object'
           parentView.addCanvasItem(groupView, reattach: true) # Add groupView to the canvas.
         else
           @addCanvasItem(groupView, reattach: true) # Add groupView to the canvas.
