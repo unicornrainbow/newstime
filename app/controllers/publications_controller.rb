@@ -1,10 +1,8 @@
 class PublicationsController < ApplicationController
-  #before_filter :authenticate_user!
 
   respond_to :html
 
   def index
-    redirect_to new_user_session_path and return unless current_user
     #@publications = current_user.publications.desc(:updated_at)
     @publications = Publication.all.desc(:updated_at)
   end
