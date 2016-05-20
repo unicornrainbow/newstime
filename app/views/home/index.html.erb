@@ -1,0 +1,47 @@
+<link href='https://fonts.googleapis.com/css?family=Dosis:200|Exo:100,400,900'
+rel='stylesheet' type='text/css'>
+<style>
+body {
+  background-color: #86d7d2;
+  background-image: url(dots.png);
+}
+
+.newstime-love {
+  font-family: 'Dosis';
+  font-weight: 200;
+  font-size: 72;
+  color: black;
+  margin: 50pt;
+}
+
+#sign-in {
+  text-align: center;
+  margin-top: 100pt;
+}
+input {
+  border-radius: 7pt;
+  border: 2pt solid white;
+  outline: none;
+  padding: 7pt 10pt;
+  text-align: center;
+  opacity: .7;
+
+  font-size: 22pt;
+  font-weight: 100;
+}
+</style>
+
+<div class='newstime-love'>newstime.love<div>
+<form id="sign-in" method="POST" >
+  <input name='screenname' type="text" onkeypress="enterSubmit(this, event)"></input>
+	<br>
+	<input name='password' type="password" onkeypress="enterSubmit(this, event)"></input>
+</form>
+
+<script>
+function enterSubmit(field, event) {
+	if(event.which==13){ field.form.submit(); }
+}
+
+
+</script>

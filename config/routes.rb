@@ -2,7 +2,7 @@ require 'sidekiq/web'
 
 Press::Application.routes.draw do
 
-  root to: redirect('/editions')
+  root 'home#index'
 
   get  :composer, controller: :editions
 
@@ -49,6 +49,9 @@ Press::Application.routes.draw do
       end
     end
   end
+
+  post '/' => 'home#sign_in'
+  get '/sign-out' => 'home#sign_out'
 
   resources :prints, except: 'show' do
     member do

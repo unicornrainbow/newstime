@@ -1,22 +1,18 @@
 class EditionsController < ApplicationController
   wrap_parameters include: [*Edition.attribute_names, :sections_attributes, :pages_attributes, :content_items_attributes, :groups_attributes]
 
-  #before_filter :authenticate_user!, except: [:index, :new, :compose, :blank]
   before_filter :find_edition, only: [:compose, :preview, :compile, :download]
 
   respond_to :html, :json
 
   def index
-    #redirect_to new_user_session_path and return unless current_user
-    #@editions = current_user.organization.editions.desc(:updated_at)
-    #@editions = current_user.editions.desc(:updated_at)
+    @screenname = cookies[:screenname]
     @editions = []
 
     if current_user
       @editions += current_user.editions.desc(:updated_at)
     end
 
-    #@editions += Edition.where(user: nil).desc(:updated_at)
     @editions += Edition.desc(:updated_at)
   end
 
@@ -31,21 +27,6 @@ class EditionsController < ApplicationController
     @edition = Edition.new(layout_name: "default")
     @section = @edition.sections.build(path: "main.html")
     @section.pages.build(number: 1)
-
-    #[
-        #{
-            #"name" => "Main",
-            #"path" => "main.html",
-            #"sequence" => 10,
-            #"letter" => "A",
-            #"pages_attributes" => [
-                #{
-                    #"number" => 1
-                #}
-            #]
-        #}
-    #]
-
 
     # Set composing flag as indication to layout_module.
     @composing = true
