@@ -349,3 +349,6 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
   unicorn
   wikicloth!
+
+BUNDLED WITH
+   1.11.2

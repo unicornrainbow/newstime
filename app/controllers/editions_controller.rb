@@ -6,14 +6,11 @@ class EditionsController < ApplicationController
   respond_to :html, :json
 
   def index
-    @screenname = cookies[:screenname]
-    @editions = []
-
     if current_user
-      @editions += current_user.editions.desc(:updated_at)
+      @editions = current_user.editions.desc(:updated_at)
+    else
+      @editions = []
     end
-
-    @editions += Edition.desc(:updated_at)
   end
 
   def new

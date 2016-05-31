@@ -1,7 +1,7 @@
 class VideosController < ApplicationController
 
   def index
-    @videos = Video.all
+    @videos = current_user.videos
   end
 
   def new

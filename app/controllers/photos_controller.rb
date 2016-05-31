@@ -2,7 +2,7 @@ class PhotosController < ApplicationController
   respond_to :json, :html
 
   def index
-    @photos = Photo.all
+    @photos = current_user.photos
   end
 
   def new

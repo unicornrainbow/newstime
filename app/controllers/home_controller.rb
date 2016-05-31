@@ -1,33 +1,31 @@
 class HomeController < ActionController::Base
 
   def index
-		if cookies[:screenname]
-			redirect_to '/editions' and return
-		end
+    if session[:screenname]
+      redirect_to '/editions' and return
+    end
 
-		render layout: false
-	end
+    render layout: false
+  end
 
-	def sign_in
-		screenname = params['screenname']
-		password   = params['password']
+  def sign_in
+    user = User.find_by(screenname: params[:screenname])
 
-		users = [['rashiki', 'love'], ['mom', 'mom']]
+    if user.valid_password?(params[:password])
+      session[:screenname] = user.screenname
+      redirect_to '/editions'
+    else
+      redirect_to '/' # Retry
+    end
 
-		if users.include?([screenname, password])
+  rescue Mongoid::Errors::DocumentNotFound
+      redirect_to '/' # Retry
+  end
 
-			cookies[:screenname] = screenname
-			redirect_to '/editions'
-		else
-			redirect_to '/' # Retry
-		end
-
-	end
-
-	def sign_out
-		cookies.delete :screenname
-		redirect_to '/'
-	end
+  def sign_out
+    session.delete :screenname
+    redirect_to '/'
+  end
 
 
 end

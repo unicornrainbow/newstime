@@ -13,7 +13,6 @@ gem 'dotenv-rails', group: [:test, :development, :production]
 gem "redcarpet"
 gem "wikicloth", git: "https://github.com/nricciar/wikicloth.git"
 gem 'mongoid', '~> 4.0.0.alpha1', github: 'mongoid/mongoid'
-#gem 'mongoid_slug'  # If and when I start using slugs, this could be a good place to start
 gem "angularjs-rails"
 gem 'unicorn'
 gem 'simple_form'
@@ -50,9 +49,6 @@ group :development, :test do
   gem 'better_errors'
 end
 
-# Use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.1.2'
-#
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false

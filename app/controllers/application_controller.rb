@@ -15,6 +15,17 @@ class ApplicationController < ActionController::Base
     render layout: false
   end
 
+  def current_user
+    if @current_user
+      @current_user
+    else
+      @screenname = session[:screenname]
+      if @screenname
+        @current_user = User.find_by(screenname: @screenname )
+      end
+    end
+  end
+
 protected
 
   def force_trailing_slash

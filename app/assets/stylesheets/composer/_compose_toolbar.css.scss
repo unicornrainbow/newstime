@@ -1,6 +1,7 @@
 $rose-pink: #F96EB5;
 
 .compose-toolbar {
+  min-width: 700px;
   background-color: $rose-pink;
   border-bottom: 1px solid #555;
   z-index: 2010;
@@ -14,7 +15,6 @@ $rose-pink: #F96EB5;
   }
 
   .container {
-    width: 1184px;
     margin: 0 auto;
     color: white;
   }
@@ -32,6 +32,25 @@ $rose-pink: #F96EB5;
   }
   nav {
     margin-left:200px;
+
+
+    .pull-right {
+
+      li.screenname {
+        position: relative;
+        left: 50px;
+        background-color: #f96eb5;
+        transition: left .2s;
+      }
+
+      &:hover {
+        li.screenname {
+          left: 20px;
+        }
+
+      }
+    }
+
 
     ul {
       font-family: 'Raleway', sans-serif;
@@ -63,6 +82,7 @@ $rose-pink: #F96EB5;
           float: left;
           cursor: pointer;
         }
+
         span {
           padding: 15px 20px;
           color: #ccc;

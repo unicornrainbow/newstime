@@ -75,4 +75,8 @@ module ApplicationHelper
     date.localtime.try(:strftime, "%D %l:%M%P")
   end
 
+  def screenname
+    @screenname ||= session[:screenname]
+  end
+
 end

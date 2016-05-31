@@ -1,6 +1,6 @@
 class StoriesController < ApplicationController
   def index
-    @stories = Story.desc(:updated_at)
+    @stories = current_user.stories.desc(:updated_at)
   end
 
   def new
