@@ -43,7 +43,11 @@ class PrintsController < ApplicationController
 private
 
   def find_edition
-    @edition = Edition.find(params[:edition_id])
+    if params[:edition_id].length == 24
+      @edition = Edition.find(params[:edition_id])
+    else
+      @edition = current_user.editions.find_by(slug: params[:edition_id])
+    end
   end
 
   def print_params

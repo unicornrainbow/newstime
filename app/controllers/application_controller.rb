@@ -35,4 +35,13 @@ protected
   def after_sign_out_path_for(resource_or_scope)
     new_user_session_path
   end
+
+  def find_edition
+    if params[:id].length == 24
+      @edition = Edition.find(params[:id])
+    else
+      @edition = current_user.editions.find_by(slug: params[:id])
+    end
+  end
+
 end

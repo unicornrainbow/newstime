@@ -20,3 +20,7 @@ child :groups => :groups_attributes do |groups|
     attributes *group.attribute_names
   end
 end
+
+child :colors => :colors_attributes do
+  attributes *Color.attribute_names
+end

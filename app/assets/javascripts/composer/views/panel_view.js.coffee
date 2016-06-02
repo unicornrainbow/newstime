@@ -228,6 +228,11 @@ class @Newstime.PanelView extends @Newstime.View
     #@$el.css(top: top, left: left)
     #@$el.css(bottom: bottom, right: right)
 
+  setPositionTopLeft: (top, left) ->
+    @model.set
+      top: top
+      left: left
+
   width: ->
     parseInt(@$el.css('width'))
 

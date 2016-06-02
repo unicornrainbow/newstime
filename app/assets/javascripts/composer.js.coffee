@@ -124,9 +124,15 @@ class @Newstime.Composer extends Backbone.View
     @propertiesPanelView = new Newstime.PropertiesPanelView
       composer: this
 
+    @colorPalatteView = new Newstime.ColorPalatteView
+      composer: this
+
     @propertiesPanelView.setPosition(50, 20)
     @panelLayerView.attachPanel(@propertiesPanelView)
     @propertiesPanelView.show()
+
+    @panelLayerView.attachPanel(@colorPalatteView)
+    @colorPalatteView.show()
 
 
     @editionPropertiesView = new Newstime.EditionPropertiesView
@@ -976,6 +982,12 @@ class @Newstime.Composer extends Backbone.View
 
       # Update the pages panel
       @pagesPanelView.renderPanel()
+
+  attachPanel: (panel) ->
+    @panelLayerView.attachPanel(panel)
+
+  detachPanel: (panel) ->
+    @panelLayerView.detachPanel(panel)
 
 
   # Resets the composer to the initial state.

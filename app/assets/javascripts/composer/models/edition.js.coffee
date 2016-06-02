@@ -45,7 +45,19 @@ class @Newstime.Edition extends Backbone.RelationalModel
       key: 'edition'
       includeInJSON: '_id'
     }
-  }]
+  }
+  {
+    type: Backbone.HasMany
+    key: 'colors'
+    relatedModel: 'Newstime.Color'
+    collectionType: 'Newstime.ColorCollection'
+    keySource: 'colors_attributes'
+    reverseRelation: {
+      key: 'edition'
+      includeInJSON: '_id'
+    }
+  }
+  ]
 
   Object.defineProperties @prototype,
     contentItems:

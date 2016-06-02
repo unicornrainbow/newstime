@@ -12,6 +12,7 @@ class Edition
   field :publish_date,     type: Date
   field :store_link,       type: String
   field :price,            type: Float   # Formatted price string
+  field :slug,             type: String
 
 
   field :page_color,       type: String
@@ -44,11 +45,13 @@ class Edition
   embeds_many  :pages
   embeds_many  :content_items
   embeds_many  :groups
+  embeds_many  :colors
 
   accepts_nested_attributes_for :sections
   accepts_nested_attributes_for :pages
   accepts_nested_attributes_for :content_items
   accepts_nested_attributes_for :groups
+  accepts_nested_attributes_for :colors
 
   has_many :prints, :order => :created_at.desc
 

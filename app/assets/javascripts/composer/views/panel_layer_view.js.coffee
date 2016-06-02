@@ -27,6 +27,15 @@ class @Newstime.PanelLayerView extends @Newstime.View
     # Attach it to the dom el
     @$el.append(panel.el)
 
+  detachPanel: (panel) ->
+    #index = @panels.indexOf(panel)
+    #if index != -1
+      #@panels.splice(index, 1)
+
+    #panel.unbind 'tracking', @tracking
+    #panel.unbind 'tracking-release', @trackingRelease
+
+    panel.$el.detach()
 
   # Returns true if panel is attached
   hasAttachedPanel: (panel) ->
@@ -194,4 +203,3 @@ class @Newstime.PanelLayerView extends @Newstime.View
   # Resets the panel layer, disengage any hovered states.
   reset: ->
     _.each @panels, (panel) ->
-      panel.reset() if panel.reset

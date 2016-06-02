@@ -2,8 +2,9 @@ class EditionAssetsController < ApplicationController
   #before_filter :authenticate_user!
   respond_to :html
 
+  before_filter :find_edition
+
   def javascripts
-    @edition = Edition.find(params[:id])
 
     $sprocket_js_environments ||= {}
     environment = $sprocket_js_environments[@edition.layout_module_root]
@@ -25,7 +26,6 @@ class EditionAssetsController < ApplicationController
   end
 
   def stylesheets
-    @edition = Edition.find(params[:id])
 
     $sprocket_environments ||= {}
     environment = $sprocket_environments[@edition.layout_module_root]
@@ -48,11 +48,10 @@ class EditionAssetsController < ApplicationController
   end
 
   def fonts
-    @edition = Edition.find(params[:id])
     fonts_root = File.join(@edition.layout_module_root, "fonts")
 
 
-    # TODO: WARNING: Make sure the user can escape up about the font root (Chroot?)
+    # TODO: WARNING: Make sure the user can't escape up about the font root (Chroot?)
     font_path = "#{fonts_root}/#{params["path"]}.#{params["format"]}"
     not_found unless File.exists?(font_path)
     send_file font_path
@@ -60,7 +59,6 @@ class EditionAssetsController < ApplicationController
 
 
   def images
-    @edition = Edition.find(params[:id])
 
     # Find photo with the same name, from edition photos (Could be hashed)
     # TODO: Would be nice if this find was scoped better to the edition to avoid
@@ -90,7 +88,6 @@ class EditionAssetsController < ApplicationController
   end
 
   def videos
-    @edition = Edition.find(params[:id])
 
     # Find video with the same name, from edition photos (Could be hashed)
     # TODO: Would be nice if this find was scoped better to the edition to avoid

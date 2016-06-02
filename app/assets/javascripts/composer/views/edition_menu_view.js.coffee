@@ -24,14 +24,16 @@ class @Newstime.EditionMenuView extends Newstime.MenuTitleView
       title: 'Edition Settings'
       click: ->
         #@composer.toggleEditionSettings()
-        url = "/editions/#{Newstime.composer.edition.id}/edit"
+        edition = Newstime.composer.edition
+        url = "/editions/#{edition.get('slug') || edition.id}/edit"
         window.open(url, '_blank')
 
     @printsMenuItem = new Newstime.MenuItemView
       title: 'Prints'
       click: ->
         #@composer.togglePrintsWindow()
-        url = "/editions/#{Newstime.composer.edition.id}/prints"
+        edition = Newstime.composer.edition
+        url = "/editions/#{edition.get('slug') || edition.id}/prints"
         window.open(url, '_blank')
 
     @reflowMenuItem = new Newstime.MenuItemView

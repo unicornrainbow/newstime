@@ -1,7 +1,7 @@
 class EditionsController < ApplicationController
-  wrap_parameters include: [*Edition.attribute_names, :sections_attributes, :pages_attributes, :content_items_attributes, :groups_attributes]
+  wrap_parameters include: [*Edition.attribute_names, :sections_attributes, :pages_attributes, :content_items_attributes, :groups_attributes, :colors_attributes]
 
-  before_filter :find_edition, only: [:compose, :preview, :compile, :download]
+  before_filter :find_edition, only: [:compose, :preview, :compile, :download, :edit, :update]
 
   respond_to :html, :json
 
@@ -21,7 +21,6 @@ class EditionsController < ApplicationController
   def composer
     flash[:notice] # Clear flash, since it's not currently displayed anywhere
 
-    @edition = Edition.new(layout_name: "default")
     @section = @edition.sections.build(path: "main.html")
     @section.pages.build(number: 1)
 
@@ -83,7 +82,6 @@ class EditionsController < ApplicationController
   end
 
   def edit
-    @edition = Edition.find(params[:id])
   end
 
 
@@ -91,7 +89,7 @@ class EditionsController < ApplicationController
     flash[:notice] # Clear flash, since it's not currently displayed anywhere
 
     # Redirect to main if no path specified.
-    redirect_to (send("#{params[:action]}_edition_path".to_sym, @edition) + '/main.html') and return unless params['path']
+    redirect_to (send("#{params[:action]}_edition_path".to_sym, @edition.slug || @edition) + '/main.html') and return unless params['path']
 
     # Only respond to requests with an explict .html extension.
     not_found unless request.original_url.match(/\.html$/)
@@ -121,11 +119,12 @@ class EditionsController < ApplicationController
   alias :preview :compose
 
   def update
-    @edition = Edition.find(params[:id])
     #Rails.logger.info "Updateing Edition Attributes"
 
     @edition.update_attributes(edition_params)
     @edition.update_attribute :has_sections, edition_params[:has_sections] == '1'
+
+    @edition.update_attribute :slug, edition_params[:name].parameterize
 
     #Rails.logger.info "Edition Attributes Updated"
     respond_to do |format|
@@ -161,10 +160,6 @@ class EditionsController < ApplicationController
 
 private
 
-  def find_edition
-    @edition = Edition.find(params[:id])
-  end
-
   def set_client_config
     @client_config = {
       editionID:  @edition.id,
@@ -189,7 +184,8 @@ private
              :sections_attributes => [Section.attribute_names],
              :pages_attributes => [Page.attribute_names],
              :groups_attributes => [Group.attribute_names],
-             :content_items_attributes => [content_item_attributes]
+             :content_items_attributes => [content_item_attributes],
+             :colors_attributes => [Color.attribute_names]
             )
   end
 
