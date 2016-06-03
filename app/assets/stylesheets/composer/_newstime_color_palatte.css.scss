@@ -16,6 +16,7 @@
   }
 
   li {
+    list-style: none;
     margin: 0;
     padding: 5px 10px 5px 30px;
     border-bottom: 1px solid rgba(255,255,255,.05);
@@ -36,6 +37,15 @@
     left: 5px;
     height: 20px;
     width: 20px;
+  }
+
+  .page-color,
+  .ink-color {
+    &.active {
+      swatch {
+        box-shadow: 0 0 5px #46c2f6;
+      }
+    }
   }
 
 }

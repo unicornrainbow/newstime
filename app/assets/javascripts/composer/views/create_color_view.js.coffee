@@ -47,4 +47,5 @@ class @Newstime.CreateColorView extends Newstime.PanelView
 
   # Detaches panel from composer
   detachPanel: ->
+    @hide()
     @composer.detachPanel(this)
