@@ -39,9 +39,15 @@ class @Newstime.ColorView extends Newstime.PanelView
         </span>
       </li>
       </ul>
-      <input id='hue-slider' type=range min=0 max=100></input>
       <div class="color-dial">
         <div class="carousel">
+          <div class="color-well"></div>
+          <div class="color-well"></div>
+          <div class="color-well"></div>
+          <div class="color-well"></div>
+          <div class="color-well"></div>
+          <div class="color-well"></div>
+          <div class="color-well"></div>
           <div class="color-well"></div>
           <div class="color-well"></div>
           <div class="color-well"></div>
@@ -63,8 +69,46 @@ class @Newstime.ColorView extends Newstime.PanelView
     @$hueSlider    = @$('#hue-slider')
 
     @$carousel = @$('.carousel')
+    @$carouselTouch = @$('.carousel-touch') # For capturing position based on x/y
 
     @$colorWell1 = @$('.color-well:first-child')
+    @$colorWells = @$('.color-well')
+
+    @saturation = 1
+    @lightness = .5
+
+    @disperseColorWells()
+
+  disperseColorWells: ->
+    count = @$colorWells.length
+    circumference = 6.28
+
+    @$colorWells.each (i, el) =>
+      angle = circumference/count * i - 3.14
+
+      width = 235
+      height = 235
+
+      y = Math.round(105 * Math.sin(angle))
+      x = Math.round(105 * Math.cos(angle))
+
+      left = x + width/2
+      top = -(y + height/2 - height)
+
+      left -= 12.5
+      top -= 12.5
+
+      hue = (Math.round(angle*100)/100 + 3.14)/6.28
+      rgb = hslToRgb(hue, @saturation, @lightness)
+      hex = @rgbToHex(rgb[0], rgb[1], rgb[2])
+
+      $(el).css
+        'top': top
+        'left': left
+        'background-color': hex
+
+
+
 
   createColor: ->
     name = @$colorName.val()
@@ -90,6 +134,7 @@ class @Newstime.ColorView extends Newstime.PanelView
 
 
   mousedownColorWell: (e) ->
+    @$carouselTouch.show()
     @trackingColorWell = true
     width = 235
     height = 235
@@ -121,6 +166,7 @@ class @Newstime.ColorView extends Newstime.PanelView
 
   mouseupCarouselTouch: (e) ->
     @trackingColorWell = false
+    @$carouselTouch.hide()
 
   mousemoveCarouselTouch: (e) ->
     if @trackingColorWell
@@ -135,6 +181,7 @@ class @Newstime.ColorView extends Newstime.PanelView
 
       angle = Math.atan2(y, x)
 
+
       y = Math.round(105 * Math.sin(angle))
       x = Math.round(105 * Math.cos(angle))
 
@@ -147,7 +194,18 @@ class @Newstime.ColorView extends Newstime.PanelView
       @$colorWell1.css 'left', left
       @$colorWell1.css 'top', top
 
+      # Determine hue value
 
+
+
+      @hue = (Math.round(angle*100)/100 + 3.14)/6.28
+      rgb = hslToRgb(@hue, @saturation, @lightness)
+      hex = @rgbToHex(rgb[0], rgb[1], rgb[2])
+      @$colorPreview.css 'background-color', hex
+
+      #rgb = hslToRgb(@hue, 1, .5)
+      #hex = @rgbToHex(rgb[0], rgb[1], rgb[2])
+      @$colorWell1.css 'background-color', hex
 
 
   trackColor: (e) ->

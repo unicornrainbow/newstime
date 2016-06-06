@@ -24,21 +24,6 @@
     cursor: pointer;
   }
 
-  .color-well:nth-child(1) {
-    top: 105px;
-    left: 210px;
-  }
-
-  .color-well:nth-child(2) {
-    top: 210px;
-    left: 105px;
-  }
-
-  .color-well:nth-child(3) {
-    top: 105px;
-    left: 0px;
-  }
-
   .carousel {
     position: absolute;
     top: 0;
@@ -49,12 +34,14 @@
   }
 
   .carousel-touch {
+    display: none;
     position: absolute;
     top: 0;
     width: 235px;
     height: 235px;
     margin: 10px auto;
     padding: 30px;
+    cursor: pointer;
   }
 
   .color-dial {
