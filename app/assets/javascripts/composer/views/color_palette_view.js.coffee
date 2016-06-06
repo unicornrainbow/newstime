@@ -95,10 +95,10 @@ class @Newstime.ColorPalatteView extends @Newstime.PanelView
 
 
   addColor: ->
-    createColorView = new Newstime.CreateColorView
+    colorView = new Newstime.ColorView
       respondTo: this
-    createColorView.attachPanel()
-    createColorView.show()
+    colorView.attachPanel()
+    colorView.show()
 
   createColor: (name, value) ->
     @composer.edition.get('colors').add
