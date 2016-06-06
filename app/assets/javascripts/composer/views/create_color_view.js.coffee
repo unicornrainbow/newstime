@@ -74,17 +74,18 @@ class @Newstime.ColorView extends Newstime.PanelView
     @$colorWell1 = @$('.color-well:first-child')
     @$colorWells = @$('.color-well')
 
+    @colorWellCount = @$colorWells.length
+
     @saturation = 1
     @lightness = .5
 
     @disperseColorWells()
 
   disperseColorWells: ->
-    count = @$colorWells.length
     circumference = 6.28
 
     @$colorWells.each (i, el) =>
-      angle = circumference/count * i - 3.14
+      angle = circumference/@colorWellCount * i - 3.14
 
       width = 235
       height = 235
@@ -102,11 +103,12 @@ class @Newstime.ColorView extends Newstime.PanelView
       rgb = hslToRgb(hue, @saturation, @lightness)
       hex = @rgbToHex(rgb[0], rgb[1], rgb[2])
 
-      $(el).css
-        'top': top
-        'left': left
-        'background-color': hex
-
+      $(el)
+        .data(index: i)
+        .css
+          'top': top
+          'left': left
+          'background-color': hex
 
 
 
@@ -136,6 +138,8 @@ class @Newstime.ColorView extends Newstime.PanelView
   mousedownColorWell: (e) ->
     @$carouselTouch.show()
     @trackingColorWell = true
+    @activeColorWellIndex = $(e.target).data('index')
+
     width = 235
     height = 235
 
@@ -147,8 +151,6 @@ class @Newstime.ColorView extends Newstime.PanelView
     x = left - width/2
     y = (height-top) - height/2
 
-    console.log x,y
-
     # Find the angle
     angle = Math.atan2(y, x)
 
@@ -159,7 +161,9 @@ class @Newstime.ColorView extends Newstime.PanelView
     y = Math.round(distance * Math.sin(angle))
     x = Math.round(distance * Math.cos(angle))
 
-    console.log x, y
+    # Update color
+    @$colorPreview.css
+      'background-color': $target.css('background-color')
 
   mousedownCarouselTouch: (e) ->
     @trackingColorWell = true
@@ -191,21 +195,47 @@ class @Newstime.ColorView extends Newstime.PanelView
       left -= 12.5
       top -= 12.5
 
-      @$colorWell1.css 'left', left
-      @$colorWell1.css 'top', top
+      circumference = 6.28
+
+      @$colorWells.each (i, el) =>
+        steps = i - @activeColorWellIndex
+        stepValue = circumference/@colorWellCount
+
+
+        offsetAngle = steps * stepValue + angle
+        offsetAngle = Math.round(offsetAngle*100)/100
+        if offsetAngle > 3.14
+          offsetAngle =  offsetAngle - 6.28
+
+
+        y = Math.round(105 * Math.sin(offsetAngle))
+        x = Math.round(105 * Math.cos(offsetAngle))
+
+        left = x + width/2
+        top = -(y + height/2 - height)
+
+        left -= 12.5
+        top -= 12.5
+
+        hue = (Math.round(offsetAngle*100)/100 + 3.14)/6.28
+        rgb = hslToRgb(hue, @saturation, @lightness)
+        hex = @rgbToHex(rgb[0], rgb[1], rgb[2])
+
+        $(el)
+          .data(index: i)
+          .css
+            'top': top
+            'left': left
+            'background-color': hex
+
+
 
       # Determine hue value
-
-
 
       @hue = (Math.round(angle*100)/100 + 3.14)/6.28
       rgb = hslToRgb(@hue, @saturation, @lightness)
       hex = @rgbToHex(rgb[0], rgb[1], rgb[2])
       @$colorPreview.css 'background-color', hex
-
-      #rgb = hslToRgb(@hue, 1, .5)
-      #hex = @rgbToHex(rgb[0], rgb[1], rgb[2])
-      @$colorWell1.css 'background-color', hex
 
 
   trackColor: (e) ->
