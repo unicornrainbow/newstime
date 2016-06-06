@@ -104,12 +104,11 @@ class @Newstime.ColorView extends Newstime.PanelView
       hex = @rgbToHex(rgb[0], rgb[1], rgb[2])
 
       $(el)
-        .data(index: i)
+        .data(index: i, hue: hue)
         .css
           'top': top
           'left': left
           'background-color': hex
-
 
 
   createColor: ->
@@ -140,30 +139,17 @@ class @Newstime.ColorView extends Newstime.PanelView
     @trackingColorWell = true
     @activeColorWellIndex = $(e.target).data('index')
 
-    width = 235
-    height = 235
-
     $target = $(e.target)
-    top = parseInt($target.css 'top') + 12.5
-    left = parseInt($target.css 'left') + 12.5
 
-    # Convert to quadrant coordinate system
-    x = left - width/2
-    y = (height-top) - height/2
+    @hue = $target.data('hue')
+    rgb = hslToRgb(@hue, @saturation, @lightness)
+    hex = @rgbToHex(rgb[0], rgb[1], rgb[2])
 
-    # Find the angle
-    angle = Math.atan2(y, x)
-
-    distance = Math.sqrt(x*x+y*y)
-
-    angle = angle + .1
-
-    y = Math.round(distance * Math.sin(angle))
-    x = Math.round(distance * Math.cos(angle))
-
-    # Update color
     @$colorPreview.css
-      'background-color': $target.css('background-color')
+      'background-color': hex
+
+    @$colorValue.val(hex)
+
 
   mousedownCarouselTouch: (e) ->
     @trackingColorWell = true
@@ -222,12 +208,11 @@ class @Newstime.ColorView extends Newstime.PanelView
         hex = @rgbToHex(rgb[0], rgb[1], rgb[2])
 
         $(el)
-          .data(index: i)
+          .data(index: i, hue: hue)
           .css
             'top': top
             'left': left
             'background-color': hex
-
 
 
       # Determine hue value
@@ -236,6 +221,7 @@ class @Newstime.ColorView extends Newstime.PanelView
       rgb = hslToRgb(@hue, @saturation, @lightness)
       hex = @rgbToHex(rgb[0], rgb[1], rgb[2])
       @$colorPreview.css 'background-color', hex
+      @$colorValue.val(hex)
 
 
   trackColor: (e) ->
@@ -247,6 +233,14 @@ class @Newstime.ColorView extends Newstime.PanelView
       hex = @rgbToHex(rgb[0], rgb[1], rgb[2])
       @$colorPreview.css 'background-color', hex
       @$colorValue.val(hex)
+
+      @$colorWells.each (i, el) =>
+        hue = $(el).data('hue')
+        rgb = hslToRgb(hue, @saturation, @lightness)
+        hex = @rgbToHex(rgb[0], rgb[1], rgb[2])
+
+        $(el).css
+          'background-color': hex
 
   mousedownColorPreview: ->
     @trackingColor = true
