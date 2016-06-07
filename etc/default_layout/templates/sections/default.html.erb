@@ -1,2 +1,8 @@
 <% wrap_with 'layout' %>
-<%= yield %>
+
+<div class="page broadsheet" id="cover" style="top: 0px;">
+  <div class="grid grid24">
+    <%= render 'mastheads/main' %>
+    <%= yield %>
+  </div>
+</div>
