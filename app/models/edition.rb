@@ -55,6 +55,8 @@ class Edition
 
   has_many :prints, :order => :created_at.desc
 
+  has_one :masthead_artwork
+
   #belongs_to :organization
   belongs_to :user
   belongs_to :publication, inverse_of: :editions
@@ -96,6 +98,10 @@ class Edition
 
   def layout_module_root
     layout_module.root
+  end
+
+  def to_param
+    slug || id
   end
 
   ## Liquid

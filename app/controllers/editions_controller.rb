@@ -1,7 +1,7 @@
 class EditionsController < ApplicationController
   wrap_parameters include: [*Edition.attribute_names, :sections_attributes, :pages_attributes, :content_items_attributes, :groups_attributes, :colors_attributes]
 
-  before_filter :find_edition, only: [:compose, :preview, :compile, :download, :edit, :update]
+  before_filter :find_edition, only: [:compose, :preview, :compile, :download, :edit, :update, :show]
 
   respond_to :html, :json
 
@@ -134,7 +134,6 @@ class EditionsController < ApplicationController
   end
 
   def show
-    @edition = Edition.find(params[:id])
     respond_to do |format|
       format.html { redirect_to action: :compose }
       format.json { respond_with @edition }

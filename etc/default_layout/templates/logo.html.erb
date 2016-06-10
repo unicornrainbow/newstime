@@ -1,3 +1,5 @@
-<div class="sfrecord-logo">
-  <!-- INSERT YOUR LOGO HERE -->
+<div class="masthead-artwork">
+  <% if edition.masthead_artwork.try(:attachment) %>
+    <%= image_tag edition.masthead_artwork.attachment.url, style: "height: #{edition.masthead_artwork.height}px;" %>
+  <% end %>
 </div>

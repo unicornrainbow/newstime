@@ -210,10 +210,16 @@ class @Newstime.CanvasView extends @Newstime.View
     @listenTo @contentItemCollection, 'remove', @removeContentItem
     @listenTo @groupCollection, 'add', @addGroup
 
+    @listenTo @edition, 'change:page_color', @changeEditionPageColor
+
 
     _.each @groupViews, (groupView) ->
       groupView.measurePosition()
       groupView.render()
+
+
+  changeEditionPageColor: ->
+    @$el.css 'background-color', @edition.get('page_color')
 
   #addGroup: (group) ->
     #@groupViews[group.cid] =
