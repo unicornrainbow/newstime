@@ -162,6 +162,11 @@ class @Newstime.Composer extends Backbone.View
     @panelLayerView.attachPanel(@photoPicker)
     @photoPicker.hide()
 
+    @editionColorsStylesheetEl = document.getElementById('edition-colors')
+    @listenTo @edition, 'change:page_color', @editionChangeColor
+    @listenTo @edition, 'change:ink_color',  @editionChangeColor
+
+
 
     #photoPicker = @photoPicker
     #photoPanelMenuItem = new Newstime.MenuItemView
@@ -237,6 +242,32 @@ class @Newstime.Composer extends Backbone.View
     @toolboxView.show()
 
     @vent.trigger 'ready'
+
+
+  editionChangeColor: ->
+    stylesheet = document.createElement('style')
+    stylesheet.type = 'text/css'
+    stylesheet.innerHTML = """
+      body {
+        background-color: #{@edition.get('page_color')};
+        color: #{@edition.get('ink_color')};
+      }
+
+      .masthead-foot {
+        border-top-color: #{@edition.get('ink_color')};
+        border-bottom-color: #{@edition.get('ink_color')};
+      }
+    """
+
+    parentNode = @editionColorsStylesheetEl.parentNode
+    parentNode.removeChild(@editionColorsStylesheetEl)
+
+    @editionColorsStylesheetEl = stylesheet
+    parentNode.appendChild(stylesheet)
+
+
+
+
 
   editionSync: ->
     @statusIndicator.showMessage "Saved", 1000

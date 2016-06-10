@@ -4,18 +4,17 @@
 <title><%= title %></title>
   <%= composer_stylesheet if composing? -%>
   <%= stylesheet_link_tag "stylesheets/application", media: "all" %>
-
-  <style>
+  <meta charset="utf-8">
+  <style id="edition-colors">
     body {
       background-color: <%= edition.page_color %>;
-    }
-    .page {
       color: <%= edition.ink_color %>;
-      background-color: <%= edition.page_color %>;
+    }
+    .masthead-foot {
+      border-top-color: <%= edition.ink_color %>;
+      border-bottom-color: <%= edition.ink_color %>;
     }
   </style>
-
-  <meta charset="utf-8">
 </head>
 <body ng-app="app">
   <div class="page broadsheet" id="cover" style="top: 0px;">

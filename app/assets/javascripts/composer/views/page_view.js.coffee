@@ -37,10 +37,6 @@ class @Newstime.PageView extends @Newstime.View
     @grid = new Newstime.GridView
     @$el.append(@grid.el)
 
-    @$el.css 'background-color': @edition.get('paper_color')
-
-    @listenTo @edition, 'change:page_color', @editionChangePageColor
-
     @bindUIEvents()
 
 
@@ -55,9 +51,6 @@ class @Newstime.PageView extends @Newstime.View
         e.preventDefault()
       when 27 # ESC
         @deselect()
-
-  editionChangePageColor: ->
-    @$el.css 'background-color': @edition.get('page_color')
 
   delete: ->
     # Delete page contents

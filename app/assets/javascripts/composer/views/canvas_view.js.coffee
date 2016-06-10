@@ -72,6 +72,11 @@ class @Newstime.CanvasView extends @Newstime.View
     # Position canvas items div layer
     @positionCanvasItemsContainer()
 
+    @$masthead = @$('.masthead')
+    @mastheadView = new Newstime.MastheadView
+      composer: @composer
+      el: @$masthead[0]
+
     @pages.each (page) =>
       pageID = page.get('_id')
       pageView = @pageViews[page.cid]
@@ -188,6 +193,7 @@ class @Newstime.CanvasView extends @Newstime.View
         @addCanvasItem(contentItemView, reattach: true)
 
         contentItemView.render()
+
 
     # Add an add page button
     @addPageButton = new Newstime.AddPageButton
