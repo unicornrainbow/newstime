@@ -14,7 +14,7 @@ Press::Application.routes.draw do
     resources :pages
     resources :groups
     resources :sections
-    resources :edition_masthead_artworks
+    resource :masthead_artwork, controller: 'edition_masthead_artworks'
     resources :prints, only: ['index', 'create'] do
       member do
         get '(*path)' => :show, as: 'show'

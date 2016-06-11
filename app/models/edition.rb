@@ -101,7 +101,7 @@ class Edition
   end
 
   def to_param
-    slug || id
+    slug || id.to_param
   end
 
   ## Liquid
