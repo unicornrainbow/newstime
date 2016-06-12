@@ -62,7 +62,7 @@ class @Newstime.Composer extends Backbone.View
     @deleteQueue = [] # Queue of models to be destoryed. Flushed with each save.
 
     @groupViewCollection   = new Newstime.GroupViewCollection()
-    @pageViewCollection   = new Newstime.PageViewCollection()
+    @pageViewCollection    = new Newstime.PageViewCollection()
     @outlineViewCollection = new Newstime.OutlineViewCollection()
 
     @toolbox = new Newstime.Toolbox
@@ -109,11 +109,6 @@ class @Newstime.Composer extends Backbone.View
 
     @statusIndicator = new Newstime.StatusIndicatorView()
     @$body.append(@statusIndicator.el)
-
-    # Initialize Plugins
-    $("#edition-toolbar").editionToolbar(composer: this)
-    $("#edition-toolbar").hide() # Hiding for now while testing.
-    $("#section-nav").sectionNav()
 
     ## Build Panels
     @toolboxView = new Newstime.ToolboxView
@@ -163,9 +158,6 @@ class @Newstime.Composer extends Backbone.View
     @photoPicker.hide()
 
     @editionColorsStylesheetEl = document.getElementById('edition-colors')
-    @listenTo @edition, 'change:page_color', @editionChangeColor
-    @listenTo @edition, 'change:ink_color',  @editionChangeColor
-
 
 
     #photoPicker = @photoPicker
@@ -228,6 +220,8 @@ class @Newstime.Composer extends Backbone.View
     @listenTo @edition, 'sync', @editionSync
     @listenTo @edition, 'change', @editionChange
 
+    @listenTo @edition, 'change:page_color', @editionChangeColor
+    @listenTo @edition, 'change:ink_color',  @editionChangeColor
 
     window.onbeforeunload = =>
       if @edition.isDirty()
@@ -243,6 +237,13 @@ class @Newstime.Composer extends Backbone.View
 
     @vent.trigger 'ready'
 
+
+  editionSync: ->
+    @statusIndicator.showMessage "Saved", 1000
+    @statusIndicator.unsavedChanged(false)
+
+  editionChange: ->
+    @statusIndicator.unsavedChanged(true)
 
   editionChangeColor: ->
     stylesheet = document.createElement('style')
@@ -265,16 +266,6 @@ class @Newstime.Composer extends Backbone.View
     @editionColorsStylesheetEl = stylesheet
     parentNode.appendChild(stylesheet)
 
-
-
-
-
-  editionSync: ->
-    @statusIndicator.showMessage "Saved", 1000
-    @statusIndicator.unsavedChanged(false)
-
-  editionChange: ->
-    @statusIndicator.unsavedChanged(true)
 
   render: ->
     @canvasLayerView.render()

@@ -1,29 +1,20 @@
-class @Newstime.ContentItem extends Backbone.RelationalModel
+#class @Newstime.ContentItem extends Backbone.RelationalModel
+@Newstime.ContentItem = Backbone.RelationalModel.extend
   idAttribute: '_id'
+
+  subModelTypeAttribute: '_type'
+
+  subModelTypes:
+    'HeadlineContentItem': 'Newstime.HeadlineContentItem'
+    'TextAreaContentItem': 'Newstime.TextAreaContentItem'
+    'PhotoContentItem':    'Newstime.PhotoContentItem'
+    'VideoContentItem':    'Newstime.VideoContentItem'
+    'DividerContentItem': 'Newstime.DividerContentItem'
 
   initialize: (attributes) ->
     #@set('cursorPosition', (@get('text') || ' ').length, silent: true)
 
     @on 'change:page_id', @clearPage
-
-
-  Object.defineProperties @prototype,
-    top:
-      get: -> @get('top')
-      set: (value) ->
-        @set 'top', value
-
-    left:
-      get: -> @get('left')
-      set: (value) ->
-        @set 'left', value
-
-    #page:
-      #get: ->
-        #@getPage()
-      #set: (value) ->
-        #@_page = value
-        #@set 'page_id', value.id
 
   # Gets page
   getPage: ->
@@ -43,7 +34,36 @@ class @Newstime.ContentItem extends Backbone.RelationalModel
   getSection: ->
     @getPage().getSection()
 
-  # Specific to the HeadlineContentItem
+
+  getBoundry: ->
+    new Newstime.Boundry(_.pick @attributes, 'top', 'left', 'width', 'height')
+
+  hit: ->
+    boundry = @getBoundry()
+    boundry.hit.apply(boundry, arguments)
+
+
+
+Object.defineProperties @Newstime.ContentItem.prototype,
+  top:
+    get: -> @get('top')
+    set: (value) ->
+      @set 'top', value
+
+  left:
+    get: -> @get('left')
+    set: (value) ->
+      @set 'left', value
+
+  #page:
+    #get: ->
+      #@getPage()
+    #set: (value) ->
+      #@_page = value
+      #@set 'page_id', value.id
+
+class @Newstime.HeadlineContentItem extends Newstime.ContentItem
+
   typeCharacter: (char) ->
 
     if @get('text')
@@ -64,14 +84,13 @@ class @Newstime.ContentItem extends Backbone.RelationalModel
       #@set('text', char, silent: true)
       #@trigger('change')
 
-  # Specific to headline content item
   backspace: ->
     @set('text', @get('text').slice(0,-1), silent: true)
     #@set('cursorPosition', Math.max(0, @get('cursorPosition') - 1), silent: true)
     @trigger('change change:text')
 
 
-  # HACK: Specific to TextAreaContentItems..
+class @Newstime.TextAreaContentItem extends Newstime.ContentItem
   # TODO: Implement Subtypes and break this class apart. (Mostly a concern of
   # instantiation. Need more flexibility than BackboneRelational allows to get
   # the subtypes intialized
@@ -187,16 +206,29 @@ class @Newstime.ContentItem extends Backbone.RelationalModel
 
     storyContentItems[0]
 
-  getBoundry: ->
-    new Newstime.Boundry(_.pick @attributes, 'top', 'left', 'width', 'height')
 
-  hit: ->
-    boundry = @getBoundry()
-    boundry.hit.apply(boundry, arguments)
+class @Newstime.PhotoContentItem extends Newstime.ContentItem
+class @Newstime.VideoContentItem extends Newstime.ContentItem
+class @Newstime.DividerContentItem extends Newstime.ContentItem
 
 
 class @Newstime.ContentItemCollection extends Backbone.Collection
+#@Newstime.ContentItemCollection = Backbone.Collection.extend()
   model: Newstime.ContentItem
+  #model: (attrs, options) ->
+    #console.log 'hello'
+
+    #switch attrs._type
+      #when 'HeadlineContentItem' then new Newstime.HeadlineContentItem(attrs, options)
+      ##when 'TextAreaContentItem' then new Newstime.TextAreaView(attrs, options)
+      ##when 'PhotoContentItem' then new Newstime.PhotoView(attrs, options)
+      ##when 'VideoContentItem' then new Newstime.VideoView(attrs, options)
+      ##when 'DividerContentItem' then new Newstime.DividerView(attrs, options)
+      #else new Newstime.ContentItem(attrs, options)
+
+    #console.log attrs
+
+    #Newstime.ContentItem
 
   url: ->
     "#{@edition.url()}/content_items"
