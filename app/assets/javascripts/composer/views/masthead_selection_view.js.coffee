@@ -117,9 +117,6 @@ class @Newstime.MastheadSelectionView extends @Newstime.View
 
     if @hoveredHandle
       @trackResize @hoveredHandle.type
-    else
-      geometry = @getGeometry()
-      @trackMove(e.x - geometry.left, e.y - geometry.top)
 
   trackResize: (mode) ->
     @resizing   = true

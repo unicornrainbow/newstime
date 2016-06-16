@@ -11,14 +11,14 @@ class @Newstime.MastheadView extends @Newstime.View
     height = @height()
 
     artworkHeight = parseInt(@$mastheadArtworkImg.css('height'))
-    @artworkHeightDifference = height - artworkHeight
+    @artworkHeightDelta = height - artworkHeight
 
     @model.set
       top: @top()
       left: @left()
       width: @width()
       height: height
-      artwork_height: height - @artworkHeightDifference
+      artwork_height: height - @artworkHeightDelta
 
     @propertiesView ?= @_createPropertiesView()
 
@@ -64,7 +64,7 @@ class @Newstime.MastheadView extends @Newstime.View
 
     @model.set
       height: y - @top()
-      artwork_height: y - @top() - @artworkHeightDifference
+      artwork_height: y - @top() - @artworkHeightDelta
 
   mouseover: (e) ->
     #@model.set
@@ -97,6 +97,17 @@ class @Newstime.MastheadView extends @Newstime.View
       @trigger 'deselect', this
 
   dblclick: ->
+    $fileInput = $('<input type="file">')
+    $fileInput.click()
+
+    $fileInput.change (e) =>
+      reader = new FileReader()
+      console.log e.target.files
+      reader.onload = (e) =>
+        @$mastheadArtworkImg.attr 'src', e.target.result
+
+      reader.readAsDataURL(e.target.files[0])
+
     #alert 'Pick an image'
 
   _createPropertiesView: ->
