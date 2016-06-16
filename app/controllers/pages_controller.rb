@@ -1,7 +1,5 @@
 class PagesController < ApplicationController
 
-  before_filter :authenticate_user!
-
   respond_to :html, :json
 
   def index
@@ -97,8 +95,7 @@ class PagesController < ApplicationController
 
 
   def render_page
-
-    @edition = Edition.find(params[:id])
+    @edition = current_user.editions.find(params[:id])
 
     @page = Page.new(page_params)
 
@@ -114,7 +111,6 @@ class PagesController < ApplicationController
     end
 
     render 'show', layout: false
-
   end
 
 

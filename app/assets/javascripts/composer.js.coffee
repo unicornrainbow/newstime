@@ -797,6 +797,26 @@ class @Newstime.Composer extends Backbone.View
       @selection = null
     @pagesPanelView.render()
 
+  selectMasthead: (mastheadView) ->
+    @clearSelection()
+
+    @selection = @activeSelectionView = new Newstime.MastheadSelectionView
+      mastheadView: mastheadView
+
+    @activeSelectionView.render()
+
+    @updatePropertiesPanel(@activeSelectionView)
+
+    mastheadView.select(@activeSelectionView)
+
+    @selectionLayerView.setSelection(@activeSelectionView)
+    @focusedObject = @activeSelectionView  # Set focus to selection to send keyboard events.
+
+    @canvasLayerView.listenTo @activeSelectionView, 'tracking', @canvasLayerView.resizeSelection
+    @canvasLayerView.listenTo @activeSelectionView, 'tracking-release', @canvasLayerView.resizeSelectionRelease
+    @listenTo @activeSelectionView, 'destroy', @clearSelection
+
+
   updatePropertiesPanel: (target) ->
     propertiesView = target.getPropertiesView()
     @propertiesPanelView.mount(propertiesView)

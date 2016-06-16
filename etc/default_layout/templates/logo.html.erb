@@ -1,5 +1,5 @@
 <div class="masthead-artwork">
   <% if edition.masthead_artwork.try(:attachment) %>
-    <%= image_tag edition.masthead_artwork.attachment.url, style: "height: #{edition.masthead_artwork.height}px;" %>
+    <%= image_tag edition.masthead_artwork.attachment.url, height: edition.masthead_artwork.height %>
   <% end %>
 </div>

@@ -2,6 +2,7 @@ class Edition
   include Mongoid::Document
   include Mongoid::Timestamps
   include Mongoid::Paperclip
+  include TryHelper
 
   ## Attributes
   field :name,             type: String

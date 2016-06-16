@@ -77,6 +77,8 @@ class @Newstime.CanvasView extends @Newstime.View
       composer: @composer
       el: @$masthead[0]
 
+    @composer.outlineLayerView.attach(@mastheadView.outlineView)
+
     @pages.each (page) =>
       pageID = page.get('_id')
       pageView = @pageViews[page.cid]
@@ -555,6 +557,10 @@ class @Newstime.CanvasView extends @Newstime.View
       if @detectHit @addPageButton, e.x, e.y
         selection = @addPageButton
 
+    unless selection
+      if @detectHit @mastheadView, e.x, e.y
+        selection = @mastheadView
+
     if selection
       if @hoveredObject != selection
         if @hoveredObject
@@ -664,5 +670,9 @@ class @Newstime.CanvasView extends @Newstime.View
     # Determine page based on intersection.
     pageView = _.find @pageViewsArray, (pageView) =>
       @detectHitY pageView, view.model.get('top')
+
+    # HACK, If no page view was found, assign to first page.
+    unless pageView
+      pageView = @pageViewsArray[0]
 
     pageView.addCanvasItem(view, options)

@@ -31,13 +31,35 @@ class @Newstime.PageView extends @Newstime.View
     #@$el.append(@gridLines.el)
 
     @pageBorder = new Newstime.PageBorder(page: this)
+    #@$el.append(@pageBorder.el)
+    #@pageBorder.modelChanged()
 
     #@setPageBorderDimensions()
+    #console.log @pageBorder.model
 
     @grid = new Newstime.GridView
     @$el.append(@grid.el)
 
     @bindUIEvents()
+
+  setPageBorderDimensions: ->
+    # The page border needs to know the x and y location of the page. It also
+    # needs to know the page width and height, and finally it needs to know the
+    # margins for each of the four sides, from this is can compute it's top,
+    # left, right and bottom dimensions for rendering relative to the canvas
+    # view layer.
+    geometry = @geometry()
+    console.log geometry
+    @pageBorder.model.set
+      pageX: geometry.x
+      pageY: geometry.y
+      pageWidth:  geometry.width
+      pageHeight: geometry.height
+      pageTopMargin: 4 # TODO: These values need to be set and read from the page model.
+      pageLeftMargin: 8
+      pageRightMargin: 8
+      pageBottomMargin: 4
+
 
 
   @getter 'uiLabel', -> "Page #{@model.get('number')}"
@@ -236,24 +258,6 @@ class @Newstime.PageView extends @Newstime.View
 
     # Update z-indexs
     @updateZindexs()
-
-
-  setPageBorderDimensions: ->
-    # The page border needs to no the x and y location of the page. It also
-    # needs to know the page width and height, and finally it needs to know the
-    # margins for each of the four sides, from this is can compute it's top,
-    # left, right and bottom dimensions for rendering relative to the canvas
-    # view layer.
-    geometry = @geometry()
-    @pageBorder.model.set
-      pageX: geometry.x
-      pageY: geometry.y
-      pageWidth:  geometry.width
-      pageHeight: geometry.height
-      pageTopMargin: 190 # TODO: These values need to be set and read from the page model.
-      pageLeftMargin: 8
-      pageRightMargin: 8
-      pageBottomMargin: 4
 
 
   # Sets up and compute grid steps
