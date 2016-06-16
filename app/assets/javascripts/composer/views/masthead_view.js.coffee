@@ -51,6 +51,11 @@ class @Newstime.MastheadView extends @Newstime.View
   height: ->
     parseInt(@$el.css('height'))
 
+  setHeight: (height) ->
+    @model.set
+      height: height
+      artwork_height: height - @artworkHeightDelta
+
   geometry: ->
     y: @top()
     x: @left()
@@ -58,13 +63,8 @@ class @Newstime.MastheadView extends @Newstime.View
     height: @height()
 
   dragBottom: (x, y) ->
+    @setHeight(y - @top())
 
-    #@model.set
-      #height: @pageView.snapBottom(y) - geometry.top
-
-    @model.set
-      height: y - @top()
-      artwork_height: y - @top() - @artworkHeightDelta
 
   mouseover: (e) ->
     #@model.set
