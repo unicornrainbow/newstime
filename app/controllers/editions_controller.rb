@@ -1,5 +1,5 @@
 class EditionsController < ApplicationController
-  wrap_parameters include: [*Edition.attribute_names, :sections_attributes, :pages_attributes, :content_items_attributes, :groups_attributes, :colors_attributes]
+  wrap_parameters include: [*Edition.attribute_names, :sections_attributes, :pages_attributes, :content_items_attributes, :groups_attributes, :colors_attributes, :masthead_artwork_attributes]
 
   before_filter :find_edition, only: [:compose, :preview, :compile, :download, :edit, :update, :show]
 
@@ -184,7 +184,8 @@ private
              :pages_attributes => [Page.attribute_names],
              :groups_attributes => [Group.attribute_names],
              :content_items_attributes => [content_item_attributes],
-             :colors_attributes => [Color.attribute_names]
+             :colors_attributes => [Color.attribute_names],
+             :masthead_artwork_attributes => [:height, :lock]
             )
   end
 

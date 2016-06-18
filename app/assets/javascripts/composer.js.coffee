@@ -311,6 +311,8 @@ class @Newstime.Composer extends Backbone.View
             @save()
 
   save: ->
+    @trigger 'before-save'
+
     @statusIndicator.showMessage "Saving"
 
     # Flush delete queue

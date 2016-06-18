@@ -70,7 +70,7 @@ class @Newstime.PanelView extends @Newstime.View
       when 83 # s
         if e.altKey
           e.preventDefault()
-          @composer.edition.save()
+          @composer.save()
 
 
   paste: (e) ->

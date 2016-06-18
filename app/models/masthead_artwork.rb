@@ -5,6 +5,7 @@ class MastheadArtwork
   field :width, type: Integer
   field :height, type: Integer
   field :aspect_ratio, type: Float
+  field :lock, type: Boolean
 
   belongs_to :edition
 

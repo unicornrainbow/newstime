@@ -16,12 +16,12 @@ class @Newstime.MastheadSelectionView extends @Newstime.View
 
     # HACK: Shouldn't be binding direct to the content item model and view
     @mastheadView = options.mastheadView
-    @contentItem = @mastheadView.model
+    @model = @mastheadView.model
 
     @page = @mastheadView.page
     @pageView = @mastheadView.pageView
 
-    @listenTo @contentItem ,'change', @render
+    @listenTo @model ,'change', @render
     @listenTo @mastheadView, 'deselect', @remove
 
     @bindUIEvents()
@@ -41,10 +41,10 @@ class @Newstime.MastheadSelectionView extends @Newstime.View
 
 
   render: ->
-    position = _.pick @contentItem.attributes, 'width', 'height'
+    position = _.pick @model.attributes, 'width', 'height'
 
-    position.top  = @contentItem.get('top')
-    position.left = @contentItem.get('left')
+    position.top  = @model.get('top')
+    position.left = @model.get('left')
 
     # Apply zoom level
     if @composer.zoomLevel
@@ -57,25 +57,29 @@ class @Newstime.MastheadSelectionView extends @Newstime.View
 
     @$el.css(position)
 
+
+    _.each @dragHandles, (handle) =>
+      handle.$el.toggle(!@model.get('lock'))
+
     this
 
   paste: (e) ->
     @mastheadView.trigger 'paste', e
 
   getLeft: ->
-    @contentItem.get('left')
+    @model.get('left')
     #parseInt(@$el.css('left'))
 
   getTop: ->
-    @contentItem.get('top')
+    @model.get('top')
     #parseInt(@$el.css('top'))
 
   getWidth: ->
-    @contentItem.get('width')
+    @model.get('width')
     #parseInt(@$el.css('width'))
 
   getHeight: ->
-    @contentItem.get('height')
+    @model.get('height')
 
   keydown: (e) ->
     @mastheadView.trigger 'keydown', e
@@ -101,10 +105,10 @@ class @Newstime.MastheadSelectionView extends @Newstime.View
 
 
   getGeometry: ->
-    @contentItem.pick('top', 'left', 'height', 'width')
+    @model.pick('top', 'left', 'height', 'width')
 
   getBounds: ->
-    bounds = @contentItem.pick('top', 'left', 'height', 'width')
+    bounds = @model.pick('top', 'left', 'height', 'width')
     bounds.bottom = bounds.top + bounds.height
     bounds.right = bounds.left + bounds.width
     delete bounds.width
@@ -131,7 +135,7 @@ class @Newstime.MastheadSelectionView extends @Newstime.View
         #@pageView.computeBottomSnapPoints()
 
         ## Get all objects below object that can be moved up and down in unison.
-        #@attachedItems = @pageView.getAttachedItems(@contentItem)
+        #@attachedItems = @pageView.getAttachedItems(@model)
 
 
     @trigger 'tracking', this
@@ -205,7 +209,7 @@ class @Newstime.MastheadSelectionView extends @Newstime.View
     if @moving
       @moving = false
       @composer.clearVerticalSnapLines()
-      @composer.assignPage(@contentItem, @mastheadView)
+      @composer.assignPage(@model, @mastheadView)
 
     @trigger 'tracking-release', this
 

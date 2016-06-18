@@ -1,13 +1,13 @@
-# The masthead of an edition
 class Masthead
   include Mongoid::Document
 
-  field :name, type: String
-  field :source, type: String
-  field :html, type: String
-  has_many :editions
+  embedded_in :edition
 
-  # Liquid
-  liquid_methods :name
+  field :height, type: Integer
+  field :lock,   type: Boolean
+
+  field :artwork_height, type: Integer
+
+  has_mongoid_attached_file :artwork
 
 end

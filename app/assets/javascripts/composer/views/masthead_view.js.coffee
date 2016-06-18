@@ -6,6 +6,8 @@ class @Newstime.MastheadView extends @Newstime.View
 
     @model = new Backbone.Model()
 
+    @model.set('lock', @edition.get('masthead_artwork_attributes').lock)
+
     @$mastheadArtworkImg = @$('.masthead-artwork img')
 
     height = @height()
@@ -26,6 +28,11 @@ class @Newstime.MastheadView extends @Newstime.View
                      model: @model
 
     @listenTo @model, 'change', @render
+    @listenTo @model, 'change:lock', @changeLock
+
+    # Handle before-save event on composer to copy over changed attributes to
+    # the edition for saving...
+    @listenTo @composer, 'before-save', @beforeSave
 
 
     @bindUIEvents()
@@ -33,7 +40,17 @@ class @Newstime.MastheadView extends @Newstime.View
   render: ->
     @$mastheadArtworkImg.css height: @model.get('artwork_height')
 
-    #console.log @model.pick('height')
+  beforeSave: ->
+    # Copy over masthead artwork height to edition.masthead_artwork
+    @edition.get('masthead_artwork_attributes').height = @model.get('artwork_height')
+    @edition.get('masthead_artwork_attributes').lock = @model.get('lock')
+
+    # TODO: If artwork was change, post it to the server now...
+
+  keydown: (e) =>
+    switch e.keyCode
+      when 27 # ESC
+        @deselect()
 
   getPropertiesView: ->
     @propertiesView
@@ -97,16 +114,17 @@ class @Newstime.MastheadView extends @Newstime.View
       @trigger 'deselect', this
 
   dblclick: ->
-    $fileInput = $('<input type="file">')
-    $fileInput.click()
+    unless @model.get('lock') # Do nothing if lock is set.
+      $fileInput = $('<input type="file">')
+      $fileInput.click()
 
-    $fileInput.change (e) =>
-      reader = new FileReader()
-      console.log e.target.files
-      reader.onload = (e) =>
-        @$mastheadArtworkImg.attr 'src', e.target.result
+      $fileInput.change (e) =>
+        reader = new FileReader()
+        console.log e.target.files
+        reader.onload = (e) =>
+          @$mastheadArtworkImg.attr 'src', e.target.result
 
-      reader.readAsDataURL(e.target.files[0])
+        reader.readAsDataURL(e.target.files[0])
 
     #alert 'Pick an image'
 

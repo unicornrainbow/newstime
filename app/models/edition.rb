@@ -48,15 +48,19 @@ class Edition
   embeds_many  :groups
   embeds_many  :colors
 
+  embeds_one :masthead  # For future use. Editions and sections should be able to have configurable mastheads in the object model.
+
+  has_one :masthead_artwork
+
   accepts_nested_attributes_for :sections
   accepts_nested_attributes_for :pages
   accepts_nested_attributes_for :content_items
   accepts_nested_attributes_for :groups
   accepts_nested_attributes_for :colors
+  accepts_nested_attributes_for :masthead_artwork
 
   has_many :prints, :order => :created_at.desc
 
-  has_one :masthead_artwork
 
   #belongs_to :organization
   belongs_to :user

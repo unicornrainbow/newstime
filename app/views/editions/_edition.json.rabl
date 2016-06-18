@@ -24,3 +24,7 @@ end
 child :colors => :colors_attributes do
   attributes *Color.attribute_names
 end
+
+child :masthead_artwork => :masthead_artwork_attributes do
+  attributes :height, :lock
+end
