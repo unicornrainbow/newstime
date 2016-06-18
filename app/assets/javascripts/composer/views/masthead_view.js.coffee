@@ -45,8 +45,6 @@ class @Newstime.MastheadView extends @Newstime.View
     @edition.get('masthead_artwork_attributes').height = @model.get('artwork_height')
     @edition.get('masthead_artwork_attributes').lock = @model.get('lock')
 
-    # TODO: If artwork was change, post it to the server now...
-
   keydown: (e) =>
     switch e.keyCode
       when 27 # ESC
@@ -120,13 +118,25 @@ class @Newstime.MastheadView extends @Newstime.View
 
       $fileInput.change (e) =>
         reader = new FileReader()
-        console.log e.target.files
         reader.onload = (e) =>
           @$mastheadArtworkImg.attr 'src', e.target.result
 
         reader.readAsDataURL(e.target.files[0])
 
-    #alert 'Pick an image'
+        # Save to server
+        form = new FormData()
+        form.append("masthead_artwork[attachment]", e.target.files[0])
+
+        $.ajax
+          type: 'POST'
+          url: "/editions/#{@edition.id}/masthead_artwork"
+          data: form
+          cache: false
+          dataType: 'json'
+          processData: false
+          contentType: false
+
+
 
   _createPropertiesView: ->
     new Newstime.MastheadPropertiesView(target: this, model: @model)
