@@ -93,7 +93,7 @@ class @Newstime.MastheadSelectionView extends @Newstime.View
 
     ## Expand the geometry by buffer distance in each direction to extend
     ## clickable area.
-    buffer = 4 # 2px
+    buffer = 16 # 2px
     geometry.top -= buffer
     geometry.left -= buffer
     geometry.width += buffer*2
@@ -179,7 +179,7 @@ class @Newstime.MastheadSelectionView extends @Newstime.View
     centerX = left + width/2
     centerY = top + height/2
 
-    boxSize = 8
+    boxSize = 16
 
     if @composer.zoomLevel
       # Compensate box size for zoom level
