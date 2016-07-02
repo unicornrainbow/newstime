@@ -14,66 +14,67 @@
 
 
     .drag-handle {
-      border: 1px solid gray;
-      width: 8px; height: 8px;
+      border: 1px solid rgba(128, 128, 128, .7);
+      width: 32px; height: 32px;
+      border-radius: 50%;
       position: absolute;
-      background-color: white;
+      background-color: rgba(255, 255, 255, .3);
       box-shadow: 0 0 1px #ccc;
 
       &.hovered {
-        background-color: #efefef;
-        border-color: #777;
+        background-color: rgba(255, 255, 255, .7);
+        border-color: rgba(119, 119, 119, .7);
       }
 
       &.selected {
-        background-color: #ddd;
-        border-color: #777;
+        background-color: rgba(221, 221, 221, .7);
+        border-color: rgba(119, 119, 119, .7);
       }
 
 
 
       &.top {
-        top: -4px;
+        top: -16px;
         left: 50%;
-        margin-left: -4px;
+        margin-left: -16px;
       }
 
       &.bottom {
-        bottom: -4px;
+        bottom: -16px;
         left: 50%;
-        margin-left: -4px;
+        margin-left: -16px;
       }
 
       &.left {
-        left: -4px;
+        left: -16px;
         top: 50%;
-        margin-top: -4px;
+        margin-top: -16px;
       }
 
       &.right {
-        right: -4px;
+        right: -16px;
         top: 50%;
-        margin-top: -4px;
+        margin-top: -16px;
       }
 
       &.top-left {
-        top: -4px;
-        left: -4px;
+        top: -16px;
+        left: -16px;
       }
 
       &.top-right {
-        top: -4px;
-        right: -4px;
+        top: -16px;
+        right: -16px;
       }
 
       &.bottom-left {
-        bottom: -4px;
-        left: -4px;
+        bottom: -16px;
+        left: -16px;
       }
 
       &.bottom-right {
-        bottom: -4px;
-        right: -4px;
+        bottom: -16px;
+        right: -16px;
       }
     }
   }
