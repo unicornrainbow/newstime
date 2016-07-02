@@ -39,6 +39,7 @@ module Press
     config.assets.precompile += [
       "platform.css",
       "composer.css",
+      "composer/font-awesome.css",
       "composer.js",
       "jquery.js"
     ]

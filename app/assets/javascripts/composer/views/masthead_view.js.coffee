@@ -6,7 +6,7 @@ class @Newstime.MastheadView extends @Newstime.View
 
     @model = new Backbone.Model()
 
-    @model.set('lock', @edition.get('masthead_artwork_attributes').lock)
+    @model.set('lock', @edition.get('masthead_artwork_attributes')?.lock)
 
     @$mastheadArtworkImg = @$('.masthead-artwork img')
 

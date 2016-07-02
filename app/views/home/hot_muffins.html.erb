@@ -1,6 +1,9 @@
 <link href='https://fonts.googleapis.com/css?family=Dosis:200|Exo:100,400,900|Raleway:300'
 rel='stylesheet' type='text/css'>
 
+
+
+
 <style>
 body {
   background-color: #86d7d2;
@@ -19,8 +22,8 @@ body {
   text-align: center;
   margin-top: 100pt;
 }
-
 input {
+  border-radius: 7pt;
   border: 2pt solid white;
   outline: none;
   padding: 7pt 10pt;
@@ -29,31 +32,6 @@ input {
 
   font-size: 22pt;
   font-weight: 100;
-}
-
-input[type=text] {
-  border-radius: 7pt 7pt 0 0;
-  margin: 0;
-
-}
-
-input[type=password] {
-  border-radius: 0 0 7pt 7pt;
-  margin: 0;
-
-}
-
-
-
-.free-account {
-  font-family: 'raleway';
-  color: #1151EC;
-  text-align: center;
-  margin: 50pt;
-}
-
-.free-account a:active {
-  color: purple;
 }
 
 .zing-sang {
@@ -76,16 +54,16 @@ input[type=password] {
 
 <div class='newstime-love'>newstime.love</div>
 <form id="sign-in" method="POST" >
-  <input name='screenname' type="text" onkeypress="enterSubmit(this, event)"></input>
-  <br>
-  <input name='password' type="password" onkeypress="enterSubmit(this, event)"></input>
-  <br><br>
-  <button class="zing-sang">Enter</button>
+  <input placeholder='Screenname' name='screenname' type="text" onkeypress="enterSubmit(this, event)"></input>
+	<br>
+  <input placeholder='Email' name='email' type="text" onkeypress="enterSubmit(this, event)"></input>
+	<br>
+  <input placeholder='&bull;&bull;&bull;&bull;&bull;&bull;&bull;' name='password' type="password" onkeypress="enterSubmit(this, event)"></input>
+	<br>
+	<br>
+  <button class="zing-sang">Make my Fabulous Account</button>
 </form>
 
-<div class="free-account" style="display: none;">
-  <a href="/hot-muffins">Start an account today, in seconds!</a>
-</div>
 
 <script>
 function enterSubmit(field, event) {

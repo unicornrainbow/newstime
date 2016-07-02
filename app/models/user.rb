@@ -17,7 +17,7 @@ class User
   has_many :stories
 
   def has_password?
-    !encrypted_password.nil?
+    !encrypted_password.empty?
   end
 
 end

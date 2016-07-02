@@ -53,6 +53,7 @@ Press::Application.routes.draw do
 
   post '/' => 'home#sign_in'
   get '/sign-out' => 'home#sign_out'
+  get '/hot-muffins' => 'home#hot_muffins'
 
   resources :prints, except: 'show' do
     member do
