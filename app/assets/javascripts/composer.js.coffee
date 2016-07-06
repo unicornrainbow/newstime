@@ -32,6 +32,8 @@ class @Newstime.Composer extends Backbone.View
     # Create a global reference to this instance.
     Newstime.composer = this
 
+    this.detectBrowser()
+
     @edition = options.edition
     @section = options.section
 
@@ -1043,6 +1045,16 @@ class @Newstime.Composer extends Backbone.View
     @panelLayerView.reset()
     @hitLayer = null
 
+  detectBrowser: ->
+    ## Detect browser, and assigns a class to the body element.
+    userAgent = navigator.userAgent
+    if /Safari/.test(userAgent)
+      if /Chrome/.test(userAgent)
+        $('body').addClass "chrome"
+      else
+        $('body').addClass "safari"
+
+
 
 $ ->
   # Get the edition, mostly for development purposes right now.
@@ -1062,5 +1074,6 @@ $ ->
   # future o detect loading of fonts, to avoid hacks like this. This will work
   # for now.
   setTimeout _.bind(Newstime.composer.render, Newstime.composer), 200
+
 
   return
