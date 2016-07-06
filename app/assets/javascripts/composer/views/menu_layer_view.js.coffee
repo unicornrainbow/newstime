@@ -3,6 +3,7 @@ class @Newstime.MenuLayerView extends Newstime.View
 
   initialize: (options) ->
     @$el.addClass 'menu-layer-view'
+    @menuHeight = options.menuHeight
 
     @attachedViews = []
 
@@ -11,7 +12,7 @@ class @Newstime.MenuLayerView extends Newstime.View
     @width = 1184
 
     # Draw shape for main menu area
-    @mainAreaBoundry = new Newstime.Boundry(top: 0, left: 0, width: @width, height: 25)
+    @mainAreaBoundry = new Newstime.Boundry(top: 0, left: 0, width: @width, height: @menuHeight)
     @cutout.addBoundry(@mainAreaBoundry)
 
     @menuView = new Newstime.MenuView()

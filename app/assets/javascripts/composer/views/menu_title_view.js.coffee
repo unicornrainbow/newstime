@@ -13,6 +13,8 @@ class @Newstime.MenuTitleView extends Newstime.View
 
     @$el.html @title
 
+    @menuBody.model.set(top: @composer.menuHeight)
+
     @listenToOnce Newstime.composer.vent, 'ready', @measureBoundry
 
     @bindUIEvents()

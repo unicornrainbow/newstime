@@ -52,7 +52,7 @@ class @Newstime.Composer extends Backbone.View
 
     ## Config
     @topOffset = 0 # 61 # px
-    @menuHeight = 25
+    @menuHeight = 35
 
     @snapTolerance = 20 # This needs to be extracted to a configuration
     @snapEnabled = true
@@ -78,6 +78,7 @@ class @Newstime.Composer extends Backbone.View
     @menuLayerView = new Newstime.MenuLayerView
       composer: this
       topOffset: @topOffset
+      menuHeight: @menuHeight
     @$body.append(@menuLayerView.el)
     @menuLayerView.trigger 'attach'
 

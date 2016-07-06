@@ -7,7 +7,6 @@ class @Newstime.SectionMenuView extends Newstime.MenuTitleView
     super
 
   initializeMenu: ->
-    @menuBody.model.set(top: 25)
 
     @settingsMenuItem = new Newstime.MenuItemView
       title: 'Section Settings'

@@ -1,8 +1,7 @@
 .menu-view {
-  background-color: #484c55;
-  /*background-color: #f77eb5;*/
+  background-color: #f96eb5;
   width: 100%;
-  height: 25px;
+  height: 35px;
 
   // Ensure nothing can be highlighted with a user drag (Which breaks the
   // solidness of the ui)
@@ -17,11 +16,11 @@
   span.menu-title {
     font-family: 'Raleway', sans-serif;
     font-weight: 100;
-    font-size: 10pt;
-    color: #ccc;
-    line-height: 25px;
+    font-size: 13pt;
+    color: white;
+    line-height: 35px;
     display: inline-block;
-    padding: 0 10px;
+    padding: 0 13px;
     margin: 0;
     float: left;
 
@@ -30,7 +29,7 @@
     }
 
     &.open {
-      background-color: #2e3137;
+      background-color: #467Eff;
     }
   }
 
@@ -45,9 +44,9 @@
 
   .menu-item {
     font-family: 'Raleway', sans-serif;
-    font-weight: 300;
-    font-size: 10pt;
-    line-height: 25px;
+    font-weight: 200;
+    font-size: 13pt;
+    line-height: 32px;
     padding: 0 12px 0 22px;
     color: black;
 
@@ -66,9 +65,9 @@
 
   svg {
     float: left;
-    height: 18px;
-    margin-top: 4px;
-    fill: #ccc;
+    height: 25px;
+    margin-top: 5px;
+    fill: #F5DB38;
     margin-left: -28px;
     margin-right: -15px;
   }
