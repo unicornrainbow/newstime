@@ -12,6 +12,7 @@
       Newstime.config = <%= raw(@client_config.to_json) %>;
       var composer = Newstime.config;
       var editionJSON = <%= raw render(template: "editions/show.json") %>;
+      var workspaceJSON = <%= raw(@workspace.to_json) %>;
     </script>
   <% end %>
   <%# content_for :toolbar do %>

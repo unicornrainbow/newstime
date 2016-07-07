@@ -8,14 +8,16 @@ class @Newstime.ColorPalatteView extends @Newstime.PanelView
     'click .ink-color swatch': 'toggleInkColorActive'
     'click .colors li': 'fill'
 
-  initializePanel: ->
+  initializePanel: (options) ->
     @edition = @composer.edition
 
     @$el.addClass('newstime-color-palatte')
 
-    @model.set(width: 150, height: 200)
-
-    @setPosition(470, 70)
+    # Set default size and position if required.
+    unless @model.get('width') && @model.get('height')
+      @model.set(width: 200, height: 250)
+    unless @model.get('top') && @model.get('left')
+      @setPosition(470, 70)
 
     @$body.html """
 

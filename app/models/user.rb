@@ -16,6 +16,8 @@ class User
   has_many :videos
   has_many :stories
 
+  embeds_one :workspace
+
   def has_password?
     !encrypted_password.empty?
   end

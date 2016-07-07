@@ -32,7 +32,7 @@ class @Newstime.Composer extends Backbone.View
     # Create a global reference to this instance.
     Newstime.composer = this
 
-    this.detectBrowser()
+    @detectBrowser()
 
     @edition = options.edition
     @section = options.section
@@ -122,8 +122,11 @@ class @Newstime.Composer extends Backbone.View
     @propertiesPanelView = new Newstime.PropertiesPanelView
       composer: this
 
+    workspaceJSON.color_palatte ?= {}
+    @colorPalatte = new Newstime.Panel(workspaceJSON.color_palatte)
     @colorPalatteView = new Newstime.ColorPalatteView
       composer: this
+      model: @colorPalatte
 
     @propertiesPanelView.setPosition(50, 20)
     @panelLayerView.attachPanel(@propertiesPanelView)
@@ -313,8 +316,10 @@ class @Newstime.Composer extends Backbone.View
           if e.ctrlKey || e.altKey # ctrl+s
             @save()
 
-  save: ->
-    @trigger 'before-save'
+  save: (depth=1)->
+    if depth == 1
+      @trigger 'before-save'
+      @saveWorkspace()
 
     @statusIndicator.showMessage "Saving"
 
@@ -323,10 +328,10 @@ class @Newstime.Composer extends Backbone.View
       model = @deleteQueue.shift()
       model.destroy
         success: =>
-          @save()
+          @save(depth+1)
         error: =>
           @deleteQueue.unshift(model)
-          @save()
+          @save(depth+1)
     else
       # Find unsaved group
       newGroup = @edition.get('groups').find (g) -> g.isNew()
@@ -335,11 +340,21 @@ class @Newstime.Composer extends Backbone.View
         # Save the group, and call us back on success
         newGroup.save {},
           success: (model) =>
-            @save()
+            @save(depth+1)
       else
         @edition.save {},
           error: =>
             @statusIndicator.showMessage "Error Saving", 1000
+
+  saveWorkspace: ->
+    workspaceJSON.color_palatte = @colorPalatte.toJSON()
+
+    xhr = new XMLHttpRequest()
+    xhr.open "POST", "/workspace", true
+    xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8')
+    xhr.send(JSON.stringify(workspaceJSON))
+
+    #xhr.onloadend = ->
 
   paste: (e) =>
     if @focusedObject

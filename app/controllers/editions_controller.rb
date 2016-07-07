@@ -113,6 +113,8 @@ class EditionsController < ApplicationController
     # Sets config values which are avialable client-side at `Newstime.config`.
     set_client_config
 
+    set_workspace
+
     render 'compose', layout: 'layout_module'
   end
 
@@ -166,6 +168,16 @@ private
       headlineFontWeights: @layout_module.config["headline_font_weights"],
       storyTextLineHeight: @layout_module.config["story_text_line_height"]
     }
+  end
+
+  def set_workspace
+    if current_user
+      if current_user.workspace
+        @workspace = current_user.workspace
+      else
+        @workspace = current_user.create_workspace
+      end
+    end
   end
 
   def edition_params
