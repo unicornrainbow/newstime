@@ -2,6 +2,7 @@ class Workspace
   include Mongoid::Document
 
   field :color_palatte, type: Hash
+  field :pages_panel, type: Hash
 
   embedded_in :user
 

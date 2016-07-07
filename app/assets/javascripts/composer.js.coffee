@@ -139,8 +139,12 @@ class @Newstime.Composer extends Backbone.View
     @editionPropertiesView = new Newstime.EditionPropertiesView
       model: @edition
 
+    workspaceJSON['pages_panel'] ?= {}
+    @pagesPanel = new Newstime.Panel(workspaceJSON['pages_panel'])
     @pagesPanelView = new Newstime.PagesPanelView
-    @pagesPanelView.setPosition(260, 20)
+      composer: this
+      model: @pagesPanel
+    #@pagesPanelView.setPosition(260, 20)
     @panelLayerView.attachPanel(@pagesPanelView)
 
     @sectionSettings = new Newstime.SectionSettingsWindowView
@@ -348,6 +352,7 @@ class @Newstime.Composer extends Backbone.View
 
   saveWorkspace: ->
     workspaceJSON.color_palatte = @colorPalatte.toJSON()
+    workspaceJSON.pages_panel = @pagesPanel.toJSON()
 
     xhr = new XMLHttpRequest()
     xhr.open "POST", "/workspace", true
