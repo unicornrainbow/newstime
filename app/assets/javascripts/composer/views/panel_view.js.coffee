@@ -36,6 +36,7 @@ class @Newstime.PanelView extends @Newstime.View
 
     @bindUIEvents()
 
+    @listenTo @model, 'change:hidden', @changeHidden
     @listenTo @model, 'change', @render
 
     @render()
@@ -44,9 +45,13 @@ class @Newstime.PanelView extends @Newstime.View
   mousedown: ->
     @panelLayerView.bringToFront(this)
 
+  changeHidden: ->
+    @hidden = @model.get('hidden')
+
   render: ->
     @$el.css @model.pick('width', 'height', 'top', 'left')
     @$el.css 'z-index': @model.get('z_index')
+    @$el.toggle !@hidden
     @renderPanel() if @renderPanel
 
   dismiss: (e) ->
@@ -107,12 +112,10 @@ class @Newstime.PanelView extends @Newstime.View
     e.stopPropagation()
 
   hide: ->
-    @hidden = true
-    @$el.hide()
+    @model.set(hidden: true)
 
   show: ->
-    @hidden = false
-    @$el.show()
+    @model.set(hidden: false)
 
   toggle: ->
     if @hidden then @show() else @hide()

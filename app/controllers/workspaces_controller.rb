@@ -13,9 +13,10 @@ class WorkspacesController < ApplicationController
 private
 
   def workspace_params
-    params.require(:workspace).permit(:color_palatte => [:top, :left, :width, :height],
-                                      :pages_panel => [:top, :left, :width, :height],
-                                      :properties_panel => [:top, :left, :width, :height])
+    params.require(:workspace).permit(:color_palatte => [:top, :left, :width, :height, :hidden],
+                                      :pages_panel => [:top, :left, :width, :height, :hidden],
+                                      :properties_panel => [:top, :left, :width, :height, :hidden],
+                                      :toolbox => [:top, :left, :width, :height, :hidden])
   end
 
 end

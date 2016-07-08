@@ -248,6 +248,7 @@ class @Newstime.Composer extends Backbone.View
     @pagesPanelView.model.set(workspaceJSON["pages_panel"])
     @colorPalatteView.model.set(workspaceJSON["color_palatte"])
     @propertiesPanelView.model.set(workspaceJSON["properties_panel"])
+    @toolbox.set(workspaceJSON["toolbox"])
 
 
   editionSync: ->
@@ -353,9 +354,10 @@ class @Newstime.Composer extends Backbone.View
             @statusIndicator.showMessage "Error Saving", 1000
 
   saveWorkspace: ->
-    workspaceJSON['color_palatte'] = @colorPalatteView.model.toJSON()
-    workspaceJSON['pages_panel'] = @pagesPanelView.model.toJSON()
-    workspaceJSON['properties_panel'] = @propertiesPanelView.model.toJSON()
+    workspaceJSON['color_palatte'] = @colorPalatteView.model.pick('top', 'left', 'height', 'width')
+    workspaceJSON['pages_panel'] = @pagesPanelView.model.pick('top', 'left', 'height', 'width')
+    workspaceJSON['properties_panel'] = @propertiesPanelView.model.pick('top', 'left', 'height', 'width')
+    workspaceJSON['toolbox'] = @toolbox.pick('top', 'left', 'height', 'width')
 
 
     xhr = new XMLHttpRequest()
