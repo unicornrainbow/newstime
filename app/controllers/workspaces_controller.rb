@@ -14,7 +14,8 @@ private
 
   def workspace_params
     params.require(:workspace).permit(:color_palatte => [:top, :left, :width, :height],
-                                      :pages_panel => [:top, :left, :width, :height])
+                                      :pages_panel => [:top, :left, :width, :height],
+                                      :properties_panel => [:top, :left, :width, :height])
   end
 
 end

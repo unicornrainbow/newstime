@@ -122,11 +122,8 @@ class @Newstime.Composer extends Backbone.View
     @propertiesPanelView = new Newstime.PropertiesPanelView
       composer: this
 
-    workspaceJSON.color_palatte ?= {}
-    @colorPalatte = new Newstime.Panel(workspaceJSON.color_palatte)
     @colorPalatteView = new Newstime.ColorPalatteView
       composer: this
-      model: @colorPalatte
 
     @propertiesPanelView.setPosition(50, 20)
     @panelLayerView.attachPanel(@propertiesPanelView)
@@ -139,12 +136,9 @@ class @Newstime.Composer extends Backbone.View
     @editionPropertiesView = new Newstime.EditionPropertiesView
       model: @edition
 
-    workspaceJSON['pages_panel'] ?= {}
-    @pagesPanel = new Newstime.Panel(workspaceJSON['pages_panel'])
     @pagesPanelView = new Newstime.PagesPanelView
       composer: this
-      model: @pagesPanel
-    #@pagesPanelView.setPosition(260, 20)
+    @pagesPanelView.setPosition(260, 20)
     @panelLayerView.attachPanel(@pagesPanelView)
 
     @sectionSettings = new Newstime.SectionSettingsWindowView
@@ -168,6 +162,8 @@ class @Newstime.Composer extends Backbone.View
     @photoPicker.hide()
 
     @editionColorsStylesheetEl = document.getElementById('edition-colors')
+
+    @applyWorkspaceJSON(workspaceJSON)
 
 
     #photoPicker = @photoPicker
@@ -246,6 +242,12 @@ class @Newstime.Composer extends Backbone.View
     @toolboxView.show()
 
     @vent.trigger 'ready'
+
+
+  applyWorkspaceJSON: (workspaceJSON) ->
+    @pagesPanelView.model.set(workspaceJSON["pages_panel"])
+    @colorPalatteView.model.set(workspaceJSON["color_palatte"])
+    @propertiesPanelView.model.set(workspaceJSON["properties_panel"])
 
 
   editionSync: ->
@@ -351,8 +353,10 @@ class @Newstime.Composer extends Backbone.View
             @statusIndicator.showMessage "Error Saving", 1000
 
   saveWorkspace: ->
-    workspaceJSON.color_palatte = @colorPalatte.toJSON()
-    workspaceJSON.pages_panel = @pagesPanel.toJSON()
+    workspaceJSON['color_palatte'] = @colorPalatteView.model.toJSON()
+    workspaceJSON['pages_panel'] = @pagesPanelView.model.toJSON()
+    workspaceJSON['properties_panel'] = @propertiesPanelView.model.toJSON()
+
 
     xhr = new XMLHttpRequest()
     xhr.open "POST", "/workspace", true

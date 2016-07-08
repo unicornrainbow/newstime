@@ -14,10 +14,8 @@ class @Newstime.ColorPalatteView extends @Newstime.PanelView
     @$el.addClass('newstime-color-palatte')
 
     # Set default size and position if required.
-    unless @model.get('width') && @model.get('height')
-      @model.set(width: 200, height: 250)
-    unless @model.get('top') && @model.get('left')
-      @setPosition(470, 70)
+    @model.set(width: 200, height: 250)
+    @setPosition(470, 70)
 
     @$body.html """
 
