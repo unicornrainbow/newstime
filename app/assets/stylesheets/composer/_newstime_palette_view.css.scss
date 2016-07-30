@@ -1,21 +1,20 @@
 .newstime-palette-view { /* palette */
-  width: 180px;
-  white-space: nowrap;
+  -webkit-user-select: none;
   /*left: 0;*/
   /*top: 200px;*/
   background-color: #484c55;
-  color: #eee;
-  position: absolute;
-  font-family: 'Raleway', sans-serif;
-  font-size: 10pt;
-  padding: 0;
   border-radius: 4px 4px 2px 2px;
-  z-index: 1000;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
-  -webkit-user-select: none;
-  user-select: none;
+  color: #eee;
+  font-family: 'Raleway', sans-serif;
   font-size: 11pt;
   font-weight: 100;
+  padding: 0;
+  position: absolute;
+  user-select: none;
+  white-space: nowrap;
+  width: 180px;
+  z-index: 1000;
 
   &.hovered {
     .title-bar {

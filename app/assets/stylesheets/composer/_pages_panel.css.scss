@@ -1,6 +1,6 @@
 .pages-panel {
   margin: 0;
-  font-size: 8pt;
+  font-size: 11pt;
   font-weight: 100;
 
   .palette-body {
@@ -64,12 +64,12 @@
   .pages-panel-page {
     background-image: asset-url('down_caret.png');
     background-repeat: no-repeat;
-    background-position: 13px 10px;
+    background-position: 13px 12px;
     background-size: 10px;
 
     &.collasped {
       background-image: asset-url('right_caret.png');
-      background-position: 16px 7px;
+      background-position: 16px 10px;
       background-size: 5px;
     }
   }
