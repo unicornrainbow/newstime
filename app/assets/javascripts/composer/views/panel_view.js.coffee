@@ -268,3 +268,9 @@ class @Newstime.PanelView extends @Newstime.View
   reset: ->
     @hovered = false
     @$el.removeClass 'hovered'
+
+  getSettings: ->
+    @model.pick('top', 'left', 'height', 'width')
+
+  setSettings: (settings) ->
+    @model.set(settings)

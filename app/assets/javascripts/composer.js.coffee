@@ -245,9 +245,9 @@ class @Newstime.Composer extends Backbone.View
 
 
   applyWorkspaceJSON: (workspaceJSON) ->
-    @pagesPanelView.model.set(workspaceJSON["pages_panel"])
-    @colorPalatteView.model.set(workspaceJSON["color_palatte"])
-    @propertiesPanelView.model.set(workspaceJSON["properties_panel"])
+    @pagesPanelView.setSettings(workspaceJSON["pages_panel"])
+    @colorPalatteView.setSettings(workspaceJSON["color_palatte"])
+    @propertiesPanelView.setSettings(workspaceJSON["properties_panel"])
     @toolbox.set(workspaceJSON["toolbox"])
 
 
@@ -265,6 +265,10 @@ class @Newstime.Composer extends Backbone.View
       body {
         background-color: #{@edition.get('page_color')};
         color: #{@edition.get('ink_color')};
+      }
+
+      hr.divider {
+        border-color: #{@edition.get('ink_color')};
       }
 
       .masthead-foot {
@@ -354,9 +358,9 @@ class @Newstime.Composer extends Backbone.View
             @statusIndicator.showMessage "Error Saving", 1000
 
   saveWorkspace: ->
-    workspaceJSON['color_palatte'] = @colorPalatteView.model.pick('top', 'left', 'height', 'width')
-    workspaceJSON['pages_panel'] = @pagesPanelView.model.pick('top', 'left', 'height', 'width')
-    workspaceJSON['properties_panel'] = @propertiesPanelView.model.pick('top', 'left', 'height', 'width')
+    workspaceJSON['color_palatte'] = @colorPalatteView.getSettings()
+    workspaceJSON['pages_panel'] = @pagesPanelView.getSettings()
+    workspaceJSON['properties_panel'] = @propertiesPanelView.getSettings()
     workspaceJSON['toolbox'] = @toolbox.pick('top', 'left', 'height', 'width')
 
 
