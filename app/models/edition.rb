@@ -97,6 +97,30 @@ class Edition
     videos.compact
   end
 
+  def resolve_fonts
+    fonts = []
+    default_weight = '500'
+
+    # Collect Headline Fonts
+    sections.each do |section|
+      section.pages.each do |page|
+
+        fonts += page.content_items.where(_type: 'HeadlineContentItem').map do |headline|
+          puts 'love'
+          family = headline.font_family
+          family = family.split(',')[0]
+          style  = headline.font_style
+          weight = headline.font_weight || default_weight
+          "#{family}/#{style}/#{weight}"
+        end
+
+      end
+    end
+
+    fonts.compact.uniq
+
+  end
+
   def layout_module
     @layout_module ||= LayoutModule.new(layout_name)
   end
