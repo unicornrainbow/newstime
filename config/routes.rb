@@ -26,6 +26,7 @@ Press::Application.routes.draw do
       post :render_text_area,    controller: :content_items
       get  :render_page,         controller: :pages
       get  :compose
+      get  :wip
       asset_routes = lambda do
         get 'fonts/*path'       => :fonts
         get 'images/*path'      => :images
