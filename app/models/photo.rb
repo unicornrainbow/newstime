@@ -6,6 +6,8 @@ class Photo
   field :height, type: Integer
   field :aspect_ratio, type: Float
 
+  belongs_to :user
+
   include Mongoid::Paperclip
   has_mongoid_attached_file :attachment,
     :styles => {

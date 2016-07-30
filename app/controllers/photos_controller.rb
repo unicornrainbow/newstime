@@ -11,6 +11,7 @@ class PhotosController < ApplicationController
 
   def create
     @photo = Photo.new(photo_params)
+    @photo.user = current_user
     @photo.save
     render :show
   end
