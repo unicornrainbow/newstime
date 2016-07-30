@@ -20,8 +20,10 @@ if [ $1 = "-cycle" ]; then
 
   export RAILS_ENV=production
   script/stop
+  kill $(cat tmp/pids/sidekiq)
   bundle exec rake assets:precompile
   script/start
+  bundle exec sidekiq -d -L log/sidekiq.log -P tmp/pids/sidekiq
 
 else
 
