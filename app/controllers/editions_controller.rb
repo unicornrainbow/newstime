@@ -64,6 +64,7 @@ class EditionsController < ApplicationController
     sections_attributes = JSON.parse(@publication.default_section_attributes)
     sections_attributes.each do |section_attributes|
       pages_attributes = section_attributes.delete("pages_attributes")
+      if page_attributes
         pages_attributes.each do |page_attributes|
           page = @edition.pages.build(page_attributes)
           page.section = section
