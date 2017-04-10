@@ -11,7 +11,7 @@ gem 'oj'
 gem 'dotenv-rails', group: [:test, :development, :production]
 gem "redcarpet"
 gem "wikicloth", git: "https://github.com/nricciar/wikicloth.git"
-gem 'mongoid', '~> 4.0.0.alpha1', github: 'mongoid/mongoid'
+gem 'mongoid', '~> 4.0.0.alpha1', github: 'mongoid/mongoid', tag: 'v4.0.0.alpha1'
 gem "angularjs-rails"
 gem 'unicorn'
 gem 'simple_form'
@@ -26,7 +26,7 @@ gem "simple-form-datepicker", "~> 0.1.3"
 gem "crawdad", git: "https://github.com/blakefrost/crawdad.git", branch: "newstime"
 gem "nokogiri", "~> 1.6.0"
 gem "dalli", '~> 2.6.4'
-gem 'state_machine', '~> 1.2.0', git: 'https://github.com/aganov/state_machine.git', branch: "88e45a1b16"
+gem 'state_machine' #, '~> 1.2.0', git: 'https://github.com/aganov/state_machine.git', branch: "88e45a1b16"
 gem 'sidekiq' #, '~> 3.0.0'
 gem 'sinatra'
 gem 'faye'
@@ -44,7 +44,7 @@ gem 'nprogress-rails'
 gem 'angular-rails-templates', github: 'luckyjazzbo/angular-rails-templates' # Including for support in templates, should not have to be loaded up here.
 
 group :development, :test do
-  gem 'debugger'
+  #gem 'debugger'
   gem 'better_errors'
 end
 

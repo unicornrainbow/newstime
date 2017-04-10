@@ -64,7 +64,8 @@ class EditionsController < ApplicationController
     sections_attributes = JSON.parse(@publication.default_section_attributes)
     sections_attributes.each do |section_attributes|
       pages_attributes = section_attributes.delete("pages_attributes")
-      if page_attributes
+      section = @edition.sections.build(section_attributes)
+      if pages_attributes
         pages_attributes.each do |page_attributes|
           page = @edition.pages.build(page_attributes)
           page.section = section
@@ -185,6 +186,8 @@ private
       else
         @workspace = current_user.create_workspace
       end
+    else
+      @workspace = {}
     end
   end
 

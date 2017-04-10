@@ -7,6 +7,5 @@ module BSON
       to_s
     end
 
-    alias :to_json :as_json
   end
 end

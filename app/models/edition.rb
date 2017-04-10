@@ -134,7 +134,7 @@ class Edition
   end
 
   ## Liquid
-  liquid_methods :title
+  #liquid_methods :title
 
 
   before_save do
