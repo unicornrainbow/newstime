@@ -2,8 +2,13 @@ class PhotosController < ApplicationController
   respond_to :json, :html
 
   def index
-    @photos = current_user.photos
+    if current_user
+      @photos = current_user.photos
+    else
+      @photos = []
+    end
   end
+
 
   def new
     @photo = Photo.new

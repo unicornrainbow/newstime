@@ -29,6 +29,16 @@ class @Newstime.PhotoPropertiesView extends Backbone.View
       </li>
 
       <li class="property">
+        <label>Effects</label>
+        <span class="field">
+          <select class='effects-field'>
+            <option></option>
+            <option>Halftone</option>
+          </select>
+        </span>
+      </li>
+
+      <li class="property">
         <label>Height</label>
         <span class="field"><input></input></span>
       </li>
@@ -42,6 +52,7 @@ class @Newstime.PhotoPropertiesView extends Backbone.View
 
     @$captionField = @$('.caption-field')
     @$showCaptionField = @$('.show-caption-field')
+    @$effectsField = @$('.effects-field')   
 
   render: ->
     @$showCaptionField.prop('checked', @model.get('show_caption'))
@@ -54,6 +65,9 @@ class @Newstime.PhotoPropertiesView extends Backbone.View
 
   changeCaption: ->
     @model.set 'caption', @$captionField.val()
+
+  changeEffect: ->
+    alert 'K3'
 
 #class @Newstime.PhotoPropertiesView extends Backbone.View
 

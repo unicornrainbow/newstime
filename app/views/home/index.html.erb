@@ -43,28 +43,28 @@ input[type=password] {
 
 }
 
-
-
 .free-account {
   font-family: 'raleway';
-  color: #1151EC;
   text-align: center;
+  color: white;
   margin: 50pt;
 }
 
-.free-account a:active {
-  color: purple;
+.free-account a {
+  color: #A05BDE;
 }
 
 .zing-sang {
   color: #B8E9EF;
   background-color: #A05BDE;
   background: linear-gradient(to bottom, #A05BDE 0%, #A156AD 100%);
-  border-radius: 3pt;
-  padding: 7px 17px;
-  border: 1px solid #D3ADE2;
-  outline: none;
+  border-radius: 14pt;
+  padding: 11px 27px;
+  border: 2px solid #D3ADE2;
   cursor: pointer;
+  font-weight: 500;
+  font-family: 'Raleway';
+  font-size: 12pt;
 }
 
 .zing-sang:active {
@@ -80,11 +80,12 @@ input[type=password] {
   <br>
   <input name='password' type="password" onkeypress="enterSubmit(this, event)"></input>
   <br><br>
-  <button class="zing-sang">Enter</button>
+  <button class="zing-sang">Sign In</button>
 </form>
 
-<div class="free-account" style="display: none;">
-  <a href="/hot-muffins">Start an account today, in seconds!</a>
+<div class="free-account">
+  Don't have an account?<br>
+  <a href="/hot-muffins">Sign up for free</a>
 </div>
 
 <script>

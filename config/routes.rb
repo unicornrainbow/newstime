@@ -55,6 +55,7 @@ Press::Application.routes.draw do
   post '/' => 'home#sign_in'
   get '/sign-out' => 'home#sign_out'
   get '/hot-muffins' => 'home#hot_muffins'
+  post '/hot-muffins' => 'home#hot_muffins'
   post '/workspace' => 'workspaces#save_workspace'
 
   resources :prints, except: 'show' do

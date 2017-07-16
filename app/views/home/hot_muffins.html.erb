@@ -2,8 +2,6 @@
 rel='stylesheet' type='text/css'>
 
 
-
-
 <style>
 body {
   background-color: #86d7d2;
@@ -22,6 +20,7 @@ body {
   text-align: center;
   margin-top: 100pt;
 }
+
 input {
   border-radius: 7pt;
   border: 2pt solid white;
@@ -29,6 +28,7 @@ input {
   padding: 7pt 10pt;
   text-align: center;
   opacity: .7;
+  margin: 0 0 5px;
 
   font-size: 22pt;
   font-weight: 100;
@@ -38,10 +38,9 @@ input {
   color: #B8E9EF;
   background-color: #A05BDE;
   background: linear-gradient(to bottom, #A05BDE 0%, #A156AD 100%);
-  border-radius: 3pt;
-  padding: 7px 17px;
+  border-radius: 15pt;
+  padding: 11px 27px;
   border: 1px solid #D3ADE2;
-  outline: none;
   cursor: pointer;
 }
 
@@ -56,9 +55,10 @@ input {
 <form id="sign-in" method="POST" >
   <input placeholder='Screenname' name='screenname' type="text" onkeypress="enterSubmit(this, event)"></input>
 	<br>
-  <input placeholder='Email' name='email' type="text" onkeypress="enterSubmit(this, event)"></input>
+  <input placeholder='Password' name='password' type="password" onkeypress="enterSubmit(this, event)"></input>
 	<br>
-  <input placeholder='&bull;&bull;&bull;&bull;&bull;&bull;&bull;' name='password' type="password" onkeypress="enterSubmit(this, event)"></input>
+	<br>
+  <input placeholder='Email' name='email' type="text" onkeypress="enterSubmit(this, event)"></input>
 	<br>
 	<br>
   <button class="zing-sang">Make my Fabulous Account</button>

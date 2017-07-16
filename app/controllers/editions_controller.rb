@@ -10,6 +10,7 @@ class EditionsController < ApplicationController
       @editions = current_user.editions.desc(:updated_at)
     else
       @editions = []
+      @editions = Edition.all.desc(:updated_at)
     end
   end
 

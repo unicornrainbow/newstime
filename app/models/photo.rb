@@ -11,12 +11,13 @@ class Photo
   include Mongoid::Paperclip
   has_mongoid_attached_file :attachment,
     :styles => {
-      :original => ['1920x1680>', :jpg],
+      :original => ['1920x1680>', :png],
       :small    => ['100x100#',   :jpg],
       :medium   => ['250x250',    :jpg],
       :large    => ['500x500>',   :jpg]
     }
 
+  validates_attachment_content_type :attachment, content_type: ["image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf"]
   before_save :extract_dimensions
 
   # Helper method to determine whether or not an attachment is an image.
