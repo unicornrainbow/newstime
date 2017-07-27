@@ -37,10 +37,12 @@ protected
   end
 
   def find_edition
+
     if params[:id].length == 24
       @edition = Edition.find(params[:id])
     else
-      @edition = current_user.editions.find_by(slug: params[:id])
+      query = current_user.try(:editions) || Edition
+      @edition = query.find_by(slug: params[:id])
     end
   end
 

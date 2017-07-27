@@ -9,11 +9,10 @@
     margin: 0;
     padding: 0;
     max-height: 200px;
-    overflow: scroll;
+    overflow: hidden;
   }
 
   .palette-body {
-    min-height: 150px;
     margin: 0;
     padding: 0;
   }
@@ -57,13 +56,6 @@
     border: 1px solid rgba(255,255,255,.1);
     padding: 2px 5px;
     outline: none;
-  }
-
-  &.hovered {
-
-    .title-bar {
-      background-color: #26292d;
-    }
   }
 
 }

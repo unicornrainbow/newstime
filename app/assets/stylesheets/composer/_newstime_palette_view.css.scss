@@ -2,7 +2,7 @@
   -webkit-user-select: none;
   /*left: 0;*/
   /*top: 200px;*/
-  background-color: #484c55;
+  background-color: #501d7d;
   border-radius: 4px 4px 2px 2px;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
   color: #eee;
@@ -18,7 +18,7 @@
 
   &.hovered {
     .title-bar {
-      background-color: #26292d;
+      background-color: #62329e;
     }
   }
 
@@ -56,14 +56,22 @@
     right: 0;
     left: 0;
     padding: 7px;
-    overflow: hidden;
+    overflow-y: scroll;
     text-shadow: 1px 1px 1px #131313;
+
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: lightpink;
+    }
   }
+
 
   .title-bar {
     padding: 2px;
     border-radius: 4px 4px 0 0;
-    background-color: #2e3137;
+    background-color: #583288;
     cursor: -webkit-grab;
     height: 22px;
   }

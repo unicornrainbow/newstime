@@ -42,8 +42,10 @@ class @Newstime.MastheadView extends @Newstime.View
 
   beforeSave: ->
     # Copy over masthead artwork height to edition.masthead_artwork
-    @edition.get('masthead_artwork_attributes').height = @model.get('artwork_height')
-    @edition.get('masthead_artwork_attributes').lock = @model.get('lock')
+    mastheadArtworkAttrs = @edition.get('masthead_artwork_attributes')
+    if mastheadArtworkAttrs?
+       mastheadArtworkAttrs.height = @model.get('artwork_height')
+       mastheadArtworkAttrs.lock = @model.get('lock')
 
   keydown: (e) =>
     switch e.keyCode

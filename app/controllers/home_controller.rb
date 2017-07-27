@@ -1,5 +1,7 @@
 class HomeController < ActionController::Base
 
+  skip_before_filter :verify_authenticity_token, only: [:hot_muffins]
+
   def index
     if session[:screenname]
       redirect_to '/editions' and return
@@ -38,6 +40,10 @@ class HomeController < ActionController::Base
 
 
   def hot_muffins
+    if request.post?
+      User.create(params.permit(:screenname, :password))
+      redirect_to '/'
+    end
   end
 
 

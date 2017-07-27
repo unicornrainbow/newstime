@@ -19,6 +19,10 @@ class @Newstime.HeadlinePropertiesView extends Backbone.View
           <select class="font-family-select">
             <option value="Exo, sans-serif">Exo</option>
             <option value="EB Garamond, serif">Garamond</option>
+            <option value="Sacramento, cursive">Sacramento</option>
+            <option value="'Cedarville Cursive', cursive">Cedarville Cursive</option>
+            <option value="'Mrs Saint Delafield', cursive">Mrs Saint Delafield</option>
+            <option value="'Ruge Boogie', cursive">Ruge Boogie</option>
           </select>
         </span>
       </li>

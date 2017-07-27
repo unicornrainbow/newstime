@@ -27,7 +27,7 @@ gem "crawdad", git: "https://github.com/blakefrost/crawdad.git", branch: "newsti
 gem "nokogiri", "~> 1.6.0"
 gem "dalli", '~> 2.6.4'
 gem 'state_machine' #, '~> 1.2.0', git: 'https://github.com/aganov/state_machine.git', branch: "88e45a1b16"
-gem 'sidekiq' #, '~> 3.0.0'
+gem 'sidekiq' #, '~> 4.0.0'
 gem 'sinatra'
 gem 'faye'
 gem 'thin', require: false
@@ -44,7 +44,7 @@ gem 'nprogress-rails'
 gem 'angular-rails-templates', github: 'luckyjazzbo/angular-rails-templates' # Including for support in templates, should not have to be loaded up here.
 
 group :development, :test do
-  #gem 'debugger'
+  gem 'byebug'
   gem 'better_errors'
 end
 
