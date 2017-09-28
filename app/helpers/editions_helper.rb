@@ -184,4 +184,12 @@ module EditionsHelper
     fragment[:payload]
   end
 
+  # Resolves the color to a CSS value, haha!
+  def resolve_color(value)
+    edition.colors.each do |color|
+      return color if color.name == value
+    end
+    value
+  end
+
 end

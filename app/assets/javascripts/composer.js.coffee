@@ -22,6 +22,7 @@
 #= require_tree ./composer/templates
 
 @Newstime = @Newstime or {}
+@Dreamtool = @Dreamtool or {}
 
 class @Newstime.Composer extends Backbone.View
 
@@ -119,22 +120,25 @@ class @Newstime.Composer extends Backbone.View
       model: @toolbox
     @panelLayerView.attachPanel(@toolboxView)
 
+
     @propertiesPanelView = new Newstime.PropertiesPanelView
       composer: this
-
-    @colorPalatteView = new Newstime.ColorPalatteView
-      composer: this
-
     @propertiesPanelView.setPosition(50, 20)
     @panelLayerView.attachPanel(@propertiesPanelView)
     @propertiesPanelView.show()
 
+
+    @colorPalatteView = new Newstime.ColorPalatteView
+      composer: this
     @panelLayerView.attachPanel(@colorPalatteView)
     @colorPalatteView.show()
 
 
     @editionPropertiesView = new Newstime.EditionPropertiesView
       model: @edition
+
+    # Default properties panel to edition properties view.
+    @propertiesPanelView.mount(@editionPropertiesView)
 
     @pagesPanelView = new Newstime.PagesPanelView
       composer: this
@@ -161,7 +165,12 @@ class @Newstime.Composer extends Backbone.View
     @panelLayerView.attachPanel(@photoPicker)
     @photoPicker.hide()
 
+    @colors = @edition.get('colors')
+
     @editionColorsStylesheetEl = document.getElementById('edition-colors')
+
+
+    workspaceJSON = JSON.parse(window.localStorage['workspaceJSON'] || null) || []
 
     @applyWorkspaceJSON(workspaceJSON)
 
@@ -183,9 +192,6 @@ class @Newstime.Composer extends Backbone.View
     #@textEditorPanelView.setPosition(50, 200)
     #@panelLayerView.attachPanel(@textEditorPanelView)
 
-
-    # Default properties panel to edition properties view.
-    @propertiesPanelView.mount(@editionPropertiesView)
 
     @cursorStack = []
     @focusStack = []
@@ -215,8 +221,10 @@ class @Newstime.Composer extends Backbone.View
     @listenTo @captureLayerView, 'mouseup', @mouseup
     @listenTo @captureLayerView, 'mousemove', @mousemove
     @listenTo @captureLayerView, 'mousedown', @mousedown
-    @listenTo @captureLayerView, 'contextmenu', @contextmenu
+    @listenTo @captureLayerView, 'click', @click
     @listenTo @captureLayerView, 'dblclick', @dblclick
+    @listenTo @captureLayerView, 'contextmenu', @contextmenu
+
 
     _.each @layers, (layer) =>
       @listenTo layer, 'tracking',         @tracking
@@ -228,6 +236,7 @@ class @Newstime.Composer extends Backbone.View
 
     @listenTo @edition, 'change:page_color', @editionChangeColor
     @listenTo @edition, 'change:ink_color',  @editionChangeColor
+    @listenTo @edition, 'change:links_color', @editionChangeColor
 
     window.onbeforeunload = =>
       if @edition.isDirty()
@@ -258,22 +267,35 @@ class @Newstime.Composer extends Backbone.View
   editionChange: ->
     @statusIndicator.unsavedChanged(true)
 
+
   editionChangeColor: ->
+    pageColor = @edition.get('page_color')
+    inkColor  = @edition.get('ink_color')
+    linksColor = @edition.get('links_color')
+
+    pageColor = @colors.resolve(pageColor)
+    inkColor  = @colors.resolve(inkColor)
+    linksColor = @colors.resolve(linksColor)
+
     stylesheet = document.createElement('style')
     stylesheet.type = 'text/css'
     stylesheet.innerHTML = """
       body {
-        background-color: #{@edition.get('page_color')};
-        color: #{@edition.get('ink_color')};
+        background-color: #{pageColor};
+        color: #{inkColor};
       }
 
       hr.divider {
-        border-color: #{@edition.get('ink_color')};
+        border-color: #{inkColor};
       }
 
       .masthead-foot {
-        border-top-color: #{@edition.get('ink_color')};
-        border-bottom-color: #{@edition.get('ink_color')};
+        border-top-color: #{inkColor};
+        border-bottom-color: #{inkColor};
+      }
+
+      a {
+        color: #{linksColor};
       }
     """
 
@@ -363,6 +385,7 @@ class @Newstime.Composer extends Backbone.View
     workspaceJSON['properties_panel'] = @propertiesPanelView.getSettings()
     workspaceJSON['toolbox'] = @toolbox.pick('top', 'left', 'height', 'width')
 
+    window.localStorage['workspaceJSON'] = JSON.stringify(workspaceJSON)
 
     xhr = new XMLHttpRequest()
     xhr.open "POST", "/workspace", true
@@ -429,7 +452,7 @@ class @Newstime.Composer extends Backbone.View
 
   launchPreview: ->
     url = window.location.toString().replace('compose', 'preview')
-    window.open(url, '_blank')
+    window.open(url, '_new')
 
   # Sets the UI cursor accoring to a set of rules.
   #updateCursor: ->
@@ -511,6 +534,37 @@ class @Newstime.Composer extends Backbone.View
     if @hitLayer
       @hitLayer.trigger 'mousedown', e
 
+
+  mouseup: (e) ->
+    e =
+      x: @mouseX
+      y: @mouseY
+
+    if @trackingLayer
+      @trackingLayer.trigger 'mouseup', e
+      return true
+
+    # TODO: Rather than tracking an relaying to the hovered object, we need to
+    # track which of the layers gets the hit, and pass down to it for delegation
+    # to the individual object.
+    if @hitLayer
+      @hitLayer.trigger 'mouseup', e
+
+
+  click: (event) ->
+    e =
+      x: @mouseX
+      y: @mouseY
+      button: event.button
+
+    if @trackingLayer
+      # For the time being, block clicks while tracking.
+      return true
+
+    if @hitLayer
+      @hitLayer.trigger 'click', e
+
+
   dblclick: (event) ->
     e =
       x: @mouseX
@@ -536,29 +590,12 @@ class @Newstime.Composer extends Backbone.View
     if @hitLayer
       @hitLayer.trigger 'contextmenu', e
 
-
-  mouseup: (e) ->
-    e =
-      x: @mouseX
-      y: @mouseY
-
-    if @trackingLayer
-      @trackingLayer.trigger 'mouseup', e
-      return true
-
-    # TODO: Rather than tracking an relaying to the hovered object, we need to
-    # track which of the layers gets the hit, and pass down to it for delegation
-    # to the individual object.
-    if @hitLayer
-      @hitLayer.trigger 'mouseup', e
-
   zoomIn: ->
     @zoomLevelIndex ?= 0
     @zoomLevelIndex = Math.min(@zoomLevelIndex+1, @zoomLevels.length-1)
     @zoomLevel = @zoomLevels[@zoomLevelIndex]/100
     @trigger 'zoom'
     #@repositionScroll()
-
 
   setZoomLevelIndex: (zoomLevelIndex) ->
     @zoomLevelIndex = zoomLevelIndex

@@ -18,6 +18,7 @@ class Edition
 
   field :page_color,       type: String
   field :ink_color,        type: String
+  field :links_color,      type: String
   field :line_color,       type: String
   field :selection_color,  type: String
   #field :fmt_price,        type: String  # Formatted price string

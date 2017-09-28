@@ -5,18 +5,28 @@
   <%= composer_stylesheet if composing? -%>
   <%= stylesheet_link_tag "stylesheets/application", media: "all" %>
   <meta charset="utf-8">
+
+  <color pink="default"
+         lightpink="default"
+         purplepink="purple + pink"
+         blue="default">
+
   <style id="edition-colors">
     body {
-      background-color: <%= edition.page_color %>;
-      color: <%= edition.ink_color %>;
+      background-color: <%= resolve_color(edition.page_color) %>;
+      color: <%= resolve_color(edition.ink_color) %>;
     }
 
     hr.divider {
-      border-color: <%= edition.ink_color %>;
+      border-color: <%= resolve_color(edition.ink_color) %>;
     }
     .masthead-foot {
-      border-top-color: <%= edition.ink_color %>;
-      border-bottom-color: <%= edition.ink_color %>;
+      border-top-color: <%= resolve_color(edition.ink_color) %>;
+      border-bottom-color: <%= resolve_color(edition.ink_color) %>;
+    }
+
+    a {
+      color: <%= resolve_color(edition.links_color) %>;
     }
   </style>
 </head>

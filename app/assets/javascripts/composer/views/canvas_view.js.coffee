@@ -229,7 +229,8 @@ class @Newstime.CanvasView extends @Newstime.View
 
 
   changeEditionPageColor: ->
-    @$el.css 'background-color', @edition.get('page_color')
+    resolvedColor = @edition.get('colors').resolve(@edition.get('page_color'))
+    @$el.css 'background-color', resolvedColor
 
   #addGroup: (group) ->
     #@groupViews[group.cid] =
