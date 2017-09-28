@@ -11,16 +11,25 @@ class @Newstime.MenuView extends Newstime.View
     @$el.html JST["composer/templates/menu_view"](this)
 
     @$menuTitles = @$('.menu-title')
-    @$container = @$('.container')
+    @$container  = @$('.container')
 
-    @editionTitleView = new Newstime.EditionMenuView
-    @attachMenuTitle(@editionTitleView)
+    @menuSaveButtonView = new Dreamtool.MenuSaveButtonView
+    @attachMenuButton(@menuSaveButtonView)
 
-    @sectionTitleView = new Newstime.SectionMenuView
-    @attachMenuTitle(@sectionTitleView)
+    @menuPreviewButtonView = new Dreamtool.MenuButtonView
+      text: "Preview"
+      click: ->
+        @composer.launchPreview()
+    @attachMenuButton(@menuPreviewButtonView)
 
-    @viewTitleView = @composer.viewMenu = new Newstime.ViewMenuView
-    @attachMenuTitle(@viewTitleView)
+    # @editionTitleView = new Newstime.EditionMenuView
+    # @attachMenuTitle(@editionTitleView)
+
+    # @sectionTitleView = new Newstime.SectionMenuView
+    # @attachMenuTitle(@sectionTitleView)
+
+    # @viewTitleView = @composer.viewMenu = new Newstime.ViewMenuView
+    # @attachMenuTitle(@viewTitleView)
 
     #@helpTitleView = new Newstime.HelpMenuView
     #@attachMenuTitle(@helpTitleView)
@@ -87,6 +96,18 @@ class @Newstime.MenuView extends Newstime.View
     else
       @composer.selectedMenu.close() if @composer.selectedMenu
 
+  mouseup: (e) ->
+    e = @getMappedEvent(e)
+
+    if @hoveredObject
+      @hoveredObject.trigger 'mouseup', e
+
+  click: (e) ->
+    e = @getMappedEvent(e)
+
+    if @hoveredObject
+      @hoveredObject.trigger 'click', e
+
   pushCursor: ->
     @composer.pushCursor(@getCursor())
 
@@ -108,6 +129,12 @@ class @Newstime.MenuView extends Newstime.View
     @$container.append(menuTitleView.menuBody.el)
     menuTitleView.parent = this
     menuTitleView.trigger 'attach'
+
+  attachMenuButton: (menuButtonView) ->
+    @attachedMenuTitles.push(menuButtonView)
+    @$container.append(menuButtonView.el)
+    menuButtonView.parent = this
+    menuButtonView.trigger 'attach'
 
   updateOffset: ->
     offset = @$container.offset()

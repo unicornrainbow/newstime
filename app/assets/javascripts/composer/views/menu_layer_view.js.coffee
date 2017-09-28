@@ -31,17 +31,23 @@ class @Newstime.MenuLayerView extends Newstime.View
     x -= @menuView.leftOffset
     @cutout.hit(x, y)
 
-  mousedown: (e) ->
-    @menuView.trigger 'mousedown', e
-
   mousemove: (e) ->
     @menuView.trigger 'mousemove', e
+
+  mouseover: (e) ->
+    @menuView.trigger 'mouseover', e
 
   mouseout: (e) ->
     @menuView.trigger 'mouseout', e
 
-  mouseover: (e) ->
-    @menuView.trigger 'mouseover', e
+  mousedown: (e) ->
+    @menuView.trigger 'mousedown', e
+
+  mouseup: (e) ->
+    @menuView.trigger 'mouseup', e
+
+  click: (e) ->
+    @menuView.trigger 'click', e
 
   attach: (view) ->
     @attachedViews.push(view)

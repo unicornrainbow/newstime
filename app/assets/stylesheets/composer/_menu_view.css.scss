@@ -33,6 +33,35 @@
     }
   }
 
+  button.menu-button {
+    opacity: .7;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 100;
+    font-size: 13pt;
+    color: white;
+    line-height: 23px;
+    display: inline-block;
+    padding: 0 13px;
+    margin: 5px 3px;
+    float: left;
+    border: 1px solid pink;
+    border-width: 1px 2px 2px 1px;
+    border-radius: 4px;
+    transition: opacity .2s;
+    background: none;
+
+    &.hover {
+      opacity: 1;
+      border-color: lightblue;
+      cursor: pointer;
+    }
+
+    &.pushed {
+      margin: 6px 3px 5px 4px;
+      border-width: 1px;
+    }
+  }
+
   .menu-body {
     position: absolute;
     background-color: white;

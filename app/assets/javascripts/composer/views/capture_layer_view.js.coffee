@@ -2,14 +2,13 @@
 class @Newstime.CaptureLayerView extends Backbone.View
 
   events:
-    'mousedown': 'mousedown'
-    'mouseup': 'mouseup'
     'mousemove': 'mousemove'
     'mouseout': 'mouseout'
+    'mousedown': 'mousedown'
+    'mouseup': 'mouseup'
+    'click': 'click'
     'dblclick': 'dblclick'
-    'click': 'click'
     'contextmenu': 'contextmenu'
-    'click': 'click'
 
   initialize: (options) ->
     @$el.addClass "capture-layer-view"
@@ -37,21 +36,26 @@ class @Newstime.CaptureLayerView extends Backbone.View
     e.stopPropagation()
     @trigger 'mouseup', e
 
+
   mousemove: (e) ->
     e.stopPropagation()
     @trigger 'mousemove', e
+
 
   click: (e) ->
     e.stopPropagation()
     @trigger 'click', e
 
+
   dblclick: (e) ->
     e.stopPropagation()
     @trigger 'dblclick', e
 
+
   mouseout: (e) ->
     e.stopPropagation()
     @trigger 'mouseout', e
+
 
   hideCursor: ->
     @$el.css
