@@ -52,7 +52,7 @@
 
   .palette-body {
     padding: 2px;
-    height: 110px;
+    height: 142px;
   }
 
   .title-bar {
@@ -85,6 +85,7 @@
     width: 30px;
     height: 30px;
     border: 1px solid #515560;
+    border-radius: 50%;
     /*float: left;*/
     position: absolute;
     margin: 1px;
@@ -119,6 +120,9 @@
   .divider-tool {
     background-image: asset-url('divider_tool.gif');
     background-size: 16px;
+  }
+
+  .html-tool {
   }
 
 }

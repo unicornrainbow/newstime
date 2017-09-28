@@ -11,11 +11,12 @@ class HomeController < ActionController::Base
   end
 
   def sign_in
-    if params[:screenname].empty?
-      redirect_to '/editions' and return
-    end
+    #if params[:screenname].empty?
+    #  redirect_to '/editions' and return
+    #end
 
-    user = User.find_by(screenname: params[:screenname].downcase)
+    screenname = params[:screenname].downcase
+    user = User.find_by({screenname})
 
     if user.has_password?
       if user.valid_password?(params[:password])

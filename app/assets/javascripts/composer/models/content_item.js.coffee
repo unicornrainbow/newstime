@@ -5,11 +5,12 @@
   subModelTypeAttribute: '_type'
 
   subModelTypes:
-    'HeadlineContentItem': 'Newstime.HeadlineContentItem'
-    'TextAreaContentItem': 'Newstime.TextAreaContentItem'
-    'PhotoContentItem':    'Newstime.PhotoContentItem'
-    'VideoContentItem':    'Newstime.VideoContentItem'
-    'DividerContentItem': 'Newstime.DividerContentItem'
+    'HeadlineContentItem' : 'Newstime.HeadlineContentItem'
+    'TextAreaContentItem' : 'Newstime.TextAreaContentItem'
+    'PhotoContentItem'    : 'Newstime.PhotoContentItem'
+    'VideoContentItem'    : 'Newstime.VideoContentItem'
+    'DividerContentItem'  : 'Newstime.DividerContentItem'
+    'HTMLContentItem'     : 'Newstime.HTMLContentItem'
 
   initialize: (attributes) ->
     #@set('cursorPosition', (@get('text') || ' ').length, silent: true)

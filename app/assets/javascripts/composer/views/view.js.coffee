@@ -5,4 +5,4 @@ class @Newstime.View extends Backbone.View
   bindUIEvents: ->
     @bind _.pick(this, uiEvents)
 
-uiEvents = ['mouseover', 'mouseout', 'mousedown', 'mouseup', 'mousemove', 'keydown', 'dblclick', 'paste', 'contextmenu', 'windowResize']
+uiEvents = ['mouseover', 'mouseout', 'mousedown', 'mouseup', 'mousemove', 'keydown', 'click', 'dblclick', 'paste', 'contextmenu', 'windowResize']
