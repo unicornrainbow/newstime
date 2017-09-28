@@ -144,6 +144,7 @@ class @Newstime.CanvasView extends @Newstime.View
                 when 'PhotoContentItem' then Newstime.PhotoView
                 when 'VideoContentItem' then Newstime.VideoView
                 when 'DividerContentItem' then Newstime.DividerView
+                when 'HTMLContentItem' then Newstime.HTMLView
 
             contentItemView = new contentItemViewType
               model: item
@@ -187,6 +188,7 @@ class @Newstime.CanvasView extends @Newstime.View
             when 'PhotoContentItem' then Newstime.PhotoView
             when 'VideoContentItem' then Newstime.VideoView
             when 'DividerContentItem' then Newstime.DividerView
+            when 'HTMLContentItem' then Newstime.HTMLView
 
         contentItemView = new contentItemViewType
           model: contentItem
@@ -497,6 +499,8 @@ class @Newstime.CanvasView extends @Newstime.View
           @draw(Newstime.VideoView, e.x, e.y)
         when 'divider-tool'
           @draw(Newstime.DividerView, e.x, e.y)
+        when 'html-tool'
+          @draw(Newstime.HTMLView, e.x, e.y)
         when 'select-tool'
           if e.button == 0 # Only on left click
             @composer.clearSelection()

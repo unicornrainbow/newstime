@@ -155,7 +155,11 @@ module EditionsHelper
       end
 
       render "content/divider", options
-
+    when HTMLContentItem then
+      options[:html] = content_item.try(:HTML) || ''
+      options[:html] = options[:html].sub('{{height}}', content_item.height.to_s)
+      options[:html] = options[:html].sub('{{width}}', content_item.width.to_s)
+      render "content/html", options
     when BoxContentItem then
       options = {}
       options[:id]     = content_item.id

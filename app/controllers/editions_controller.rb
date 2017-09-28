@@ -199,7 +199,8 @@ private
       TextAreaContentItem.attribute_names +
       VideoContentItem.attribute_names +
       HeadlineContentItem.attribute_names +
-      DividerContentItem.attribute_names
+      DividerContentItem.attribute_names +
+      HTMLContentItem.attribute_names
       ).uniq
 
     params.require(:edition).
