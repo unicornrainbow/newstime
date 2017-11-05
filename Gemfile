@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '2.3.3'
 
 gem 'rails', '4.0.2'
 gem 'sass-rails', '~> 4.0.0'
@@ -23,11 +24,12 @@ gem "liquid"
 gem "tilt"
 gem "slim"
 gem "simple-form-datepicker", "~> 0.1.3"
-gem "crawdad", git: "https://github.com/blakefrost/crawdad.git", branch: "newstime"
+#gem "crawdad", git: "https://github.com/blakefrost/crawdad.git", branch: "newstime"
 gem "nokogiri", "~> 1.6.0"
 gem "dalli", '~> 2.6.4'
 gem 'state_machine' #, '~> 1.2.0', git: 'https://github.com/aganov/state_machine.git', branch: "88e45a1b16"
-gem 'sidekiq' #, '~> 4.0.0'
+gem 'sidekiq', '~> 4.2.10'
+gem 'redis-namespace'
 gem 'sinatra'
 gem 'faye'
 gem 'thin', require: false
