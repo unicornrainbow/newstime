@@ -16,7 +16,8 @@ class HomeController < ActionController::Base
     #end
 
     screenname = params[:screenname].downcase
-    user = User.find_by({screenname})
+    #user = User.find_by({screenname})
+    user = User.find_by(screenname: screenname)
 
     if user.has_password?
       if user.valid_password?(params[:password])
