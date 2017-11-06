@@ -1,6 +1,5 @@
 class Edition
   include Mongoid::Document
-  include Mongoid::Timestamps
   include Mongoid::Paperclip
   include TryHelper
 
@@ -10,7 +9,6 @@ class Edition
   field :path,             type: String
   field :html,             type: String     # The render html source markup
   field :layout_name,      type: String
-  field :publish_date,     type: Date
   field :store_link,       type: String
   field :price,            type: Float   # Formatted price string
   field :slug,             type: String
