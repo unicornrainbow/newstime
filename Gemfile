@@ -11,7 +11,7 @@ gem 'oj'
 gem 'dotenv-rails', group: [:test, :development, :production]
 gem "redcarpet"
 gem "wikicloth", git: "https://github.com/nricciar/wikicloth.git"
-gem 'mongoid', '~> 4.0.0.alpha1', github: 'mongoid/mongoid', tag: 'v4.0.0.alpha1'
+gem 'mongoid' #, '~> 4.0.0.alpha1', github: 'mongoid/mongoid', tag: 'v4.0.0.alpha1'
 gem "angularjs-rails"
 gem 'unicorn'
 gem 'simple_form'
@@ -35,12 +35,16 @@ gem 'thin', require: false
 gem 'curb'
 gem 'eco'
 gem 'foreman'
+gem 'rails_12factor', group: :production
 
 gem 'compass-rails'
 
 gem 'bson'
 gem 'bson_ext'
 gem 'nprogress-rails'
+
+
+
 
 gem 'angular-rails-templates', github: 'luckyjazzbo/angular-rails-templates' # Including for support in templates, should not have to be loaded up here.
 

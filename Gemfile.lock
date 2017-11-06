@@ -7,17 +7,6 @@ GIT
       sprockets-rails
 
 GIT
-  remote: git://github.com/mongoid/mongoid.git
-  revision: bc72426681d5b4690f99294df30f360bbac745b6
-  tag: v4.0.0.alpha1
-  specs:
-    mongoid (4.0.0.alpha1)
-      activemodel (~> 4.0.0)
-      moped (~> 2.0.beta4)
-      origin (~> 1.0)
-      tzinfo (~> 0.3.37)
-
-GIT
   remote: https://github.com/nricciar/wikicloth.git
   revision: 16a3c2565f469809c690dc6c125d2aa4b709e328
   specs:
@@ -68,7 +57,7 @@ GEM
       debug_inspector (>= 0.0.1)
     bootstrap-sass (3.1.1.1)
       sass (~> 3.2)
-    bson (3.2.7)
+    bson (4.2.2)
     bson_ext (1.5.1)
     builder (3.1.4)
     byebug (9.1.0)
@@ -158,20 +147,22 @@ GEM
     mimemagic (0.3.0)
     mini_portile2 (2.1.0)
     minitest (4.7.5)
+    mongo (2.4.3)
+      bson (>= 4.2.1, < 5.0.0)
+    mongoid (5.2.1)
+      activemodel (~> 4.0)
+      mongo (>= 2.4.1, < 3.0.0)
+      origin (~> 2.3)
+      tzinfo (>= 0.3.37)
     mongoid-paperclip (0.0.11)
       mongoid
       paperclip (>= 2.3.6, != 4.3.0)
-    moped (2.0.7)
-      bson (~> 3.0)
-      connection_pool (~> 2.0)
-      optionable (~> 0.2.0)
     multi_json (1.12.2)
     nokogiri (1.6.8.1)
       mini_portile2 (~> 2.1.0)
     nprogress-rails (0.2.0.2)
     oj (3.3.9)
-    optionable (0.2.0)
-    origin (1.1.0)
+    origin (2.3.1)
     orm_adapter (0.5.0)
     paperclip (4.3.7)
       activemodel (>= 3.2.0)
@@ -196,6 +187,11 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 4.0.2)
       sprockets-rails (~> 2.0.0)
+    rails_12factor (0.0.3)
+      rails_serve_static_assets
+      rails_stdout_logging
+    rails_serve_static_assets (0.0.5)
+    rails_stdout_logging (0.0.5)
     railties (4.0.2)
       actionpack (= 4.0.2)
       activesupport (= 4.0.2)
@@ -295,7 +291,7 @@ DEPENDENCIES
   foreman
   jquery-rails
   liquid
-  mongoid (~> 4.0.0.alpha1)!
+  mongoid
   mongoid-paperclip
   nokogiri (~> 1.6.0)
   nprogress-rails
@@ -303,6 +299,7 @@ DEPENDENCIES
   paperclip
   rabl
   rails (= 4.0.2)
+  rails_12factor
   redcarpet
   redis-namespace
   sass-rails (~> 4.0.0)

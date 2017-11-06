@@ -1,6 +1,6 @@
 development:
   # Configure available database sessions. (required)
-  sessions:
+  clients:
     # Defines the default session. (required)
     default:
       # Defines the name of the default database that Mongoid can connect to.
@@ -65,17 +65,27 @@ development:
     #
 production:
   # Configure available database sessions. (required)
-  sessions:
+  clients:
     # Defines the default session. (required)
     default:
       # Defines the name of the default database that Mongoid can connect to.
       # (required).
-      database: press_production
+      database: dreamtool_production
       # Provides the hosts the default session can connect to. Must be an array
       # of host:port pairs. (required)
       hosts:
-        - localhost:27017
+        - speggettisauce-shard-00-00-u1pky.mongodb.net:27017
+        - speggettisauce-shard-00-01-u1pky.mongodb.net:27017
+        - speggettisauce-shard-00-02-u1pky.mongodb.net:27017
       options:
+        user: Barbi
+
+        password: <%= ENV['MONGO_PASSWORD'] %>
+
+        auth_source: admin
+
+        ssl: true
+
         # Change the default write concern. (default = { w: 1 })
         # write:
         # w: 1
@@ -128,7 +138,7 @@ production:
     # Ensure all times are UTC in the app side. (default: false)
     # use_utc: false
 test:
-  sessions:
+  clients:
     default:
       database: press_test
       hosts:
