@@ -755,7 +755,7 @@ class @Newstime.Composer extends Backbone.View
 
 
 
-  # Utility Method: Parses html in to dom element.
+  # Utility Method: Parses html into dom element.
   _parseHTML: (html) ->
     div = document.createElement('div')
     div.innerHTML = html

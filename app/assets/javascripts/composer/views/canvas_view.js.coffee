@@ -133,9 +133,9 @@ class @Newstime.CanvasView extends @Newstime.View
     view.serverRender()
 
   drawPath: (x, y) ->
-    pathView = new Dreamtool.PathView
+    pathView = new Dreamtool.DrawingView
     @addCanvasItem(view)
-    pathView.enterEditMode()
+    pathView.enterDrawingMode()
     pathView.addPoint(x, y)
 
     # @drawingPath = new Dreamtool.Path
