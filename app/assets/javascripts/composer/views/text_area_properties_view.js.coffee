@@ -46,13 +46,23 @@ class @Newstime.TextAreaPropertiesView extends Backbone.View
       </li>
 
       <li class="property">
+        <label>Font Size</label>
+        <span class="field"><input class="font-size"></input></span>
+      </li>
+
+      <li class="property">
+        <label>Line Height</label>
+        <span class="field"><input class="line-height" value='20'></input></span>
+      </li>
+
+      <li class="property">
         <label>Height</label>
-        <span class="field"><input class="height-input"></input></spa>
+        <span class="field"><input class="height-input"></input></span>
       </li>
 
       <li class="property">
         <label>Width</label>
-        <span class="field"><input class="width-input"></input></spa>
+        <span class="field"><input class="width-input"></input></span>
       </li>
 
       <li class="property">

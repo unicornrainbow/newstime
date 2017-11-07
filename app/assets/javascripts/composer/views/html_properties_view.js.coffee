@@ -1,3 +1,4 @@
+
 class @Newstime.HTMLPropertiesView extends Backbone.View
   tagName: 'ul'
 

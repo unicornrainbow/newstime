@@ -5,6 +5,7 @@ class HeadlineContentItem < ContentItem
   field :font_family
   field :font_style
   field :text_align
+  field :color
   field 'margin-top'
   field 'margin-bottom'
   field 'margin-right'

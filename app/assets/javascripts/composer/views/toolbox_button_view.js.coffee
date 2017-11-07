@@ -3,8 +3,8 @@
 class @Newstime.ToolboxButtonView extends Backbone.View
   initialize: (options) ->
     @type = options.type
-    @toolbox = options.toolbox
 
+    @toolbox = options.toolbox
 
     @$el.addClass "toolbox-button"
     @$el.addClass @type

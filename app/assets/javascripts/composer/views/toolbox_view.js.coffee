@@ -24,37 +24,42 @@ class @Newstime.ToolboxView extends Backbone.View
     @buttons.push new Newstime.ToolboxButtonView
       type: 'select-tool'
       toolbox: @model
-      position: { top: '24px', left: '2px' }
+      position: { top: '4px', left: '4px' }
 
     @buttons.push new Newstime.ToolboxButtonView
       type: 'headline-tool'
       toolbox: @model
-      position: { top: '24px', left: '34px' }
+      position: { top: '4px', left: '36px' }
 
     @buttons.push new Newstime.ToolboxButtonView
       type: 'type-tool'
       toolbox: @model
-      position: { top: '56px', left: '2px' }
+      position: { top: '4px', left: '68px' }
 
     @buttons.push new Newstime.ToolboxButtonView
       type: 'photo-tool'
       toolbox: @model
-      position: { top: '56px', left: '34px' }
+      position: { top: '4px', left: '100px' }
 
     @buttons.push new Newstime.ToolboxButtonView
       type: 'video-tool'
       toolbox: @model
-      position: { top: '88px', left: '2px' }
+      position: { top: '36px', left: '36px' }
+
+    # @buttons.push new Newstime.ToolboxButtonView
+    #   type: 'divider-tool'
+    #   toolbox: @model
+    #   position: { top: '40px', left: '56px' }
 
     @buttons.push new Newstime.ToolboxButtonView
-      type: 'divider-tool'
+      types: 'html-tool'
       toolbox: @model
-      position: { top: '88px', left: '34px' }
+      position: { top: '36px', left: '68px' }
 
     @buttons.push new Newstime.ToolboxButtonView
-      type: 'html-tool'
+      type: 'path-tool'
       toolbox: @model
-      position: { top: '120px', left: '2px' }
+      position: { top: '36px', left: '100px' }
 
     #_.each @buttons, (button) =>
       #button.bind 'select', @selectButton, this
@@ -66,11 +71,11 @@ class @Newstime.ToolboxView extends Backbone.View
     #@model.bind 'change:selectedTool', @selectedToolChanged, this
 
     # Bind mouse events
-    @bind 'mouseover', @mouseover
-    @bind 'mouseout',  @mouseout
-    @bind 'mousedown', @mousedown
-    @bind 'mousemove', @mousemove
-    @bind 'mouseup',   @mouseup
+    @on 'mouseover', @mouseover
+    @on 'mouseout',  @mouseout
+    @on 'mousedown', @mousedown
+    @on 'mousemove', @mousemove
+    @on 'mouseup',   @mouseup
 
   #selectButton: (button) ->
     #@selectedButton.deselect() if @selectedButton
@@ -92,14 +97,13 @@ class @Newstime.ToolboxView extends Backbone.View
 
     @composer.panelLayerView.bringToFront(this)
 
-    if e.y < 25 # Consider less than 25 y a title bar hit for now
+    if e.x > 127 # Consider less than 25 y a title bar hit for now
       @beginDrag(e)
 
     else if @hoveredObject
       @hoveredObject.trigger 'mousedown', e
 
   mouseup: (e) ->
-
     if @moving
       @composer.popCursor()
       @moving = false
