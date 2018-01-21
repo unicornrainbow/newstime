@@ -74,6 +74,10 @@ class @Newstime.ContentItemView extends @Newstime.CanvasItemView
   stepRight: ->
     @model.set left: @pageView.stepRight(@model.get('left'))
 
+  touchstart: (e) ->
+    @composer.select(this)
+    @composer.activeSelectionView.trigger 'touchstart', e
+
   mousedown: (e) ->
     return unless e.button == 0 # Only respond to left button mousedown.
 
@@ -195,35 +199,37 @@ class @Newstime.ContentItemView extends @Newstime.CanvasItemView
     centerX = left + width/2
     centerY = top + height/2
 
-    if @hitBox x, y, centerX, top, 8
+    boxSize = 48
+
+    if @hitBox x, y, centerX, top, boxSize
       return "top"
 
     # right drag handle hit?
-    if @hitBox x, y, right, centerY, 8
+    if @hitBox x, y, right, centerY, boxSize
       return "right"
 
     # left drag handle hit?
-    if @hitBox x, y, left, centerY, 8
+    if @hitBox x, y, left, centerY, boxSize
       return "left"
 
     # bottom drag handle hit?
-    if @hitBox x, y, centerX, bottom, 8
+    if @hitBox x, y, centerX, bottom, boxSize
       return "bottom"
 
     # top-left drag handle hit?
-    if @hitBox x, y, left, top, 8
+    if @hitBox x, y, left, top, boxSize
       return "top-left"
 
     # top-right drag handle hit?
-    if @hitBox x, y, right, top, 8
+    if @hitBox x, y, right, top, boxSize
       return "top-right"
 
     # bottom-left drag handle hit?
-    if @hitBox x, y, left, bottom, 8
+    if @hitBox x, y, left, bottom, boxSize
       return "bottom-left"
 
     # bottom-right drag handle hit?
-    if @hitBox x, y, right, bottom, 8
+    if @hitBox x, y, right, bottom, boxSize
       return "bottom-right"
 
 

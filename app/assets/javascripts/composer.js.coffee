@@ -224,6 +224,9 @@ class @Newstime.Composer extends Backbone.View
     @listenTo @captureLayerView, 'click', @click
     @listenTo @captureLayerView, 'dblclick', @dblclick
     @listenTo @captureLayerView, 'contextmenu', @contextmenu
+    @listenTo @captureLayerView, 'touchstart', @touchstart
+    @listenTo @captureLayerView, 'touchmove', @touchmove
+    @listenTo @captureLayerView, 'touchend', @touchend
 
 
     _.each @layers, (layer) =>
@@ -483,8 +486,6 @@ class @Newstime.Composer extends Backbone.View
     # Test layers of app to determine where to direct the hit.
     hit = _.find @layers, (layer) => layer.hit(@mouseX, @mouseY)
 
-
-
     if hit
       if @hitLayer != hit
         if @hitLayer
@@ -505,8 +506,60 @@ class @Newstime.Composer extends Backbone.View
       # Clear cursor state
       #@changeCursor('')
 
+  touchstart: (event) ->
+    event.preventDefault()
+    # console.log event
+
+    i=0
+    while i < event.touches.length
+      touch = event.touches.item(i)
+      touch.x = touch.clientX
+      touch.y = touch.clientY
+      i++
+
+    touch = event.touches[0]
+    @mouseX = touch.clientX
+    @mouseY = touch.clientY
+
+    # Test layers of app to determine which layer was touched.
+    @touchedLayer = _.find @layers, (layer) => layer.hit(@mouseX, @mouseY)
+
+    @touchedLayer.trigger 'touchstart', event
+
+  touchmove: (event) ->
+    event.preventDefault()
+    # console.log event
+
+    i=0
+    while i < event.touches.length
+      touch = event.touches.item(i)
+      touch.x = touch.clientX
+      touch.y = touch.clientY
+      i++
+
+    # If tracking layer, pass event there and return.
+    if @trackingLayer
+      @trackingLayer.trigger 'touchmove', event
+      return true
+
+    @touchedLayer.trigger 'touchmove', event
+
+  touchend: (event) ->
+    event.preventDefault()
+
+    i=0
+    while i < event.touches.length
+      touch = event.touches.item(i)
+      touch.x = touch.clientX
+      touch.y = touch.clientY
+      i++
+
+    if @trackingLayer
+      @trackingLayer.trigger 'touchend', event
+      return true
 
   mousedown: (event) ->
+    console.log 'mousedown'
     @hasFocus = true
 
     e =

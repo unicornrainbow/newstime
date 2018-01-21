@@ -96,6 +96,10 @@ class @Newstime.MenuView extends Newstime.View
     else
       @composer.selectedMenu.close() if @composer.selectedMenu
 
+      # Silly little hack to click back to editions.
+      if e.x <= 97 && e.x >= 0 && e.y <= 35 && e.y >= 0
+        window.location = '/editions'
+
   mouseup: (e) ->
     e = @getMappedEvent(e)
 

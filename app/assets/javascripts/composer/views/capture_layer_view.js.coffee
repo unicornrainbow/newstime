@@ -9,6 +9,9 @@ class @Newstime.CaptureLayerView extends Backbone.View
     'click': 'click'
     'dblclick': 'dblclick'
     'contextmenu': 'contextmenu'
+    'touchstart': 'touchstart'
+    'touchmove': 'touchmove'
+    'touchend': 'touchend'
 
   initialize: (options) ->
     @$el.addClass "capture-layer-view"
@@ -19,6 +22,8 @@ class @Newstime.CaptureLayerView extends Backbone.View
     # Capture mouseups that happen off screen http://stackoverflow.com/a/5419564/32384
     $(window).mouseup @mouseup
     $(document).mouseout @documentMouseout
+    
+    document.body.addEventListener 'touchmove', null, false;
 
     @$el.css top: "#{@topOffset}px"
 
@@ -56,6 +61,21 @@ class @Newstime.CaptureLayerView extends Backbone.View
     e.stopPropagation()
     @trigger 'mouseout', e
 
+  touchstart: (e) ->
+    e.stopPropagation()
+    @trigger 'touchstart', e
+
+  touchmove: (e) ->
+    e.stopPropagation()
+    @trigger 'touchmove', e
+
+  touchend: (e) ->
+    e.stopPropagation()
+    @trigger 'touchend', e
+
+  touchcancel: (e) ->
+    e.stopPropagation()
+    @trigger 'touchcancel', e
 
   hideCursor: ->
     @$el.css

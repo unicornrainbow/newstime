@@ -90,7 +90,7 @@ class @Newstime.SelectionView extends @Newstime.View
 
     ## Expand the geometry by buffer distance in each direction to extend
     ## clickable area.
-    buffer = 8 # 2px
+    buffer = 24 # 2px
     geometry.top -= buffer
     geometry.left -= buffer
     geometry.width += buffer*2
@@ -121,6 +121,20 @@ class @Newstime.SelectionView extends @Newstime.View
     else
       geometry = @getGeometry()
       @trackMove(e.x - geometry.left, e.y - geometry.top)
+
+  touchstart: (e) ->
+    touch = e.touches[0]
+    x = touch.x
+    y = touch.y
+
+    hitHandle = @hitsDragHandle(x, y)
+
+    console.log hitHandle
+    if hitHandle
+      @trackResize hitHandle
+    else
+      geometry = @getGeometry()
+      @trackMove(x - geometry.left, y - geometry.top)
 
   beginDraw: (x, y) ->
     # TODO: Rewrite this with selection
@@ -178,6 +192,41 @@ class @Newstime.SelectionView extends @Newstime.View
     @moveOffsetY = offsetY
     @trigger 'tracking', this
 
+  touchmove: (e) ->
+    touch = e.touches[0]
+    x = touch.x
+    y = touch.y
+
+    if @resizing
+      switch @resizeMode
+        when 'top'          then @dragTop(x, y)
+        when 'right'        then @dragRight(x, y)
+        when 'bottom'       then @dragBottom(x, y)
+        when 'left'         then @dragLeft(x, y)
+        when 'top-left'     then @dragTopLeft(x, y)
+        when 'top-right'    then @dragTopRight(x, y)
+        when 'bottom-left'  then @dragBottomLeft(x, y)
+        when 'bottom-right' then @dragBottomRight(x, y)
+    else if @moving
+      @move(x, y)
+
+  touchend: (e) ->
+    if @resizing
+      @resizing = false
+      @resizeMode = null
+
+      @composer.clearVerticalSnapLines() # Ensure vertical snaps aren't showing.
+      # Reset drag handles, clearing if they where active
+      _.each @dragHandles, (h) -> h.reset()
+      @contentItemView.trigger 'resized'
+
+    if @moving
+      @moving = false
+      @composer.clearVerticalSnapLines()
+      @composer.assignPage(@contentItem, @contentItemView)
+
+    @trigger 'tracking-release', this
+
   mousemove: (e) ->
     if @resizing
       switch @resizeMode
@@ -224,7 +273,7 @@ class @Newstime.SelectionView extends @Newstime.View
     centerX = left + width/2
     centerY = top + height/2
 
-    boxSize = 8
+    boxSize = 48
 
     if @composer.zoomLevel
       # Compensate box size for zoom level
@@ -246,6 +295,7 @@ class @Newstime.SelectionView extends @Newstime.View
       return "bottom"
 
     # top-left drag handle hit?
+    console.log x, y, left, top, boxSize
     if @hitBox x, y, left, top, boxSize
       return "top-left"
 

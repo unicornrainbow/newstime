@@ -1,6 +1,7 @@
 class Edition
   include Mongoid::Document
   include Mongoid::Paperclip
+  # include Mongoid::Timestamps
   include TryHelper
 
   ## Attributes
@@ -12,6 +13,7 @@ class Edition
   field :store_link,       type: String
   field :price,            type: Float   # Formatted price string
   field :slug,             type: String
+  field :publish_date,     type: DateTime
 
 
   field :page_color,       type: String

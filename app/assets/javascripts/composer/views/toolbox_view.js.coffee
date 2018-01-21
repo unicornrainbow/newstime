@@ -109,7 +109,7 @@ class @Newstime.ToolboxView extends Backbone.View
       @moving = false
       @trigger 'tracking-release', this
 
-  mouseover: ->
+  mouseover: (e) ->
     @hovered = true
     @$el.addClass 'hovered'
 

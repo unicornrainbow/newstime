@@ -95,7 +95,7 @@ class @Newstime.CanvasView extends @Newstime.View
 
     ## Expand the geometry by buffer distance in each direction to extend
     ## clickable area.
-    buffer = 4 # 2px
+    buffer = 8 # 2px
     geometry.x -= buffer
     geometry.y -= buffer
     geometry.width += buffer*2
@@ -200,6 +200,15 @@ class @Newstime.CanvasView extends @Newstime.View
     event = new Newstime.Event(event)                         # Wrap event in a newstime event object, copies coords.
     [event.x, event.y] = @mapExternalCoords(event.x, event.y) # Map coordinates
     return event                                              # Return event with mapped coords.
+
+  getMappedTouchEvent: (event) ->
+    event = new Dreamtool.TouchEvent(event)
+    i=0
+    while i < event.touches.length
+      touch = event.touches.item(i)
+      [touch.x, touch.y] = @mapExternalCoords(touch.x, touch.y)
+      i++
+    return event
 
   handlePageFocus: (page) ->
     @focusedPage = page
@@ -463,13 +472,58 @@ class @Newstime.CanvasView extends @Newstime.View
       x = Math.round(x/@zoomLevel)
       y = Math.round(y/@zoomLevel)
 
-
     return [x, y]
 
   # Measure link areas. Right now, need to do this after render to ensure we get
   # to correct values. Should be improved.
   measureLinks: =>
     _.invoke @linkAreas, 'measure', @position
+
+  touchstart: (e) ->
+    # console.log "touch start", e
+
+    e = @getMappedTouchEvent(e)
+
+    touch = e.touches[0]
+    x = touch.x
+    y = touch.y
+
+    selection = null
+
+    # if @touching
+    #   unless @touching.hit(x, y)
+    #     @touching = null
+
+    if @composer.activeSelectionView # Check active selection first.
+      selection = @composer.activeSelectionView if @composer.activeSelectionView.hit(x, y)
+
+    unless selection
+      _.find @pageViewsArray, (pageView) ->
+        selection = pageView.getHitContentItem(x, y)
+
+    @touching = selection
+
+    if @touching
+      @touching.trigger 'touchstart', event
+
+    # console.log touching: @touching
+
+    # if @hovered
+
+  touchmove: (e) ->
+    # console.log "touch move", e
+
+    e = @getMappedTouchEvent(e)
+
+    if @resizeSelectionTarget
+      @resizeSelectionTarget.trigger 'touchmove', e
+      return true
+
+  touchend: (e) ->
+    e = @getMappedTouchEvent(e)
+    if @resizeSelectionTarget
+      @resizeSelectionTarget.trigger 'touchend', e
+      return true
 
   mousedown: (e) ->
     return unless e.which == 1 # Only draw with left click

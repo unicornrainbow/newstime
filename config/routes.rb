@@ -107,6 +107,8 @@ Press::Application.routes.draw do
     end
   end
 
+  resources :fonts
+
   namespace :api do
     resources :story_text_content_items, only: [:create, :update]
   end
