@@ -30,6 +30,11 @@
     a {
       color: <%= resolve_color(edition.links_color) %>;
     }
+
+    .edit-text-area-window textarea {
+      color: <%= resolve_color(edition.ink_color) %>;
+      background-color: <%= resolve_color(edition.page_color) %>;
+    }
   </style>
 </head>
 <body ng-app="app">

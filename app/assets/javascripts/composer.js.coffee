@@ -300,6 +300,11 @@ class @Newstime.Composer extends Backbone.View
       a {
         color: #{linksColor};
       }
+
+      .edit-text-area-window textarea {
+        color: #{inkColor};
+        background-color: #{pageColor};
+      }
     """
 
     parentNode = @editionColorsStylesheetEl.parentNode
