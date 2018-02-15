@@ -1,0 +1,8 @@
+- HTML Text editor
+- Font size for text area
+- Fix Timestamps for Groups, ContentItems, Editions Etc.
+- Book creation
+- Change page size
+- Change number of columns
+- Isolation editing for groups
+- Default_layout -> Newspaper

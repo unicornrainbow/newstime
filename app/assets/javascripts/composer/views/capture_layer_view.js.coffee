@@ -16,13 +16,18 @@ class @Newstime.CaptureLayerView extends Backbone.View
   initialize: (options) ->
     @$el.addClass "capture-layer-view"
 
+    @mc = new Hammer(@el)
+    @mc.on 'tap', @tap
+    @mc.on 'doubletap', @doubletap
+    @mc.on 'press', @press
+
     @topOffset = options.topOffset # Apply top offset (Allows room for menu)
     @composer = options.composer
 
     # Capture mouseups that happen off screen http://stackoverflow.com/a/5419564/32384
     $(window).mouseup @mouseup
     $(document).mouseout @documentMouseout
-    
+
     document.body.addEventListener 'touchmove', null, false;
 
     @$el.css top: "#{@topOffset}px"
@@ -76,6 +81,18 @@ class @Newstime.CaptureLayerView extends Backbone.View
   touchcancel: (e) ->
     e.stopPropagation()
     @trigger 'touchcancel', e
+
+  tap: (e) =>
+    #e.stopPropagation()
+    @trigger 'tap', e
+
+  doubletap: (e) =>
+    #e.stopPropagation()
+    @trigger 'doubletap', e
+
+  press: (e) =>
+    #e.stopPropagation()
+    @trigger 'press', e
 
   hideCursor: ->
     @$el.css

@@ -46,6 +46,18 @@ class @Newstime.MenuLayerView extends Newstime.View
   mouseup: (e) ->
     @menuView.trigger 'mouseup', e
 
+  touchstart: (e) ->
+    @menuView.trigger 'touchstart', e
+
+  touchend: (e) ->
+    @menuView.trigger 'touchend', e
+
+  touchmove: (e) ->
+    @menuView.trigger 'touchmove', e
+
+  press: (e) ->
+    @menuView.trigger 'press', e
+
   click: (e) ->
     @menuView.trigger 'click', e
 

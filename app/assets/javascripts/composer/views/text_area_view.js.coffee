@@ -51,6 +51,10 @@ class @Newstime.TextAreaView extends Newstime.ContentItemView
   dblclick: (e) ->
     @showEditTextAreaWindow()
 
+  doubletap: (e) ->
+    # @__showMobileTextEditorWindow()
+    @showEditTextAreaWindow()
+
   showEditTextAreaWindow: ->
     # Create new text editor window
     @editTextAreaWindow ?= new Newstime.EditTextAreaWindowView
@@ -65,6 +69,8 @@ class @Newstime.TextAreaView extends Newstime.ContentItemView
       # Add it to the panel view layer
       panelLayerView.attachPanel(@editTextAreaWindow)
 
+  __showMobileTextEditorWindow: ->
+    @mobileTextEditorWindow ?= new Dreamtool.MobileTextEditorWindow
 
   keydown: (e) =>
     switch e.keyCode

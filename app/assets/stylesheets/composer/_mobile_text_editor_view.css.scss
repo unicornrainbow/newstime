@@ -1,0 +1,14 @@
+.mobile-text-editor-view {
+    z-index: 7000;
+    position: absolute;
+    top: 67px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    textarea {
+      width: 100%;
+      height: 100%;
+      outline: none;
+    }
+}

@@ -3,7 +3,7 @@
 
 class ContentItem
   include Mongoid::Document
-  include Mongoid::Timestamps
+  # include Mongoid::Timestamps
   include Mongoid::Attributes::Dynamic
 
   embedded_in :edition

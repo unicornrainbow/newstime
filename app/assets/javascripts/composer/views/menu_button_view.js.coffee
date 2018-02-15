@@ -16,10 +16,13 @@ class @Dreamtool.MenuButtonView extends Newstime.View
 
     @bindUIEvents()
 
+    @on 'touchout', @touchout
+    @on 'touchover', @touchover
+
     @initializeButton() if @initializeButton?
 
   measureBoundry: ->
-    position = @$el.position()
+    position = @$el.offset()
     @left   = position.left
     @top    = position.top
     @height = @$el.height()
@@ -41,3 +44,25 @@ class @Dreamtool.MenuButtonView extends Newstime.View
 
   mouseup: (e) ->
     @$el.removeClass 'pushed'
+
+  touchstart: (e) ->
+    @pressed = true
+    @$el.addClass 'pushed'
+
+  touchend: (e) ->
+    @$el.removeClass 'pushed'
+
+    if @pressed
+      @click()
+      @pressed = false
+
+  touchover: (e) ->
+    @pressed = true
+    @$el.addClass 'pushed'
+
+  touchout: (e) ->
+    @pressed = false
+    @$el.removeClass 'pushed'
+
+  # press: (e) ->
+  #   @pressed = true

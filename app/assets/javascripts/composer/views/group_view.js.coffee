@@ -10,10 +10,11 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
   initializeCanvasItem: (options={}) ->
     @contentItemViewsArray = [] # Array of content items views in z-index order.
 
-
     @leftBorder = @model.get('left_border')
     if @leftBorder
       @$el.addClass 'group-left-border'
+
+    @bindUIEvents()
 
   @getter 'uiLabel', -> 'Group'
 
@@ -84,6 +85,50 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
       canvasItem.delete()
     super
 
+
+  mousemove: (e) ->
+
+    if @opened
+      # TODO: Map mouse move over grouped items.
+      console.log e.x, e.y
+
+
+
+      groupBoundry = @getBoundry()
+
+      x = e.x - groupBoundry.top
+      y = e.y - groupBoundry.left
+
+      event = new Newstime.Event(e)
+      [event.x, event.y] = [x, y] # Map event coordinates
+
+      selection = null
+
+      selection = _.find @contentItemViewsArray, (contentItemView) ->
+        contentItemView.hit(x, y, buffer: 24)
+
+      if selection
+        if @hoveredObject != selection
+          if @hoveredObject
+            @hoveredObject.trigger 'mouseout', event
+          @hoveredObject = selection
+          # alert @hoveredObject
+          @hoveredObject.trigger 'mouseover', event
+      else
+        if @hoveredObject
+          @hoveredObject.trigger 'mouseout', event
+          @hoveredObject = null
+
+      if @hoveredObject
+        @hoveredObject.trigger 'mousemove', event
+
+  # getHitContentItem: (x, y) ->
+  #   if y >= @boundingBox.top && y <= @boundingBox.bottom
+  #     # If x,y hits the bounding box, check hit against contentItemsArray
+  #     _.find @contentItemViewsArray, (contentItemView) ->
+  #       contentItemView.hit(x, y, buffer: 24)
+
+
   mouseover: (e) ->
     @hovered = true
     @outlineView.show()
@@ -97,6 +142,30 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
     @hovered = false
     @outlineView.hide()
     @composer.popCursor()
+
+  # touchstart: (e) ->
+  #   @composer.select(this)
+  #   @composer.activeSelectionView.trigger 'touchstart', e
+
+  tap: (e) ->
+    @composer.select(this)
+
+  dblclick: (e) ->
+    if @opened
+      if @hoveredObject
+        @hoveredObject.trigger 'dblclick'
+
+    else
+      @openGroup()
+
+  openGroup: ->
+    @composer.canvas.openGroup(this)
+    @opened = true
+
+  closeGroup: ->
+    if @opened
+      @trigger 'close-group', this
+      @opened = false
 
   # Adds view to group.
   addCanvasItem: (view, options={}) ->
@@ -124,6 +193,7 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
           left: viewBoundry.left - newBoundry.left
 
     @contentItemViewsArray.push(view)
+    @outlineView.attach(view.outlineView)
     @$el.append(view.el)
     view.groupView = this
 
@@ -140,6 +210,7 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
       throw "Couldn't find canvas item."
 
     @contentItemViewsArray.splice(index, 1)
+    @outlineView.remove(canvasItemView.outlineView)
     canvasItemView.groupView = null
     canvasItemView.$el.detach()
 

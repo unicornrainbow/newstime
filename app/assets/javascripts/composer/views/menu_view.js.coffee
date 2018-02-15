@@ -112,6 +112,59 @@ class @Newstime.MenuView extends Newstime.View
     if @hoveredObject
       @hoveredObject.trigger 'click', e
 
+  touchstart: (e) ->
+    @touchedObject = null
+
+    touch = e.touches[0]
+    x = touch.x
+    y = touch.y
+
+    _.find @attachedMenuTitles, (menuTitleView) =>
+      if menuTitleView.boundry.hit(x, y)
+        @touchedObject = menuTitleView
+
+    if @touchedObject
+      @touchedObject.trigger 'touchstart', e
+
+  touchend: (e) ->
+    if @touchedObject
+      @touchedObject.trigger 'touchend', e
+
+    @touchedObject = null
+
+  touchmove: (e) ->
+
+    touch = e.touches[0]
+    x = touch.x
+    y = touch.y
+
+    touched = null
+
+    _.find @attachedMenuTitles, (menuTitleView) ->
+      if menuTitleView.boundry.hit(x, y)
+        touched = menuTitleView
+
+    if @touchedObject?
+      if @touchedObject != touched
+        @touchedObject.trigger 'touchout', e
+        @touchedObject = touched
+        if touched
+          @touchedObject.trigger 'touchover', e
+    else
+      if touched?
+        @touchedObject = touched
+        @touchedObject.trigger 'touchover', e
+
+  press: (e) ->
+    @pressedObject = null
+
+    _.find @attachedMenuTitles, (menuTitleView) =>
+      if menuTitleView.boundry.hit(e.center.x, e.center.y)
+        @pressedObject = menuTitleView
+
+    if @pressedObject
+      @pressedObject.trigger 'press', e
+
   pushCursor: ->
     @composer.pushCursor(@getCursor())
 

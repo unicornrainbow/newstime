@@ -84,6 +84,41 @@ class @Newstime.SelectionView extends @Newstime.View
   dblclick: (e) ->
     @contentItemView.trigger 'dblclick', e
 
+  tap: (e) ->
+    unless @tapped
+      tapped = =>
+        # Single tap should clear selection.
+        @tapped = null
+        @composer.clearSelection()
+
+      @tapped = setTimeout(tapped, 300)
+      # console.log @tapped
+
+    # period = Date.now() - @touchT
+    # if period < 300
+    #   if @tapped
+    #     # dbltap... cancel tap
+    #     clearTimeout(@tapped)
+    #     @tapped = null
+    #   else
+    #     tapped = =>
+    #       # Single tap should clear selection.
+    #       @tapped = null
+    #       @composer.clearSelection()
+    #
+    #     @tapped = setTimeout(tapped, 300)
+
+  doubletap: (e) ->
+    if @tapped
+      # console.log @tapped
+      # dbltap... cancel tap
+      clearTimeout(@tapped)
+      @tapped = null
+
+    # @contentItemView.trigger 'doubletap', e
+
+
+
   # Detects a hit of the selection
   hit: (x, y) ->
     geometry = @getGeometry()
@@ -122,19 +157,25 @@ class @Newstime.SelectionView extends @Newstime.View
       geometry = @getGeometry()
       @trackMove(e.x - geometry.left, e.y - geometry.top)
 
+  # `touchstart` is a touch event triggered by the
+  # browser
+
   touchstart: (e) ->
     touch = e.touches[0]
     x = touch.x
     y = touch.y
 
+    # Time when the touch began
+    # @touchT = Date.now()
+
     hitHandle = @hitsDragHandle(x, y)
 
-    console.log hitHandle
     if hitHandle
       @trackResize hitHandle
     else
       geometry = @getGeometry()
       @trackMove(x - geometry.left, y - geometry.top)
+      # @moved = false # Flag set to see if moved, useful in determining tap
 
   beginDraw: (x, y) ->
     # TODO: Rewrite this with selection
@@ -208,6 +249,7 @@ class @Newstime.SelectionView extends @Newstime.View
         when 'bottom-left'  then @dragBottomLeft(x, y)
         when 'bottom-right' then @dragBottomRight(x, y)
     else if @moving
+      # @moved = true
       @move(x, y)
 
   touchend: (e) ->
@@ -222,8 +264,11 @@ class @Newstime.SelectionView extends @Newstime.View
 
     if @moving
       @moving = false
+      # if @moved
       @composer.clearVerticalSnapLines()
       @composer.assignPage(@contentItem, @contentItemView)
+
+
 
     @trigger 'tracking-release', this
 

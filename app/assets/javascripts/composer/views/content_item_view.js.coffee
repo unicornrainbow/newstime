@@ -74,9 +74,8 @@ class @Newstime.ContentItemView extends @Newstime.CanvasItemView
   stepRight: ->
     @model.set left: @pageView.stepRight(@model.get('left'))
 
-  touchstart: (e) ->
+  tap: (e) ->
     @composer.select(this)
-    @composer.activeSelectionView.trigger 'touchstart', e
 
   mousedown: (e) ->
     return unless e.button == 0 # Only respond to left button mousedown.

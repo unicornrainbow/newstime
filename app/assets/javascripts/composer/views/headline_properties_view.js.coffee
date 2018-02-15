@@ -63,6 +63,8 @@ class @Newstime.HeadlinePropertiesView extends Backbone.View
     @$fontWeight = @$('.font-weight')
     @$color = @$('.color')
 
+    # @loadFonts()
+
     @listenTo @model, 'change', @render
 
     @render()
@@ -73,6 +75,27 @@ class @Newstime.HeadlinePropertiesView extends Backbone.View
     @$fontSize.val(@model.get('font_size'))
     @$fontWeight.val(@model.get('font_weight'))
     @$color.val(@model.get('color'))
+
+  # loadFonts: ->
+  #
+  #   xhr = new XMLHttpRequest()
+  #   xhr.open('GET', '/fonts')
+  #   xhr.onreadystatechange = ->
+  #     DONE = 4
+  #     OK = 200
+  #
+  #     if xhr.readyState is DONE
+  #       if xhr.status is OK
+  #          console.log xhr.responseText
+  #       else
+  #          console.log "Derp: #{xhr.status}"
+  #
+  #      fontList = xhr.responseText.split(\n)
+  #      googleFonts, r = fontList.select(/($1)\/Google$/)
+  #      per font in fontList
+  #        if font ~= /\/Google/
+  #
+  #    xhr.send(null)
 
   changeFont: (e) ->
     @model.set('font_family': $(e.currentTarget).val())

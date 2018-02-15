@@ -67,8 +67,13 @@ class @Newstime.CanvasView extends @Newstime.View
   dblclick: (e) ->
     e = @getMappedEvent(e)
 
+    if @openedGroup? && @hoveredObject != @openedGroup
+      @clearOpenedGroup()
+      return true
+
     if @hoveredObject
       @hoveredObject.trigger 'dblclick', e
+
 
   detachView: (view) ->
     # Find page with view.
@@ -488,6 +493,9 @@ class @Newstime.CanvasView extends @Newstime.View
     x = touch.x
     y = touch.y
 
+    @touchOffsetY = e.touches[0].clientY
+    @scrollTop = Math.round($(window).scrollTop())
+
     selection = null
 
     # if @touching
@@ -497,27 +505,65 @@ class @Newstime.CanvasView extends @Newstime.View
     if @composer.activeSelectionView # Check active selection first.
       selection = @composer.activeSelectionView if @composer.activeSelectionView.hit(x, y)
 
-    unless selection
-      _.find @pageViewsArray, (pageView) ->
-        selection = pageView.getHitContentItem(x, y)
+    # unless selection
+    #   _.find @pageViewsArray, (pageView) ->
+    #     selection = pageView.getHitContentItem(x, y)
 
     @touching = selection
 
     if @touching
       @touching.trigger 'touchstart', event
+    else
+      @composer.clearSelection()
 
     # console.log touching: @touching
 
     # if @hovered
 
-  touchmove: (e) ->
-    # console.log "touch move", e
+  tap: (e) ->
+    [x, y] = @mapExternalCoords(e.center.x, e.center.y)
 
+    selection = null
+
+    if @composer.activeSelectionView # Check active selection first.
+      selection = @composer.activeSelectionView if @composer.activeSelectionView.hit(x, y)
+
+    unless selection
+      _.find @pageViewsArray, (pageView) ->
+        selection = pageView.getHitContentItem(x, y)
+
+    if selection
+      selection.trigger 'tap', e
+
+  doubletap: (e) ->
+    [x, y] = @mapExternalCoords(e.center.x, e.center.y)
+
+    selection = null
+
+    if @composer.activeSelectionView # Check active selection first.
+      selection = @composer.activeSelectionView if @composer.activeSelectionView.hit(x, y)
+
+    # unless selection
+    #   _.find @pageViewsArray, (pageView) ->
+    #     selection = pageView.getHitContentItem(x, y)
+
+    if selection
+      selection.trigger 'doubletap', e
+
+  touchmove: (e) ->
     e = @getMappedTouchEvent(e)
 
     if @resizeSelectionTarget
       @resizeSelectionTarget.trigger 'touchmove', e
       return true
+
+    # Scroll
+    documentHeight = Math.round(document.body.scrollHeight)
+    # @scrollTop   = Math.round($(window).scrollTop())
+
+    $(window).scrollTop(@scrollTop + (@touchOffsetY - e.touches[0].clientY))
+
+    # console.log "scroll", e
 
   touchend: (e) ->
     e = @getMappedTouchEvent(e)
@@ -559,6 +605,10 @@ class @Newstime.CanvasView extends @Newstime.View
 
     if @resizeSelectionTarget
       @resizeSelectionTarget.trigger 'mousemove', e
+      return true
+
+    if @openedGroup
+      @openedGroup.trigger 'mousemove', e
       return true
 
     selection = null
@@ -611,8 +661,10 @@ class @Newstime.CanvasView extends @Newstime.View
     @hovered = true
     e = @getMappedEvent(e)
     @pushCursor() # Replace with hover stack implementation eventually
-    if @hoveredObject
-      @hoveredObject.trigger 'mouseover', e
+
+    # Seems redundant. Isn't this already happening in mousemove?
+    # if @hoveredObject
+    #   @hoveredObject.trigger 'mouseover', e
 
   mouseup: (e) ->
     e = @getMappedEvent(e)
@@ -659,6 +711,15 @@ class @Newstime.CanvasView extends @Newstime.View
 
   pushCursor: ->
     @composer.pushCursor(@getCursor())
+
+  openGroup: (group) ->
+    @openedGroup = group
+    @listenTo @openedGroup, 'close-group', @clearOpenedGroup
+
+  clearOpenedGroup: ->
+    @stopListening @openedGroup
+    @openedGroup.closeGroup()
+    @openedGroup = null
 
   removeCanvasItem: (view) ->
     view.$el.detach()

@@ -7,6 +7,7 @@
 #= require lib/backbone.authtokenadapter
 #= require lib/jquery.elastic
 #= require lib/jquery.textrange
+#= require lib/hammer
 #= require faye
 #
 # ## App
@@ -35,6 +36,8 @@ class @Newstime.Composer extends Backbone.View
 
     @detectBrowser()
 
+    @mobile = true
+
     @edition = options.edition
     @section = options.section
 
@@ -53,7 +56,7 @@ class @Newstime.Composer extends Backbone.View
 
     ## Config
     @topOffset = 0 # 61 # px
-    @menuHeight = 35
+    @menuHeight = 61
 
     @snapTolerance = 20 # This needs to be extracted to a configuration
     @snapEnabled = true
@@ -105,6 +108,10 @@ class @Newstime.Composer extends Backbone.View
       groupViews: @groupViews
       pageViews: @pageViews
     @$body.append(@canvasLayerView.el)
+
+    # @mobileTextEditorView = new Dreamtool.MobileTextEditorView
+    #   composer: this
+    # @$body.append(@mobileTextEditorView.el)
 
     @hasFocus = true # By default, composer has focus
 
@@ -224,10 +231,14 @@ class @Newstime.Composer extends Backbone.View
     @listenTo @captureLayerView, 'click', @click
     @listenTo @captureLayerView, 'dblclick', @dblclick
     @listenTo @captureLayerView, 'contextmenu', @contextmenu
+
     @listenTo @captureLayerView, 'touchstart', @touchstart
     @listenTo @captureLayerView, 'touchmove', @touchmove
     @listenTo @captureLayerView, 'touchend', @touchend
 
+    @listenTo @captureLayerView, 'tap', @tap
+    @listenTo @captureLayerView, 'doubletap', @doubletap
+    @listenTo @captureLayerView, 'press', @press
 
     _.each @layers, (layer) =>
       @listenTo layer, 'tracking',         @tracking
@@ -303,6 +314,8 @@ class @Newstime.Composer extends Backbone.View
 
       .edit-text-area-window textarea {
         color: #{inkColor};
+      }
+      .edit-text-area-window .palette-body {
         background-color: #{pageColor};
       }
     """
@@ -542,29 +555,67 @@ class @Newstime.Composer extends Backbone.View
       touch.y = touch.clientY
       i++
 
+    touch = event.touches[0]
+    @mouseX = touch.clientX
+    @mouseY = touch.clientY
+
     # If tracking layer, pass event there and return.
     if @trackingLayer
       @trackingLayer.trigger 'touchmove', event
       return true
+
+    # Test layers of app to determine which layer was touched.
+    # touched = _.find @layers, (layer) => layer.hit(@mouseX, @mouseY)
+
 
     @touchedLayer.trigger 'touchmove', event
 
   touchend: (event) ->
     event.preventDefault()
 
-    i=0
-    while i < event.touches.length
-      touch = event.touches.item(i)
-      touch.x = touch.clientX
-      touch.y = touch.clientY
-      i++
-
     if @trackingLayer
       @trackingLayer.trigger 'touchend', event
       return true
 
+    @touchedLayer.trigger 'touchend', event
+
+    @touchedLayer = null
+
+  tap: (event) ->
+    event.preventDefault()
+    # console.log event
+
+    @mouseX = event.center.x
+    @mouseY = event.center.y
+
+    # Test layers of app to determine which layer was touched.
+    @touchedLayer = _.find @layers, (layer) => layer.hit(@mouseX, @mouseY)
+
+    @touchedLayer.trigger 'tap', event
+
+  doubletap: (event) ->
+    event.preventDefault()
+    # console.log event
+
+    @mouseX = event.center.x
+    @mouseY = event.center.y
+
+    # Test layers of app to determine which layer was touched.
+    @touchedLayer = _.find @layers, (layer) => layer.hit(@mouseX, @mouseY)
+
+    @touchedLayer.trigger 'doubletap', event
+
+  press: (event) ->
+    event.preventDefault()
+
+    @mouseX = event.center.x
+    @mouseY = event.center.y
+
+    @touchedLayer = _.find @layers, (layer) => layer.hit(@mouseX, @mouseY)
+
+    @touchedLayer.trigger 'press', event
+
   mousedown: (event) ->
-    console.log 'mousedown'
     @hasFocus = true
 
     e =
@@ -630,7 +681,7 @@ class @Newstime.Composer extends Backbone.View
       button: event.button
 
     if @trackingLayer
-      # For the time being, block dblclicks while tracking
+      @trackingLayer.trigger 'dblclick', e
       return true
 
     if @hitLayer

@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html class="no-js">
 <head>
-<title><%= title %></title>
+  <title><%= title %></title>
   <%= composer_stylesheet if composing? -%>
   <%= stylesheet_link_tag "stylesheets/application", media: "all" %>
   <meta charset="utf-8">
-  <!-- <meta name="viewport"
-    content="width=device-width, initial-scale=1.0, user-scalable=no"> -->
+  <%= content_for :metatags %>
 
   <color pink="default"
          lightpink="default"
@@ -33,16 +32,14 @@
 
     .edit-text-area-window textarea {
       color: <%= resolve_color(edition.ink_color) %>;
+    }
+    .edit-text-area-window .palette-body {
       background-color: <%= resolve_color(edition.page_color) %>;
     }
   </style>
 </head>
 <body ng-app="app">
-  <div class="page broadsheet" id="cover" style="top: 0px;">
-    <div class="grid grid24" <%= "pages" if composing? %>>
-      <%= yield %>
-    </div>
-  </div>
+  <%= yield %>
 
   <%#= render 'grid_overlay' %>
   <%= composer_javascript if composing? -%>

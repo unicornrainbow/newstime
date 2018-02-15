@@ -43,6 +43,11 @@ Press::Application.routes.draw do
         scope controller: :edition_assets, &asset_routes
         get '*path' => :preview, :defaults => { :format => "html" }
       end
+      get :tearout
+      scope 'tearout' do
+        scope controller: :edition_assets, &asset_routes
+        get '*path' => :tearout, :defaults => { :format => "html" }
+      end
       get :download
 
       scope 'compile' do

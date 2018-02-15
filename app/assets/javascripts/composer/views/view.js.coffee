@@ -19,4 +19,7 @@ uiEvents = ['mouseover',
             'touchstart',
             'touchmove',
             'touchend',
-            'touchcancel']
+            'touchcancel',
+            'tap',
+            'doubletap',
+            'press']

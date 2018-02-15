@@ -1,14 +1,17 @@
 class @Newstime.PanelView extends @Newstime.View
 
   events:
-   'mousedown .title-bar': 'beginDrag'
-   'mousedown .resize-scrub': 'beginResizeDrag'
-   'mousemove': 'dOMMousemove'
-   'keydown': 'keydown'
-   'paste': 'paste'
-   'mousedown .dismiss': 'dismiss'
-   'mousedown': 'mousedown'
-   'click': 'click'
+    # 'mousedown .title-bar': 'beginDrag'
+    'mousedown .title-bar': 'titleBarMousedown'
+    'mouseup .title-bar': 'titleBarMouseup'
+    'mousemove .title-bar': 'titleBarMousemove'
+    'mousedown .resize-scrub': 'beginResizeDrag'
+    'mousemove': 'dOMMousemove'
+    'keydown': 'keydown'
+    'paste': 'paste'
+    'mousedown .dismiss': 'dismiss'
+    'mousedown': 'mousedown'
+    'click': 'click'
 
   initialize: (options) ->
     @$el.addClass('newstime-palette-view')
@@ -85,6 +88,8 @@ class @Newstime.PanelView extends @Newstime.View
   mouseover: (e) =>
     @hovered = true
     @$el.addClass 'hovered'
+
+    @_titleBarMousedown = false # Reset flag
 
     # Make foremost
 
@@ -173,6 +178,16 @@ class @Newstime.PanelView extends @Newstime.View
         @mouseover(e)
         @endResizeDrag()
 
+  titleBarMousedown: ->
+    @_titleBarMousedown = true
+
+  titleBarMouseup: ->
+    @_titleBarMousedown = false
+
+  titleBarMousemove: (e) ->
+    if @_titleBarMousedown
+      @_titleBarMousedown = false
+      @beginDrag(e)
 
   beginDrag: (e) ->
     x = e.x || e.clientX

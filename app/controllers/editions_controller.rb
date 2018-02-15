@@ -1,7 +1,7 @@
 class EditionsController < ApplicationController
   wrap_parameters include: [*Edition.attribute_names, :sections_attributes, :pages_attributes, :content_items_attributes, :groups_attributes, :colors_attributes, :masthead_artwork_attributes]
 
-  before_filter :find_edition, only: [:compose, :preview, :compile, :download, :edit, :update, :show, :wip]
+  before_filter :find_edition, only: [:compose, :preview, :compile, :download, :edit, :update, :show, :wip, :tearout]
 
   respond_to :html, :json
 
@@ -120,6 +120,27 @@ class EditionsController < ApplicationController
   end
 
   alias :preview :compose
+
+  def tearout
+    # render text: params['path']
+    # @path = "#{params['path']}.html"
+    @story_title = params['path']
+
+    @layout_name   = @edition.layout_name
+    @layout_module = LayoutModule.new(@layout_name)
+
+    # Find story by story title...
+    @content_item = @edition.content_items.where(story_title: @story_title).first
+
+    @group = @content_item.group
+
+    @width = @content_item.width
+
+    # @section       = @edition.sections.find_by(path: @path)
+    # @pages         = @section.pages || []
+
+    render 'tearout', layout: 'layout_module'
+  end
 
   def update
     #Rails.logger.info "Updateing Edition Attributes"

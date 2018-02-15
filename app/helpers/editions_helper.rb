@@ -73,10 +73,9 @@ module EditionsHelper
   def render_content_item(content_item, options={})
     content = ""
 
-    options = {}
     options[:id]     = content_item.id
-    options[:top]    = content_item.top.to_i - content_item.page.top.to_i
-    options[:left]   = content_item.left
+    options[:top]    ||= content_item.top.to_i - content_item.page.top.to_i
+    options[:left]   ||= content_item.left
     options[:width]  = content_item.width
     options[:height] = content_item.height
     options[:z_index] = content_item.z_index

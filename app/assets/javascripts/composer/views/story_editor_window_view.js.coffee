@@ -1,6 +1,6 @@
 #= require ../views/window_view
 
-class @Newstime.EditTextAreaWindowView extends @Newstime.WindowView
+class @Newstime.StoryEditorWindowView extends @Newstime.WindowView
 
 
   initializeWindow: (options) ->
@@ -13,8 +13,7 @@ class @Newstime.EditTextAreaWindowView extends @Newstime.WindowView
       'mousedown .resize-scrub': 'beginResizeDrag'
       'dblclick .title-bar': 'toggleQuietMode'
 
-
-    @$el.addClass 'edit-text-area-window'
+    @$el.addClass 'story-editor-area-window'
 
     @textAreaContentItem = options.textAreaContentItem
 
@@ -29,19 +28,22 @@ class @Newstime.EditTextAreaWindowView extends @Newstime.WindowView
           <button class="bold-btn">Bold</button><button class="italic-btn">Italic</button><button class="link-btn">Link</button>
         </div>
       </div>
-      <textarea></textarea>
+      <htmltextarea contenteditable="true">
+        <p>
+          Sissy Adventures in Sissy Park
+        </p>
+        <p></p>
+      </htmltextarea>
     """
 
-    @$textarea = @$('textarea')
+    @$HTMLTextArea = @$('htmltextarea').HTMLTextArea()
 
-    @$textarea.css
+    @$HTMLTextArea.css
       width: 450
       height: 500 - 45
 
-
     if @textAreaContentItem.get('text')?
-      @$textarea.val(@textAreaContentItem.get('text'))
-
+      @$HTMLTextArea.val(@textAreaContentItem.get('text'))
 
   renderPanel: ->
     super
