@@ -318,7 +318,7 @@ class @Newstime.SelectionView extends @Newstime.View
     centerX = left + width/2
     centerY = top + height/2
 
-    boxSize = 48
+    boxSize = 18
 
     if @composer.zoomLevel
       # Compensate box size for zoom level

@@ -198,7 +198,7 @@ class @Newstime.ContentItemView extends @Newstime.CanvasItemView
     centerX = left + width/2
     centerY = top + height/2
 
-    boxSize = 48
+    boxSize = 18
 
     if @hitBox x, y, centerX, top, boxSize
       return "top"
