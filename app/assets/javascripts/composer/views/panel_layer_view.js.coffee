@@ -195,6 +195,10 @@ class @Newstime.PanelLayerView extends @Newstime.View
     @hidden = !@hidden
     @$el.toggle(!@hidden)
 
+  hide: ->
+    @$el.hide()
+    @hidden = true
+
   click: (e) ->
     # If receiving a click here, need to reengage the capture view layer. Probably means
     # it got left disengaged after interacting with a panel due to a missed event.

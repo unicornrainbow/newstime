@@ -113,6 +113,9 @@ class @Newstime.Composer extends Backbone.View
     #   composer: this
     # @$body.append(@mobileTextEditorView.el)
 
+    if @mobile
+      @panelLayerView.hide()
+
     @hasFocus = true # By default, composer has focus
 
     @keyboardHandler = new Newstime.KeyboardHandler
