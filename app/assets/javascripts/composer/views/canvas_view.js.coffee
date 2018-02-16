@@ -495,6 +495,9 @@ class @Newstime.CanvasView extends @Newstime.View
 
     @touchOffsetY = e.touches[0].clientY
     @scrollTop = Math.round($(window).scrollTop())
+    @scrollSpeed = 0
+
+    clearInterval(@scrollInterval) if @scrollInterval
 
     selection = null
 
@@ -512,7 +515,7 @@ class @Newstime.CanvasView extends @Newstime.View
     @touching = selection
 
     if @touching
-      @touching.trigger 'touchstart', event
+      @touching.trigger 'touchstart', e
     else
       @composer.clearSelection()
 
@@ -561,7 +564,12 @@ class @Newstime.CanvasView extends @Newstime.View
     documentHeight = Math.round(document.body.scrollHeight)
     # @scrollTop   = Math.round($(window).scrollTop())
 
-    $(window).scrollTop(@scrollTop + (@touchOffsetY - e.touches[0].clientY))
+
+    @scrollSpeed = (@touchOffsetY - e.touches[0].clientY)
+    @scrollTop += @scrollSpeed
+    @touchOffsetY = e.touches[0].clientY
+
+    $(window).scrollTop(@scrollTop)
 
     # console.log "scroll", e
 
@@ -570,6 +578,27 @@ class @Newstime.CanvasView extends @Newstime.View
     if @resizeSelectionTarget
       @resizeSelectionTarget.trigger 'touchend', e
       return true
+
+    # console.log
+    speed = @scrollSpeed * 2
+    scrollTop = @scrollTop
+    start = Date.now()
+    duration = 1.2
+
+    @scrollInterval = id = setInterval ->
+      t = (Date.now() - start)/(duration * 1000)
+      # console.log (speed * duration*10) * (1-(1-t)*(1-t))
+      # console.log 1-(1-t)*(1-t)
+
+      # speed
+      # scrollTop - (1-t) * speed
+
+      # $(window).scrollTop scrollTop - ((speed * 20) / t*t)
+      $(window).scrollTop scrollTop + (speed * duration*10) * (1-(1-t)*(1-t))
+      # $(window).scrollTop scrollTop + (speed * duration*10) * t*(2-t)
+
+      clearInterval(id) if t > 1
+    , 27
 
   mousedown: (e) ->
     return unless e.which == 1 # Only draw with left click
