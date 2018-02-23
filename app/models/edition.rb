@@ -14,7 +14,7 @@ class Edition
   field :price,            type: Float   # Formatted price string
   field :slug,             type: String
   field :publish_date,     type: DateTime
-
+  field :grid_size,        type: String
 
   field :page_color,       type: String
   field :ink_color,        type: String

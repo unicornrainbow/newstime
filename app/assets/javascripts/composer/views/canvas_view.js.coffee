@@ -516,8 +516,8 @@ class @Newstime.CanvasView extends @Newstime.View
 
     if @touching
       @touching.trigger 'touchstart', e
-    else
-      @composer.clearSelection()
+    # else
+    #   @composer.clearSelection()
 
     # console.log touching: @touching
 

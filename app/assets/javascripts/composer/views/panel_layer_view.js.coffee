@@ -105,6 +105,8 @@ class @Newstime.PanelLayerView extends @Newstime.View
   detectHit: (panel, x, y) ->
     return false if panel.hidden
 
+    return panel.hit(x, y) if panel.hit
+
     # Get panel geometry
     geometry = panel.geometry()
 
@@ -122,6 +124,10 @@ class @Newstime.PanelLayerView extends @Newstime.View
         return true
 
     return false
+
+  touchstart: (e) ->
+    if @hoveredObject
+      @hoveredObject.trigger 'touchstart', e
 
   mouseover: (e) ->
     @adjustEventXY(e) # This should be localized to corrds, and isolated to this view. Since this is modifying a shared object, this leaks

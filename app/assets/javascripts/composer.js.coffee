@@ -113,8 +113,8 @@ class @Newstime.Composer extends Backbone.View
     #   composer: this
     # @$body.append(@mobileTextEditorView.el)
 
-    if @mobile
-      @panelLayerView.hide()
+
+    # @panelLayerView.hide() if @mobile
 
     @hasFocus = true # By default, composer has focus
 
@@ -130,6 +130,12 @@ class @Newstime.Composer extends Backbone.View
       model: @toolbox
     @panelLayerView.attachPanel(@toolboxView)
 
+
+    @toolsSpinnerView = new Dreamtool.ToolsSpinnerView
+      composer: this
+    # @propertiesPanelView.setPosition(50, 20)
+
+    @panelLayerView.attachPanel(@toolsSpinnerView)
 
     @propertiesPanelView = new Newstime.PropertiesPanelView
       composer: this
