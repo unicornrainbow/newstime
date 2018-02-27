@@ -36,7 +36,7 @@ class @Newstime.Composer extends Backbone.View
 
     @detectBrowser()
 
-    @mobile = true
+    @mobile = Newstime.config.mobile
 
     @edition = options.edition
     @section = options.section
@@ -125,70 +125,72 @@ class @Newstime.Composer extends Backbone.View
     @$body.append(@statusIndicator.el)
 
     ## Build Panels
-    @toolboxView = new Newstime.ToolboxView
-      composer: this
-      model: @toolbox
-    @panelLayerView.attachPanel(@toolboxView)
+
+    if @mobile
+      @toolsSpinnerView = new Dreamtool.ToolsSpinnerView
+        composer: this
+      # @propertiesPanelView.setPosition(50, 20)
+
+      @panelLayerView.attachPanel(@toolsSpinnerView)
+
+    else
+
+      @toolboxView = new Newstime.ToolboxView
+        composer: this
+        model: @toolbox
+      @panelLayerView.attachPanel(@toolboxView)
+
+      @propertiesPanelView = new Newstime.PropertiesPanelView
+        composer: this
+      @propertiesPanelView.setPosition(50, 20)
+      @panelLayerView.attachPanel(@propertiesPanelView)
+      @propertiesPanelView.show()
+
+      @editionPropertiesView = new Newstime.EditionPropertiesView
+        model: @edition
+
+      # Default properties panel to edition properties view.
+      @propertiesPanelView.mount(@editionPropertiesView)
+
+      @pagesPanelView = new Newstime.PagesPanelView
+        composer: this
+      @pagesPanelView.setPosition(260, 20)
+      @panelLayerView.attachPanel(@pagesPanelView)
+
+      @colorPalatteView = new Newstime.ColorPalatteView
+        composer: this
+      @panelLayerView.attachPanel(@colorPalatteView)
+      @colorPalatteView.show()
 
 
-    @toolsSpinnerView = new Dreamtool.ToolsSpinnerView
-      composer: this
-    # @propertiesPanelView.setPosition(50, 20)
+      @sectionSettings = new Newstime.SectionSettingsWindowView
+      @sectionSettings.setPosition(50, 200)
+      @panelLayerView.attachPanel(@sectionSettings)
+      @sectionSettings.hide()
 
-    @panelLayerView.attachPanel(@toolsSpinnerView)
+      @editionSettings = new Newstime.EditionSettingsWindowView
+      @editionSettings.setPosition(50, 200)
+      @panelLayerView.attachPanel(@editionSettings)
+      @editionSettings.hide()
 
-    @propertiesPanelView = new Newstime.PropertiesPanelView
-      composer: this
-    @propertiesPanelView.setPosition(50, 20)
-    @panelLayerView.attachPanel(@propertiesPanelView)
-    @propertiesPanelView.show()
+      @printsWindow = new Newstime.PrintsWindowView
+      @printsWindow.setPosition(50, 200)
+      @panelLayerView.attachPanel(@printsWindow)
+      @printsWindow.hide()
 
+      @photoPicker = new Newstime.PhotoPickerPanelView
+      @photoPicker.setPosition(470, 20)
+      @panelLayerView.attachPanel(@photoPicker)
+      @photoPicker.hide()
 
-    @colorPalatteView = new Newstime.ColorPalatteView
-      composer: this
-    @panelLayerView.attachPanel(@colorPalatteView)
-    @colorPalatteView.show()
+      workspaceJSON = JSON.parse(window.localStorage['workspaceJSON'] || null) || []
 
+      @applyWorkspaceJSON(workspaceJSON)
 
-    @editionPropertiesView = new Newstime.EditionPropertiesView
-      model: @edition
+      @colors = @edition.get('colors')
 
-    # Default properties panel to edition properties view.
-    @propertiesPanelView.mount(@editionPropertiesView)
+      @editionColorsStylesheetEl = document.getElementById('edition-colors')
 
-    @pagesPanelView = new Newstime.PagesPanelView
-      composer: this
-    @pagesPanelView.setPosition(260, 20)
-    @panelLayerView.attachPanel(@pagesPanelView)
-
-    @sectionSettings = new Newstime.SectionSettingsWindowView
-    @sectionSettings.setPosition(50, 200)
-    @panelLayerView.attachPanel(@sectionSettings)
-    @sectionSettings.hide()
-
-    @editionSettings = new Newstime.EditionSettingsWindowView
-    @editionSettings.setPosition(50, 200)
-    @panelLayerView.attachPanel(@editionSettings)
-    @editionSettings.hide()
-
-    @printsWindow = new Newstime.PrintsWindowView
-    @printsWindow.setPosition(50, 200)
-    @panelLayerView.attachPanel(@printsWindow)
-    @printsWindow.hide()
-
-    @photoPicker = new Newstime.PhotoPickerPanelView
-    @photoPicker.setPosition(470, 20)
-    @panelLayerView.attachPanel(@photoPicker)
-    @photoPicker.hide()
-
-    @colors = @edition.get('colors')
-
-    @editionColorsStylesheetEl = document.getElementById('edition-colors')
-
-
-    workspaceJSON = JSON.parse(window.localStorage['workspaceJSON'] || null) || []
-
-    @applyWorkspaceJSON(workspaceJSON)
 
 
     #photoPicker = @photoPicker
@@ -270,8 +272,10 @@ class @Newstime.Composer extends Backbone.View
     # Intialize App
 
     @repositionScroll()
-    @toolbox.set(selectedTool: 'select-tool')
-    @toolboxView.show()
+
+    if !@mobile
+      @toolbox.set(selectedTool: 'select-tool')
+      @toolboxView.show()
 
     @vent.trigger 'ready'
 
@@ -935,7 +939,7 @@ class @Newstime.Composer extends Backbone.View
     if rest.length > 0
       @addToSelection.apply this, rest
     else
-      @pagesPanelView.render()
+      @pagesPanelView?.render()
 
 
   # Adds model to a selection.
@@ -982,10 +986,10 @@ class @Newstime.Composer extends Backbone.View
     if @selection?
       @activeSelectionView?.remove()
       #@propertiesPanelView.clear()
-      @propertiesPanelView.mount(@editionPropertiesView)
+      @propertiesPanelView?.mount(@editionPropertiesView)
       @activeSelectionView = null
       @selection = null
-    @pagesPanelView.render()
+    @pagesPanelView?.render()
 
   selectMasthead: (mastheadView) ->
     @clearSelection()
@@ -1009,7 +1013,7 @@ class @Newstime.Composer extends Backbone.View
 
   updatePropertiesPanel: (target) ->
     propertiesView = target.getPropertiesView()
-    @propertiesPanelView.mount(propertiesView)
+    @propertiesPanelView?.mount(propertiesView)
 
   togglePanelLayer: ->
     @panelLayerView.toggle()

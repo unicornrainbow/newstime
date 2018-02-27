@@ -126,8 +126,22 @@ class @Newstime.PanelLayerView extends @Newstime.View
     return false
 
   touchstart: (e) ->
+    e = @getMappedTouchEvent(e)
+
     if @hoveredObject
       @hoveredObject.trigger 'touchstart', e
+
+  touchmove: (e) ->
+    e = @getMappedTouchEvent(e)
+
+    if @hoveredObject
+      @hoveredObject.trigger 'touchmove', e
+
+  touchend: (e) ->
+    e = @getMappedTouchEvent(e)
+
+    if @hoveredObject
+      @hoveredObject.trigger 'touchend', e
 
   mouseover: (e) ->
     @adjustEventXY(e) # This should be localized to corrds, and isolated to this view. Since this is modifying a shared object, this leaks
@@ -188,6 +202,10 @@ class @Newstime.PanelLayerView extends @Newstime.View
   adjustEventXY: (e) ->
     e.y -= @topOffset
 
+  # adjustTouchEventXY: (e) ->
+    # e.touches[]
+
+
   tracking: (panel) ->
     @trackingPanel = panel
     @trigger 'tracking', this
@@ -213,3 +231,16 @@ class @Newstime.PanelLayerView extends @Newstime.View
   # Resets the panel layer, disengage any hovered states.
   reset: ->
     _.each @panels, (panel) ->
+
+  mapExternalCoords: (x, y) ->
+    [x, y-@topOffset]
+
+  getMappedTouchEvent: (event) ->
+    event = new Dreamtool.TouchEvent(event)
+    i=0
+    while i < event.touches.length
+      touch = event.touches.item(i)
+      [touch.x, touch.y] = @mapExternalCoords(touch.x, touch.y)
+      i++
+
+    return event

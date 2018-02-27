@@ -2,6 +2,7 @@ class EditionsController < ApplicationController
   wrap_parameters include: [*Edition.attribute_names, :sections_attributes, :pages_attributes, :content_items_attributes, :groups_attributes, :colors_attributes, :masthead_artwork_attributes]
 
   before_filter :find_edition, only: [:compose, :preview, :compile, :download, :edit, :update, :show, :wip, :tearout]
+  before_filter :detect_mobile, only: :compose
 
   respond_to :html, :json
 
@@ -47,8 +48,6 @@ class EditionsController < ApplicationController
     render 'compose', layout: 'layout_module'
   end
 
-
-
   def create
     @publication = Publication.find(edition_params[:publication_id])
 
@@ -84,7 +83,6 @@ class EditionsController < ApplicationController
 
   def edit
   end
-
 
   def compose
     flash[:notice] # Clear flash, since it's not currently displayed anywhere
@@ -192,12 +190,21 @@ class EditionsController < ApplicationController
 
 private
 
+  def detect_mobile
+    # Try to detect mobile from User-Agent
+    @mobile = request.headers['User-Agent'] =~ /Mobile|Android/
+
+    # Allow mobile to be requested with url param
+    @mobile ||= params['mobile'] == 'true'
+  end
+
   def set_client_config
     @client_config = {
       editionID:  @edition.id,
       sectionID: @section.id,
       headlineFontWeights: @layout_module.config["headline_font_weights"],
-      storyTextLineHeight: @layout_module.config["story_text_line_height"]
+      storyTextLineHeight: @layout_module.config["story_text_line_height"],
+      mobile: @mobile
     }
   end
 

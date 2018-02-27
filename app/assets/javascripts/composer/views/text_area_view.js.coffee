@@ -70,7 +70,7 @@ class @Newstime.TextAreaView extends Newstime.ContentItemView
       panelLayerView.attachPanel(@editTextAreaWindow)
 
   __showMobileTextEditorWindow: ->
-    @mobileTextEditorWindow ?= new Dreamtool.MobileTextEditorWindow
+    @mobileTextEditorWindow ?= new Dreamtool.MobileTextEditorView
 
   keydown: (e) =>
     switch e.keyCode
