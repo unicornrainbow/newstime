@@ -54,7 +54,11 @@ module EditionsHelper
 
   def composer_javascript
     content = content_for(:composer_variables)
-    content << javascript_include_tag("composer") + "\n"
+    if @mobile
+      content << javascript_include_tag("mobile-composer") + "\n"
+    else
+      content << javascript_include_tag("composer") + "\n"
+    end
   end
 
 

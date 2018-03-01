@@ -27,20 +27,6 @@ class @Newstime.SelectionView extends @Newstime.View
 
     @bindUIEvents()
 
-  getPropertiesView: ->
-    @contentItemView.getPropertiesView()
-
-  remove: ->
-    unless @destroyed
-      @destroyed = true
-      @trigger 'destroy', this
-
-      if @contentItemView
-        @contentItemView.deselect()
-
-    super
-
-
   render: ->
     position = _.pick @contentItem.attributes, 'width', 'height'
 
@@ -60,8 +46,203 @@ class @Newstime.SelectionView extends @Newstime.View
 
     this
 
+  ## Event handlers ##
+  class MouseEvents
+
+    mousedown: (e) ->
+      return unless e.button == 0 # Only respond to left button mousedown.
+
+      if @hoveredHandle
+        @trackResize @hoveredHandle.type
+      else
+        geometry = @getGeometry()
+        @trackMove(e.x - geometry.left, e.y - geometry.top)
+
+    mouseup: (e) ->
+      if @resizing
+        @resizing = false
+        @resizeMode = null
+
+        @composer.clearVerticalSnapLines() # Ensure vertical snaps aren't showing.
+        # Reset drag handles, clearing if they where active
+        _.each @dragHandles, (h) -> h.reset()
+        @contentItemView.trigger 'resized'
+
+      if @moving
+        @moving = false
+        @composer.clearVerticalSnapLines()
+        @composer.assignPage(@contentItem, @contentItemView)
+
+      @trigger 'tracking-release', this
+
+    mousemove: (e) ->
+      if @resizing
+        switch @resizeMode
+          when 'top'          then @dragTop(e.x, e.y)
+          when 'right'        then @dragRight(e.x, e.y)
+          when 'bottom'       then @dragBottom(e.x, e.y)
+          when 'left'         then @dragLeft(e.x, e.y)
+          when 'top-left'     then @dragTopLeft(e.x, e.y)
+          when 'top-right'    then @dragTopRight(e.x, e.y)
+          when 'bottom-left'  then @dragBottomLeft(e.x, e.y)
+          when 'bottom-right' then @dragBottomRight(e.x, e.y)
+
+      else if @moving
+        @move(e.x, e.y, e.shiftKey)
+      else
+        # Check for hit handles
+        hit = @hitsDragHandle(e.x, e.y)
+        hit = _.find(@dragHandles, (h) -> h.type == hit)
+        if @hoveredHandle && hit
+          if @hoveredHandle != hit
+            @hoveredHandle.trigger 'mouseout', e
+            @hoveredHandle = hit
+            @hoveredHandle.trigger 'mouseover', e
+        else if @hoveredHandle
+          @hoveredHandle.trigger 'mouseout', e
+          @hoveredHandle = null
+
+        else if hit
+          @hoveredHandle = hit
+          @hoveredHandle.trigger 'mouseover', e
+
+    mouseover: (e) ->
+      @hovered = true
+      @composer.pushCursor @getCursor()
+
+    mouseout: (e) ->
+
+      if @hoveredHandle
+        @hoveredHandle.trigger 'mouseout', e
+        @hoveredHandle = null
+
+      @hovered = false
+      #@$el.removeClass 'hovered'
+      @composer.popCursor()
+
+    dblclick: (e) ->
+      @contentItemView.trigger 'dblclick', e
+
+  class TouchEvents
+
+    # `touchstart` is a touch event triggered by the
+    # browser
+
+    touchstart: (e) ->
+      touch = e.touches[0]
+      x = touch.x
+      y = touch.y
+
+      # Time when the touch began
+      # @touchT = Date.now()
+
+      hitHandle = @hitsDragHandle(x, y)
+
+      if hitHandle
+        @trackResize hitHandle
+      else
+        geometry = @getGeometry()
+        @trackMove(x - geometry.left, y - geometry.top)
+        # @moved = false # Flag set to see if moved, useful in determining tap
+
+    touchmove: (e) ->
+      touch = e.touches[0]
+      x = touch.x
+      y = touch.y
+
+      if @resizing
+        switch @resizeMode
+          when 'top'          then @dragTop(x, y)
+          when 'right'        then @dragRight(x, y)
+          when 'bottom'       then @dragBottom(x, y)
+          when 'left'         then @dragLeft(x, y)
+          when 'top-left'     then @dragTopLeft(x, y)
+          when 'top-right'    then @dragTopRight(x, y)
+          when 'bottom-left'  then @dragBottomLeft(x, y)
+          when 'bottom-right' then @dragBottomRight(x, y)
+      else if @moving
+        # @moved = true
+        @move(x, y)
+
+    touchend: (e) ->
+      if @resizing
+        @resizing = false
+        @resizeMode = null
+
+        @composer.clearVerticalSnapLines() # Ensure vertical snaps aren't showing.
+        # Reset drag handles, clearing if they where active
+        _.each @dragHandles, (h) -> h.reset()
+        @contentItemView.trigger 'resized'
+
+      if @moving
+        @moving = false
+        # if @moved
+        @composer.clearVerticalSnapLines()
+        @composer.assignPage(@contentItem, @contentItemView)
+
+
+
+      @trigger 'tracking-release', this
+
+    tap: (e) ->
+      unless @tapped
+        tapped = =>
+          # Single tap should clear selection.
+          @tapped = null
+          @composer.clearSelection()
+
+        @tapped = setTimeout(tapped, 300)
+        # console.log @tapped
+
+      # period = Date.now() - @touchT
+      # if period < 300
+      #   if @tapped
+      #     # dbltap... cancel tap
+      #     clearTimeout(@tapped)
+      #     @tapped = null
+      #   else
+      #     tapped = =>
+      #       # Single tap should clear selection.
+      #       @tapped = null
+      #       @composer.clearSelection()
+      #
+      #     @tapped = setTimeout(tapped, 300)
+
+    doubletap: (e) ->
+      if @tapped
+        # console.log @tapped
+        # dbltap... cancel tap
+        clearTimeout(@tapped)
+        @tapped = null
+
+      # @contentItemView.trigger 'doubletap', e
+
+  if MOBILE?
+    @include TouchEvents
+  else
+    @include MouseEvents
+
   paste: (e) ->
     @contentItemView.trigger 'paste', e
+
+  keydown: (e) ->
+    @contentItemView.trigger 'keydown', e
+
+  ####
+
+  getPropertiesView: ->
+    @contentItemView.getPropertiesView()
+
+  remove: ->
+    unless @destroyed
+      @destroyed = true
+      @trigger 'destroy', this
+
+      if @contentItemView
+        @contentItemView.deselect()
+
+    super
+
 
   getLeft: ->
     @contentItem.get('left')
@@ -77,47 +258,6 @@ class @Newstime.SelectionView extends @Newstime.View
 
   getHeight: ->
     @contentItem.get('height')
-
-  keydown: (e) ->
-    @contentItemView.trigger 'keydown', e
-
-  dblclick: (e) ->
-    @contentItemView.trigger 'dblclick', e
-
-  tap: (e) ->
-    unless @tapped
-      tapped = =>
-        # Single tap should clear selection.
-        @tapped = null
-        @composer.clearSelection()
-
-      @tapped = setTimeout(tapped, 300)
-      # console.log @tapped
-
-    # period = Date.now() - @touchT
-    # if period < 300
-    #   if @tapped
-    #     # dbltap... cancel tap
-    #     clearTimeout(@tapped)
-    #     @tapped = null
-    #   else
-    #     tapped = =>
-    #       # Single tap should clear selection.
-    #       @tapped = null
-    #       @composer.clearSelection()
-    #
-    #     @tapped = setTimeout(tapped, 300)
-
-  doubletap: (e) ->
-    if @tapped
-      # console.log @tapped
-      # dbltap... cancel tap
-      clearTimeout(@tapped)
-      @tapped = null
-
-    # @contentItemView.trigger 'doubletap', e
-
-
 
   # Detects a hit of the selection
   hit: (x, y) ->
@@ -146,36 +286,6 @@ class @Newstime.SelectionView extends @Newstime.View
     delete bounds.width
     delete bounds.height
     bounds
-
-
-  mousedown: (e) ->
-    return unless e.button == 0 # Only respond to left button mousedown.
-
-    if @hoveredHandle
-      @trackResize @hoveredHandle.type
-    else
-      geometry = @getGeometry()
-      @trackMove(e.x - geometry.left, e.y - geometry.top)
-
-  # `touchstart` is a touch event triggered by the
-  # browser
-
-  touchstart: (e) ->
-    touch = e.touches[0]
-    x = touch.x
-    y = touch.y
-
-    # Time when the touch began
-    # @touchT = Date.now()
-
-    hitHandle = @hitsDragHandle(x, y)
-
-    if hitHandle
-      @trackResize hitHandle
-    else
-      geometry = @getGeometry()
-      @trackMove(x - geometry.left, y - geometry.top)
-      # @moved = false # Flag set to see if moved, useful in determining tap
 
   beginDraw: (x, y) ->
     # TODO: Rewrite this with selection
@@ -232,76 +342,6 @@ class @Newstime.SelectionView extends @Newstime.View
     @moveOffsetX = offsetX
     @moveOffsetY = offsetY
     @trigger 'tracking', this
-
-  touchmove: (e) ->
-    touch = e.touches[0]
-    x = touch.x
-    y = touch.y
-
-    if @resizing
-      switch @resizeMode
-        when 'top'          then @dragTop(x, y)
-        when 'right'        then @dragRight(x, y)
-        when 'bottom'       then @dragBottom(x, y)
-        when 'left'         then @dragLeft(x, y)
-        when 'top-left'     then @dragTopLeft(x, y)
-        when 'top-right'    then @dragTopRight(x, y)
-        when 'bottom-left'  then @dragBottomLeft(x, y)
-        when 'bottom-right' then @dragBottomRight(x, y)
-    else if @moving
-      # @moved = true
-      @move(x, y)
-
-  touchend: (e) ->
-    if @resizing
-      @resizing = false
-      @resizeMode = null
-
-      @composer.clearVerticalSnapLines() # Ensure vertical snaps aren't showing.
-      # Reset drag handles, clearing if they where active
-      _.each @dragHandles, (h) -> h.reset()
-      @contentItemView.trigger 'resized'
-
-    if @moving
-      @moving = false
-      # if @moved
-      @composer.clearVerticalSnapLines()
-      @composer.assignPage(@contentItem, @contentItemView)
-
-
-
-    @trigger 'tracking-release', this
-
-  mousemove: (e) ->
-    if @resizing
-      switch @resizeMode
-        when 'top'          then @dragTop(e.x, e.y)
-        when 'right'        then @dragRight(e.x, e.y)
-        when 'bottom'       then @dragBottom(e.x, e.y)
-        when 'left'         then @dragLeft(e.x, e.y)
-        when 'top-left'     then @dragTopLeft(e.x, e.y)
-        when 'top-right'    then @dragTopRight(e.x, e.y)
-        when 'bottom-left'  then @dragBottomLeft(e.x, e.y)
-        when 'bottom-right' then @dragBottomRight(e.x, e.y)
-
-    else if @moving
-      @move(e.x, e.y, e.shiftKey)
-    else
-      # Check for hit handles
-      hit = @hitsDragHandle(e.x, e.y)
-      hit = _.find(@dragHandles, (h) -> h.type == hit)
-      if @hoveredHandle && hit
-        if @hoveredHandle != hit
-          @hoveredHandle.trigger 'mouseout', e
-          @hoveredHandle = hit
-          @hoveredHandle.trigger 'mouseover', e
-      else if @hoveredHandle
-        @hoveredHandle.trigger 'mouseout', e
-        @hoveredHandle = null
-
-      else if hit
-        @hoveredHandle = hit
-        @hoveredHandle.trigger 'mouseover', e
 
 
   hitsDragHandle: (x, y) ->
@@ -458,40 +498,9 @@ class @Newstime.SelectionView extends @Newstime.View
   dragBottomRight: (x, y) ->
     @contentItemView.dragBottomRight(x, y)
 
-  mouseup: (e) ->
-    if @resizing
-      @resizing = false
-      @resizeMode = null
-
-      @composer.clearVerticalSnapLines() # Ensure vertical snaps aren't showing.
-      # Reset drag handles, clearing if they where active
-      _.each @dragHandles, (h) -> h.reset()
-      @contentItemView.trigger 'resized'
-
-    if @moving
-      @moving = false
-      @composer.clearVerticalSnapLines()
-      @composer.assignPage(@contentItem, @contentItemView)
-
-    @trigger 'tracking-release', this
-
-  mouseover: (e) ->
-    @hovered = true
-    @composer.pushCursor @getCursor()
 
   getCursor: ->
     'default'
-
-  mouseout: (e) ->
-
-    if @hoveredHandle
-      @hoveredHandle.trigger 'mouseout', e
-      @hoveredHandle = null
-
-    @hovered = false
-    #@$el.removeClass 'hovered'
-    @composer.popCursor()
-
 
   # Does an x,y corrdinate intersect a bounding box
   hitBox: (hitX, hitY, boxX, boxY, boxSize) ->
