@@ -1,33 +1,54 @@
 
-class @Dreamtool.ToolsSpinnerView extends Newstime.View
+{ sin, cos, sqrt, atan2,
+   max, abs, PI } = Math
+
+class Dreamtool.ToolsSpinnerView extends Newstime.View
 
   initialize: (options) ->
+    @composer = options.composer
+    @model = new Backbone.Model
+
+    @buttons = []
+
     @$el.addClass 'tools-spinner'
 
     @$el.html """
       <div class="center-dot"></div>
-      <button class="tool headline-tool"></button>
-      <button class="tool story-tool"></button>
     """
 
-    @model = new Backbone.Model
+    @setSpnrSize(175)
 
-    @composer = options.composer
+    @headlineBtn = new TSButtonView
+      toolName: 'headline-tool'
+      spinner: this
+      position: [64, @btnDistance]
+      size: @btnSize
+
+    @storyBtn = new TSButtonView
+      toolName: 'story-tool'
+      spinner: this
+      position: [64 - 51.5, @btnDistance],
+      size: @btnSize
+
+    @photoBtn = new TSButtonView
+      toolName: 'photo-tool'
+      spinner: this
+      position: [64 - 51.5*2, @btnDistance],
+      size: @btnSize
+
+    @attachBtn(@headlineBtn)
+    @attachBtn(@storyBtn)
+    @attachBtn(@photoBtn)
 
     @$centerDot   =   @$('.center-dot')
     @$headlineBtn  =   @$('.headline-tool')
     @$storyBtn    =   @$('.story-tool')
     @$btns  =  @$('button')
 
-    @spnrSize = 175 # spinnerSize
-    @btnSize = @spnrSize * 50/195
-
 
     @$el.css width: @spnrSize, height: @spnrSize
 
-    @centerDotSize = @spnrSize * 70/195
-    @centerDotRadius = @centerDotSize/2
-    @centerDotMargin = (@spnrSize - @centerDotSize)/2
+
     @$centerDot.css
       width: @centerDotSize
       height: @centerDotSize
@@ -49,28 +70,41 @@ class @Dreamtool.ToolsSpinnerView extends Newstime.View
     @render()
 
   render: ->
+    # Set position
     @$el.css @model.pick('top', 'left')
 
-    btnDeg = 64 + @model.get('angle')
-    x = Math.cos(btnDeg/(180/Math.PI))
-    y = Math.sin(btnDeg/(180/Math.PI))
+    _.invoke @buttons, 'render'
 
-    btnDistance = @spnrSize * 64/195 # from center
 
-    x = @spnrSize/2 + btnDistance * x - @btnSize/2
-    y = @spnrSize/2 - btnDistance * y - @btnSize/2
+  getBtnXY: ([deg, distance], btnSize=0) ->
 
-    @$headlineBtn.css top: y, left: x
+    deg = deg + @model.get('angle')
 
-    btnDeg = btnDeg - 51.5
-    x = Math.cos(btnDeg/(180/Math.PI))
-    y = Math.sin(btnDeg/(180/Math.PI))
+    { spnrSize } = this
 
-    x = @spnrSize/2 + btnDistance * x - @btnSize/2
-    y = @spnrSize/2 - btnDistance * y - @btnSize/2
+    x = distance * cos(deg/(180/PI))
+    y = distance * sin(deg/(180/PI))
 
-    @$storyBtn.css top: y, left: x
+    x = spnrSize/2 + x - btnSize/2
+    y = spnrSize/2 - y - btnSize/2
 
+    [x, y]
+
+
+  setSpnrSize: (value) ->
+    @spnrSize = value # spinnerSize
+
+    @btnSize = value * 50/195
+    @btnDistance = value * 64/195 # from center
+    @centerDotSize = value * 70/195
+    @centerDotRadius = @centerDotSize/2
+    @centerDotMargin = (value - @centerDotSize)/2
+
+
+  attachBtn: (button) ->
+    @buttons.push(button)
+    button.spinner = this
+    @$el.append(button.el)
 
   hit: (x, y) ->
     left = @model.get('left')
@@ -78,17 +112,15 @@ class @Dreamtool.ToolsSpinnerView extends Newstime.View
 
     a = x-(left+@spnrSize/2)
     b = y-(top+@spnrSize/2)
-    hitRadius = Math.sqrt(a**2+b**2)
+    hitRadius = sqrt(a*a+b*b)
 
     hitRadius <= @spnrSize/2
     # Math.atan2(y, x)
     # true | false
 
   touchstart: (e) ->
-    # alert 'yum'
     x = e.touches[0].x
     y = e.touches[0].y
-    # console.log e.touches[0]
 
     left = @model.get('left')
     top  = @model.get('top')
@@ -96,29 +128,45 @@ class @Dreamtool.ToolsSpinnerView extends Newstime.View
     x = x-(left+@spnrSize/2)
     y = y-(top+@spnrSize/2)
 
+    # Returns [angle, magnatude]
     touchVector = @getVector(x, y)
 
     # Are we in the center dot?
     if touchVector[1] <= @centerDotRadius
       @beginDrag(e)
     else
-      # @beginSpin(touchVector)
-      # Begin spin
-      @speed = 0
-      clearInterval(@spinInterval) if @spinInterval
 
-      # Reset angle
-      if @model.get('angle') > 360
-        @model.set('angle', @model.get('angle')%360)
+      if @hitsButton(x, y)
 
-      @spinning = true
-      @spinAngleOffset = touchVector[0] - @model.get('angle')
-      @trigger 'tracking', this
+      else
+        # Begin spin
+        @speed = 0
+        clearInterval(@spinInterval) if @spinInterval
 
-      # alert touchVector[0]
+        # Reset angle
+        if @model.get('angle') > 360
+          @model.set('angle', @model.get('angle')%360)
 
-      # Must be in the outer ring.
-      # find the radius from the center point to the touch center.
+        @spinning = true
+        @spinAngleOffset = touchVector[0] - @model.get('angle')
+        @trigger 'tracking', this
+
+        # Must be in the outer ring.
+        # find the radius from the center point to the touch center.
+
+  tap: (event) ->
+    x = event.center.x
+    y = event.center.y
+
+    hit = @hitsButton(x, y)  # Does the tap hit a button?
+    @selectTool(hit) if hit     # If so, select it.
+
+  hitsButton: (x, y) ->
+    buttons = @$btns.toArray()
+    _.find buttons, (btn) =>
+      @hits
+
+  selectTool: (button) ->
 
   touchmove: (e) ->
     x = e.touches[0].x
@@ -171,7 +219,7 @@ class @Dreamtool.ToolsSpinnerView extends Newstime.View
 
     angle = @model.get('angle')
     start = Date.now()
-    duration = 27 * Math.abs(@speed/50)
+    duration = 27 * abs(@speed/50)
     model = @model
 
     @spinInterval = id = setInterval ->
@@ -200,24 +248,22 @@ class @Dreamtool.ToolsSpinnerView extends Newstime.View
     x -= @leftDragOffset
     y -= @topDragOffset
 
-    x = Math.max(x, -75)
-    y = Math.max(y, -75)
+    x = max(x, -75)
+    y = max(y, -75)
 
     @model.set
       left: x
       top: y
 
-
   getVector: (x, y) ->
     # Angle
-    angle = -Math.atan2(y, x) * 180/Math.PI
+    angle = -atan2(y, x) * 180/PI
     angle += 360 if angle < 0
 
     # Distance
-    distance = Math.sqrt(x**2+y**2)
+    distance = sqrt(x**2+y**2)
 
     [angle, distance]
-
 
   beginDrag: (e) ->
     @moving   = true
@@ -244,3 +290,19 @@ class @Dreamtool.ToolsSpinnerView extends Newstime.View
     y: @y()
     width: @width()
     height: @height()
+
+
+
+class TSButtonView extends Newstime.View
+
+  tagName: 'button'
+
+  initialize: (options) ->
+    @$el.addClass 'tool', options.toolName
+
+    { @spinner, @size, @position } = options
+
+
+  render: ->
+    [x, y] = @spinner.getBtnXY(@position, @size)
+    @$el.css top: y, left: x
