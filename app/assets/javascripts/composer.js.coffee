@@ -25,6 +25,7 @@
 @Newstime = @Newstime or {}
 @Dreamtool = @Dreamtool or {}
 
+
 class @Newstime.Composer extends Backbone.View
 
   initialize: (options) ->
@@ -72,6 +73,8 @@ class @Newstime.Composer extends Backbone.View
     @outlineViewCollection = new Newstime.OutlineViewCollection()
 
     @toolbox = new Newstime.Toolbox
+    @toolsSpinner = new Backbone.Model
+
 
     # Create application layers
     @captureLayerView = new Newstime.CaptureLayerView
@@ -104,6 +107,7 @@ class @Newstime.Composer extends Backbone.View
       topOffset: @topOffset + @menuHeight
       edition: @edition
       toolbox: @toolbox
+      toolsSpinner: @toolsSpinner
       contentItemViews: @contentItemViews
       groupViews: @groupViews
       pageViews: @pageViews
@@ -129,6 +133,7 @@ class @Newstime.Composer extends Backbone.View
     if @mobile
       @toolsSpinnerView = new Dreamtool.ToolsSpinnerView
         composer: this
+        model: @toolsSpinner
       # @propertiesPanelView.setPosition(50, 20)
 
       @panelLayerView.attachPanel(@toolsSpinnerView)

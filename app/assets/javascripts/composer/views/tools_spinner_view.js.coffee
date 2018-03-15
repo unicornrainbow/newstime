@@ -5,8 +5,7 @@
 class Dreamtool.ToolsSpinnerView extends Newstime.View
 
   initialize: (options) ->
-    @composer = options.composer
-    @model = new Backbone.Model
+    {@composer, @model} = options
 
     @buttons = []
 
@@ -33,7 +32,7 @@ class Dreamtool.ToolsSpinnerView extends Newstime.View
     @photoBtn = new TSButtonView
       toolName: 'photo-tool'
       spinner: this
-      position: [64 - 51.5*2, @btnDistance],
+      position: [64 - 103, @btnDistance],
       size: @btnSize
 
     @attachBtn(@headlineBtn)
@@ -119,14 +118,13 @@ class Dreamtool.ToolsSpinnerView extends Newstime.View
     # true | false
 
   touchstart: (e) ->
-    x = e.touches[0].x
-    y = e.touches[0].y
+    {x, y} = e.touches[0]
 
     left = @model.get('left')
     top  = @model.get('top')
     # In terms of the circle
-    x = x-(left+@spnrSize/2)
-    y = y-(top+@spnrSize/2)
+    x -= left+@spnrSize/2
+    y -=  top+@spnrSize/2
 
     # Returns [angle, magnatude]
     touchVector = @getVector(x, y)
@@ -135,38 +133,42 @@ class Dreamtool.ToolsSpinnerView extends Newstime.View
     if touchVector[1] <= @centerDotRadius
       @beginDrag(e)
     else
+      # button = @hitsButton([x+@spnrSize/2, y+@spnrSize/2])
+      # if button
+      #   @touchedButton = button
+        # _
 
-      if @hitsButton(x, y)
+      # Begin spin
+      @speed = 0
+      clearInterval(@spinInterval) if @spinInterval
 
-      else
-        # Begin spin
-        @speed = 0
-        clearInterval(@spinInterval) if @spinInterval
+      # Reset angle
+      if @model.get('angle') > 360
+        @model.set('angle', @model.get('angle')%360)
 
-        # Reset angle
-        if @model.get('angle') > 360
-          @model.set('angle', @model.get('angle')%360)
+      @spinning = true
+      @spinAngleOffset = touchVector[0] - @model.get('angle')
+      @trigger 'tracking', this
 
-        @spinning = true
-        @spinAngleOffset = touchVector[0] - @model.get('angle')
-        @trigger 'tracking', this
-
-        # Must be in the outer ring.
-        # find the radius from the center point to the touch center.
+      # Must be in the outer ring.
+      # find the radius from the center point to the touch center.
 
   tap: (event) ->
-    x = event.center.x
-    y = event.center.y
-
-    hit = @hitsButton(x, y)  # Does the tap hit a button?
+    {x, y} = event.center
+    x -= @model.get('left')
+    y -= @model.get('top')
+    hit = @hitsButton([x, y])  # Does the tap hit a button?
     @selectTool(hit) if hit     # If so, select it.
 
-  hitsButton: (x, y) ->
-    buttons = @$btns.toArray()
-    _.find buttons, (btn) =>
-      @hits
+  hitsButton: (xy) ->
+    _.find @buttons, (btn) ->
+      btn.hit xy
 
   selectTool: (button) ->
+    # @selectedTool = button.toolName
+    # @model.set 'selected-tool', button.toolName
+    @model.set 'selectedTool', button.toolName
+
 
   touchmove: (e) ->
     x = e.touches[0].x
@@ -292,7 +294,6 @@ class Dreamtool.ToolsSpinnerView extends Newstime.View
     height: @height()
 
 
-
 class TSButtonView extends Newstime.View
 
   tagName: 'button'
@@ -300,9 +301,13 @@ class TSButtonView extends Newstime.View
   initialize: (options) ->
     @$el.addClass 'tool', options.toolName
 
-    { @spinner, @size, @position } = options
+    { @spinner, @size, @position, @toolName } = options
 
 
   render: ->
-    [x, y] = @spinner.getBtnXY(@position, @size)
-    @$el.css top: y, left: x
+    [@x, @y] =  @spinner.getBtnXY(@position, @size)
+    @$el.css top: @y, left: @x
+
+  hit: ([x, y]) ->
+    @x <= x <= @x + @size and
+    @y <= y <= @y + @size
