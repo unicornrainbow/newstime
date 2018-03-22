@@ -1,3 +1,4 @@
+<title>Dreamtool • Sign in</title>
 <meta name="viewport"
   content="width=device-width, initial-scale=1.0, user-scalable=no">
 <link href='https://fonts.googleapis.com/css?family=Dosis:200|Exo:100,400,900|Raleway:300'
@@ -36,13 +37,13 @@ input {
 input[type=text] {
   border-radius: 7pt 7pt 0 0;
   margin: 0;
-
+  color: #b914e3;
 }
 
 input[type=password] {
   border-radius: 0 0 7pt 7pt;
   margin: 0;
-
+  color: #e919e6;
 }
 
 .free-account {
@@ -82,6 +83,8 @@ input[type=password] {
   outline: none;
 }
 
+.zing-sang:active {
+}
 
 </style>
 
@@ -179,7 +182,7 @@ input[type=password] {
   </g>
 </svg>
 <form id="sign-in" method="POST" >
-  <input name='screenname' type="text" onkeypress="enterSubmit(this, event)"></input>
+  <input name='screenname' type="text" autocomplete=off onkeypress="enterSubmit(this, event)"></input>
   <br>
   <input name='password' type="password" onkeypress="enterSubmit(this, event)"></input>
   <br><br>
@@ -209,3 +212,5 @@ function enterSubmit(field, event) {
 
 
 </script>
+
+<script type='text/javascript' src='assets/cljs/hello.js'></script>
