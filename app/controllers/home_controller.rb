@@ -15,9 +15,15 @@ class HomeController < ActionController::Base
     #  redirect_to '/editions' and return
     #end
 
-    screenname = params[:screenname].downcase
+    screenname = params[:screenname] #.downcase
+
     #user = User.find_by({screenname})
     user = User.find_by(screenname: screenname)
+    
+    # user = User.first(conditions: { screenname: /^#{screenname}$/i })
+    # user = User.find_by(screenname: screenname, 'i')
+    # user  = User.where(screenname: /^#{screenname}$/i).first
+
 
     if user.has_password?
       if user.valid_password?(params[:password])

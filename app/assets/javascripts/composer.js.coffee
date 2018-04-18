@@ -25,8 +25,9 @@
 @Newstime = @Newstime or {}
 @Dreamtool = @Dreamtool or {}
 
+App = Dreamtool
 
-class @Newstime.Composer extends Backbone.View
+class Newstime.Composer extends App.View
 
   initialize: (options) ->
     # No dups
@@ -39,8 +40,7 @@ class @Newstime.Composer extends Backbone.View
 
     @mobile = Newstime.config.mobile
 
-    @edition = options.edition
-    @section = options.section
+    {@edition, @section} = options
 
     @editionContentItems = @edition.get('content_items')
 
@@ -137,6 +137,9 @@ class @Newstime.Composer extends Backbone.View
       # @propertiesPanelView.setPosition(50, 20)
 
       @panelLayerView.attachPanel(@toolsSpinnerView)
+
+      @sideMenu = new App.SideMenu
+      @$append @sideMenu.el
 
     else
 

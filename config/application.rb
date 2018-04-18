@@ -41,6 +41,7 @@ module Press
       "composer.css",
       "composer/font-awesome.css",
       "composer.js",
+      "mobile-composer.js",
       "jquery.js"
     ]
 

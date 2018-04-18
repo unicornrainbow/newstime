@@ -224,9 +224,10 @@ class @Newstime.CanvasView extends @Newstime.View
 
   initialize: (options) ->
     @composer = Newstime.composer
-    @topOffset = options.topOffset
-    @edition = options.edition
-    @toolbox = options.toolbox
+    { @topOffset,
+      @edition,
+      @toolbox,
+      @toolsSpinner} = options
 
     # Capture Elements
     @$window = $(window)
@@ -490,8 +491,7 @@ class @Newstime.CanvasView extends @Newstime.View
     e = @getMappedTouchEvent(e)
 
     touch = e.touches[0]
-    x = touch.x
-    y = touch.y
+    {x, y} = touch
 
     @touchOffsetY = e.touches[0].clientY
     @scrollTop = Math.round($(window).scrollTop())
@@ -516,6 +516,19 @@ class @Newstime.CanvasView extends @Newstime.View
 
     if @touching
       @touching.trigger 'touchstart', e
+
+    else
+      switch @toolsSpinner.get('selectedTool')
+        when 'story-tool'
+          @draw(Newstime.TextAreaView, x, y)
+          @toolsSpinner.set('selectedTool', null)
+        when 'headline-tool'
+          @draw(Newstime.HeadlineView, x, y)
+          @toolsSpinner.set('selectedTool', null)
+        when 'photo-tool'
+          @draw(Newstime.PhotoView, x, y)
+          @toolsSpinner.set('selectedTool', null)
+
     # else
     #   @composer.clearSelection()
 

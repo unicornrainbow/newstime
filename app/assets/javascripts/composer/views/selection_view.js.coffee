@@ -1,4 +1,5 @@
-class @Newstime.SelectionView extends @Newstime.View
+
+class @Newstime.SelectionView extends Newstime.View
 
   initialize: (options) ->
     @$el.addClass 'selection-view resizable'

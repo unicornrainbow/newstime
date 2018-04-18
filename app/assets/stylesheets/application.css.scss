@@ -16,14 +16,13 @@
  *= require_tree ./application
  */
 
+ @import 'variables';
+
 body {
   font-family: 'Raleway', sans-serif;
   margin-top: 100px;
-  min-width: 800px;
-}
-
-.compose-toolbar {
-  margin-bottom: 20px;
+  min-width: 400px;
+  background-color: $rose-pink;
 }
 
 
@@ -37,9 +36,13 @@ a:focus {
 }
 
 .compose-toolbar {
+  margin-bottom: 20px;
+}
+
+.compose-toolbar {
   margin: 20px;
   border-radius: 7px;
-  box-shadow: aqua 0px 2px 7px -3pt;
+  // box-shadow: aqua 0px 2px 7px -3pt;
 }
 
 ul.action-menu {

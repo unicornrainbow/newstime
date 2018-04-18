@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
     else
       @screenname = session[:screenname]
       if @screenname
-        @current_user = User.find_by(screenname: @screenname )
+        @current_user = User.find_by(screenname: @screenname)
       end
     end
   end

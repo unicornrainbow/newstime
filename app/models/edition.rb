@@ -26,6 +26,12 @@ class Edition
   field :has_sections,     type: Boolean # True or false, depending if section bar should be
                                          # shown and sections, if any, rendered.
 
+  # Grid stuff, should be isolated
+  field :page_width,       type: Integer
+  field :columns,          type: Integer
+  field :gutter_width,     type: Integer
+  field :extra_grids,      type: Array
+
   def pricef
     return 0 unless price
     if price < 1.00

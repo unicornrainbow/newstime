@@ -1,3 +1,20 @@
+<%= stylesheet_link_tag    "/flickity.css" %>
+<%#= javascript_include_tag "/flickity.pkgd.min.js" %>
+
+<script>
+////////// https://css-tricks.com/creating-responsive-touch-friendly-carousels-with-flickity/
+  require(['/flickity.pkgd.min.js'], function(Flickity) {
+    // console.log(Flickity);
+    var flkty = new Flickity('.main-gallery');
+    // $(function(){
+    //   $('.main-gallery').flickety()
+    // })
+  });
+
+</script>
+
+<meta name="viewport"
+  content="width=device-width, initial-scale=1.0, user-scalable=no">
 <div class="editions-index">
   <table class="table">
     <tr>
@@ -10,7 +27,7 @@
     </tr>
   </table>
 
-  <div>
+  <div class="main-gallery">
     <% @editions.each do |edition| %>
       <div class="edition">
         <%= link_to compose_edition_path(edition) do %>

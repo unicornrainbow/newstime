@@ -143,6 +143,13 @@ class @Newstime.PanelLayerView extends @Newstime.View
     if @hoveredObject
       @hoveredObject.trigger 'touchend', e
 
+  tap: (e) ->
+    # e = @getMappedTouchEvent(e)
+    e.center.y -= @topOffset
+
+    if @hoveredObject
+      @hoveredObject.trigger 'tap', e
+
   mouseover: (e) ->
     @adjustEventXY(e) # This should be localized to corrds, and isolated to this view. Since this is modifying a shared object, this leaks
 

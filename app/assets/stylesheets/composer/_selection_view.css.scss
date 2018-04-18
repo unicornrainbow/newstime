@@ -1,16 +1,16 @@
 .selection-view {
   $bubble-size: 24px;
 
-  border: 1px dotted gray;
+  border: 1px dotted #ae05db;
   position: absolute;
 
 
   &.resizable {
-    border: 1px dashed gray;
+    border: 1px dashed #ae05db;
 
     &.edit-mode {
       .drag-handle {
-        background-color: gray;
+        background-color: #ae05db;
       }
     }
 
