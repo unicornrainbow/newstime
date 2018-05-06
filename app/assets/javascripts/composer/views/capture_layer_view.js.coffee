@@ -16,7 +16,9 @@ class @Newstime.CaptureLayerView extends Backbone.View
   initialize: (options) ->
     @$el.addClass "capture-layer-view"
 
-    @mc = new Hammer(@el)
+    @mc = new Hammer(@el,
+      inputClass: Hammer.TouchInput
+    )
     @mc.on 'tap', @tap
     @mc.on 'doubletap', @doubletap
     @mc.on 'press', @press

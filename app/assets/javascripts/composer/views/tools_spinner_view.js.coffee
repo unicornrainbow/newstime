@@ -299,9 +299,10 @@ class TSButtonView extends Newstime.View
   tagName: 'button'
 
   initialize: (options) ->
-    @$el.addClass 'tool', options.toolName
-
     { @spinner, @size, @position, @toolName } = options
+
+    @$addClass 'tool'
+    @$addClass @toolName
 
 
   render: ->

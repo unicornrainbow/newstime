@@ -8,6 +8,7 @@
   // top: 150px;
 
   background-color: rgba(217, 39, 246, .4);
+  // background-color: rgba(222, 148, 235, .4);
   box-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
 
   .center-dot {
@@ -22,7 +23,8 @@
   button.tool {
     position: absolute;
     width: 50px; height: 50px;
-    border: 1px solid #de7fda;
+    border: 1px solid #d03de2;
+    // border: none;
     border-width: 1px 2px 2px 1px;
     border-radius: 42%;
     // background: rgba(55, 15, 225, .3);
@@ -33,6 +35,31 @@
     // top: 10px;
     // left: 75px;
   }
+
+  button.tool {
+    background-image: url(/icons.png);
+    background-repeat: no-repeat;
+    background-color: #f267ff;
+
+    &.headline-tool {
+      background-size: 106px;
+      background-position: -58px -64px;
+    }
+
+    &.story-tool {
+      background-size: 97px;
+      background-position: 6px -56px;
+    }
+
+    &.photo-tool {
+      background-size: 94px;
+      background-position: 4px 4px;
+    }
+
+
+  }
+
+
 
 
 }
