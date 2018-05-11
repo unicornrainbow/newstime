@@ -167,7 +167,10 @@ class Dreamtool.ToolsSpinnerView extends Newstime.View
   selectTool: (button) ->
     # @selectedTool = button.toolName
     # @model.set 'selected-tool', button.toolName
-    @model.set 'selectedTool', button.toolName
+    unless button.toolName == @model.get 'selectedTool'
+      @model.set 'selectedTool', button.toolName
+    else
+      @model.set 'selectedTool', null
 
 
   touchmove: (e) ->
@@ -308,6 +311,8 @@ class TSButtonView extends Newstime.View
   render: ->
     [@x, @y] =  @spinner.getBtnXY(@position, @size)
     @$el.css top: @y, left: @x
+
+    @$toggleClass 'pressed', @toolName == @spinner.model.get('selectedTool')
 
   hit: ([x, y]) ->
     @x <= x <= @x + @size and
