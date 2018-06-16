@@ -30,11 +30,16 @@
       color: <%= resolve_color(edition.links_color) %>;
     }
 
-    .edit-text-area-window textarea {
+    .edit-text-area-window textarea,
+    .mobile-text-editor-view textarea {
       color: <%= resolve_color(edition.ink_color) %>;
     }
-    .edit-text-area-window .palette-body {
+    .edit-text-area-window .palette-body,
+    .mobile-text-editor-view {
       background-color: <%= resolve_color(edition.page_color) %>;
+    }
+    .mobile-text-editor-view button {
+      border-color: <%= resolve_color(edition.ink_color) %>;
     }
   </style>
 </head>

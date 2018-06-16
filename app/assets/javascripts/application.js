@@ -15,11 +15,11 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require lib/waterfall
-//= require nprogress
+//  require nprogress
 //= require ace/ace
 
-NProgress.configure({
-  showSpinner: false,
-  ease: 'ease',
-  speed: 500
-})
+// NProgress.configure({
+//   showSpinner: false,
+//   ease: 'ease',
+//   speed: 500
+// })

@@ -141,6 +141,11 @@ class Newstime.Composer extends App.View
       @sideMenu = new App.SideMenu
       @$append @sideMenu.el
 
+      (@mobileTextEditor = new App.MobileTextEditorView)
+      #(@$append @mobileTextEditor.el)
+      @$body.append  @mobileTextEditor.el
+      @mobileTextEditor.hide()
+
     else
 
       @toolboxView = new Newstime.ToolboxView
@@ -394,7 +399,7 @@ class Newstime.Composer extends App.View
   save: (depth=1)->
     if depth == 1
       @trigger 'before-save'
-      @saveWorkspace()
+      @saveWorkspace() unless @mobile
 
     @statusIndicator.showMessage "Saving"
 
@@ -505,45 +510,130 @@ class Newstime.Composer extends App.View
     #@changeCursor(cursor)
 
 
-  # Public: Handles mousemove events, called by CaptureLayerView
-  mousemove: (e) ->
-    # Store current cursor location.
-    @mouseX = e.clientX
-    @mouseY = e.clientY
+  class MouseEvents
 
-    # Compensate for top offset to allow room for menu
-    e =
-      x: @mouseX
-      y: @mouseY
-      shiftKey: e.shiftKey
+    # Public: Handles mousemove events, called by CaptureLayerView
+    mousemove: (e) ->
+      # Store current cursor location.
+      @mouseX = e.clientX
+      @mouseY = e.clientY
 
-    # If tracking layer, pass event there and return.
-    if @trackingLayer
-      @trackingLayer.trigger 'mousemove', e
-      return true
+      # Compensate for top offset to allow room for menu
+      e =
+        x: @mouseX
+        y: @mouseY
+        shiftKey: e.shiftKey
 
-    # Test layers of app to determine where to direct the hit.
-    hit = _.find @layers, (layer) => layer.hit(@mouseX, @mouseY)
+      # If tracking layer, pass event there and return.
+      if @trackingLayer
+        @trackingLayer.trigger 'mousemove', e
+        return true
 
-    if hit
-      if @hitLayer != hit
+      # Test layers of app to determine where to direct the hit.
+      hit = _.find @layers, (layer) => layer.hit(@mouseX, @mouseY)
+
+      if hit
+        if @hitLayer != hit
+          if @hitLayer
+            @hitLayer.trigger 'mouseout', e
+          @hitLayer = hit
+          @hitLayer.trigger 'mouseover', e
+
+      else
         if @hitLayer
           @hitLayer.trigger 'mouseout', e
-        @hitLayer = hit
-        @hitLayer.trigger 'mouseover', e
+          @hitLayer = null
 
-    else
+
+      # Pass mousemove through to the hit layer
       if @hitLayer
-        @hitLayer.trigger 'mouseout', e
-        @hitLayer = null
+        @hitLayer.trigger 'mousemove', e
 
+        # Clear cursor state
+        #@changeCursor('')
 
-    # Pass mousemove through to the hit layer
-    if @hitLayer
-      @hitLayer.trigger 'mousemove', e
+    mousedown: (event) ->
+      @hasFocus = true
 
-      # Clear cursor state
-      #@changeCursor('')
+      e =
+        x: @mouseX
+        y: @mouseY
+        button: event.button
+        shiftKey: event.shiftKey
+        which: event.which
+
+      if @selectedMenu && @hitLayer != @menuLayerView
+        @selectedMenu.close()
+        @selectedMenu = null
+
+      if @currentContextMenu
+        @currentContextMenu.hide()
+        @currentContextMenu = null
+
+      if @trackingLayer
+        # For the time being, block mousedowns while tracking
+        return true
+
+      # TODO: Rather than tracking an relying to the hovered object, we need to track
+      # which if the layers gets the hit, and pass down to it for delegation to
+      # the individual object.
+      if @hitLayer
+        @hitLayer.trigger 'mousedown', e
+
+    mouseup: (e) ->
+      e =
+        x: @mouseX
+        y: @mouseY
+
+      if @trackingLayer
+        @trackingLayer.trigger 'mouseup', e
+        return true
+
+      # TODO: Rather than tracking an relaying to the hovered object, we need to
+      # track which of the layers gets the hit, and pass down to it for delegation
+      # to the individual object.
+      if @hitLayer
+        @hitLayer.trigger 'mouseup', e
+
+    click: (event) ->
+      e =
+        x: @mouseX
+        y: @mouseY
+        button: event.button
+
+      if @trackingLayer
+        # For the time being, block clicks while tracking.
+        return true
+
+      if @hitLayer
+        @hitLayer.trigger 'click', e
+
+    dblclick: (event) ->
+      e =
+        x: @mouseX
+        y: @mouseY
+        button: event.button
+
+      if @trackingLayer
+        @trackingLayer.trigger 'dblclick', e
+        return true
+
+      if @hitLayer
+        @hitLayer.trigger 'dblclick', e
+
+    contextmenu: (e) ->
+      event = e
+      e =
+        x: @mouseX
+        y: @mouseY
+        preventDefault: ->
+          event.preventDefault()
+
+      if @hitLayer
+        @hitLayer.trigger 'contextmenu', e
+
+  if !MOBILE?
+    @include MouseEvents
 
   touchstart: (event) ->
     event.preventDefault()
@@ -636,89 +726,7 @@ class Newstime.Composer extends App.View
 
     @touchedLayer.trigger 'press', event
 
-  mousedown: (event) ->
-    @hasFocus = true
 
-    e =
-      x: @mouseX
-      y: @mouseY
-      button: event.button
-      shiftKey: event.shiftKey
-      which: event.which
-
-    if @selectedMenu && @hitLayer != @menuLayerView
-      @selectedMenu.close()
-      @selectedMenu = null
-
-    if @currentContextMenu
-      @currentContextMenu.hide()
-      @currentContextMenu = null
-
-    if @trackingLayer
-      # For the time being, block mousedowns while tracking
-      return true
-
-    # TODO: Rather than tracking an relying to the hovered object, we need to track
-    # which if the layers gets the hit, and pass down to it for delegation to
-    # the individual object.
-    if @hitLayer
-      @hitLayer.trigger 'mousedown', e
-
-
-  mouseup: (e) ->
-    e =
-      x: @mouseX
-      y: @mouseY
-
-    if @trackingLayer
-      @trackingLayer.trigger 'mouseup', e
-      return true
-
-    # TODO: Rather than tracking an relaying to the hovered object, we need to
-    # track which of the layers gets the hit, and pass down to it for delegation
-    # to the individual object.
-    if @hitLayer
-      @hitLayer.trigger 'mouseup', e
-
-
-  click: (event) ->
-    e =
-      x: @mouseX
-      y: @mouseY
-      button: event.button
-
-    if @trackingLayer
-      # For the time being, block clicks while tracking.
-      return true
-
-    if @hitLayer
-      @hitLayer.trigger 'click', e
-
-
-  dblclick: (event) ->
-    e =
-      x: @mouseX
-      y: @mouseY
-      button: event.button
-
-    if @trackingLayer
-      @trackingLayer.trigger 'dblclick', e
-      return true
-
-    if @hitLayer
-      @hitLayer.trigger 'dblclick', e
-
-
-  contextmenu: (e) ->
-    event = e
-    e =
-      x: @mouseX
-      y: @mouseY
-      preventDefault: ->
-        event.preventDefault()
-
-    if @hitLayer
-      @hitLayer.trigger 'contextmenu', e
 
   zoomIn: ->
     @zoomLevelIndex ?= 0

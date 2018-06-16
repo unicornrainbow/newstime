@@ -1,0 +1,206 @@
+
+<!DOCTYPE html>
+
+<HTML>
+<HEAD>
+
+  <script src='http://underscorejs.org/underscore-min.js'></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<style>
+  A, B, C, D, E, F, G, H, I, J,
+  K, L, M, N, O, P, Q, R, S, T,
+  U, V, W, X, Y, Z {
+    display: block;
+    border: 1px solid pink;
+    border-radius: 3px;
+    width: 10px;
+    height: 10px;
+  }
+
+  #textarea {
+    width: 500px;
+    height: 600px
+  }
+
+  keyboard {
+    display: block;
+    margin-left: 30px;
+  }
+
+  button[code=Q] {
+    margin-left: 10px;
+  }
+
+  button[code=A] {
+    margin-left: 30px;
+  }
+
+  button[code=spacebar] {
+    margin-left: 126px;
+    width: 195px;
+    color: transparent;
+  }
+
+  button.active {
+    background: red;
+  }
+
+
+</style>
+
+</HEAD>
+<BODY>
+
+<textarea id='textarea'></textarea>
+
+
+<keyboard>
+  [esc][1][2][3][4][5][6][7][8][9][0][backspace]
+    [Q][W][E][R][T][Y][U][I][O][P]
+     [A][S][D][F][G][H][J][K][L][;]['][enter]
+[shift][Z][X][C][V][B][N][M][,][.]
+          [    spacebar    ]
+</keyboard>
+
+<script>
+
+  (function () {
+    var keyboard = document.getElementsByTagName('keyboard')[0]
+    var layout = keyboard.innerHTML
+    var rows = layout.split("\n")
+
+    keyboard.innerHTML = ''
+    for(var i = 0; i<rows.length; i++) {
+      var row = rows[i];
+      row = row.replace(/\[\W*(\w+)\W*\]/g, "<button code='$1'>$1</button>");
+      //row = row.replace(/\]/g, '"></button>');
+      keyboard.innerHTML += row + "<br>";
+      //console.log(rows[i]);
+    }
+
+    var textarea = document.getElementById('textarea');
+    var a = keyboard.querySelector('button[code=A]');
+
+    var shift8tn = keyboard.querySelector('button[code=shift]')
+
+
+    var chars, uc, lc;
+
+    chars = {};
+
+    var keycodes  = 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,1,2,3,4,5,6,7,8,9,0'.split(','),
+        uppercase = 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,!,@,#,$,%,^,&,*,(,)'.split(','),
+        lowercase = 'a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,1,2,3,4,5,6,7,8,9,0'.split(',');
+
+    function init() {
+      setKeys(lowercase);
+    }
+
+    //   enter: "\n",
+    //   spacebar: " ",
+    //   '1': '1', //['1', '!', '1', '!'],
+    //   'A': 'A', //['a', 'A', 'a', 'A'],
+    //   'B': 'B', //['b', 'B', 'b', 'B'],
+    //   'C': 'C'  //['c', 'C', 'c', 'C']
+    // }
+    // chars['enter'] = "\n";
+
+    function getChar(code) {
+      return chars[code];
+    }
+
+    var shifted = false;
+
+    function shift() {
+      shifted = !shifted;
+      setKeys(shifted ? uppercase : lowercase);
+      $(shift8tn).toggleClass("active", shifted)
+    }
+
+    //
+    function clearShift() {
+      shifted = false;
+      setKeys(lowercase);
+      $(shift8tn).removeClass("active")
+    }
+
+    function setKeys(values) {
+      _.each(_.zip(keycodes, values),
+        function([key, value]){
+          chars[key] = value;
+        });
+    }
+
+
+    keyboard.onclick = function (e) {
+      if (e.target == keyboard)
+        return;
+
+      var code = e.target.getAttribute('code');
+
+      if (code == 'enter') {
+        textarea.value += "\n";
+        return;
+      }
+
+      if (code == 'shift') {
+        shift();
+        return;
+      }
+
+      if (code == 'spacebar') {
+        textarea.value += ' '
+        return;
+      }
+
+      if (code == 'esc') {
+        return;
+      }
+
+      if (code == 'backspace') {
+        return;
+      }
+
+      textarea.value += getChar(code);
+
+      if (shifted)
+        clearShift();
+
+      // textarea.focus();
+    }
+
+
+
+    // console.log(a);
+    // a.onclick = function () {
+    //   textarea.value += 'a'
+    //   // alert('Party Time!');
+    // }
+
+    init()
+
+  })()
+
+
+  //keyboard.innerHTML = rows.join();
+
+
+
+</script>
+
+
+
+    <esc/>
+      <Q/><W/><E/><R/><T/><Y/><U/><I/><O/><P/><br/>
+        <A/><S/><D/><F/><G/><H/><J/><K/><L/><enter/><br/>
+  <shift/><Z/><X/><C/><V/><B/><N/><M/><br/>
+               <     spacebar     />
+
+
+</BODY>
+
+<btn>a</btn>
+<btn>b</btn>
+<vol+/>
+<vol-/>

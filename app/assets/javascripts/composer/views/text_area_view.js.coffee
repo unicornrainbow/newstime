@@ -52,8 +52,8 @@ class @Newstime.TextAreaView extends Newstime.ContentItemView
     @showEditTextAreaWindow()
 
   doubletap: (e) ->
-    # @__showMobileTextEditorWindow()
-    @showEditTextAreaWindow()
+    @showMobileTextEditorWindow()
+    # @showEditTextAreaWindow()
 
   showEditTextAreaWindow: ->
     # Create new text editor window
@@ -69,8 +69,30 @@ class @Newstime.TextAreaView extends Newstime.ContentItemView
       # Add it to the panel view layer
       panelLayerView.attachPanel(@editTextAreaWindow)
 
-  __showMobileTextEditorWindow: ->
-    @mobileTextEditorWindow ?= new Dreamtool.MobileTextEditorView
+  showMobileTextEditorWindow: ->
+
+    #m = @composer.mobileTextEditor
+    { mobileTextEditor } = @composer
+    mobileTextEditor.setModel(@model)
+    #(setModel -> mobileTextEditor @model)
+    mobileTextEditor.show().focus()
+
+    #@mobileTextEditor ?= new Dreamtool.MobileTextEditorView
+    #  textAreaContentItem: @model
+    #  text: @model.get('text')
+
+    #m.setText @model.get('text')
+    #@listenTo m, 'save', @mobileTextEditSave
+    #(listenTo m 'save' mobileTextEditSave)
+    #panelLayerView = @composer.panelLayerView
+
+    # @composer.$body.append m.el
+    # @composer.$append(@mobileTextEditorWindow.el)
+    #m.focus()
+
+  #mobileTextEditSave: (m) ->
+  #  @model.set 'text', m.text
+  #  m.close()
 
   keydown: (e) =>
     switch e.keyCode

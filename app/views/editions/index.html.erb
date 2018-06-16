@@ -5,7 +5,10 @@
 ////////// https://css-tricks.com/creating-responsive-touch-friendly-carousels-with-flickity/
   require(['/flickity.pkgd.min.js'], function(Flickity) {
     // console.log(Flickity);
-    var flkty = new Flickity('.main-gallery');
+    var flkty = new Flickity('.main-gallery', {
+      prevNextButtons: false,
+      // pageDots: false
+    });
     // $(function(){
     //   $('.main-gallery').flickety()
     // })

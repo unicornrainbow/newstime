@@ -40,22 +40,6 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
       boundry = new Newstime.Boundry(top: top, left: left, bottom: bottom, right: right)
       @model.set _.pick boundry, 'top', 'left', 'width', 'height'
 
-  mousedown: (e) ->
-    return unless e.button == 0 # Only respond to left button mousedown.
-
-    unless @selected
-      if e.shiftKey
-        # Add to selection
-        @composer.addToSelection(this)
-      else
-        @composer.select(this) # TODO: Shift+click with add to selection. alt-click will remove from.
-    else
-      if e.shiftKey
-        # Remove from selection
-        @composer.removeFromSelection(this)
-
-    # Pass mouse down to selection
-    @composer.activeSelectionView.trigger 'mousedown', e
 
   keydown: (e) =>
     switch e.keyCode
@@ -85,43 +69,6 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
       canvasItem.delete()
     super
 
-
-  mousemove: (e) ->
-
-    if @opened
-      # TODO: Map mouse move over grouped items.
-      console.log e.x, e.y
-
-
-
-      groupBoundry = @getBoundry()
-
-      x = e.x - groupBoundry.top
-      y = e.y - groupBoundry.left
-
-      event = new Newstime.Event(e)
-      [event.x, event.y] = [x, y] # Map event coordinates
-
-      selection = null
-
-      selection = _.find @contentItemViewsArray, (contentItemView) ->
-        contentItemView.hit(x, y, buffer: 24)
-
-      if selection
-        if @hoveredObject != selection
-          if @hoveredObject
-            @hoveredObject.trigger 'mouseout', event
-          @hoveredObject = selection
-          # alert @hoveredObject
-          @hoveredObject.trigger 'mouseover', event
-      else
-        if @hoveredObject
-          @hoveredObject.trigger 'mouseout', event
-          @hoveredObject = null
-
-      if @hoveredObject
-        @hoveredObject.trigger 'mousemove', event
-
   # getHitContentItem: (x, y) ->
   #   if y >= @boundingBox.top && y <= @boundingBox.bottom
   #     # If x,y hits the bounding box, check hit against contentItemsArray
@@ -129,34 +76,99 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
   #       contentItemView.hit(x, y, buffer: 24)
 
 
-  mouseover: (e) ->
-    @hovered = true
-    @outlineView.show()
-    @composer.pushCursor @getCursor()
 
-  mouseout: (e) ->
-    if @hoveredHandle
-      @hoveredHandle.trigger 'mouseout', e
-      @hoveredHandle = null
+  class MouseEvents
 
-    @hovered = false
-    @outlineView.hide()
-    @composer.popCursor()
+    mousedown: (e) ->
+      return unless e.button == 0 # Only respond to left button mousedown.
 
-  # touchstart: (e) ->
-  #   @composer.select(this)
-  #   @composer.activeSelectionView.trigger 'touchstart', e
+      unless @selected
+        if e.shiftKey
+          # Add to selection
+          @composer.addToSelection(this)
+        else
+          @composer.select(this) # TODO: Shift+click with add to selection. alt-click will remove from.
+      else
+        if e.shiftKey
+          # Remove from selection
+          @composer.removeFromSelection(this)
 
-  tap: (e) ->
-    @composer.select(this)
+      # Pass mouse down to selection
+      @composer.activeSelectionView.trigger 'mousedown', e
 
-  dblclick: (e) ->
-    if @opened
-      if @hoveredObject
-        @hoveredObject.trigger 'dblclick'
+    mousemove: (e) ->
 
-    else
-      @openGroup()
+      if @opened
+        # TODO: Map mouse move over grouped items.
+        console.log e.x, e.y
+
+
+
+        groupBoundry = @getBoundry()
+
+        x = e.x - groupBoundry.top
+        y = e.y - groupBoundry.left
+
+        event = new Newstime.Event(e)
+        [event.x, event.y] = [x, y] # Map event coordinates
+
+        selection = null
+
+        selection = _.find @contentItemViewsArray, (contentItemView) ->
+          contentItemView.hit(x, y, buffer: 24)
+
+        if selection
+          if @hoveredObject != selection
+            if @hoveredObject
+              @hoveredObject.trigger 'mouseout', event
+            @hoveredObject = selection
+            # alert @hoveredObject
+            @hoveredObject.trigger 'mouseover', event
+        else
+          if @hoveredObject
+            @hoveredObject.trigger 'mouseout', event
+            @hoveredObject = null
+
+        if @hoveredObject
+          @hoveredObject.trigger 'mousemove', event
+
+    mouseover: (e) ->
+      @hovered = true
+      @outlineView.show()
+      @composer.pushCursor @getCursor()
+
+    mouseout: (e) ->
+      if @hoveredHandle
+        @hoveredHandle.trigger 'mouseout', e
+        @hoveredHandle = null
+
+      @hovered = false
+      @outlineView.hide()
+      @composer.popCursor()
+
+    dblclick: (e) ->
+      if @opened
+        if @hoveredObject
+          @hoveredObject.trigger 'dblclick'
+
+      else
+        @openGroup()
+
+
+  class TouchEvents
+
+    tap: (e) ->
+      @composer.select(this)
+
+    # touchstart: (e) ->
+    #   @composer.select(this)
+    #   @composer.activeSelectionView.trigger 'touchstart', e
+
+
+  if MOBILE?
+    @include TouchEvents
+  else
+    @include MouseEvents
 
   openGroup: ->
     @composer.canvas.openGroup(this)

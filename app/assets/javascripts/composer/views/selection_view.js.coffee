@@ -216,7 +216,7 @@ class @Newstime.SelectionView extends Newstime.View
         clearTimeout(@tapped)
         @tapped = null
 
-      # @contentItemView.trigger 'doubletap', e
+      @contentItemView.trigger 'doubletap', e
 
   if MOBILE?
     @include TouchEvents

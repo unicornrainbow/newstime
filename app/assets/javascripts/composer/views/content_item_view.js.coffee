@@ -74,51 +74,109 @@ class @Newstime.ContentItemView extends @Newstime.CanvasItemView
   stepRight: ->
     @model.set left: @pageView.stepRight(@model.get('left'))
 
-  tap: (e) ->
-    @composer.select(this)
+  class MouseEvents
+    mousedown: (e) ->
+      return unless e.button == 0 # Only respond to left button mousedown.
 
-  mousedown: (e) ->
-    return unless e.button == 0 # Only respond to left button mousedown.
-
-    if @selected
-      if e.shiftKey
-        # Remove from selection
-        @composer.removeFromSelection(this)
-    else
-      if e.shiftKey
-        # Add to selection
-        @composer.addToSelection(this)
+      if @selected
+        if e.shiftKey
+          # Remove from selection
+          @composer.removeFromSelection(this)
       else
-        @composer.select(this) # TODO: Shift+click with add to selection. alt-click will remove from.
+        if e.shiftKey
+          # Add to selection
+          @composer.addToSelection(this)
+        else
+          @composer.select(this) # TODO: Shift+click with add to selection. alt-click will remove from.
 
-    # Pass mouse down to selection
-    @composer.activeSelectionView.trigger 'mousedown', e
+      # Pass mouse down to selection
+      @composer.activeSelectionView.trigger 'mousedown', e
 
-    #if @hoveredHandle
-      #@trackResize @hoveredHandle.type
-    #else
-      #geometry = @getGeometry()
-      #@trackMove(e.x - geometry.left, e.y - geometry.top)
-      #
+      #if @hoveredHandle
+        #@trackResize @hoveredHandle.type
+      #else
+        #geometry = @getGeometry()
+        #@trackMove(e.x - geometry.left, e.y - geometry.top)
+        #
 
-  mouseup: (e) ->
-    #TODO: Need to remove this code, which is no longer used do to selection
-    #view
+    mouseup: (e) ->
+      #TODO: Need to remove this code, which is no longer used do to selection
+      #view
 
-    if @resizing
-      @resizing = false
-      @resizeMode = null
+      if @resizing
+        @resizing = false
+        @resizeMode = null
 
-      @composer.hideVerticalSnapLine() # Ensure vertical snaps aren't showing.
-      # Reset drag handles, clearing if they where active
-      _.each @dragHandles, (h) -> h.reset()
-      @trigger 'resized'
+        @composer.hideVerticalSnapLine() # Ensure vertical snaps aren't showing.
+        # Reset drag handles, clearing if they where active
+        _.each @dragHandles, (h) -> h.reset()
+        @trigger 'resized'
 
-    if @moving?
-      @moving = false
+      if @moving?
+        @moving = false
 
-    @trigger 'tracking-release', this
+      @trigger 'tracking-release', this
 
+    mousemove: (e) ->
+      if @resizing
+        switch @resizeMode
+          when 'top'          then @dragTop(e.x, e.y)
+          when 'right'        then @dragRight(e.x, e.y)
+          when 'bottom'       then @dragBottom(e.x, e.y)
+          when 'left'         then @dragLeft(e.x, e.y)
+          when 'top-left'     then @dragTopLeft(e.x, e.y)
+          when 'top-right'    then @dragTopRight(e.x, e.y)
+          when 'bottom-left'  then @dragBottomLeft(e.x, e.y)
+          when 'bottom-right' then @dragBottomRight(e.x, e.y)
+
+      else if @moving
+        @move(e.x, e.y)
+
+      else if @active
+        # Check for hit handles
+        hit = @hitsDragHandle(e.x, e.y)
+        hit = _.find(@dragHandles, (h) -> h.type == hit)
+        if @hoveredHandle && hit
+          if @hoveredHandle != hit
+            @hoveredHandle.trigger 'mouseout', e
+            @hoveredHandle = hit
+            @hoveredHandle.trigger 'mouseover', e
+        else if @hoveredHandle
+          @hoveredHandle.trigger 'mouseout', e
+          @hoveredHandle = null
+
+        else if hit
+          @hoveredHandle = hit
+          @hoveredHandle.trigger 'mouseover', e
+
+    mouseover: (e) ->
+      @hovered = true
+      #@$el.addClass 'hovered'
+      @outlineView.show()
+      @composer.pushCursor @getCursor()
+
+
+    mouseout: (e) ->
+
+      if @hoveredHandle
+        @hoveredHandle.trigger 'mouseout', e
+        @hoveredHandle = null
+
+      @hovered = false
+      #@$el.removeClass 'hovered'
+      @outlineView.hide()
+      @composer.popCursor()
+
+  class TouchEvents
+
+    tap: (e) ->
+      @composer.select(this)
+
+
+  if MOBILE?
+    @include TouchEvents
+  else
+    @include MouseEvents
 
   trackResize: (mode) ->
     @resizing   = true
@@ -150,38 +208,6 @@ class @Newstime.ContentItemView extends @Newstime.CanvasItemView
     @moveOffsetX = offsetX
     @moveOffsetY = offsetY
     @trigger 'tracking', this
-
-  mousemove: (e) ->
-    if @resizing
-      switch @resizeMode
-        when 'top'          then @dragTop(e.x, e.y)
-        when 'right'        then @dragRight(e.x, e.y)
-        when 'bottom'       then @dragBottom(e.x, e.y)
-        when 'left'         then @dragLeft(e.x, e.y)
-        when 'top-left'     then @dragTopLeft(e.x, e.y)
-        when 'top-right'    then @dragTopRight(e.x, e.y)
-        when 'bottom-left'  then @dragBottomLeft(e.x, e.y)
-        when 'bottom-right' then @dragBottomRight(e.x, e.y)
-
-    else if @moving
-      @move(e.x, e.y)
-
-    else if @active
-      # Check for hit handles
-      hit = @hitsDragHandle(e.x, e.y)
-      hit = _.find(@dragHandles, (h) -> h.type == hit)
-      if @hoveredHandle && hit
-        if @hoveredHandle != hit
-          @hoveredHandle.trigger 'mouseout', e
-          @hoveredHandle = hit
-          @hoveredHandle.trigger 'mouseover', e
-      else if @hoveredHandle
-        @hoveredHandle.trigger 'mouseout', e
-        @hoveredHandle = null
-
-      else if hit
-        @hoveredHandle = hit
-        @hoveredHandle.trigger 'mouseover', e
 
 
   hitsDragHandle: (x, y) ->
@@ -230,25 +256,6 @@ class @Newstime.ContentItemView extends @Newstime.CanvasItemView
     # bottom-right drag handle hit?
     if @hitBox x, y, right, bottom, boxSize
       return "bottom-right"
-
-
-  mouseover: (e) ->
-    @hovered = true
-    #@$el.addClass 'hovered'
-    @outlineView.show()
-    @composer.pushCursor @getCursor()
-
-
-  mouseout: (e) ->
-
-    if @hoveredHandle
-      @hoveredHandle.trigger 'mouseout', e
-      @hoveredHandle = null
-
-    @hovered = false
-    #@$el.removeClass 'hovered'
-    @outlineView.hide()
-    @composer.popCursor()
 
 
   # Does an x,y corrdinate intersect a bounding box
