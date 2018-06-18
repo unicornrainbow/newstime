@@ -19,7 +19,7 @@ class View extends Backbone.View
 
 
   # Localize some jQuery methods
-  $methods = ['html', 'append', 'addClass',
+  $methods = ['html', 'append', 'addClass', 'removeClass'
      'toggleClass', 'show', 'hide']
   @delegate $methods, '$el'
   @delegate $methods, '$el', '$'

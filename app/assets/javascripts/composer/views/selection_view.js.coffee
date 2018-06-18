@@ -181,41 +181,12 @@ class @Newstime.SelectionView extends Newstime.View
         @composer.clearVerticalSnapLines()
         @composer.assignPage(@contentItem, @contentItemView)
 
-
-
       @trigger 'tracking-release', this
 
     tap: (e) ->
-      unless @tapped
-        tapped = =>
-          # Single tap should clear selection.
-          @tapped = null
-          @composer.clearSelection()
-
-        @tapped = setTimeout(tapped, 300)
-        # console.log @tapped
-
-      # period = Date.now() - @touchT
-      # if period < 300
-      #   if @tapped
-      #     # dbltap... cancel tap
-      #     clearTimeout(@tapped)
-      #     @tapped = null
-      #   else
-      #     tapped = =>
-      #       # Single tap should clear selection.
-      #       @tapped = null
-      #       @composer.clearSelection()
-      #
-      #     @tapped = setTimeout(tapped, 300)
+      @contentItemView.trigger 'tap', e
 
     doubletap: (e) ->
-      if @tapped
-        # console.log @tapped
-        # dbltap... cancel tap
-        clearTimeout(@tapped)
-        @tapped = null
-
       @contentItemView.trigger 'doubletap', e
 
   if MOBILE?

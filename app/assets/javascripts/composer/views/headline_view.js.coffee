@@ -9,7 +9,32 @@ class @Newstime.HeadlineView extends Newstime.ContentItemView
 
     @listenTo @model, 'change:height change:width change:text change:font_weight change:font_style change:font_family', @fitToBorderBox
 
+    # Using invisible textarea as hacky way to get keyboard on mobile.
+    @template = """
+      <div></div>
+      <textarea style='width:100%; height:100%; opacity:0; top:0; left:0; position:absolute;'></textarea>
+    """
+
+    @$el.html(@template)
+
+    @$div   = @$('div')
+    @$textarea = @$('textarea')
+
+    #@$textarea.keydown(@keydown)
+    @$textarea.keyup(@keyup)
+
     @render()
+
+
+  setElement: (el) ->
+    super
+    @$el.html(@template)
+    @$div   = @$('div')
+    @$textarea = @$('textarea')
+
+    #@$textarea.keydown(@keydown)
+    @$textarea.keyup(@keyup)
+
 
   render: ->
     @$el.css _.pick @model.attributes, 'top', 'left'
@@ -22,16 +47,17 @@ class @Newstime.HeadlineView extends Newstime.ContentItemView
     @$el.css 'font-weight': @model.get('font_weight')
 
     #@$el.css _.pick @model.changedAttributes()
+    @$textarea.val(@model.get('text') || '')
     if !!@model.get('text')
       spanWrapped = _.map @model.get('text'), (char) ->
         if char == '\n'
           char = "<br>"
         "<span>#{char}</span>"
       spanWrapped= spanWrapped.join('')
-      @$el.html(spanWrapped)
+      @$div.html(spanWrapped)
       @$el.removeClass 'placeholder'
     else
-      @$el.text(@placeholder)
+      @$div.text(@placeholder)
       @$el.addClass 'placeholder'
 
   @getter 'uiLabel', ->
@@ -46,6 +72,13 @@ class @Newstime.HeadlineView extends Newstime.ContentItemView
   deselect: ->
     @clearEditMode()
     super()
+
+
+  keyup: (e) =>
+    @model.set 'text', @$textarea.val()
+    @render()
+    @fitToBorderBox()
+
 
   keydown: (e) =>
     if @editMode
@@ -151,14 +184,45 @@ class @Newstime.HeadlineView extends Newstime.ContentItemView
   dblclick: ->
     @startEditMode()
 
+  tap: (e) ->
+    if @editMode
+      unless @tapped
+        tapped = =>
+          # Single tap should clear edit mode.
+          @tapped = null
+          @clearEditMode()
+
+        @tapped = setTimeout(tapped, 300)
+    else
+      super
+
+  doubletap: (e) ->
+    super
+    # How to show keyboard on mobile?
+    #@composer.showKeyboard()
+    # gee wiz, i wish i had a latching shift key.
+
+    unless @editMode
+      @startEditMode()
+    # else
+    #   @clearEditMode()
+    #@composer.showKeyboard()
+
+
   startEditMode: ->
-    @selectionView.$el.addClass 'edit-mode'
+    @selectionView.addClass 'edit-mode'
     @editMode = true
+
+    @$textarea.focus()
+
 
   clearEditMode: ->
     if @editMode
       @editMode = false
-      @selectionView.$el.removeClass 'edit-mode'
+      @selectionView.removeClass 'edit-mode'
+
+      @$textarea.blur()
+
 
   trimVerticalMargin: ->
     headlineHeight = @$el.height()
@@ -215,7 +279,6 @@ class @Newstime.HeadlineView extends Newstime.ContentItemView
     _.each attachedItems, ([contentItem, offset]) =>
       contentItem.set
         top: @model.get('top') + @model.get('height') + offset.offsetTop
-
 
   fitToBorderBox: ->
     # Get the width and height of the headline element.

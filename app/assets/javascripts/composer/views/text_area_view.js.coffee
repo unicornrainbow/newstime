@@ -52,6 +52,7 @@ class @Newstime.TextAreaView extends Newstime.ContentItemView
     @showEditTextAreaWindow()
 
   doubletap: (e) ->
+    super
     @showMobileTextEditorWindow()
     # @showEditTextAreaWindow()
 
