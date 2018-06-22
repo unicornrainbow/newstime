@@ -440,6 +440,7 @@ class @Newstime.CanvasView extends @Newstime.View
     @bindUIEvents()
 
     @listenTo @composer, 'zoom', @zoom
+    @listenTo @composer, 'windowResize', @positionCanvasItemsContainer
     @listenTo @contentItemCollection, 'remove', @removeContentItem
     @listenTo @groupCollection, 'add', @addGroup
 

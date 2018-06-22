@@ -370,8 +370,7 @@ class Newstime.Composer extends App.View
     # When they exit, save changes back to model, which will update view.
 
   windowResize: ->
-    @canvasLayerView.trigger 'windowResize'
-    @menuLayerView.trigger 'windowResize'
+    @trigger 'windowResize'
 
   # Focus on composer
   focus: ->

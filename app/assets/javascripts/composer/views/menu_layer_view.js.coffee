@@ -2,8 +2,9 @@
 class @Newstime.MenuLayerView extends Newstime.View
 
   initialize: (options) ->
-    @$el.addClass 'menu-layer-view'
-    @menuHeight = options.menuHeight
+    @addClass 'menu-layer-view'
+
+    { @composer, @menuHeight } = options
 
     @attachedViews = []
 
@@ -25,7 +26,7 @@ class @Newstime.MenuLayerView extends Newstime.View
     @bindUIEvents()
 
     @bind 'attach', @handelAttach
-    @bind 'windowResize', @handelWindowResize
+    @listenTo @composer, 'windowResize', @handelWindowResize
 
   hit: (x, y) ->
     x -= @menuView.leftOffset
