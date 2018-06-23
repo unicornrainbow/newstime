@@ -158,6 +158,11 @@ GEM
     mongoid-paperclip (0.0.11)
       mongoid
       paperclip (>= 2.3.6, != 4.3.0)
+    mongoid_rails_migrations (1.0.1)
+      activesupport (>= 3.2.0)
+      bundler (>= 1.0.0)
+      rails (>= 3.2.0)
+      railties (>= 3.2.0)
     multi_json (1.13.1)
     nokogiri (1.6.8.1)
       mini_portile2 (~> 2.1.0)
@@ -295,6 +300,7 @@ DEPENDENCIES
   liquid
   mongoid
   mongoid-paperclip
+  mongoid_rails_migrations
   nokogiri (~> 1.6.0)
   nprogress-rails
   oj

@@ -2,7 +2,6 @@
 
 class @Newstime.EditTextAreaWindowView extends @Newstime.WindowView
 
-
   initializeWindow: (options) ->
 
     _.extend @events,

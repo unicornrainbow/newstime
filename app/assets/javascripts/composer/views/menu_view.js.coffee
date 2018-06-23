@@ -112,6 +112,13 @@ class @Newstime.MenuView extends Newstime.View
     if @hoveredObject
       @hoveredObject.trigger 'click', e
 
+  tap: (e)->
+    x = e.center.x
+    y = e.center.y
+    # Silly little hack to click back to editions.
+    if x <= 169 && x >= 10 && y <= 60 && y >= 0
+      window.location = '/editions'
+
   touchstart: (e) ->
     @touchedObject = null
 

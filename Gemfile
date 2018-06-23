@@ -38,6 +38,7 @@ gem 'curb'
 gem 'eco'
 gem 'foreman'
 gem 'rails_12factor', group: :production
+gem 'mongoid_rails_migrations'
 
 
 gem 'compass-rails'

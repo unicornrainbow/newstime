@@ -73,7 +73,7 @@ class TextAreaTypesetter
 
       column_height = [column_height, 0].max # Ensure column height is not negative.
 
-      typesetter_service = HtmlTypesetter.new(html, width: text_column_width, height: column_height, line_height: '22px')
+      typesetter_service = HtmlTypesetter.new(html, width: text_column_width, height: column_height, line_height: '28px', font_size: '16pt')
       typesetter_service.typeset # Invoke Service
       content = typesetter_service.typeset_html
       html    = typesetter_service.overrun_html

@@ -552,6 +552,7 @@ class @Newstime.CanvasView extends @Newstime.View
     if selection
       selection.trigger 'tap', e
 
+
   doubletap: (e) ->
     [x, y] = @mapExternalCoords(e.center.x, e.center.y)
 
@@ -733,6 +734,7 @@ class @Newstime.CanvasView extends @Newstime.View
 
   # Update canvas item container to overlay pages.
   positionCanvasItemsContainer: ->
+    # console.log 'lucky'
     # TODO: Move this functionality up to the composer
     @pagesOffset = @$pages.offset()
     @pagesOffset.height = @$pages.height()

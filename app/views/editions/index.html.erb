@@ -1,3 +1,14 @@
+<% content_for :head do %>
+  <style>
+    .btn {
+      background-color: aqua;
+      width: 100%;
+      font-size:      16pt;
+      height: 60px;
+    }
+  </style>
+<% end %>
+
 <%= stylesheet_link_tag    "/flickity.css" %>
 <%#= javascript_include_tag "/flickity.pkgd.min.js" %>
 
@@ -29,6 +40,8 @@
       <td></td>
     </tr>
   </table>
+
+  <button class='btn' onclick='window.location="<%= new_edition_path %>"'>Start New Edition</button>
 
   <div class="main-gallery">
     <% @editions.each do |edition| %>

@@ -3,9 +3,9 @@ class @Newstime.AddPageButton extends Backbone.View
   initialize: (options) ->
     @composer = options.composer
     @$el.html """
-      <div class="grid grid24">
+      <div class="grid grid12">
         <div class="row">
-          <div class="col span24">
+          <div class="col span12">
             <input class="add-page-btn" type="button" value="Add Page"></input>
           </div>
         </div>

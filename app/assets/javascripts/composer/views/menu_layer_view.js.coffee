@@ -56,6 +56,9 @@ class @Newstime.MenuLayerView extends Newstime.View
   touchmove: (e) ->
     @menuView.trigger 'touchmove', e
 
+  tap: (e) ->
+    @menuView.trigger 'tap', e
+
   press: (e) ->
     @menuView.trigger 'press', e
 

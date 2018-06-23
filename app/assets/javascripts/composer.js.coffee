@@ -695,8 +695,7 @@ class Newstime.Composer extends App.View
     event.preventDefault()
     # console.log event
 
-    @mouseX = event.center.x
-    @mouseY = event.center.y
+    { x: @mouseX, y: @mouseY } = event.center
 
     # Test layers of app to determine which layer was touched.
     @touchedLayer = _.find @layers, (layer) => layer.hit(@mouseX, @mouseY)

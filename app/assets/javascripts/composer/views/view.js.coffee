@@ -15,7 +15,9 @@ class View extends Backbone.View
 
   # Binds standard UI Events
   bindUIEvents: ->
+    throw 'UI Events have already been bound for this view.' if @UIEventsBound
     @bind _.pick(this, uiEvents)
+    @UIEventsBound = true
 
 
   # Localize some jQuery methods

@@ -167,29 +167,9 @@ class @Newstime.ContentItemView extends @Newstime.CanvasItemView
       @outlineView.hide()
       @composer.popCursor()
 
-  class TouchEvents
-
-    tap: (e) ->
-      unless @selected
-        @composer.select(this)
-      else
-        unless @tapped
-          tapped = =>
-            # Single tap should clear selection.
-            @tapped = null
-            @composer.clearSelection()
-
-          @tapped = setTimeout(tapped, 300)
-
-    doubletap: (e) ->
-      if @tapped
-        # console.log @tapped
-        # dbltap... cancel tap
-        clearTimeout(@tapped)
-        @tapped = null
 
   if MOBILE?
-    @include TouchEvents
+    # @include TouchEvents
   else
     @include MouseEvents
 

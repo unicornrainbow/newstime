@@ -14,9 +14,53 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
     if @leftBorder
       @$el.addClass 'group-left-border'
 
-    @bindUIEvents()
+    @listenTo @model, 'change:height change:width', @resize
+    @bind 'resized', @resized  # Reflow text on resize
+
+
 
   @getter 'uiLabel', -> 'Group'
+
+
+  resized: ->
+    _.invoke @contentItemViewsArray, 'trigger', 'resized'
+
+
+  getPorps: ->
+    width = @model.get('width')
+    height = @model.get('height')
+
+    @porportions ?= []
+    contentItems = _.pluck @contentItemViewsArray, 'model'
+    i = 0
+    _.each contentItems, (item) =>
+      boundry = item.getBoundry()
+      top = 1 - (height - boundry.top) / height
+      left = 1 - (width - boundry.left) / width
+      w = 1 - (width - boundry.width) / width
+      h = 1 - (height - boundry.height) / height
+      @porportions[i] = {top, left, width: w, height: h}
+      i++
+
+
+
+  resize: ->
+    console.log 'resizin', @porportions
+    width = @model.get('width')
+    height = @model.get('height')
+
+    contentItems = _.pluck @contentItemViewsArray, 'model'
+    i = 0
+    _.each contentItems, (item) =>
+      boundry = item.getBoundry()
+      {top, left, width: w, height: h} = @porportions[i]
+
+      top = height * top
+      left = width * left
+      w = width * w
+      h = height * h
+      item.set {top, left, width: w, height: h}
+      i++
 
   measurePosition: ->
     @contentItems = _.pluck @contentItemViewsArray, 'model'
@@ -102,8 +146,6 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
         # TODO: Map mouse move over grouped items.
         console.log e.x, e.y
 
-
-
         groupBoundry = @getBoundry()
 
         x = e.x - groupBoundry.top
@@ -154,11 +196,21 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
       else
         @openGroup()
 
+  doubletap: ->
+    super
+    if @opened
+      if @hoveredObject
+        @hoveredObject.trigger 'dblclick'
 
-  class TouchEvents
+    else
+      @openGroup()
 
-    tap: (e) ->
-      @composer.select(this)
+
+  # class TouchEvents
+
+  # tap: (e) ->
+  #   super
+  #   @composer.select(this)
 
     # touchstart: (e) ->
     #   @composer.select(this)
@@ -166,11 +218,12 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
 
 
   if MOBILE?
-    @include TouchEvents
+    # @include TouchEvents
   else
     @include MouseEvents
 
   openGroup: ->
+    console.log 'open seaseme'
     @composer.canvas.openGroup(this)
     @opened = true
 
@@ -213,6 +266,9 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
 
     if view instanceof Newstime.TextAreaView
       @model.set 'story_title', view.model.get('story_title') # HACK: Need to make sure this stays in sync and is updated...
+
+    @getPorps()
+
 
   removeCanvasItem: (canvasItemView) ->
 

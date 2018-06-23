@@ -2,7 +2,7 @@
 class HtmlTypesetter
   LINEBREAK_SERVICE_URI = URI.parse(ENV['LINEBREAK_SERVICE_URL'])
 
-  attr_reader :parsed_response, :typeset_html, :overrun_html, :width, :height, :overflow_reserve, :html, :line_height
+  attr_reader :parsed_response, :typeset_html, :overrun_html, :width, :height, :overflow_reserve, :html, :line_height, :font_size
 
   def initialize(html, options={})
     @html             = html
@@ -10,6 +10,7 @@ class HtmlTypesetter
     @width            = options[:width]
     @height           = options[:height]
     @line_height      = options[:line_height]
+    @font_size        = options[:font_size]
     @overflow_reserve = options[:overflow_reserve]
   end
 
@@ -20,6 +21,7 @@ class HtmlTypesetter
       "width" => width,
       "height" => height,
       "line_height" => line_height,
+      "font_size" =>     font_size,
       "overflow_reserve" => overflow_reserve,
       "html" => html
     })
