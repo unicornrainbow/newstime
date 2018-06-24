@@ -4,10 +4,17 @@ class App.SoftKeysView extends App.View
 
   className: 'soft-keys'
 
-  initialize: ->
+  events:
+    'click .esc-key': 'escape'
+    'click .group-key': 'group'
+    'click .ungroup-key': 'ungroup'
+    'click .delete-key': 'delete'
+
+  initialize: (options) ->
+
+    { @composer } = Newstime
 
     @html """
-
     """
 
     @keys = {}
@@ -16,6 +23,21 @@ class App.SoftKeysView extends App.View
     @createKey('group')
     @createKey('ungroup')
     @createKey('delete')
+
+
+  escape: ->
+    @composer.clearSelection()
+
+  group: ->
+    @composer.selection.createGroup()
+
+  ungroup: ->
+    @composer.selection.contentItemView.ungroup()
+
+  delete: ->
+    if confirm "Are you sure you wish to delete this item?"
+      @composer.selection.contentItemView.delete()
+
 
   # Creates a key
   createKey: (name, text) ->
@@ -31,10 +53,20 @@ class App.SoftKeysView extends App.View
 
 
   showKey: (name) ->
+
     @keys[name].show()
+    @position = @$el.offset()
+
+    # @position = @$el.position()
+    console.log @position
 
   hideKey: (name) ->
     @keys[name].hide()
 
   hideKeys: ->
     _.invoke @keys, 'hide'
+
+
+  hit: (x, y) ->
+    console.log 'soft key', x, y
+    return false
