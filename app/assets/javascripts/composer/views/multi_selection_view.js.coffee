@@ -95,6 +95,7 @@ class @Newstime.MultiSelectionView extends @Newstime.View
 
       _.each @selectedViews, (view) ->
         view.deselect()
+        view.removeClass 'multi-selected'
 
     super
 
@@ -335,11 +336,13 @@ class @Newstime.MultiSelectionView extends @Newstime.View
 
   addView: (view) ->
     @selectedViews.push(view)
+    view.addClass 'multi-selected'
     @render()
 
   removeView: (view) ->
     index = @selectedViews.indexOf(view)
     @selectedViews.splice(index, 1)
+    view.removeClass 'multi-selected'
     @render()
 
   getPosition: ->

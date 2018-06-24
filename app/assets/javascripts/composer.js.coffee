@@ -1025,6 +1025,7 @@ class Newstime.Composer extends App.View
   multiSelect: ->
     @multiSelectionMode = true
     @activeSelectionView.addClass 'multi-select'
+    @activeSelectionView.contentItemView.addClass 'multi-selected'
 
   clearSelection: ->
     if @selection?

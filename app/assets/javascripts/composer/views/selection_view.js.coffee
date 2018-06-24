@@ -235,6 +235,7 @@ class @Newstime.SelectionView extends Newstime.View
 
       if @contentItemView
         @contentItemView.deselect()
+        @contentItemView.removeClass 'multi-selected'
 
     super
 
