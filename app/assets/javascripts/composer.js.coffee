@@ -977,6 +977,8 @@ class Newstime.Composer extends App.View
 
       @clearSelection()
 
+      @multiSelectionMode = true
+
       multiSelectionView = new Newstime.MultiSelectionView()
       multiSelectionView.addView(contentItemView)
       contentItemView.select(multiSelectionView)
@@ -998,11 +1000,23 @@ class Newstime.Composer extends App.View
       @activeSelectionView.addView(view)
       view.select(@activeSelectionView)
 
-    @pagesPanelView.render()
+    @pagesPanelView?.render()
 
-  # Removes model from selection.
-  removeFromSelection: (model) ->
-    # TODO: Implement.
+  # Removes view from multi selection.
+  removeFromSelection: (view) ->
+    if @activeSelectionView?
+      if @activeSelectionView instanceof Newstime.MultiSelectionView
+        console.log 'length', @activeSelectionView.selectedViews.length
+        if @activeSelectionView.selectedViews.length > 1
+          @activeSelectionView.removeView(view)
+        else
+          @clearSelection()
+
+    view.deselect()
+
+
+  multiSelect: ->
+    @multiSelectionMode = true
 
   clearSelection: ->
     if @selection?
@@ -1013,8 +1027,11 @@ class Newstime.Composer extends App.View
       @selection = null
     @pagesPanelView?.render()
 
+    @multiSelectionMode = false
+
     if @mobile?
       @softKeysView.hideKey('delete')
+
 
   selectMasthead: (mastheadView) ->
     @clearSelection()

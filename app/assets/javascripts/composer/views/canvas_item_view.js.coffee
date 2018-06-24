@@ -73,18 +73,27 @@ class @Newstime.CanvasItemView extends @Newstime.View
 
   tap: (e) ->
     unless @selected
-      @composer.select(this)
+      if @composer.multiSelectionMode
+        @composer.addToSelection(this)
+      else
+        @composer.select(this)
     else
       unless @tapped
         tapped = =>
           # Single tap should clear selection.
           @tapped = null
 
-          # If grouped, return selection to group.
-          if @groupView
-            @composer.select(@groupView)
+          # console.log 'flag', @composer.multiSelectionMode
+          if @composer.multiSelectionMode
+            @composer.removeFromSelection(this)
           else
-            @composer.clearSelection()
+            # If grouped, return selection to group.
+            if @groupView
+              @composer.select(@groupView)
+            else
+              console.log 'tilt'
+              @composer.clearSelection()
+
 
         @tapped = setTimeout(tapped, 300)
 
@@ -94,6 +103,17 @@ class @Newstime.CanvasItemView extends @Newstime.View
       # dbltap... cancel tap
       clearTimeout(@tapped)
       @tapped = null
+
+
+  press: (e) ->
+    unless @composer.multiSelectionMode
+      console.log 'engaged'
+
+      @composer.select(this)
+      @composer.multiSelect()
+    else
+      @composer.addToSelection(this)
+
 
 
   addClassNames: ->

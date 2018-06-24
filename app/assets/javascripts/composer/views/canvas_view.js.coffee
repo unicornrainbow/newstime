@@ -568,6 +568,22 @@ class @Newstime.CanvasView extends @Newstime.View
     if selection
       selection.trigger 'doubletap', e
 
+  press: (e) ->
+    {x, y} = e.center
+    [x, y] = @mapExternalCoords(x, y)
+
+    selection = null
+
+    if @composer.activeSelectionView # Check active selection first.
+      selection = @composer.activeSelectionView if @composer.activeSelectionView.hit(x, y)
+
+    unless selection
+      _.find @pageViewsArray, (pageView) ->
+        selection = pageView.getHitContentItem(x, y)
+
+    if selection
+      selection.trigger 'press', e
+
   touchmove: (e) ->
     e = @getMappedTouchEvent(e)
 

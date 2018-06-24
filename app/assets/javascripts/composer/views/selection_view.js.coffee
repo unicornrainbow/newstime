@@ -47,8 +47,6 @@ class @Newstime.SelectionView extends Newstime.View
       position.top  += @group.get('top')
       position.left += @group.get('left')
 
-
-
     # Apply zoom level
     if @composer.zoomLevel
       zoomLevel = @composer.zoomLevel
@@ -210,6 +208,9 @@ class @Newstime.SelectionView extends Newstime.View
 
     doubletap: (e) ->
       @contentItemView.trigger 'doubletap', e
+
+    press: (e) ->
+      @contentItemView.trigger 'press', e
 
   if MOBILE?
     @include TouchEvents

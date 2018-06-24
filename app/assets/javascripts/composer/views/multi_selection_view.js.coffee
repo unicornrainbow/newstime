@@ -102,20 +102,6 @@ class @Newstime.MultiSelectionView extends @Newstime.View
 
     super
 
-  mousedown: (e) ->
-    return unless e.button == 0 # Only respond to left button mousedown.
-
-    if @hoveredHandle
-      @trackResize @hoveredHandle.type
-    else
-      position = @getPosition()
-      @trackMove(e.x - position.left, e.y - position.top)
-
-       #OK, so just a note, but looks like moveing an object is actually a
-       #feature of the canvas view layer, which should on each move, figure out
-       #which to query into to check against snap points, and infact, can do
-       #this against multi pages, and even other objects, and will also need to
-       #do similar for highlighting snap points.
 
   trackMove: (offsetX, offsetY) ->
     #@pageView.computeTopSnapPoints()
@@ -130,23 +116,207 @@ class @Newstime.MultiSelectionView extends @Newstime.View
     @moveOffsetY = offsetY
     @trigger 'tracking', this
 
+  class MouseEvents
+    mousedown: (e) ->
+      return unless e.button == 0 # Only respond to left button mousedown.
 
-  mousemove: (e) ->
-    #@adjustEventXY(e)
-    if @resizing
-      switch @resizeMode
-        when 'top'          then @dragTop(e.x, e.y)
-        when 'right'        then @dragRight(e.x, e.y)
-        when 'bottom'       then @dragBottom(e.x, e.y)
-        when 'left'         then @dragLeft(e.x, e.y)
-        when 'top-left'     then @dragTopLeft(e.x, e.y)
-        when 'top-right'    then @dragTopRight(e.x, e.y)
-        when 'bottom-left'  then @dragBottomLeft(e.x, e.y)
-        when 'bottom-right' then @dragBottomRight(e.x, e.y)
+      if @hoveredHandle
+        @trackResize @hoveredHandle.type
+      else
+        position = @getPosition()
+        @trackMove(e.x - position.left, e.y - position.top)
 
-    else if @moving
-      @move(e.x, e.y, e.shiftKey)
+         #OK, so just a note, but looks like moveing an object is actually a
+         #feature of the canvas view layer, which should on each move, figure out
+         #which to query into to check against snap points, and infact, can do
+         #this against multi pages, and even other objects, and will also need to
+         #do similar for highlighting snap points.
 
+    mouseup: (e) ->
+      if @resizing
+        @resizing = false
+        @resizeMode = null
+
+        @composer.clearVerticalSnapLines() # Ensure vertical snaps aren't showing.
+        # Reset drag handles, clearing if they where active
+        _.each @dragHandles, (h) -> h.reset()
+        @canvasItemView.trigger 'resized'
+
+      if @moving
+        @moving = false
+        @composer.clearVerticalSnapLines()
+
+        _.each @selectedViews, (view) =>
+          @composer.assignPage(view.model, view)
+
+      @trigger 'tracking-release', this
+
+
+    mouseover: (e) ->
+      @hovered = true
+      @composer.pushCursor @getCursor()
+
+    mouseout: (e) ->
+      @hovered = false
+      @composer.popCursor()
+
+    mousemove: (e) ->
+      #@adjustEventXY(e)
+      if @resizing
+        switch @resizeMode
+          when 'top'          then @dragTop(e.x, e.y)
+          when 'right'        then @dragRight(e.x, e.y)
+          when 'bottom'       then @dragBottom(e.x, e.y)
+          when 'left'         then @dragLeft(e.x, e.y)
+          when 'top-left'     then @dragTopLeft(e.x, e.y)
+          when 'top-right'    then @dragTopRight(e.x, e.y)
+          when 'bottom-left'  then @dragBottomLeft(e.x, e.y)
+          when 'bottom-right' then @dragBottomRight(e.x, e.y)
+
+      else if @moving
+        @move(e.x, e.y, e.shiftKey)
+
+  class TouchEvents
+
+    # `touchstart` is a touch event triggered by the
+    # browser
+
+    touchstart: (e) ->
+      touch = e.touches[0]
+      x = touch.x
+      y = touch.y
+
+      # Time when the touch began
+      # @touchT = Date.now()
+
+      hitHandle = @hitsDragHandle(x, y)
+
+      if hitHandle
+        @trackResize hitHandle
+      else
+        geometry = @getPosition()
+        @trackMove(x - geometry.left, y - geometry.top)
+        # @moved = false # Flag set to see if moved, useful in determining tap
+
+    touchmove: (e) ->
+      touch = e.touches[0]
+      x = touch.x
+      y = touch.y
+
+      if @resizing
+
+        if @group
+          {top, left} = @group.attributes
+          x -= left
+          y -= top
+
+        switch @resizeMode
+          when 'top'          then @dragTop(x, y)
+          when 'right'        then @dragRight(x, y)
+          when 'bottom'       then @dragBottom(x, y)
+          when 'left'         then @dragLeft(x, y)
+          when 'top-left'     then @dragTopLeft(x, y)
+          when 'top-right'    then @dragTopRight(x, y)
+          when 'bottom-left'  then @dragBottomLeft(x, y)
+          when 'bottom-right' then @dragBottomRight(x, y)
+      else if @moving
+        # @moved = true
+        @move(x, y)
+
+    touchend: (e) ->
+      if @resizing
+        @resizing = false
+        @resizeMode = null
+
+        @composer.clearVerticalSnapLines() # Ensure vertical snaps aren't showing.
+        # Reset drag handles, clearing if they where active
+        _.each @dragHandles, (h) -> h.reset()
+        # @contentItemView.trigger 'resized'
+
+      if @moving
+        @moving = false
+        # if @moved
+        @composer.clearVerticalSnapLines()
+        # @composer.assignPage(@contentItem, @contentItemView)
+        # @contentItemView.trigger 'moved'
+
+      @trigger 'tracking-release', this
+
+
+    tap: (e) ->
+      # {x, y} = e.center
+      {pageX: x, pageY: y} = e.pointers[0]
+
+      selection = null
+
+      selection = _.find @selectedViews, (view) ->
+        view.hit(x, y, buffer: 24)
+
+      if selection
+        selection.trigger 'tap', e
+
+
+  if MOBILE?
+    @include TouchEvents
+  else
+    @include MouseEvents
+
+
+  hitsDragHandle: (x, y) ->
+    geometry = @getPosition()
+
+    # TODO: This should all be precalulated
+    width   = geometry.width
+    height  = geometry.height
+    top     = geometry.top
+    left    = geometry.left
+
+    if @group
+      top  += @group.get('top')
+      left += @group.get('left')
+
+    right   = left + width
+    bottom  = top + height
+    centerX = left + width/2
+    centerY = top + height/2
+
+    boxSize = 18
+
+    if @composer.zoomLevel
+      # Compensate box size for zoom level
+      boxSize /= @composer.zoomLevel
+
+    if @hitBox x, y, centerX, top, boxSize
+      return "top"
+
+    # right drag handle hit?
+    if @hitBox x, y, right, centerY, boxSize
+      return "right"
+
+    # left drag handle hit?
+    if @hitBox x, y, left, centerY, boxSize
+      return "left"
+
+    # bottom drag handle hit?
+    if @hitBox x, y, centerX, bottom, boxSize
+      return "bottom"
+
+    # top-left drag handle hit?
+    console.log x, y, left, top, boxSize
+    if @hitBox x, y, left, top, boxSize
+      return "top-left"
+
+    # top-right drag handle hit?
+    if @hitBox x, y, right, top, boxSize
+      return "top-right"
+
+    # bottom-left drag handle hit?
+    if @hitBox x, y, left, bottom, boxSize
+      return "bottom-left"
+
+    # bottom-right drag handle hit?
+    if @hitBox x, y, right, bottom, boxSize
+      return "bottom-right"
 
   # Moves based on corrdinates and starting offset
   move: (x, y, shiftKey=false) ->
@@ -164,39 +334,16 @@ class @Newstime.MultiSelectionView extends @Newstime.View
     bounds
 
 
-  mouseup: (e) ->
-    if @resizing
-      @resizing = false
-      @resizeMode = null
-
-      @composer.clearVerticalSnapLines() # Ensure vertical snaps aren't showing.
-      # Reset drag handles, clearing if they where active
-      _.each @dragHandles, (h) -> h.reset()
-      @canvasItemView.trigger 'resized'
-
-    if @moving
-      @moving = false
-      @composer.clearVerticalSnapLines()
-
-      _.each @selectedViews, (view) =>
-        @composer.assignPage(view.model, view)
-
-    @trigger 'tracking-release', this
-
-
-  mouseover: (e) ->
-    @hovered = true
-    @composer.pushCursor @getCursor()
-
-  mouseout: (e) ->
-    @hovered = false
-    @composer.popCursor()
-
   getCursor: ->
     'default'
 
   addView: (view) ->
     @selectedViews.push(view)
+    @render()
+
+  removeView: (view) ->
+    index = @selectedViews.indexOf(view)
+    @selectedViews.splice(index, 1)
     @render()
 
   getPosition: ->
@@ -268,3 +415,13 @@ class @Newstime.MultiSelectionView extends @Newstime.View
         left: value.left + leftOffset
     @calculatePosition()
     @render()
+
+  # Does an x,y corrdinate intersect a bounding box
+  hitBox: (hitX, hitY, boxX, boxY, boxSize) ->
+    boxLeft   = boxX - boxSize
+    boxRight  = boxX + boxSize
+    boxTop    = boxY - boxSize
+    boxBottom = boxY + boxSize
+
+    boxLeft <= hitX <= boxRight &&
+      boxTop <= hitY <= boxBottom

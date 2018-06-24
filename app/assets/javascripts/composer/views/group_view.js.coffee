@@ -364,12 +364,12 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
 
   removeCanvasItem: (canvasItemView) ->
 
-    @stopListening canvasItemView
-
     index = @contentItemViewsArray.indexOf(canvasItemView)
 
     if index == -1
       throw "Couldn't find canvas item."
+
+    @stopListening canvasItemView
 
     @contentItemViewsArray.splice(index, 1)
     @outlineView.remove(canvasItemView.outlineView)
