@@ -79,7 +79,12 @@ class @Newstime.CanvasItemView extends @Newstime.View
         tapped = =>
           # Single tap should clear selection.
           @tapped = null
-          @composer.clearSelection()
+
+          # If grouped, return selection to group.
+          if @groupView
+            @composer.select(@groupView)
+          else
+            @composer.clearSelection()
 
         @tapped = setTimeout(tapped, 300)
 

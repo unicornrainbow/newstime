@@ -20,19 +20,34 @@ class @Newstime.SelectionView extends Newstime.View
     @contentItem = @contentItemView.model
 
 
-    @page = @contentItemView.page
-    @pageView = @contentItemView.pageView
+
+    unless @contentItemView.groupView
+      @page = @contentItemView.page
+      @pageView = @contentItemView.pageView
+    else
+      @groupView = @contentItemView.groupView
+      @page = @groupView.page
+      @pageView = @groupView.pageView
+
 
     @listenTo @contentItem ,'change', @render
     @listenTo @contentItemView, 'deselect', @remove
 
     @bindUIEvents()
 
+    @group = @contentItem.getGroup()
+
   render: ->
     position = _.pick @contentItem.attributes, 'width', 'height'
 
     position.top  = @contentItem.get('top')
     position.left = @contentItem.get('left')
+
+    if @group
+      position.top  += @group.get('top')
+      position.left += @group.get('left')
+
+
 
     # Apply zoom level
     if @composer.zoomLevel
@@ -152,6 +167,12 @@ class @Newstime.SelectionView extends Newstime.View
       y = touch.y
 
       if @resizing
+
+        if @group
+          {top, left} = @group.attributes
+          x -= left
+          y -= top
+
         switch @resizeMode
           when 'top'          then @dragTop(x, y)
           when 'right'        then @dragRight(x, y)
@@ -180,6 +201,7 @@ class @Newstime.SelectionView extends Newstime.View
         # if @moved
         @composer.clearVerticalSnapLines()
         @composer.assignPage(@contentItem, @contentItemView)
+        @contentItemView.trigger 'moved'
 
       @trigger 'tracking-release', this
 
@@ -324,6 +346,10 @@ class @Newstime.SelectionView extends Newstime.View
     height  = geometry.height
     top     = geometry.top
     left    = geometry.left
+
+    if @group
+      top  += @group.get('top')
+      left += @group.get('left')
 
     right   = left + width
     bottom  = top + height

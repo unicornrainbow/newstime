@@ -17,14 +17,14 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
     @listenTo @model, 'change:height change:width', @resize
     @bind 'resized', @resized  # Reflow text on resize
 
-
-
   @getter 'uiLabel', -> 'Group'
-
 
   resized: ->
     _.invoke @contentItemViewsArray, 'trigger', 'resized'
 
+    # _.each @contentItemViewsArray, (contentItemView) ->
+    #   if contentItemView instanceof Newstime.TextAreaView
+    #     contentItemView.reflow()
 
   getPorps: ->
     width = @model.get('width')
@@ -42,10 +42,8 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
       @porportions[i] = {top, left, width: w, height: h}
       i++
 
-
-
   resize: ->
-    console.log 'resizin', @porportions
+    # console.log 'resizin', @porportions
     width = @model.get('width')
     height = @model.get('height')
 
@@ -61,6 +59,59 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
       h = height * h
       item.set {top, left, width: w, height: h}
       i++
+
+  contentItemAdjust: ->
+    {top: topOffset, left: leftOffset} = @getBoundry()
+
+    @contentItems = _.pluck @contentItemViewsArray, 'model'
+    first = _.first(@contentItems)
+    if first?
+      boundry =  first.getBoundry()
+
+
+      top = boundry.top
+      left = boundry.left
+      bottom = boundry.bottom
+      right = boundry.right
+
+      _.each _.rest(@contentItems), (contentItem) ->
+        boundry = contentItem.getBoundry()
+
+
+        top = Math.min(top, boundry.top)
+        left = Math.min(left, boundry.left)
+        bottom = Math.max(bottom, boundry.bottom)
+        right = Math.max(right, boundry.right)
+
+
+      console.log 'top', top
+
+      # topOffset += top
+      # # console.log topDiff
+      # leftOffset += left
+
+      topDiff = top
+      leftDiff = left
+
+      top += topOffset
+      left += leftOffset
+      bottom += topOffset
+      right += leftOffset
+
+
+      boundry = new Newstime.Boundry(top: top, left: left, bottom: bottom, right: right)
+      @model.set _.pick(boundry, 'top', 'left', 'width', 'height'), silent: true
+
+      _.each @contentItems, (contentItem) ->
+        contentItem.set
+          top: Math.max(contentItem.get('top') - topDiff, 0)
+          left: Math.max(contentItem.get('left') - leftDiff, 0)
+
+
+      @getPorps()
+
+      @model.trigger 'change'
+      # @model.trigger 'change:height'
 
   measurePosition: ->
     @contentItems = _.pluck @contentItemViewsArray, 'model'
@@ -83,7 +134,6 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
 
       boundry = new Newstime.Boundry(top: top, left: left, bottom: bottom, right: right)
       @model.set _.pick boundry, 'top', 'left', 'width', 'height'
-
 
   keydown: (e) =>
     switch e.keyCode
@@ -144,7 +194,7 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
 
       if @opened
         # TODO: Map mouse move over grouped items.
-        console.log e.x, e.y
+        # console.log e.x, e.y
 
         groupBoundry = @getBoundry()
 
@@ -196,14 +246,53 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
       else
         @openGroup()
 
-  doubletap: ->
-    super
+
+  tap: (e) ->
+    {x, y} = e.center
+
     if @opened
-      if @hoveredObject
-        @hoveredObject.trigger 'dblclick'
+      {top, left} = @getBoundry()
+
+      x -= top
+      y -= left
+
+      selection = null
+
+      selection = _.find @contentItemViewsArray, (contentItemView) ->
+        contentItemView.hit(x, y, buffer: 24)
+
+
+      if selection
+        selection.trigger 'tap', {center: {x, y}}
 
     else
-      @openGroup()
+      super
+
+
+
+  doubletap: (e) ->
+    super
+    if @opened
+    else
+      {x, y} = e.center
+
+      # @openGroup()
+      {top, left} = @getBoundry()
+
+      x -= top
+      y -= left
+
+      selection = null
+
+      selection = _.find @contentItemViewsArray, (contentItemView) ->
+        contentItemView.hit(x, y, buffer: 24)
+
+
+      if selection
+        selection.trigger 'tap', {center: {x, y}}
+
+
+
 
 
   # class TouchEvents
@@ -223,7 +312,6 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
     @include MouseEvents
 
   openGroup: ->
-    console.log 'open seaseme'
     @composer.canvas.openGroup(this)
     @opened = true
 
@@ -262,6 +350,10 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
     @$el.append(view.el)
     view.groupView = this
 
+    @listenTo view, 'resized, moved', @contentItemAdjust
+    # @listenTo view, 'moved',   @contentItemAdjust
+
+
     @model.addItem(view.model)
 
     if view instanceof Newstime.TextAreaView
@@ -271,6 +363,8 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
 
 
   removeCanvasItem: (canvasItemView) ->
+
+    @stopListening canvasItemView
 
     index = @contentItemViewsArray.indexOf(canvasItemView)
 
