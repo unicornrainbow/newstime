@@ -146,6 +146,11 @@ class Newstime.Composer extends App.View
       @$body.append  @mobileTextEditor.el
       @mobileTextEditor.hide()
 
+      @softKeysView = new App.SoftKeysView
+      # @attach @softKeysView
+      @$body.append @softKeysView.el
+      # @softKeysView.showKey('delete')
+
     else
 
       @toolboxView = new Newstime.ToolboxView
@@ -955,6 +960,9 @@ class Newstime.Composer extends App.View
     else
       @pagesPanelView?.render()
 
+    if @mobile?
+      @softKeysView.showKey('delete')
+
 
   # Adds model to a selection.
   addToSelection: (contentItemViews...) ->
@@ -1004,6 +1012,9 @@ class Newstime.Composer extends App.View
       @activeSelectionView = null
       @selection = null
     @pagesPanelView?.render()
+
+    if @mobile?
+      @softKeysView.hideKey('delete')
 
   selectMasthead: (mastheadView) ->
     @clearSelection()
