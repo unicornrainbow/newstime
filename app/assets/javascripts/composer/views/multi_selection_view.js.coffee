@@ -85,10 +85,6 @@ class @Newstime.MultiSelectionView extends @Newstime.View
     # Select group
     @composer.select(groupView)
 
-  # Detects a hit of the selection
-  hit: (x, y) ->
-    @selection.hit(x, y)
-
   destroy: ->
     @remove()
 
@@ -384,7 +380,13 @@ class @Newstime.MultiSelectionView extends @Newstime.View
 
   # Detects a hit of the selection
   hit: (x, y) ->
-    @hitsBoundingBox(@expandedPosition, x, y)
+    # @hitsBoundingBox(@expandedPosition, x, y)
+
+    # selection = null
+
+    # Match against children to allow tapping views within the bounding box.
+    !!_.find @selectedViews, (view) ->
+      view.hit(x, y, buffer: 24)
 
   # Expand the bounding box by buffer distance in each direction to extend
   # clickable area.

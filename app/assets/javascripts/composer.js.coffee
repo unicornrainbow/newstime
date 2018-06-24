@@ -985,6 +985,13 @@ class Newstime.Composer extends App.View
 
       @selection = @activeSelectionView = multiSelectionView
 
+      if @mobile?
+        @softKeysView.showKey('delete')
+        @softKeysView.showKey('group')
+        @softKeysView.showKey('esc')
+
+      @activeSelectionView.addClass 'multi-select'
+
       @activeSelectionView.render()
 
       @selectionLayerView.setSelection(@activeSelectionView)
@@ -1017,6 +1024,7 @@ class Newstime.Composer extends App.View
 
   multiSelect: ->
     @multiSelectionMode = true
+    @activeSelectionView.addClass 'multi-select'
 
   clearSelection: ->
     if @selection?
@@ -1030,7 +1038,8 @@ class Newstime.Composer extends App.View
     @multiSelectionMode = false
 
     if @mobile?
-      @softKeysView.hideKey('delete')
+      # @softKeysView.hideKey('delete')
+      @softKeysView.hideKeys()
 
 
   selectMasthead: (mastheadView) ->

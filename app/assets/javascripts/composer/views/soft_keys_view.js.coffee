@@ -12,7 +12,7 @@ class App.SoftKeysView extends App.View
 
     @keys = {}
 
-    @createKey('exit')
+    @createKey('esc')
     @createKey('group')
     @createKey('ungroup')
     @createKey('delete')
@@ -35,3 +35,6 @@ class App.SoftKeysView extends App.View
 
   hideKey: (name) ->
     @keys[name].hide()
+
+  hideKeys: ->
+    _.invoke @keys, 'hide'

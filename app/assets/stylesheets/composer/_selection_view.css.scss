@@ -4,6 +4,11 @@
   border: 1px dotted #ae05db;
   position: absolute;
 
+  &.multi-select {
+    .drag-handle {
+      background-color: rgba(45, 25, 75, .7) !important;
+    }
+  }
 
   &.resizable {
     border: 1px dashed #ae05db;
