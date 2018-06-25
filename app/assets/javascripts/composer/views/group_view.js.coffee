@@ -337,7 +337,9 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
     {pageX: x, pageY: y} = e.pointers[0]
 
     if @opened
-      {top, left} = @getBoundry()
+      # {top, left} = @getBoundry()
+      top = @model.getOffsetTop()
+      left = @model.getOffsetLeft()
 
       x -= top
       y -= left
@@ -347,9 +349,8 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
       selection = _.find @contentItemViewsArray, (contentItemView) ->
         contentItemView.hit(x, y, buffer: 24)
 
-
       if selection
-        selection.trigger 'tap', {center: {x, y}}
+        selection.trigger 'tap', e #{center: {x, y}}
 
     else
       super
@@ -363,7 +364,9 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
       {pageX: x, pageY: y} = e.pointers[0]
 
       # @openGroup()
-      {top, left} = @getBoundry()
+      # {top, left} = @getBoundry()
+      top = @model.getOffsetTop()
+      left = @model.getOffsetLeft()
 
       x -= left
       y -= top
@@ -376,7 +379,7 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
       console.log 'selection', selection
 
       if selection
-        selection.trigger 'tap', {center: {x, y}}
+        selection.trigger 'tap', e #{center: {x, y}, pointers: [{pageX: x, pageY: y}] }
 
 
   # class TouchEvents

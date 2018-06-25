@@ -76,6 +76,7 @@ class @Newstime.CanvasItemView extends @Newstime.View
       if @composer.multiSelectionMode
         @composer.addToSelection(this)
       else
+        # console.log 'select', this
         @composer.select(this)
     else
       unless @tapped

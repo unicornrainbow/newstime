@@ -74,6 +74,22 @@ class @Newstime.Group extends Backbone.RelationalModel
     boundry = @getBoundry()
     boundry.hit.apply(boundry, arguments)
 
+  getOffsetTop: ->
+    offset = @get('top')
+    if @group
+      offset += @group.getOffsetTop()
+
+    offset
+
+
+  getOffsetLeft: ->
+    offset = @get('left')
+    if @group
+      offset += @group.getOffsetLeft()
+
+    offset
+
+
 class @Newstime.GroupCollection extends Backbone.Collection
   model: Newstime.Group
   url: ->

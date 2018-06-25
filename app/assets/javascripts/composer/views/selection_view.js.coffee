@@ -42,8 +42,11 @@ class @Newstime.SelectionView extends Newstime.View
 
     # console.log 'g', @group
     if @group
-      position.top  += @group.get('top')
-      position.left += @group.get('left')
+      # position.top  += @group.get('top')
+      # position.left += @group.get('left')
+      position.top += @group.getOffsetTop()
+      position.left += @group.getOffsetLeft()
+
 
     # Apply zoom level
     if @composer.zoomLevel
@@ -149,8 +152,10 @@ class @Newstime.SelectionView extends Newstime.View
       # @touchT = Date.now()
 
       if @group
-        x  -= @group.get('left')
-        y  -= @group.get('top')
+        # x  -= @group.get('left')
+        # y  -= @group.get('top')
+        x -= @group.getOffsetLeft()
+        y -= @group.getOffsetTop()
 
 
       hitHandle = @hitsDragHandle(x, y)
@@ -169,8 +174,10 @@ class @Newstime.SelectionView extends Newstime.View
       y = touch.y
 
       if @group
-        x  -= @group.get('left')
-        y  -= @group.get('top')
+        # x  -= @group.get('left')
+        # y  -= @group.get('top')
+        x -= @group.getOffsetLeft()
+        y -= @group.getOffsetTop()
 
       if @resizing
 
@@ -187,6 +194,9 @@ class @Newstime.SelectionView extends Newstime.View
 
         # @moved = true
         @move(x, y)
+
+        @motorboat(y)
+
 
     touchend: (e) ->
       if @resizing
@@ -221,6 +231,33 @@ class @Newstime.SelectionView extends Newstime.View
     @include TouchEvents
   else
     @include MouseEvents
+
+  motorboat: (y) ->
+    # if @group
+    #   y += @group.get('top')
+
+    windowHeight = Math.round($(window).height())
+    scrollTop = Math.round($(window).scrollTop())
+    bottom = @contentItem.get('top') + @contentItem.get('height') + 60
+
+    if @group
+      # bottom += @group.get('top')
+      bottom += @group.getOffsetTop()
+
+    motorboat = Math.max(0, bottom - windowHeight - scrollTop)
+
+    if motorboat > 0
+      $(window).scrollTop(scrollTop + motorboat/3)
+
+    top = @contentItem.get('top') # + 60
+    if @group
+      # top += @group.get('top')
+      top += @group.getOffsetTop()
+
+    motorboat = Math.min(0, top - scrollTop)
+
+    if motorboat < 0
+      $(window).scrollTop(scrollTop + motorboat/3)
 
   paste: (e) ->
     @contentItemView.trigger 'paste', e
