@@ -963,6 +963,9 @@ class Newstime.Composer extends App.View
     if @mobile?
       @softKeysView.showKey('delete')
 
+      if @selection.contentItemView instanceof Newstime.GroupView
+        @softKeysView.showKey 'ungroup'
+
 
   # Adds model to a selection.
   addToSelection: (contentItemViews...) ->

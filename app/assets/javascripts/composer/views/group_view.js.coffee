@@ -230,12 +230,6 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
     @composer.deleteQueue.push @model # Push model onto delete queue for destruction with next save.
     @remove() # Remove view
 
-  select: ->
-    super
-
-    if @composer.mobile?
-      @composer.softKeysView.showKey('ungroup')
-
   delete: ->
     # Delete group contents as well.
     contentItems = @contentItemViewsArray.slice(0) # Clone array of items.
