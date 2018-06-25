@@ -69,7 +69,7 @@ class @Newstime.MultiSelectionView extends @Newstime.View
     view.addClass 'multi-selected'
     # Can only group if has more than one selected views.
     @canGroup = @selectedViews.length > 1
-    @listenTo view.model, 'change', @render
+    # @listenTo view.model, 'change', @render # This line was causein moving a multi select to act really weird.
     @render()
 
   removeView: (view) ->
@@ -215,12 +215,12 @@ class @Newstime.MultiSelectionView extends @Newstime.View
       x = touch.x
       y = touch.y
 
-      if @resizing
+      if @group
+        {top, left} = @group.attributes
+        x -= left
+        y -= top
 
-        if @group
-          {top, left} = @group.attributes
-          x -= left
-          y -= top
+      if @resizing
 
         switch @resizeMode
           when 'top'          then @dragTop(x, y)

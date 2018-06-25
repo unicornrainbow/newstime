@@ -1,6 +1,22 @@
+@keyframes flash {
+  0%   {
+    background: rgba(255, 125, 213, .4);
+    box-shadow: 0 0 5px 3px rgba(255, 125, 213, .4);
+  }
+  100% {
+    background: none;
+    box-shadow: none;
+  }
+}
+
 .multi-selected {
-  background: rgba(255, 125, 213, .1);
-  box-shadow: 0 0 5px 3px rgba(255, 125, 213, .1)
+  // background: rgba(255, 125, 213, .1);
+  // box-shadow: 0 0 5px 3px rgba(255, 125, 213, .1)
+  // box-shadow: 0 0 1px rgba(255, 125, 213, 1)
+
+  // border: 1px solid aqua;
+  // animation-name: flash;
+  // animation-duration: 2s;
 }
 
 .selection-view {

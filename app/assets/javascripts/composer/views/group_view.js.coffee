@@ -50,7 +50,7 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
     @outlineView.attach(view.outlineView)
     @$el.append(view.el)
     view.groupView = this
-    view.pageView = this.pageView
+    view.setPageView @pageView
 
     @listenTo view, 'resized, moved', @contentItemAdjust
     # @listenTo view, 'moved',   @contentItemAdjust
@@ -61,6 +61,18 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
       @model.set 'story_title', view.model.get('story_title') # HACK: Need to make sure this stays in sync and is updated...
 
     @getPorps()
+
+
+  # In a world of groups, finds the pageView.
+  getPageView: ->
+    @pageView || @groupView?.getPageView()
+
+  setPageView: (pageView) ->
+    @pageView = pageView
+
+    # Pass on the pageView to the grouped items
+    _.invoke @contentItemViewsArray,
+      'setPageView', pageView
 
   removeCanvasItem: (canvasItemView) ->
 
@@ -89,6 +101,7 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
 
     canvasItemView.model.unset('group_id')
     canvasItemView.model.group = null
+
 
   resized: ->
     _.invoke @contentItemViewsArray, 'trigger', 'resized'

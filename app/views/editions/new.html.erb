@@ -1,12 +1,21 @@
+
+
+
+<% content_for :head do %>
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <style type='text/css'>
+    .btn {
+      background-color: aqua;
+      width: 100%;
+      font-size:      16pt;
+      height: 60px;
+    }
+  </style>
+<% end %>
+
+
 <div class="editions-new">
   <h2>New Edition</h2>
   <%= render 'form', edition: @edition, new: true %>
 </div>
-<style>
-  .btn {
-    background-color: aqua;
-    width: 100%;
-    font-size:      16pt;
-    height: 60px;
-  }
-</style>

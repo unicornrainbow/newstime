@@ -124,7 +124,8 @@ class @Newstime.PageView extends @Newstime.View
     if options.reattach
       index = view.model.get('z_index')
 
-    view.pageView = this
+    # view.pageView = this
+    view.setPageView this
 
     # Note: contentItemViewsArray should be a special collection.
 
@@ -412,7 +413,9 @@ class @Newstime.PageView extends @Newstime.View
   snapTop: (value) ->
     #closest = Newstime.closest(value, @topSnapPoints)
     #if Math.abs(closest - value) < 10 then closest else value
-    Math.max value, 0
+    # Math.max value, 0
+
+    value
 
   getWidth: ->
     @grid.pageWidth

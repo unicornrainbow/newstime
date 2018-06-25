@@ -58,7 +58,7 @@ class App.SoftKeysView extends App.View
     @position = @$el.offset()
 
     # @position = @$el.position()
-    console.log @position
+    # console.log @position
 
   hideKey: (name) ->
     @keys[name].hide()
@@ -68,5 +68,5 @@ class App.SoftKeysView extends App.View
 
 
   hit: (x, y) ->
-    console.log 'soft key', x, y
+    # console.log 'soft key', x, y
     return false

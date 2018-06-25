@@ -4,7 +4,7 @@ class @Newstime.Draggable
   # Resizes based on a top drag
   dragTop: (x, y) ->
     geometry = @getGeometry()
-    y = @pageView.snapTop(y)
+    # y = @pageView.snapTop(y)
     @model.set
       top: y
       height: geometry.top - y + geometry.height
@@ -20,6 +20,8 @@ class @Newstime.Draggable
 
   dragBottom: (x, y) ->
     geometry = @getGeometry()
+
+    # @ensurePageView()
 
     @model.set
       height: @pageView.snapBottom(y) - geometry.top
@@ -61,6 +63,8 @@ class @Newstime.Draggable
     if @groupView
       x  += @groupView.model.get('left')
 
+    # @ensurePageView()
+
     @composer.clearVerticalSnapLines()
     geometry = @getGeometry()
 
@@ -83,6 +87,8 @@ class @Newstime.Draggable
   dragBottomRight: (x, y) ->
     if @groupView
       x  += @groupView.model.get('left')
+
+    # @ensurePageView()
 
     @composer.clearVerticalSnapLines()
     geometry = @getGeometry()
@@ -116,3 +122,7 @@ class @Newstime.Draggable
     @model.set
       left: x
       top: y
+
+  # ensurePageView: ->
+  #   if !@pageView? && @groupView
+  #     @pageView = @groupView.getPageView()

@@ -189,3 +189,6 @@ class @Newstime.CanvasItemView extends @Newstime.View
 
   hit: ->
     @model.hit.apply(@model, arguments)
+
+  setPageView: (pageView) ->
+    @pageView = pageView

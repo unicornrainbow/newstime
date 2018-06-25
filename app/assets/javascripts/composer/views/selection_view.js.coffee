@@ -381,7 +381,7 @@ class @Newstime.SelectionView extends Newstime.View
       return "bottom"
 
     # top-left drag handle hit?
-    console.log x, y, left, top, boxSize
+    # console.log x, y, left, top, boxSize
     if @hitBox x, y, left, top, boxSize
       return "top-left"
 
