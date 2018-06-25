@@ -43,22 +43,23 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
       i++
 
   resize: ->
-    # console.log 'resizin', @porportions
-    width = @model.get('width')
-    height = @model.get('height')
+    if @selectionView?.resizing
+      # console.log 'resizin', @porportions
+      width = @model.get('width')
+      height = @model.get('height')
 
-    contentItems = _.pluck @contentItemViewsArray, 'model'
-    i = 0
-    _.each contentItems, (item) =>
-      boundry = item.getBoundry()
-      {top, left, width: w, height: h} = @porportions[i]
+      contentItems = _.pluck @contentItemViewsArray, 'model'
+      i = 0
+      _.each contentItems, (item) =>
+        boundry = item.getBoundry()
+        {top, left, width: w, height: h} = @porportions[i]
 
-      top = height * top
-      left = width * left
-      w = width * w
-      h = height * h
-      item.set {top, left, width: w, height: h}
-      i++
+        top = height * top
+        left = width * left
+        w = width * w
+        h = height * h
+        item.set {top, left, width: w, height: h}
+        i++
 
   contentItemAdjust: ->
     {top: topOffset, left: leftOffset} = @getBoundry()
