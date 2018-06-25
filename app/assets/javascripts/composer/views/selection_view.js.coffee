@@ -39,6 +39,8 @@ class @Newstime.SelectionView extends Newstime.View
   render: ->
     position = @contentItemView.getGeometry()
 
+
+    # console.log 'g', @group
     if @group
       position.top  += @group.get('top')
       position.left += @group.get('left')
@@ -146,6 +148,11 @@ class @Newstime.SelectionView extends Newstime.View
       # Time when the touch began
       # @touchT = Date.now()
 
+      if @group
+        x  -= @group.get('left')
+        y  -= @group.get('top')
+
+
       hitHandle = @hitsDragHandle(x, y)
 
       if hitHandle
@@ -159,6 +166,10 @@ class @Newstime.SelectionView extends Newstime.View
       touch = e.touches[0]
       x = touch.x
       y = touch.y
+
+      if @group
+        x  -= @group.get('left')
+        y  -= @group.get('top')
 
       if @resizing
 

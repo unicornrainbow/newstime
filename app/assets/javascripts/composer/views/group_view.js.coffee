@@ -319,7 +319,8 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
         @openGroup()
 
   tap: (e) ->
-    {x, y} = e.center
+    # {x, y} = e.center
+    {pageX: x, pageY: y} = e.pointers[0]
 
     if @opened
       {top, left} = @getBoundry()
@@ -343,19 +344,22 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
     super
     if @opened
     else
-      {x, y} = e.center
+
+      # {x, y} = e.center
+      {pageX: x, pageY: y} = e.pointers[0]
 
       # @openGroup()
       {top, left} = @getBoundry()
 
-      x -= top
-      y -= left
+      x -= left
+      y -= top
 
       selection = null
 
       selection = _.find @contentItemViewsArray, (contentItemView) ->
         contentItemView.hit(x, y, buffer: 24)
 
+      console.log 'selection', selection
 
       if selection
         selection.trigger 'tap', {center: {x, y}}

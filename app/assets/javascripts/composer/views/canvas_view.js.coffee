@@ -506,8 +506,12 @@ class @Newstime.CanvasView extends @Newstime.View
     #   unless @touching.hit(x, y)
     #     @touching = null
 
-    if @composer.activeSelectionView # Check active selection first.
-      selection = @composer.activeSelectionView if @composer.activeSelectionView.hit(x, y)
+    if @composer.selection # Check active selection first.
+      if @composer.selection.group # react differently if the selection is inside of a group
+        group = @composer.selection.group
+        selection = @composer.selection if @composer.selection.hit(x - group.get('left'), y - group.get('top'))
+      else
+        selection = @composer.selection if @composer.selection.hit(x, y)
 
     # unless selection
     #   _.find @pageViewsArray, (pageView) ->
