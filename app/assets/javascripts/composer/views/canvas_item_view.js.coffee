@@ -83,17 +83,16 @@ class @Newstime.CanvasItemView extends @Newstime.View
           # Single tap should clear selection.
           @tapped = null
 
-          console.log 'flag', @composer.multiSelectionMode
           if @composer.multiSelectionMode
-            if @composer.selection instanceof Newstime.MultiSelectionView
-              if @composer.selection.selectedViews.length > 1
-                @composer.removeFromSelection(this)
-              else
-                @composer.clearSelection()
+            if @composer.selection instanceof Newstime.MultiSelectionView and
+                 @composer.selection.selectedViews.length > 1
+
+              @composer.removeFromSelection(this)
             else
-              @removeClass 'multi-selected'
               @composer.exitMultiSelect()
-              @composer.select(this)
+              # @removeClass 'multi-selected'
+              # @composer.exitMultiSelect()
+              # @composer.select(this)
 
           else
             # If grouped, return selection to group.
@@ -115,8 +114,6 @@ class @Newstime.CanvasItemView extends @Newstime.View
 
   press: (e) ->
     unless @composer.multiSelectionMode
-      console.log 'engaged'
-
       unless @selected
         @composer.select(this)
 

@@ -67,12 +67,15 @@ class @Newstime.MultiSelectionView extends @Newstime.View
   addView: (view) ->
     @selectedViews.push(view)
     view.addClass 'multi-selected'
+    # Can only group if has more than one selected views.
+    @canGroup = @selectedViews.length > 1
     @render()
 
   removeView: (view) ->
     index = @selectedViews.indexOf(view)
     @selectedViews.splice(index, 1)
     view.removeClass 'multi-selected'
+    @canGroup = @selectedViews.length > 1
     @render()
 
   getPropertiesView: ->
@@ -261,6 +264,10 @@ class @Newstime.MultiSelectionView extends @Newstime.View
 
       if selection
         selection.trigger 'tap', e
+
+    doubletap: (e) ->
+      @composer.clearSelection()
+
 
   if MOBILE?
     @include TouchEvents

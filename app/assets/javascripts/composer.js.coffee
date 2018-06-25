@@ -988,11 +988,6 @@ class Newstime.Composer extends App.View
 
       @selection = @activeSelectionView = multiSelectionView
 
-      if @mobile?
-        @softKeysView.showKey('delete')
-        @softKeysView.showKey('group')
-        @softKeysView.showKey('esc')
-
       @activeSelectionView.addClass 'multi-select'
 
       @activeSelectionView.render()
@@ -1011,6 +1006,13 @@ class Newstime.Composer extends App.View
       view.select(@activeSelectionView)
 
     @pagesPanelView?.render()
+
+    if @mobile?
+      @softKeysView.showKey('delete')
+      # @softKeysView.showKey('esc')
+      if @selection.canGroup
+        @softKeysView.showKey('group')
+
 
   # Removes view from multi selection.
   removeFromSelection: (view) ->
@@ -1034,14 +1036,16 @@ class Newstime.Composer extends App.View
     #   view.deselect()
 
   exitMultiSelect: ->
-    @multiSelectionMode = false
+    if @multiSelectionMode
+      @multiSelectionMode = false
+
+      view = @selection.selectedViews[0]
+      view.removeClass 'multi-selected'
+      @select(view)
 
   multiSelect: ->
     @multiSelectionMode = true
-    @activeSelectionView.addClass 'multi-select'
-    @activeSelectionView.contentItemView.addClass 'multi-selected'
-
-
+    @addToSelection() # Converts selection to multi-selection
 
 
   clearSelection: ->
