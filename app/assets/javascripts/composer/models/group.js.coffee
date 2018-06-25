@@ -36,7 +36,8 @@ class @Newstime.Group extends Backbone.RelationalModel
 
 
   getGroup: ->
-    @group ?= @get('edition').get('groups').findWhere(_id: @get('group_id'))
+    if @get('group_id')
+      @group ?= @get('edition').get('groups').findWhere(_id: @get('group_id'))
 
 
   # Return grouped content items and groups as single array.

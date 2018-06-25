@@ -1,11 +1,15 @@
 #= require ../views/canvas_item_view
-#
+
+App = Newstime
+
 #  A group view as an implementation of canvas item view. It represents a group
 #  as it appears on, and interacts, with the canvas.
 #
 class @Newstime.GroupView extends @Newstime.CanvasItemView
 
   className: 'group-view'
+
+  @getter 'uiLabel', -> 'Group'
 
   initializeCanvasItem: (options={}) ->
     @contentItemViewsArray = [] # Array of content items views in z-index order.
@@ -17,7 +21,73 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
     @listenTo @model, 'change:height change:width', @resize
     @bind 'resized', @resized  # Reflow text on resize
 
-  @getter 'uiLabel', -> 'Group'
+  # Adds view to group.
+  addCanvasItem: (view, options={}) ->
+    viewBoundry = view.model.getBoundry()
+
+    unless options.reattach
+
+      # If this is the first view in the group
+      if @contentItemViewsArray.length == 0
+        # clone the boundry
+        @model.set _.pick viewBoundry, 'top', 'left', 'width', 'height'
+
+        # zero position of element
+        view.model.set(top: 0, left: 0)
+      else
+        # Union boundry into group
+        groupBoundry = @getBoundry()
+        newBoundry = groupBoundry.union(viewBoundry)
+
+        @_setBoundry(newBoundry)
+
+        # Subtract group offset from element offset.
+        view.model.set
+          top: viewBoundry.top - newBoundry.top
+          left: viewBoundry.left - newBoundry.left
+
+    @contentItemViewsArray.push(view)
+    @outlineView.attach(view.outlineView)
+    @$el.append(view.el)
+    view.groupView = this
+
+    @listenTo view, 'resized, moved', @contentItemAdjust
+    # @listenTo view, 'moved',   @contentItemAdjust
+
+    @model.addItem(view.model)
+
+    if view instanceof Newstime.TextAreaView
+      @model.set 'story_title', view.model.get('story_title') # HACK: Need to make sure this stays in sync and is updated...
+
+    @getPorps()
+
+  removeCanvasItem: (canvasItemView) ->
+
+    index = @contentItemViewsArray.indexOf(canvasItemView)
+
+    if index == -1
+      throw "Couldn't find canvas item."
+
+    @stopListening canvasItemView
+
+    @contentItemViewsArray.splice(index, 1)
+    @outlineView.remove(canvasItemView.outlineView)
+    canvasItemView.groupView = null
+    canvasItemView.$el.detach()
+
+    groupBoundry = @getBoundry()
+
+    canvasItemView.model.set
+      top: groupBoundry.top + canvasItemView.model.top
+      left: groupBoundry.left + canvasItemView.model.left
+
+    # TODO: Reapply position for group view
+
+    # Update z-indexs
+    #@updateZindexs()
+
+    canvasItemView.model.unset('group_id')
+    canvasItemView.model.group = null
 
   resized: ->
     _.invoke @contentItemViewsArray, 'trigger', 'resized'
@@ -26,6 +96,9 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
     #   if contentItemView instanceof Newstime.TextAreaView
     #     contentItemView.reflow()
 
+  # Collects and stores porportions for each of the grouped items,
+  # which are later used during group resize to distribute the resize
+  # in a somewhat agreeable manner.
   getPorps: ->
     width = @model.get('width')
     height = @model.get('height')
@@ -85,7 +158,7 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
         right = Math.max(right, boundry.right)
 
 
-      console.log 'top', top
+      # console.log 'top', top
 
       # topOffset += top
       # # console.log topDiff
@@ -157,6 +230,12 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
     @composer.deleteQueue.push @model # Push model onto delete queue for destruction with next save.
     @remove() # Remove view
 
+  select: ->
+    super
+
+    if @composer.mobile?
+      @composer.softKeysView.showKey('ungroup')
+
   delete: ->
     # Delete group contents as well.
     contentItems = @contentItemViewsArray.slice(0) # Clone array of items.
@@ -169,8 +248,6 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
   #     # If x,y hits the bounding box, check hit against contentItemsArray
   #     _.find @contentItemViewsArray, (contentItemView) ->
   #       contentItemView.hit(x, y, buffer: 24)
-
-
 
   class MouseEvents
 
@@ -247,7 +324,6 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
       else
         @openGroup()
 
-
   tap: (e) ->
     {x, y} = e.center
 
@@ -269,8 +345,6 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
     else
       super
 
-
-
   doubletap: (e) ->
     super
     if @opened
@@ -291,9 +365,6 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
 
       if selection
         selection.trigger 'tap', {center: {x, y}}
-
-
-
 
 
   # class TouchEvents
@@ -320,75 +391,6 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
     if @opened
       @trigger 'close-group', this
       @opened = false
-
-  # Adds view to group.
-  addCanvasItem: (view, options={}) ->
-    viewBoundry = view.model.getBoundry()
-
-    unless options.reattach
-
-      # If this is the first view in the group
-      if @contentItemViewsArray.length == 0
-        # clone the boundry
-        @model.set _.pick viewBoundry, 'top', 'left', 'width', 'height'
-
-        # zero position of element
-        view.model.set(top: 0, left: 0)
-      else
-        # Union boundry into group
-        groupBoundry = @getBoundry()
-        newBoundry = groupBoundry.union(viewBoundry)
-
-        @_setBoundry(newBoundry)
-
-        # Subtract group offset from element offset.
-        view.model.set
-          top: viewBoundry.top - newBoundry.top
-          left: viewBoundry.left - newBoundry.left
-
-    @contentItemViewsArray.push(view)
-    @outlineView.attach(view.outlineView)
-    @$el.append(view.el)
-    view.groupView = this
-
-    @listenTo view, 'resized, moved', @contentItemAdjust
-    # @listenTo view, 'moved',   @contentItemAdjust
-
-
-    @model.addItem(view.model)
-
-    if view instanceof Newstime.TextAreaView
-      @model.set 'story_title', view.model.get('story_title') # HACK: Need to make sure this stays in sync and is updated...
-
-    @getPorps()
-
-
-  removeCanvasItem: (canvasItemView) ->
-
-    index = @contentItemViewsArray.indexOf(canvasItemView)
-
-    if index == -1
-      throw "Couldn't find canvas item."
-
-    @stopListening canvasItemView
-
-    @contentItemViewsArray.splice(index, 1)
-    @outlineView.remove(canvasItemView.outlineView)
-    canvasItemView.groupView = null
-    canvasItemView.$el.detach()
-
-    groupBoundry = @getBoundry()
-
-    canvasItemView.model.set
-      top: groupBoundry.top + canvasItemView.model.top
-      left: groupBoundry.left + canvasItemView.model.left
-
-    # TODO: Reapply position for group view
-
-    # Update z-indexs
-    #@updateZindexs()
-
-    canvasItemView.model.unset('group_id')
 
   toggleLeftBorder: ->
     @leftBorder = @model.get('left_border')
@@ -421,7 +423,6 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
       if contentItemView instanceof Newstime.TextAreaView
         contentItemView.reflow()
 
-
   # Remove Left Border
   removeLeftBorder: ->
     @model.set 'left_border', false
@@ -445,7 +446,6 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
       if contentItemView instanceof Newstime.TextAreaView
         contentItemView.reflow()
 
-
   _setBoundry: (boundry)->
     current = @getBoundry()
 
@@ -459,7 +459,7 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
         top: canvasItem.model.get('top') - topDelta
         left: canvasItem.model.get('left') - leftDelta
 
-    @model.set _.pick boundry, 'top', 'left', 'width', 'height'
+    @model.set _.pick(boundry, 'top', 'left', 'width', 'height')
 
   _createModel: (attrs={}) ->
     @edition.groups.add(attrs)

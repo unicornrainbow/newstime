@@ -26,15 +26,14 @@
     @set 'page_id', page.get('_id')
 
   getGroup: ->
-    @group ?= @get('edition').get('groups').findWhere(_id: @get('group_id'))
-
+    if @get('group_id')
+      @group ?= @get('edition').get('groups').findWhere(_id: @get('group_id'))
 
   clearPage: ->
     @page = null
 
   getSection: ->
     @getPage().getSection()
-
 
   getBoundry: ->
     new Newstime.Boundry(_.pick @attributes, 'top', 'left', 'width', 'height')

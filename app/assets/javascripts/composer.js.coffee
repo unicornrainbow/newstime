@@ -1012,20 +1012,34 @@ class Newstime.Composer extends App.View
   # Removes view from multi selection.
   removeFromSelection: (view) ->
     if @activeSelectionView?
-      if @activeSelectionView instanceof Newstime.MultiSelectionView
-        console.log 'length', @activeSelectionView.selectedViews.length
-        if @activeSelectionView.selectedViews.length > 1
-          @activeSelectionView.removeView(view)
-        else
-          @clearSelection()
+      @activeSelectionView.removeView(view)
+      view.deselect()
 
-    view.deselect()
+    # if @activeSelectionView?
+    #   if @activeSelectionView instanceof Newstime.MultiSelectionView
+    #     console.log 'length', @activeSelectionView.selectedViews.length
+    #     if @activeSelectionView.selectedViews.length > 1
+    #       @activeSelectionView.removeView(view)
+    #
+    #     else
+    #       # @exitMultiSelect()  # note: Mobile specific
+    #       @multiSelectionMode = false
+    #       view.removeClass 'multi-selected'
+    #       @select(view)
+    #       # @clearSelection()
+    #
+    #   view.deselect()
 
+  exitMultiSelect: ->
+    @multiSelectionMode = false
 
   multiSelect: ->
     @multiSelectionMode = true
     @activeSelectionView.addClass 'multi-select'
     @activeSelectionView.contentItemView.addClass 'multi-selected'
+
+
+
 
   clearSelection: ->
     if @selection?
@@ -1269,7 +1283,7 @@ class Newstime.Composer extends App.View
       targetPageView.addCanvasItem(canvasItemView)
 
       # Update the pages panel
-      @pagesPanelView.renderPanel()
+      @pagesPanelView?.renderPanel()
 
   attachPanel: (panel) ->
     @panelLayerView.attachPanel(panel)

@@ -33,6 +33,48 @@ class @Newstime.MultiSelectionView extends @Newstime.View
 
     @$el.css(position)
 
+  # Creates a group from the multi-selection.
+  createGroup: ->
+    {canvas} = @composer
+
+    # Create a new GroupView
+    groupView = @composer.groupViewCollection.add({})
+
+    # Put views to be grouped in proper stacking order based on page->z-index
+    sorted = @selectedViews.sort (a, b) ->
+      if a.pageView.model.get('number') != b.pageView.model.get('number')
+        a.pageView.model.get('number') - b.pageView.model.get('number')
+      else if a.model.get('z_index') != b.model.get('z_index')
+        a.model.get('z_index') - b.model.get('z_index')
+
+    # Get the index to insert the group at from first item
+    index = _.first(sorted).model.get('z_index')
+
+    # Remove all of the view to be group, keep in order
+    # Push views into group according to order
+    #sorted = sorted.reverse() # Bottom to top
+    _.each sorted.reverse(), (view) ->
+      canvas.removeCanvasItem(view)
+      groupView.addCanvasItem(view)
+
+    # Add group to canvas
+    #canvas.insertAt(index, groupView)
+    canvas.addCanvasItem(groupView)
+
+    # Select group
+    @composer.select(groupView)
+
+  addView: (view) ->
+    @selectedViews.push(view)
+    view.addClass 'multi-selected'
+    @render()
+
+  removeView: (view) ->
+    index = @selectedViews.indexOf(view)
+    @selectedViews.splice(index, 1)
+    view.removeClass 'multi-selected'
+    @render()
+
   getPropertiesView: ->
     null # TODO: Create a propeties panel view
 
@@ -54,37 +96,6 @@ class @Newstime.MultiSelectionView extends @Newstime.View
       view.delete()
     @destroy()
 
-  createGroup: ->
-    # Create a new GroupView
-    groupView = @composer.groupViewCollection.add({})
-
-    # Until we get to isolation mode, the context is the canvas.
-    context = @composer.canvas
-
-    # Put views to be grouped in proper stacking order based on page->z-index
-    sorted = @selectedViews.sort (a, b) ->
-      if a.pageView.model.get('number') != b.pageView.model.get('number')
-        a.pageView.model.get('number') - b.pageView.model.get('number')
-      else if a.model.get('z_index') != b.model.get('z_index')
-        a.model.get('z_index') - b.model.get('z_index')
-
-    # Get the index to insert the group at from first item
-    index = _.first(sorted).model.get('z_index')
-
-    # Remove all of the view to be group, keep in order
-    # Push views into group according to order
-    #sorted = sorted.reverse() # Bottom to top
-    _.each sorted.reverse(), (view) ->
-      context.removeCanvasItem(view)
-      groupView.addCanvasItem(view)
-
-    # Add group to canvas
-    #context.insertAt(index, groupView)
-    context.addCanvasItem(groupView)
-
-    # Select group
-    @composer.select(groupView)
-
   destroy: ->
     @remove()
 
@@ -98,7 +109,6 @@ class @Newstime.MultiSelectionView extends @Newstime.View
         view.removeClass 'multi-selected'
 
     super
-
 
   trackMove: (offsetX, offsetY) ->
     #@pageView.computeTopSnapPoints()
@@ -252,12 +262,10 @@ class @Newstime.MultiSelectionView extends @Newstime.View
       if selection
         selection.trigger 'tap', e
 
-
   if MOBILE?
     @include TouchEvents
   else
     @include MouseEvents
-
 
   hitsDragHandle: (x, y) ->
     geometry = @getPosition()
@@ -330,20 +338,8 @@ class @Newstime.MultiSelectionView extends @Newstime.View
     delete bounds.height
     bounds
 
-
   getCursor: ->
     'default'
-
-  addView: (view) ->
-    @selectedViews.push(view)
-    view.addClass 'multi-selected'
-    @render()
-
-  removeView: (view) ->
-    index = @selectedViews.indexOf(view)
-    @selectedViews.splice(index, 1)
-    view.removeClass 'multi-selected'
-    @render()
 
   getPosition: ->
     @calculatePosition()
@@ -379,7 +375,6 @@ class @Newstime.MultiSelectionView extends @Newstime.View
 
     # And expended position bounding box used for hit detection.
     @expandedPosition = @addBuffer(@position, 4)
-
 
   # Detects a hit of the selection
   hit: (x, y) ->

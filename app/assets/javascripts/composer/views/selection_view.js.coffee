@@ -1,4 +1,5 @@
 
+
 class @Newstime.SelectionView extends Newstime.View
 
   initialize: (options) ->
@@ -19,8 +20,6 @@ class @Newstime.SelectionView extends Newstime.View
     @contentItemView = options.contentItemView
     @contentItem = @contentItemView.model
 
-
-
     unless @contentItemView.groupView
       @page = @contentItemView.page
       @pageView = @contentItemView.pageView
@@ -38,10 +37,7 @@ class @Newstime.SelectionView extends Newstime.View
     @group = @contentItem.getGroup()
 
   render: ->
-    position = _.pick @contentItem.attributes, 'width', 'height'
-
-    position.top  = @contentItem.get('top')
-    position.left = @contentItem.get('left')
+    position = @contentItemView.getGeometry()
 
     if @group
       position.top  += @group.get('top')
