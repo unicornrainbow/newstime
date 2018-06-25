@@ -546,8 +546,12 @@ class @Newstime.CanvasView extends @Newstime.View
 
     selection = null
 
-    if @composer.activeSelectionView # Check active selection first.
-      selection = @composer.activeSelectionView if @composer.activeSelectionView.hit(x, y)
+    if @composer.selection # Check active selection first.
+      if @composer.selection.group
+        group = @composer.selection.group
+        selection = @composer.selection if @composer.selection.hit(x - group.get('left'), y - group.get('top'))
+      else
+        selection = @composer.selection if @composer.selection.hit(x, y)
 
     unless selection
       _.find @pageViewsArray, (pageView) ->
@@ -562,9 +566,12 @@ class @Newstime.CanvasView extends @Newstime.View
 
     selection = null
 
-    if @composer.activeSelectionView # Check active selection first.
-      selection = @composer.activeSelectionView if @composer.activeSelectionView.hit(x, y)
-
+    if @composer.selection # Check active selection first.
+      if @composer.selection.group
+        group = @composer.selection.group
+        selection = @composer.selection if @composer.selection.hit(x - group.get('left'), y - group.get('top'))
+      else
+        selection = @composer.selection if @composer.selection.hit(x, y)
     # unless selection
     #   _.find @pageViewsArray, (pageView) ->
     #     selection = pageView.getHitContentItem(x, y)
@@ -578,9 +585,12 @@ class @Newstime.CanvasView extends @Newstime.View
 
     selection = null
 
-    if @composer.activeSelectionView # Check active selection first.
-      selection = @composer.activeSelectionView if @composer.activeSelectionView.hit(x, y)
-
+    if @composer.selection # Check active selection first.
+      if @composer.selection.group
+        group = @composer.selection.group
+        selection = @composer.selection if @composer.selection.hit(x - group.get('left'), y - group.get('top'))
+      else
+        selection = @composer.selection if @composer.selection.hit(x, y)
     unless selection
       _.find @pageViewsArray, (pageView) ->
         selection = pageView.getHitContentItem(x, y)
