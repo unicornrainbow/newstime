@@ -28,6 +28,7 @@
   getGroup: ->
     if @get('group_id')
       @group ?= @get('edition').get('groups').findWhere(_id: @get('group_id'))
+    @group
 
   clearPage: ->
     @page = null
