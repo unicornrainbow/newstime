@@ -50,6 +50,7 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
     @outlineView.attach(view.outlineView)
     @$el.append(view.el)
     view.groupView = this
+    view.pageView = this.pageView
 
     @listenTo view, 'resized, moved', @contentItemAdjust
     # @listenTo view, 'moved',   @contentItemAdjust

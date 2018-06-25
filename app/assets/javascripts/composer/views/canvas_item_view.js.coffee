@@ -113,14 +113,14 @@ class @Newstime.CanvasItemView extends @Newstime.View
 
 
   press: (e) ->
-    unless @composer.multiSelectionMode
-      unless @selected
-        @composer.select(this)
+    unless @groupView
+      if @composer.multiSelectionMode
+        @composer.addToSelection(this)
+      else
+        unless @selected
+          @composer.select(this)
 
-      @composer.multiSelect()
-    else
-      @composer.addToSelection(this)
-
+        @composer.multiSelect()
 
 
   addClassNames: ->

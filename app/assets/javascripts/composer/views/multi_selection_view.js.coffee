@@ -69,6 +69,7 @@ class @Newstime.MultiSelectionView extends @Newstime.View
     view.addClass 'multi-selected'
     # Can only group if has more than one selected views.
     @canGroup = @selectedViews.length > 1
+    @listenTo view.model, 'change', @render
     @render()
 
   removeView: (view) ->
@@ -76,6 +77,7 @@ class @Newstime.MultiSelectionView extends @Newstime.View
     @selectedViews.splice(index, 1)
     view.removeClass 'multi-selected'
     @canGroup = @selectedViews.length > 1
+    @stopListening view.model
     @render()
 
   getPropertiesView: ->
@@ -363,13 +365,14 @@ class @Newstime.MultiSelectionView extends @Newstime.View
     _.each models, (model) =>
       # TODO: Need to take into consideration page position
       page = model.getPage() # Need to have access to page offsets at the model
-      pageOffsetTop  = page.get('offset_top') || 0
-      pageOffsetLeft = page.get('offset_left') || 0
+      if page
+        pageOffsetTop  = page.get('offset_top') || 0
+        pageOffsetLeft = page.get('offset_left') || 0
 
-      top    = Math.min(model.get('top') + pageOffsetTop, top)
-      left   = Math.min(model.get('left') + pageOffsetLeft, left)
-      bottom = Math.max(model.get('top') + model.get('height') + pageOffsetTop, bottom)
-      right  = Math.max(model.get('left') + model.get('width') + pageOffsetLeft, right)
+        top    = Math.min(model.get('top') + pageOffsetTop, top)
+        left   = Math.min(model.get('left') + pageOffsetLeft, left)
+        bottom = Math.max(model.get('top') + model.get('height') + pageOffsetTop, bottom)
+        right  = Math.max(model.get('left') + model.get('width') + pageOffsetLeft, right)
 
     @position =
       top: top

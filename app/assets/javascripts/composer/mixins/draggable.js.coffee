@@ -41,6 +41,7 @@ class @Newstime.Draggable
     geometry = @getGeometry()
     x        = @pageView.snapLeft(x)
     y        = @pageView.snapTop(y)
+
     @model.set
       left: x
       top: y
@@ -57,6 +58,9 @@ class @Newstime.Draggable
       height: geometry.top - y + geometry.height
 
   dragBottomLeft: (x, y) ->
+    if @groupView
+      x  += @groupView.model.get('left')
+
     @composer.clearVerticalSnapLines()
     geometry = @getGeometry()
 
@@ -66,6 +70,9 @@ class @Newstime.Draggable
       @composer.drawVerticalSnapLine(snapLeft)
       x = snapLeft
 
+    if @groupView
+      x  -= @groupView.model.get('left')
+
     y = @pageView.snapBottom(y)
     @model.set
       left: x
@@ -74,6 +81,9 @@ class @Newstime.Draggable
 
 
   dragBottomRight: (x, y) ->
+    if @groupView
+      x  += @groupView.model.get('left')
+
     @composer.clearVerticalSnapLines()
     geometry = @getGeometry()
     snapRight = @pageView.snapRight(x)
@@ -84,6 +94,9 @@ class @Newstime.Draggable
       width = snapRight - geometry.left
     else
       width     = x - geometry.left
+
+    if @groupView
+      width  -= @groupView.model.get('left')
 
     @model.set
       width: width

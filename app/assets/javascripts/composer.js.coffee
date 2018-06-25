@@ -1169,6 +1169,9 @@ class Newstime.Composer extends App.View
 
 
     if @snapEnabled
+      if target.group
+        left  += target.group.get('left')
+
       bounds = target.getBounds()
       width = bounds.right - bounds.left
       right = left + width
@@ -1233,6 +1236,10 @@ class Newstime.Composer extends App.View
           if _.contains(rightSnapPoints, right)
             @drawVerticalSnapLine(right)
 
+
+          if target.group
+            left  -= target.group.get('left')
+
           target.setSizeAndPosition # TODO: See if we can go direct to model
             left: left
             top: top
@@ -1273,6 +1280,9 @@ class Newstime.Composer extends App.View
 
     # Take the page with the highest offet out of qualifying pages
     page = _.max pages, (page) -> page.top
+
+    unless page instanceof Newstime.Page
+      return; # page must be a Page...
 
     if canvasItem.getPage() != page
       # This is a messy implementation of switching item from one page to the next.

@@ -126,12 +126,18 @@ class @Newstime.TextAreaView extends Newstime.ContentItemView
       height: height
 
   dragBottomLeft: (x, y) ->
+    if @groupView
+      x  += @groupView.model.get('left')
+
     @composer.clearVerticalSnapLines()
     geometry = @getGeometry()
     snapLeft = @pageView.snapLeft(x)
     if snapLeft
       x = snapLeft
       @composer.drawVerticalSnapLine(snapLeft)
+
+    if @groupView
+      x  -= @groupView.model.get('left')
 
     y = @pageView.snapBottom(y)
 
@@ -143,17 +149,22 @@ class @Newstime.TextAreaView extends Newstime.ContentItemView
       height: height
 
   dragBottomRight: (x, y) ->
+    if @groupView
+      x  += @groupView.model.get('left')
+      
     @composer.clearVerticalSnapLines()
     geometry = @getGeometry()
     snapRight = @pageView.snapRight(x)
     y = @pageView.snapBottom(y)
-
 
     if snapRight
       @composer.drawVerticalSnapLine(snapRight)
       width = snapRight - geometry.left
     else
       width = x - geometry.left
+
+    if @groupView
+      width  -= @groupView.model.get('left')
 
     height = y - geometry.top
     height = Math.floor(height / @lineHeight) * @lineHeight # Snap to Increments of line height

@@ -154,6 +154,7 @@ class @Newstime.SelectionView extends Newstime.View
 
 
       hitHandle = @hitsDragHandle(x, y)
+      # console.log 'hh', hitHandle
 
       if hitHandle
         @trackResize hitHandle
@@ -173,11 +174,6 @@ class @Newstime.SelectionView extends Newstime.View
 
       if @resizing
 
-        if @group
-          {top, left} = @group.attributes
-          x -= left
-          y -= top
-
         switch @resizeMode
           when 'top'          then @dragTop(x, y)
           when 'right'        then @dragRight(x, y)
@@ -188,6 +184,7 @@ class @Newstime.SelectionView extends Newstime.View
           when 'bottom-left'  then @dragBottomLeft(x, y)
           when 'bottom-right' then @dragBottomRight(x, y)
       else if @moving
+
         # @moved = true
         @move(x, y)
 
@@ -218,6 +215,7 @@ class @Newstime.SelectionView extends Newstime.View
 
     press: (e) ->
       @contentItemView.trigger 'press', e
+
 
   if MOBILE?
     @include TouchEvents
@@ -356,10 +354,6 @@ class @Newstime.SelectionView extends Newstime.View
     top     = geometry.top
     left    = geometry.left
 
-    if @group
-      top  += @group.get('top')
-      left += @group.get('left')
-
     right   = left + width
     bottom  = top + height
     centerX = left + width/2
@@ -426,6 +420,10 @@ class @Newstime.SelectionView extends Newstime.View
       height: geometry.top - y + geometry.height
 
   dragRight: (x, y) ->
+
+    if @group
+      x  += @group.get('left')
+
     @composer.clearVerticalSnapLines()
     geometry = @getGeometry()
 
@@ -438,6 +436,9 @@ class @Newstime.SelectionView extends Newstime.View
     else
       width = x - geometry.left
 
+    if @group
+      width  -= @group.get('left')
+
     @contentItemView.setSizeAndPosition
       width: width
 
@@ -449,8 +450,12 @@ class @Newstime.SelectionView extends Newstime.View
         top: y + offset.offsetTop
 
   dragLeft: (x, y) ->
+    if @group
+      x  += @group.get('left')
+
     geometry = @getGeometry()
     snapLeft = @pageView.snapLeft(x)
+
     if snapLeft
       @composer.clearVerticalSnapLines()
       @composer.drawVerticalSnapLine(snapLeft)
@@ -458,12 +463,19 @@ class @Newstime.SelectionView extends Newstime.View
     else
       @composer.clearVerticalSnapLines()
 
+    if @group
+      x  -= @group.get('left')
+
+
     @contentItemView.setSizeAndPosition
       left: x
       width: geometry.left - x + geometry.width
 
 
   dragTopLeft: (x, y) ->
+    if @group
+      x  += @group.get('left')
+
     @composer.clearVerticalSnapLines()
     geometry = @getGeometry()
     y        = @pageView.snapTop(y)
@@ -474,6 +486,9 @@ class @Newstime.SelectionView extends Newstime.View
       @composer.drawVerticalSnapLine(snapLeft)
       x = snapLeft
 
+    if @group
+      x  -= @group.get('left')
+
     @contentItem.set
       left: x
       top: y
@@ -481,6 +496,9 @@ class @Newstime.SelectionView extends Newstime.View
       height: geometry.top - y + geometry.height
 
   dragTopRight: (x, y) ->
+    if @group
+      x  += @group.get('left')
+
     @composer.clearVerticalSnapLines()
     geometry  = @getGeometry()
     snapRight = @pageView.snapRight(x)
@@ -492,6 +510,9 @@ class @Newstime.SelectionView extends Newstime.View
       width     = x - geometry.left
 
     y = @pageView.snapTop(y)
+
+    if @group
+      width  -= @group.get('left')
 
     @contentItem.set
       top: y
