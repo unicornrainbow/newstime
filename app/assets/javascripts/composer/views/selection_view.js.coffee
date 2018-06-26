@@ -193,9 +193,10 @@ class @Newstime.SelectionView extends Newstime.View
       else if @moving
 
         # @moved = true
+        @motorboat(x, y)
         @move(x, y)
 
-        @motorboat(y)
+
 
 
     touchend: (e) ->
@@ -232,32 +233,38 @@ class @Newstime.SelectionView extends Newstime.View
   else
     @include MouseEvents
 
-  motorboat: (y) ->
-    # if @group
-    #   y += @group.get('top')
-
+  motorboat: (x, y) ->
     windowHeight = Math.round($(window).height())
     scrollTop = Math.round($(window).scrollTop())
     bottom = @contentItem.get('top') + @contentItem.get('height') + 60
+    top = @contentItem.get('top') # + 60
+    height = @contentItem.get('height')
 
     if @group
       # bottom += @group.get('top')
       bottom += @group.getOffsetTop()
-
-    motorboat = Math.max(0, bottom - windowHeight - scrollTop)
-
-    if motorboat > 0
-      $(window).scrollTop(scrollTop + motorboat/3)
-
-    top = @contentItem.get('top') # + 60
-    if @group
-      # top += @group.get('top')
       top += @group.getOffsetTop()
 
-    motorboat = Math.min(0, top - scrollTop)
+    motorboatUp   =  scrollTop - top
+    motorboatDown =  bottom - windowHeight - scrollTop
 
-    if motorboat < 0
-      $(window).scrollTop(scrollTop + motorboat/3)
+
+    if height > windowHeight - 180
+      if motorboatUp > 0 && motorboatDown < -60
+        $(window).scrollTop(scrollTop + (motorboatUp + motorboatDown)/3)
+
+      if motorboatDown > 0 && motorboatUp < -120
+        $(window).scrollTop(scrollTop - (motorboatDown + motorboatUp)/3)
+
+    else
+      if motorboatUp > 0 && motorboatDown < -60
+        $(window).scrollTop(scrollTop - (motorboatUp)/3)
+
+      if motorboatDown > 0 && motorboatUp < -120
+        $(window).scrollTop(scrollTop + (motorboatDown)/3)
+
+
+
 
   paste: (e) ->
     @contentItemView.trigger 'paste', e
