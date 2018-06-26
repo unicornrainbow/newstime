@@ -191,12 +191,9 @@ class @Newstime.SelectionView extends Newstime.View
           when 'bottom-left'  then @dragBottomLeft(x, y)
           when 'bottom-right' then @dragBottomRight(x, y)
       else if @moving
-
         # @moved = true
-        @motorboat(x, y)
         @move(x, y)
-
-
+        @motorboat(x, y)
 
 
     touchend: (e) ->
@@ -241,29 +238,16 @@ class @Newstime.SelectionView extends Newstime.View
     height = @contentItem.get('height')
 
     if @group
-      # bottom += @group.get('top')
-      bottom += @group.getOffsetTop()
-      top += @group.getOffsetTop()
+      y += @group.getOffsetTop()
 
-    motorboatUp   =  scrollTop - top
-    motorboatDown =  bottom - windowHeight - scrollTop
+    topDistance   =  y - scrollTop
+    bottomDistance = windowHeight - (y - scrollTop)
 
+    if topDistance < 120
+      $(window).scrollTop(scrollTop - (120 - topDistance)/3)
 
-    if height > windowHeight - 180
-      if motorboatUp > 0 && motorboatDown < -60
-        $(window).scrollTop(scrollTop + (motorboatUp + motorboatDown)/3)
-
-      if motorboatDown > 0 && motorboatUp < -120
-        $(window).scrollTop(scrollTop - (motorboatDown + motorboatUp)/3)
-
-    else
-      if motorboatUp > 0 && motorboatDown < -60
-        $(window).scrollTop(scrollTop - (motorboatUp)/3)
-
-      if motorboatDown > 0 && motorboatUp < -120
-        $(window).scrollTop(scrollTop + (motorboatDown)/3)
-
-
+    if bottomDistance < 190
+      $(window).scrollTop(scrollTop + (190 - bottomDistance)/3)
 
 
   paste: (e) ->
