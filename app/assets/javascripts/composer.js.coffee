@@ -34,7 +34,7 @@ class Newstime.Composer extends App.View
     throw "Composer instance already created." if Newstime.composer
 
     # Create a global reference to this instance.
-    Newstime.composer = this
+    window.$composer = Newstime.composer = this
 
     @detectBrowser()
 
@@ -139,7 +139,8 @@ class Newstime.Composer extends App.View
       @panelLayerView.attachPanel(@toolsSpinnerView)
 
       @sideMenu = new App.SideMenu
-      @$append @sideMenu.el
+      @$body.append @sideMenu.el
+      # (append @$body @sideMenu)
 
       (@mobileTextEditor = new App.MobileTextEditorView)
       #(@$append @mobileTextEditor.el)
@@ -459,6 +460,7 @@ class Newstime.Composer extends App.View
     @trackingLayer = layer
 
   trackingRelease: (layer) ->
+    @trigger 'tracking-release'
     @trackingLayer = null
 
 
@@ -642,6 +644,16 @@ class Newstime.Composer extends App.View
   touchstart: (event) ->
     event.preventDefault()
     # console.log event
+    # If tracking layer, pass event there and return.
+    if @trackingLayer
+      @trackingLayer.trigger 'touchstart', event
+      return true
+
+    @windowWidth = @$window.width()
+    if event.touches[0].clientX > @windowWidth - 11
+      # alert 'in range'
+      @sideMenu.trackSlide()
+      return true
 
     i=0
     while i < event.touches.length
@@ -700,6 +712,10 @@ class Newstime.Composer extends App.View
     event.preventDefault()
     # console.log event
 
+    # If tracking layer, pass event there and return.
+    if @trackingLayer
+      @trackingLayer.trigger 'tap', event
+      return true
     { x: @mouseX, y: @mouseY } = event.center
 
     # Test layers of app to determine which layer was touched.
