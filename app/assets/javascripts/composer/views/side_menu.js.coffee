@@ -29,14 +29,30 @@ class SideMenu extends App.View
           </ul>
         </li>
       </ul>
+      <film></film>
     </li>
 
   """
 
   initialize: (options)->
     @$html @template
-    @model = new Backbone.Model
+    @model     = new Backbone.Model
     @menuWidth = 320#px
+
+    # Duplicate el
+    # console.log @$el[0].ownerDocument
+    @$clone = @$el.clone(true)
+    @$clone.addClass 'clone'
+
+    # console.log @$clone[0]
+    # https://stackoverflow.com/a/40954205 ty
+    @setElement [@$el, @$clone].reduce($.merge)
+    # @setElement $([@$el[0], @$clone[0]]) # Doesn't work, how strange
+    # @$el.hide() # right: '75px'
+
+
+    @$film = @$('film')
+    @$cloneFilm = @$('.clone film')
 
     # @mc = new Hammer(@el)
     # @mc.on 'tap', @tap
@@ -47,7 +63,33 @@ class SideMenu extends App.View
     @render
 
   render: ->
-    @$el.css @model.pick('right')
+    offset = @menuWidth + @model.get('right')
+    # console.log offset/2
+
+    # Outer
+    $(@$el[0]).css
+      # width: offset/2
+      # right: offset/2
+      # right: offset/2 - (1-offset/@menuWidth)*80
+      right: 160*offset/@menuWidth - (1-offset/@menuWidth)*80
+      transform: "rotateY(#{90*(1-offset/@menuWidth)}deg)"
+
+    console.log offset/@menuWidth*80-80
+
+    @$clone.css
+      # width: offset/2
+      right: offset/@menuWidth*80-80
+      transform: "rotateY(#{90*(1-offset/@menuWidth)}deg)"
+
+
+    @$film.css
+      opacity: 1-max(offset-(@menuWidth/2), 0)/160
+    # @$el.css 'width', (@menuWidth + @model.get('right')) / (2-((-@model.get('right'))/320)) # *  (((-@model.get('right'))/320)+1)
+
+    # console.log (2-((-@model.get('right'))/320))
+    # $(@$el[0]).css 'right', (@model.get('right') + 160 )/ (((-@model.get('right'))/320)+1)
+
+    # @$clone.css @model.pick('right')
 
   trackSlide: ->
     @removeClass 'slide'

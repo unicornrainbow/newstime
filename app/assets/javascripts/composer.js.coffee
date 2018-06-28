@@ -139,7 +139,9 @@ class Newstime.Composer extends App.View
       @panelLayerView.attachPanel(@toolsSpinnerView)
 
       @sideMenu = new App.SideMenu
-      @$body.append @sideMenu.el
+      # @$body.append @sideMenu.$el[0]
+      # @$body.append @sideMenu.$el[1]
+      @sideMenu.appendTo(@$body.get())
       # (append @$body @sideMenu)
 
       (@mobileTextEditor = new App.MobileTextEditorView)
