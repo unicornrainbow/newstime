@@ -12,8 +12,11 @@ class SideMenu extends App.View
   # tagName: 'UL'
   className: 'side-menu'
 
-  # events:
-  #   'tap': 'tap'
+  events:
+    'touchstart': 'touchstart'
+    'touchmove':  'touchmove'
+    'touchend':   'touchend'
+
 
   template: """
     <ul class='menu'>
@@ -70,30 +73,22 @@ class SideMenu extends App.View
     # @mc.on 'tap', @tap
 
     @bindUIEvents()
-    @listenTo @model, 'change', @render
+    @listenTo @model, 'change:right', @render
 
     @render
 
   render: ->
     offset = @menuWidth + @model.get('right')
-    # console.log offset/2
 
-    # Outer
-    $(@$left[0]).css
-      # width: offset/2
-      # right: offset/2
-      # right: offset/2 - (1-offset/@menuWidth)*80
-      # right: 160*offset/@menuWidth - (1-offset/@menuWidth)*80
+    @$left.css
       transform: "rotateY(#{90*(1-offset/@menuWidth)}deg)"
 
-    # console.log offset/@menuWidth*80-80
-
     @$right.css
-      # width: offset/2
-      # right: offset/@menuWidth*80-80
       transform: "rotateY(-#{90*(1-offset/@menuWidth)}deg)"
 
-    width = @$right.width()
+    width = @$left.width()
+
+    # console.log 'width', width
 
     @$el.css
       width: width*2
@@ -104,27 +99,21 @@ class SideMenu extends App.View
     @$right.css
       right: 0
 
-
     @$film.css
       opacity: 1-max(offset-(@menuWidth/2), 0)/160
 
     @$overlay.css
       opacity: 1-offset/@menuWidth
 
-
-
-    # @$el.css 'width', (@menuWidth + @model.get('right')) / (2-((-@model.get('right'))/320)) # *  (((-@model.get('right'))/320)+1)
-
-    # console.log (2-((-@model.get('right'))/320))
-    # $(@$el[0]).css 'right', (@model.get('right') + 160 )/ (((-@model.get('right'))/320)+1)
-
-    # @$clone.css @model.pick('right')
-
   trackSlide: ->
     @removeClass 'slide'
     $composer.tracking(this)
+
     @listenTo $composer, 'tracking-release', @close
-    # @trigger 'tracking', this
+
+  touchstart: ->
+    # unless @model.get('open')
+    @trackSlide()
 
   touchmove: (e) ->
     ww = $composer.windowWidth
@@ -133,6 +122,7 @@ class SideMenu extends App.View
 
     @right = minmax right, -@menuWidth, 0
     # console.log {@right}
+
     @model.set {@right}
 
   touchend: (e)->
@@ -144,10 +134,12 @@ class SideMenu extends App.View
     setTimeout (=> @removeClass 'slide'), 300
 
   tap: =>
+    @model.set 'open', false
     @close()
     setTimeout (=> @removeClass 'slide'), 300
 
   open: ->
+    @model.set 'open', true
     @addClass 'slide'
     @right = 0
     @model.set {@right}
@@ -157,7 +149,15 @@ class SideMenu extends App.View
     $composer.trackingRelease()
     @addClass 'slide'
     @right = -@menuWidth
+
     @model.set {@right}
+    @render()
+
+  hit: (x, y) ->
+    @windowWidth = $(window).width()
+
+    if x > @windowWidth - 11
+      return true
 
 
 

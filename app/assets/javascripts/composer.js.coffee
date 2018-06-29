@@ -128,6 +128,8 @@ class Newstime.Composer extends App.View
     @statusIndicator = new Newstime.StatusIndicatorView()
     @$body.append(@statusIndicator.el)
 
+    @windowWidth = @$window.width()
+
     ## Build Panels
 
     if @mobile
@@ -153,6 +155,9 @@ class Newstime.Composer extends App.View
       # @attach @softKeysView
       @$body.append @softKeysView.el
       # @softKeysView.showKey('delete')
+
+      # @forkUs = new App.ForkUs
+      # @$body.append @forkUs.el
 
     else
 
@@ -253,6 +258,7 @@ class Newstime.Composer extends App.View
     @layers = [
       @textEditor
       @menuLayerView
+      @sideMenu
       @panelLayerView
       @canvasLayerView
     ]
@@ -378,7 +384,9 @@ class Newstime.Composer extends App.View
     # When they exit, save changes back to model, which will update view.
 
   windowResize: ->
+    @windowWidth = $(window).width()
     @trigger 'windowResize'
+
 
   # Focus on composer
   focus: ->
@@ -646,15 +654,10 @@ class Newstime.Composer extends App.View
   touchstart: (event) ->
     event.preventDefault()
     # console.log event
+
     # If tracking layer, pass event there and return.
     if @trackingLayer
       @trackingLayer.trigger 'touchstart', event
-      return true
-
-    @windowWidth = @$window.width()
-    if event.touches[0].clientX > @windowWidth - 11
-      # alert 'in range'
-      @sideMenu.trackSlide()
       return true
 
     i=0
@@ -696,7 +699,6 @@ class Newstime.Composer extends App.View
     # Test layers of app to determine which layer was touched.
     # touched = _.find @layers, (layer) => layer.hit(@mouseX, @mouseY)
 
-
     @touchedLayer.trigger 'touchmove', event
 
   touchend: (event) ->
@@ -718,6 +720,7 @@ class Newstime.Composer extends App.View
     if @trackingLayer
       @trackingLayer.trigger 'tap', event
       return true
+
     { x: @mouseX, y: @mouseY } = event.center
 
     # Test layers of app to determine which layer was touched.
@@ -746,7 +749,6 @@ class Newstime.Composer extends App.View
     @touchedLayer = _.find @layers, (layer) => layer.hit(@mouseX, @mouseY)
 
     @touchedLayer.trigger 'press', event
-
 
 
   zoomIn: ->
