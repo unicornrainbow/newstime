@@ -8,6 +8,11 @@
     display: block;
     color: $rose-pink;
 
+    position: absolute;
+    width: 100%;
+    padding: 16px;
+    background: #0005;
+
   }
 
 
@@ -15,12 +20,12 @@
     position: relative;
     margin: 0 20px 40px 0;
     float: left;
-    width: 402px;
-    height: 252px;
+    width: 400px;
+    height: 450px;
 
     img {
       width: 400px;
-      height: 252px;
+      height: 450px;
     }
 
     /*&:nth-child(3n+1) {*/

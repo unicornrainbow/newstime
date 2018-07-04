@@ -7,6 +7,7 @@ class HomeController < ActionController::Base
       redirect_to '/editions' and return
     end
 
+    @remember_me = cookies[:remember_me]
     render layout: false
   end
 
@@ -28,12 +29,15 @@ class HomeController < ActionController::Base
     if user.has_password?
       if user.valid_password?(params[:password])
         session[:screenname] = user.screenname
+        cookies[:remember_me] = user.screenname
+
         redirect_to '/editions'
       else
         redirect_to '/' # Retry
       end
     else
       session[:screenname] = user.screenname
+      cookies[:remember_me] = user.screenname
       redirect_to '/editions'
     end
 

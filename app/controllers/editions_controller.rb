@@ -16,6 +16,7 @@ class EditionsController < ApplicationController
   end
 
   def new
+    @publications = current_user.publications
     @publication = params[:publication_id] ? Publication.find(params[:publication_id]) : Publication.first
     @publication = Publication.new
     @edition = @publication.build_edition
@@ -50,36 +51,53 @@ class EditionsController < ApplicationController
   end
 
   def create
-    @publication = Publication.find(edition_params[:publication_id])
+         pub_name = params.dig :publication, :name
+    edition_title = params.dig :edition, :title
 
+    if pub_name
+      @publication = current_user.publications.where(name: pub_name).first
+      unless @publication
+        @publication = Publication.create(
+          user: current_user,
+          name: pub_name
+        )
+      end
 
-    # Construct new edition with sections and pages
-    @edition = Edition.new(edition_params)
+      @edition = @publication.editions.new(
+        user: current_user,
+        name: edition_title,
+        layout_name: 'default',
+        has_sections: false
+      )
 
-    @edition.update_attributes(edition_params)
-    @edition.update_attribute :has_sections, edition_params[:has_sections] == '1'
+      # Add first page.
+      # @page = @edition.pages.build(number: 1)
+      # @page.section = @section
+      # @edition.build_page(number: 1)
 
-    @edition.user = current_user
-    #@edition.organization = @publication.organization
-
-    sections_attributes = JSON.parse(@publication.default_section_attributes)
-    sections_attributes.each do |section_attributes|
-      pages_attributes = section_attributes.delete("pages_attributes")
-      section = @edition.sections.build(section_attributes)
-      if pages_attributes
-        pages_attributes.each do |page_attributes|
-          page = @edition.pages.build(page_attributes)
-          page.section = section
+      sections_attributes = JSON.parse(@publication.default_section_attributes)
+      sections_attributes.each do |section_attributes|
+        pages_attributes = section_attributes.delete("pages_attributes")
+        section = @edition.sections.build(section_attributes)
+        if pages_attributes
+          pages_attributes.each do |page_attributes|
+            page = @edition.pages.build(page_attributes)
+            page.section = section
+          end
         end
       end
-    end
 
-    if @edition.save
-      #redirect_to @edition, notice: "Edition created successfully."
-      redirect_to compose_edition_path(@edition)
-    else
-      render "new"
+      if @edition.save
+        #redirect_to @edition, notice: "Edition created successfully."
+        redirect_to compose_edition_path(@edition)
+      else
+        render "new"
+      end
+
     end
+    # if
+    # @publication = Publication.find_by(name: params[:publication][:name])
+    # render text: params[:publication_name]
   end
 
   def edit
@@ -92,13 +110,13 @@ class EditionsController < ApplicationController
     redirect_to (send("#{params[:action]}_edition_path".to_sym, @edition.slug || @edition) + '/main.html') and return unless params['path']
 
     # Only respond to requests with an explict .html extension.
-    not_found unless request.original_url.match(/\.html$/)
+    # not_found unless request.original_url.match(/\.html$/)
 
     # Set composing flag as indication to layout_module.
     @composing = params[:action] == 'compose'
 
     # Reconstruct path with extension
-    @path = "#{params['path']}.html"
+    @path = "#{params['path'] || 'main'}.html"
 
     # Find section by path of edition.
     @section       = @edition.sections.find_by(path: @path)
@@ -108,7 +126,7 @@ class EditionsController < ApplicationController
     @template_name = @section.template_name.presence || @edition.default_section_template_name
     @title         = @section.page_title.presence || @edition.page_title
     @layout_module = LayoutModule.new(@layout_name) # TODO: Rename to MediaModule
-    @content_item = ContentItem.new
+    @content_item  = ContentItem.new
 
     # Sets config values which are avialable client-side at `Newstime.config`.
     set_client_config
@@ -117,6 +135,7 @@ class EditionsController < ApplicationController
 
     render 'compose', layout: 'layout_module'
   end
+
 
   alias :preview :compose
 
@@ -185,7 +204,7 @@ class EditionsController < ApplicationController
 
   def wip
     screenname = @edition.user.screenname
-    id = @edition.id.to_s
+    id = @edition.id.to_s[0..7]
     send_file "#{Rails.root}/share/#{screenname}/#{id}/wip.png"
   end
 
@@ -202,7 +221,7 @@ private
   def set_client_config
     @client_config = {
       editionID:  @edition.id,
-      sectionID: @section.id,
+      sectionID:  @section.id,
       headlineFontWeights: @layout_module.config["headline_font_weights"],
       storyTextLineHeight: @layout_module.config["story_text_line_height"],
       mobile: @mobile
@@ -233,7 +252,7 @@ private
       ).uniq
 
     params.require(:edition).
-      permit(Edition.attribute_names,
+      permit(:title, :name, :publication_name, :slug,
              :sections_attributes => [Section.attribute_names],
              :pages_attributes => [Page.attribute_names],
              :groups_attributes => [Group.attribute_names],

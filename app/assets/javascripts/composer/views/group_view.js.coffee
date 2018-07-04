@@ -365,7 +365,7 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
 
       # @openGroup()
       # {top, left} = @getBoundry()
-      top = @model.getOffsetTop()
+      top = @model.getOffsetTop() + 62
       left = @model.getOffsetLeft()
 
       x -= left
@@ -374,7 +374,7 @@ class @Newstime.GroupView extends @Newstime.CanvasItemView
       selection = null
 
       selection = _.find @contentItemViewsArray, (contentItemView) ->
-        contentItemView.hit(x, y, buffer: 24)
+        contentItemView.hit(x, y, buffer: 8)
 
       console.log 'selection', selection
 

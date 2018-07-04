@@ -298,7 +298,7 @@ DEPENDENCIES
   foreman
   jquery-rails
   liquid
-  mongoid
+  mongoid (~> 5.2.1)
   mongoid-paperclip
   mongoid_rails_migrations
   nokogiri (~> 1.6.0)

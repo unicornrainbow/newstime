@@ -1,0 +1,42 @@
+
+Color mixing model for the web
+
+ @my-color: blue + pink
+
+ blue + pink == blue 50% + pink 50%
+
+ or you could
+
+ blue 75% + pink 25%
+
+ so on and so forth
+
+ color is translated to RGB
+
+ pink -> #ffc0cb
+ blue -> #0000ff
+
+ 255, 192, 203 (pink)
+ 00, 00, 255 (blue)
+
+ at 50% would be
+
+ 127.5, 96, 101.5
+ 0, 0, 127.5
+
+ added together would be
+
+ 127.5, 96, 229
+
+ which is
+
+ #8060e5, a lovely shade of purple.
+
+ Yeah!
+
+ And than you can mix with @my-color.
+
+
+ ----
+
+ 'BLUE =='NHH,L,

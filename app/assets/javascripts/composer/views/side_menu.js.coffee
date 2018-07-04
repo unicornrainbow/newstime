@@ -21,15 +21,15 @@ class SideMenu extends App.View
   template: """
     <ul class='menu'>
       <li>
-          Edition Settings
+          <label class='edition-settings'>Edition Settings</label>
           <ul class="edition-settings">
             <li>
               Page Width
               <ul class="page-width">
-                <li><input type='checkbox'>240px</input></li>
-                <li><input type='checkbox'>480px</input></li>
-                <li><input type='checkbox'>960px</input></li>
-                <li><input type='checkbox'>1080px</input></li>
+                <li><label><input type='checkbox'>240px</input></label></li>
+                <li><label><input type='checkbox'>480px</input></label></li>
+                <li><label><input type='checkbox'>960px</input></label></li>
+                <li><label><input type='checkbox'>1080px</input></label></li>
               </ul>
             </li>
           </ul>
@@ -63,14 +63,14 @@ class SideMenu extends App.View
     @$left.addClass 'left'
     @$right.addClass 'right'
 
-
-    @$film = @$('film')
-    @$leftFilm = @$('.left film')
+    # Memoize
+    @$film      = @$('film')
+    @$leftFilm  = @$('.left film')
     @$rightFilm = @$('.right film')
-    @$overlay = @$('overlay')
+    @$overlay   = @$('overlay')
 
     # @mc = new Hammer(@el)
-    # @mc.on 'tap', @tap
+    # @mc.on 'tap .edition-settings', @tap
 
     @bindUIEvents()
     @listenTo @model, 'change:right', @render

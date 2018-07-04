@@ -258,10 +258,12 @@ class Newstime.Composer extends App.View
     @layers = [
       @textEditor
       @menuLayerView
-      @sideMenu
+      @sideMenu # Only on mobile
       @panelLayerView
       @canvasLayerView
     ]
+
+    @layers = _.compact @layers # Remove undefined layers
 
     @listenTo @captureLayerView, 'mouseup', @mouseup
     @listenTo @captureLayerView, 'mousemove', @mousemove

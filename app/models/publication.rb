@@ -3,7 +3,7 @@ class Publication
   include Mongoid::Timestamps
 
   field :name, type: String
-  field :default_layout_name, type: String
+  field :default_layout_name, type: String, default: 'default'
   field :website_url, type: String
   field :store_url, type: String
   field :default_price, type: Float
@@ -18,9 +18,10 @@ class Publication
   #    { name: "Bay Area",     path: "bay-area.html",     sequence: 50,  letter: 'L', pages_attributes: [ { number: 1 } ] },
   #    { name: "World/Nation", path: "world-nation.html", sequence: 60,  letter: 'W', pages_attributes: [ { number: 1 } ] }
   #  ]
-  field :default_section_attributes, type: String
+  field :default_section_attributes, type: String, default: '[{ "name": "Main",  "path": "main.html", "sequence": 10,  "letter": "A", "pages_attributes": [ { "number": 1 } ] }]'
 
   has_many :editions, inverse_of: :publication
+  belongs_to :user
   belongs_to :organization
 
   def build_edition
@@ -50,8 +51,8 @@ class Publication
       page_title: default_name,
       publish_date: Date.today,
       layout_name: default_layout_name,
-      store_link: generate_store_link(slug),
-      price: default_price,
+      # store_link: generate_store_link(slug),
+      # price: default_price,
       volume_label: default_name
     }
   end

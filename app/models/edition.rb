@@ -1,17 +1,19 @@
 class Edition
   include Mongoid::Document
   include Mongoid::Paperclip
-  # include Mongoid::Timestamps
+  include Mongoid::Timestamps
+
   include TryHelper
 
   ## Attributes
-  field :name,             type: String
+  field :title
+  field :publication_name
+
+  field :name
   field :page_title,       type: String
   field :path,             type: String
   field :html,             type: String     # The render html source markup
   field :layout_name,      type: String
-  field :store_link,       type: String
-  field :price,            type: Float   # Formatted price string
   field :slug,             type: String
   field :publish_date,     type: DateTime
   field :grid_size,        type: String
@@ -31,16 +33,6 @@ class Edition
   field :columns,          type: Integer
   field :gutter_width,     type: Integer
   field :extra_grids,      type: Array
-
-  def pricef
-    return 0 unless price
-    if price < 1.00
-      "%.f¢" % (price.round(2)*100)
-    else
-      "$%.2f" % price.round(2)
-    end
-  end
-  alias :fmt_price :pricef
 
   field :volume_label, type: String  # Formatted price string
   field :page_pixel_height, type: Integer, default: 1200  # Default pixel height of pages in edition

@@ -79,4 +79,14 @@ module ApplicationHelper
     @screenname ||= session[:screenname]
   end
 
+  def google_fonts(fonts)
+    if fonts.is_a? String
+      fonts = [fonts]
+    end
+    fonts = fonts.map { |fonts| fonts.gsub ' ', '+' }
+    fonts = fonts.join '|'
+    url = "https://fonts.googleapis.com/css"
+    tag 'link', href: "#{url}?family=#{fonts}", rel: "stylesheet"
+  end
+
 end

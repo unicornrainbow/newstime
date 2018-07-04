@@ -1,5 +1,21 @@
 <% content_for :head do %>
-  <style>
+  <%= google_fonts 'Sacramento' %>
+  <style type='text/css'>
+
+    body {
+      background: #ffd7ee;
+    }
+
+    .screenname {
+      background: #ffd7ee !important;
+      font-family: 'Sacramento';
+      font-size: 22pt;
+
+    }
+    .compose-toolbar a {
+      color: #fd44ec !important;
+    }
+
     .btn {
       background-color: aqua;
       width: 100%;
@@ -30,7 +46,7 @@
 <meta name="viewport"
   content="width=device-width, initial-scale=1.0, user-scalable=no">
 <div class="editions-index">
-  <table class="table">
+  <!-- <table class="table">
     <tr>
       <td>
         <%= link_to "Start New Edition", new_edition_path %>
@@ -39,15 +55,15 @@
     <tr>
       <td></td>
     </tr>
-  </table>
-
+  </table> -->
+  <BR>
   <button class='btn' onclick='window.location="<%= new_edition_path %>"'>Start New Edition</button>
-
+  <BR><BR>
   <div class="main-gallery">
     <% @editions.each do |edition| %>
       <div class="edition">
         <%= link_to compose_edition_path(edition) do %>
-          <span class="edition-name"><%= edition.name %></span>
+          <span class="edition-name"><%= edition.title || edition.name %></span>
           <%= image_tag "#{wip_edition_path(edition, 'png')}" %>
         <% end %>
       </div>
